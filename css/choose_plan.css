@@ -1,0 +1,76 @@
+@charset "utf-8";
+.df_plan
+{
+float:left;
+padding:5px 3px 5px 3px;
+border:solid 1px #999999;
+text-align:center;
+}
+.rows
+{
+float:left;
+
+border:solid 1px #666666;
+padding:2px;
+border-top:0;
+}
+.droppable
+{
+float:left;
+border:solid 1px #666666;
+margin:2px;
+height:30px;
+background-color:#EFEFEF;
+color:#999999;
+
+}
+
+.abc
+	{
+	float:left;
+	width:120px;
+	margin:5px 20px;
+	}
+	.table_droppable
+	{
+		height:70px;
+		width: 100%;
+		float:left;
+		
+		margin:0;
+		padding:0;	
+		border:1px solid #0099CC;
+		-moz-border-radius-topleft:30px;
+		-moz-border-radius-bottomleft:30px;
+		-moz-border-radius-topright:30px;
+		-moz-border-radius-bottomright:30px;	
+	
+		
+	}
+	
+	.tables p
+	{
+	margin-top:25px;
+	margin-bottom:0;
+	vertical-align:middle;
+	}
+	.tables p a
+	{
+	
+	}
+
+	.remove_option a
+	{
+	margin-right:18px;
+	text-decoration:none;
+	margin-bottom:20px;
+	}
+	.view_option a
+	{
+	vertical-align:bottom;
+	text-align:center;
+	text-decoration:none;
+	float:right;
+	margin-top:55px;
+	margin-right:25px;
+	}

@@ -1,0 +1,41 @@
+@charset "utf-8";
+/* CSS Document */
+#guests_conatiner
+{
+float:left;
+width:214px;
+padding:3px;
+
+}
+#room
+{
+float:left;
+width:730px;
+
+}
+.rows
+{
+float:left;
+width:182px;
+
+}
+.tables
+{
+float:left;
+clear:both;
+width:100%;
+}
+.tables p
+{
+margin:2px;
+}
+
+.droppable
+{
+float:left;
+width:80px;
+height:20px;
+border:solid 1px #999999;
+margin:2px;
+
+}

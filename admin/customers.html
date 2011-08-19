@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>管理画面 | お客様一覧</title>
+<!-- InstanceEndEditable -->
+<link href="css/common.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.rollover.js"></script>
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+</head>
+
+<body>
+<div id="wrapper">
+  <div id="header"> <a href="top.html"><img src="img/common/logo.jpg" width="226" height="50" /></a> </div>
+  <div id="topnavi">
+    <h1><!-- InstanceBeginEditable name="EditRegion4" -->お客様一覧<!-- InstanceEndEditable --></h1>
+    <div id="top_btn"> <a href="login.html"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　<a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a></div>
+  </div>
+  <div id="container">
+    <div id="contents"> <!-- InstanceBeginEditable name="EditRegion3" -->
+    <h2>新規登録</h2>
+	<table width="100%" border="0" cellspacing="10" cellpadding="0">
+	  <tr>
+	    <td width="5%" align="right" nowrap="nowrap">新郎氏名：</td>
+	    <td width="17%" nowrap="nowrap"><label for="新郎 姓"></label>
+	      <input name="新郎 姓" type="text" id="新郎 姓" size="10" /> 
+	      <input name="新郎 名" type="text" id="新郎 名" size="10" />
+	      様</td>
+	    <td width="6%" align="right" nowrap="nowrap">新婦氏名：</td>
+	    <td nowrap="nowrap"><input name="新婦 姓" type="text" id="textfield8" size="10" />
+          <input name="新婦 名" type="text" id="textfield9" size="10" />
+様</td>
+	    </tr>
+	  <tr>
+	    <td align="right" nowrap="nowrap">フリガナ：</td>
+	    <td nowrap="nowrap"><input name="新郎フリガナ 姓" type="text" id="新郎フリガナ 姓" size="10" />
+          <input name="新郎フリガナ 名" type="text" id="textfield4" size="10" />
+様</td>
+	    <td align="right" nowrap="nowrap">フリガナ：</td>
+	    <td nowrap="nowrap"><input name="新婦フリガナ 姓" type="text" id="textfield10" size="10" />
+          <input name="新婦フリガナ 名" type="text" id="textfield11" size="10" />
+様</td>
+	    </tr>
+	  <tr>
+	    <td align="right" nowrap="nowrap">挙式日：</td>
+	    <td nowrap="nowrap"><input name="挙式日" type="text" id="textfield5" size="10" />
+	      <img src="img/common/icon_cal.gif" width="16" height="16" /></td>
+	    <td align="right" nowrap="nowrap">挙式時間：</td>
+	    <td nowrap="nowrap"><input name="挙式時間" type="text" id="textfield12" size="10" /></td>
+	    </tr>
+	  <tr>
+	    <td align="right" nowrap="nowrap">挙式会場：</td>
+	    <td nowrap="nowrap"><input name="挙式会場" type="text" id="textfield6" size="10" /></td>
+	    <td align="right" nowrap="nowrap">挙式種類：</td>
+	    <td nowrap="nowrap"><input name="挙式種類" type="text" id="textfield13" size="10" /></td>
+	    </tr>
+	  <tr>
+	    <td align="right" nowrap="nowrap">披露宴日：</td>
+	    <td nowrap="nowrap"><input name="披露宴日" type="text" id="textfield7" size="10" />
+	      <img src="img/common/icon_cal.gif" width="16" height="16" /></td>
+	    <td align="right" nowrap="nowrap">披露宴時間：</td>
+	    <td nowrap="nowrap"><input name="披露宴時間" type="text" id="textfield14" size="10" />
+	      　披露宴会場：
+	      <input name="披露宴会場" type="text" id="textfield16" size="10" /></td>
+	    </tr>
+	  </table>
+	<p class="txt3"><a href="#"><img src="img/common/btn_regist.jpg" alt="登録" width="62" height="22" /></a></p>
+	</p><br />
+<br />
+<h2>検索・編集・削除</h2>
+<p class="txt3">
+  <input name="checkbox" type="checkbox" id="checkbox" checked="checked" />
+  <label for="checkbox"></label>
+  新郎姓：
+  <label for="新郎姓"></label>
+  <input name="新郎姓" type="text" id="新郎姓" size="10" />
+  　<input name="checkbox2" type="checkbox" id="checkbox2" checked="checked" />
+  新婦姓：
+<input name="新婦姓" type="text" id="新婦姓" size="10" />
+  
+  　
+  <input type="checkbox" name="checkbox3" id="checkbox3" />
+  挙式日：
+<label for="挙式日"></label>
+  <input name="挙式日" type="text" id="挙式日" size="10" />
+  <img src="img/common/icon_cal.gif" width="16" height="16" />  <br />
+  <br />
+  <a href="#"><img src="img/common/bt_search.jpg" alt="登録" width="62" height="22" /></a></p>
+<div class="box_table">
+  <p>&nbsp;</p>
+  <div class="box4">
+    <table border="0" align="center" cellpadding="1" cellspacing="1">
+      <tr align="center">
+        <td>挙式日<span class="txt1"><a href="#">▲</a> <a href="#">▼</a></span></td>
+        <td>新郎氏名<span class="txt1"><a href="#">▲</a> <a href="#">▼</a></span></td>
+        <td>新婦氏名<span class="txt1"><a href="#">▲</a> <a href="#">▼</a></span></td>
+        <td>&nbsp;</td>
+        <td>スタッフ</td>
+        <td>メッセージ</td>
+        <td>&nbsp;</td>
+        <td>最終アクセス</td>
+        <td>席次表</td>
+        <td>引出物</td>
+        <td>編集</td>
+        <td>削除</td>
+      </tr>
+    </table>
+  </div>
+  <div class="box5">
+    <table border="0" align="center" cellpadding="1" cellspacing="1">
+      <tr align="center">
+        <td>10/12/18,Sat</td>
+        <td>青山　昭</td>
+        <td>青山　昭</td>
+        <td class="txt1"><a href="http://agu-athlete.sakura.ne.jp/spssp_sekiji/dashboard.html" target="_blank"><img src="img/common/btn_info.gif" width="42" height="17" /></a></td>
+        <td><form id="form1" name="form1" method="post" action="">
+          山崎
+        </form></td>
+        <td>ヒヤシンス</td>
+        <td>&nbsp;</td>
+        <td>10/12/18,Sat</td>
+        <td>&nbsp;</td>
+        <td><img src="img/common/btn_kentou.gif" width="42" height="17" /></td>
+        <td><a href="customersinfo.html"><img src="img/common/btn_edit.gif" width="42" height="17" /></a></td>
+        <td><a href="#"><img src="img/common/btn_deleate.gif" width="42" height="17" /></a></td>
+      </tr>
+    </table>
+  </div>
+  <div class="box6">
+    <table border="0" align="center" cellpadding="1" cellspacing="1">
+      <tr align="center">
+        <td>10/12/18,Sat</td>
+        <td>中村　一郎</td>
+        <td>中村　一郎</td>
+        <td class="txt1"><a href="http://agu-athlete.sakura.ne.jp/spssp_sekiji/dashboard.html" target="_blank"><img src="img/common/btn_info.gif" width="42" height="17" /></a></td>
+        <td><form id="form2" name="form1" method="post" action="">
+          山崎
+        </form></td>
+        <td>コスモス</td>
+        <td>&nbsp;</td>
+        <td>10/12/18,Sat</td>
+        <td><img src="img/common/btn_kousei.gif" width="42" height="17" /></td>
+        <td><img src="img/common/btn_hattyu.gif" width="42" height="17" /></td>
+        <td><a href="customersinfo.html"><img src="img/common/btn_edit.gif" width="42" height="17" /></a></td>
+        <td><a href="#"><img src="img/common/btn_deleate.gif" width="42" height="17" /></a></td>
+      </tr>
+    </table>
+  </div>
+  <div class="box5">
+    <table border="0" align="center" cellpadding="1" cellspacing="1">
+      <tr align="center">
+        <td>10/12/18,Sat</td>
+        <td>山崎　次郎</td>
+        <td>山崎　次郎</td>
+        <td class="txt1"><a href="http://agu-athlete.sakura.ne.jp/spssp_sekiji/dashboard.html" target="_blank"><img src="img/common/btn_info.gif" width="42" height="17" /></a></td>
+        <td><form id="form3" name="form1" method="post" action="">
+          山崎
+        </form></td>
+        <td>ローズ</td>
+        <td><img src="img/common/btn_midoku.gif" width="42" height="17" /></td>
+        <td>10/12/18,Sat</td>
+        <td><img src="img/common/btn_syori.gif" width="42" height="17" /></td>
+        <td><img src="img/common/btn_syori.gif" width="42" height="17" /></td>
+        <td><a href="customersinfo.html"><img src="img/common/btn_edit.gif" width="42" height="17" /></a></td>
+        <td><a href="#"><img src="img/common/btn_deleate.gif" width="42" height="17" /></a></td>
+      </tr>
+    </table>
+  </div>
+  <div class="box6">
+    <table border="0" align="center" cellpadding="1" cellspacing="1">
+      <tr align="center">
+        <td>10/12/18,Sat</td>
+        <td>鈴木　孝弘</td>
+        <td>鈴木　孝弘</td>
+        <td class="txt1"><a href="http://agu-athlete.sakura.ne.jp/spssp_sekiji/dashboard.html" target="_blank"><img src="img/common/btn_info.gif" width="42" height="17" /></a></td>
+        <td><form id="form4" name="form1" method="post" action="">
+          中村
+        </form></td>
+        <td>ヒヤシンス</td>
+        <td>&nbsp;</td>
+        <td>10/12/18,Sat</td>
+        <td><img src="img/common/btn_kouryo.gif" width="42" height="17" /></td>
+        <td>&nbsp;</td>
+        <td><a href="customersinfo.html"><img src="img/common/btn_edit.gif" width="42" height="17" /></a></td>
+        <td><a href="#"><img src="img/common/btn_deleate.gif" width="42" height="17" /></a></td>
+      </tr>
+    </table>
+  </div>
+  <div class="box5">
+    <table border="0" align="center" cellpadding="1" cellspacing="1">
+      <tr align="center">
+        <td>10/12/18,Sat</td>
+        <td>鈴木　一郎</td>
+        <td>鈴木　一郎</td>
+        <td class="txt1"><a href="http://agu-athlete.sakura.ne.jp/spssp_sekiji/dashboard.html" target="_blank"><img src="img/common/btn_info.gif" width="42" height="17" /></a></td>
+        <td><form id="form5" name="form1" method="post" action="">
+          青山昭
+        </form></td>
+        <td>ラン</td>
+        <td><img src="img/common/btn_zumi.gif" width="42" height="17" /></td>
+        <td>10/12/18,Sat</td>
+        <td><img src="img/common/btn_syori.gif" width="42" height="17" /></td>
+        <td><img src="img/common/btn_syori.gif" width="42" height="17" /></td>
+        <td><a href="customersinfo.html"><img src="img/common/btn_edit.gif" width="42" height="17" /></a></td>
+        <td><a href="#"><img src="img/common/btn_deleate.gif" width="42" height="17" /></a></td>
+      </tr>
+    </table>
+  </div>
+</div>
+	<!-- InstanceEndEditable --></div>
+  </div>
+  <div id="sidebar">
+    <div id="stuffname"> <img src="img/common/nav_stuffname.gif" alt="TOP" width="148" height="30" />
+      <div id="stuffname_txt">
+        <input type="text" size="15" />
+      </div>
+    </div>
+    <ul class="nav">
+      <li class="hotelrule"><img src="img/common/nav_hotelrule.gif" alt="TOP" width="148" height="30" /></li>
+      <li><a href="top.html"><img src="img/common/nav_top.gif" alt="TOP" width="148" height="30" class=on /></a></li>
+      <li><a href="staff.html"><img src="img/common/nav_stuff.gif" alt="スタッフ" width="148" height="30" class=on /></a></li>
+      <li><a href="invetation.html"><img src="img/common/nav_invetation.gif" alt="招待状" width="148" height="30" class=on /></a></li>
+      <li><a href="sekiji.html"><img src="img/common/nav_sekiji.gif" alt="席次表・席札" width="148" height="30" class=on /></a></li>
+      <li><a href="gift.html"><img src="img/common/nav_gift.gif" alt="引出物・料理" width="148" height="30" class=on /></a></li>
+      <li><a href="customers.html"><img src="img/common/nav_customer.gif" alt="お客様一覧" width="148" height="30" class=on /></a></li>
+    </ul>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+  </div>
+  <div id="undernavi">
+    <ul id="footer_navigation">
+      <li>| <a href="operations.html">操作方法</a> |</li>
+      <li> <a href="security.html">セキュリティ</a> |</li>
+      <li> <a href="privacy_policy.html">個人情報保護方針</a> |</li>
+      <li> <a href="qa.html">よくある質問 Q&amp;A</a> |</li>
+      <li> <a href="contact.html">お問い合わせ</a> |</li>
+    </ul>
+  </div>
+  <div id="footer">
+    <p>Copyright (C) YOKOHAMA ROYAL PARK HOTEL Co.,Ltd. ALL Rights reserved.</p>
+  </div>
+</div>
+</body>
+<!-- InstanceEnd --></html>

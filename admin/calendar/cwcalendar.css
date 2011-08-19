@@ -1,0 +1,90 @@
+#calendar
+{
+	width: 253px;
+	overflow:hidden;
+	padding:3px;
+	/*height: 165px;*/
+	text-align: center;
+	margin: 5px auto;
+	border: 2px solid #999999;
+	/*background-color: #f3f8ff;*/
+/*	background-color: #999999;*/
+	background-color: #FFFFFF;
+	position: absolute;
+	font: 14px Trebuchet MS;
+}
+
+#calendar ul, #calendar ul li
+{
+	list-style-type: none;
+	margin:0;
+	padding:0;
+	background-image:none;
+}
+.months, .emptM, .headDay, .dayNormal, .dayBlank, .dayDisabled, .dayWeekend, .dayCurrent, .yearBrowse, .monthDisabled, .currMonth, #closeBtn  
+{
+	margin: 1px 0 0 1px;
+	padding: 0;
+	width: 42px;
+	height: 14px;
+	line-height: 14px;
+	float: left;
+	text-align: center;
+/*	background-color: #feefe4;*/
+	background-color: #FFC1E0;
+	color: #000;
+	/*color: BLACK;*/
+	display: inline;
+}
+.emptM, .dayDisabled, .monthDisabled
+{
+	color: #d7d6d5;
+	background-color: #f2f2f2;
+}
+.headDay
+{
+	color: black;
+/*	background-color: #48688f;*/
+	background-color: #FFAAD5;
+	width: 36px;
+}
+.dayNormal, .dayBlank, .dayWeekend, .dayCurrent
+{
+	color: black;
+/*	background-color: #70b0ff;*/
+	background-color: #FFD2E9;
+	width: 36px;
+}
+
+
+/*.dayBlank{background-color: #f3f8ff}*/
+.dayBlank{background-color: #ffffff}
+/*.dayWeekend{background-color: #ff6161}*/
+.dayWeekend{background-color: #FF86C2}
+/*.dayCurrent, .currMonth{background-color: #71d45b}*/
+.dayCurrent, .currMonth{background-color: #FF6160}
+
+.dayDisabled{width: 36px}
+#days{margin-left: 1px; width: 252px;}
+/*#elements{height: 150px;}*/
+
+/*.months a, #days a, .currMonth a{color: #000; text-decoration: none; display: block;}
+.currMonth a{color: #FFF}
+#days a{color: #fff;}
+*/
+
+.months a, #days a, .currMonth a{color: black; text-decoration: none; display: block;}
+
+.currMonth a{color: black;}
+
+#days a{color: black;}
+
+
+
+.yearBrowse, #closeBtn {width: 252px; background-color: #FFF; line-height: 14px;}
+.yearBrowse a, #closeBtn a{text-decoration: none; color: #f30; font-weight: bold;}
+.yearBrowse b{margin: 0 5px}
+
+.dayCurrent, .currMonth, #days .dayCurrent , #days .dayCurrent a, .currMonth a {
+	color:#FFFFFF;
+} 

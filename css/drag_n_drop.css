@@ -1,0 +1,190 @@
+.room
+{
+float:left;
+width:auto;
+
+border:1px solid red;}	
+
+.row
+{
+float:left;
+width:200px;
+padding:2px;
+border:1px solid grey;
+}
+.tables
+{
+width:100%;
+float:left;
+height:auto;
+
+}
+.tablehead
+{
+float:;left;
+width:100%;
+text-align:center;
+font-weight:bold;
+margin:0;
+padding:0;
+}
+.chairs
+{
+float:left;
+width:50px;
+
+height:20px;
+}
+
+.tablename
+{
+float:left;
+height:100%;
+background-color:#999999;
+width:10px;
+vertical-align:middle;
+}
+
+.droppable
+	{
+		background-color:#F5F8E5;
+		width:47%;
+		margin:1px 2px;
+		border:#A2A78C 1px solid;
+		height:45px;
+		float:left;
+		padding:0;
+		overflow:hidden;
+	}
+	.droppable ul
+	{float:left; margin:0; padding:0;}
+	.droppable ul li
+	{
+		float:left; padding:0;
+	margin:0;
+	
+	}
+	.droppable ul li span
+	{
+	
+	float:left;
+	
+	}
+	.droppable span
+	{
+		float:left;
+		width:100%;
+		white-space:nowrap;
+	}
+	
+
+	.droppable ul li img
+	{
+		height:35px;
+		display:block;
+		border:0;
+		float:left;
+		
+	}
+	.droppable ul li a img
+	{
+	display:block;
+	float:right;
+	width:20px;
+	height:15px;
+	border:0;
+	}
+	
+	#tst
+	{
+	float:left;
+	width:200px;
+	}
+	#tst ul li
+	{
+		display:block;
+			
+	}
+	#tst ul li a
+	{
+	float:right;
+	width:15px;
+	text-decoration:none;	
+	}
+	#tst ul li a img
+	{
+	float:right;
+	width:15px;
+	height:15px;
+	}
+	#test{display:none;}
+	#trash { float: right; width: 32%; min-height: 18em; padding: 1%;} * html #trash { height: 18em; } /* IE6 */
+	#trash h4 { line-height: 16px; margin: 0 0 0.4em; }
+	#trash h4 .ui-icon { float: left; }
+	#trash .gallery h5 { display: none; }
+	.dragfalse
+	{
+		
+		list-style-image:none;
+		list-style-type:none;
+		border:1px solid #AAAAAA;
+		
+	}
+	#container
+	{
+		float:left;	
+		width:98%;
+		background-color:#F3F7D1;
+		border:#F5A6A3 9px solid;
+		
+	}
+	
+	
+	
+	#sub_ul1{display:none;}
+	
+	.group
+	{
+	width:50%;
+	height:300px;
+	float:left;
+	}
+	.group h1
+	{
+	text-align:center;
+
+	}
+	.icon
+	{
+	float:left;
+	width:20px;
+	}
+	.left
+	{
+	float:left;
+	width:48%;
+	}
+	.right
+	{
+	float:left;
+	width:50%}
+	fieldset
+	{
+	border:0;
+	}
+#dialog-form p
+{margin:1px 0;
+padding:0;
+}
+#dialog-form input,select,textarea
+{
+width:180px;
+}
+#dialog-form_edit p
+{margin:1px 0;
+padding:0;
+}
+#dialog-form_edit input,select,textarea
+{
+width:180px;
+}
