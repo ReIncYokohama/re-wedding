@@ -1,5 +1,6 @@
 #写真のフォルダを反映しない
-user_name/
+#子フォルダに記入
+#user_name
 
 #コンフファイルを反映しない
 conf/conf.php
