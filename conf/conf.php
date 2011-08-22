@@ -1,14 +1,17 @@
 <?php
+
+
 //HTTP_HOSTがlocalhostの場合用
 $localhost_sqlhost = "localhost";
 $localhost_sqluser = "root";
 $localhost_sqlpassword = "";
 $localhost_sqldatabase = "spssp";
-//個々のホテルごとdata                                                                                                                                                                                                                     
+//個々のホテルごとdata
 $hotel_sqlhost = "localhost";
-$hotel_sqluser = "wplus_hotel1_2";
-$hotel_sqlpassword = "wph1_123456";
-$hotel_sqldatabase = "wplus_hotel1_2";
+$hotel_sqluser = "dev2_hotel1";
+$hotel_sqlpassword = "dev2_123456";
+$hotel_sqldatabase = "dev2_hotel1";
+
 
 //gaijiのHTTP_HOSTがlocalhostの場合用
 $localhost_gaiji_sqlhost = "localhost";

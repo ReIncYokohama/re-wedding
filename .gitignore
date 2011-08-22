@@ -1,0 +1,16 @@
+#写真のフォルダを反映しない
+user_name/
+
+#コンフファイルを反映しない
+conf/
+
+#backupfileを反映しない
+*.bak
+
+#apaceh
+!.htaccess
+!.htpasswd
+
+#生成ファイル
+Yourexcel.html
+admin/Yourexcel.html
