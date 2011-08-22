@@ -146,6 +146,11 @@ if(isset($user_id) && $user_id > 0)
 
     $hotel_id = 1;
     $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
+    mkdir(get_image_db_directory($hotel_id));
+    mkdir(get_image_db_directory($hotel_id)."/user_name");
+    mkdir($user_folder);
+    mkdir($user_folder."/thumb1");
+    mkdir($user_folder."/thumb2");
 
     set_user_gaiji_position($user_id,$post["man_firstname"],0,$_POST["male_first_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["man_lastname"],1,$_POST["male_last_gaiji_img"],$_POST["male_last_gaiji_gsid"]);
@@ -241,6 +246,8 @@ else
 
     $hotel_id = 1;
     $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
+    mkdir(get_image_db_directory($hotel_id));
+    mkdir(get_image_db_directory($hotel_id)."/user_name");
     mkdir($user_folder);
     mkdir($user_folder."/thumb1");
     mkdir($user_folder."/thumb2");
