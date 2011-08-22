@@ -1,0 +1,117 @@
+@charset "utf-8";
+/* CSS Document */
+
+#popup_contents {
+	width: 580px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 15px;
+	border: 1px solid #CCC;
+	padding: 5px;
+}
+#popup_topnavi{
+	height: 150px;
+	background-color: #999;
+	padding-top: 3px;
+	padding-right: 0;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	height: 17px;
+	margin-bottom: 15px;
+	overflow: hidden;
+}
+#popup_topnavi_footer{
+	clear: both;
+	width: 100%;
+	color: #FFF;
+	font-size: 10px;
+	font-weight: bold;
+	background-color: #999;
+	text-align: center;
+	padding:5px 0px;
+}
+.popup_navi  {
+	font-size: 14px;
+	font-weight: bold;
+	color: #34270A;
+	background-color: #F9F1DF;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #E6BF5B;
+	height: 18px;
+	padding-top: 1px;
+	padding-bottom: 3px;
+	padding-left: 5px;
+	margin-bottom: 15px;
+	clear: both;
+}
+.popup_txt_icon {
+	background-image: url(../img/common/popup_txt_icon.jpg);
+	background-repeat: no-repeat;
+	background-position: 3px 5px;
+	width: 550px;
+	padding-left: 10px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 10px;
+	clear: both;
+}
+.popup_midashi01 {
+	width: 555px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 10px;
+	clear: both;
+	border-bottom-width: 1px;
+	border-left-width: 3px;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-bottom-color: #E6BF5B;
+	border-left-color: #E6BF5B;
+	padding-left: 5px;
+	font-weight: bold;
+	color: #34270A;
+	padding-bottom: 2px;
+}
+.popup_txt {
+	width: 550px;
+	padding-left: 10px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 10px;
+	clear: both;
+}
+.popup_txt01 {
+	float: right;
+	width: 550px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+}
+.popup_txt02 {
+	float: right;
+	width: 530px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-left: 40px;
+}
+.popup_txt_right {
+	text-align: right;
+	float: right;
+	width: 570px;
+	padding-right: 10px;
+	padding-bottom: 20px;
+}
+.popup_txt_center {
+	font-size: 120%;
+	font-weight: bold;
+	text-align: center;
+	clear: both;
+	width: 580px;
+	color: #FFF;
+	background-color: #999;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}

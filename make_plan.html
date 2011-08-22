@@ -1,0 +1,5997 @@
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title></title>
+
+
+
+<link href="css/tmpl.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="tmp_js/cufon-yui.js"></script>
+
+<script type="text/javascript" src="tmp_js/arial.js"></script>
+
+<script type="text/javascript" src="tmp_js/cuf_run.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+
+<link rel="stylesheet" href="css/base/jquery.ui.all.css">
+
+<script src="js/jquery-1.4.2.js"></script>
+
+<script src="js/external/jquery.bgiframe-2.1.1.js"></script>
+
+<script src="js/ui/jquery.ui.core.js"></script>
+
+<script src="js/ui/jquery.ui.widget.js"></script>
+
+<script src="js/ui/jquery.ui.mouse.js"></script>
+
+<script src="js/ui/jquery.ui.button.js"></script>
+
+<script src="js/ui/jquery.ui.draggable.js"></script>
+
+<script src="js/ui/jquery.ui.position.js"></script>
+
+<script src="js/ui/jquery.ui.resizable.js"></script>
+
+
+
+<script src="js/ui/jquery.effects.core.js"></script>
+
+<script src="js/ui/jquery.effects.blind.js"></script>
+
+<script src="js/ui/jquery.effects.fade.js"></script>
+
+<script src="js/jquery.effects.explode.js"></script>
+
+<script src="js/jquery.effects.shake.js"></script>
+
+<script src="js/jquery.rollover.js"></script>
+
+<script src="js/ui/jquery.ui.dialog.js"></script>
+
+<script type="text/javascript">
+
+	$(function() {	
+
+		$("#change_pass").dialog({
+
+			autoOpen: false,
+
+			height: 200,
+
+			width: 420,
+
+			show: "shake",
+
+			hide: "explode",
+
+			modal: true,
+
+			buttons: {
+
+				"送信": function() {
+
+
+
+						var cur_pass = $("#cur_password").val();
+
+						var password = $("#password").val();
+
+						var conf_pass = $("#conf_password").val();
+
+						
+
+						if(!cur_pass || !password || !conf_pass)
+
+						{
+
+							alert("Please Fill All Fields");
+
+							return false;
+
+						}
+
+						if(password != conf_pass)
+
+						{
+
+							alert("New password does not matched");
+
+							return false;
+
+						}
+
+						var flag = 0;
+
+						var abc = $( this );
+
+						$.post('ajax/change_password.php',{'cur_pass':cur_pass,'action':'check_user'}, function (data){
+
+							if(parseInt(data) == 0)
+
+							{
+
+								flag = 1;
+
+								alert('Plese enter correct current password');
+
+								return false;
+
+							}
+
+							else
+
+							{
+
+								$.post('ajax/change_password.php', {'cur_pass': cur_pass,'password':password,'action':'change_pass'}, 						
+
+								function(data) {
+
+									abc.dialog( "close");
+
+									//inform_user();
+
+										//alert("Password changed successfully");	
+
+									
+
+																	
+
+									
+
+								});	
+
+							}
+
+																															  
+
+						});				
+
+					
+
+				},
+
+				キャンセル: function() {
+
+	
+
+					$( this ).dialog( "close" );
+
+				},
+
+				閉じる:function() {
+
+			
+
+					$( this ).dialog( "close" );
+
+				}
+
+			}
+
+		});
+
+		
+
+	});
+
+	
+
+	function change_password()
+
+	{
+
+		$("#cur_password").val("");
+
+		$("#password").val("");
+
+		$("#conf_password").val("");
+
+		$("#change_pass").dialog("open");
+
+	}
+
+	
+
+</script>
+
+<script type="text/javascript">
+
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+
+  window.open(theURL,winName,features);
+
+}
+
+</script>
+
+
+
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+
+
+<body>
+
+<div id="layout">
+
+	<div class="main">
+
+		<div class="header">
+
+			<div class="header_resize">
+
+            	<div id="inform_user" style="text-align:center; font-size:15px; font-weight:bold; color:#006600;"></div>
+
+                <div class="logo"> <img src="img/logo.jpg" width="200" height="57" border="0" />
+
+                    <div id="member_name">大久保　・　野口　様専用ページ </div>
+
+                </div>
+
+                <div id="head_right">
+
+                  <div id="login_date">前回のログイン　2011/08/01 17:31:58</div>
+
+                  <div id="logout_area"> <a href="logout.php"  onclick="return make_plan_check();" >ログアウト</a>　｜　<a href="javascript:;" onclick="MM_openBrWindow('support/operation_u.html','','scrollbars=yes,width=620,height=600')">ヘルプ</a></div>
+
+                </div>
+
+  				<div class="clr"></div>
+
+  				<div class="menu_nav" >
+
+                  <ul id="menu">
+
+                    <li class="active"><a href="dashboard.php"  onclick="return make_plan_check();" ><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>
+
+                    Home</a></li>
+
+                    <li><a href="table_layout.php"  onclick="return make_plan_check();" ><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>テーブルの配置</a></li>
+
+                    <li><a href="hikidemono.php"  onclick="return make_plan_check();" >引出物・料理の<br>
+
+                      登録</a></li>
+
+                    <li><a href="my_guests.php"  onclick="return make_plan_check();" >招待者リスト<br>
+
+                      の作成</a></li>
+
+                    <li><a href="make_plan.php"><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>席次表</a></li>
+
+                    <!--<li><a href="menu_group.php">Guest Menus</a></li>-->
+
+                    <!--<li><a href="gifts.php">Guest Gifts</a></li>-->
+
+                    <li><a href="order.php"  onclick="return make_plan_check();" ><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>発注</a></li>
+
+                    <!--<li><a href="dummy.php">Preview</a></li>-->
+
+                    <li><a href="download.php"  onclick="return make_plan_check();" >招待者リスト<br>
+
+                      ダウンロード</a></li>
+
+                    <!--<li><a href="dummy.php">About Me</a></li>-->
+
+                    <li><a href="user_info.php"  onclick="return make_plan_check();" ><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>お客様情報</a></li>
+
+                    <li><a href="admin_messages.php"  onclick="return make_plan_check();" ><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>メッセージ</a></li>
+
+                  </ul>
+
+    		  </div>
+
+  				<div class="clr"></div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div id="main_contents">
+
+<script src="js/jquery.ui.droppable.js" type="text/javascript"></script>
+
+
+
+
+
+<link rel="stylesheet" type="text/css" href="css/jquery.treeview.css">  
+
+
+
+<script src="js/jquery.cookie.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="js/jquery.tipTip.js"></script>
+
+<link href="js/tipTip.css" rel="stylesheet" type="text/css" />
+
+<script src="js/jquery.treeview.js" type="text/javascript"></script>
+
+<link href="css/drag_n_drop.css" type="text/css" rel="stylesheet">
+
+<script src="js/drag_n_drop.js" type="text/javascript"></script>
+
+<script src="js/rp.js" type="text/javascript"></script>
+
+
+
+		
+
+<script type="text/javascript">
+
+var title=$("title");  
+
+ $(title).html("席次表編集 - 席次表 - ウエディングプラス"); 
+
+ 
+
+$(function(){
+
+
+
+$("ul#menu li").removeClass();
+
+$("ul#menu li:eq(4)").addClass("active");
+
+
+
+var msg_html=$("#msg_rpt").html();
+
+
+
+	if(msg_html!='')
+
+	{
+
+		$("#msg_rpt").fadeOut(5000);
+
+	}
+
+
+
+});
+
+function checkConfirm()
+
+{
+
+	var conf;
+
+	conf = confirm('修正内容を保存しても宜しいですか？');
+
+	if(conf)
+
+	{
+
+		document.insert_plan.submit();
+
+	}
+
+	
+
+}
+
+function make_plan_check()
+
+{
+
+	if(confirm("席辞表を保存しますか？"))
+
+	{
+
+		$.post('ajax/insert_plan.php',{'make_plan':'true'}, function (data){
+
+			return true;
+
+		});
+
+	}
+
+	else
+
+	{
+
+		$.post('ajax/unset_plan.php',{'make_plan':'true'}, function (data){
+
+			return true;
+
+		});
+
+	}
+
+}
+
+</script>
+
+<style>
+
+.rows
+
+{
+
+float:left;
+
+
+
+clear:both;
+
+width:100%;
+
+}
+
+.tables
+
+{
+
+float:left;
+
+width:198px;
+
+margin-left:15px;
+
+}
+
+.tables p
+
+{
+
+margin-top:0;
+
+margin-bottom:0;
+
+vertical-align:middle;
+
+}
+
+
+
+table a:link {
+
+	color: #F90;
+
+	text-decoration:underline;
+
+}
+
+table a:visited {
+
+	color: #F90;
+
+	text-decoration:underline;
+
+}
+
+table a:hover {
+
+	color: #C30;
+
+	text-decoration:underline;
+
+}
+
+table a:active {
+
+	color: #C30;
+
+	text-decoration:underline;
+
+}
+
+
+
+
+
+
+
+#room
+
+{
+
+
+
+width:auto;
+
+
+
+}
+
+.droppable
+
+{
+
+width:80px;
+
+height:30px;
+
+}
+
+</style>
+
+
+
+<div id="step_bt_area">
+
+  <div class="step_bt"><a href="table_layout.php" onclick="return make_plan_check();"><img src="img/step_head_bt01.jpg" width="155" height="60" border="0" class="on" /></a></div>
+
+  <div class="step_flow_img"><img src="img/step_flow.gif" width="25" height="60" /></div>
+
+  <div class="step_bt"><a href="hikidemono.php" onclick="return make_plan_check();"><img src="img/step_head_bt02.jpg" width="155" height="60" border="0" class="on"/></a></div>
+
+  <div class="step_flow_img"><img src="img/step_flow.gif" width="25" height="60" /></div>
+
+  <div class="step_bt"><a href="my_guests.php" onclick="return make_plan_check()"><img src="img/step_head_bt03.jpg" width="155" height="60" border="0" class="on" /></a></div>
+
+  <div class="step_flow_img"><img src="img/step_flow.gif" width="25" height="60" /></div>
+
+  <div class="step_bt"><img src="img/step_head_bt04_on.jpg" width="155" height="60" border="0"/></div>
+
+  <div class="step_flow_img"><img src="img/step_flow.gif" width="25" height="60" /></div>
+
+  <div class="step_bt"><a href="order.php" onclick="return make_plan_check()"><img src="img/step_head_bt05.jpg" width="155" height="60" border="0" class="on" /></a></div>
+
+  <div class="clear"></div></div>
+
+
+
+<div id="main_contents">
+
+  <div class="title_bar">
+
+    <div class="title_bar_txt_L">席次表を編集し、プレビューで席次表・引出物の確認をします。</div>
+
+    <div class="title_bar_txt_R"></div>
+
+<div class="clear"></div></div>
+
+<div class="cont_area">
+
+  <div id="make_plan_bt_area">
+
+    <div class="make_plan_bt"><a href="make_plan.php"><img src="img/make_plan_bt01.jpg" width="155" height="60" class="on" /></a></div>
+
+<!--<div class="make_plan_bt"><a href="javascript:void();" onclick="checkConfirm();"><img src="img/make_plan_bt02.jpg" width="155" height="60" class="on" /></a></div>-->
+
+    <div class="make_plan_bt"><a href="plan_pdf_small.php" target="_blank"><img src="img/make_plan_bt03.jpg" width="155" height="60" class="on" /></a></div>
+
+    <div class="make_plan_bt"><a href="plan_pdf.php" target="_blank"><img src="img/make_plan_bt04.jpg" width="155" height="60" class="on" /></a></div>
+
+    <div class="make_plan_bt2"><a href="#"><img src="img/make_plan_bt05.jpg" width="155" height="60" class="on" /></a></div>
+
+  </div>
+
+  
+
+<div class="clear"></div>
+
+
+
+</div>
+
+
+
+
+
+<div class="cont_area" id="con_area_ie">
+
+  <div id="side_area">
+
+  
+
+  
+
+  <div  id="guests_conatiner" style="float:left; height:400px; width:100%; overflow:auto" >
+
+
+
+        	
+
+				<table width="98%">
+
+									<tr bgcolor="#666666" style="color:#FFFFFF"><th>No</th><th nowrap="nowrap"><a href="make_plan.php?sortby=sex&guest_sex_sort=asc">郎婦↓</a></th><th nowrap="nowrap"><a href="make_plan.php?sortby=guest_type&guest_type_sort=asc">区分↓</a></th><th align="center">&nbsp;&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;</th><th align="left">卓名</th></tr>
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>1</td>
+
+					<td>新郎</td>
+
+					<td>主賓</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_260"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_260" class="tooltip" title="<span style='font-size:14px'>&nbsp;</span><br/><span  style='font-size:14px'>石田 あゆみ 様</span>" >
+
+								<input type="hidden" value="" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">石田 あゆみ 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_260">2</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>2</td>
+
+					<td>新婦</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_261"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_261" class="tooltip" title="<span style='font-size:14px'>叔母の兄&nbsp;</span><br/><span  style='font-size:14px'>野口 明夫 様</span>" >
+
+								<input type="hidden" value="叔母の兄" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">叔母の兄&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野口 明夫 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_261">禄</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>3</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_201"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_201" class="tooltip" title="<span style='font-size:14px'>妹&nbsp;</span><br/><span  style='font-size:14px'>大久保 洋美 くん</span>" >
+
+								<input type="hidden" value="妹" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:68%; text-align:left; ">妹&nbsp;</span><br/>-->
+
+								<span style="font-size:68%; text-align:left;">大久保 洋美 くん </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_201">E</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>4</td>
+
+					<td>新郎</td>
+
+					<td>主賓</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_202"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_202" class="tooltip" title="<span style='font-size:14px'>妹&nbsp;</span><br/><span  style='font-size:14px'>大久保 真由子 </span>" >
+
+								<input type="hidden" value="妹" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">妹&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">大久保 真由子  </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_202">E</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>5</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_203"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_203" class="tooltip" title="<span style='font-size:14px'>父&nbsp;</span><br/><span  style='font-size:14px'>大久保 成吉 </span>" >
+
+								<input type="hidden" value="父" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">父&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">大久保 成吉  </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_203">J</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>6</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_204"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_204" class="tooltip" title="<span style='font-size:14px'>従弟&nbsp;</span><br/><span  style='font-size:14px'>岩佐 弘之 様</span>" >
+
+								<input type="hidden" value="従弟" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">従弟&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">岩佐 弘之 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_204">鶴</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>7</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_205"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_205" class="tooltip" title="<span style='font-size:14px'>従弟&nbsp;</span><br/><span  style='font-size:14px'>野口 博司 様</span>" >
+
+								<input type="hidden" value="従弟" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">従弟&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野口 博司 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_205">鶴</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>8</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_206"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_206" class="tooltip" title="<span style='font-size:14px'>母&nbsp;</span><br/><span  style='font-size:14px'>大久保 迪代 </span>" >
+
+								<input type="hidden" value="母" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">母&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">大久保 迪代  </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_206">J</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>9</td>
+
+					<td>新郎</td>
+
+					<td>友人</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_207"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_207" class="tooltip" title="<span style='font-size:14px'>親友&nbsp;</span><br/><span  style='font-size:14px'>瀧本 泰一 様</span>" >
+
+								<input type="hidden" value="親友" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">親友&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">瀧本 泰一 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_207">B</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>10</td>
+
+					<td>新郎</td>
+
+					<td>友人</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_208"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_208" class="tooltip" title="<span style='font-size:14px'>親友&nbsp;</span><br/><span  style='font-size:14px'>三田 和也 様</span>" >
+
+								<input type="hidden" value="親友" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">親友&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">三田 和也 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_208">B</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>11</td>
+
+					<td>新郎</td>
+
+					<td>主賓</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="ui-widget-content ui-corner-tr" id="item_209"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_209" class="tooltip" title="<span style='font-size:14px'>株式会社アートランド&nbsp;代表取締役</span><br/><span  style='font-size:14px'>鈴木 直樹 様</span>" >
+
+								<input type="hidden" value="株式会社アートランド" class="comeent1_hidden" />
+
+								<input type="hidden" value="代表取締役" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">株式会社アートランド&nbsp;代表取締役</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">鈴木 直樹 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_209"></td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>12</td>
+
+					<td>新郎</td>
+
+					<td>主賓</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_210"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_210" class="tooltip" title="<span style='font-size:14px'>株式会社グリーンアース&nbsp;代表取締役会長</span><br/><span  style='font-size:14px'>片山 淳 様</span>" >
+
+								<input type="hidden" value="株式会社グリーンアース" class="comeent1_hidden" />
+
+								<input type="hidden" value="代表取締役会長" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">株式会社グリーンアース&nbsp;代表取締役会長</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">片山 淳 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_210">2</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>13</td>
+
+					<td>新婦</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_211"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_211" class="tooltip" title="<span style='font-size:14px'>妹&nbsp;</span><br/><span  style='font-size:14px'>野口 和美 </span>" >
+
+								<input type="hidden" value="妹" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">妹&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野口 和美  </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_211">禄</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>14</td>
+
+					<td>新郎</td>
+
+					<td>主賓</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_212"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_212" class="tooltip" title="<span style='font-size:14px'>株式会社AKM物産&nbsp;代表取締役</span><br/><span  style='font-size:14px'>エーケーエムジャハンギル ラナ 様</span>" >
+
+								<input type="hidden" value="株式会社AKM物産" class="comeent1_hidden" />
+
+								<input type="hidden" value="代表取締役" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:50%; text-align:left; ">株式会社AKM物産&nbsp;代表取締役</span><br/>-->
+
+								<span style="font-size:50%; text-align:left;">エーケーエムジャハンギル ラナ 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_212">2</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>15</td>
+
+					<td>新郎</td>
+
+					<td>職場</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_213"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_213" class="tooltip" title="<span style='font-size:14px'>ロプル株式会社&nbsp;システムエンジニア</span><br/><span  style='font-size:14px'>マズムダル クマル 様</span>" >
+
+								<input type="hidden" value="ロプル株式会社" class="comeent1_hidden" />
+
+								<input type="hidden" value="システムエンジニア" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:68%; text-align:left; ">ロプル株式会社&nbsp;システムエンジニア</span><br/>-->
+
+								<span style="font-size:68%; text-align:left;">マズムダル クマル 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_213">2</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>16</td>
+
+					<td>新婦</td>
+
+					<td>主賓</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_214"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_214" class="tooltip" title="<span style='font-size:14px'>松田エンターテイメント&nbsp;代表取締役</span><br/><span  style='font-size:14px'>松田 聖子 様</span>" >
+
+								<input type="hidden" value="松田エンターテイメント" class="comeent1_hidden" />
+
+								<input type="hidden" value="代表取締役" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">松田エンターテイメント&nbsp;代表取締役</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">松田 聖子 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_214">D</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>17</td>
+
+					<td>新婦</td>
+
+					<td>主賓</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_215"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_215" class="tooltip" title="<span style='font-size:14px'>吉田物産&nbsp;代表</span><br/><span  style='font-size:14px'>吉田 拓郎 様</span>" >
+
+								<input type="hidden" value="吉田物産" class="comeent1_hidden" />
+
+								<input type="hidden" value="代表" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">吉田物産&nbsp;代表</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">吉田 拓郎 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_215">D</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>18</td>
+
+					<td>新婦</td>
+
+					<td>職場</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_216"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_216" class="tooltip" title="<span style='font-size:14px'>先輩&nbsp;</span><br/><span  style='font-size:14px'>今井 みき 様</span>" >
+
+								<input type="hidden" value="先輩" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">先輩&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">今井 みき 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_216">D</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>19</td>
+
+					<td>新婦</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_217"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_217" class="tooltip" title="<span style='font-size:14px'>叔母&nbsp;</span><br/><span  style='font-size:14px'>野口 夏子 様</span>" >
+
+								<input type="hidden" value="叔母" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">叔母&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野口 夏子 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_217">禄</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>20</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_218"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_218" class="tooltip" title="<span style='font-size:14px'>母&nbsp;</span><br/><span  style='font-size:14px'>野口 トメ 様</span>" >
+
+								<input type="hidden" value="母" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">母&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野口 トメ 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_218">鶴</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>21</td>
+
+					<td>新婦</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_219"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_219" class="tooltip" title="<span style='font-size:14px'>父&nbsp;</span><br/><span  style='font-size:14px'>野口 貞夫 </span>" >
+
+								<input type="hidden" value="父" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">父&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野口 貞夫  </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_219">鶴</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>22</td>
+
+					<td>新婦</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_220"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_220" class="tooltip" title="<span style='font-size:14px'>従妹&nbsp;</span><br/><span  style='font-size:14px'>野口 裕子 様</span>" >
+
+								<input type="hidden" value="従妹" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">従妹&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野口 裕子 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_220">禄</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>23</td>
+
+					<td>新婦</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_221"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_221" class="tooltip" title="<span style='font-size:14px'>従弟&nbsp;</span><br/><span  style='font-size:14px'>野口 正則 様</span>" >
+
+								<input type="hidden" value="従弟" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">従弟&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野口 正則 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_221">禄</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>24</td>
+
+					<td>新婦</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_222"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_222" class="tooltip" title="<span style='font-size:14px'>義姉&nbsp;</span><br/><span  style='font-size:14px'>野口 秀子 様</span>" >
+
+								<input type="hidden" value="義姉" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">義姉&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野口 秀子 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_222">禄</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>25</td>
+
+					<td>新婦</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_223"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_223" class="tooltip" title="<span style='font-size:14px'>兄&nbsp;</span><br/><span  style='font-size:14px'>野口 幸雄 </span>" >
+
+								<input type="hidden" value="兄" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">兄&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野口 幸雄  </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_223">鶴</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>26</td>
+
+					<td>新婦</td>
+
+					<td>主賓</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_224"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_224" class="tooltip" title="<span style='font-size:14px'>ポリドール株式会社&nbsp;専属アーティスト</span><br/><span  style='font-size:14px'>イングヴェイ マルムスティーン 様</span>" >
+
+								<input type="hidden" value="ポリドール株式会社" class="comeent1_hidden" />
+
+								<input type="hidden" value="専属アーティスト" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:50%; text-align:left; ">ポリドール株式会社&nbsp;専属アーティスト</span><br/>-->
+
+								<span style="font-size:50%; text-align:left;">イングヴェイ マルムスティーン 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_224">D</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>27</td>
+
+					<td>新婦</td>
+
+					<td>友人</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_225"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_225" class="tooltip" title="<span style='font-size:14px'>大学友人&nbsp;</span><br/><span  style='font-size:14px'>片柳 さおり 様</span>" >
+
+								<input type="hidden" value="大学友人" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">大学友人&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">片柳 さおり 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_225">禄</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>28</td>
+
+					<td>新婦</td>
+
+					<td>友人</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_226"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_226" class="tooltip" title="<span style='font-size:14px'>高校の同級生&nbsp;</span><br/><span  style='font-size:14px'>長谷川 京子 様</span>" >
+
+								<input type="hidden" value="高校の同級生" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">高校の同級生&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">長谷川 京子 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_226">禄</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>29</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_227"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_227" class="tooltip" title="<span style='font-size:14px'>甥&nbsp;</span><br/><span  style='font-size:14px'>大久保 橋造 くん</span>" >
+
+								<input type="hidden" value="甥" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:68%; text-align:left; ">甥&nbsp;</span><br/>-->
+
+								<span style="font-size:68%; text-align:left;">大久保 橋造 くん </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_227">J</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>30</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_228"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_228" class="tooltip" title="<span style='font-size:14px'>姪&nbsp;</span><br/><span  style='font-size:14px'>大久保 花乃 ちゃん</span>" >
+
+								<input type="hidden" value="姪" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:68%; text-align:left; ">姪&nbsp;</span><br/>-->
+
+								<span style="font-size:68%; text-align:left;">大久保 花乃 ちゃん </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_228">J</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>31</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_229"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_229" class="tooltip" title="<span style='font-size:14px'>親戚甥&nbsp;</span><br/><span  style='font-size:14px'>石塚 楓 くん</span>" >
+
+								<input type="hidden" value="親戚甥" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">親戚甥&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">石塚 楓 くん </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_229">J</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>32</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_230"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_230" class="tooltip" title="<span style='font-size:14px'>親戚甥&nbsp;</span><br/><span  style='font-size:14px'>石塚 りお くん</span>" >
+
+								<input type="hidden" value="親戚甥" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">親戚甥&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">石塚 りお くん </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_230">J</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>33</td>
+
+					<td>新郎</td>
+
+					<td>友人</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_231"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_231" class="tooltip" title="<span style='font-size:14px'>中学校同級生&nbsp;</span><br/><span  style='font-size:14px'>郡山 登志雄 様</span>" >
+
+								<input type="hidden" value="中学校同級生" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">中学校同級生&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">郡山 登志雄 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_231">B</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>34</td>
+
+					<td>新郎</td>
+
+					<td>友人</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_232"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_232" class="tooltip" title="<span style='font-size:14px'>中学校同級生&nbsp;</span><br/><span  style='font-size:14px'>高野 敏弘 様</span>" >
+
+								<input type="hidden" value="中学校同級生" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">中学校同級生&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">高野 敏弘 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_232">2</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>35</td>
+
+					<td>新婦</td>
+
+					<td>主賓</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_233"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_233" class="tooltip" title="<span style='font-size:14px'>アミューズ株式会社&nbsp;ＰＲ企画広報部長</span><br/><span  style='font-size:14px'>勅使河原 雄一郎 様</span>" >
+
+								<input type="hidden" value="アミューズ株式会社" class="comeent1_hidden" />
+
+								<input type="hidden" value="ＰＲ企画広報部長" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:68%; text-align:left; ">アミューズ株式会社&nbsp;ＰＲ企画広報部長</span><br/>-->
+
+								<span style="font-size:68%; text-align:left;">勅使河原 雄一郎 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_233">D</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>36</td>
+
+					<td>新婦</td>
+
+					<td>主賓</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_234"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_234" class="tooltip" title="<span style='font-size:14px'>&nbsp;</span><br/><span  style='font-size:14px'>勅使河原 加奈子 様</span>" >
+
+								<input type="hidden" value="" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:68%; text-align:left; ">&nbsp;</span><br/>-->
+
+								<span style="font-size:68%; text-align:left;">勅使河原 加奈子 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_234">D</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>37</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_235"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_235" class="tooltip" title="<span style='font-size:14px'>義兄&nbsp;</span><br/><span  style='font-size:14px'>石塚 誠 様</span>" >
+
+								<input type="hidden" value="義兄" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">義兄&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">石塚 誠 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_235">鶴</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>38</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_236"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_236" class="tooltip" title="<span style='font-size:14px'>従弟&nbsp;</span><br/><span  style='font-size:14px'>石塚 晋太郎 様</span>" >
+
+								<input type="hidden" value="従弟" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">従弟&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">石塚 晋太郎 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_236">鶴</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>39</td>
+
+					<td>新婦</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_237"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_237" class="tooltip" title="<span style='font-size:14px'>祖父&nbsp;</span><br/><span  style='font-size:14px'>野口 秀雄 様</span>" >
+
+								<input type="hidden" value="祖父" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">祖父&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野口 秀雄 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_237">鶴</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>40</td>
+
+					<td>新婦</td>
+
+					<td>職場</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_238"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_238" class="tooltip" title="<span style='font-size:14px'>先輩&nbsp;</span><br/><span  style='font-size:14px'>柳下 圭子 様</span>" >
+
+								<input type="hidden" value="先輩" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">先輩&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">柳下 圭子 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_238">禄</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>41</td>
+
+					<td>新婦</td>
+
+					<td>友人</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_239"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_239" class="tooltip" title="<span style='font-size:14px'>同期入社&nbsp;</span><br/><span  style='font-size:14px'>玉井 暁 様</span>" >
+
+								<input type="hidden" value="同期入社" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">同期入社&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">玉井 暁 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_239">禄</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>42</td>
+
+					<td>新婦</td>
+
+					<td>職場</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_240"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_240" class="tooltip" title="<span style='font-size:14px'>同僚&nbsp;</span><br/><span  style='font-size:14px'>玉井 俊之 様</span>" >
+
+								<input type="hidden" value="同僚" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">同僚&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">玉井 俊之 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_240">禄</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>43</td>
+
+					<td>新婦</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_241"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_241" class="tooltip" title="<span style='font-size:14px'>叔父&nbsp;</span><br/><span  style='font-size:14px'>野口 信一郎 様</span>" >
+
+								<input type="hidden" value="叔父" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">叔父&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野口 信一郎 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_241">鶴</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>44</td>
+
+					<td>新婦</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_242"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_242" class="tooltip" title="<span style='font-size:14px'>叔母&nbsp;</span><br/><span  style='font-size:14px'>野口 良子 様</span>" >
+
+								<input type="hidden" value="叔母" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">叔母&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野口 良子 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_242">鶴</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>45</td>
+
+					<td>新郎</td>
+
+					<td>職場</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_243"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_243" class="tooltip" title="<span style='font-size:14px'>部下&nbsp;</span><br/><span  style='font-size:14px'>内海 みどり 様</span>" >
+
+								<input type="hidden" value="部下" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">部下&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">内海 みどり 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_243">E</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>46</td>
+
+					<td>新郎</td>
+
+					<td>主賓</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_244"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_244" class="tooltip" title="<span style='font-size:14px'>有限会社アール・イー&nbsp;システムエンジニア</span><br/><span  style='font-size:14px'>マズムダル クマル 様</span>" >
+
+								<input type="hidden" value="有限会社アール・イー" class="comeent1_hidden" />
+
+								<input type="hidden" value="システムエンジニア" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:68%; text-align:left; ">有限会社アール・イー&nbsp;システムエンジニア</span><br/>-->
+
+								<span style="font-size:68%; text-align:left;">マズムダル クマル 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_244">B</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>47</td>
+
+					<td>新婦</td>
+
+					<td>主賓</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_245"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_245" class="tooltip" title="<span style='font-size:14px'>書道の先生&nbsp;</span><br/><span  style='font-size:14px'>内田 もね 様</span>" >
+
+								<input type="hidden" value="書道の先生" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">書道の先生&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">内田 もね 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_245">B</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>48</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_246"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_246" class="tooltip" title="<span style='font-size:14px'>姪&nbsp;</span><br/><span  style='font-size:14px'>大久保 優紀 ちゃん</span>" >
+
+								<input type="hidden" value="姪" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:68%; text-align:left; ">姪&nbsp;</span><br/>-->
+
+								<span style="font-size:68%; text-align:left;">大久保 優紀 ちゃん </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_246">E</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>49</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_247"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_247" class="tooltip" title="<span style='font-size:14px'>叔父&nbsp;</span><br/><span  style='font-size:14px'>大久保 健一 様</span>" >
+
+								<input type="hidden" value="叔父" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">叔父&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">大久保 健一 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_247">E</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>50</td>
+
+					<td>新郎</td>
+
+					<td>親戚</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_248"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_248" class="tooltip" title="<span style='font-size:14px'>叔母&nbsp;</span><br/><span  style='font-size:14px'>野口 妙子 様</span>" >
+
+								<input type="hidden" value="叔母" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">叔母&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野口 妙子 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_248">鶴</td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>51</td>
+
+					<td>新郎</td>
+
+					<td>主賓</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_249"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_249" class="tooltip" title="<span style='font-size:14px'>姪&nbsp;</span><br/><span  style='font-size:14px'>野口 さちこ ちゃん</span>" >
+
+								<input type="hidden" value="姪" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:68%; text-align:left; ">姪&nbsp;</span><br/>-->
+
+								<span style="font-size:68%; text-align:left;">野口 さちこ ちゃん </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_249">鶴</td></tr>
+
+					
+
+										<tr bgcolor="#EEEEEE">
+
+					<td>52</td>
+
+					<td>新郎</td>
+
+					<td>主賓</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="ui-widget-content ui-corner-tr" id="item_250"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_250" class="tooltip" title="<span style='font-size:14px'>大和市議会議員&nbsp;</span><br/><span  style='font-size:14px'>渡邉 義男 様</span>" >
+
+								<input type="hidden" value="大和市議会議員" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">大和市議会議員&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">渡邉 義男 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_250"></td></tr>
+
+					
+
+										<tr bgcolor="#F5F8E5">
+
+					<td>53</td>
+
+					<td>新婦</td>
+
+					<td>友人</td>
+
+					
+
+					<td width="90" align="center" style="text-align:left;">
+
+					
+
+							
+
+					 <div  id="tst" style="padding:0;width:100%;text-align:left;"> 
+
+							<div class="dragfalse" id="item_251"  style="width:100px; padding:0;text-align:left;">
+
+								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_251" class="tooltip" title="<span style='font-size:14px'>親友&nbsp;</span><br/><span  style='font-size:14px'>野村 紀子 様</span>" >
+
+								<input type="hidden" value="親友" class="comeent1_hidden" />
+
+								<input type="hidden" value="" class="comeent2_hidden" />
+
+								<!--<span style="display:none;font-size:85%; text-align:left; ">親友&nbsp;</span><br/>-->
+
+								<span style="font-size:85%; text-align:left;">野村 紀子 様 </span>
+
+								</a>
+
+							</div>
+
+								
+
+					  </div> 		
+
+							
+
+					</td>
+
+					<td id="tablename_251">禄</td></tr>
+
+					
+
+		  </table>	
+
+				
+
+                
+
+				
+
+			
+
+        </div>
+
+  
+
+  
+
+  </div>
+
+  
+
+  <div id="makeplanbox">
+
+  	<form action="insert_default_plan.php?user_id=97&plan_id=32" method="post" id="insert_plan" name="insert_plan">
+
+
+
+			<br/>
+
+
+
+
+
+
+
+    <div id="make_plan_table">
+
+	
+
+  
+
+  
+
+  
+
+  			<div id="room" style="float:left; width:1290px; ">
+
+			<div align="center" style="width:600px;text-align:center; margin:0 auto; font-size:13px; font-size:13px">
+
+				<table style="width:100%; " cellspacing="2"><tr><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;"></td><td align="center"  valign="middle" style="text-align:center;border:1px solid black;padding:7px; ">大久保 明俊</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black;padding:7px; ">大久保 和彦</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;"></td><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;">野口 冬子</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;"></td><td align="center"  valign="middle" style="text-align:center;border:1px solid black;padding:7px; "></td></tr></table>			</div><br/>
+
+			<div align="center" style="width:400px; text-align:center; border:1px solid black; padding:5px; margin:0 auto; font-size:13px">
+
+				高砂TAKASAGO			</div>
+
+			
+
+            	<div id="toptst" style="float:left; width:100%; ">     
+
+					 
+
+                	<div class="rows" id="row_1"> 
+
+                		<input type="hidden" id="rowcenter_1" value="N" />	
+
+                		<div class="row_conatiner" id="rowcon_1" style="float:left;">
+
+                    													
+
+                        	<div class="tables" id="tid_1550" style=" display:block;" >
+
+							
+
+                                <p align="center" style="text-align:center" id="table_1550">
+
+        
+
+                                    <b>&nbsp;</b>
+
+                                </p>
+
+								
+
+                            	                        	</div>
+
+						  												
+
+                        	<div class="tables" id="tid_1551" style=" visibility:hidden;" >
+
+							
+
+                                <p align="center" style="text-align:center" id="table_1551">
+
+        
+
+                                    <b>&nbsp;</b>
+
+                                </p>
+
+								
+
+                            	                        	</div>
+
+						  												
+
+                        	<div class="tables" id="tid_1552" style=" display:block;" >
+
+							
+
+                                <p align="center" style="text-align:center" id="table_1552">
+
+        
+
+                                    <b>&nbsp;</b>
+
+                                </p>
+
+								
+
+                            	                        	</div>
+
+						  												
+
+                        	<div class="tables" id="tid_1553" style=" display:block;" >
+
+							
+
+                                <p align="center" style="text-align:center" id="table_1553">
+
+        
+
+                                    <b>&nbsp;</b>
+
+                                </p>
+
+								
+
+                            	                                    <div id="2121215" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121215" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_208"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121215" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>親友&nbsp;</span><br/><span  style='font-size:14px'>三田 和也 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">親友&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">三田 和也 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121216" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121216" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_231"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121216" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>中学校同級生&nbsp;</span><br/><span  style='font-size:14px'>郡山 登志雄 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">中学校同級生&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">郡山 登志雄 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121217" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121217" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_207"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121217" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>親友&nbsp;</span><br/><span  style='font-size:14px'>瀧本 泰一 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">親友&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">瀧本 泰一 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                											<div style='float:left; width:25px; height:30px'>
+
+											  <p align="center" style="text-align:center" id="table_1553">
+
+        
+
+                                    				<b><a href="javascript:void(0)" style="cursor:default; text-decoration:none"><span>B</span></a></b>
+
+                               				 </p>
+
+											 </div>
+
+											                                    <div id="2121218" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121218" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_244"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121218" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>有限会社アール・イー&nbsp;システムエンジニア</span><br/><span  style='font-size:14px'>マズムダル クマル 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:68%; text-align:left;">有限会社アール・イー&nbsp;システムエンジニア</span><br/>-->
+
+														<span style="font-size:68%; text-align:left;">マズムダル クマル 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121219" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121219" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_245"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121219" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>書道の先生&nbsp;</span><br/><span  style='font-size:14px'>内田 もね 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">書道の先生&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">内田 もね 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121220" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121220" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_208"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121220" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>親友&nbsp;</span><br/><span  style='font-size:14px'>三田 和也 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">親友&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">三田 和也 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                        	</div>
+
+						  												
+
+                        	<div class="tables" id="tid_1554" style=" display:block;" >
+
+							
+
+                                <p align="center" style="text-align:center" id="table_1554">
+
+        
+
+                                    <b>&nbsp;</b>
+
+                                </p>
+
+								
+
+                            	                                    <div id="2121221" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121221" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_260"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121221" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>&nbsp;</span><br/><span  style='font-size:14px'>石田 あゆみ 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">石田 あゆみ 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121222" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121222" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_232"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121222" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>中学校同級生&nbsp;</span><br/><span  style='font-size:14px'>高野 敏弘 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">中学校同級生&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">高野 敏弘 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121223" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121223" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_210"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121223" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>株式会社グリーンアース&nbsp;代表取締役会長</span><br/><span  style='font-size:14px'>片山 淳 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">株式会社グリーンアース&nbsp;代表取締役会長</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">片山 淳 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                											<div style='float:left; width:25px; height:30px'>
+
+											  <p align="center" style="text-align:center" id="table_1554">
+
+        
+
+                                    				<b><a href="javascript:void(0)" style="cursor:default; text-decoration:none"><span>2</span></a></b>
+
+                               				 </p>
+
+											 </div>
+
+											                                    <div id="2121224" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121224" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_210"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121224" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>株式会社グリーンアース&nbsp;代表取締役会長</span><br/><span  style='font-size:14px'>片山 淳 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">株式会社グリーンアース&nbsp;代表取締役会長</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">片山 淳 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121225" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121225" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_213"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121225" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>ロプル株式会社&nbsp;システムエンジニア</span><br/><span  style='font-size:14px'>マズムダル クマル 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:68%; text-align:left;">ロプル株式会社&nbsp;システムエンジニア</span><br/>-->
+
+														<span style="font-size:68%; text-align:left;">マズムダル クマル 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121226" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121226" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_212"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121226" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>株式会社AKM物産&nbsp;代表取締役</span><br/><span  style='font-size:14px'>エーケーエムジャハンギル ラナ 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:50%; text-align:left;">株式会社AKM物産&nbsp;代表取締役</span><br/>-->
+
+														<span style="font-size:50%; text-align:left;">エーケーエムジャハンギル ラナ 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                        	</div>
+
+						  												
+
+                        	<div class="tables" id="tid_1555" style=" display:block;" >
+
+							
+
+                                <p align="center" style="text-align:center" id="table_1555">
+
+        
+
+                                    <b>&nbsp;</b>
+
+                                </p>
+
+								
+
+                            	                                    <div id="2121227" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121227" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_214"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121227" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>松田エンターテイメント&nbsp;代表取締役</span><br/><span  style='font-size:14px'>松田 聖子 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">松田エンターテイメント&nbsp;代表取締役</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">松田 聖子 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121228" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121228" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_215"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121228" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>吉田物産&nbsp;代表</span><br/><span  style='font-size:14px'>吉田 拓郎 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">吉田物産&nbsp;代表</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">吉田 拓郎 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121229" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121229" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_224"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121229" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>ポリドール株式会社&nbsp;専属アーティスト</span><br/><span  style='font-size:14px'>イングヴェイ マルムスティーン 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:50%; text-align:left;">ポリドール株式会社&nbsp;専属アーティスト</span><br/>-->
+
+														<span style="font-size:50%; text-align:left;">イングヴェイ マルムスティーン 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                											<div style='float:left; width:25px; height:30px'>
+
+											  <p align="center" style="text-align:center" id="table_1555">
+
+        
+
+                                    				<b><a href="javascript:void(0)" style="cursor:default; text-decoration:none"><span>D</span></a></b>
+
+                               				 </p>
+
+											 </div>
+
+											                                    <div id="2121230" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121230" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_216"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121230" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>先輩&nbsp;</span><br/><span  style='font-size:14px'>今井 みき 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">先輩&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">今井 みき 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121231" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121231" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_234"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121231" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>&nbsp;</span><br/><span  style='font-size:14px'>勅使河原 加奈子 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:68%; text-align:left;">&nbsp;</span><br/>-->
+
+														<span style="font-size:68%; text-align:left;">勅使河原 加奈子 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121232" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121232" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_233"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										a href="javascript:void(0)" id="ahref_2121232" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>アミューズ株式会社&nbsp;ＰＲ企画広報部長</span><br/><span  style='font-size:14px'>勅使河原 雄一郎 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:68%; text-align:left;">アミューズ株式会社&nbsp;ＰＲ企画広報部長</span><br/>-->
+
+														<span style="font-size:68%; text-align:left;">勅使河原 雄一郎 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                        	</div>
+
+						                                     
+
+                	  </div>
+
+                	</div>
+
+					 
+
+                	<div class="rows" id="row_2"> 
+
+                		<input type="hidden" id="rowcenter_2" value="L" />	
+
+                		<div class="row_conatiner" id="rowcon_2" style="float:left;">
+
+                    													
+
+                        	<div class="tables" id="tid_1556" style=" display:block;" >
+
+							
+
+                                <p align="center" style="text-align:center" id="table_1556">
+
+        
+
+                                    <b>&nbsp;</b>
+
+                                </p>
+
+								
+
+                            	                                    <div id="2121233" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121233" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_201"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121233" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>妹&nbsp;</span><br/><span  style='font-size:14px'>大久保 洋美 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:68%; text-align:left;">妹&nbsp;</span><br/>-->
+
+														<span style="font-size:68%; text-align:left;">大久保 洋美 くん</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121234" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121234" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_202"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121234" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>妹&nbsp;</span><br/><span  style='font-size:14px'>大久保 真由子 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">妹&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">大久保 真由子 </span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121235" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121235" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_246"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121235" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>姪&nbsp;</span><br/><span  style='font-size:14px'>大久保 優紀 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:68%; text-align:left;">姪&nbsp;</span><br/>-->
+
+														<span style="font-size:68%; text-align:left;">大久保 優紀 ちゃん</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                											<!--<div style='float:left; width:25px; height:30px'>-->
+                                                                  <div class="icon_room_name">
+
+											  <p align="center" style="text-align:center" id="table_1556">
+
+        
+
+                                    				<b><a href="javascript:void(0)" style="cursor:default; text-decoration:none"><span>E</span></a></b>
+
+                               				 </p>
+
+											 </div>
+
+											                                    <div id="2121236" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121236" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121236" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>&nbsp;</span><br/><span  style='font-size:14px'>  様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">  </span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121237" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121237" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_243"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121237" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>部下&nbsp;</span><br/><span  style='font-size:14px'>内海 みどり 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">部下&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">内海 みどり 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121238" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121238" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_247"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121238" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>叔父&nbsp;</span><br/><span  style='font-size:14px'>大久保 健一 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">叔父&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">大久保 健一 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                        	</div>
+
+						  												
+
+                        	<div class="tables" id="tid_1557" style=" display:block;" >
+
+							
+
+                                <p align="center" style="text-align:center" id="table_1557">
+
+        
+
+                                    <b>&nbsp;</b>
+
+                                </p>
+
+								
+
+                            	                                    <div id="2121239" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121239" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_227"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121239" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>甥&nbsp;</span><br/><span  style='font-size:14px'>大久保 橋造 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:68%; text-align:left;">甥&nbsp;</span><br/>-->
+
+														<span style="font-size:68%; text-align:left;">大久保 橋造 くん</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121240" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121240" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_228"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121240" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>姪&nbsp;</span><br/><span  style='font-size:14px'>大久保 花乃 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:68%; text-align:left;">姪&nbsp;</span><br/>-->
+
+														<span style="font-size:68%; text-align:left;">大久保 花乃 ちゃん</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121241" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121241" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_229"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121241" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>親戚甥&nbsp;</span><br/><span  style='font-size:14px'>石塚 楓 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">親戚甥&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">石塚 楓 くん</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                											<div class="icon_room_name_ptr2">
+
+											  <p align="center" style="text-align:center" id="table_1557">
+
+        
+
+                                    				<b><a href="javascript:void(0)" style="cursor:default; text-decoration:none"><span class="icon_room_name_ptr_font">ユリ</span></a></b>
+
+                               				 </p>
+
+											 </div>
+
+											                                    <div id="2121242" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121242" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_230"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121242" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>親戚甥&nbsp;</span><br/><span  style='font-size:14px'>石塚 りお 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">親戚甥&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">石塚 りお くん</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121243" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121243" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_206"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121243" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>母&nbsp;</span><br/><span  style='font-size:14px'>大久保 迪代 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">母&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">大久保 迪代 </span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121244" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121244" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_203"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121244" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>父&nbsp;</span><br/><span  style='font-size:14px'>大久保 成吉 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">父&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">大久保 成吉 </span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                        	</div>
+
+						  												
+
+                        	<div class="tables" id="tid_1558" style=" display:block;" >
+
+							
+
+                                <p align="center" style="text-align:center" id="table_1558">
+
+        
+
+                                    <b>&nbsp;</b>
+
+                                </p>
+
+								
+
+                            	                                    <div id="2121245" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121245" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_204"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121245" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>従弟&nbsp;</span><br/><span  style='font-size:14px'>岩佐 弘之 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">従弟&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">岩佐 弘之 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                          </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121246" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121246" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_205"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121246" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>従弟&nbsp;</span><br/><span  style='font-size:14px'>野口 博司 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">従弟&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野口 博司 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                          </div>
+
+								  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121247" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121247" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_235"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121247" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>義兄&nbsp;</span><br/><span  style='font-size:14px'>石塚 誠 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">義兄&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">石塚 誠 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                          </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+                                    
+                                    
+                                    <div class="icon_room_namebox">                               											<div class="icon_room_name_top"><img src="img/icon_room_name_top.gif" /></div>
+<div class="icon_room_name_middle">
+
+											  <p align="center" style="text-align:center" id="table_1558">
+
+        
+
+                                    				<b><a href="javascript:void(0)" style="cursor:default; text-decoration:none"><span class="icon_room_name_ptr_font">すみれ</span></a></b>
+                                                    </p>
+                                                    </div>
+                                                    <div class="icon_room_name_bottom"><img src="img/icon_room_name_back.gif" /></div>
+</div>
+											                                    <div id="2121248" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121248" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_236"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121248" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>従弟&nbsp;</span><br/><span  style='font-size:14px'>石塚 晋太郎 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">従弟&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">石塚 晋太郎 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                          </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121249" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121249" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_249"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121249" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>姪&nbsp;</span><br/><span  style='font-size:14px'>野口 さちこ 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:68%; text-align:left;">姪&nbsp;</span><br/>-->
+
+														<span style="font-size:68%; text-align:left;">野口 さちこ ちゃん</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                          </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121250" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121250" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_248"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121250" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>叔母&nbsp;</span><br/><span  style='font-size:14px'>野口 妙子 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">叔母&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野口 妙子 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                          </div>
+
+								  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                       	  </div>
+
+						  												
+
+                        	<div class="tables" id="tid_1559" style=" display:block;" >
+
+							
+
+                                <p align="center" style="text-align:center" id="table_1559">
+
+        
+
+                                    <b>&nbsp;</b>
+
+                                </p>
+
+								
+
+                            	                                    <div id="2121251" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121251" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_225"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121251" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>大学友人&nbsp;</span><br/><span  style='font-size:14px'>片柳 さおり 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">大学友人&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">片柳 さおり 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121252" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121252" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_226"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121252" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>高校の同級生&nbsp;</span><br/><span  style='font-size:14px'>長谷川 京子 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">高校の同級生&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">長谷川 京子 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121253" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121253" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_238"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121253" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>先輩&nbsp;</span><br/><span  style='font-size:14px'>柳下 圭子 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">先輩&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">柳下 圭子 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                											<div style='float:left; width:25px; height:30px'>
+
+											  <p align="center" style="text-align:center" id="table_1559">
+
+        
+
+                                    				<b><a href="javascript:void(0)" style="cursor:default; text-decoration:none"><span>禄</span></a></b>
+
+                               				 </p>
+
+											 </div>
+
+											                                    <div id="2121254" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121254" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_239"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121254" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>同期入社&nbsp;</span><br/><span  style='font-size:14px'>玉井 暁 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">同期入社&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">玉井 暁 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121255" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121255" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_240"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121255" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>同僚&nbsp;</span><br/><span  style='font-size:14px'>玉井 俊之 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">同僚&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">玉井 俊之 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121256" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121256" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_251"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121256" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>親友&nbsp;</span><br/><span  style='font-size:14px'>野村 紀子 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">親友&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野村 紀子 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                        	</div>
+
+						  												
+
+                        	<div class="tables" id="tid_1560" style=" display:block;" >
+
+							
+
+                                <p align="center" style="text-align:center" id="table_1560">
+
+        
+
+                                    <b>&nbsp;</b>
+
+                                </p>
+
+								
+
+                            	                                    <div id="2121257" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121257" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_241"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121257" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>叔父&nbsp;</span><br/><span  style='font-size:14px'>野口 信一郎 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">叔父&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野口 信一郎 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121258" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121258" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_223"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121258" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>兄&nbsp;</span><br/><span  style='font-size:14px'>野口 幸雄 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">兄&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野口 幸雄 </span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121259" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121259" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_237"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121259" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>祖父&nbsp;</span><br/><span  style='font-size:14px'>野口 秀雄 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">祖父&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野口 秀雄 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                											<div style='float:left; width:25px; height:30px'>
+
+											  <p align="center" style="text-align:center" id="table_1560">
+
+        
+
+                                    				<b><a href="javascript:void(0)" style="cursor:default; text-decoration:none"><span>鶴</span></a></b>
+
+                               				 </p>
+
+											 </div>
+
+											                                    <div id="2121260" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121260" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_242"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121260" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>叔母&nbsp;</span><br/><span  style='font-size:14px'>野口 良子 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">叔母&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野口 良子 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121261" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121261" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_219"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121261" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>父&nbsp;</span><br/><span  style='font-size:14px'>野口 貞夫 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">父&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野口 貞夫 </span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121262" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121262" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_218"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121262" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>母&nbsp;</span><br/><span  style='font-size:14px'>野口 トメ 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">母&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野口 トメ 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                        	</div>
+
+						  												
+
+                        	<div class="tables" id="tid_1561" style=" display:block;" >
+
+							
+
+                                <p align="center" style="text-align:center" id="table_1561">
+
+        
+
+                                    <b>&nbsp;</b>
+
+                                </p>
+
+								
+
+                            	                                    <div id="2121263" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121263" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_261"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121263" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>叔母の兄&nbsp;</span><br/><span  style='font-size:14px'>野口 明夫 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">叔母の兄&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野口 明夫 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121264" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121264" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_211"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121264" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>妹&nbsp;</span><br/><span  style='font-size:14px'>野口 和美 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">妹&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野口 和美 </span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121265" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121265" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_217"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121265" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>叔母&nbsp;</span><br/><span  style='font-size:14px'>野口 夏子 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">叔母&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野口 夏子 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                											<div style='float:left; width:25px; height:30px'>
+
+											  <p align="center" style="text-align:center" id="table_1561">
+
+        
+
+                                    				<b><a href="javascript:void(0)" style="cursor:default; text-decoration:none"><span>禄</span></a></b>
+
+                               				 </p>
+
+											 </div>
+
+											                                    <div id="2121266" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121266" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_220"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121266" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>従妹&nbsp;</span><br/><span  style='font-size:14px'>野口 裕子 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">従妹&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野口 裕子 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                                    <div id="2121267" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121267" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_222"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121267" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>義姉&nbsp;</span><br/><span  style='font-size:14px'>野口 秀子 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">義姉&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野口 秀子 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                <div style='float:left; width:25px; height:30px'></div>                                    <div id="2121268" class="droppable" >
+
+                                        										
+
+										
+
+										<div id="abc_2121268" class="gallery ui-helper-reset ui-helper-clearfix">
+
+                                           
+
+											<div class="ui-widget-content ui-corner-tr" id="item_221"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
+
+								
+
+							
+
+																										<a href="javascript:void(0)" id="ahref_2121268" style="color:black; display:block;" class="tooltip" title="<span  style='font-size:14px'>従弟&nbsp;</span><br/><span  style='font-size:14px'>野口 正則 様</span>">
+
+													
+
+													
+
+													<input type="hidden" value="親友" class="comeent1_hidden" />
+
+													<input type="hidden" value="" class="comeent2_hidden" />
+
+														<!--<span style="display:none;font-size:85%; text-align:left;">従弟&nbsp;</span><br/>-->
+
+														<span style="font-size:85%; text-align:left;">野口 正則 様</span>
+
+                                      				 </a>            
+
+                                                    
+
+                                               </div>
+
+											  </div>  
+
+											  
+
+                                        										  
+
+                                    </div>
+
+									
+
+                                                        	</div>
+
+						                                     
+
+                	  </div>
+
+                	</div>
+
+					        
+
+            	</div>  
+
+ 
+
+
+
+			<div class="clear" style="float:left; clear:both; height:10px;">&nbsp;</div>
+
+    </div>
+
+	  </form>
+
+  </div>
+
+  <div class="clear" style="float:left; clear:both; height:10px;"></div></div>
+
+  
+
+<script type="text/javascript"> 
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+</script> 
+
+              <div id="makeplanbox_foot">
+              <div id="makeplanbox_foot_submit">
+
+			<div align="right">
+
+					
+
+					  <input type="button"  id="button" value="保存" onclick="checkConfirm()" />
+
+					  <!--<input type="button"  id="button2" value="リセット" onClick="resetFormItems()" />
+
+					  <input type="button"  id="button3" value="戻る"  onClick="javascript:history.go(-1);" />-->
+
+				  
+
+				</div>
+
+         	</div>
+            <div style="clear:both;"></div>
+</div>
+
+		 <div id="footer"> 
+         	<a href="javascript:;" onclick="MM_openBrWindow('support/operation_u.html','','scrollbars=yes,width=620,height=600')">操作画面</a>｜<a href="javascript:;" onclick="MM_openBrWindow('support/security.html','','scrollbars=yes,width=620,height=600')">セキュリティについて</a>｜<a href="javascript:;" onclick="MM_openBrWindow('support/privacy_policy.html','','scrollbars=yes,width=620,height=600')">個人情報保護方針</a>｜
+            <a href="changepassword.php" onclick="change_password();">パスワード変更</a>｜
+<a href="javascript:;" onclick="MM_openBrWindow('support/qa.html','','scrollbars=yes,width=620,height=600')">よくある質問</a>｜<a href="javascript:;" onclick="MM_openBrWindow('support/contact.html','','scrollbars=yes,width=620,height=600')">お問い合わせ</a><br /> 
+    		  Copyright (C) 株式会社サンプリンティングシステム  ALL Rights reserved.</div> 
+	</div> 
+</div> 
+</body> 
+</html> 

@@ -1,0 +1,126 @@
+#gallary
+{
+float:left;
+clear:both;
+width:100%;
+}
+#left
+{
+width:40%;
+float:left;
+}
+#right
+{
+width:40%;
+float:left;
+}
+.item
+{
+width:20%;
+height:50px;
+border:#666666 solid 1px;
+margin:5px 5px;
+float:left;
+}
+*{
+		text-align:inherit;
+		font-size:14px;
+		color:#000000;
+	}
+	body {
+		text-align:center;
+		margin:0px auto;
+		background-color:#DDDDDD;
+	}
+	a {
+		color:#3366FF;
+	}
+	a:hover {
+		color:#0000FF;
+		text-decoration:none;
+	}
+	hr {
+		height:1px;
+		overflow:hidden;
+		clear:both;
+		border:none;
+		border-top:1px solid #99CCFF;
+	}
+	h2 {
+		font-size:120%;
+	}
+	table tr {
+		background-color:#FFFFFF;
+	}
+	.page {
+		text-align:left;
+		width:900px;
+		border:1px solid #99CCFF;
+		border-top:none;
+		border-bottom:none;
+		margin:0px auto;
+		background-color:#FFFFFF;
+	}
+	.header {
+		font-size:175%;
+		background-color:#99CCFF;
+		padding:5px;
+	}
+	#nav {
+		border-bottom:1px solid #99CCFF;
+		padding:2px 5px;
+	}
+	
+	#content {
+		min-height:500px;
+		padding:2px 5px;
+	}
+	.footer {
+		font-size:90%;
+		background-color:#99CCFF;
+		text-align:center;
+		padding:5px;
+	}
+	div.pagination {
+		text-align:right;
+		padding-bottom:5px;
+	}
+	table.grid {
+		background-color:#FFFFFF; 
+		width:100%;
+		text-align:center;
+	}
+	table.grid tr.head{
+		font-size:120%;
+		background-color:#FFCCFF;
+		color:#990000;
+		font-weight:bold;
+		letter-spacing:2px;
+	}
+	table.grid tr.odd{
+		background-color:#FFFFFF; 
+		color:#000000;
+	}
+	table.grid tr.even{
+		background-color:#FFEEFF; 
+		color:#000000;
+	}
+	table.grid tr.odd:hover td, table.grid tr.even:hover td{
+		background-color:#FFDDFF;
+	}
+	
+	.clear {
+		height:1px;
+		overflow:hidden;
+		clear:both;
+	}
+	.clear5 {
+		height:5px;
+		overflow:hidden;
+		clear:both;
+	}
+	.clear10 {
+		
+		overflow:hidden;
+		clear:both;
+	}

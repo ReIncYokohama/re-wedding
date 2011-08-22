@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>管理画面</title>
+<!-- TemplateEndEditable -->
+<link href="../css/common.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="../js/jquery.rollover.js"></script>
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+</head>
+
+<body>
+<div id="wrapper">
+  <div id="header"><a href="../manage.html"><img src="../img/common/logo.jpg" alt="席次表システム" width="246" height="43" /></a> </div>
+  <div id="topnavi">
+    <!-- TemplateBeginEditable name="pagetitle" --><h1>&nbsp;</h1><!-- TemplateEndEditable -->
+    <div id="top_btn"> <a href="../login.html"><img src="../img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a></div>
+  </div>
+  <div id="container">
+    <div id="contents"> <!-- TemplateBeginEditable name="contents" -->EditRegion3<!-- TemplateEndEditable --></div>
+  </div>
+  <div id="sidebar">
+    <ul class="nav">
+      <li><a href="../download.html"><img src="../img/common/nav_download.gif" alt="ホテル管理" width="148" height="30" class=on /></a></li>
+      <li><a href="../upload.html"><img src="../img/common/nav_upload.gif" alt="基本設定" width="148" height="30" class=on /></a></li>
+    </ul>
+  </div>
+  <div id="footer">
+    <p>Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.
+</p>
+  </div>
+</div>
+</body>
+</html>

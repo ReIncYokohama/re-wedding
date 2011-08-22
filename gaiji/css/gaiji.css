@@ -1,0 +1,131 @@
+@charset "utf-8";
+
+body {
+	background-color: #fff;
+	font-size: 62.5%;
+	margin: 0;
+	padding: 0;
+}
+
+body * {
+	font-size: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal;
+}
+
+p {
+	margin-bottom: 1.1em;
+	margin-top: 0;
+}
+
+#main p.lastNode {
+	margin-bottom: 0;
+}
+
+a:link img, a:visited img {
+	border: none;
+}
+
+div.clearFloat {
+	clear: both;
+	font-size: 0;
+	height: 0;
+	line-height: 0px;
+}
+
+li.clearFloat {
+	clear: both;
+}
+
+ul.symbolList {
+	display: inline;
+	float: left;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.AbsWrap {
+	position: relative;
+	width: 100%;
+}
+
+.rowWrap {
+	width: 100%;
+}
+
+#main {
+	margin: 0 auto 0 0;
+	width: 160px;
+}
+
+#bar_t {
+	margin-left: 12px;
+	margin-top: 1px;
+	display: inline;
+	float: left;
+	height: 1px;
+	margin-bottom: 0;
+	width: 27px;
+}
+
+#ber_l {
+	margin-left: 12px;
+	margin-top: 0px;
+	display: inline;
+	float: left;
+	height: 26px;
+	margin-bottom: 0;
+	width: 1px;
+}
+
+#colwrap1 {
+	float: left;
+	margin-left: 0px;
+	margin-top: 0px;
+	width: 26px;
+}
+
+#sblock {
+	margin-left: 0px;
+	margin-top: 0px;
+	display: inline;
+	float: left;
+	height: 25px;
+	margin-bottom: 0;
+	width: 25px;
+}
+
+#ber_u {
+	margin-left: 0px;
+	margin-top: 0px;
+	display: inline;
+	float: left;
+	height: 1px;
+	margin-bottom: 0;
+	width: 25px;
+}
+
+#ber_r {
+	margin-left: 0px;
+	margin-top: 0px;
+	display: inline;
+	float: left;
+	height: 26px;
+	margin-bottom: 0;
+	width: 1px;
+	vertical-align:text-bottom;
+}
+
+span.gaijitext {
+	color:#000000;
+	position:relative;
+	top:0px; left:3px;
+	font-size: 130%;
+ }
+#gaizi_busho_div_id a :hover
+{
+	background:#EFBFDD;
+}
