@@ -466,7 +466,7 @@ function hide_this(id)
 <div id="topnavi">
 <?php
 include("inc/main_dbcon.inc.php");
-$hcode="0001";
+$hcode=$HOTELID;
 $hotel_name = $obj->GetSingleData("super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
 include("inc/return_dbcon.inc.php");
 ?>

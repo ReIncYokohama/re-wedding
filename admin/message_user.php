@@ -151,7 +151,7 @@ function validForm_Edit()
 <div id="topnavi">
     <?php
 include("inc/main_dbcon.inc.php");
-$hcode="0001";
+$hcode=$HOTELID;
 $hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
 ?>
 <h1><?=$hotel_name?></h1>

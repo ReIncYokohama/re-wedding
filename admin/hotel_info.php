@@ -3,7 +3,7 @@
 	include_once("inc/checklogin.inc.php");
 	$obj = new DBO();
 	$post = $obj->protectXSS($_POST);
-    $hcode="0001";
+    $hcode=$HOTELID;
 
 	include_once("inc/new.header.inc.php");
 

@@ -1,5 +1,8 @@
 <?php
 mysql_close();
+
+include_once(dirname(__FILE__)."/../../conf/conf.php");
+
 if($_SERVER['HTTP_HOST']=='localhost')
 	{
 		$sqlhost='localhost';
@@ -9,21 +12,10 @@ if($_SERVER['HTTP_HOST']=='localhost')
 	}
 	else
 	{
-
-		$sqlhost='localhost';
-		$sqluser='wplus_main';
-		$sqlpassword="wp_123456";
-		$sqldatabase="wplus_main";
-
-		//$sqlhost='localhost';
-		//$sqluser=';
-		//$sqlpassword="re123456";
-		//$sqldatabase=";
-
-    //$sqluser='dev2_hotel1';
-		//$sqlpassword="dev2_123456";
-		//$sqldatabase="dev2_hotel1";
-		
+		$sqlhost=$main_sqlhost;
+		$sqluser=$main_sqluser;
+		$sqlpassword=$main_sqlpassword;
+		$sqldatabase=$main_sqldatabase;		
 	}
 
 

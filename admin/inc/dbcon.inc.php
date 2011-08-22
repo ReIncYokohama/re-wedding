@@ -1,6 +1,24 @@
 <?php
 @session_start();
 
+include_once(dirname(__FILE__)."/../../conf/conf.php");
+
+if($_SERVER['HTTP_HOST']=='localhost')
+	{
+		$sqlhost=$localhost_sqlhost;
+		$sqluser=$localhost_sqluser;
+		$sqlpassword=$localhost_sqlpassword;
+		$sqldatabase=$localhost_sqldatabase;
+	}
+	else
+	{
+		$sqlhost=$hotel_sqlhost;
+		$sqluser=$hotel_sqluser;
+		$sqlpassword=$hotel_sqlpassword;
+		$sqldatabase=$hotel_sqldatabase;		
+	}
+
+/*
 if($_SERVER['HTTP_HOST']=='localhost')
 	{
 		$sqlhost='localhost';
@@ -15,7 +33,7 @@ if($_SERVER['HTTP_HOST']=='localhost')
 		$sqlpassword="wph1_123456";
 		$sqldatabase="wplus_hotel1_2";
 	}
-
+*/
 
 $link = mysql_connect($sqlhost, $sqluser,$sqlpassword)
     	or die("COULD NOT CONNECT : " . mysql_error());

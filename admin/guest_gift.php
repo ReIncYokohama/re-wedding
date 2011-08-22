@@ -264,7 +264,7 @@ function confirmAction(urls , msg)
 // UCHIDA EDIT 11/08/17 ホテル名をメール送信で利用するため移動
 <?php
 include("inc/main_dbcon.inc.php");
-$hcode="0001";
+$hcode=$HOTELID;
 $hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
 ?>
 -->
