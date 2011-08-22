@@ -97,7 +97,7 @@
 
 
 	include("admin/inc/main_dbcon.inc.php");
-	$respects = $obj->GetAllRow(" dev2_main.spssp_respect");
+	$respects = $obj->GetAllRow(" spssp_respect");
 	include("admin/inc/return_dbcon.inc.php");
 ?>
 <script src="js/jquery.ui.droppable.js" type="text/javascript"></script>
@@ -346,7 +346,7 @@ height:30px;
 							}
 
 							include("admin/inc/main_dbcon.inc.php");
-							$rsp = $obj->GetSingleData(" dev2_main.spssp_respect", "title"," id=".$guest['respect_id']);
+							$rsp = $obj->GetSingleData(" spssp_respect", "title"," id=".$guest['respect_id']);
 							include("admin/inc/return_dbcon.inc.php");
 
 							$edited_num = $obj->GetNumRows("spssp_guest", "edit_item_id=".$guest['id']." and user_id=".(int)$user_id);
@@ -638,7 +638,7 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
                                             $item_info =  $obj->GetSingleRow("spssp_guest", " id=".$item." and id in(SELECT id FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest=0)");
 
 											include("admin/inc/main_dbcon.inc.php");
-                                            $rspct = $obj->GetSingleData(" dev2_main.spssp_respect", "title"," id=".$item_info['respect_id']);
+                                            $rspct = $obj->GetSingleData(" spssp_respect", "title"," id=".$item_info['respect_id']);
 											include("admin/inc/return_dbcon.inc.php");
                                             //echo $item_info['id'].'<br>';
                                             $edited_nums = $obj->GetNumRows("spssp_guest", "edit_item_id=".$item_info['id']." and user_id=".(int)$user_id." and id in(SELECT id FROM `spssp_guest` WHERE  self!=1 and stage_guest=0)");

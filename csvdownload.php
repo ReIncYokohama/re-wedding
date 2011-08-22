@@ -344,7 +344,7 @@ foreach($usertblrows as $tblRows)
 		//respect
 		
 		include("admin/inc/main_dbcon.inc.php");
-		$respect = $obj->GetSingleData(" dev2_main.spssp_respect", "title","id=".$guest_info['respect_id']);
+		$respect = $obj->GetSingleData(" spssp_respect", "title","id=".$guest_info['respect_id']);
 		include("admin/inc/return_dbcon.inc.php");
 		$value = chop($respect);		
 		$cl22[] = "\"$value\"";
@@ -462,7 +462,7 @@ foreach($usertblrows as $tblRows)
 		//respect
 		
 		include("admin/inc/main_dbcon.inc.php");
-		$respect = $obj->GetSingleData(" dev2_main.spssp_respect", "title","id=".$own_info['respect_id']);
+		$respect = $obj->GetSingleData(" spssp_respect", "title","id=".$own_info['respect_id']);
 		include("admin/inc/return_dbcon.inc.php");
 		$value = chop($respect);		
 		$own_array[] = "\"$value\"";

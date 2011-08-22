@@ -55,7 +55,7 @@ if(isset($_GET['option']) && $_GET['option'] != '')
         else
 					{
 						include("admin/inc/main_dbcon.inc.php");
-						$query_string="SELECT * FROM dev2_main.spssp_guest_type  ORDER BY id asc ;";
+						$query_string="SELECT * FROM spssp_guest_type  ORDER BY id asc ;";
 
 
 						$data_type = $obj->getRowsByQuery($query_string);

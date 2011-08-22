@@ -85,7 +85,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
     <?php
 include("inc/main_dbcon.inc.php");
 $hcode="0001";
-$hotel_name = $obj->GetSingleData(" dev2_main.super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
+$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
 ?>
 <h1><?=$hotel_name?>　管理</h1>
 <?
@@ -395,7 +395,7 @@ include("inc/return_dbcon.inc.php");
 											if($key==5)
 											{
 												include("inc/main_dbcon.inc.php");
-												$respect = $obj->GetSingleData(" dev2_main.spssp_respect ", "title", " id='".$value."'");
+												$respect = $obj->GetSingleData(" spssp_respect ", "title", " id='".$value."'");
 												include("inc/return_dbcon.inc.php");
 												echo $respect."<br/>";
 											}
@@ -423,7 +423,7 @@ include("inc/return_dbcon.inc.php");
 											if($key==8)
 											{
 												include("inc/main_dbcon.inc.php");
-												$guest_type = $obj->GetSingleData(" dev2_main.spssp_guest_type ", "name", " id='".$value."'");
+												$guest_type = $obj->GetSingleData(" spssp_guest_type ", "name", " id='".$value."'");
 												include("inc/return_dbcon.inc.php");
 												echo $guest_type."<br/>";
 											}
@@ -496,7 +496,7 @@ include("inc/return_dbcon.inc.php");
 											if($key==5)
 											{
 												include("inc/main_dbcon.inc.php");
-												$respect = $obj->GetSingleData(" dev2_main.spssp_respect ", "title", " id='".$value."'");
+												$respect = $obj->GetSingleData(" spssp_respect ", "title", " id='".$value."'");
 												include("inc/return_dbcon.inc.php");
 												echo $respect."<br/>";
 											}
@@ -524,7 +524,7 @@ include("inc/return_dbcon.inc.php");
 											if($key==8)
 											{
 												include("inc/main_dbcon.inc.php");
-												$guest_type = $obj->GetSingleData(" dev2_main.spssp_guest_type ", "name", " id='".$value."'");
+												$guest_type = $obj->GetSingleData(" spssp_guest_type ", "name", " id='".$value."'");
 												include("inc/return_dbcon.inc.php");
 												echo $guest_type."<br/>";
 											}

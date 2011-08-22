@@ -55,7 +55,7 @@
 					$orderarray[] =  $ordervalue[$i].' desc';
 					else
 					{
-						$query_string="SELECT * FROM dev2_main.spssp_guest_type  ORDER BY id asc ;";
+						$query_string="SELECT * FROM spssp_guest_type  ORDER BY id asc ;";
 						$data_type = $obj->getRowsByQuery($query_string);
 						$j=0;
 						foreach($data_type as $type)	
@@ -723,13 +723,13 @@ var title=$("title");
 		{
 		  // echo'<pre>';
 		  // print_r($guest);
-			$respect = $obj->GetSingleData(" dev2_main.spssp_respect ", "title", " id=".$guest['respect_id']);
+			$respect = $obj->GetSingleData(" spssp_respect ", "title", " id=".$guest['respect_id']);
 			if($respect == '')
 			{
 				$respect ='×';
 			}
 			
-			$guest_type = $obj->GetSingleData(" dev2_main.spssp_guest_type ", "name", " id=".$guest['guest_type']);
+			$guest_type = $obj->GetSingleData(" spssp_guest_type ", "name", " id=".$guest['guest_type']);
 			
 			$gift_id = $obj->GetSingleData(" spssp_guest_gift ", "group_id", " guest_id=".$guest['id']." and user_id = ".$user_id);
 			$gift_name='';

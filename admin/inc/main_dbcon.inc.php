@@ -16,9 +16,9 @@ if($_SERVER['HTTP_HOST']=='localhost')
 		$sqldatabase="wplus_main";
 
 		//$sqlhost='localhost';
-		//$sqluser='dev2_main';
+		//$sqluser=';
 		//$sqlpassword="re123456";
-		//$sqldatabase="dev2_main";
+		//$sqldatabase=";
 
     //$sqluser='dev2_hotel1';
 		//$sqlpassword="dev2_123456";

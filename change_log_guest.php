@@ -308,14 +308,14 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 											if($key==3)
 											{
 												include("admin/inc/main_dbcon.inc.php");
-												$respect = $obj->GetSingleData(" dev2_main.spssp_respect ", "title", " id='".$value."'");
+												$respect = $obj->GetSingleData(" spssp_respect ", "title", " id='".$value."'");
 												include("admin/inc/return_dbcon.inc.php");
 												echo $respect."<br/>";
 											}
 											if($key==4)
 											{
 												include("admin/inc/main_dbcon.inc.php");
-												$guest_type = $obj->GetSingleData(" dev2_main.spssp_guest_type ", "name", " id='".$value."'");
+												$guest_type = $obj->GetSingleData(" spssp_guest_type ", "name", " id='".$value."'");
 												include("admin/inc/return_dbcon.inc.php");
 												echo $guest_type."<br/>";
 											}
@@ -389,14 +389,14 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 											if($key==3)
 											{
 												include("admin/inc/main_dbcon.inc.php");
-												$respect = $obj->GetSingleData(" dev2_main.spssp_respect ", "title", " id='".$value."'");
+												$respect = $obj->GetSingleData(" spssp_respect ", "title", " id='".$value."'");
 												include("admin/inc/return_dbcon.inc.php");
 												echo $respect."<br/>";
 											}
 											if($key==4)
 											{
 												include("admin/inc/main_dbcon.inc.php");
-												$guest_type = $obj->GetSingleData(" dev2_main.spssp_guest_type ", "name", " id='".$value."'");
+												$guest_type = $obj->GetSingleData(" spssp_guest_type ", "name", " id='".$value."'");
 												include("admin/inc/return_dbcon.inc.php");
 												echo $guest_type."<br/>";
 											}

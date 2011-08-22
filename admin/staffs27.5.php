@@ -268,7 +268,7 @@ function manager_admin_confirme(p)
     <?php
 include("inc/main_dbcon.inc.php");
 $hcode="0001";
-$hotel_name = $obj->GetSingleData(" dev2_main.super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
+$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
 ?>
 <h1><?=$hotel_name?>　管理</h1>
 <?
@@ -456,7 +456,7 @@ include("inc/return_dbcon.inc.php");
     <?php
 include("inc/main_dbcon.inc.php");
 $hcode="0001";
-$hotel_name = $obj->GetSingleData(" dev2_main.super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
+$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
 ?>
 <h1><?=$hotel_name?>　管理</h1>
 <?

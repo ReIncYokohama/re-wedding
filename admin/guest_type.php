@@ -13,7 +13,7 @@
 	
 	
 	$where="id=".$typeid;
-	$table='dev2_main.spssp_guest_type';
+	$table='spssp_guest_type';
 	$page_where= " 1=1 ";
 	$data_per_page=10;	
 	$current_page=(int)$get['page'];
@@ -121,7 +121,7 @@ target1.style.display = 'none'
 <div style="clear:both;">		
 <?php
 
-$query_string="SELECT * FROM dev2_main.spssp_guest_type LIMIT ".($current_page*$data_per_page).",".((int)$data_per_page).";";
+$query_string="SELECT * FROM spssp_guest_type LIMIT ".($current_page*$data_per_page).",".((int)$data_per_page).";";
 		$data_rows = $obj->getRowsByQuery($query_string);
 		$j=1;
 		foreach($data_rows as $row)

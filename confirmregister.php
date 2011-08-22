@@ -59,8 +59,8 @@ if(isset($_POST['sub']))
 	$roomname =  $obj->GetSingleData(" spssp_room", " name", " id=".(int)$_SESSION['regs']['room_id']);
 	$party_roomname = $obj->GetSingleData(" spssp_room", " name", " id=".(int)$_SESSION['regs']['party_room_id']);
 	
-	//$man_respect = $obj->GetSingleData(" dev2_main.spssp_respect ", " title", " id=".(int)$_SESSION['regs']['man_respect_id']);
-	//$woman_respect = $obj->GetSingleData(" dev2_main.spssp_respect ", " title", " id=".(int)$_SESSION['regs']['woman_respect_id']);
+	//$man_respect = $obj->GetSingleData(" spssp_respect ", " title", " id=".(int)$_SESSION['regs']['man_respect_id']);
+	//$woman_respect = $obj->GetSingleData(" spssp_respect ", " title", " id=".(int)$_SESSION['regs']['woman_respect_id']);
 
 }
 include_once("inc/registration_header.inc.php");

@@ -635,8 +635,8 @@ include("inc/return_dbcon.inc.php");
 				$roomname =  $obj->GetSingleData(" spssp_room", " name", " id=".(int)$data_rows['room_id']);
 				$party_roomname = $obj->GetSingleData(" spssp_room", " name", " id=".(int)$data_rows['party_room_id']);
 				include("inc/main_dbcon.inc.php");
-				$man_respect = $obj->GetSingleData(" dev2_main.spssp_respect", " title", " id=".(int)$data_rows['man_respect_id']);
-				$woman_respect = $obj->GetSingleData(" dev2_main.spssp_respect", " title", " id=".(int)$data_rows['woman_respect_id']);
+				$man_respect = $obj->GetSingleData(" spssp_respect", " title", " id=".(int)$data_rows['man_respect_id']);
+				$woman_respect = $obj->GetSingleData(" spssp_respect", " title", " id=".(int)$data_rows['woman_respect_id']);
 				include("inc/return_dbcon.inc.php");
 
 				$staff_name = $obj->GetSingleData("spssp_admin","name"," id=".$row['stuff_id']);
@@ -834,7 +834,7 @@ include("inc/return_dbcon.inc.php");
                             	<?php
                                 //<a href='message_admin.php?id=".$msg['id']."'> ".$msg['title']."</a>
 								include("inc/main_dbcon.inc.php");
-								$super_messeges = $obj->GetAllRowsByCondition(" dev2_main.super_admin_message "," 1 = 1 order by id desc");
+								$super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," 1 = 1 order by id desc");
 								include("inc/return_dbcon.inc.php");
                                 foreach($super_messeges as $msg)
                                 {
@@ -866,7 +866,7 @@ include("inc/return_dbcon.inc.php");
 
                                 }*/
 	include("inc/main_dbcon.inc.php");
- 	$super_messeges = $obj->GetAllRowsByCondition(" dev2_main.super_admin_message "," 1 = 1 order by id desc");
+ 	$super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," 1 = 1 order by id desc");
 
  include("inc/return_dbcon.inc.php");
  foreach($super_messeges as $msg)

@@ -211,8 +211,8 @@ else
 				$party_roomname = $obj->GetSingleData(" spssp_room", " name", " id=".(int)$data_rows['party_room_id']);
 
 				include("../inc/main_dbcon.inc.php");
-				$man_respect = $obj->GetSingleData(" dev2_main.spssp_respect", " title", " id=".(int)$data_rows['man_respect_id']);
-				$woman_respect = $obj->GetSingleData(" dev2_main.spssp_respect", " title", " id=".(int)$data_rows['woman_respect_id']);
+				$man_respect = $obj->GetSingleData(" spssp_respect", " title", " id=".(int)$data_rows['man_respect_id']);
+				$woman_respect = $obj->GetSingleData(" spssp_respect", " title", " id=".(int)$data_rows['woman_respect_id']);
 				include("../inc/return_dbcon.inc.php");
 
 				$staff_name = $obj->GetSingleData("spssp_admin","name"," id=".$row['stuff_id']);

@@ -492,7 +492,7 @@ function change_align(order,default_plan_id,user_id,align)
     <?php
 include("inc/main_dbcon.inc.php");
 $hcode="0001";
-$hotel_name = $obj->GetSingleData(" dev2_main.super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
+$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
 ?>
 <h1><?=$hotel_name?></h1>
 <?
