@@ -140,6 +140,18 @@ for($i=0;$i<($room_tables*3);$i++)
 array_unshift($entityArraytable, "レイアウトalign");
 $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id = ".(int)$user_id." order by id ASC");
 
+
+
+ function getGaijiCode($gaijis){
+   $textArray = array();
+   for($i=0;$i<count($gaijis);++$i){
+     for($j=0;$j<count($gaijis[$i]);++$j){
+       array_push($textArray,$gaijis[$i][$j]["gu_char_setcode"]); 
+     }
+   }
+   return join(" ",$textArray);
+ }
+
 	
 //echo "<pre>";
 //print_r($tblrows);
@@ -313,15 +325,7 @@ foreach($usertblrows as $tblRows)
     $lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=1");
     $comment1_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=2");
     $comment2_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=3");
-    function getGaijiCode($gaijis){
-      $textArray = array();
-      for($i=0;$i<count($gaijis);++$i){
-        for($j=0;$j<count($gaijis[$i]);++$j){
-          array_push($textArray,$gaijis[$i][$j]["gu_char_setcode"]); 
-        }
-      }
-      return join(" ",$textArray);
-    }
+
 
 		//LastName		
 		$value = chop($guest_info['last_name']);
@@ -340,7 +344,7 @@ foreach($usertblrows as $tblRows)
     
 		$value = chop($guest_info['last_name']." ".$guest_info['first_name']);		
 		
-		$cl22[] = "\"".getGaijiCode($lastname_gaijis,$firstname_gaijis)."\"";
+		$cl22[] = "\"".getGaijiCode(array($lastname_gaijis,$firstname_gaijis))."\"";
 		//respect
 		
 		include("admin/inc/main_dbcon.inc.php");
@@ -561,7 +565,7 @@ $script_version="0".SCRIPT_VERSION;
 $this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$script_version;
 
 
-//header("Content-Type: application/octet-stream");
-//header("Content-Disposition: attachment; filename=${this_name}.csv");
+header("Content-Type: application/octet-stream");
+header("Content-Disposition: attachment; filename=${this_name}.csv");
 echo $lines;
 ?>

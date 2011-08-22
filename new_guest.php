@@ -130,16 +130,15 @@ else
     //mark
     $post['user_id']=$user_id;
     $guest_id=$obj->InsertData("spssp_guest",$post);
-    mkdir($user_folder."/guest");
-    mkdir($user_folder."/guest/".$guest_id);
-    mkdir($user_folder."/guest/".$guest_id."/thumb1");
-    mkdir($user_folder."/guest/".$guest_id."/thumb2");
   }
-
-$user_folder = $user_folder."guest/".$guest_id."/";
-
+mkdir($user_folder."guest");
 $colorArray = array(0x00,0x00,0x00);
 //if($_POST["stage"] == 1) $colorArray = array(255,0,0);
+mkdir($user_folder."/guest");
+mkdir($user_folder."/guest/".$guest_id);
+mkdir($user_folder."/guest/".$guest_id."/thumb1");
+mkdir($user_folder."/guest/".$guest_id."/thumb2");
+$user_folder = $user_folder."/guest/".$guest_id."/";
 
 set_guest_gaiji_position($user_id,$guest_id,$post["last_name"],1,$_POST["male_last_gaiji_img"],$_POST["male_last_gaiji_gsid"]);
 set_guest_gaiji_position($user_id,$guest_id,$post["first_name"],0,$_POST["male_first_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
