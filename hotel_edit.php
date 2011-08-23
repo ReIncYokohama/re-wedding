@@ -5,44 +5,43 @@ $obj = new DBO();
 $post = $obj->protectXSS($_POST);
 include_once("inc/header.inc.php");
 
-if($_GET[id]!="")
+if($_GET["id"]!="")
 {
 	$hotel_row = $obj->GetSingleRow("super_spssp_hotel", " id=".$_GET[id]);
 }
 
-
-
-
-	if($_POST[hotel_name])
+if($_POST["hotel_name"])
 	{
 		unset($post['email_confirm']);
 		$obj->UpdateData("super_spssp_hotel", $post, " id = ".(int)$_GET['id']);
-		$hid = $obj->UpdateData("super_spssp_hotel", $post);
-		/*if($hid>0)
-		{
-			$dbhost='localhost'; $dbuser='wplus_hotel'.(int)$_GET['hotel_code']; $dbpass = 'wph'.(int)$_GET['hotel_code'].'_123456';$dbname ="wplus_hotel".(int)$_GET['hotel_code'];
 
+    $hotel_code = $_POST["hotel_code"];
+    $hotel_sqlhost_val = "hotel".((int)$hotel_code)."_sqlhost";
+    $hotel_sqluser_val = "hotel".((int)$hotel_code)."_sqluser";
+    $hotel_sqlpassword_val = "hotel".((int)$hotel_code)."_sqlpassword";
+    $hotel_sqldatabase_val = "hotel".((int)$hotel_code)."_sqldatabase";
 
-			$link_for_hotel = mysql_connect($dbhost, $dbuser, $dbpass) or die(mysql_error("not connected"));
-			mysql_select_db($dbname, $link_for_hotel);
+    mysql_close();
+    
+    $link = mysql_connected($$hotel_sqlhost_val,$$hotel_sqluser_val,$$hotel_sqlpassword_val,$$hotel_sqldatabase_val);
+    $hotel_row = $obj->GetSingleRow("spssp_admin","stype=1");
 
+    //CREAT ARRAY
+    $data['username'] =  $_POST['adminid'];
+    $data['password'] =  $_POST['password'];
+    $data['email'] =  $_POST['email'];
+    $data['name'] =  $_POST['adminstrator'];
+    $data['permission'] =  "333";
+    $data['stype'] = 1;
 
-			//CREAT ARRAY
-			$data['username'] =  $_POST['adminid'];
-			$data['password'] =  $_POST['password'];
-			$data['email'] =  $_POST['email'];
-			$data['name'] =  $_POST['adminstrator'];
-			$data['permission'] =  "333";
-			$data['display_order'] =  time();
+    if(!$hotel_row){
+      $obj->InsertData("spssp_admin", $data);
+    }else{
+      $obj->UpdateData("spssp_admin", $data, "id=".$hotel_row["id"]);
+    }
+    mysql_close($link);
 
-			$Lid = $obj->UpdateData("spssp_admin", $data, " permission = 333");
-
-			if($Lid>0)
-			{
-				mysql_close($link);
-			}*/
 		redirect("hotel.php");
-
 	}
 
 ?>

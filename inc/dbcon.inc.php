@@ -15,14 +15,19 @@ if($_SERVER['HTTP_HOST']=='localhost')
 		$sqlhost=$main_sqlhost;
 		$sqluser=$main_sqluser;
 		$sqlpassword=$main_sqlpassword;
-		$sqldatabase=$main_sqldatabase;		
+		$sqldatabase=$main_sqldatabase;
 	}
 
-$link = mysql_connect($sqlhost, $sqluser,$sqlpassword)
+function mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase){
+  $link = mysql_connect($sqlhost, $sqluser,$sqlpassword)
     	or die("COULD NOT CONNECT : " . mysql_error());
-mysql_select_db($sqldatabase) or die("COULD NOT SELECT DATABASE");
-mysql_query("SET CHARACTER SET 'utf8'"); 
-mysql_query("SET NAMES 'utf8'");
+  mysql_select_db($sqldatabase) or die("COULD NOT SELECT DATABASE");
+  mysql_query("SET CHARACTER SET 'utf8'"); 
+  mysql_query("SET NAMES 'utf8'");
+  return $link;
+}
+mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase);
+
 
 function curPageURL()
  {
