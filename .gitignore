@@ -5,5 +5,5 @@ conf/conf.php
 *.bak
 
 #apaceh
-!.htaccess
-!.htpasswd
+.htaccess
+.htpasswd
