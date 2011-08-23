@@ -1,0 +1,5 @@
+AuthUserFile /home/re-dev/www/dev2/madmin/.htpasswd
+AuthType Basic
+AuthName "Members only page. Please login to view."
+Require valid-user
+

@@ -1,0 +1,16 @@
+@charset "shift_jis";
+
+body {
+	background-color: #FFF;
+	margin: 0px;
+}
+
+
+/*------------Header------------------------------------*/
+
+
+#layout {
+	width: 800px;
+	margin-right: auto;
+	margin-left: auto;
+}
