@@ -72,30 +72,28 @@ include("inc/return_dbcon.inc.php");
 <a href="#top"> </a>
 <div style="clear:both;"></div>
 	<div id="contents">
+    <?php
+    $data_user = $obj->GetSingleRow("spssp_user", "id=".$user_id);
+	require_once("inc/include_class_files.php");
+	$objInfo = new InformationClass();
+    ?>
+  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1",$height=20);?>
+・
+  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20);?>
+  様
 		 <h2>
 <!-- UCHIDA EDIT 11/08/02
             <a href="users.php">お客様一覧 </a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様画面挙式情報 </a> &raquo; お客様画面アクセスログ
  -->
-            <a href="manage.php">ＴＯＰ </a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様画面挙式情報 </a> &raquo; お客様画面アクセスログ
+            <a href="manage.php">ＴＯＰ </a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報 </a> &raquo; お客様画面アクセスログ
 
 
         </h2>
 		<h2>お客様画面アクセスログ</h2>
 
 <!-- UCHIDA EDIT 11/08/04 ↓ -->
-    <?php 
-            $data_user = $obj->GetSingleRow("spssp_user", "id=".$user_id);
-require_once("inc/include_class_files.php");
-$objInfo = new InformationClass();
 
-
-            ?>
-  
         <div class="box_table">
-  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1",$height=20);?>
-・
-  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20);?>
-  様  
 
 </div>
 
@@ -175,7 +173,7 @@ $objInfo = new InformationClass();
 									else {
 											echo "<tr align='center'>";
 											$j++; echo "<td align='left' width='5%'>$j</td>";
-											echo "<td align='left' width='22%'style='font-size:144%;' >----/--/-- --:--:--</td>";
+											echo "<td align='left' width='22%'style='font-size:130%;' >----/--/--&nbsp;&nbsp;&nbsp;--:--:--</td>";
 											echo "<td align='left' width='22%'>$msg</td>";
 											echo "<td align='left' width='22%'>画面消去</td>";
 											echo "</tr>";
@@ -192,9 +190,8 @@ $objInfo = new InformationClass();
 			 ?>
         </div>
     <div align="center"><a href="user_info.php?user_id=<?=$user_id?>">&lt;&lt;戻る</a></div>
+	<div style="height:18px; text-align:right"><a href="#">▲ページ上へ</a></div>
     </div>
-<div style="height:18px; text-align:right"><a href="#">▲ページ上へ</a></tr></div>
-</div>
 
 <?php
 	include_once("inc/left_nav.inc.php");

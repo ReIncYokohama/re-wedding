@@ -102,7 +102,7 @@ if($_SESSION['user_type'] == 222)
 {
 	$qry .=" and stuff_id=".$_SESSION['adminid'];
 }
-$qry .=" order by party_day desc";
+$qry .=" order by party_day asc , party_day_with_time asc ";
 $rows = $obj->getRowsByQuery($qry);
 
 $count_rows = count($rows);
@@ -121,18 +121,18 @@ if(empty($rows))
     <p>&nbsp;</p>
 
     <div class="box4">
-        <table border="0" align="center" cellpadding="1" cellspacing="1">
+        <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-                    	<td width="57">詳細</td>
-                        <td width="110">披露宴日</td>
-                        <td width="140">新郎氏名</td>
-                        <td width="140">新婦氏名</td>
-                        <td width="68">&nbsp;</td>
-                        <td width="140">スタッフ</td>
-                        <td width="62">メッセージ</td>
-                        <td  width="125">最終アクセス</td>
-                        <td width="62">席次表</td>
-                        <td width="62">引出物</td>
+                        <td width="113">披露宴日</td>
+                        <td width="147">新郎氏名</td>
+                        <td width="147">新婦氏名</td>
+                    	<td width="68">詳細</td>
+                        <td width="88">スタッフ</td>
+                        <td width="71">メッセージ</td>
+                        <td width="80">最終アクセス</td>
+                        <td width="80">&nbsp;</td>
+                        <td width="50">席次表</td>
+                        <td width="50">引出物</td>
  <?php
 	if($_SESSION['user_type'] == 111  || $_SESSION['user_type'] == 333)
 	{
@@ -179,18 +179,18 @@ else
     <p>&nbsp;</p>
 
     <div class="box4">
-        <table border="0" align="center" cellpadding="1" cellspacing="1">
+        <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-                    	<td width="57">詳細</td>
-                        <td width="110">披露宴日</td>
-                        <td width="140">新郎氏名</td>
-                        <td width="140">新婦氏名</td>
-                        <td width="68">&nbsp;</td>
-                        <td width="140">スタッフ</td>
-                        <td width="62">メッセージ</td>
-                        <td  width="125">最終アクセス</td>
-                        <td width="62">席次表</td>
-                        <td width="62">引出物</td>
+                        <td width="113">披露宴日</td>
+                        <td width="147">新郎氏名</td>
+                        <td width="147">新婦氏名</td>
+                    	<td width="68">詳細</td>
+                        <td width="88">スタッフ</td>
+                        <td width="71">メッセージ</td>
+                        <td width="80">最終アクセス</td>
+                        <td width="80">&nbsp;</td>
+                        <td width="50">席次表</td>
+                        <td width="50">引出物</td>
  <?php
 	if($_SESSION['user_type'] == 111  || $_SESSION['user_type'] == 333)
 	{
@@ -292,30 +292,27 @@ else
             <div class="<?=$class?>">
                   <table border="0" align="center" cellpadding="1" cellspacing="1" width="100%">
                     <tr align="center">
-                    	<td width="62"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" /></a></td>
-                        <td width="110"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
-                        <td width="140">
-						<?php					   		
-                          $man_name = $objinfo->get_user_name_image_or_src_from_ajax($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");	
+                        <td width="113"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
+                        <td width="147">
+						<?php
+                          $man_name = $objinfo->get_user_name_image_or_src_from_ajax($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
 						  if($man_name==false){$man_name = $row['man_firstname']." ".$row['man_lastname'].' 様';}
-						  echo $man_name;			  
+						  echo $man_name;
 					    ?>
-					  </td>
-                        <td width="140">
+					    </td>
+                        <td width="147">
 						<?php
                           $woman_name = $objinfo->get_user_name_image_or_src_from_ajax($row['id'],$hotel_id=1 , $name="woman_fullname.png",$extra="thumb1");
 						   if($woman_name==false){$woman_name = $row['woman_firstname']." ".$row['woman_lastname'].' 様';}
-						   echo $woman_name;						  
-					   ?>
+						   echo $woman_name;
+					    ?>
 						</td>
+                    	<td width="68"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" /></a></td>
 
-                        <td class="txt1"  width="68">
-                        	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
-                        </td>
-                        <td width="140"> <?=$staff_name?></td>
-                        <td width="62"> <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id']);?> </td>
+                        <td width="88"> <?=$staff_name?></td>
+                        <td width="71"> <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id']);?> </td>
 
-                        <td width="120">
+                        <td width="80">
 						<?php
 // UCHIDA EDIT 11/08/04 'ログイン中' → ログイン時間
 						if($last_login['login_time'] > "0000-00-00 00:00:00") {
@@ -338,7 +335,11 @@ else
 						}
 */						?>
 						</td>
-                        <td width="62">
+                        <td class="txt1"  width="80">
+                        	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
+                        </td>
+
+                        <td width="50">
                         	<?php
                             	echo $objMsg->admin_side_user_list_new_status_notification_image_link_system($row['id']);
 								/*if($var == 1)
@@ -361,7 +362,7 @@ else
 							?>
                         </td>
                         <!--<td><a href="gift_user.php?user_id=<?=$row['id'];?>"><img src="img/common/btn_kentou.gif" width="42" height="17" /></a></td>-->
-						<td width="62">
+						<td width="50">
 					<?php echo $objMsg->admin_side_user_list_gift_day_limit_notification_image_link_system($row['id']);?>
 					<?php
 

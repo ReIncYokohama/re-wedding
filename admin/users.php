@@ -184,7 +184,7 @@ width:200px;
 }
 .input_text
 {
-	width:100px;
+	width:125px;
 }
 .select
 {
@@ -463,12 +463,12 @@ if($noview==1)
             <tr>
             	<td align="right" nowrap="nowrap">披露宴日：</td>
             	<td nowrap="nowrap">
-                	<input name="party_day" type="text" id="party_day" size="10" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="datepicker" />
+                	<input name="party_day" type="text" id="party_day" size="10" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" />
                 <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day').value='';">クリア </a>-->
                 </td>
             	<td align="right" nowrap="nowrap">披露宴時間：</td>
             	<td nowrap="nowrap">
-                <input name="party_day_with_time" type="text" id="party_day_with_time" size="10" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>
+                <input name="party_day_with_time" type="text" id="party_day_with_time" size="10" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="timepicker"/>
                <!-- &nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day_with_time').value='';">クリア </a>-->
             　
             披露宴会場：
@@ -544,43 +544,33 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 					    <!-- <td width="62" >～</td> -->
 						<td width="80" >披露宴日</td>
 
-						<td width="169"><input name="date_from" type="text" id="date_from"    style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255);" class="datepicker" readonly="readonly"/> </td>
+						<td width="169"><input name="date_from" type="text" id="date_from"    style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
 						<td width="80" >&nbsp;～&nbsp;</td>
-						<td width="389"><input name="date_to" type="text" id="date_to"   style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="datepicker" readonly="readonly" /></td>
+						<td width="389"><input name="date_to" type="text" id="date_to"   style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>
 					  </tr>
-					  <tr>
+					  <tr style="height:30px;">
 						<td>新郎姓：</td>
-						<td><input name="man_lastname" type="text" id="man_lastname"  class="input_text" /></td>
+						<td><input name="man_lastname" type="text" id="man_lastname" class="input_text" /></td>
 						<td>新婦姓:</td>
 						<td><input name="woman_lastname" type="text" id="woman_lastname" class="input_text" /></td>
 					  </tr>
-					  <tr>
-					    <td>&nbsp;</td>
-					    <td height="40" valign="bottom" > <a href="javascript:void(0);" onclick="validSearch();"><img src="img/common/btn_search1.jpg" alt="検索" width="82" height="22" /></a></td>
-					    <td align="left" valign="bottom"> <a href="javascript:void(0)" onclick="clearForm()"><img border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg" ></a></td>
-
-					 	<td align="left" valign="bottom" ><a href="users.php"><img border="0" height="22" width="82" alt="検索解除" src="img/common/btn_search_clear.jpg"/></a></td> <!-- UCHIDA EDIT 11/07/26 -->
-
-					    <td>&nbsp;</td>
-				      </tr>
-
 					</table>
-
-
+					<table width="720" border="0" cellpadding="0" cellspacing="8">
+					  <tr>
+					  	<td width="27" >&nbsp;</td>
+					    <td width="50" align="left" valign="bottom" > <a href="javascript:void(0);" onclick="validSearch();"><img src="img/common/btn_search1.jpg" alt="検索" width="82" height="22" /></a></td>
+					    <td width="50" align="left" valign="bottom"> <a href="javascript:void(0)" onclick="clearForm()"><img border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg" ></a></td>
+					 	<td width="30" align="left" valign="bottom" ><a href="users.php"><img border="0" height="22" width="82" alt="検索解除" src="img/common/btn_search_clear.jpg"/></a></td> <!-- UCHIDA EDIT 11/07/26 -->
+				      </tr>
+					</table>
 
               </form>
             </div>
        		<p></p>
             <div style="width:100%; display:none;" id="srch_result">
-
             </div>
-            <p></p>
 
 <!--SEARCH FORM END-->
-        <br />
-
-
-
 
 
         <div class="box_table"  id="box_table">
@@ -617,15 +607,14 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
                         	<a href="users.php?order_by=stuff_id&asc=false">▼</a></span>
 						</td>
  -->
-                      <td width="68">詳細</td>
-                      <td width="114">披露宴日<span class="txt1"><a href="users.php?order_by=mdate&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a> <a href="users.php?order_by=mdate&asc=false<? if($_GET['view']=='before') {echo '&view=before';} ?>">▼</a></span></td>
-                        <td width="140">新郎氏名<span class="txt1"><a href="users.php?order_by=man_furi_firstname&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a>
+                        <td width="113">披露宴日<span class="txt1"><a href="users.php?order_by=mdate&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a> <a href="users.php?order_by=mdate&asc=false<? if($_GET['view']=='before') {echo '&view=before';} ?>">▼</a></span></td>
+                        <td width="147">新郎氏名<span class="txt1"><a href="users.php?order_by=man_furi_firstname&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a>
                         	<a href="users.php?order_by=man_furi_firstname&asc=false<? if($_GET['view']=='before') {echo '&view=before';} ?>">▼</a></span>
-                         </td>
-                        <td width="140">新婦氏名<span class="txt1"><a href="users.php?order_by=woman_furi_firstname&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a>
+                        </td>
+                        <td width="147">新婦氏名<span class="txt1"><a href="users.php?order_by=woman_furi_firstname&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a>
                         	<a href="users.php?order_by=woman_furi_firstname&asc=false<? if($_GET['view']=='before') {echo '&view=before';} ?>">▼</a></span>
                         </td>
-                      <td width="94">&nbsp;</td>
+                        <td width="68">詳細</td>
                         <td  width="88">スタッフ
 						<span class="txt1"><a href="users.php?order_by=stuff_id&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a>
                         	<a href="users.php?order_by=stuff_id&asc=false<? if($_GET['view']=='before') {echo '&view=before';} ?>">▼</a></span>
@@ -633,39 +622,38 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 <!-- UCHIDA EDIT 11/08/08 ソートでも過去のお客様情報を表示する ↑ -->
                         <td width="71">メッセージ</td>
 						<!--<td>ログイン</td>-->
-                    <td width="93">最終アクセス</td>
-                      <td width="50">席次表</td>
+                        <td width="80">最終アクセス</td>
+                        <td width="80">&nbsp;</td>
+                        <td width="50">席次表</td>
                         <td width="50">引出物</td>
-
-                        <td width="58">削除</td>
+                        <td width="62">削除</td>
                     </tr>
                 </table>
 			</div>
 
 			<?php }else{?>
 			<div class="box4" style="width:1000px;" >
-                <table border="0" align="center" cellpadding="1" cellspacing="1" width="100%">
+                <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-                    	<td width="68">詳細</td>
-                      <td width="114">披露宴日<span class="txt1"><a href="users.php?order_by=mdate&asc=true">▲</a> <a href="users.php?order_by=mdate&asc=false">▼</a></span></td>
-                        <td width="140">新郎氏名<span class="txt1"><a href="users.php?order_by=man_furi_firstname&asc=true">▲</a>
+                        <td width="113">披露宴日<span class="txt1"><a href="users.php?order_by=mdate&asc=true">▲</a> <a href="users.php?order_by=mdate&asc=false">▼</a></span></td>
+                        <td width="147">新郎氏名<span class="txt1"><a href="users.php?order_by=man_furi_firstname&asc=true">▲</a>
                         	<a href="users.php?order_by=man_furi_firstname&asc=false">▼</a></span>
-                         </td>
-                        <td width="140">新婦氏名<span class="txt1"><a href="users.php?order_by=woman_furi_firstname&asc=true">▲</a>
+                        </td>
+                        <td width="147">新婦氏名<span class="txt1"><a href="users.php?order_by=woman_furi_firstname&asc=true">▲</a>
                         	<a href="users.php?order_by=woman_furi_firstname&asc=false">▼</a></span>
                         </td>
-                      <td width="94">&nbsp;</td>
+                    	<td width="68">詳細</td>
                         <td  width="88">スタッフ
 						<span class="txt1"><a href="users.php?order_by=stuff_id&asc=true">▲</a>
                         	<a href="users.php?order_by=stuff_id&asc=false">▼</a></span>
 						</td>
                         <td width="71">メッセージ</td>
 						<!--<td>ログイン</td>-->
-                    <td width="93">最終アクセス</td>
-                      <td width="50">席次表</td>
+                        <td width="80">最終アクセス</td>
+                        <td width="80">&nbsp;</td>
+                        <td width="50">席次表</td>
                         <td width="50">引出物</td>
-
-                        <td width="58">削除</td>
+                        <td width="62">削除</td>
                     </tr>
                 </table>
             </div>
@@ -783,31 +771,26 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
             <div class="<?=$class?>" style="width:1000px;">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
                     <tr align="center">
-
-                    	<td width="68"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" /></a></td>
-                    <td width="93"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'])?></td>
-                        <td width="144">
+                        <td width="113"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'])?></td>
+                        <td width="147">
 						<?php
                           $man_name = $objinfo->get_user_name_image_or_src($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
 						  if($man_name==false){$man_name = $row['man_firstname']." ".$row['man_lastname'].' 様';}
 						  echo $man_name;
 					    ?>
-				</td>
-                        <td width="144">
+				        </td>
+                        <td width="147">
 						<?php
                            $woman_name = $objinfo->get_user_name_image_or_src($row['id'],$hotel_id=1 , $name="woman_fullname.png",$extra="thumb1");
 						   if($woman_name==false){$woman_name = $row['woman_firstname']." ".$row['woman_lastname'].' 様';}
 						   echo $woman_name;
 					   ?>
 						</td>
-                        <td width="68" class="txt1">
-                        	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
-                        </td>
-                        <td width="20" class="txt1">&nbsp;</td>
-                  <td width="83"> <?=$staff_name?></td>
-                        <td width="70"> <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'], $row['stuff_id']);?> </td>
-                      <!-- <td></td>-->
-					    <td width="94">
+                    	<td width="68"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" /></a></td>
+                        <td width="88"> <?=$staff_name?></td>
+                        <td width="71"> <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'], $row['stuff_id']);?> </td>
+                        <!-- <td></td>-->
+					    <td width="80">
                        <?php
 // UCHIDA EDIT 11/08/03 'ログイン中' → ログイン時間
 						if($last_login['login_time'] > "0000-00-00 00:00:00") {
@@ -832,7 +815,11 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 */
 						?>						<? //date("Y-m-d", mktime($last_login));?>
                         </td>
-                        <td width="44">
+                        <td width="80" class="txt1">
+                        	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
+                        </td>
+
+                        <td width="50">
                         	<?php
                             	echo $objMsg->admin_side_user_list_new_status_notification_image_link_system($row['id']);
 								/*<!--if($var == 1)
@@ -855,7 +842,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 							?>
                         </td>
 
-						<td width="65">
+						<td width="50">
 					<?php echo $objMsg->admin_side_user_list_gift_day_limit_notification_image_link_system($row['id']);?>
 					<?php	/*if(!empty($user_guests))
 						{?>
@@ -868,7 +855,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 	if($_SESSION['user_type'] == 111  || $_SESSION['user_type'] == 333)
 	{
 ?>
-                        <td width="46">
+                        <td width="62">
                         	<a href="javascript:void(0);" onclick="<?=$delete_onclick;?>" >
                         		<img src="img/common/btn_deleate.gif" />
                             </a>

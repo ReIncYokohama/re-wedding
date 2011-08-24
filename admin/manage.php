@@ -94,7 +94,7 @@
 		   <!--User view respect to admin start-->
 <?php
 	$table_users='spssp_user';
-	$where_users = " stuff_id = ".$_SESSION['adminid'];
+	$where_users = " stuff_id = ".$_SESSION['adminid']." and  party_day >= '".date("Y-m-d")."'";
 	$data_per_page_users=10;
 	$current_page_users=(int)$_GET['page'];
 
@@ -131,7 +131,7 @@
 	}
 	else
 	{
-		$order="party_day ASC";
+		$order="party_day ASC , party_day_with_time asc ";
 	}
 	$pageination_users = $obj->pagination($table_users, $where_users, $data_per_page_users,$current_page_users,$redirect_url_users);
 
@@ -180,7 +180,7 @@ width:200px;
 }
 .input_text
 {
-width:120px;
+width:125px;
 }
 .datepicker
 {
@@ -535,23 +535,24 @@ include("inc/return_dbcon.inc.php");
 
 			  <tr style="height:30px;">
 				<td width="80">披露宴日：</td>
-				<td width="169"><input name="date_from" type="text" id="date_from"    style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; border: 4px #ffffff groove" class="datepicker" readonly="readonly"/> </td>
+				<td width="169"><input name="date_from" type="text" id="date_from"    style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
 
 				<!-- UCHIDA EDIT 11/07/26 -->
 			    <!-- <td width="62" >～</td> -->
 			    <td width="80" >～</td>
 
-				<td width="389"><input name="date_to" type="text" id="date_to"   style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; border: 4px #ffffff groove" class="datepicker" readonly="readonly" /></td>
+				<td width="389"><input name="date_to" type="text" id="date_to"   style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>
 			  </tr>
 			  <tr style="height:30px;">
 				<td>新郎姓：</td>
 				<td><input name="man_lastname" type="text" id="man_lastname"  class="input_text" /></td>
 			    <td>新婦姓：</td>
 				<td><input name="woman_lastname" type="text" id="woman_lastname" class="input_text" /></td>
+			  </tr>
 			  </table>
 
 			  <table width="720" border="0" cellpadding="0" cellspacing="8">
-			  </tr>
+			  <tr>
 			  	<td width="30" >&nbsp;</td>
 				<td width="50" align="left" valign="bottom" >
 					<a href="javascript:void(0);" onclick="validSearch();"><img src="img/common/btn_search1.jpg" alt="search" /></a></td>
@@ -560,13 +561,10 @@ include("inc/return_dbcon.inc.php");
 			 	<td width="50" align="left" valign="bottom" >
 			 		<a href="manage.php"><img src="img/common/new_userlist.gif"/></a></td> <!-- UCHIDA EDIT 11/07/26 -->
 			  </tr>
-			  <tr>
-			  </tr>
-			  <tr>
-			  	<td>&nbsp;<br />
+			   <tr>
+			   <td>&nbsp; </td>
 			    <td align="left" colspan="3" > <a href="newuser.php"><img src="img/common/new_register.gif" alt="New Register"></a></td>
-
-			    </tr>
+			   </tr>
 			</table>
 			</form>
 
@@ -595,21 +593,20 @@ include("inc/return_dbcon.inc.php");
             <div class="box4" style="width:1000px;">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
                     <tr align="center">
-                    	<td width="68">詳細</td>
                         <td width="113">披露宴日<span class="txt1"><a href="manage.php?order_by=mdate&asc=true">▲</a> <a href="manage.php?order_by=mdate&asc=false">▼</a></span></td>
-                        <td width="147"> 新郎氏名<span class="txt1"><a href="manage.php?order_by=man_furi_firstname&asc=true">▲</a>
+                        <td width="147" > 新郎氏名<span class="txt1"><a href="manage.php?order_by=man_furi_firstname&asc=true">▲</a>
                         	<a href="manage.php?order_by=man_furi_firstname&asc=false">▼</a></span>
                          </td>
-                        <td width="147">新婦氏名<span class="txt1"><a href="manage.php?order_by=woman_furi_firstname&asc=true">▲</a>
+                        <td width="147" align="center" >新婦氏名<span class="txt1"><a href="manage.php?order_by=woman_furi_firstname&asc=true">▲</a>
                         	<a href="manage.php?order_by=woman_furi_firstname&asc=false">▼</a></span>
                         </td>
-                        <td width="80">&nbsp;</td>
+                    	<td width="68" >詳細</td>
                         <td width="88" >スタッフ</td>
-                        <td width="71">メッセージ</td>
-                        <td width="90">最終アクセス</td>
-
-                        <td width="50">席次表</td>
-                        <td width="50">引出物</td>
+                        <td width="71" >メッセージ</td>
+                        <td width="90" >最終アクセス</td>
+                        <td width="80" >&nbsp;</td>
+                        <td width="50" >席次表</td>
+                        <td width="50" >引出物</td>
  <?php
 	//if($_SESSION['user_type'] == 111  || $_SESSION['user_type'] == 333)
 	//{
@@ -621,9 +618,6 @@ include("inc/return_dbcon.inc.php");
                     </tr>
                 </table>
             </div>
-
-
-
 
             <?php
 			$i=0;
@@ -711,35 +705,32 @@ include("inc/return_dbcon.inc.php");
 				}
 
 			?>
-              <div class="<?=$class?>" style="width:1000px;">
+	            <div class="<?=$class?>" style="width:1000px; ">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-                    	<td width="68"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif"  /></a></td>
-                         <!--<td><?php //echo $obj->japanyDateFormate($row['party_day'] , $row['party_day_with_time'])?></td>-->
-						 <td  width="93"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
+						<td  width="113"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
 
                         <td width="147">
                         <?php
-
                           $man_name = $objinfo->get_user_name_image_or_src($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
 						  if($man_name==false){$man_name = $row['man_firstname']." ".$row['man_lastname'].' 様';}
 						  echo $man_name;
 					   ?>
-
                         </td>
-                        <td width="146">
+
+                        <td width="147">
                         <?php
                            $woman_name = $objinfo->get_user_name_image_or_src($row['id'],$hotel_id=1 , $name="woman_fullname.png",$extra="thumb1");
 						   if($woman_name==false){$woman_name = $row['woman_firstname']." ".$row['woman_lastname'].' 様';}
 						   echo $woman_name;
 					   ?>
                         </td>
-                        <td class="txt1" width="68">
-                        	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
-                        </td>
-                        <td class="txt1" width="20">&nbsp;</td>
-                        <td width="83"> <?=$staff_name?></td>
-                        <td width="71"> <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id']);?> </td>
+
+                    	<td width="68"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif"  /></a></td>
+                         <!--<td><?php //echo $obj->japanyDateFormate($row['party_day'] , $row['party_day_with_time'])?></td>-->
+
+                        <td width="88"> <?=$staff_name?></td>
+                        <td width="71" > <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id']);?> </td>
                         <td  width="90">
 						<?php
 // UCHIDA EDIT 11/08/03 'ログイン中' → ログイン時間
@@ -765,17 +756,22 @@ include("inc/return_dbcon.inc.php");
 						?>
 						<? //date("Y-m-d", mktime($last_login));?>
                         </td>
+                        <td class="txt1" width="80" >
+                        	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
+                        </td>
+
                         <td width="50">
                         	<?php
                         	echo $objMsg->admin_side_user_list_new_status_notification_image_link_system($row['id']); // 席次・席札確認 → アイコン表示
 							?>
                         </td>
+
                         <td width="50">
 						<?php echo $objMsg->admin_side_user_list_gift_day_limit_notification_image_link_system($row['id']); // 引出物確認     → アイコン表示
 						?>
 						</td>
 
-                        <td width="57">
+                        <td width="62">
                         	<a href="javascript:void(0);" onclick="<?=$delete_onclick;?>" >
                         		<img src="img/common/btn_deleate.gif"  />
                             </a>

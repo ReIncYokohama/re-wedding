@@ -23,8 +23,6 @@
 include("inc/main_dbcon.inc.php");
 
 $hotel_row = $obj->GetSingleRow("super_spssp_hotel", " hotel_code=".$hcode);
-
-
 	   $query = "update super_spssp_hotel set hotel_name='".$name."',zip='".$zipcode."',address1='".$address1."',address2='".$address2."',phone='".$tel."',contact='".$contactperson."',email='".$email."',delete_guest='".$delete_guest."',delete_weeding='".$delete_weeding."' where hotel_code='".$hotelcode."' ";
 	   mysql_query($query);
       include("inc/return_dbcon.inc.php");

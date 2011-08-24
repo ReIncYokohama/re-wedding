@@ -177,7 +177,7 @@ include("inc/return_dbcon.inc.php");
 	  ?>
 
 		<div  id="new_table" style="display:block; width:1035px;">
-        	<h2 id="title_bar">挙式種類登録・編集 </h2>
+        	<h2 id="title_bar">挙式種類設定 </h2>
         	<form action="religions.php" method="post" name="new_name">
             	<input type="hidden" name="insert_edit" id="insert_edit" value="<?=$_GET['id']?>" />
                 挙式種類 : &nbsp;<input type="text" name="title" id="name"  value="<?=$getrow?>" /> &nbsp; &nbsp; &nbsp;

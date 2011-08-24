@@ -418,6 +418,7 @@ foreach($usertblrows as $tblRows)
 	$o++;
 }
 	$guest_own_info = $obj->GetAllRowsByCondition("spssp_guest","(self=1 or guest_type!=0) and stage=1 and user_id=".(int)$user_id);
+
 	//echo "<pre>";print_r($guest_own_info);
 	$xxx=1;
 	foreach($guest_own_info as $own_info)
@@ -510,16 +511,16 @@ foreach($usertblrows as $tblRows)
 		$own_array[] = "\"$value\"";
 		
 		//LastName	外字姓	
-		$value = chop($own_info['first_name']);
+		$value = chop($own_info['last_name']);
 		$own_array[] = "\"$value\"";
 		
 		//FirstName	 外字名	
-		$value = chop($own_info['last_name']);		
+		$value = chop($own_info['first_name']);		
 		$own_array[] = "\"$value\"";
 		
 		
 		//外字姓名FullName		
-		$value = chop($own_info['first_name']." ".$own_info['last_name']);		
+		$value = chop($own_info['last_name']." ".$own_info['first_name']);		
 		$own_array[] = "\"$value\"";
 		
 		//com1 com2 
@@ -565,7 +566,7 @@ $script_version="0".SCRIPT_VERSION;
 $this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$script_version;
 
 
-header("Content-Type: application/octet-stream");
-header("Content-Disposition: attachment; filename=${this_name}.csv");
+//header("Content-Type: application/octet-stream");
+//header("Content-Disposition: attachment; filename=${this_name}.csv");
 echo $lines;
 ?>

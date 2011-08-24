@@ -160,7 +160,7 @@ function confirmAction(urls , msg)
 		<div class="cont_area">
 			「席次表プレビュー」をご確認の上、「印刷イメージ依頼」ボタンをクリックしてください。<br />
 			修正がある場合は、招待者リストの作成画面に戻り修正してください。<br />
-			印刷イメージ依頼後は、担当者が確認の上、印刷会社へ仮発注をいたします。
+			印刷イメージ依頼後は、担当者が確認の上、印刷会社へ仮発注をいたします。<br /><br />
 
 			<table width="800" border="0 cellspacing="1" cellpadding="3">
 				  <tr>
@@ -196,7 +196,7 @@ function confirmAction(urls , msg)
 		<div class="cont_area">
 			「席次表プレビュー」をご確認の上、「印刷ＯＫ」ボタンをクリックしてください。<br />
 			修正がある場合は、招待者リストの作成画面に戻り修正してください。<br />
-			席次表の印刷依頼後は、担当者が確認の上、印刷会社へ発注をいたします。
+			席次表の印刷依頼後は、担当者が確認の上、印刷会社へ発注をいたします。<br /><br />
 
 			<table width="800" border="0" cellspacing="1" cellpadding="3">
 				  <tr>
@@ -233,7 +233,7 @@ function confirmAction(urls , msg)
 		<div class="cont_area">
 			「引出物プレビュー」をご確認の上、「発注依頼」ボタンをクリックしてください。<br />
 			修正がある場合は、招待者リストの作成画面に戻り修正してください。<br />
-			引出物の発注依頼後は、担当者が確認の上、、引出物の発注をいたします。
+			引出物の発注依頼後は、担当者が確認の上、引出物の発注をいたします。<br /><br />
 
 			  <table width="800" border="0" cellspacing="1" cellpadding="3">
 				  <tr>

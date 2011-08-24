@@ -579,8 +579,9 @@ include("inc/return_dbcon.inc.php");
                 <td width="7%" align="right" nowrap="nowrap">新郎氏名：</td>
                 <td width="25%" nowrap="nowrap">
 
+                	<input name="man_lastname" type="text" id="man_lastname"  class="input_text" onclick="change_gaiji_link('man_lastname')"  />
                     <input name="man_firstname" type="text" id="man_firstname"  class="input_text" onclick="change_gaiji_link('man_firstname')"  />
-                	<input name="man_lastname" type="text" id="man_lastname"  class="input_text" onclick="change_gaiji_link('man_lastname')"  /> 様
+様
 
 					<div id="male_last_div_id" style="display:none;"></div>
 					<div id="male_first_div_id" style="display:none;"></div>
@@ -589,8 +590,8 @@ include("inc/return_dbcon.inc.php");
                 <td width="7%" align="right" nowrap="nowrap">新婦氏名：</td>
                 <td width="65%" nowrap="nowrap">
 
-                    <input name="woman_firstname" type="text" id="woman_firstname"  class="input_text"  onclick="change_gaiji_link('woman_firstname')" />
                     <input name="woman_lastname" type="text" id="woman_lastname"  class="input_text"  onclick="change_gaiji_link('woman_lastname')"  />
+                    <input name="woman_firstname" type="text" id="woman_firstname"  class="input_text"  onclick="change_gaiji_link('woman_firstname')" />
  様
 
 
@@ -617,8 +618,9 @@ include("inc/return_dbcon.inc.php");
                 <td nowrap="nowrap">
 
 
+                	<input name="man_furi_lastname" type="text" id="man_furi_lastname"  class="input_text" />
                     <input name="man_furi_firstname" type="text" id="man_furi_firstname"  class="input_text"  />
-                	<input name="man_furi_lastname" type="text" id="man_furi_lastname"  class="input_text" /> 様
+様
 
                 </td>
 
@@ -626,8 +628,9 @@ include("inc/return_dbcon.inc.php");
                 <td nowrap="nowrap">
 
 
+                	<input name="woman_furi_lastname" type="text" id="woman_furi_lastname"  class="input_text"  />
                     <input name="woman_furi_firstname" type="text" id="woman_furi_firstname"  class="input_text"  />
-                	<input name="woman_furi_lastname" type="text" id="woman_furi_lastname"  class="input_text"  /> 様
+様
                 </td>
 
 

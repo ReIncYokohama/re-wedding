@@ -538,13 +538,13 @@ include("inc/return_dbcon.inc.php");
 
 			  <tr style="height:30px;">
 				<td width="80">披露宴日：</td>
-				<td width="169"><input name="date_from" type="text" id="date_from"    style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; border: 4px #ffffff groove" class="datepicker" readonly="readonly"/> </td>
+				<td width="169"><input name="date_from" type="text" id="date_from"    style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
 
 				<!-- UCHIDA EDIT 11/07/26 -->
 			    <!-- <td width="62" >～</td> -->
 			    <td width="80" >～</td>
 
-				<td width="389"><input name="date_to" type="text" id="date_to"   style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; border: 4px #ffffff groove" class="datepicker" readonly="readonly" /></td>
+				<td width="389"><input name="date_to" type="text" id="date_to"   style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>
 			  </tr>
 			  <tr style="height:30px;">
 				<td>新郎姓：</td>

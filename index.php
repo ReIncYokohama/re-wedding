@@ -224,7 +224,7 @@ $(function(){
 	    </table>
 </form>
 	<a href="forgetPassword.php"><b>パスワードを忘れた場合はこちら</b></a><br /><br />
-	※メールアドレスを登録されているお客様のみ、<br />　ご利用いただけます。<br />
+	※メールアドレスを未登録のお客様は、<br />　ホテル担当者へお問い合わせください。<br />
 	</div>
 
 	<div class="clr"></div>

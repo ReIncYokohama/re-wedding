@@ -152,8 +152,8 @@ $(function(){
     <div align="center"><a href="user_info.php?user_id=<?=$user_id?>">&lt;&lt;戻る</a></div> <!-- UCHIDA EDIT 11/07/28 -->
     </div>
 </div>
-</div>
 <div style="height:18px; text-align:right"><a href="#">▲ページ上へ</a></div>
+</div>
 <?php
 include("inc/new.footer.inc.php");
 ?>

@@ -452,7 +452,7 @@ function change_gaiji_link(action)
 
 function get_gaiji_value(from,img,gid,gsid)
 {
-  
+  //gidと書いてあるがshiftjisのコードを入れている。
 	//alert(from);alert(img);	alert(gid);	alert(gsid);
 	if(img==""){
     alert("外字が正しく選択されていません。");

@@ -456,7 +456,7 @@ include("inc/return_dbcon.inc.php");
 	<div id="contents">
 	<!-- UCHIDA EDIT 11/07/26 -->
 	<!-- <h2><div style="width:450px;"><a href="manage.php">席次表・席札 </a> &raquo; 基本設定</div></h2> -->
-	<h2><div style="width:450px;">席次表・席札 &raquo; 基本設定</div></h2>
+	<h2><div style="width:450px;">席次表・席札 &raquo; 卓名</div></h2>
 		<!--<p class="txt3">
             <b>卓名</b>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <a href="respects.php"><b>敬称</b></a>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;

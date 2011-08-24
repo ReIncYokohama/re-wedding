@@ -18,31 +18,17 @@ if($_SERVER['HTTP_HOST']=='localhost')
 		$sqldatabase=$hotel_sqldatabase;		
 	}
 
-/*
-if($_SERVER['HTTP_HOST']=='localhost')
-	{
-		$sqlhost='localhost';
-		$sqluser='root';
-		$sqlpassword="";
-		$sqldatabase="spssp";
-	}
-	else
-	{
-		$sqlhost='localhost';
-		$sqluser='wplus_hotel1_2';
-		$sqlpassword="wph1_123456";
-		$sqldatabase="wplus_hotel1_2";
-	}
-*/
 
-$link = mysql_connect($sqlhost, $sqluser,$sqlpassword)
+function mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase){
+  mysql_close();
+  $link = mysql_connect($sqlhost, $sqluser,$sqlpassword)
     	or die("COULD NOT CONNECT : " . mysql_error());
-
-mysql_select_db($sqldatabase) or die("COULD NOT SELECT DATABASE");
-mysql_query("SET CHARACTER SET 'utf8'");
-mysql_query("SET NAMES 'utf8'");
-
-//$link2 = mysql_connect($sqlhost2, $sqluser2,$sqlpassword2)  	or die("COULD NOT CONNECT : " . mysql_error());
+  mysql_select_db($sqldatabase) or die("COULD NOT SELECT DATABASE");
+  mysql_query("SET CHARACTER SET 'utf8'"); 
+  mysql_query("SET NAMES 'utf8'");
+  return $link;
+  }
+mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase);
 
 $Client_site_url="http://re-dev.sakura.ne.jp/dev2/hotel11/";
 $Admin_site_url="http://re-dev.sakura.ne.jp/dev2/hotel11/admin/";

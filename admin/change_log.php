@@ -103,6 +103,15 @@ include("inc/return_dbcon.inc.php");
 <div style="clear:both;"></div>
 
 	<div id="contents">
+        <?php
+            $data_user = $obj->GetSingleRow("spssp_user", "id=".$user_id);
+			require_once("inc/include_class_files.php");
+			$objInfo = new InformationClass();
+        ?>
+  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1",$height=20);?>
+・
+  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20);?>
+  様
 	 <h2>
 <!-- UCHIDA EDIT 11/08/04
         <a href="users.php">お客様一覧 </a> &gt;&gt; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報 </a> &gt;&gt; 席次データ修正ログ
@@ -151,25 +160,7 @@ include("inc/return_dbcon.inc.php");
 		</form>
 		-->
 
-
-
-
-
-
-
-        <?php 
-            $data_user = $obj->GetSingleRow("spssp_user", "id=".$user_id);
-require_once("inc/include_class_files.php");
-$objInfo = new InformationClass();
-
-
-            ?>
-  
         <div class="box_table">
-  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1",$height=20);?>
-・
-  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20);?>
-  様  
 
 			<!--<div style="text-align:right;">< ?=$pageination?></div>-->
 
@@ -704,7 +695,7 @@ $objInfo = new InformationClass();
         </div>
    <div align="center"><a href="user_info.php?user_id=<?=$user_id?>">&lt;&lt;戻る</a></div> <!--   -->
     </div>
-<div style="height:18px; text-align:right"><a href="#">▲ページ上へ</a></tr></div>
+<div style="height:18px; text-align:right"><a href="#">▲ページ上へ</a></div>
 </div>
 
 <?php

@@ -2,6 +2,7 @@
 	require_once("inc/class.dbo.php");
 	include_once("inc/checklogin.inc.php");
 	include_once("inc/new.header.inc.php");
+  include_once(dirname(__FILE__)."/../conf/conf.php");
 	$obj = new DBO();
 
 	$table='spssp_admin';
@@ -65,6 +66,8 @@
 				}
 				else
 				{
+          //管理者を登録
+          //既存の管理者をスタッフに変更
 					if($post['permission'] == '333')
 					{
 					   $value['permission']='222';
@@ -72,6 +75,15 @@
 					   $obj->UpdateData('spssp_admin',$value, $where);
 					}
 					$lastid = $obj->InsertData('spssp_admin',$post);
+
+          $upd_data = array();
+          $upd_data["adminid"] = $post["username"];
+          $upd_data["password"] = $post["password"];
+          $upd_data["email"] = $post["email"];
+          $upd_data["administrator"] = $post["name"];
+          mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
+          $obj->UpdateData("super_spssp_admin",$upd_data,"hotel_code=".$HOTELID);
+          mysql_connected($hotel_sqlhost,$hotel_sqluser,$hotel_sqlpassword,$hotel_sqldatabase);
 				}
 
 
@@ -141,6 +153,15 @@
 
 					$msg = 2;
 					$obj->UpdateData('spssp_admin',$post,"id=".$_POST['id']);
+          
+          $upd_data = array();
+          $upd_data["adminid"] = $post["username"];
+          $upd_data["password"] = $post["password"];
+          $upd_data["email"] = $post["email"];
+          $upd_data["administrator"] = $post["name"];
+          mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
+          $obj->UpdateData("super_spssp_admin",$upd_data,"hotel_code=".$HOTELID);
+          mysql_connected($hotel_sqlhost,$hotel_sqluser,$hotel_sqlpassword,$hotel_sqldatabase);
 				}
 
 

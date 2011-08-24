@@ -534,19 +534,17 @@ function user_layout_title_input_show(id)
 
 		if($layoutname!="")
 		{
-			$name_input=$layoutname;
 			echo "<div id='user_layoutname'  style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$layoutname."</div>";
 		}
 		elseif($default_layout_title!="")
 		{
-			$name_input=$default_layout_title;
 			echo "<div id='default_layout_title' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$default_layout_title."</div>";
 		}
 		else
 		{
 			echo'<table width="10" border="0" cellspacing="0" cellpadding="0" align="center">
 			  <tr>
-				<td style="text-align:center;"><div id="img_default_layout_title"  style="text-align:center"><div style="border:1px solid #000000; width:60px;"> &nbsp;</div></div></td>
+				<td style="text-align:center;"><div id="img_default_layout_title"  style="text-align:center"><div style="border:1px solid #000000; width:60px;">　　　</div></div></td>
 			  </tr>
 			</table>';
 

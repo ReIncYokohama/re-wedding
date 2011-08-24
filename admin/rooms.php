@@ -265,7 +265,7 @@ include("inc/return_dbcon.inc.php");
 		<div style="width:1000px;">
         <p class="txt3">
         	<form action="room_new.php?page=<?=$_GET['page']?>" method="post" name="room_form">
-                披露宴会場名：<label for="textfield"></label>   <input name="name" type="text" id="name" size="10" />
+                披露宴会場名：<label for="textfield"></label>   <input name="name" type="text" id="name" size="40" />
 				<br /><br />
 
          		最大卓数　　：横 <label for="textfield2"></label> <!--  <input name="max_columns" type="text" id="max_columns"  maxlength="1" size="1" />-->
@@ -384,13 +384,13 @@ include("inc/return_dbcon.inc.php");
             <div class="box4">
                 <table border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-                        <td>披露宴会場名</td>
-                        <td>最大卓数</td>
-                        <td>一卓人数</td>
-                       <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td>順序変更</td><?php } ?>
-                        <td>イメージ</td>
-                        <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td>編集</td><?php } ?>
-                        <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td>削除</td><?php } ?>
+                        <td width ="35" >披露宴会場名</td>
+                        <td width ="20">最大卓数</td>
+                        <td width ="20">一卓人数</td>
+                       <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width ="20">順序変更</td><?php } ?>
+                        <td width ="20">イメージ</td>
+                        <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width ="20">編集</td><?php } ?>
+                        <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width ="20">削除</td><?php } ?>
                     </tr>
                 </table>
             </div>
@@ -423,19 +423,19 @@ include("inc/return_dbcon.inc.php");
                 <div class="<?=$class?>"  id="boxid<?=$row['id']?>">
                     <table border="0" align="center" cellpadding="1" cellspacing="1">
                         <tr align="center">
-                            <td><?=$row['name']?></td>
+                            <td width ="35" ><?=$row['name']?></td>
                             <!--<td><a href="plans.php?room_id=<?=$row['id']?>"><?=$row['name']?></a></td>-->
-                            <td>横<?=$row['max_columns']?>列 × 縦<?=$row['max_rows']?>段</td>
-                            <td><?=$row['max_seats']?>名</td>
+                            <td width ="20" >横<?=$row['max_columns']?>列 × 縦<?=$row['max_rows']?>段</td>
+                            <td width ="20" ><?=$row['max_seats']?>名</td>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
-                            <td class="txt1">
+                            <td width ="20" class="txt1">
                             <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] > "1"){ ?>
 								<a href="rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=up&amp;id=<?=$row['id']?>">▲</a> &nbsp;
                 				<a href="rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=down&amp;id=<?=$row['id']?>">▼</a>
 							<?php }else {?>	<span style="color:gray;">▲▼</span><?php }	 ?>
                              </td>
 							 <?php }	 ?>
-                            <td>
+                            <td width ="20" >
 <!-- UCHIDA EDIT 11/08/05 ボタン変更
                                <input type="radio" name="radio" id="room_<?=$row['id']?>" value="radio" <?=$chk?> onclick="preview_room(<?=$row['id']?>)"  />
                                <label for="radio">プレビューする</label>
@@ -445,14 +445,14 @@ include("inc/return_dbcon.inc.php");
 							</a>
                             </td>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
-                           <td>
+                           <td width ="20" >
                             	<a href="roomTableEdit.php?room_id=<?=$row['id']?>">
                             		<img src="img/common/btn_room_edit.gif" width="62" height="17" />
                                 </a>
                             </td>
 							<?php }	 ?>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
-                            <td>
+                            <td width ="20" >
                             	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] =="222"){?>alert('権限がありません');<?php }else{?>confirmDelete('rooms.php?page=<?=(int)$_GET['page']?>&action=delete&id=<?=$row['id']?>'); <?php }?>">
                             		<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>

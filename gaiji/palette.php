@@ -4,7 +4,7 @@ include('admin/inc/class.dbo.php');
 
 $obj = new DBO();
 
-	$from = $_GET['from'];
+$from = $_GET['from'];
 	
 	if($_POST['search'] == "search")
 	{
@@ -160,21 +160,22 @@ $obj = new DBO();
     {
         document.get_busho_form.submit();
     }
-    function select_busho_sub(from,img,gid,gsid,gsid_group)
+    function select_busho_sub(from,img,sjis_id,gsid,gsid_group)
     {
-        $("#gaiji_busho_id").attr("value",gid );
+      //$("#gaiji_busho_id").attr("value",gid );
         $("#gr_uqidx_id").attr("value", gsid);
+        $("#gr_sjis_id").attr("value",sjis_id);
         $("#gr_fname_id").attr("value", img);
-		$("#gr_gaizi_group_code").attr("value", gsid_group);
+        $("#gr_gaizi_group_code").attr("value", gsid_group);
         $("#select_sss").attr("src", "upload/img_select/"+img);
     }
     function final_call_parent(from)
     {
         var gr_fname = $("#gr_fname_id").val();
-        var gaiji_busho = $("#gaiji_busho_id").val();
+        //var gaiji_busho = $("#gaiji_busho_id").val();
         var gr_uqidx = $("#gr_uqidx_id").val();
-        
-        window.opener.get_gaiji_value(from,gr_fname,gaiji_busho,gr_uqidx);
+        var gaiji_sjis_id = $("#gr_sjis_id").val();
+        window.opener.get_gaiji_value(from,gr_fname,gaiji_sjis_id,gr_uqidx);
         window.close();
     }
 	function getbusho_group_form_submit()
@@ -233,7 +234,7 @@ if(is_array($results2))
 	<img src="img/sber_t.gif" id="sber_t" alt="" />
 	<div class="clearFloat"></div>
 	<img src="img/sber_l.gif" id="sber_l" alt="" />
-	<div id="colwrap2"><a href="#"  onclick="select_busho_sub('<?=$from?>','<?=$rows2['gr_fname']?>',<?=$rows2['gr_bushu_code']?>,<?=$rows2['gr_managed_code']?>,<?=$rows2['gr_gaizi_group_code']?>);">
+	<div id="colwrap2"><a href="#"  onclick="select_busho_sub('<?=$from?>','<?=$rows2['gr_fname']?>',<?=$rows2['gr_chrcode']?>,<?=$rows2['gr_managed_code']?>,<?=$rows2['gr_gaizi_group_code']?>);">
 	<img src="upload/img_ans/<?=$rows2['gr_fname']?>" id="sblock2" alt="" /></a>
 	<img src="img/sber_u.gif" id="sber_u" alt="" />
 	</div>
@@ -314,6 +315,7 @@ if(is_array($results))
 <input type="hidden" value="" name="gaiji_busho" id="gaiji_busho_id">
 <input type="hidden" value="" name="gr_uqidx" id="gr_uqidx_id">
 <input type="hidden" value="" name="gr_fname" id="gr_fname_id">
+<input type="hidden" value="" name="gr_sjis" id="gr_sjis_id">
 
 
 <div id="Div6">

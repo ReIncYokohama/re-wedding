@@ -103,7 +103,7 @@ function get_image_text($text,$gaiji_arr = array(),$fontsize=15,$max_width=150,$
 /* 
    
  */
-function set_guest_gaiji_position($user_id,$guest_id,$str,$target_type,$gaiji_file_name_arr=array(),$gaiji_code_arr=array(),$gaiji_str="＊"){
+function set_guest_gaiji_position($user_id,$guest_id,$str,$target_type,$gaiji_file_name_arr=array(),$gaiji_code_arr=array(),$gaiji_sjis_code_arr=array(),$gaiji_str="＊"){
   $len = mb_strlen($str,'utf-8');
   if($len==0) return;
   $k = 0;
@@ -111,7 +111,7 @@ function set_guest_gaiji_position($user_id,$guest_id,$str,$target_type,$gaiji_fi
     $charcode = (int)hexdec(bin2hex(mb_substr($str,$i,1)));
     if(mb_substr($str,$i,1)==$gaiji_str){
       if(!$gaiji_code_arr[$k] || !$gaiji_file_name_arr[$k]) continue;
-      $gaiji_detail_sql = "insert into spssp_gaizi_detail_for_guest(gu_id,guest_id,gu_trgt_type,gu_char_position,gu_char_img,gu_char_setcode)  values(" .$user_id. "," .$guest_id.  "," .$target_type. "," .$i. ",'".$gaiji_file_name_arr[$k]."'," .$gaiji_code_arr[$k]. ");";
+      $gaiji_detail_sql = "insert into spssp_gaizi_detail_for_guest(gu_id,guest_id,gu_trgt_type,gu_char_position,gu_char_img,gu_char_setcode,gu_sjis_code)  values(" .$user_id. "," .$guest_id.  "," .$target_type. "," .$i. ",'".$gaiji_file_name_arr[$k] ."'," .$gaiji_code_arr[$k]."," .$gaiji_sjis_code_arr[$k]. ");";
           $test = mysql_query($gaiji_detail_sql);
           ++$k;
     }
