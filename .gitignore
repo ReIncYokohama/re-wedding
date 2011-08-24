@@ -3,6 +3,7 @@ conf/conf.php
 
 #backupfileを反映しない
 *.bak
+\#*\#
 
 #apaceh
 .htaccess
