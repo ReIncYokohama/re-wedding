@@ -5,43 +5,43 @@ $obj = new DBO();
 $post = $obj->protectXSS($_POST);
 include_once("inc/header.inc.php");
 
-if($_GET["id"]!="")
+if($_GET[id]!="")
 {
 	$hotel_row = $obj->GetSingleRow("super_spssp_hotel", " id=".$_GET[id]);
 }
 
-if($_POST["hotel_name"])
+
+
+
+	if($_POST[hotel_name])
 	{
 		unset($post['email_confirm']);
 		$obj->UpdateData("super_spssp_hotel", $post, " id = ".(int)$_GET['id']);
+		$hid = $obj->UpdateData("super_spssp_hotel", $post);
+		/*if($hid>0)
+		{
+			$dbhost='localhost'; $dbuser='wplus_hotel'.(int)$_GET['hotel_code']; $dbpass = 'wph'.(int)$_GET['hotel_code'].'_123456';$dbname ="wplus_hotel".(int)$_GET['hotel_code'];
 
-    $hotel_code = $_POST["hotel_code"];
-    $hotel_sqlhost_val = "hotel".((int)$hotel_code)."_sqlhost";
-    $hotel_sqluser_val = "hotel".((int)$hotel_code)."_sqluser";
-    $hotel_sqlpassword_val = "hotel".((int)$hotel_code)."_sqlpassword";
-    $hotel_sqldatabase_val = "hotel".((int)$hotel_code)."_sqldatabase";
 
-    mysql_close();
-    
-    $link = mysql_connected($$hotel_sqlhost_val,$$hotel_sqluser_val,$$hotel_sqlpassword_val,$$hotel_sqldatabase_val);
-    $hotel_row = $obj->GetSingleRow("spssp_admin","stype=1");
+			$link_for_hotel = mysql_connect($dbhost, $dbuser, $dbpass) or die(mysql_error("not connected"));
+			mysql_select_db($dbname, $link_for_hotel);
 
-    //CREAT ARRAY
-    $data['username'] =  $_POST['adminid'];
-    $data['password'] =  $_POST['password'];
-    $data['email'] =  $_POST['email'];
-    $data['name'] =  $_POST['adminstrator'];
-    $data['permission'] =  "333";
-    $data['stype'] = 1;
+			//CREAT ARRAY
+			$data['username'] =  $_POST['adminid'];
+			$data['password'] =  $_POST['password'];
+			$data['email'] =  $_POST['email'];
+			$data['name'] =  $_POST['adminstrator'];
+			$data['permission'] =  "333";
+			$data['display_order'] =  time();
 
-    if(!$hotel_row){
-      $obj->InsertData("spssp_admin", $data);
-    }else{
-      $obj->UpdateData("spssp_admin", $data, "id=".$hotel_row["id"]);
-    }
-    mysql_close($link);
+			$Lid = $obj->UpdateData("spssp_admin", $data, " permission = 333");
 
+			if($Lid>0)
+			{
+				mysql_close($link);
+			}*/
 		redirect("hotel.php");
+
 	}
 
 ?>
@@ -72,7 +72,7 @@ if($_POST["hotel_name"])
           <tr>
             <td width="25%" align="right">ホテルコード</td>
             <td width="2%">：</td>
-            <td width="73%"><input name="hotel_code" value="<?=$hotel_row[hotel_code]?>" readonly="readonly" type="text" id="hotel_code" size="50" /></td>
+            <td width="73%"><input name="hotel_code" value="<?=$hotel_row[hotel_code]?>" readonly="readonly" style="border: #ffffff;" type="text" id="hotel_code" size="50" /></td>
           </tr>
           <tr>
             <td align="right">ホテル名<span class="txtred">*</span></td>
@@ -117,17 +117,17 @@ if($_POST["hotel_name"])
           <tr>
             <td align="right"><div>管理者</div></td>
             <td>：</td>
-            <td><input name="adminstrator" type="text" id="adminstrator" size="30"   value="<?=$hotel_row[adminstrator]?>"/></td>
+            <td><input name="adminstrator" type="text" id="adminstrator" size="30"  readonly="readonly" style="border: #ffffff;" value="<?=$hotel_row[adminstrator]?>"/></td>
           </tr>
           <tr>
             <td align="right">管理者用 ID </td>
             <td>：</td>
-            <td><input name="adminid" type="text" id="adminid" size="50"  readonly="readonly"   value="<?=$hotel_row[adminid]?>"/></td>
+            <td><input name="adminid" type="text" id="adminid" size="50"  readonly="readonly" style="border: #ffffff;"   value="<?=$hotel_row[adminid]?>"/></td>
           </tr>
           <tr>
             <td align="right">パスワード</td>
             <td>：</td>
-            <td><input name="password" type="text"  id="password" size="50"   value="<?=$hotel_row[password]?>" readonly="readonly" /></td>
+            <td><input name="password" type="text"  id="password" size="50"   value="<?=$hotel_row[password]?>" readonly="readonly" style="border: #ffffff;" /></td>
           </tr>
           <tr>
             <td align="right">招待者リストデータ削除日<span class="txtred">*</span></td>

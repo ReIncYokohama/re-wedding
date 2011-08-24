@@ -73,14 +73,17 @@ font-weight:normal;
 		<form action="manage.php" method="post" name="super_msg_frm">
 		<!--<table class="new_super_message" cellpadding="5" cellspacing="1" border="0" align="left">-->
         <table cellpadding="5" cellspacing="1" border="0" align="left">
+ <!--
 			<tr>
 				<?php
 					$nums = $obj->GetNumRows("super_admin_message"," 1 = 1");
 				?>
-				<td width="10%" align="left">&nbsp;&nbsp;No.</td><td>&nbsp;<input type="text" value="<?=$nums?>" readonly="readonly" size="1" style="border: #ffffff;" /></td>
+				<td width="10%" align="left">&nbsp;&nbsp;No.</td>
+				<td>&nbsp;<input type="text" value="<?=$nums?>" readonly="readonly" size="1" style="border: #ffffff;" /></td>
 			</tr>
+ -->
 			<tr>
-				<td align="left">&nbsp;&nbsp;タイトル </td><td> <input type="text" name="title" id="super_title" style="width: 732px;"/></td>
+				<td width="10%" align="left">&nbsp;&nbsp;タイトル </td><td> <input type="text" name="title" id="super_title" style="width: 732px;"/></td>
 			</tr>
 			<tr>
 				<td align="left">&nbsp;&nbsp;本文 </td>
@@ -160,7 +163,7 @@ function save_super_message()
 	}
 	if(desc == '')
 	{
-		alert("内容が未入力です");
+		alert("本文が未入力です");
 		$j("#super_description").focus();
 		return false;
 	}

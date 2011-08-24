@@ -1,68 +1,134 @@
 <?php
 require_once("inc/class.dbo.php");
 include_once("inc/checklogin.inc.php");
-
 $obj = new DBO();
 $post = $obj->protectXSS($_POST);
 include_once("inc/header.inc.php");
 
-include_once("inc/class_hotel.dbo.php");
-$hotel_dbo = new HotelDBO();
-//hotel_codeを自動生成するため次のhotelcodeを生成
-$hotel_code = $hotel_dbo->getNextHotelCode();
+$hotel_code = $obj->GetSingleData(" super_spssp_hotel", " hotel_code", " 1=1 order by hotel_code DESC LIMIT 1");
 
-$hotel_sqlhost_val = "hotel".((int)$hotel_code)."_sqlhost";
-$hotel_sqluser_val = "hotel".((int)$hotel_code)."_sqluser";
-$hotel_sqlpassword_val = "hotel".((int)$hotel_code)."_sqlpassword";
-$hotel_sqldatabase_val = "hotel".((int)$hotel_code)."_sqldatabase";
+// UCHIDA EDIT 11/08/11 デモ用のパスワードを用意
+$PassWD["0001"] = "BCXqVf";
+$PassWD["0002"] = "yYcZwd";
+$PassWD["0003"] = "fcYGvb";
+$PassWD["0004"] = "jxrHnB";
+$PassWD["0005"] = "vfWZz2";
+$PassWD["0006"] = "g8QbJz";
+$PassWD["0007"] = "zpXQZ6";
+$PassWD["0008"] = "WtRHfM";
+$PassWD["0009"] = "PH6jwR";
+$PassWD["0010"] = "vrW8QY";
 
-mysql_close();
-$link = mysql_connected($$hotel_sqlhost_val,$$hotel_sqluser_val,$$hotel_sqlpassword_val,$$hotel_sqldatabase_val);
-$hotel_row = $obj->GetSingleRow("spssp_admin","stype=1");
-mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
+// UCHIDA EDIT 11/08/11 ２進コードを１０進コードへ修正
+if($hotel_code!='') $nums = strval(intval($hotel_code)+1);
+else                $nums = "0001";
+$hotel_code = $nums;
+$admin_code = $nums;
 
-if($hotel_row){
-  $password = $hotel_row["password"];
-}else{
-  $password = generatePassword();
-}
+/*
+if($hotel_code!='')
+$nums = bindec($hotel_code);
+else
+$nums=0;
 
-$admin_code = $hotel_dbo->getAdminCode($hotel_code);
-  
+$hotel_code=decbin($nums+1);
+*/
 
-if($_POST['hotel_name'])
+$code_lan=strlen($hotel_code);
+
+if($code_lan<4)
+for($i=0;$i<(4-$code_lan);$i++)
+$hotel_code_extra.="0";
+
+$hotel_code=$hotel_code_extra.$hotel_code;
+
+// $admin_code=decbin($nums+1);
+
+$adminid="AA";
+
+if($code_lan<8)
+for($i=0;$i<(8-$code_lan);$i++)
+$adminid_extra.="0";
+
+$adminid.=$adminid_extra.$admin_code;
+
+// // UCHIDA EDIT 11/08/11 0001から0010までのＩＤは用意したパスワードを指定する
+	if (intval($hotel_code) <=10) 	$password = $PassWD[$hotel_code];
+	else							$password = generatePassword();
+//	$password=generatePassword();
+
+	if($_POST['hotel_name'])
 	{
 		unset($post['email_confirm']);
+		$post['hotel_name'] = "TESTtest";
 		$hid = $obj->InsertData("super_spssp_hotel", $post);
-    
-    $hotel_code = $_POST["hotel_code"];
-    $hotel_sqlhost_val = "hotel".((int)$hotel_code)."_sqlhost";
-    $hotel_sqluser_val = "hotel".((int)$hotel_code)."_sqluser";
-    $hotel_sqlpassword_val = "hotel".((int)$hotel_code)."_sqlpassword";
-    $hotel_sqldatabase_val = "hotel".((int)$hotel_code)."_sqldatabase";
-    
-    if($hid > 0){
-      mysql_close();
-      
-      $link = mysql_connected($$hotel_sqlhost_val,$$hotel_sqluser_val,$$hotel_sqlpassword_val,$$hotel_sqldatabase_val);
-      $hotel_row = $obj->GetSingleRow("spssp_admin","stype=1");
+/*
+		if($hid>0)
+		{
+			if($_POST['hotel_code']=="0001")
+			{
+				$dbhost='localhost'; $dbuser='wplus_hotel1'; $dbpass = 'wph1_123456';$dbname ="wplus_hotel1";
+			}else if($_POST['hotel_code']=="0002")
+			{
+				$dbhost='localhost'; $dbuser='wplus_hotel2'; $dbpass = 'wph2_123456';$dbname ="wplus_hotel2";
+			}
+			else if($_POST['hotel_code']=="0003")
+			{
+				$dbhost='localhost'; $dbuser='wplus_hotel3'; $dbpass = 'wph3_123456';$dbname ="wplus_hotel3";
+			}
+			else if($_POST['hotel_code']=="0004")
+			{
+				$dbhost='localhost'; $dbuser='wplus_hotel4'; $dbpass = 'wph4_123456';$dbname ="wplus_hotel4";
+			}
+			else if($_POST['hotel_code']=="0005")
+			{
+				$dbhost='localhost'; $dbuser='wplus_hotel5'; $dbpass = 'wph5_123456';$dbname ="wplus_hotel5";
+			}
+			else if($_POST['hotel_code']=="0006")
+			{
+				$dbhost='localhost'; $dbuser='wplus_hotel6'; $dbpass = 'wph6_123456';$dbname ="wplus_hotel6";
+			}
+			else if($_POST['hotel_code']=="0007")
+			{
+				$dbhost='localhost'; $dbuser='wplus_hotel7'; $dbpass = 'wph7_123456';$dbname ="wplus_hotel7";
+			}
+			else if($_POST['hotel_code']=="0008")
+			{
+				$dbhost='localhost'; $dbuser='wplus_hotel8'; $dbpass = 'wph8_123456';$dbname ="wplus_hotel8";
+			}
+			else if($_POST['hotel_code']=="0009")
+			{
+				$dbhost='localhost'; $dbuser='wplus_hotel9'; $dbpass = 'wph9_123456';$dbname ="wplus_hotel9";
+			}
+			else if($_POST['hotel_code']=="0010")
+			{
+				$dbhost='localhost'; $dbuser='wplus_hotel10'; $dbpass = 'wph10_123456';$dbname ="wplus_hotel10";
+			}
 
-      //CREAT ARRAY
-      $data['username'] =  $_POST['adminid'];
-      $data['password'] =  $_POST['password'];
-      $data['email'] =  $_POST['email'];
-      $data['name'] =  $_POST['adminstrator'];
-      $data['permission'] =  "333";
-      $data['display_order'] =  time();
-      $data['stype'] = 1;
-      if(!$hotel_row){
-        $obj->InsertData("spssp_admin", $data);
-      }else{
-        $obj->UpdateData("spssp_admin", $data, "id=".$hotel_row["id"]);
-      }
-      mysql_close($link);
-    }
+			$link_for_hotel = mysql_connect($dbhost, $dbuser, $dbpass) or die(mysql_error("データベースに接続できません"));
+			mysql_select_db($dbname, $link_for_hotel);
+
+
+			//CREAT ARRAY
+			$data['username'] =  $_POST['adminid'];
+			$data['password'] =  $_POST['password'];
+			$data['email'] =  $_POST['email'];
+			$data['name'] =  $_POST['adminstrator'];
+			$data['permission'] =  "333";
+			$data['display_order'] =  time();
+			$data['stype'] = 1;
+
+			$Lid = $obj->InsertData("spssp_admin", $data);
+
+			if($Lid>0)
+			{
+				mysql_close($link_for_hotel);
+			}
+
+		}
+*/
 		redirect("hotel.php");
+
 	}
 ?>
   <div id="topnavi">
@@ -136,30 +202,30 @@ if($_POST['hotel_name'])
             <td><input name="email_confirm" type="text" id="email_confirm" size="30" /></td>
           </tr>
           <tr>
-            <td align="left"><div>管理者</div></td>
+            <td align="left" ><div>管理者</div></td>
             <td>：</td>
-            <td><input name="adminstrator" type="text" id="adminstrator" size="30" readonly="readonly""/></td>
+            <td><input name="adminstrator" type="text" id="adminstrator" size="30" readonly="readonly" style="border: #ffffff;"/></td>
           </tr>
           <tr>
             <td align="left">管理者用 ID </td>
             <td>：</td>
-            <td><input name="adminid" type="text" id="adminid" size="50" value="<?=$adminid?>" readonly="readonly" /></td>
+            <td><input name="adminid" type="text" id="adminid" size="50" value="<?=$adminid?>" readonly="readonly" style="border: #ffffff;" /></td>
           </tr>
           <tr>
             <td align="left">パスワード</td>
             <td>：</td>
-            <td><input name="password" type="text" value="<?=$password?>" id="password" size="50"  readonly="readonly" /></td>
+            <td><input name="password" type="text" value="<?=$password?>" id="password" size="50" readonly="readonly" style="border: #ffffff;" /></td>
           </tr>
           <tr>
             <td align="left">招待者リストデータ削除日<span class="txtred">*</span></td>
             <td>：</td>
-            <td><input name="delete_guest" type="text" id="delete_guest" size="5" value="6" />
+            <td><input name="delete_guest" type="text" id="delete_guest" size="5" />
               ヶ月後</td>
           </tr>
           <tr>
             <td align="left">挙式情報データ削除日<span class="txtred">*</span></td>
             <td>：</td>
-            <td><input name="delete_weeding" type="text" id="delete_weeding" size="5" value="12" />
+            <td><input name="delete_weeding" type="text" id="delete_weeding" size="5" />
               ヶ月後</td>
           </tr>
           <tr>
