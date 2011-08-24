@@ -563,16 +563,16 @@ include("inc/return_dbcon.inc.php");
             <tr>
                 <td width="7%" align="right" nowrap="nowrap"></td>
                 <td width="25%" nowrap="nowrap">
+          <div id="male_lastname_img_div_id" style="float:left;width:100px;height:20px;"></div>
+					<div id="male_firstname_img_div_id" style="float:left;width:100px;height:20px;"></div>
 
-					<div id="male_firstname_img_div_id" style="float:left;width:100px;"></div>
-                	<div id="male_lastname_img_div_id" style="float:left;width:100px;"></div>
               	</td>
 
                 <td width="7%" align="right" nowrap="nowrap"></td>
                 <td width="65%" nowrap="nowrap">
+					<div id="female_lastname_img_div_id" style="float:left;width:100px;height:20px;"></div>
+					<div id="female_firstname_img_div_id" style="float:left;width:100px;height:20px;"></div>
 
-					<div id="female_firstname_img_div_id" style="float:left;width:100px;"></div>
-					<div id="female_lastname_img_div_id" style="float:left;width:100px;"></div>
                 </td>
             </tr>
 			<tr>

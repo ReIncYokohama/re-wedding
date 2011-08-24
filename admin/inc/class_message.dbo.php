@@ -506,7 +506,7 @@ class MessageClass extends InformationClass
 		$_d = date("d", strtotime($strdate));
 		$ptimestamp = mktime(0, 0, 0, $_m, $_d, $_y);
 		$weekno = date('w', $ptimestamp);
-		return "(".$weekjp_array[intval($weekno)]."曜日)";
+		return "(".$weekjp_array[intval($weekno)].")";
 	}
 
 }//END OF CLASS_MAIL

@@ -139,7 +139,7 @@ $genderStatus = $obj->GetSingleData(" spssp_guest_orderstatus ", "orderstatus", 
 <script type="text/javascript">
 
 /* 外字のフォームから外字を削除した際の動作
-   input_id 
+   input_id
    div_image delete for image　外字のイメージを入力しているエレメントid
    form_name delete for input　外字のデータを格納しているフォーム名 img[]等はの除く
  */
@@ -301,25 +301,25 @@ function validForm()
   //var sub_category_id = $("#sub_category_id").val();
 
 
-  if(first_name == '')
-		{
-			alert("姓を入力してください");
-			$("#first_name").focus();
-			return false;
-		}
   if(last_name == '')
 		{
-			alert("名を入力してください");
+			alert("姓を入力してください");
 			$("#last_name").focus();
 			return false;
 		}
-  var str = document.getElementById("furigana_first").value;
+  if(first_name == '')
+		{
+			alert("名を入力してください");
+			$("#first_name").focus();
+			return false;
+		}
+  var str = document.getElementById("furigana_last").value;
   if(str=="")
 		{
       // UCHIDA EDIT 11/07/27
       //			alert("姓のふりがなを正しく入力してください");
 			alert("姓のふりがなを入力してください");
-      document.getElementById('furigana_first').focus();
+      document.getElementById('furigana_last').focus();
       return false;
 
 		}
@@ -330,18 +330,18 @@ function validForm()
       //				alert("新郎の姓のふりがなを正しく入力してください");
 			if( str.match( /[^ぁ-ん\sー]+/ ) ) {
 				alert("姓のふりがなを正しく入力してください");
-				document.getElementById('furigana_first').focus();
+				document.getElementById('furigana_last').focus();
 				return false;
 			}
 		}
 
-  var str2 = document.getElementById("furigana_last").value;
+  var str2 = document.getElementById("furigana_first").value;
   if(str2=="")
 		{
       // UCHIDA EDIT 11/07/27
       //			alert("姓のふりがなを正しく入力してください");
 			alert("名のふりがなを入力してください");
-      document.getElementById('furigana_last').focus();
+      document.getElementById('furigana_first').focus();
       return false;
 
 		}
@@ -352,7 +352,7 @@ function validForm()
       //				alert("新郎の姓のふりがなを正しく入力してください");
 			if( str2.match( /[^ぁ-ん\sー]+/ ) ) {
         alert("名のふりがなを正しく入力してください");
-        document.getElementById('furigana_last').focus();
+        document.getElementById('furigana_first').focus();
         return false;
 			}
 		}
@@ -464,9 +464,9 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#first_div_id").append("<input type='hidden' name='male_first_gaiji_img[]' value='"+img+"'>");
       $("#first_div_id").append("<input type='hidden' name='male_first_gaiji_gid[]' value='"+gid+"'>");
       $("#first_div_id").append("<input type='hidden' name='male_first_gaiji_gsid[]' value='"+gsid+"'>");
-		
+
       $("#firstname_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
-      $("#first_name").attr("value", firstname+"＊");	
+      $("#first_name").attr("value", firstname+"＊");
     }
 	if(from=="last_name")
     {
@@ -474,7 +474,7 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#last_div_id").append("<input type='hidden' name='male_last_gaiji_img[]' value='"+img+"'>");
       $("#last_div_id").append("<input type='hidden' name='male_last_gaiji_gid[]' value='"+gid+"'>");
       $("#last_div_id").append("<input type='hidden' name='male_last_gaiji_gsid[]' value='"+gsid+"'>");
-		
+
       $("#lastname_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
       $("#last_name").attr("value", lastname+"＊");
     }
@@ -484,7 +484,7 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#comment1_div_id").append("<input type='hidden' name='comment1_gaiji_img[]' value='"+img+"'>");
       $("#comment1_div_id").append("<input type='hidden' name='comment1_gaiji_gid[]' value='"+gid+"'>");
       $("#comment1_div_id").append("<input type='hidden' name='comment1_gaiji_gsid[]' value='"+gsid+"'>");
-		
+
       $("#comment1_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
       $("#comment1").attr("value", comment1+"＊");
     }
@@ -494,11 +494,11 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#comment2_div_id").append("<input type='hidden' name='comment2_gaiji_img[]' value='"+img+"'>");
       $("#comment2_div_id").append("<input type='hidden' name='comment2_gaiji_gid[]' value='"+gid+"'>");
       $("#comment2_div_id").append("<input type='hidden' name='comment2_gaiji_gsid[]' value='"+gsid+"'>");
-		
+
       $("#comment2_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
       $("#comment2").attr("value", comment2+"＊");
     }
-	
+
 
 }
 
@@ -543,13 +543,13 @@ $editable=$objInfo->get_editable_condition($plan_info);
   if(isset($get['gid']) && (int)$get['gid'] > 0)
 		{
 			$guest_row = $obj->GetSingleRow(" spssp_guest ", " id=".(int)$get['gid']);
-      
+
       $query_string = "SELECT * FROM spssp_gaizi_detail_for_guest WHERE guest_id = ".$get['gid'];
       $firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=0");
       $lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=1");
       $comment1_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=2");
       $comment2_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=3");
-	
+
       function getGaijis($gaiji_objs){
         $returnImage = "";
         for($i=0;$i<count($gaiji_objs);++$i){
@@ -603,10 +603,10 @@ if($editable)
           <div id="firstname_img_div_id">
             <?php if($firstname_gaijis) echo getGaijis($firstname_gaijis);?>
           </div>
-					
+
 				</td>
 				<td></td>
-				
+
 			</tr>
 		  <tr>
 			<td width="96" align="right"><table width="96" border="0" cellspacing="2" cellpadding="2">
@@ -636,7 +636,7 @@ if($editable)
 
 			  <input type="text" size="10"  style="padding-top:3px; padding-bottom:3px;" name="last_name" id="last_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['last_name']?>" onfocus="change_gaiji_link('last_name')"/>
 				<div id="last_div_id" style="display:none;"></div>
-			
+
 			</td>
 			</tr>
 			<tr>
@@ -667,7 +667,7 @@ if($editable)
 
 			<div id="first_div_id" style="display:none;">
       <?php if($firstname_gaijis || $lastname_gaijis || $comment1_gaijis || $comment2_gaijis) echo getAllGaijisInputEle(array($firstname_gaijis,$lastname_gaijis,$comment1_gaijis,$comment2_gaijis))?>
-      </div>				
+      </div>
 
 				</td>
 			</tr>
@@ -738,7 +738,7 @@ if($editable)
           </div>
 				</td>
 				<td></td>
-				
+
 			</tr>
 			<tr>
 
@@ -765,7 +765,7 @@ if($editable)
 			  		<tr>
 						<td width="100" align="right">肩書 1:</td>
 						<td width="75">
-							
+
 							<input  name="comment1" type="text" id="comment1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')"/>
 							<div id="comment1_div_id" style="display:none;"></div>
 						</td>
@@ -777,7 +777,7 @@ if($editable)
 					<tr>
 			    		<td width="90" align="right">肩書 2:</td>
 			    		<td width="76" align="center">
-							
+
 							<input  name="comment2" type="text" id="comment2" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')"/>
 							<div id="comment2_div_id" style="display:none;"></div>
 						</td>
@@ -949,9 +949,9 @@ if($editable)
 
     <div class="cont_area">
 
-  	<font size="4">新郎 : 
+  	<font size="4">新郎 :
 	<?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname.png",$extra=".");?>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新婦 : 
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新婦 :
 	<?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname.png",$extra=".");?>
     </font>
 
@@ -1133,7 +1133,7 @@ if($editable)
 		{
 			$username = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
 		}
-		
+
 		$comment1 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment1.png",$extra="thumb1");
 		$comment2 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment2.png",$extra="thumb1");
 		if($comment1==false){$comment1 = $guest['comment1'];}
@@ -1165,7 +1165,7 @@ if($editable)
 		 ?>
 
 	  <? } else {
-	  
+
 	  	$comment1 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment1.png",$extra="guest/".$guest['id']."/thumb1");
 		$comment2 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment2.png",$extra="guest/".$guest['id']."/thumb1");
 		if($comment1==false){$comment1 = $guest['comment1'];}
@@ -1177,7 +1177,7 @@ if($editable)
           		<input  type="radio" value="" disabled="disabled" <?php if($guest['sex'] == 'Female'){ echo "checked='checked'";} ?> />    新婦
             </td>
              <td align="left" valign="middle" bgcolor="#FFFFFF">
-		
+
 			 <?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$guest['id']."/thumb1");?> </td>
         	<td align="center" valign="middle" bgcolor="#FFFFFF"> <?=$guest_type?> </td>
         	<td align="left" valign="middle" bgcolor="#FFFFFF"> <?=$comment1?><br><?=$comment2?> </td>

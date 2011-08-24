@@ -695,8 +695,8 @@ include("inc/return_dbcon.inc.php");
 		   	<div id="male_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($man_lastname_gaijis);?></div>
 	      <div id="male_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($man_firstname_gaijis);?></div>
                    </div>
-                    <input name="man_lastname" style="padding-top:4px; padding-bottom:4px;width:165px;" type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="30" onclick="change_gaiji_link('man_lastname')" />
-		<input name="man_firstname" type="text" style="padding-top:4px; padding-bottom:4px;width:165px;" id="man_firstname" value="<?=$user_row['man_firstname']?>" size="30"  onclick="change_gaiji_link('man_firstname')" />
+                    <input name="man_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="30" onclick="change_gaiji_link('man_lastname')" />
+					<input name="man_firstname" type="text" style="padding-top:4px; padding-bottom:4px;" id="man_firstname" value="<?=$user_row['man_firstname']?>" size="30"  onclick="change_gaiji_link('man_firstname')" />
                 	様　 <a id="man_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,505); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22"alt="外字検索" title="外字検索" /></a>
                 </td>
 
@@ -705,7 +705,7 @@ include("inc/return_dbcon.inc.php");
             	<td align="left" valign="top" nowrap="nowrap">ふりがな<font color="red">*</font>　　　　　　　　&nbsp;：</td>
            		<td nowrap="nowrap"  colspan="3">
 
-               	<input name="man_furi_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_furi_lastname" value="<?=$user_row['man_furi_lastname']?>" size="30" />
+               		<input name="man_furi_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_furi_lastname" value="<?=$user_row['man_furi_lastname']?>" size="30" />
             		<input name="man_furi_firstname" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_furi_firstname" value="<?=$user_row['man_furi_firstname']?>" size="30" /> 様
                 </td>
             </tr>
@@ -911,7 +911,7 @@ include("inc/return_dbcon.inc.php");
                 <td align="right" valign="top" nowrap="nowrap">&nbsp;</td>
                 <td colspan="3" nowrap="nowrap" align="left">
                 	<a href="javascript:void(0)" onclick="<?=$registration_onclick; ?>">
-                    	<img src="img/common/btn_regist_update.jpg" border="0" width="82" height="22" />
+                    	<img src="img/common/btn_regist_update.jpg" border="0" width="82" height="22" /><br /><br />
                     </a>
                 </td>
             </tr>

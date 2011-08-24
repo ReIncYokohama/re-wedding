@@ -586,32 +586,32 @@ include("inc/return_dbcon.inc.php");
 
 
 
-		   <div class="box_table" id="box_table">
+		   <div class="box_table" id="box_table" style="height:360px; overflow-y:auto;">
             <p>&nbsp;</p>
             <!--<div class="page_next"><?=$pageination_users?></div>-->
 
             <div class="box4" style="width:1000px;">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
                     <tr align="center">
-                        <td width="113">披露宴日<span class="txt1"><a href="manage.php?order_by=mdate&asc=true">▲</a> <a href="manage.php?order_by=mdate&asc=false">▼</a></span></td>
-                        <td width="147" > 新郎氏名<span class="txt1"><a href="manage.php?order_by=man_furi_firstname&asc=true">▲</a>
+                        <td width="70">披露宴日<span class="txt1"><a href="manage.php?order_by=mdate&asc=true">▲</a> <a href="manage.php?order_by=mdate&asc=false">▼</a></span></td>
+                        <td width="150" > 新郎氏名<span class="txt1"><a href="manage.php?order_by=man_furi_firstname&asc=true">▲</a>
                         	<a href="manage.php?order_by=man_furi_firstname&asc=false">▼</a></span>
                          </td>
-                        <td width="147" align="center" >新婦氏名<span class="txt1"><a href="manage.php?order_by=woman_furi_firstname&asc=true">▲</a>
+                        <td width="150" align="center" >新婦氏名<span class="txt1"><a href="manage.php?order_by=woman_furi_firstname&asc=true">▲</a>
                         	<a href="manage.php?order_by=woman_furi_firstname&asc=false">▼</a></span>
                         </td>
-                    	<td width="68" >詳細</td>
-                        <td width="88" >スタッフ</td>
-                        <td width="71" >メッセージ</td>
-                        <td width="90" >最終アクセス</td>
-                        <td width="80" >&nbsp;</td>
-                        <td width="50" >席次表</td>
-                        <td width="50" >引出物</td>
+                    	<td width="60" >詳細</td>
+                        <td width="80" >スタッフ</td>
+                        <td width="60" >メッセージ</td>
+                        <td width="80" >最終アクセス</td>
+                        <td width="60" >&nbsp;</td>
+                        <td width="40" >席次表</td>
+                        <td width="40" >引出物</td>
  <?php
 	//if($_SESSION['user_type'] == 111  || $_SESSION['user_type'] == 333)
 	//{
 ?>
-                        <td  width="62">削除</td>
+                        <td  width="40">削除</td>
 <?php
 	//}
 ?>
@@ -708,9 +708,9 @@ include("inc/return_dbcon.inc.php");
 	            <div class="<?=$class?>" style="width:1000px; ">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-						<td  width="113"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
+						<td  width="70"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
 
-                        <td width="147">
+                        <td width="150">
                         <?php
                           $man_name = $objinfo->get_user_name_image_or_src($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
 						  if($man_name==false){$man_name = $row['man_firstname']." ".$row['man_lastname'].' 様';}
@@ -718,7 +718,7 @@ include("inc/return_dbcon.inc.php");
 					   ?>
                         </td>
 
-                        <td width="147">
+                        <td width="150">
                         <?php
                            $woman_name = $objinfo->get_user_name_image_or_src($row['id'],$hotel_id=1 , $name="woman_fullname.png",$extra="thumb1");
 						   if($woman_name==false){$woman_name = $row['woman_firstname']." ".$row['woman_lastname'].' 様';}
@@ -726,12 +726,12 @@ include("inc/return_dbcon.inc.php");
 					   ?>
                         </td>
 
-                    	<td width="68"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif"  /></a></td>
+                    	<td width="60"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif"  /></a></td>
                          <!--<td><?php //echo $obj->japanyDateFormate($row['party_day'] , $row['party_day_with_time'])?></td>-->
 
-                        <td width="88"> <?=$staff_name?></td>
-                        <td width="71" > <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id']);?> </td>
-                        <td  width="90">
+                        <td width="80"> <?=$staff_name?></td>
+                        <td width="60" > <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id']);?> </td>
+                        <td  width="80">
 						<?php
 // UCHIDA EDIT 11/08/03 'ログイン中' → ログイン時間
 						if($last_login['login_time'] > "0000-00-00 00:00:00") {
@@ -756,22 +756,22 @@ include("inc/return_dbcon.inc.php");
 						?>
 						<? //date("Y-m-d", mktime($last_login));?>
                         </td>
-                        <td class="txt1" width="80" >
+                        <td class="txt1" width="60" >
                         	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
                         </td>
 
-                        <td width="50">
+                        <td width="40">
                         	<?php
                         	echo $objMsg->admin_side_user_list_new_status_notification_image_link_system($row['id']); // 席次・席札確認 → アイコン表示
 							?>
                         </td>
 
-                        <td width="50">
+                        <td width="40">
 						<?php echo $objMsg->admin_side_user_list_gift_day_limit_notification_image_link_system($row['id']); // 引出物確認     → アイコン表示
 						?>
 						</td>
 
-                        <td width="62">
+                        <td width="40">
                         	<a href="javascript:void(0);" onclick="<?=$delete_onclick;?>" >
                         		<img src="img/common/btn_deleate.gif"  />
                             </a>

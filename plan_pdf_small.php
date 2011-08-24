@@ -682,20 +682,15 @@ foreach($tblrows as $tblrow)
 			
               }
 			
-				
             //$html.='<tr><td colspan="2" align="center">'.$tblname .$guest_num.'</td></tr>';
             //テーブルの文字の調整のために空白を代入
             $html.='<tr><td colspan="2" align="center">'.$tblname .'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>';
-            $html.=$html2;	
-			
-			
+            $html.=$html2;
+
             $html.="</table></td>";
-          }                    
-			
-			
+          }
       }
-	
-	
+
     if($table_rows_hidden[0][countvalue]>0 && $pos=='left')
       for($i=0;$i<$table_rows_hidden[0][countvalue];$i++)
         {

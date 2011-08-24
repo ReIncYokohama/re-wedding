@@ -1,5 +1,0 @@
-AuthUserFile /home/re-dev/www/demo/demo1/hotel/.htpasswd
-AuthType Basic
-AuthName "Members only page. Please login to view."
-Require valid-user
-

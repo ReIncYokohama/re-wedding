@@ -277,7 +277,8 @@ $lines .="Guests";
 $usertblrows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".(int)$user_id." order by id ASC");
 $num_tables;
 
-$o=1;$cl22 = "";
+$o=1;
+$cl22 = "";
 foreach($usertblrows as $tblRows)
 {	//echo "<br>".$tblRows['table_id']."<br>";
 	$usertblrows = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id = ".(int)$tblRows['table_id']." order by id ASC");
@@ -296,10 +297,15 @@ foreach($usertblrows as $tblRows)
 	$z=1;
 	foreach($usertblrows as $usertbldata)
 	{
+
 		//echo "<pre>";print_r($usertbldata);
 		$guesttblrows = $obj->getRowsByQuery("select * from spssp_plan_details where seat_id = ".(int)$usertbldata['id']." order by id ASC");
+    
 		if($guesttblrows[0]['guest_id'])
-		{	$guest_info = $obj->GetSingleRow("spssp_guest","id=".$guesttblrows[0]['guest_id']." and user_id=".(int)$user_id);}
+		{	
+      //一時的に表示を不可に
+      $guest_info = $obj->GetSingleRow("spssp_guest","id=".$guesttblrows[0]['guest_id']." and 1=-1");
+    }
 		//echo "<pre>";print_r($guest_info);
 		//TableNumber
 		if(!empty($guest_info))
@@ -325,7 +331,6 @@ foreach($usertblrows as $tblRows)
     $lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=1");
     $comment1_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=2");
     $comment2_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=3");
-
 
 		//LastName		
 		$value = chop($guest_info['last_name']);
@@ -533,17 +538,14 @@ foreach($usertblrows as $tblRows)
 		
 		$own_array[] = "\"$value\"";
 		
-		
-		
 		$xxx++;
 	}
-	
+
 	$cl23_2 = implode(",",$own_array);
 	$cl23 = implode(",",$cl22);
 	$cl21 =$cl23_2.",".$cl23;
 	$line = mb_convert_encoding("$cl21", "SJIS", "UTF8");
 	$lines .= $line;
-
 
 
 //exit;	
@@ -566,7 +568,7 @@ $script_version="0".SCRIPT_VERSION;
 $this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$script_version;
 
 
-//header("Content-Type: application/octet-stream");
-//header("Content-Disposition: attachment; filename=${this_name}.csv");
+header("Content-Type: application/octet-stream");
+header("Content-Disposition: attachment; filename=${this_name}.csv");
 echo $lines;
 ?>

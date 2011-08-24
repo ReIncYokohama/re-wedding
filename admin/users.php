@@ -364,7 +364,7 @@ include("inc/return_dbcon.inc.php");
     <div id="contents">
 
 
-    	<h2><div style="width:350px;"> 管理者用お客様一覧</div></h2>
+    	<h2><div style="width:320px;"> 管理者用お客様一覧</div></h2>
 		<!--<h2>新規登録</h2>-->  <h2><div style="width:100px;">お客様一覧</div></h2>
     <?php
 if($noview==1)
@@ -573,10 +573,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 <!--SEARCH FORM END-->
 
 
-        <div class="box_table"  id="box_table">
-			<div class="bottom_line_box" style="width:1010px;">
-        	<p class="txt3"><font color="#2052A3"><strong>席次表設定</strong></font></p>
-			</div>
+	        <div class="box_table"  id="box_table" style="height:475px; overflow-y:auto;">
 			<div>
 				<?php if($_GET['view']=="before"){?>
 				<a href="users.php"><font color="#2052A3"><strong>本日以降のお客様一覧</strong></font></a>
@@ -607,26 +604,26 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
                         	<a href="users.php?order_by=stuff_id&asc=false">▼</a></span>
 						</td>
  -->
-                        <td width="113">披露宴日<span class="txt1"><a href="users.php?order_by=mdate&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a> <a href="users.php?order_by=mdate&asc=false<? if($_GET['view']=='before') {echo '&view=before';} ?>">▼</a></span></td>
-                        <td width="147">新郎氏名<span class="txt1"><a href="users.php?order_by=man_furi_firstname&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a>
+                        <td width="70">披露宴日<span class="txt1"><a href="users.php?order_by=mdate&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a> <a href="users.php?order_by=mdate&asc=false<? if($_GET['view']=='before') {echo '&view=before';} ?>">▼</a></span></td>
+                        <td width="150">新郎氏名<span class="txt1"><a href="users.php?order_by=man_furi_firstname&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a>
                         	<a href="users.php?order_by=man_furi_firstname&asc=false<? if($_GET['view']=='before') {echo '&view=before';} ?>">▼</a></span>
                         </td>
-                        <td width="147">新婦氏名<span class="txt1"><a href="users.php?order_by=woman_furi_firstname&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a>
+                        <td width="150">新婦氏名<span class="txt1"><a href="users.php?order_by=woman_furi_firstname&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a>
                         	<a href="users.php?order_by=woman_furi_firstname&asc=false<? if($_GET['view']=='before') {echo '&view=before';} ?>">▼</a></span>
                         </td>
-                        <td width="68">詳細</td>
-                        <td  width="88">スタッフ
+                        <td width="60">詳細</td>
+                        <td  width="80">スタッフ
 						<span class="txt1"><a href="users.php?order_by=stuff_id&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a>
                         	<a href="users.php?order_by=stuff_id&asc=false<? if($_GET['view']=='before') {echo '&view=before';} ?>">▼</a></span>
 						</td>
 <!-- UCHIDA EDIT 11/08/08 ソートでも過去のお客様情報を表示する ↑ -->
-                        <td width="71">メッセージ</td>
+                        <td width="60">メッセージ</td>
 						<!--<td>ログイン</td>-->
                         <td width="80">最終アクセス</td>
-                        <td width="80">&nbsp;</td>
-                        <td width="50">席次表</td>
-                        <td width="50">引出物</td>
-                        <td width="62">削除</td>
+                        <td width="60">&nbsp;</td>
+                        <td width="40">席次表</td>
+                        <td width="40">引出物</td>
+                        <td width="40">削除</td>
                     </tr>
                 </table>
 			</div>
@@ -635,25 +632,25 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 			<div class="box4" style="width:1000px;" >
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-                        <td width="113">披露宴日<span class="txt1"><a href="users.php?order_by=mdate&asc=true">▲</a> <a href="users.php?order_by=mdate&asc=false">▼</a></span></td>
-                        <td width="147">新郎氏名<span class="txt1"><a href="users.php?order_by=man_furi_firstname&asc=true">▲</a>
+                        <td width="70">披露宴日<span class="txt1"><a href="users.php?order_by=mdate&asc=true">▲</a> <a href="users.php?order_by=mdate&asc=false">▼</a></span></td>
+                        <td width="150">新郎氏名<span class="txt1"><a href="users.php?order_by=man_furi_firstname&asc=true">▲</a>
                         	<a href="users.php?order_by=man_furi_firstname&asc=false">▼</a></span>
                         </td>
-                        <td width="147">新婦氏名<span class="txt1"><a href="users.php?order_by=woman_furi_firstname&asc=true">▲</a>
+                        <td width="150">新婦氏名<span class="txt1"><a href="users.php?order_by=woman_furi_firstname&asc=true">▲</a>
                         	<a href="users.php?order_by=woman_furi_firstname&asc=false">▼</a></span>
                         </td>
-                    	<td width="68">詳細</td>
-                        <td  width="88">スタッフ
+                    	<td width="60">詳細</td>
+                        <td  width="80">スタッフ
 						<span class="txt1"><a href="users.php?order_by=stuff_id&asc=true">▲</a>
                         	<a href="users.php?order_by=stuff_id&asc=false">▼</a></span>
 						</td>
-                        <td width="71">メッセージ</td>
+                        <td width="60">メッセージ</td>
 						<!--<td>ログイン</td>-->
                         <td width="80">最終アクセス</td>
-                        <td width="80">&nbsp;</td>
-                        <td width="50">席次表</td>
-                        <td width="50">引出物</td>
-                        <td width="62">削除</td>
+                        <td width="60">&nbsp;</td>
+                        <td width="40">席次表</td>
+                        <td width="40">引出物</td>
+                        <td width="40">削除</td>
                     </tr>
                 </table>
             </div>
@@ -771,24 +768,24 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
             <div class="<?=$class?>" style="width:1000px;">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
                     <tr align="center">
-                        <td width="113"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'])?></td>
-                        <td width="147">
+                        <td width="70"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'])?></td>
+                        <td width="150">
 						<?php
                           $man_name = $objinfo->get_user_name_image_or_src($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
 						  if($man_name==false){$man_name = $row['man_firstname']." ".$row['man_lastname'].' 様';}
 						  echo $man_name;
 					    ?>
 				        </td>
-                        <td width="147">
+                        <td width="150">
 						<?php
                            $woman_name = $objinfo->get_user_name_image_or_src($row['id'],$hotel_id=1 , $name="woman_fullname.png",$extra="thumb1");
 						   if($woman_name==false){$woman_name = $row['woman_firstname']." ".$row['woman_lastname'].' 様';}
 						   echo $woman_name;
 					   ?>
 						</td>
-                    	<td width="68"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" /></a></td>
-                        <td width="88"> <?=$staff_name?></td>
-                        <td width="71"> <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'], $row['stuff_id']);?> </td>
+                    	<td width="60"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" /></a></td>
+                        <td width="80"> <?=$staff_name?></td>
+                        <td width="60"> <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'], $row['stuff_id']);?> </td>
                         <!-- <td></td>-->
 					    <td width="80">
                        <?php
@@ -815,11 +812,11 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 */
 						?>						<? //date("Y-m-d", mktime($last_login));?>
                         </td>
-                        <td width="80" class="txt1">
+                        <td width="60" class="txt1">
                         	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
                         </td>
 
-                        <td width="50">
+                        <td width="40">
                         	<?php
                             	echo $objMsg->admin_side_user_list_new_status_notification_image_link_system($row['id']);
 								/*<!--if($var == 1)
@@ -842,7 +839,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 							?>
                         </td>
 
-						<td width="50">
+						<td width="40">
 					<?php echo $objMsg->admin_side_user_list_gift_day_limit_notification_image_link_system($row['id']);?>
 					<?php	/*if(!empty($user_guests))
 						{?>
@@ -855,7 +852,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 	if($_SESSION['user_type'] == 111  || $_SESSION['user_type'] == 333)
 	{
 ?>
-                        <td width="62">
+                        <td width="40">
                         	<a href="javascript:void(0);" onclick="<?=$delete_onclick;?>" >
                         		<img src="img/common/btn_deleate.gif" />
                             </a>
