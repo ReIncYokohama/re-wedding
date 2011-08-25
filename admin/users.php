@@ -14,89 +14,21 @@
 	$data_per_page=10;
 	$current_page=(int)$_GET['page'];
 
-	if($_GET['view']=="before")
-	{
-		if($_SESSION['user_type'] == 111  || $_SESSION['user_type'] == 333)
-		{
-// UCHIDA EDIT 11/08/03 本日以降を挙式日→披露宴日に変更
-//			$where = " u.marriage_day < '".date("Y-m-d")."'";
-			$where = " u.party_day < '".date("Y-m-d")."'";
-		}
-		else
-		{
-// UCHIDA EDIT 11/08/03 本日以降を挙式日→披露宴日に変更
-//			$where = " u.marriage_day < '".date("Y-m-d")."' and  stuff_id=".(int)$_SESSION['adminid'];
-			$where = " u.party_day < '".date("Y-m-d")."' and  stuff_id=".(int)$_SESSION['adminid'];
-		}
-		$redirect_url = 'users.php?view=before';
+	$current_view = $_GET['view'];
+	if($current_view=="before") {
+		$where = " party_day < '".date("Y-m-d")."'";
 	}
-	else
-	{
-		if($_SESSION['user_type'] == 111  || $_SESSION['user_type'] == 333)
-		{
-// UCHIDA EDIT 11/08/03 本日以降を挙式日→披露宴日に変更
-//			$where = " u.marriage_day < '".date("Y-m-d")."'";
-			$where = " u.party_day < '".date("Y-m-d")."'";
-		}
-		else
-		{
-// UCHIDA EDIT 11/08/03 本日以降を挙式日→披露宴日に変更
-//			$where = " u.marriage_day < '".date("Y-m-d")."' and  u.stuff_id=".(int)$_SESSION['adminid'];
-			$where = " u.party_day < '".date("Y-m-d")."' and  u.stuff_id=".(int)$_SESSION['adminid'];
-		}
-// UCHIDA EDIT 11/08/03 本日以降を挙式日→披露宴日に変更
-//		$where = " u.marriage_day >= '".date("Y-m-d")."'";
-		$where = " u.party_day >= '".date("Y-m-d")."'";
-		$redirect_url = 'users.php';
+	else {
+		$where = " party_day >= '".date("Y-m-d")."'";
 	}
 
 	if($_GET['action']=='delete_user' && (int)$_GET['id'] > 0)
 	{
 		$sql = "delete from spssp_user where id=".(int)$_GET['id'];
 		mysql_query($sql);
-
 	}
-	if(isset($_GET['order_by']) && $_GET['order_by'] != '')
-	{
-		$orderby = mysql_real_escape_string($_GET['order_by']);
-		$dir = mysql_real_escape_string($_GET['asc']);
 
-		if($orderby=='mdate')
-		{
-			$order=" u.marriage_day ";
-
-		}
-
-		else if($orderby=='man_furi_firstname')
-		{
-			//$order=" woman_lastname ";
-			$order=" u.man_furi_firstname ";
-		}
-
-		else if($orderby=='woman_furi_firstname')
-		{
-			$order=" u.woman_furi_firstname ";
-			//$order=" man_lastname ";
-		}
-		else if($orderby=='stuff_id')
-		{
-			$order=" s.name";
-			//$order=" man_lastname ";
-		}
-		if($dir == 'true')
-		{
-			$order.=' asc';
-		}
-		else
-		{
-			$order.=' desc';
-		}
-
-	}
-	else
-	{
-		$order="party_day ASC";
-	}
+	$order="party_day ASC , party_day_with_time asc ";
 
 	if($_SESSION['user_type'] == 222)
 	{
@@ -108,73 +40,18 @@
 
 	}
 
+	$query_string="SELECT spssp_user.*, spssp_admin.name FROM spssp_user INNER JOIN spssp_admin ON spssp_user.stuff_id = spssp_admin.id where $where ORDER BY $order";
 
-
-
-
-	if(isset($_POST['search_user']) && $_POST['search_user'] > 0)
-	{
-		if(isset($_POST['chk_woman_lastname']) && trim($_POST['woman_lastname']) != "")
-		{
-
-				/*$where .= " and ( UPPER(woman_lastname) like '%".strtoupper(trim($_POST['woman_lastname']))."%' or UPPER(woman_firstname) like '%".strtoupper(trim($_POST['woman_lastname']))."%') ";*/
-
-				$where .= " and ( u.woman_lastname like '%".trim($_POST['woman_lastname'])."%' or u.woman_firstname like '%".trim($_POST['woman_lastname'])."%') ";
-
-		}
-		if(isset($_POST['chk_man_lastname']) && trim($_POST['man_lastname']) != "")
-		{
-				//$where .= " and man_lastname like '%".trim($_POST['man_lastname'])."%'";
-				/*$where .= " and ( UPPER(man_lastname) like '%".strtoupper(trim($_POST['man_lastname']))."%' or UPPER(man_firstname) like '%".strtoupper(trim($_POST['man_lastname']))."%') ";*/
-
-				$where .= " and ( u.man_lastname like '%".trim($_POST['man_lastname'])."%' or UPPER(u.man_firstname) like '%".trim($_POST['man_lastname'])."%') ";
-
-		}
-		if(isset($_POST['chk_marriage_day']) && trim($_POST['marriage_day']) != "")
-		{
-
-				$where .= " and u.marriage_day = '".trim($_POST['marriage_day'])."'";
-
-		}
-		//echo $where;exit;
-	}
-
-	if($_SESSION['user_type'] == 222  || $_SESSION['user_type'] == 333)
-	{
-		$data = $obj->GetAllRowsByCondition("spssp_user"," stuff_id=".(int)$_SESSION['adminid']);
-		foreach($data as $dt)
-		{
-			$staff_users[] = $dt['id'];
-		}
-		if(!empty($staff_users))
-		{
-			if(in_array((int)$get['user_id'],$staff_users))
-			{
-				$var = 1;
-			}
-			else
-			{
-				$var = 0;
-			}
-		}
-
-	}
-	else
-	{
-		$var = 1;
-	}
-	//$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
-	//$query_string="SELECT * FROM spssp_user where $where ORDER BY $order LIMIT ".((int)($current_page)*$data_per_page).",".((int)$data_per_page).";";
-	$query_string="SELECT u.* FROM spssp_user as u join spssp_admin AS s on u.stuff_id = s.id where $where ORDER BY $order";
-	//echo $query_string;
+//	echo $query_string;
 
 	$data_rows = $obj->getRowsByQuery($query_string);
 
-
-
-
-
-
+ 	if($current_view=="before") {
+		$passPresent = "<a href='users.php'><font color='#2052A3'><strong>本日以降のお客様一覧</strong></font></a>";
+	}
+	else {
+		$passPresent = "<a href='users.php?view=before'><font color='#2052A3'><strong>過去のお客様一覧</strong></font></a>";
+	}
 
 ?>
 <style>
@@ -184,7 +61,8 @@ width:200px;
 }
 .input_text
 {
-	width:125px;
+width:120px;
+border-style :inset;
 }
 .select
 {
@@ -277,19 +155,42 @@ function ckDate(datestr) {
 	}
 }
 
+function sortAction(sortOptin)
+{
+	var date_from;
+	var date_to;
+	var mname;
+	var wname;
+	var view = "<?=$current_view?>";
+
+	date_from = $j("#date_from").val();
+	date_to = $j("#date_to").val();
+	mname= $j("#man_lastname").val();
+	wname = $j("#woman_lastname").val();
+
+	// スタッフのソートはstuff_idの有無で判別
+	$j.post('ajax/search_user.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname,'sortOptin':sortOptin,'view':view}, function(data){
+
+	$j("#srch_result").fadeOut(100);
+	$j("#srch_result").html(data);
+	$j("#srch_result").fadeIn(700);
+	$j("#box_table").fadeOut(100);
+
+	});
+}
+
 function validSearch()
 {
 	var date_from;
 	var date_to;
-	var mdate;
 	var mname;
 	var wname;
+//	var view = "<?=$current_view?>";
 
-		date_from = $j("#date_from").val();
-		date_to = $j("#date_to").val();
-		mdate = $j("#marriage_day").val();
-		mname= $j("#man_lastname").val();
-		wname = $j("#woman_lastname").val();
+	date_from = $j("#date_from").val();
+	date_to = $j("#date_to").val();
+	mname= $j("#man_lastname").val();
+	wname = $j("#woman_lastname").val();
 
 	if(date_from == '' && date_to == '' && mname == '' && wname == '')
 	{
@@ -318,9 +219,10 @@ function validSearch()
 			}
 		}
 
-		$j.post('ajax/search_user.php',{'date_from':date_from,'date_to':date_to,'mdate':mdate,'mname':mname,'wname':wname}, function(data){
+	 	$j.post('ajax/search_user.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname /*,'view':view*/}, function(data){
 
-		$j("#srch_result").fadeOut(100)
+		$j("#passPresent").fadeOut(100);
+		$j("#srch_result").fadeOut(100);
 		$j("#srch_result").html(data);
 		$j("#srch_result").fadeIn(700);
 		$j("#box_table").fadeOut(100);
@@ -363,175 +265,13 @@ include("inc/return_dbcon.inc.php");
 <div id="container">
     <div id="contents">
 
+    	<h2><div> 管理者用お客様一覧</div></h2>
 
-    	<h2><div style="width:320px;"> 管理者用お客様一覧</div></h2>
-		<!--<h2>新規登録</h2>-->  <h2><div style="width:100px;">お客様一覧</div></h2>
-    <?php
-if($noview==1)
-{
-?>
-        <form action="insert_user.php" method="post" name="user_form_register">
-        <table border="1" cellspacing="10" cellpadding="0" style="width:1000px;">
-            <tr>
-                <td width="150" align="right" nowrap="nowrap">新郎氏名：</td>
-                <td width="350" nowrap="nowrap">
-                	<input name="man_firstname" type="text" id="man_firstname"  class="input_text"  />
-                    <input name="man_lastname" type="text" id="man_lastname"  class="input_text"  /> 様
-              	</td>
-                <td width="150" align="right" nowrap="nowrap">新婦氏名：</td>
-                <td width="350" nowrap="nowrap">
-                    <input name="woman_firstname" type="text" id="woman_firstname"  class="input_text"  />
-                    <input name="woman_lastname" type="text" id="woman_lastname"  class="input_text"  />  様
-                </td>
-            </tr>
-            <tr>
-                <td align="right" nowrap="nowrap">フリガナ：</td>
-                <td nowrap="nowrap">
-
-                	<input name="man_furi_firstname" type="text" id="man_furi_firstname"  class="input_text" />
-                    <input name="man_furi_lastname" type="text" id="man_furi_lastname"  class="input_text"  /> 様
-                </td>
-
-                <td align="right" nowrap="nowrap">フリガナ：</td>
-                <td nowrap="nowrap">
-
-                	<input name="woman_furi_firstname" type="text" id="woman_furi_firstname"  class="input_text"  />
-                    <input name="woman_furi_lastname" type="text" id="woman_furi_lastname"  class="input_text"  /> 様
-                </td>
-
-
-            </tr>
-            <tr>
-            	<td align="right" nowrap="nowrap">挙式日：</td>
-            	<td nowrap="nowrap">
-                	<input name="marriage_day" type="text" id="marriage_day" size="10" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="datepicker"/>
-                <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('marriage_day').value='';">クリア </a>-->
-
-                </td>
-            	<td align="right" nowrap="nowrap">挙式時間：</td>
-            	<td nowrap="nowrap">
-                	<input name="marriage_day_with_time" type="text" id="marriage_day_with_time" size="10" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>
-              <!--  &nbsp;<a href="javascript:void(0)" onclick="document.getElementById('marriage_day_with_time').value='';">クリア </a>-->
-                </td>
-            </tr>
-            <tr>
-
-            	<td align="right" nowrap="nowrap">挙式種類：</td>
-            	<td nowrap="nowrap">
-                	<select name="religion" id="religion" class="select" onchange="load_party_room(this.value);">
-                        <option value=""  <?php if($_SESSION['regs'][religion]=='') {?> selected="selected" <?php } ?>>選択してください</option>
-                        <?php
-							$religions = $obj->GetAllRowsByCondition("spssp_religion", " 1=1 order by title asc");
-							foreach($religions as $rel)
-							{
-								if($user_row['religion'] == $rel['id'])
-								{
-									$sel = "Selected = 'Selected'";
-								}
-								else
-								{
-									$sel = '';
-								}
-								echo "<option value='".$rel['id']."' $sel >".$rel['title']."</option>";
-							}
-						?>
-                    </select>
-                </td>
-					<td align="right" nowrap="nowrap">挙式会場：</td>
-            	<td nowrap="nowrap">
-                	<input name="party_room_id" type="text" id="party_room_id"  class="input_text"  />
-					<!--<select name="party_room_id" id="party_room_id" class="select" >
-                    	<option value="0">選択してください</option>
-						<?php
-						$party_rooms = $obj->GetAllRowsByCondition("spssp_party_room"," 1=1 order by name asc");
-                        if($party_rooms)
-                        {
-                            foreach($party_rooms as $pr)
-                            {
-                                if($pr['id'] == $user_row['party_room_id'])
-									echo "<option value ='".$pr['id']."' selected> ".$pr['name']." </option>";
-								else
-								 	echo "<option value ='".$pr['id']."'> ".$pr['name']." </option>";
-
-                            }
-                        }
-                    ?>
-
-                	</select>   -->
-                </td>
-            </tr>
-            <tr>
-            	<td align="right" nowrap="nowrap">披露宴日：</td>
-            	<td nowrap="nowrap">
-                	<input name="party_day" type="text" id="party_day" size="10" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" />
-                <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day').value='';">クリア </a>-->
-                </td>
-            	<td align="right" nowrap="nowrap">披露宴時間：</td>
-            	<td nowrap="nowrap">
-                <input name="party_day_with_time" type="text" id="party_day_with_time" size="10" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="timepicker"/>
-               <!-- &nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day_with_time').value='';">クリア </a>-->
-            　
-            披露宴会場：
-
-                <select name="room_id" id="room_id" class="select" >
-
-
-                    <?php
-                        if($rooms)
-                        {
-                            foreach($rooms as $room)
-                            {
-
-
-								if($room['id']==$_SESSION['regs']['room_id'])
-								echo "<option value ='".$room['id']."' selected> ".$room['name']." [".$room['max_seats']."]</option>";
-								else
-								 echo "<option value ='".$room['id']."'> ".$room['name']."</option>";
-								 //SEAT NUMBER IF NEEDED." [".$room['max_rows']*$room['max_columns']*$room['max_seats']."]
-
-                            }
-                        }
-                    ?>
-                </select>
-
-                </td>
-            </tr>
-            <tr>
-            	<td colspan="4" align="left">
-                	<a href="javascript:void(0);" onclick="valid_user();"><img src="img/common/btn_regist.jpg" border="0" width="62" height="22" /></a>
-                </td>
-            </tr>
-        </table>
-        </form>
 <?php
-}
-////USER ENTRY FORM DISABLEED END
-
 if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 {
 ?>
 
-
-        <!--<h2>検索・編集・削除</h2>
-
-        <p class="txt3">
-        	<form action="users.php" method="post">
-       		  　
-       		  <input name="chk_man_lastname" value="1" type="checkbox" />
-       		  新郎姓：<input name="man_lastname" type="text" id="新郎姓" class="input_text" /> &nbsp; &nbsp;
-              <input name="chk_woman_lastname" type="checkbox" value="1" id="checkbox2" />
-              新婦姓：
-              <input name="woman_lastname" type="text" id="新婦姓"  class="input_text" /> &nbsp; &nbsp;
-              <input type="checkbox" name="chk_marriage_day" value="1" id="chk_marriage_day" />
-              挙式日：
-
-                <input name="marriage_day" type="text" id="marriage_day" size="10" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="datepicker"/>
-
-                <br />
-                <input type="hidden" name="search_user" value="1" />
-                <input type="image" name="search" src="img/common/bt_search.jpg" width="62" height="22" />
-            </form>
-        </p>-->
 <!--SEARCH FORM START-->
  <div id="top_search_view">
 
@@ -563,86 +303,39 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 					 	<td width="30" align="left" valign="bottom" ><a href="users.php"><img border="0" height="22" width="82" alt="検索解除" src="img/common/btn_search_clear.jpg"/></a></td> <!-- UCHIDA EDIT 11/07/26 -->
 				      </tr>
 					</table>
-
               </form>
             </div>
-       		<p></p>
-            <div style="width:100%; display:none;" id="srch_result">
-            </div>
+       		<p>&nbsp;</p>
 
 <!--SEARCH FORM END-->
 
+			<div id="passPresent"> <?php echo $passPresent; ?> </div>
 
-	        <div class="box_table"  id="box_table" style="height:475px; overflow-y:auto;">
-			<div>
-				<?php if($_GET['view']=="before"){?>
-				<a href="users.php"><font color="#2052A3"><strong>本日以降のお客様一覧</strong></font></a>
+            <div style="width:100%; display:none;" id="srch_result"></div>
 
-				<?php }else{?>
-				<a href="users.php?view=before"><font color="#2052A3"><strong>過去のお客様一覧</strong></font></a>
-				<?php }?>
-			</div>
+	        <div class="box_table"  id="box_table" style="height:485px; overflow-y:auto;">
 
             <div class="page_next"><? #echo $pageination?></div>
-            <?php if($_GET['view']=="before"){?>
-			<div class="box4" style="width:1000px;" >
-                <table border="0" align="center" cellpadding="1" cellspacing="1" width="100%">
-                    <tr align="center">
-<!-- UCHIDA EDIT 11/08/08 ソートでも過去のお客様情報を表示する ↓ -->
-<!--
-                    	<td width="68">詳細</td>
-                      <td width="114">披露宴日<span class="txt1"><a href="users.php?order_by=mdate&asc=true">▲</a> <a href="users.php?order_by=mdate&asc=false">▼</a></span></td>
-                        <td width="140">新郎氏名<span class="txt1"><a href="users.php?order_by=man_furi_firstname&asc=true">▲</a>
-                        	<a href="users.php?order_by=man_furi_firstname&asc=false">▼</a></span>
-                         </td>
-                        <td width="140">新婦氏名<span class="txt1"><a href="users.php?order_by=woman_furi_firstname&asc=true">▲</a>
-                        	<a href="users.php?order_by=woman_furi_firstname&asc=false">▼</a></span>
-                        </td>
-                      <td width="94">&nbsp;</td>
-                        <td  width="88">スタッフ
-						<span class="txt1"><a href="users.php?order_by=stuff_id&asc=true">▲</a>
-                        	<a href="users.php?order_by=stuff_id&asc=false">▼</a></span>
-						</td>
- -->
-                        <td width="70">披露宴日<span class="txt1"><a href="users.php?order_by=mdate&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a> <a href="users.php?order_by=mdate&asc=false<? if($_GET['view']=='before') {echo '&view=before';} ?>">▼</a></span></td>
-                        <td width="150">新郎氏名<span class="txt1"><a href="users.php?order_by=man_furi_firstname&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a>
-                        	<a href="users.php?order_by=man_furi_firstname&asc=false<? if($_GET['view']=='before') {echo '&view=before';} ?>">▼</a></span>
-                        </td>
-                        <td width="150">新婦氏名<span class="txt1"><a href="users.php?order_by=woman_furi_firstname&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a>
-                        	<a href="users.php?order_by=woman_furi_firstname&asc=false<? if($_GET['view']=='before') {echo '&view=before';} ?>">▼</a></span>
-                        </td>
-                        <td width="60">詳細</td>
-                        <td  width="80">スタッフ
-						<span class="txt1"><a href="users.php?order_by=stuff_id&asc=true<? if($_GET['view']=='before') {echo '&view=before';} ?>">▲</a>
-                        	<a href="users.php?order_by=stuff_id&asc=false<? if($_GET['view']=='before') {echo '&view=before';} ?>">▼</a></span>
-						</td>
-<!-- UCHIDA EDIT 11/08/08 ソートでも過去のお客様情報を表示する ↑ -->
-                        <td width="60">メッセージ</td>
-						<!--<td>ログイン</td>-->
-                        <td width="80">最終アクセス</td>
-                        <td width="60">&nbsp;</td>
-                        <td width="40">席次表</td>
-                        <td width="40">引出物</td>
-                        <td width="40">削除</td>
-                    </tr>
-                </table>
-			</div>
 
-			<?php }else{?>
 			<div class="box4" style="width:1000px;" >
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-                        <td width="70">披露宴日<span class="txt1"><a href="users.php?order_by=mdate&asc=true">▲</a> <a href="users.php?order_by=mdate&asc=false">▼</a></span></td>
-                        <td width="150">新郎氏名<span class="txt1"><a href="users.php?order_by=man_furi_firstname&asc=true">▲</a>
-                        	<a href="users.php?order_by=man_furi_firstname&asc=false">▼</a></span>
+                        <td width="70">披露宴日<span class="txt1">
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day desc');">▼</a></span>
                         </td>
-                        <td width="150">新婦氏名<span class="txt1"><a href="users.php?order_by=woman_furi_firstname&asc=true">▲</a>
-                        	<a href="users.php?order_by=woman_furi_firstname&asc=false">▼</a></span>
+                        <td width="150" > 新郎氏名<span class="txt1">
+                        	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname desc');">▼</a></span>
+                        </td>
+                        <td width="150" align="center" >新婦氏名<span class="txt1">
+                        	<a href="javascript:void(0);" onclick="sortAction('woman_furi_lastname asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('woman_furi_lastname desc');">▼</a></span>
                         </td>
                     	<td width="60">詳細</td>
-                        <td  width="80">スタッフ
-						<span class="txt1"><a href="users.php?order_by=stuff_id&asc=true">▲</a>
-                        	<a href="users.php?order_by=stuff_id&asc=false">▼</a></span>
+                        <td  width="80">スタッフ<span class="txt1">
+                        	<a href="javascript:void(0);" onclick="sortAction('spssp_admin.name asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('spssp_admin.name desc');">▼</a></span>
 						</td>
                         <td width="60">メッセージ</td>
 						<!--<td>ログイン</td>-->
@@ -654,21 +347,12 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
                     </tr>
                 </table>
             </div>
-			<?php }?>
 
             <?php
 			$i=0;
 			foreach($data_rows as $row)
 			{
-				$roomname =  $obj->GetSingleData(" spssp_room", " name", " id=".(int)$data_rows['room_id']);
-				$party_roomname = $obj->GetSingleData(" spssp_room", " name", " id=".(int)$data_rows['party_room_id']);
-
-				include("inc/main_dbcon.inc.php");
-				$man_respect = $obj->GetSingleData(" spssp_respect", " title", " id=".(int)$data_rows['man_respect_id']);
-				$woman_respect = $obj->GetSingleData(" spssp_respect", " title", " id=".(int)$data_rows['woman_respect_id']);
-				include("inc/return_dbcon.inc.php");
-
-				$staff_name = $obj->GetSingleData("spssp_admin","name"," id=".$row['stuff_id']);
+				//$staff_name = $obj->GetSingleData("spssp_admin","name"," id=".$row['stuff_id']);
 
 				if($i%2==0)
 				{
@@ -678,7 +362,6 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 				{
 					$class = 'box6';
 				}
-				//$last_login = $obj->GetSingleData("spssp_user_log","max(login_time)"," id=".$row['id']);
 				$last_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$row['id']." and admin_id='0' ORDER BY login_time DESC");
 
 				$user_messages = $obj->GetAllRowsByCondition("spssp_message"," user_id=".$row['id']);
@@ -784,7 +467,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 					   ?>
 						</td>
                     	<td width="60"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" /></a></td>
-                        <td width="80"> <?=$staff_name?></td>
+                        <td width="80"> <?=$row['name']?></td>
                         <td width="60"> <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'], $row['stuff_id']);?> </td>
                         <!-- <td></td>-->
 					    <td width="80">
@@ -799,18 +482,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 								echo "<font color='#888888'>$dMsg</font>";
 							}
 					   	}
-
-/*
-                       if($last_login['login_time'] > "0000-00-00 00:00:00")
-					   	{
-							if($last_login['logout_time'] > "0000-00-00 00:00:00"){
-							echo $obj->japanyDateFormateShort($last_login['login_time']);
-							}else{
-							echo 'ログイン中';
-							}
-						}
-*/
-						?>						<? //date("Y-m-d", mktime($last_login));?>
+						?>
                         </td>
                         <td width="60" class="txt1">
                         	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
@@ -819,47 +491,16 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
                         <td width="40">
                         	<?php
                             	echo $objMsg->admin_side_user_list_new_status_notification_image_link_system($row['id']);
-								/*<!--if($var == 1)
-								{
-									echo $plan_link ;
-								}
-								else
-								{
-									if(isset($conf_plan_row) && !empty($conf_plan_row))
-									{
-										//echo "<a href='view_plan.php?plan_id=".$plan_row['id']."&user_id=".$row['id']."'><img src='img/common/btn_syori.gif'  border='0' /></a>";
-										echo "<img src='img/common/btn_syori.gif'  />";
-									}
-									else
-									{
-										//echo "<a href='javascript:void(0)' onclick='alert_staff_plan();'><img src='img/common/btn_syori.gif'  border='0' /></a>";
-										echo "<img src='img/common/btn_syori.gif'  border='0' />";
-									}
-								}-->*/
 							?>
                         </td>
-
 						<td width="40">
-					<?php echo $objMsg->admin_side_user_list_gift_day_limit_notification_image_link_system($row['id']);?>
-					<?php	/*if(!empty($user_guests))
-						{?>
-						<img src="img/common/btn_kentou.gif" />
-						<?php }else{ ?>
-						<img src="img/common/btn_kentou.gif" />
-						<?php }*/?>
+							<?php echo $objMsg->admin_side_user_list_gift_day_limit_notification_image_link_system($row['id']);?>
 						</td>
-   <?php
-	if($_SESSION['user_type'] == 111  || $_SESSION['user_type'] == 333)
-	{
-?>
                         <td width="40">
                         	<a href="javascript:void(0);" onclick="<?=$delete_onclick;?>" >
                         		<img src="img/common/btn_deleate.gif" />
                             </a>
                         </td>
-<?php
-	}
-?>
                     </tr>
             	</table>
           </div>
@@ -870,7 +511,6 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
         </div>
 <?php
 	}
-
 
 ?>
 

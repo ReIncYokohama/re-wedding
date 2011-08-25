@@ -98,46 +98,8 @@
 	$data_per_page_users=10;
 	$current_page_users=(int)$_GET['page'];
 
-	$redirect_url_users= 'manage.php';
-	if(isset($_GET['order_by']) && $_GET['order_by'] != '')
-	{
-		$orderby = mysql_real_escape_string($_GET['order_by']);
-		$dir = mysql_real_escape_string($_GET['asc']);
-
-		if($orderby=='mdate')
-		{
-			$order=" marriage_day ";
-
-		}
-
-		else if($orderby=='man_furi_firstname')
-		{
-			$order=" man_furi_firstname ";
-		}
-
-		else if($orderby=='woman_furi_firstname')
-		{
-			$order=" woman_furi_firstname ";
-		}
-		if($dir == 'true')
-		{
-			$order.=' asc';
-		}
-		else
-		{
-			$order.=' desc';
-		}
-
-	}
-	else
-	{
-		$order="party_day ASC , party_day_with_time asc ";
-	}
-	$pageination_users = $obj->pagination($table_users, $where_users, $data_per_page_users,$current_page_users,$redirect_url_users);
-
-	//$query_string="SELECT * FROM $table_users where $where_users ORDER BY $order LIMIT ".((int)($current_page_users)*$data_per_page_users).",".((int)$data_per_page_users).";";
+	$order="party_day ASC , party_day_with_time asc ";
 	$query_string="SELECT * FROM $table_users where $where_users ORDER BY $order ;";
-	//echo $query_string;
 	$data_rows = $obj->getRowsByQuery($query_string);
 
 ?>
@@ -180,7 +142,8 @@ width:200px;
 }
 .input_text
 {
-width:125px;
+width:120px;
+border-style :inset;
 }
 .datepicker
 {
@@ -290,8 +253,6 @@ function edit_super_msg(id)
 		$j("#super_desc_"+id).fadeOut(100);
 		$j(".new_super_message").fadeIn(500);
 	});
-
-
 }
 
 function viewMsg(id)
@@ -305,48 +266,6 @@ function viewMsg(id)
 	$j("#desc_"+id).dialog("open");
 
 }
-
-/*function change_enable(cid,tid)
-{
-
-
-	if($j("#"+cid).attr('checked') == true)
-	{
-
-		if(tid == 'date_from')
-		{
-			$j("#date_to").removeAttr('disabled');
-			$j("#date_from").removeAttr('disabled');
-			$j("#date_to").val(curr_year+'-'+curr_month+'-'+curr_date);
-			$j("#date_from").val(curr_year+'-'+curr_month+'-'+curr_date);
-
-
-		}
-		else
-		{
-			$j("#"+tid).removeAttr('disabled');
-		}
-
-	}
-	else
-	{
-
-		if(tid == 'date_from')
-		{
-			$j("#date_to").val('');
-			$j("#date_from").val('');
-
-			$j("#date_to").attr('disabled','disabled');
-			$j("#date_from").attr('disabled','disabled');
-		}
-		else
-		{
-			$j("#"+tid).val('');
-			$j("#"+tid).attr('disabled','disabled');
-		}
-	}
-}
-*/
 
 // UCHIDA EDIT 11/08/02 日付フォームの確認
 /****************************************************************
@@ -377,17 +296,36 @@ function ckDate(datestr) {
 	}
 }
 
+function sortAction(sortOptin)
+{
+	var date_from;
+	var date_to;
+	var mname;
+	var wname;
+
+	date_from = $j("#date_from").val();
+	date_to = $j("#date_to").val();
+	mname= $j("#man_lastname").val();
+	wname = $j("#woman_lastname").val();
+
+	$j.post('ajax/search_user2.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname,'sortOptin':sortOptin}, function(data){
+
+	$j("#srch_result").fadeOut(100)
+	$j("#srch_result").html(data);
+	$j("#srch_result").fadeIn(700);
+	$j("#box_table").fadeOut(100);
+	});
+}
+
 function validSearch()
 {
 	var date_from;
 	var date_to;
-	var mdate;
 	var mname;
 	var wname;
 
 		date_from = $j("#date_from").val();
 		date_to = $j("#date_to").val();
-		mdate = $j("#marriage_day").val();
 		mname= $j("#man_lastname").val();
 		wname = $j("#woman_lastname").val();
 
@@ -418,7 +356,7 @@ function validSearch()
 			}
 		}
 
-		$j.post('ajax/search_user2.php',{'date_from':date_from,'date_to':date_to,'mdate':mdate,'mname':mname,'wname':wname}, function(data){
+		$j.post('ajax/search_user2.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname}, function(data){
 
 		$j("#srch_result").fadeOut(100)
 		$j("#srch_result").html(data);
@@ -515,8 +453,6 @@ include("inc/return_dbcon.inc.php");
           $user_name = $man_name."・".$woman_name;
 
 					echo "<li><a href='message_user.php?user_id=".$umsg['user_id']."' >".$party_day." ".$user_name." 様よりの未読メッセージがあります。</a></li>";
-					//echo "<li><span class='date1'>".strftime('%Y/%m/%d',strtotime($umsg['creation_date']))."</span> ".$umsg['title']."&nbsp; <a href='javascript:void(0)' onclick='viewMsg(".$umsg['id'].")' id='view_user_".$umsg['id']."'> <img src='img/common/icon_customerview.gif' alt='お客様画面'  /></a></li>";
-					//echo "<div class='msg_desc' id='desc_".$umsg['id']."' title='お知らせ'><span style='color:#4C4C4C'>".$umsg['description']."</span><input type='hidden' value='view_user_".$umsg['id']."' /></div>";
 				}
 			?>
         </ul>
@@ -575,30 +511,26 @@ include("inc/return_dbcon.inc.php");
 
 
        		<p></p>
-            <div style="width:100%; display:none;" id="srch_result">
-
-            </div>
+            <div style="width:100%; display:none;" id="srch_result"></div>
             <p></p>
 
-
-
-
-
-
-
-		   <div class="box_table" id="box_table" style="height:360px; overflow-y:auto;">
+		    <div class="box_table" id="box_table" style="height:360px; overflow-y:auto;">
             <p>&nbsp;</p>
-            <!--<div class="page_next"><?=$pageination_users?></div>-->
 
             <div class="box4" style="width:1000px;">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
                     <tr align="center">
-                        <td width="70">披露宴日<span class="txt1"><a href="manage.php?order_by=mdate&asc=true">▲</a> <a href="manage.php?order_by=mdate&asc=false">▼</a></span></td>
-                        <td width="150" > 新郎氏名<span class="txt1"><a href="manage.php?order_by=man_furi_firstname&asc=true">▲</a>
-                        	<a href="manage.php?order_by=man_furi_firstname&asc=false">▼</a></span>
-                         </td>
-                        <td width="150" align="center" >新婦氏名<span class="txt1"><a href="manage.php?order_by=woman_furi_firstname&asc=true">▲</a>
-                        	<a href="manage.php?order_by=woman_furi_firstname&asc=false">▼</a></span>
+                        <td width="70">披露宴日<span class="txt1">
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day desc');">▼</a></span>
+                        </td>
+                        <td width="150" > 新郎氏名<span class="txt1">
+                        	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname desc');">▼</a></span>
+                        </td>
+                        <td width="150" align="center" >新婦氏名<span class="txt1">
+                        	<a href="javascript:void(0);" onclick="sortAction('woman_furi_lastname asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('woman_furi_lastname desc');">▼</a></span>
                         </td>
                     	<td width="60" >詳細</td>
                         <td width="80" >スタッフ</td>
@@ -607,14 +539,7 @@ include("inc/return_dbcon.inc.php");
                         <td width="60" >&nbsp;</td>
                         <td width="40" >席次表</td>
                         <td width="40" >引出物</td>
- <?php
-	//if($_SESSION['user_type'] == 111  || $_SESSION['user_type'] == 333)
-	//{
-?>
                         <td  width="40">削除</td>
-<?php
-	//}
-?>
                     </tr>
                 </table>
             </div>
@@ -653,22 +578,17 @@ include("inc/return_dbcon.inc.php");
 					$user_guests = $obj->GetSingleRow("spssp_guest"," user_id=".$row['id']);
 					if(!empty($conf_plan_row))
 					{
-						//$plan_link = "<a href='make_plan.php?plan_id=".$plan_row['id']."&user_id=".$row['id']."'><img src='img/common/btn_syori.gif'  border='0' /></a>";
-
 						$plan_link = "<img src='img/common/btn_syori.gif'  border='0' />";
 					}
 					else
 					{
 						if(!empty($user_guests))
 						{
-							//$plan_link = "<a href='make_plan.php?plan_id=".$plan_row['id']."&user_id=".$row['id']."'><img src='img/common/btn_syori.gif' border='0' /></a>";
-
 							$plan_link = "<img src='img/common/btn_syori.gif'  border='0' />";
 
 						}
 						else
 						{
-							//$plan_link = "<a href='javascript:void(0);' onclick='guestCheck();'><img src='img/common/btn_kousei.gif' border='0' /></a>";
 							$plan_link = "<img src='img/common/btn_kousei.gif' border='0' />";
 						}
 					}
@@ -743,18 +663,7 @@ include("inc/return_dbcon.inc.php");
 								echo "<font color='#888888'>$dMsg</font>";
 							}
 					   	}
-/*
-						if($last_login['login_time'] > "0000-00-00 00:00:00")
-					   	{
-							if($last_login['logout_time'] > "0000-00-00 00:00:00"){
-							echo $obj->japanyDateFormateShort($last_login['login_time']);
-							}else{
-							echo 'ログイン中';
-							}
-						}
-*/
 						?>
-						<? //date("Y-m-d", mktime($last_login));?>
                         </td>
                         <td class="txt1" width="60" >
                         	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
@@ -824,7 +733,6 @@ include("inc/return_dbcon.inc.php");
 							<ul class="ul3" id="message_BOX" style="height:200px; overflow:auto;">
 
                             	<?php
-                                //<a href='message_admin.php?id=".$msg['id']."'> ".$msg['title']."</a>
 								include("inc/main_dbcon.inc.php");
 								$super_messeges = $obj->GetAllRowsByCondition("super_admin_message "," 1 = 1 order by id desc");
 								include("inc/return_dbcon.inc.php");
@@ -850,13 +758,6 @@ include("inc/return_dbcon.inc.php");
                             <ul class="ul3">
 
                             <?php
-                                //<a href='message_admin.php?id=".$msg['id']."'> ".$msg['title']."</a>
-                                /*foreach($adminmsgs as $msg)
-                                {
-                                    echo "<li><span class='date2'>".strftime('%Y/%m/%d',strtotime($msg['creation_date']))."</span><a href='javascript:void(0);' onclick='view_dsc(".$msg['id'].")'> ".$msg['title']."</a><br />
-                                    <p class='admin_desc' id='admin_desc_".$msg['id']."'><b>".$msg['description']."</b><br /></p></li>";
-
-                                }*/
 	include("inc/main_dbcon.inc.php");
  	$super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," 1 = 1 order by id desc");
 
@@ -867,7 +768,7 @@ include("inc/return_dbcon.inc.php");
 									<a href='javascript:void(0);' onclick='view_dsc_super(".$msg['id'].")' id='super_title_".$msg['id']."'> ".$msg['title']."</a><br />
                                     <p class='super_desc' id='super_desc_".$msg['id']."'><span>".$msg['description']."</span> </p></li>";
 
-                                }                            ?>
+                                }?>
                             </ul>
                         </div>
                  <?php

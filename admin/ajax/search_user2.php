@@ -23,20 +23,19 @@ else
 {
 	$date_to = '';
 }
-if($post['mdate'] != '')
+
+$table = 'spssp_user';
+if($date_from != '' or $date_to != '')
 {
-	$mdate = $post['mdate'];
+	$qry = "select * from $table where stuff_id = ".$_SESSION['adminid'];
 }
 else
 {
-	$mdate = '';
+	$qry = "select * from $table where stuff_id = ".$_SESSION['adminid']." and  party_day >= '".date("Y-m-d")."'";
 }
 $mname = $post['mname'];
 $wname = $post['wname'];
 
-$table = 'spssp_user';
-
-$qry = "select * from $table where stuff_id = ".$_SESSION['adminid'];
 
 if($date_from != '' && $date_to != '')
 {
@@ -56,10 +55,6 @@ if($date_from == '' && $date_to == '')
 {
 	$qry .= "";
 }
-if($mdate !='')
-{
-	$qry .= " and party_day = '".$mdate."'";
-}
 
 if($mname != '')
 {
@@ -71,21 +66,20 @@ if($wname != '')
 	$qry .= " and (UPPER(woman_lastname) like '%".strtoupper($wname)."%' or UPPER(woman_firstname) like '%".strtoupper($wname)."%')";
 }
 
-if(isset($post['today']) && $post['today'] != '')
-{
-	$qry = " select * from $table where party_day>='".date('Y-m-d')."'";
-}
 if($_SESSION['user_type'] == 222)
 {
-	$qry .=" and stuff_id=".$_SESSION['adminid'];
+	if ($qry!="") $qry.=" and stuff_id=".$_SESSION['adminid']; else $qry.=" stuff_id=".$_SESSION['adminid'];
 }
-$qry .=" order by party_day asc , party_day_with_time asc ";
-$rows = $obj->getRowsByQuery($qry);
 
+if ($post['sortOptin']==NULL) 	$qry .=" order by party_day asc , party_day_with_time asc ";
+else							$qry .=" order by ".$post['sortOptin'];
+
+$rows = $obj->getRowsByQuery($qry);
+//echo $qry;
 $count_rows = count($rows);
 if($count_rows > 5)
 {
-	$styles = "height:270px; overflow:auto";
+	$styles = "height:360px; overflow-y:auto;";
 }
 else
 {
@@ -95,64 +89,6 @@ if(empty($rows))
 {
 ?>
 <!-- UCHIDA EDIT 11/08/08 検索数０でもタイトルだけは表示する  -->
-<div class="box_table" style="height:360px; overflow-y:auto;">
-    <p>&nbsp;</p>
-
-    <div class="box4">
-        <table border="0" align="center" cellpadding="1" cellspacing="1">
-                    <tr align="center">
-                        <td width="70">披露宴日</td>
-                        <td width="150">新郎氏名</td>
-                        <td width="150">新婦氏名</td>
-                    	<td width="60">詳細</td>
-                        <td width="80">スタッフ</td>
-                        <td width="60">メッセージ</td>
-                        <td width="80">最終アクセス</td>
-                        <td width="60">&nbsp;</td>
-                        <td width="40">席次表</td>
-                        <td width="40">引出物</td>
- <?php
-	if($_SESSION['user_type'] == 111  || $_SESSION['user_type'] == 333)
-	{
-?>
-                        <td  width="40">削除</td>
-<?php
-	}
-?>
-                    </tr>
-                </table>
-    </div>
-    </div>
-<?php
-}
-else
-{
-
-	if($_SESSION['user_type'] == 222 || $_SESSION['user_type'] == 333)
-	{
-		$data = $obj->GetAllRowsByCondition("spssp_user"," stuff_id=".(int)$_SESSION['adminid']);
-		foreach($data as $dt)
-		{
-			$staff_users[] = $dt['id'];
-		}
-		if(!empty($staff_users))
-		{
-			if(in_array((int)$get['user_id'],$staff_users))
-			{
-				$var = 1;
-			}
-			else
-			{
-				$var = 0;
-			}
-		}
-
-	}
-	else
-	{
-		$var = 1;
-	}
-?>
 <div class="box_table">
     <p>&nbsp;</p>
 
@@ -169,17 +105,44 @@ else
                         <td width="60">&nbsp;</td>
                         <td width="40">席次表</td>
                         <td width="40">引出物</td>
- <?php
-	if($_SESSION['user_type'] == 111  || $_SESSION['user_type'] == 333)
-	{
-?>
                         <td  width="40">削除</td>
-<?php
-	}
-?>
                     </tr>
                 </table>
     </div>
+    </div>
+<?php
+}
+else
+{
+?>
+<div class="box_table" style="height:360px; overflow-y:auto;">
+    <p>&nbsp;</p>
+
+            <div class="box4" style="width:1000px;">
+                <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
+                    <tr align="center">
+                        <td width="70">披露宴日<span class="txt1">
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day desc');">▼</a></span></td>
+                        <td width="150" > 新郎氏名<span class="txt1">
+                        	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname desc');">▼</a></span>
+                         </td>
+                        <td width="150" align="center" >新婦氏名<span class="txt1">
+                        	<a href="javascript:void(0);" onclick="sortAction('woman_furi_lastname asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('woman_furi_lastname desc');">▼</a></span>
+                        </td>
+                    	<td width="60" >詳細</td>
+                        <td width="80" >スタッフ</td>
+                        <td width="60" >メッセージ</td>
+                        <td width="80" >最終アクセス</td>
+                        <td width="60" >&nbsp;</td>
+                        <td width="40" >席次表</td>
+                        <td width="40" >引出物</td>
+                        <td  width="40">削除</td>
+                    </tr>
+                </table>
+            </div>
     <div class="box_table">
     <?php
 			$i=0;
@@ -267,7 +230,7 @@ else
 				}
 
 			?>
-            <div class="<?=$class?>">
+            <div class="<?=$class?>" style="width:1000px;">
                   <table border="0" align="center" cellpadding="1" cellspacing="1" width="100%">
                     <tr align="center">
                         <td width="70"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
@@ -303,16 +266,7 @@ else
 								echo "<font color='#888888'>$dMsg</font>";
 							}
 					   	}
-/*
-						if($last_login['login_time'] > "0000-00-00 00:00:00")
-					   	{
-							if($last_login['logout_time'] > "0000-00-00 00:00:00"){
-							echo $obj->japanyDateFormateShort($last_login['login_time']);
-							}else{
-							echo 'ログイン中';
-							}
-						}
-*/						?>
+						?>
 						</td>
                         <td class="txt1"  width="60">
                         	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
@@ -320,42 +274,16 @@ else
                         <td width="40">
                         	<?php
 							echo $objMsg->admin_side_user_list_new_status_notification_image_link_system($row['id']);
-                            /*	if($var == 1)
-								{
-									echo $plan_link ;
-								}
-								else
-								{
-									if(isset($conf_plan_row) && !empty($conf_plan_row))
-									{
-										//echo "<a href='view_plan.php?plan_id=".$plan_row['id']."&user_id=".$row['id']."'><img src='img/common/btn_syori.gif' height='17' width='42' border='0' /></a>";
-										echo "<img src='img/common/btn_syori.gif' height='17' width='42' border='0' />";
-									}
-									else
-									{
-										//echo "<a href='javascript:void(0)' onclick='alert_staff_plan();'><img src='img/common/btn_syori.gif' height='17' width='42' border='0' /></a>";
-										echo "<img src='img/common/btn_syori.gif' height='17' width='42' border='0' />";
-									}
-								}
-								*/
 							?>
                         </td>
-                        <!--<td><a href="gift_user.php?user_id=<?=$row['id'];?>"><img src="img/common/btn_kentou.gif" width="42" height="17" /></a></td>-->
 						<td width="40">
 					<?php echo $objMsg->admin_side_user_list_gift_day_limit_notification_image_link_system($row['id']);?>
 						</td>
-   <?php
-	if($_SESSION['user_type'] == 111  || $_SESSION['user_type'] == 333)
-	{
-?>
                         <td width="40">
                         	<a href="javascript:void(0);" onclick="<?=$delete_onclick;?>" >
                         		<img src="img/common/btn_deleate.gif" width="42" height="17" />
                             </a>
                         </td>
-<?php
-	}
-?>
                         </tr>
             	</table>
             </div>
@@ -363,7 +291,7 @@ else
 			$i++;
             }
 			?>
-            </div>
+     </div>
   </div>
   <?php
   	}
