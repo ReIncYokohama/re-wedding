@@ -70,7 +70,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete' && (int)$_GET['id'] > 0
 <!-- UCHIDA EDIT 11/08/11 デモ用に登録したホテルＩＤでホテル画面に遷移させる -->
 <!--             <td><a href="#"><img src="img/common/hotel_display.png" width="61" height="17" alt="ホテル画面" /></a></td> -->
             <td>
-			<a href="../../demo/demo1/hotel<?php echo (int)$hotel['hotel_code']+11?>/admin/index.php?key=<?=md5($hotel['email'])?>"><img src="img/common/hotel_display.png" width="61" height="17" alt="ホテル画面" /></a>
+			<a href="../hotel<?php echo (int)$hotel['hotel_code']?>/admin/index.php?key=<?=md5($hotel['email'])?>"><img src="img/common/hotel_display.png" width="61" height="17" alt="ホテル画面" /></a>
 			</td>
 
             <td><a href="hotel.php?action=delete&id=<?=$hotel['id']?>" onclick="return confirm('削除しても宜しいですか？');"> <img src="img/common/btn_deleate.png" alt="削除" width="42" height="17" /></a></td>
