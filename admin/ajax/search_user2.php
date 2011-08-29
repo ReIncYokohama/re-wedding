@@ -79,7 +79,11 @@ if($_SESSION['user_type'] == 222)
 $sortOptin = $post['sortOptin'];
 if ($sortOptin==NULL) 	$qry .=" order by party_day asc , party_day_with_time asc ";
 else {
+<<<<<<< HEAD
 	$sortOptin = str_replace("+", ",", $post['sortOptin']); // +を,変換(,はPOST中に消滅する)
+=======
+	$sortOptin = str_replace("+", ",", $post['sortOptin']);
+>>>>>>> 59414c003736717b79dc830115177559f44eb0e8
 	$qry .=" order by ".$sortOptin;
 }
 

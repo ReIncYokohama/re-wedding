@@ -316,7 +316,11 @@ function valid_plan(noUpdate)
 {
 
 	if (noUpdate == true) {
+<<<<<<< HEAD
 		alert("披露宴日が過ぎてきるため、登録・更新ができません");
+=======
+		alert("披露宴日が過ぎてきるため、登録・更新ができません２");
+>>>>>>> 59414c003736717b79dc830115177559f44eb0e8
 		return false;
 	}
 
@@ -446,7 +450,11 @@ function checkGroupForm(x, noUpdate)
 {	//alert(x);
 
 	if (noUpdate == true) {
+<<<<<<< HEAD
 		alert("披露宴日が過ぎてきるため、登録・更新ができません");
+=======
+		alert("披露宴日が過ぎてきるため、登録・更新ができません３");
+>>>>>>> 59414c003736717b79dc830115177559f44eb0e8
 		return false;
 	}
 
@@ -474,7 +482,11 @@ function checkGiftForm(x, noUpdate)
 {	//alert(x);
 
 	if (noUpdate == true) {
+<<<<<<< HEAD
 		alert("披露宴日が過ぎてきるため、登録・更新ができません");
+=======
+		alert("披露宴日が過ぎてきるため、登録・更新ができません４");
+>>>>>>> 59414c003736717b79dc830115177559f44eb0e8
 		return false;
 	}
 
@@ -504,7 +516,11 @@ function checkMenuGroupForm(x, noUpdate)
 {	//alert(x);
 
 	if (noUpdate == true) {
+<<<<<<< HEAD
 		alert("披露宴日が過ぎてきるため、登録・更新ができません");
+=======
+		alert("披露宴日が過ぎてきるため、登録・更新ができません５");
+>>>>>>> 59414c003736717b79dc830115177559f44eb0e8
 		return false;
 	}
 
@@ -603,8 +619,14 @@ function change_gaiji_link(action)
 
 function valid_user(user_id, noUpdate) // registration_validation.jsから移動 11/08/26
 {
+<<<<<<< HEAD
 	if (noUpdate == true) {
 		alert("披露宴日が過ぎてきるため、登録・更新ができません");
+=======
+alert("TEST");
+	if (noUpdate == true) {
+		alert("披露宴日が過ぎてきるため、登録・更新ができません１");
+>>>>>>> 59414c003736717b79dc830115177559f44eb0e8
 		return false;
 	}
 
@@ -713,6 +735,11 @@ function valid_user(user_id, noUpdate) // registration_validation.jsから移動
 	}
 
    var str4 = document.getElementById("marriage_hour").value;
+<<<<<<< HEAD
+=======
+   alert("TEST");
+//   alert(str4.indexOf(" "));
+>>>>>>> 59414c003736717b79dc830115177559f44eb0e8
    if (str4 == "") {
       alert("挙式時間を入力ください");
 	  document.getElementById('marriage_hour').focus();

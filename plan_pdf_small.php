@@ -203,18 +203,15 @@ foreach($menu_groups as $mg)
 	{
 		$group_menu_array[$mg['name']]=0;
 	}
-include("admin/inc/main_dbcon.inc.php");	
+include("admin/inc/main_dbcon.inc.php");
 $respects = $obj->GetAllRow( "spssp_respect");
 include("admin/inc/return_dbcon.inc.php");
 
-
-
-	
 $male_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male'");
 $female_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female'");
 $total_guest=$male_guest_num+$female_guest_num;
 $total_guest_with_bride=$total_guest+2;
-	
+
 $woman_lastname=$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_lastname_respect.png",$extra="thumb1");
 	
 $man_lastname=$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_lastname_respect.png",$extra="thumb1");

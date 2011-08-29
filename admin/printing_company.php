@@ -408,7 +408,7 @@ include("inc/return_dbcon.inc.php");
 
 
         <p>&nbsp;</p>
-        <div id="message_BOX" style="auto; overflow:auto; width:800px;">
+        <div class="box_table" style="width:800px;">
             <div class="box4">
                 <table border="0" align="center" cellpadding="1" cellspacing="1">
                 <tr align="center">
