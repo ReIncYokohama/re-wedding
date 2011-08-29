@@ -195,7 +195,7 @@ width:200px;
 	}
 
 </style>
-<script src="../js/noConflict.js" type="text/javascript"></script>
+<!-- <script src="../js/noConflict.js" type="text/javascript"></script> -->
 <script type="text/javascript" src="calendar/calendar.js"></script>
 
 
@@ -215,7 +215,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 
 <link rel="stylesheet" href="../datepicker/datepicker.css">
 <script type="text/javascript" language="javascript" src="../datepicker/behaviors.js"></script>
-<script type="text/javascript" src="../js/registration_validation.js"></script>
+<!-- <script type="text/javascript" src="../js/registration_validation.js"></script> -->
 <script type="text/javascript" src="../js/jquery.cj-object-scaler.min.js"></script>
 <script type="text/javascript" src="../js/gaiji.js"></script>
 <script type="text/javascript">
@@ -312,8 +312,14 @@ function change_plan(planid)
 }
 
 
-function valid_plan()
+function valid_plan(noUpdate)
 {
+
+	if (noUpdate == true) {
+		alert("披露宴日が過ぎてきるため、登録・更新ができません");
+		return false;
+	}
+
 	// UCHIDA EDIT 11/08/05 入力確認。上書きをカバー
 	var product_name = $j("#product_name").val();
 
@@ -436,8 +442,14 @@ function valid_plan()
 		$j("#party_room_id").fadeIn(300);
 	});
 }*/
-function checkGroupForm(x)
+function checkGroupForm(x, noUpdate)
 {	//alert(x);
+
+	if (noUpdate == true) {
+		alert("披露宴日が過ぎてきるため、登録・更新ができません");
+		return false;
+	}
+
 	var error =1;
 	for(var y=1;y<x;y++)
 	{
@@ -458,9 +470,13 @@ function checkGroupForm(x)
 		alert("引出物グループ名を入力してください");
 	}
 }
-function checkGiftForm(x)
+function checkGiftForm(x, noUpdate)
 {	//alert(x);
 
+	if (noUpdate == true) {
+		alert("披露宴日が過ぎてきるため、登録・更新ができません");
+		return false;
+	}
 
 	// UCHIDA EDIT 11/08/05 引出物商品名は無入力でも許可　上書きのカバー
 	document.editUserGiftItemsForm.submit();
@@ -484,8 +500,13 @@ function checkGiftForm(x)
 	}
 */
 }
-function checkMenuGroupForm(x)
+function checkMenuGroupForm(x, noUpdate)
 {	//alert(x);
+
+	if (noUpdate == true) {
+		alert("披露宴日が過ぎてきるため、登録・更新ができません");
+		return false;
+	}
 
 	for(var y=0;y<x;y++)
 	{
@@ -580,6 +601,329 @@ function change_gaiji_link(action)
 		$j("a#woman_gaiji_link_id").attr("href", "../gaiji/palette.php?from=woman_lastname");
 }
 
+function valid_user(user_id, noUpdate) // registration_validation.jsから移動 11/08/26
+{
+	if (noUpdate == true) {
+		alert("披露宴日が過ぎてきるため、登録・更新ができません");
+		return false;
+	}
+
+	var email = document.getElementById('mail').value;
+	var com_email = document.getElementById('con_mail').value;
+
+	var reg = /^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/;
+
+	if(document.getElementById("man_lastname").value=='')
+	{
+		alert("新郎の姓を正しく入力してください"); // UCHIDA EDIT 11/08/05 メッセージを変更
+		document.getElementById('man_lastname').focus();
+		return false;
+	}
+	if(document.getElementById("man_firstname").value=='')
+	{
+		alert("新郎の名を正しく入力してください");
+		document.getElementById('man_firstname').focus();
+		return false;
+	}
+
+	if(document.getElementById("man_furi_firstname").value=='')
+	{
+		alert("新郎の名のふりがなを正しく入力してください");
+		document.getElementById('man_furi_firstname').focus();
+		return false;
+	}
+
+   var str = document.getElementById("man_furi_firstname").value;
+   if( str.match( /[^ぁ-ん\s]+/ ) ) {
+      alert("新郎の名のふりがなを正しく入力してください");
+	  document.getElementById('man_furi_firstname').focus();
+	  return false;
+   }
+
+
+	if(document.getElementById("man_furi_lastname").value=='')
+	{
+		alert("新郎の姓のふりがなを正しく入力してください");
+		document.getElementById('man_furi_lastname').focus();
+		return false;
+	}
+
+   var str1 = document.getElementById("man_furi_lastname").value;
+   if( str1.match( /[^ぁ-ん\s]+/ ) ) {
+      alert("新郎の名のふりがなを正しく入力してください");
+	  document.getElementById('man_furi_lastname').focus();
+	  return false;
+   }
+
+
+	if(document.getElementById("woman_lastname").value=='')
+	{
+		alert("新婦の姓を正しく入力してください");
+		document.getElementById('woman_lastname').focus();
+		return false;
+	}
+
+	if(document.getElementById("woman_firstname").value=='')
+	{
+		alert("新婦の名を正しく入力してください");
+		document.getElementById('woman_firstname').focus();
+		return false;
+	}
+
+	if(document.getElementById("woman_furi_firstname").value=='')
+	{
+		alert("新婦の名のふりがなを正しく入力してください");
+		document.getElementById('woman_furi_firstname').focus();
+		return false;
+	}
+
+    var str2 = document.getElementById("woman_furi_firstname").value;
+   if( str2.match( /[^ぁ-ん\s]+/ ) ) {
+      alert("新婦の名のふりがなを正しく入力してください");
+	  document.getElementById('woman_furi_firstname').focus();
+	  return false;
+   }
+
+	if(document.getElementById("woman_furi_lastname").value=='')
+	{
+		alert("新婦の姓のふりがなを正しく入力してください");
+		document.getElementById('woman_furi_lastname').focus();
+		return false;
+	}
+
+    var str3 = document.getElementById("woman_furi_lastname").value;
+   if( str3.match( /[^ぁ-ん\s]+/ ) ) {
+      alert("新婦の姓のふりがなを正しく入力してください");
+	  document.getElementById('woman_furi_lastname').focus();
+	  return false;
+   }
+
+	if(document.getElementById("marriage_day").value=='')
+	{
+		alert("挙式日を正しく入力してください");
+		document.getElementById('marriage_day').focus();
+		return false;
+	}
+
+	if(document.getElementById("marriage_hour").value >23)
+	{
+		alert("24時間以内で入力してください");
+		document.getElementById('marriage_hour').focus();
+		return false;
+	}
+
+   var str4 = document.getElementById("marriage_hour").value;
+   if (str4 == "") {
+      alert("挙式時間を入力ください");
+	  document.getElementById('marriage_hour').focus();
+	  return false;
+   }
+   if( str4.match( /[^0-9\s]+/ ) ) {
+      alert("挙式時間は半角数字で入力してください");
+	  document.getElementById('marriage_hour').focus();
+	  return false;
+   }
+   if( str4.indexOf(" ")>=0 || str4.indexOf("　")>=0 ) {
+      alert("挙式時間は半角数字で入力してください");
+	  document.getElementById('marriage_hour').focus();
+	  return false;
+   }
+   if(document.getElementById("marriage_minute").value >59)
+	{
+		alert("59分以上は入力できません");
+		document.getElementById('marriage_minute').focus();
+		return false;
+	}
+
+   var str5 = document.getElementById("marriage_minute").value;
+   if (str5 == "") {
+      alert("挙式時間を入力ください");
+	  document.getElementById('marriage_minute').focus();
+	  return false;
+	}
+   if( str5.match( /[^0-9\s]+/ ) ) {
+      alert("挙式時間は半角数字で入力してください");
+	  document.getElementById('marriage_minute').focus();
+	  return false;
+   }
+   if( str5.indexOf(" ")>=0 || str5.indexOf("　")>=0 ) {
+      alert("挙式時間は半角数字で入力してください");
+	  document.getElementById('marriage_minute').focus();
+	  return false;
+   }
+
+	if(document.getElementById("room_id").value=='')
+	{
+		alert("必須項目は必ず入力してください。");
+		document.getElementById('room_id').focus();
+		return false;
+	}
+
+	if(document.getElementById("religion").value=='')
+	{
+		alert("挙式種類を選択してください");
+		document.getElementById('religion').focus();
+		return false;
+	}
+
+	if(document.getElementById("party_day").value=='')
+	{
+		alert("披露宴日を正しく入力してください");
+		document.getElementById('party_day').focus();
+		return false;
+	}
+
+	if(document.getElementById("party_hour").value >23)
+	{
+		alert("24時間以内で入力してください");
+		document.getElementById('party_hour').focus();
+		return false;
+	}
+
+   var str6 = document.getElementById("party_hour").value;
+   if (str6 == "") {
+      alert("披露宴時間を入力ください");
+	  document.getElementById('party_hour').focus();
+	  return false;
+	}
+   if( str6.match( /[^0-9\s]+/ ) ) {
+      alert("披露宴時間は半角数字で入力ください");
+	  document.getElementById('party_hour').focus();
+	  return false;
+   }
+   if( str6.indexOf(" ")>=0 || str6.indexOf("　")>=0 ) {
+      alert("披露宴時間は半角数字で入力ください");
+	  document.getElementById('party_hour').focus();
+	  return false;
+   }
+
+	if(document.getElementById("party_minute").value >59)
+	{
+		alert("59分以上は入力できません");
+		document.getElementById('party_minute').focus();
+		return false;
+	}
+
+   var str7 = document.getElementById("party_minute").value;
+   if (str7 == "") {
+      alert("披露宴時間を入力ください");
+	  document.getElementById('party_minute').focus();
+	  return false;
+	}
+   if( str7.match( /[^0-9\s]+/ ) ) {
+      alert("披露宴時間は半角数字で入力ください");
+	  document.getElementById('party_minute').focus();
+	  return false;
+   }
+   if( str7.indexOf(" ")>=0 || str7.indexOf("　")>=0 ) {
+      alert("披露宴時間は半角数字で入力ください");
+	  document.getElementById('party_minute').focus();
+	  return false;
+   }
+
+	if(document.getElementById("party_room_id").value=='')
+	{
+		alert("挙式会場名を入力してください");
+		document.getElementById('party_room_id').focus();
+		return false;
+	}
+	if(document.getElementById("user_id").value=='')
+	{
+		alert("ログインIDを入力してください");
+		document.getElementById('user_id').focus();
+		return false;
+	}
+
+	var radio3  = document.user_form_register.subcription_mail;
+
+// UCHIDA EDIT 11/08/05 メッセージを変更
+	if(radio3[0].checked)
+	{
+		if(email=='')
+		{
+			alert("メールアドレスが未入力です");
+			document.getElementById('mail').focus();
+			return false;
+		}
+		else
+		{
+			if(email_validate(email)==false)
+			{
+				alert("正しいメールアドレスではありません");//Enter a valid email address.
+				document.getElementById('mail').focus();
+				return false;
+			}
+
+			if(com_email!=email)
+			{
+				alert("メールアドレス確認用を正しく入力してください");
+				document.getElementById('con_mail').focus();
+				return false;
+			}
+		}
+	}else{
+
+		if(email !='')
+		{
+			if(email_validate(email)==false)
+			{
+				alert("正しいメールアドレスではありません");//Enter a valid email address.
+				document.getElementById('mail').focus();
+				return false;
+			}
+
+			if(com_email != email)
+			{
+				alert("メールアドレス確認用を正しく入力してください");
+				document.getElementById('con_mail').focus();
+				return false;
+			}
+		}
+	}
+	if(email =='' && com_email != "") {
+		alert("メールアドレスが未入力です");
+		document.getElementById('mail').focus();
+	}
+// UCHIDA EDIT 11/08/05 パスワードは入力対象ではなくなったので、チェックを外す
+/*
+var pass = document.getElementById("password").value;
+if(document.getElementById("password").value=='')
+	{
+		alert("パスワードは半角英数字6文字以上で入力ください ");
+		document.getElementById('password').focus();
+		return false;
+	}
+	else
+	{
+
+		var c = document.getElementById("password").value.length;
+		if(c<6)
+		{
+			alert("パスワードは半角英数字6文字以上で入力ください ");
+			document.getElementById('password').focus();
+			return false;
+		}
+	}
+
+	if(!RE_PASS.exec(pass))
+	 {
+		alert("パスワードは英数字 を入力してください");
+		document.getElementById('password').focus();
+		return false;
+	  }
+*/
+	//checkDuplicateMail();
+	/*matchMail();
+	checkRoomAvailability();*/
+	if(document.getElementById("room_id").value==document.getElementById("current_room_id").value)
+	document.user_form_register.submit();
+	else
+		{
+			if(confirm("披露宴会場を変更すると、現在の設定が削除されます。変更してよろしいですか？"))
+			document.user_form_register.submit();
+		}
+}
+
 </script>
 
 <script type="text/javascript"><!--
@@ -634,26 +978,25 @@ include("inc/return_dbcon.inc.php");
         </h2>
 		<div style="width:700px;">
         	<div class="navi">
-            	<img src="img/common/navi01_on.jpg" width="148" height="22" />
+            	<img src="img/common/navi01_on.jpg"/>
             </div>
         	<div class="navi">
-            	<a href="message_admin.php?user_id=<?=(int)$_GET['user_id']?>"><img src="img/common/navi02.jpg" width="96" height="22" class="on" /></a>
+            	<a href="message_admin.php?user_id=<?=(int)$_GET['user_id']?>"><img src="img/common/navi02.jpg" class="on" /></a>
             </div>
         	<div class="navi">
             	<a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank">
-            		<img src="img/common/navi03.jpg" width="126" height="22" class="on" />
+            		<img src="img/common/navi03.jpg" class="on" />
                 </a>
             </div>
-        	<div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>"><img src="img/common/navi04.jpg" width="150" height="22" class="on" /></a></div>
-        	<!--<div class="navi"><a href="customers_date_dl.php?user_id=<?=$user_id?>"><img src="img/common/navi05.jpg" width="116" height="22" class="on" /></a></div>-->
+        	<div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
         	<div style="clear:both;"></div>
         </div>
         <br />
 
 <!-- UCHIDA EDIT 11/08/05 左寄せなどその他の修正  -->
-		<div class="bottom_line_box">
-        	<p class="txt3"><div style="width:400px;"><font color="#2052A3"><strong>お客様挙式情報</strong>　<font color="red">*</font>の付いた項目は必須です。</font></div></p>
-        </div>
+		<h2>
+        	<div style="width:400px;"><font color="#2052A3"><strong>お客様挙式情報</strong>　<font color="red">*</font>の付いた項目は必須です。</font></div>
+        </h2>
 		<?php
 		//echo "<pre>";
 		//print_r($user_row);
@@ -663,7 +1006,113 @@ include("inc/return_dbcon.inc.php");
         <form action="insert_user.php?user_id=<?=$user_id;?>" method="post" name="user_form_register">
         <table width="800" border="0" cellspacing="10" cellpadding="0">
             <tr>
-                <td valign="top" nowrap="nowrap" width="50" style="text-align:left;" >挙式日&nbsp;　　　　　　　　　&nbsp;：</td>
+              <td width="192" align="left" valign="top" nowrap="nowrap">披露宴日<font color="red">*</font>　</td>
+                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
+                <td nowrap="nowrap" colspan="1">
+                	<input name="party_day" type="text" id="party_day" value="<?=$obj->date_dashes_convert($user_row['party_day'])?>" size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;padding-top:4px; padding-bottom:4px;" class="datepicker"/>
+					<?php
+					if ($user_row['party_day'] < date("Y-m-d")) $noUpdate = true; else $noUpdate = false;
+					//$party_day_array = explode("-",$user_row['party_day']);
+					?>
+					<!--<input type="text" style="width:30px;" maxlength="4" name="party_year" id="party_year" value="<?=$party_day_array[0]?>">/
+					<input type="text" style="width:17px;" maxlength="2" name="party_month" id="party_month" value="<?=$party_day_array[1]?>">/
+					<input type="text" style="width:17px;" maxlength="2" name="party_day" id="party_day" value="<?=$party_day_array[2]?>"> yyyy/mm/dd-->
+                <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day').value='';">クリア </a>-->
+                </td>
+                <td colspan="2" align="left" nowrap="nowrap">　　&nbsp;披露宴時間<font color="red">*</font>：<!--<input name="party_day_with_time" type="text" id="party_day_with_time" value="<?=date("H:i", strtotime($user_row['party_day_with_time']))?>" size="10" readonly="readonly" style="width:86px;background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>-->
+				<?php
+					$party_time_array = explode(":",$user_row['party_day_with_time']);
+					?>
+				<input type="text" style="padding-top:4px; padding-bottom:4px;width:17px;" maxlength="2" name="party_hour" id="party_hour" value="<?=$party_time_array[0]?>"> :
+				<input type="text" style="padding-top:4px; padding-bottom:4px;width:17px;" maxlength="2" name="party_minute" id="party_minute" value="<?=$party_time_array[1]?>"> (24時間表記)
+                <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day_with_time').value='';">クリア </a>-->
+                </td>
+            </tr>
+
+            <tr>
+              <td width="192" align="left" valign="top" nowrap="nowrap">新郎氏名<font color="red">*</font></td>
+                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
+                <td width="92%" nowrap="nowrap" colspan="3">
+		   <div id="form_hidden_value"><? echo getAllGaijisInputEle(array($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis));?></div>
+		   <div style="height:20px;width:346px;">
+
+		   	<div id="male_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($man_lastname_gaijis);?></div>
+	      <div id="male_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($man_firstname_gaijis);?></div>
+                   </div>
+                    <input name="man_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="30" onclick="change_gaiji_link('man_lastname')" />
+					<input name="man_firstname" type="text" style="padding-top:4px; padding-bottom:4px;" id="man_firstname" value="<?=$user_row['man_firstname']?>" size="30"  onclick="change_gaiji_link('man_firstname')" />
+                	様　 <a id="man_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,505); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22"alt="外字検索" title="外字検索" /></a>
+                </td>
+
+            </tr>
+            <tr>
+              <td width="192" align="left" valign="top" nowrap="nowrap">ふりがな<font color="red">*</font>　</td>
+            	<td width="10" align="left" valign="top" nowrap="nowrap">：</td>
+           		<td nowrap="nowrap"  colspan="3">
+
+               		<input name="man_furi_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_furi_lastname" value="<?=$user_row['man_furi_lastname']?>" size="30" />
+            		<input name="man_furi_firstname" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_furi_firstname" value="<?=$user_row['man_furi_firstname']?>" size="30" /> 様
+                </td>
+            </tr>
+            <tr>
+              <td width="192" align="left" valign="top" nowrap="nowrap">新婦氏名<font color="red">*</font></td>
+            	<td width="10" align="left" valign="top" nowrap="nowrap">：</td>
+            	<td nowrap="nowrap"  colspan="3">
+		    	<div style="width:346px;height:20px;">
+		        <div id="female_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($woman_lastname_gaijis);?></div>
+            <div id="female_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($woman_firstname_gaijis);?></div>
+			</div>
+
+            <input name="woman_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_lastname" value="<?=$user_row['woman_lastname']?>" size="30" onclick="change_gaiji_link('woman_lastname')" />
+            <input name="woman_firstname" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_firstname" value="<?=$user_row['woman_firstname']?>" size="30"  onclick="change_gaiji_link('woman_firstname')"/>
+                    様　<a id="woman_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22" alt="外字検索" title="外字検索" /></a>
+                </td>
+
+            </tr>
+            <tr>
+              <td width="192" align="left" valign="top" nowrap="nowrap">ふりがな<font color="red">*</font>　</td>
+            	<td width="10" align="left" valign="top" nowrap="nowrap">：</td>
+            	<td nowrap="nowrap"  colspan="3">
+                  	<input name="woman_furi_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_furi_lastname" value="<?=$user_row['woman_furi_lastname']?>" size="30" />
+
+                   <input name="woman_furi_firstname" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_furi_firstname" value="<?=$user_row['woman_furi_firstname']?>" size="30" />
+様
+
+                </td>
+            </tr>
+            <tr>
+              <td width="192" align="left" valign="top" nowrap="nowrap">披露宴会場</td>
+                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
+                <td nowrap="nowrap">
+				<input type="hidden" name="current_room_id" id="current_room_id" value="<?=$user_row['room_id']?>"  />
+                	<select name="room_id" id="room_id" style="padding-top:4px; padding-bottom:4px;">
+
+                    <?php
+                        if($rooms)
+                        {
+                            foreach($rooms as $room)
+                            {
+
+
+								if($room['id']==$user_row['room_id'])
+								echo "<option value ='".$room['id']."' selected> ".$room_name."</option>";
+								else
+								 echo "<option value ='".$room['id']."'> ".$room['name']."</option>";
+								// [".$room['max_rows']*$room['max_columns']*$room['max_seats']."
+                            }
+                        }
+                    ?>
+                </select>
+                </td>
+                <td align="left" nowrap="nowrap">&nbsp;</td>
+                <td nowrap="nowrap">&nbsp;</td>
+            </tr>
+
+
+
+            <tr>
+              <td valign="top" nowrap="nowrap" width="192" style="text-align:left;" >挙式日</td>
+                <td valign="top" nowrap="nowrap" width="10" style="text-align:left;" >：</td>
                 <td nowrap="nowrap" width="60">
 
 					<input name="marriage_day" type="text" id="marriage_day" value="<?=$obj->date_dashes_convert($user_row['marriage_day'])?>"  size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; padding-top:4px; padding-bottom:4px;" class="datepicker" />
@@ -687,55 +1136,9 @@ include("inc/return_dbcon.inc.php");
                 </td>
             </tr>
             <tr>
-                <td width="8%" align="left" valign="top" nowrap="nowrap">新郎氏名<font color="red">*</font>　　　　　　　　&nbsp;：</td>
-                <td width="92%" nowrap="nowrap" colspan="3">
-		   <div id="form_hidden_value"><? echo getAllGaijisInputEle(array($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis));?></div>
-		   <div style="height:20px;width:346px;">
+              <td width="192" align="left" nowrap="nowrap">挙式種類</td>
 
-		   	<div id="male_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($man_lastname_gaijis);?></div>
-	      <div id="male_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($man_firstname_gaijis);?></div>
-                   </div>
-                    <input name="man_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="30" onclick="change_gaiji_link('man_lastname')" />
-					<input name="man_firstname" type="text" style="padding-top:4px; padding-bottom:4px;" id="man_firstname" value="<?=$user_row['man_firstname']?>" size="30"  onclick="change_gaiji_link('man_firstname')" />
-                	様　 <a id="man_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,505); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22"alt="外字検索" title="外字検索" /></a>
-                </td>
-
-            </tr>
-            <tr>
-            	<td align="left" valign="top" nowrap="nowrap">ふりがな<font color="red">*</font>　　　　　　　　&nbsp;：</td>
-           		<td nowrap="nowrap"  colspan="3">
-
-               		<input name="man_furi_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_furi_lastname" value="<?=$user_row['man_furi_lastname']?>" size="30" />
-            		<input name="man_furi_firstname" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_furi_firstname" value="<?=$user_row['man_furi_firstname']?>" size="30" /> 様
-                </td>
-            </tr>
-            <tr>
-            	<td align="left" valign="top" nowrap="nowrap">新婦氏名<font color="red">*</font>　　　　　　　　&nbsp;：</td>
-            	<td nowrap="nowrap"  colspan="3">
-		    	<div style="width:346px;height:20px;">
-		        <div id="female_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($woman_lastname_gaijis);?></div>
-            <div id="female_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($woman_firstname_gaijis);?></div>
-			</div>
-
-            <input name="woman_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_lastname" value="<?=$user_row['woman_lastname']?>" size="30" onclick="change_gaiji_link('woman_lastname')" />
-            <input name="woman_firstname" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_firstname" value="<?=$user_row['woman_firstname']?>" size="30"  onclick="change_gaiji_link('woman_firstname')"/>
-                    様　<a id="woman_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22" alt="外字検索" title="外字検索" /></a>
-                </td>
-
-            </tr>
-            <tr>
-            	<td align="left" valign="top" nowrap="nowrap">ふりがな<font color="red">*</font>　　　　　　　　&nbsp;：</td>
-            	<td nowrap="nowrap"  colspan="3">
-                  	<input name="woman_furi_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_furi_lastname" value="<?=$user_row['woman_furi_lastname']?>" size="30" />
-
-                   <input name="woman_furi_firstname" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_furi_firstname" value="<?=$user_row['woman_furi_firstname']?>" size="30" />
-様
-
-                </td>
-            </tr>
-            <tr>
-
-                <td align="left" nowrap="nowrap">挙式種類&nbsp;　　　　　　　　&nbsp;：</td>
+                <td width="10" align="left" nowrap="nowrap">：</td>
                 <td nowrap="nowrap">
                 	<select name="religion" style="padding-top:4px; padding-bottom:4px;" id="religion" ><!--onchange="load_party_room(this.value);"-->
 
@@ -786,76 +1189,13 @@ include("inc/return_dbcon.inc.php");
                 	</select>-->
                 </td>
             </tr>
+
+
+
+
             <tr>
-                <td align="left" valign="top" nowrap="nowrap">披露宴日<font color="red">*</font>　　　　　　　　&nbsp;：</td>
-                <td nowrap="nowrap" colspan="1">
-                	<input name="party_day" type="text" id="party_day" value="<?=$obj->date_dashes_convert($user_row['party_day'])?>" size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;padding-top:4px; padding-bottom:4px;" class="datepicker"/>
-					<?php
-					//$party_day_array = explode("-",$user_row['party_day']);
-					?>
-					<!--<input type="text" style="width:30px;" maxlength="4" name="party_year" id="party_year" value="<?=$party_day_array[0]?>">/
-					<input type="text" style="width:17px;" maxlength="2" name="party_month" id="party_month" value="<?=$party_day_array[1]?>">/
-					<input type="text" style="width:17px;" maxlength="2" name="party_day" id="party_day" value="<?=$party_day_array[2]?>"> yyyy/mm/dd-->
-                <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day').value='';">クリア </a>-->
-                </td>
-                <td colspan="2" align="left" nowrap="nowrap">　　&nbsp;披露宴時間<font color="red">*</font>：<!--<input name="party_day_with_time" type="text" id="party_day_with_time" value="<?=date("H:i", strtotime($user_row['party_day_with_time']))?>" size="10" readonly="readonly" style="width:86px;background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>-->
-				<?php
-					$party_time_array = explode(":",$user_row['party_day_with_time']);
-					?>
-				<input type="text" style="padding-top:4px; padding-bottom:4px;width:17px;" maxlength="2" name="party_hour" id="party_hour" value="<?=$party_time_array[0]?>"> :
-				<input type="text" style="padding-top:4px; padding-bottom:4px;width:17px;" maxlength="2" name="party_minute" id="party_minute" value="<?=$party_time_array[1]?>"> (24時間表記)
-                <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day_with_time').value='';">クリア </a>-->
-                </td>
-            </tr>
-            <tr>
-                <td align="left" valign="top" nowrap="nowrap">披露宴会場&nbsp;　　　　　　　&nbsp;：</td>
-                <td nowrap="nowrap">
-				<input type="hidden" name="current_room_id" id="current_room_id" value="<?=$user_row['room_id']?>"  />
-                	<select name="room_id" id="room_id" style="padding-top:4px; padding-bottom:4px;">
-
-                    <?php
-                        if($rooms)
-                        {
-                            foreach($rooms as $room)
-                            {
-
-
-								if($room['id']==$user_row['room_id'])
-								echo "<option value ='".$room['id']."' selected> ".$room_name."</option>";
-								else
-								 echo "<option value ='".$room['id']."'> ".$room['name']."</option>";
-								// [".$room['max_rows']*$room['max_columns']*$room['max_seats']."
-                            }
-                        }
-                    ?>
-                </select>
-                </td>
-                <td align="left" nowrap="nowrap">&nbsp;</td>
-                <td nowrap="nowrap">&nbsp;</td>
-            </tr>
-            <tr>
-                <td align="left" valign="top" nowrap="nowrap">メールアドレス　　　　　　：</td>
-                <td colspan="3" nowrap="nowrap"><input style="padding-top:4px; padding-bottom:4px;" name="mail" type="text" id="mail" size="30" value="<?=$user_row['mail']?>" />
-
-				</td>
-            </tr>
-			 <tr>
-                <td align="left" valign="top" nowrap="nowrap">メールアドレス確認用　　　：</td>
-                <!--  UCHIDA EDIT 11/08/05 確認用メールアドレスのペーストを禁止 -->
-                <!--  UCHIDA EDIT 11/08/08 メッセージ変更 -->
-                <td onpaste="alert('メールアドレス確認用は貼り付けできません');return false;" colspan="3" nowrap="nowrap"><input style="padding-top:4px; padding-bottom:4px;" name="commail" type="text" id="con_mail" size="30" value="<?=$user_row['mail']?>" />
-				</td>
-            </tr>
-			<tr>
-				 <td align="left" valign="top" nowrap="nowrap">お知らせをメールで受信する：</td>
-				<td colspan="3" nowrap="nowrap">
-
-			<input type="radio" name="subcription_mail" value="0" <?php if($user_row['subcription_mail']=='0'){echo "checked='checked'";}else{echo "checked='checked'";}?> /> 受信する
-			<input type="radio" name="subcription_mail" value="1" <?php if($user_row['subcription_mail']=='1'){echo "checked='checked'";}?>/>  受信しない
-				</td>
-			</tr>
-            <tr>
-                <td align="left" valign="top" nowrap="nowrap">ログインID　　　　　　　　：</td>
+              <td width="192" align="left" valign="top" nowrap="nowrap">ログインID</td>
+                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
                 <td colspan="3" nowrap="nowrap">
 
                 <!--
@@ -868,7 +1208,8 @@ include("inc/return_dbcon.inc.php");
                 </td>
             </tr>
             <tr>
-                <td align="left" valign="top" nowrap="nowrap">お客様パスワード　　　　　：</td>
+              <td width="192" align="left" valign="top" nowrap="nowrap">お客様パスワード</td>
+                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
                 <td colspan="3" nowrap="nowrap"><!--<input name="password" style="padding-top:4px; padding-bottom:4px;" type="text" id="password" value="<?=$user_row['password']?>" size="30"  onblur="checkvalidity()"/>
 				<br /><span id="password_msg">パスワードは英数字6文字以上にしてください</span>-->
 
@@ -878,7 +1219,8 @@ include("inc/return_dbcon.inc.php");
                 </td>
             </tr>
 			<tr>
-                <td align="left" valign="top" nowrap="nowrap">お客様ＩＤ利用期限日　　　：</td>
+			  <td width="192" align="left" valign="top" nowrap="nowrap">お客様ＩＤ利用期限日</td>
+                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
                <?php $user_id_limit = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='user_id_limit'");
 
 
@@ -889,10 +1231,35 @@ include("inc/return_dbcon.inc.php");
 			   ?>
 			   <td colspan="3" nowrap="nowrap"><?=$dateBeforeparty?><?=$weekname?> 披露宴日&nbsp;<?=$user_id_limit?>日後</td>
             </tr>
+<tr>
+  <td width="192" align="left" valign="top" nowrap="nowrap">メールアドレス</td>
+                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
+                <td colspan="3" nowrap="nowrap"><input style="padding-top:4px; padding-bottom:4px;" name="mail" type="text" id="mail" size="30" value="<?=$user_row['mail']?>" />
+
+				</td>
+            </tr>
 
 
+<tr>
+  <td width="192" align="left" valign="top" nowrap="nowrap">メールアドレス確認用</td>
+                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
+                <!--  UCHIDA EDIT 11/08/05 確認用メールアドレスのペーストを禁止 -->
+                <!--  UCHIDA EDIT 11/08/08 メッセージ変更 -->
+                <td onpaste="alert('メールアドレス確認用は貼り付けできません');return false;" colspan="3" nowrap="nowrap"><input style="padding-top:4px; padding-bottom:4px;" name="commail" type="text" id="con_mail" size="30" value="<?=$user_row['mail']?>" />
+				</td>
+            </tr>
             <tr>
-                <td align="left" valign="top" nowrap="nowrap">担当　　　　　　　　　　　：</td>
+              <td width="192" align="left" valign="top" nowrap="nowrap">お知らせをメールで受信する</td>
+				 <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
+				<td colspan="3" nowrap="nowrap">
+
+			<input type="radio" name="subcription_mail" value="0" <?php if($user_row['subcription_mail']=='0'){echo "checked='checked'";}else{echo "checked='checked'";}?> /> 受信する
+			<input type="radio" name="subcription_mail" value="1" <?php if($user_row['subcription_mail']=='1'){echo "checked='checked'";}?>/>  受信しない
+				</td>
+			</tr>
+            <tr>
+              <td width="192" align="left" valign="top" nowrap="nowrap">担当</td>
+                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
                 <td colspan="3" nowrap="nowrap">
 				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;">
 				<?php
@@ -906,17 +1273,17 @@ include("inc/return_dbcon.inc.php");
 				<!--<input name="stuff_id" type="text" id="stuff_id" value="<?=$staff_name?>" size="10" />-->
 				</td>
             </tr>
-
             <tr>
-                <td align="right" valign="top" nowrap="nowrap">&nbsp;</td>
+              <td width="192" align="right" valign="top" nowrap="nowrap">&nbsp;</td>
+                <td width="10" align="right" valign="top" nowrap="nowrap">&nbsp;</td>
                 <td colspan="3" nowrap="nowrap" align="left">
-                	<a href="javascript:void(0)" onclick="<?=$registration_onclick; ?>">
+                	<a href="javascript:void(0)" onclick="valid_user('<?=$user_row['id']?>' , '<?=$noUpdate?>');">
                     	<img src="img/common/btn_regist_update.jpg" border="0" width="82" height="22" /><br /><br />
                     </a>
                 </td>
             </tr>
             <tr>
-            	<td colspan="4" nowrap="nowrap"><div style="width:450px;">
+            	<td colspan="5" nowrap="nowrap"><div style="width:450px;">
                 	<a href="user_log.php?user_id=<?=(int)$_GET['user_id']?>"><img src="img/common/btn_access.jpg" width="173" height="23" /></a>　
                     <a href="change_log.php?user_id=<?=(int)$_GET['user_id']?>"><img src="img/common/btn_data.jpg" width="173" height="23" /></a></div>
                 </td>
@@ -925,9 +1292,7 @@ include("inc/return_dbcon.inc.php");
         </form>
 		 </div> <!--end of  id="div_box_1"-->
         <br />
-        <div class="bottom_line_box">
-        	<p class="txt3"><font color="#2052A3"><strong>席次表設定</strong></font></p>
-        </div>
+        <h2><div>席次表設定</div></h2>
         <?php
         	if(isset($_GET['err']) && $_GET['err']!='')
 			{
@@ -938,7 +1303,7 @@ include("inc/return_dbcon.inc.php");
 
 			}
 		?>
-		<div id="div_box_2" style="800px;">
+		<div id="div_box_1" style="1000px;">
         <form action="insert_user_info_plan.php?user_id=<?=(int)$_GET['user_id']?>" method="post" name="user_info_plan">
         <input type="hidden" id="max_rows" value="<?=$room_row['max_rows']?>" />
         <input type="hidden" id="max_columns" value="<?=$room_row['max_columns']?>" />
@@ -950,127 +1315,15 @@ include("inc/return_dbcon.inc.php");
 
 
             <tr>
-                <td width="150" align="left" nowrap="nowrap">披露宴会場名　　　　　　　：</td>
+              <td width="192" align="left" nowrap="nowrap">披露宴会場名</td>
+                <td width="10" align="left" nowrap="nowrap">：</td>
               <td width="200" nowrap="nowrap">
-                	<label for="新郎 姓3"></label>  <?=$room_name?>
-                </td>
-                 <td width="140" align="left" nowrap="nowrap">　　一卓人数　　　　　　：</td>
-                <td nowrap="nowrap"><?php if($user_plan_row['seat_number']){echo $user_plan_row['seat_number'];}else{echo $room_row['max_seats'];}?>
-              <input name="seat_number" type="hidden" id="seat_number" value="<?php if($user_plan_row['seat_number']){echo $user_plan_row['seat_number'];}else{echo $room_row['max_seats'];}?>" size="1" />人</td>
-
-            </tr>
-            <tr>
-                <td align="left" nowrap="nowrap">最大卓数　　　　　　　　　：</td>
-                <td nowrap="nowrap">
-                	横 <?php if($user_plan_row['column_number']){echo $user_plan_row['column_number'];}else{echo $room_row['max_columns'];}?>
-                    <input name="column_number" type="hidden" id="column_number" value="<?php if($user_plan_row['column_number']){echo $user_plan_row['column_number'];}else{echo $room_row['max_columns'];}?>" size="1" />
-                	列×縦 <?php if($user_plan_row['row_number']){echo $user_plan_row['row_number'];}else{echo $room_row['max_rows'];}?>
-                    <input name="row_number" type="hidden" id="row_number" value="<?php if($user_plan_row['row_number']){echo $user_plan_row['row_number'];}else{echo $room_row['max_rows'];}?>" size="1" />
-                      段
-                </td>
-                <td align="left" nowrap="nowrap">　　本発注締切日　　　　：</td>
-                <td nowrap="nowrap">
-
-				<?php
-						 //$obj->date_dashes_convert($user_plan_row['confirm_date']);
-						//$confirm_day_num = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
-						$limitation_ranking = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");
+               	<label for="新郎 姓3"></label>  <?=$room_name?>
+              </td>
+                 <td colspan="2" rowspan="10" align="left" valign="top" nowrap="nowrap">
 
 
-						$date6 = new DateTime($user_row['party_day']);
-						$dateinterval = "-".$user_row['confirm_day_num']."day";
-			            $date6->modify($dateinterval);
-						echo $date6->format("Y/m/d");
-
-					?>
-					<input type="text" name="confirm_day_num" id="confirm_day_num" style="width:15px; padding:3px" maxlength="2" value="<?=$user_row['confirm_day_num']?>" /> 日前
-					<input type="hidden" value="<?=$user_row['party_day']?>" name="party_day_for_confirm" />	</td>
-            </tr>
-            <tr>
-                <td align="left" nowrap="nowrap">卓名変更<font color="red">*</font>　　　　　　　　&nbsp;：</td>
-                <td nowrap="nowrap">
-                	<?php
-						$default_raname_table_view = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='rename_table_view'");
-						if($user_plan_row['rename_table']=="" && $default_raname_table_view!="")
-						{
-					?>
-				<input name="rename_table" type="radio" id="radio1" value="1"  <?php 	if($default_raname_table_view == 1){echo "checked='checked'";}?> />   可
-				<input type="radio" name="rename_table" id="radio0" value="0" <?php 	if($default_raname_table_view == "0"){echo "checked='checked'";}?> /> 不可　
- 						<?php
-						}else
-						{?>
-		<input name="rename_table" type="radio" id="radio1" value="1"  <?php if($user_plan_row['rename_table'] == 1){echo "checked='checked'";}?> />   可
-		<input type="radio" name="rename_table" id="radio0" value="0" <?php if($user_plan_row['rename_table'] == "0"){echo "checked='checked'";}?> /> 不可
-
-						<?php }
-						?>
-                </td>
-                <td align="left" nowrap="nowrap">　　商品名<font color="red">*</font>　　　　　　&nbsp;：</td>
-                <td nowrap="nowrap"><input name="product_name" type="text" id="product_name" value="<?=$user_plan_row['product_name']?>" size="10" /></td>
-            </tr>
-            <tr>
-                <td align="left" nowrap="nowrap" width="150">席次表編集利用制限日　　　：</td>
-                <td nowrap="nowrap">
-
-				<?php
-
-				$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $limitation_ranking , $flag=2 );
-
-				// UCHIDA EDIT 11/08/17 曜日表示
-				$weekname = $objMsg->get_youbi_name( $dateBeforeparty );
-				?>
-				<?=$dateBeforeparty?><?=$weekname?> 披露宴日&nbsp;<?=$limitation_ranking?>&nbsp;日前</td>
-
-                <td align="left" nowrap="nowrap">　　商品区分<font color="red">*</font>　　　　　&nbsp;：</td>
-                <td nowrap="nowrap">
-                	<select name="dowload_options" id="dowload_options">
-                    	<option value="1" <?php if($user_plan_row['dowload_options'] == 1) echo "selected='selected'";?>>席次表</option>
-                        <option value="2" <?php if($user_plan_row['dowload_options'] == 2) echo "selected='selected'";?>>席札</option>
-                        <option value="3" <?php if($user_plan_row['dowload_options'] == 3) echo "selected='selected'";?>>席次表・席札</option>
-                    </select>
-                </td>
-
-            </tr>
-            <tr>
-
-                <td align="left" nowrap="nowrap">印刷会社名<font color="red">*</font>　　　　　　　&nbsp;：</td>
-                <td nowrap="nowrap">
-                	<?php
-// UCHIDA EDIT 11/08/02 印刷会社の並び順を印刷会社一覧と同様にする
-//					$sql_company = "select * from spssp_printing_comapny order by id desc";
-					$sql_company = "select * from spssp_printing_comapny ORDER BY display_order";
-					$company_results = $obj->getRowsByQuery($sql_company);
-					?>
-
-					<select name="print_company" id="print_company">
-						<option value="">選択してください</option>
-						<?php foreach($company_results as $company){?>
-						<option value="<?=$company['id']?>" <?php if($user_plan_row['print_company']==$company['id']){echo "selected='selected'";}?> ><?=$company['company_name']?></option>
-						<?php }?>
-					</select>
-
-                </td>
-
-
-                <td align="left" nowrap="nowrap">　　サイズ／タイプ<font color="red">*</font>　　&nbsp;：</td>
-                <td nowrap="nowrap">
-				<select name="print_size" id="print_size">
-					<option value="">選択してください</option>
-					<option value="1" <?php if($user_plan_row['print_size'] == 1) echo "selected='selected'";?>>A3</option>
-					<option value="2" <?php if($user_plan_row['print_size'] == 2) echo "selected='selected'";?>>B4</option>
-				</select>
-				<select name="print_type" id="print_type">
-					<option value="">選択してください</option>
-					<option value="1" <?php if($user_plan_row['print_type'] == 1) echo "selected='selected'";?>>横</option>
-					<option value="2" <?php if($user_plan_row['print_type'] == 2) echo "selected='selected'";?>>縦
-</option>
-				</select>
-
-				</td>
-            </tr>
-        </table>
-
-        <div class="sekiji_table_L" id="plan_preview">
+            <div class="sekiji_table_L" id="plan_preview">
 
   			<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
             	<tr>
@@ -1285,9 +1538,12 @@ include("inc/return_dbcon.inc.php");
 
 			?>
 			<div>
+			<?php
+				if ($noUpdate == false) { ?>
 				<a href='set_table_layout_edit.php?plan_id=<?=$user_plan_row['id']?>&user_id=<?=$user_id?>'>
                   <img src='img/common/btn_taku_edit.gif' boredr='0' height='17'>
-              </a>
+                </a>
+              <?php } ?>
 	    </div>
 			<?php
 
@@ -1296,13 +1552,155 @@ include("inc/return_dbcon.inc.php");
         </div>
 
 
+            </td>
+            </tr>
+            <tr>
+              <td width="192" align="left" nowrap="nowrap">最大卓数</td>
+                <td width="10" align="left" nowrap="nowrap">：</td>
+                <td nowrap="nowrap">
+                	横 <?php if($user_plan_row['column_number']){echo $user_plan_row['column_number'];}else{echo $room_row['max_columns'];}?>
+                    <input name="column_number" type="hidden" id="column_number" value="<?php if($user_plan_row['column_number']){echo $user_plan_row['column_number'];}else{echo $room_row['max_columns'];}?>" size="1" />
+                	列×縦 <?php if($user_plan_row['row_number']){echo $user_plan_row['row_number'];}else{echo $room_row['max_rows'];}?>
+                    <input name="row_number" type="hidden" id="row_number" value="<?php if($user_plan_row['row_number']){echo $user_plan_row['row_number'];}else{echo $room_row['max_rows'];}?>" size="1" />
+                      段
+              </td>
+            </tr>
+            <tr>
+              <td width="192" align="left" nowrap="nowrap">一卓人数</td>
+                <td width="10" align="left" nowrap="nowrap">：</td>
+              <td width="200" nowrap="nowrap"><?php if($user_plan_row['seat_number']){echo $user_plan_row['seat_number'];}else{echo $room_row['max_seats'];}?>
+              <input name="seat_number" type="hidden" id="seat_number" value="<?php if($user_plan_row['seat_number']){echo $user_plan_row['seat_number'];}else{echo $room_row['max_seats'];}?>" size="1" />
+              名まで</td>
+            </tr>
+
+  <tr>
+    <td width="192" align="left" nowrap="nowrap">卓名変更<font color="red">*</font></td>
+                <td width="10" align="left" nowrap="nowrap">：</td>
+                <td nowrap="nowrap">
+                	<?php
+						$default_raname_table_view = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='rename_table_view'");
+						if($user_plan_row['rename_table']=="" && $default_raname_table_view!="")
+						{
+					?>
+				<input name="rename_table" type="radio" id="radio1" value="1"  <?php 	if($default_raname_table_view == 1){echo "checked='checked'";}?> />   可
+				<input type="radio" name="rename_table" id="radio0" value="0" <?php 	if($default_raname_table_view == "0"){echo "checked='checked'";}?> /> 不可　
+ 						<?php
+						}else
+						{?>
+		<input name="rename_table" type="radio" id="radio1" value="1"  <?php if($user_plan_row['rename_table'] == 1){echo "checked='checked'";}?> />   可
+		<input type="radio" name="rename_table" id="radio0" value="0" <?php if($user_plan_row['rename_table'] == "0"){echo "checked='checked'";}?> /> 不可
+
+						<?php }
+						?>
+            </td>
+          </tr>
+            <tr>
+              <td width="192" align="left" nowrap="nowrap">商品名<font color="red">　</font></td>
+                <td width="10" align="left" nowrap="nowrap">：</td>
+                <td nowrap="nowrap">
+               	  <input name="product_name" type="text" id="product_name" value="<?=$user_plan_row['product_name']?>" size="20" />
+              </td>
+            </tr>
+      <tr>
+        <td align="left" nowrap="nowrap" width="192">商品区分<font color="red">*</font></td>
+                <td align="left" nowrap="nowrap" width="10">：</td>
+                <td nowrap="nowrap">
+
+				<select name="dowload_options" id="dowload_options">
+                    	<option value="1" <?php if($user_plan_row['dowload_options'] == 1) echo "selected='selected'";?>>席次表</option>
+                        <option value="2" <?php if($user_plan_row['dowload_options'] == 2) echo "selected='selected'";?>>席札</option>
+                        <option value="3" <?php if($user_plan_row['dowload_options'] == 3) echo "selected='selected'";?>>席次表・席札</option>
+                </select>
+            </td>
+
+          </tr>
+            <tr>
+              <td width="192" align="left" nowrap="nowrap">サイズ／タイプ<font color="red">*</font></td>
+
+                <td width="10" align="left" nowrap="nowrap">：</td>
+                <td nowrap="nowrap">
+                	<select name="print_size" id="print_size">
+					<option value="">選択してください</option>
+					<option value="1" <?php if($user_plan_row['print_size'] == 1) echo "selected='selected'";?>>A3</option>
+					<option value="2" <?php if($user_plan_row['print_size'] == 2) echo "selected='selected'";?>>B4</option>
+				</select>
+				<select name="print_type" id="print_type">
+					<option value="">選択してください</option>
+					<option value="1" <?php if($user_plan_row['print_type'] == 1) echo "selected='selected'";?>>横</option>
+					<option value="2" <?php if($user_plan_row['print_type'] == 2) echo "selected='selected'";?>>縦
+</option>
+				</select>
+
+              </td>
+            </tr>
+            <tr>
+              <td width="192" align="left" nowrap="nowrap">本発注締切日</td>
+                <td width="10" align="left" nowrap="nowrap">：</td>
+                <td nowrap="nowrap">
+                	<?php
+						 //$obj->date_dashes_convert($user_plan_row['confirm_date']);
+						//$confirm_day_num = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
+						$limitation_ranking = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");
+
+
+						$date6 = new DateTime($user_row['party_day']);
+						$dateinterval = "-".$user_row['confirm_day_num']."day";
+			            $date6->modify($dateinterval);
+						echo $date6->format("Y/m/d");
+
+					?>
+					<input type="text" name="confirm_day_num" id="confirm_day_num" style="width:15px; padding:3px" maxlength="2" value="<?=$user_row['confirm_day_num']?>" /> 日前
+			  <input type="hidden" value="<?=$user_row['party_day']?>" name="party_day_for_confirm" />	</td>
+            </tr>
+            <tr>
+              <td align="left" nowrap="nowrap" width="192">席次表編集利用制限日</td>
+                <td align="left" nowrap="nowrap" width="10">：</td>
+                <td nowrap="nowrap">
+
+				<?php
+
+				$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $limitation_ranking , $flag=2 );
+
+				// UCHIDA EDIT 11/08/17 曜日表示
+				$weekname = $objMsg->get_youbi_name( $dateBeforeparty );
+				?>
+				<?=$dateBeforeparty?><?=$weekname?> 披露宴日&nbsp;<?=$limitation_ranking?>&nbsp;日前</td>
+
+            </tr>
+
+            <tr>
+              <td width="192" align="left" nowrap="nowrap">印刷会社名<font color="red">*</font></td>
+
+                <td width="10" align="left" nowrap="nowrap">：</td>
+                <td nowrap="nowrap">
+                	<?php
+// UCHIDA EDIT 11/08/02 印刷会社の並び順を印刷会社一覧と同様にする
+//					$sql_company = "select * from spssp_printing_comapny order by id desc";
+					$sql_company = "select * from spssp_printing_comapny ORDER BY display_order";
+					$company_results = $obj->getRowsByQuery($sql_company);
+					?>
+
+					<select name="print_company" id="print_company">
+						<option value="">選択してください</option>
+						<?php foreach($company_results as $company){?>
+						<option value="<?=$company['id']?>" <?php if($user_plan_row['print_company']==$company['id']){echo "selected='selected'";}?> ><?=$company['company_name']?></option>
+						<?php }?>
+				  </select>
+
+              </td>
+            </tr>
+        </table>
+
+
+
+
         <br />
         <p class="txt3">
         	<?php
             //if(empty($user_plan_row))
             //{
 			?>
-            <a href="javascript:void(0);" onclick="<?=$plan_onclick;?>"> <img src="img/common/btn_regist_update.jpg" border="0" /> </a>
+            <a href="javascript:void(0);" onclick="valid_plan('<?=$noUpdate?>');"> <img src="img/common/btn_regist_update.jpg" border="0" /> </a>
         	<!--<input type="button" style="width:62px;height:22px;background-image:url(img/common/btn_regist.jpg);" onclick="<?=$plan_onclick;?>"  />-->
 			<?php
 			//}
@@ -1311,13 +1709,12 @@ include("inc/return_dbcon.inc.php");
         </form>
 		</div> <!--end of  id="div_box_2"-->
         <br />
-        <div class="bottom_line_box">
-        	<p class="txt3"><font color="#2052A3"><strong>引出物設定</strong></font></p>
+        <h2><div>引出物設定</div></h2>
             <?php
             	$gift_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".(int)$_GET['user_id']." order by id ASC");
 				$gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".(int)$_GET['user_id']." order by id ASC")
 			?>
-        </div>
+
         <div style="width:1000px; float:left;" id="div_box_3">
         	<div style="width:32%; float:left; ">
             	<div style="width:100px; float:left; ">
@@ -1359,7 +1756,7 @@ include("inc/return_dbcon.inc.php");
 	  </table>
 	  <br />
 	  <div>
-	  <input type="button" name="editUserGiftItemsUpdateButton" value="保存" onclick="checkGiftForm(<?=$yy?>)"></div><br />
+	  <input type="button" name="editUserGiftItemsUpdateButton" value="保存" onclick="checkGiftForm('<?=$yy?>', '<?=$noUpdate?>')"></div><br />
 	  </form>
 <!--GIFT ITEM BOX END-->
 
@@ -1385,7 +1782,7 @@ include("inc/return_dbcon.inc.php");
 					}
 				  ?>
 				   <br />
-				   <input type="button" style="margin-left:15px;" name="editUserGiftGroupsUpdateButton" value="保存" onclick="checkGroupForm(<?=$xx?>);">
+				   <input type="button" style="margin-left:15px;" name="editUserGiftGroupsUpdateButton" value="保存" onclick="checkGroupForm('<?=$xx?>' ,'<?=$noUpdate?>');">
 				 </form>
 		         </p>
 			<!--GIFT GROUP BOX END-->
@@ -1412,8 +1809,9 @@ include("inc/return_dbcon.inc.php");
         </div>
 
         <br />
-        <div class="bottom_line_box">
-        	<p class="txt3"><font color="#2052A3"><strong>料理設定</strong>（子供料理）</font></p>
+
+        <div>
+        	<p><h2>料理設定（子供料理）</h2></p>
             <?php
             	$menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".(int)$_GET['user_id']);
 				$num_groups = count($menu_groups);
@@ -1446,7 +1844,7 @@ include("inc/return_dbcon.inc.php");
 					}
 					echo "<tr>";?>
 					 <tr><td>
-					 <input type="button" style="margin-left:15px;" name="editUserMenuGroupsUpdateButton" value="保存" onclick="checkMenuGroupForm(<?=$i?>);">
+					 <input type="button" style="margin-left:15px;" name="editUserMenuGroupsUpdateButton" value="保存" onclick="checkMenuGroupForm('<?=$i?>' ,'<?=$noUpdate?>');">
 					 </td> </tr>
 					 </table>
 

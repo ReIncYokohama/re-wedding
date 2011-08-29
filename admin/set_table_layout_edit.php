@@ -553,7 +553,7 @@ include("inc/return_dbcon.inc.php");
 
         </div>
 
-        <div class="box_table" style="width:800px;">
+        <div class="box_table" style="width:800px; font-size: 12px;">
         	<div class="bottom_line_box">
         		<p class="txt3"><font color="#1F52A3"><strong>卓レイアウト設定</strong></font></p>
         	</div>
@@ -564,7 +564,7 @@ include("inc/return_dbcon.inc.php");
 
 
 
-        <div style="width:1000px; float:left; text-align:center; ">
+        <div style="width:1000px; float:left; text-align:center; font-size: 12px;">
         	<form action="set_table_layout_edit.php" method="post">
 
             <div style="width:<?=$row_width?>px; margin:0 auto;" id="toptstaa">
@@ -728,7 +728,8 @@ include("inc/return_dbcon.inc.php");
 <?php
             $name_rows = $obj->GetAllRow("spssp_tables_name");
         ?>
-        <div id="table_edit_name" title="卓編集">
+        <div style="font-size: 12px;">
+        <div id="table_edit_name" title="卓編集" style="font-size: 12px;">
             <form action="" method="post" id="table_edit_form" name="table_edit_form">
             <fieldset style="height:100px;">
 
@@ -758,5 +759,5 @@ include("inc/return_dbcon.inc.php");
             </fieldset>
             </form>
         </div>
-
+		</div>
 
