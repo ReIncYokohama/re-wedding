@@ -175,10 +175,10 @@ include("inc/return_dbcon.inc.php");
 <!--                  <a href="users.php">お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報 </a>&raquo; メッセージ</div> -->
                  <a href="manage.php">ＴＯＰ</a> &raquo; メッセージ</div>
         </h2>
-        <div  style="width:800px;"><div class="navi"><a href="user_info.php?user_id=<?=$user_id?>"><img src="img/common/navi01.jpg" width="148" height="22" class="on" /></a></div>
-      <div class="navi"><img src="img/common/navi02_on.jpg" width="96" height="22" /></div>
-      <div class="navi"><a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank"><img src="img/common/navi03.jpg" width="126" height="22" class="on" /></a></div>
-     <div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>"><img src="img/common/navi04.jpg" width="150" height="22" class="on" /></a></div>
+        <div  style="width:800px;"><div class="navi"><a href="user_info.php?user_id=<?=$user_id?>"><img src="img/common/navi01.jpg" class="on" /></a></div>
+      <div class="navi"><img src="img/common/navi02_on.jpg" /></div>
+      <div class="navi"><a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank"><img src="img/common/navi03.jpg" class="on" /></a></div>
+     <div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
       <div style="clear:both;"></div></div>
       <br />
      <!-- <p class="txt3"><a href="#" onclick="view_user_msg_count(<?=$user_id?>);"><img src="img/common/btn_message.jpg" width="112" height="22" /></a></p>-->

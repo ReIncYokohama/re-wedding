@@ -5,11 +5,11 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 </script>
 <div id="undernavi">
 <ul id="footer_navigation">
-<li> <a style="font-size:12pt" href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')">操作画面</a> |</li>
-<li> <a style="font-size:12pt" href="javascript:;" onclick="MM_openBrWindow('../support/security.html','','scrollbars=yes,width=620,height=600')">セキュリティ</a> |</li>
-<li> <a style="font-size:12pt" href="javascript:;" onclick="MM_openBrWindow('../support/privacy_policy.html','','scrollbars=yes,width=620,height=600')">個人情報保護方針</a> |</li>
-<li> <a style="font-size:12pt" href="javascript:;" onclick="MM_openBrWindow('../support/qa.html','','scrollbars=yes,width=620,height=600')">よくある質問 Q&amp;A</a> |</li>
-<li> <a style="font-size:12pt" href="javascript:;" onclick="MM_openBrWindow('../support/contact.html','','scrollbars=yes,width=620,height=600')">お問い合わせ</a> |</li>
+<li> <a style="font-size:10pt" href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')">操作画面</a> |</li>
+<li> <a style="font-size:10pt" href="javascript:;" onclick="MM_openBrWindow('../support/security.html','','scrollbars=yes,width=620,height=600')">セキュリティ</a> |</li>
+<li> <a style="font-size:10pt" href="javascript:;" onclick="MM_openBrWindow('../support/privacy_policy.html','','scrollbars=yes,width=620,height=600')">個人情報保護方針</a> |</li>
+<li> <a style="font-size:10pt" href="javascript:;" onclick="MM_openBrWindow('../support/qa.html','','scrollbars=yes,width=620,height=600')">よくある質問 Q&amp;A</a> |</li>
+<li> <a style="font-size:10pt" href="javascript:;" onclick="MM_openBrWindow('../support/contact.html','','scrollbars=yes,width=620,height=600')">お問い合わせ</a> |</li>
 </ul>
 </div>
 <div id="footer" style="width:1200px;">

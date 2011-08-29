@@ -70,7 +70,8 @@ $lastname_gaiji_pathArray = getGaijiPathArray($_POST["male_last_gaiji_img"]);
 $firstname_gaiji_pathArray = getGaijiPathArray($_POST["male_first_gaiji_img"]);
 $comment1_gaiji_pathArray = getGaijiPathArray($_POST["comment1_gaiji_img"]);
 $comment2_gaiji_pathArray = getGaijiPathArray($_POST["comment2_gaiji_img"]);
-$hotel_id = 1;
+//$hotel_id = $HOTELID;
+$hotel_id=1;
 $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
 
 if($guest_id >0)

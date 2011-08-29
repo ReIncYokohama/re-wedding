@@ -296,14 +296,14 @@ include("inc/return_dbcon.inc.php");
 	-->
        <div style="width:600px"><a href="manage.php">ＴＯＰ</a> &raquo; 席次表・引出物発注</div>
         </h2>
-	  <div   style="width:800px;"><div class="navi"><a href="user_info.php?user_id=<?=$user_id?>"><img src="img/common/navi01.jpg" width="148" height="22" class="on" /></a></div>
-      <div class="navi"><a href="message_admin.php?user_id=<?=$user_id?>"><img src="img/common/navi02.jpg" width="96" height="22" class="on" /></a></div>
+	  <div   style="width:800px;"><div class="navi"><a href="user_info.php?user_id=<?=$user_id?>"><img src="img/common/navi01.jpg" class="on" /></a></div>
+      <div class="navi"><a href="message_admin.php?user_id=<?=$user_id?>"><img src="img/common/navi02.jpg" class="on" /></a></div>
       <div class="navi">
       	<a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank">
-      		<img src="img/common/navi03.jpg" width="126" height="22" class="on" />
+      		<img src="img/common/navi03.jpg" class="on" />
         </a>
       </div>
-      <div class="navi"><img src="img/common/navi04_on.jpg" width="150" height="22" /></div>
+      <div class="navi"><img src="img/common/navi04_on.jpg" /></div>
       <!--<div class="navi"><a href="customers_date_dl.php?user_id=<?=$user_id?>"><img src="img/common/navi05.jpg" width="116" height="22" class="on" /></a></div>-->
       <div style="clear:both;"></div>
 	  </div>
