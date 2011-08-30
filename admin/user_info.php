@@ -24,6 +24,7 @@
 
 	$get = $obj->protectXSS($_GET);
 	$user_id = (int)$get['user_id'];
+	$stuff_id = (int)$get['stuff_id'];
 	$user_row = $obj->GetSingleRow("spssp_user"," id= $user_id");
 
 	$query_string = "SELECT * FROM spssp_gaizi_detail_for_user WHERE gu_id = $user_id";
@@ -992,25 +993,22 @@ include("inc/return_dbcon.inc.php");
             	<img src="img/common/navi01_on.jpg"/>
             </div>
         	<div class="navi">
-            	<a href="message_admin.php?user_id=<?=(int)$_GET['user_id']?>"><img src="img/common/navi02.jpg" class="on" /></a>
+            	<a href="message_admin.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi02.jpg" class="on" /></a>
             </div>
         	<div class="navi">
             	<a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank">
             		<img src="img/common/navi03.jpg" class="on" />
                 </a>
             </div>
-
-        	<div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
+        	<div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
           <?php
-          if($_SESSION['user_type'] == 111 ||$_SESSION['user_type'] == 333){
-          ?>
-          <div class="navi">
-            <a href="csv_upload.php?user_id=<?=$user_id?>" onclick="m_win(this.href,'mywindow7',500,200); return false;">
+                                                    if($_SESSION["super_user"]){
+?>
+        	<div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',500,200); return false;">
             <img src="img/common/navi05.jpg" class="on" />
-            </a>
-          </div>
-          <?php
-          }
+          </a></div>
+<?php
+                                                    }
           ?>
         	<div style="clear:both;"></div>
         </div>

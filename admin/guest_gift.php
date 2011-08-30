@@ -8,6 +8,7 @@
 	$objInfo = new InformationClass();
 	$objMail = new MailClass();
 	$user_id = $_GET['user_id'];
+	$stuff_id = $_GET['stuff_id'];
 
 	$user_row1 = $obj->GetSingleRow("spssp_user"," id= ".$user_id);
 	$user_row = $user_row1;
@@ -296,8 +297,8 @@ include("inc/return_dbcon.inc.php");
 	-->
        <div style="width:600px"><a href="manage.php">ＴＯＰ</a> &raquo; 席次表・引出物発注</div>
         </h2>
-	  <div   style="width:800px;"><div class="navi"><a href="user_info.php?user_id=<?=$user_id?>"><img src="img/common/navi01.jpg" class="on" /></a></div>
-      <div class="navi"><a href="message_admin.php?user_id=<?=$user_id?>"><img src="img/common/navi02.jpg" class="on" /></a></div>
+	  <div   style="width:800px;"><div class="navi"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi01.jpg" class="on" /></a></div>
+      <div class="navi"><a href="message_admin.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi02.jpg" class="on" /></a></div>
       <div class="navi">
       	<a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank">
       		<img src="img/common/navi03.jpg" class="on" />
@@ -324,7 +325,7 @@ include("inc/return_dbcon.inc.php");
 			?>
 				<td width="24%" valign="middle"><img src="img/common/order/seat_pro_order_greyed.gif" /></td>
 				<?php }else{?>
-			  	<td width="24%" valign="middle"><a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=allow&user_id=<?=$user_id?>&hotel_name=<?=$hotel_name ?>','印刷会社へ仮発注を行います。宜しいですか？')" ><img src="img/common/order/seat_pro_order.gif" /></a></td>
+			  	<td width="24%" valign="middle"><a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=allow&user_id=<?=$user_id?>&hotel_name=<?=$hotel_name ?>&stuff_id=<?=$stuff_id?>','印刷会社へ仮発注を行います。宜しいですか？')" ><img src="img/common/order/seat_pro_order.gif" /></a></td>
 				<?php }?>
 				<td>
 					<?php
@@ -364,7 +365,7 @@ include("inc/return_dbcon.inc.php");
 			  <tr>
 				<td width="210" valign="middle">
 
-					<form action="guest_gift.php?user_id=<?=$user_id?>" method="POST" name="day_limit_form">
+					<form action="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>" method="POST" name="day_limit_form">
 					<input type="hidden" name="gift_day_limit" value="gift_day_limit">
 
 					<?php
@@ -406,7 +407,7 @@ include("inc/return_dbcon.inc.php");
 			?>
 				<td width="24%" valign="middle"><img src="img/common/order/seat_order_greyed.gif" /></td>
 				<?php }else{?>
-			  	<td width="24%" valign="middle"><a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=print_request&user_id=<?=$user_id?>&hotel_name=<?=$hotel_name ?>','印刷会社へ本発注を行います。宜しいですか？')"><img src="img/common/order/seat_order.gif" /></a></td>
+			  	<td width="24%" valign="middle"><a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=print_request&user_id=<?=$user_id?>&hotel_name=<?=$hotel_name ?>&stuff_id=<?=$stuff_id?>','印刷会社へ本発注を行います。宜しいですか？')"><img src="img/common/order/seat_order.gif" /></a></td>
 				<?php }?>
  				<td>
 					<?php
@@ -423,7 +424,7 @@ include("inc/return_dbcon.inc.php");
 				<td width="210" valign="middle"></td>
 
 			  	<td width="617" valign="middle">
-					<a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=reset&user_id=<?=$user_id?>','依頼解除を行います。宜しいですか？')"><img src="img/common/order/seat_order_release.gif" /></a>
+					<a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=reset&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>','依頼解除を行います。宜しいですか？')"><img src="img/common/order/seat_order_release.gif" /></a>
 					<br>※お客様画面の「依頼」ボタンが押されていて、<br>
 　　						依頼解除したい場合にはこちらを押してください。
 
@@ -450,7 +451,7 @@ include("inc/return_dbcon.inc.php");
 				<td width="24%" valign="middle"><img src="img/common/order/gift_processed_greyed.gif" /></td>
 				<?php }else{?>
 			  	<td width="24%" valign="middle">
-				<a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=daylimit_request&user_id=<?=$user_id?>','引出物処理をします。宜しいですか？')">
+				<a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=daylimit_request&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>','引出物処理をします。宜しいですか？')">
 				<img src="img/common/order/gift_processed.gif" /></a></td>
 				<?php }?>
 				<td>

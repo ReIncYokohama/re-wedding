@@ -633,7 +633,7 @@ include("inc/return_dbcon.inc.php");
 
 		<!-- UCHIDA EDIT 11/07/27 -->
 		<!-- <div id="message_BOX" style="height:450px; overflow:auto; width:950px;"> -->
-        <div id="message_BOX" style="width:400px;">
+        <div id="box_table" style="width:400px;">
             <div class="box4">
                 <table border="0" align="center" cellpadding="1" cellspacing="1" style="width:90%;">
                 <tr align="center">

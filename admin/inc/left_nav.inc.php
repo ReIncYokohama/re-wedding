@@ -1,8 +1,35 @@
+<style>
+#text-indent {
+	text-indent: 125px; /* SEKIDUKA ADD 11/08/12 */
+}
+#foot_left {
+	float: left; /* SEKIDUKA ADD 11/08/12 */
+	width: 269px;
+	text-align: left;
+}
+#foot_center {
+	float: left;
+	width: 205px; /* SEKIDUKA EDIT 11/08/12 */
+	text-align: left;
+}
+#foot_right {
+	float: left;
+	width: 205px; /* SEKIDUKA EDIT 11/08/12 */
+	text-align: left;
+}
+.clr {	clear: both;
+}
+</style>
+
 <div id="sidebar">
 	<div id="stuffname">
     	<img src="img/common/nav_stuffname.gif" alt="TOP" width="148" height="30" />
          <?php
-			$staff_name=$obj->GetSingleData("spssp_admin", "name"," id=".(int)$_SESSION['adminid']);
+   if($_SESSION["super_user"]){
+      $staff_name = "アプリ管理者";
+   }else{
+     $staff_name=$obj->GetSingleData("spssp_admin", "name"," id=".(int)$_SESSION['adminid']);
+   }
 		?>
 		<div id="stuffname_txt">
 			<div style="font-size:18px;"><?=$staff_name;?></div>
@@ -52,6 +79,18 @@
 		?>
 	    </ul>
         <br />
+<div id="foot_left">
+<table width="269" border="0" cellpadding="2" cellspacing="0" title="SSLサーバ証明書導入の証 グローバルサインのサイトシール">
+<tr>
+<td width="269" align="center" valign="top"> <span id="ss_img_wrapper_115-57_image_ja">
+<a href="http://jp.globalsign.com/" target="_blank"> <img alt="SSL グローバルサインのサイトシール" border="0" id="ss_jpn2_gif" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_115-57_ja.gif">
+</a>
+</span><br>
+<script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gs_image_115-57_ja.js" defer="defer"></script> <a href="https://www.sslcerts.jp/" target="_blank" style="color:#000000; text-decoration:none; font:bold 12px 'ＭＳ ゴシック',sans-serif; letter-spacing:.5px; text-align:center; margin:0px; padding:0px;">SSLとは?</a>
+</td>
+</tr>
+</table>
+</div>
         <br />
         <br />
         <br />

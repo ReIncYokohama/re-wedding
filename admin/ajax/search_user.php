@@ -109,12 +109,16 @@ else
 	$styles = "";
 }
 
-if($current_view=="before") {
-	$passPresent = "<a href='users.php'><font color='#2052A3'><strong>本日以降のお客様一覧</strong></font></a>";
-}
-else {
-	$passPresent = "<a href='users.php?view=before'><font color='#2052A3'><strong>過去のお客様一覧</strong></font></a>";
-}
+ 	if($current_view=="before") {
+//		$passPresent = "<a href='users.php'><font color='#2052A3'><strong>本日以降のお客様一覧</strong></font></a>";
+		$passPresent = "<a href='users.php'><img src='img/common/btn_honjitsu_on.jpg' /></a>";
+		$passPresent .= "<img src='img/common/btn_kako.jpg' /></a>";
+ 	}
+	else {
+//		$passPresent = "<a href='users.php?view=before'><font color='#2052A3'><strong>過去のお客様一覧</strong></font></a>";
+		$passPresent = "<img src='img/common/btn_honjitsu.jpg' /></a>";
+		$passPresent .= "<a href='users.php?view=before'><img src='img/common/btn_kako_on.jpg' /></a>";
+	}
 
 if(empty($rows))
 {

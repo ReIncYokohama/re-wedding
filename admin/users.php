@@ -47,10 +47,14 @@
 	$data_rows = $obj->getRowsByQuery($query_string);
 
  	if($current_view=="before") {
-		$passPresent = "<a href='users.php'><font color='#2052A3'><strong>本日以降のお客様一覧</strong></font></a>";
-	}
+//		$passPresent = "<a href='users.php'><font color='#2052A3'><strong>本日以降のお客様一覧</strong></font></a>";
+		$passPresent = "<a href='users.php'><img src='img/common/btn_honjitsu_on.jpg' /></a>";
+		$passPresent .= "<img src='img/common/btn_kako.jpg' /></a>";
+ 	}
 	else {
-		$passPresent = "<a href='users.php?view=before'><font color='#2052A3'><strong>過去のお客様一覧</strong></font></a>";
+//		$passPresent = "<a href='users.php?view=before'><font color='#2052A3'><strong>過去のお客様一覧</strong></font></a>";
+		$passPresent = "<img src='img/common/btn_honjitsu.jpg' /></a>";
+		$passPresent .= "<a href='users.php?view=before'><img src='img/common/btn_kako_on.jpg' /></a>";
 	}
 
 ?>
@@ -424,7 +428,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 						   echo $woman_name;
 					   ?>
 						</td>
-                    	<td width="60"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" /></a></td>
+                    	<td width="60"><a href="user_info.php?user_id=<?=$row['id']?>&stuff_id=<?=$row['stuff_id']?>"><img src="img/common/customer_info.gif" /></a></td>
                         <td width="80"> <?=$row['name']?></td>
                         <td width="60"> <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'], $row['stuff_id']);?> </td>
                         <!-- <td></td>-->

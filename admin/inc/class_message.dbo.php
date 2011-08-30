@@ -146,28 +146,32 @@ class MessageClass extends InformationClass
 
 		$party_date_array=explode("-",$user_info['party_day']);
 		$party_day=$party_date_array[1]."/".$party_date_array[2];
-
-
+    
+    
+    $man_name = $this::get_user_name_image_or_src($user_id ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
+    $woman_name = $this::get_user_name_image_or_src($user_id,$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
+    $user_name = $man_name."・".$woman_name;
+    
 		$msg_text = "";
 		if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 0 and `order` = 1 and user_id=".$user_id) )
 				{
-			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".$user_info['man_lastname']."・".$user_info['woman_lastname']."  ".INFO_A."</a></li>";
+			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".$user_name."  ".INFO_A."</a></li>";
 		}
 
 		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and `order` = 0 and user_id=".$user_id) )
 		{
 			$dl = $user_plan_info['dl_print_com_times'];
 			if (($dl & 0x200) == 0x000) // UCHIDA EDIT 11/08/15 スタッフがPDF表示を行っていないか
-			$msg_text = "<li id='msg_hide1'><a href='".$user_plan_info['p_company_file_up']."'  target='_blank' onclick='hide_this(\"msg_hide1\"); $this::pdf_readed($user_id, $dl, 0x200)' >".$party_day."  ".$user_info['man_lastname']."・".$user_info['woman_lastname']." ".INFO_B."</a></li>";
+			$msg_text = "<li id='msg_hide1'><a href='".$user_plan_info['p_company_file_up']."'  target='_blank' onclick='hide_this(\"msg_hide1\"); $this::pdf_readed($user_id, $dl, 0x200)' >".$party_day."  ".$user_name." ".INFO_B."</a></li>";
 		}
 		else if( $this :: GetRowCount("spssp_plan"," `order` = 2 and `admin_to_pcompany` != 3 and user_id=".$user_id) )
 		{
-			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".$user_info['man_lastname']."・".$user_info['woman_lastname']."  ".INFO_D."</a></li>";
+			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".$user_name."  ".INFO_D."</a></li>";
 		}
 
 		else if($this :: sekiji_day_limit_over_check_for_all_users($user_id) && $user_plan_info['admin_to_pcompany']<3) // UCHIDA EDIT 11/08/15 本発注では締切日は無視
 		{
-			$msg_text .= "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".$party_day."  ".$user_info['man_lastname']."・".$user_info['woman_lastname']."  ".INFO_E."</a></li>";
+			$msg_text .= "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".$party_day."  ".$user_name."  ".INFO_E."</a></li>";
 		}
 
 		if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 1 and `order` = 1 and user_id=".$user_id) )
@@ -184,21 +188,26 @@ class MessageClass extends InformationClass
 	}
 	function get_admin_side_daylimit_system_status_msg($user_id) // UCHIDA EDIT 11/08/10 スタッフ　引出物確認
 	{
+
+
+    $man_name = $this::get_user_name_image_or_src($user_id ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
+    $woman_name = $this::get_user_name_image_or_src($user_id,$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
+    $user_name = $man_name."・".$woman_name;
+
 		$user_plan_info = $this :: get_user_plan_info($user_id);
 		$user_info = $this :: get_user_info($user_id);
 
 		$party_date_array=explode("-",$user_info['party_day']);
 		$party_day=$party_date_array[1]."/".$party_date_array[2];
-	    $user_name = "";
 
 // UCHIDA EDIT 11/08/18 席次の状態をチェックしていたので、無効にする
 		if($user_plan_info['gift_daylimit']==1) { // UCHIDA EDIT 11/08/10 発注された
-			return $link = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".$user_info['man_lastname']."・".$user_info['woman_lastname']."  ".INFO_F."</a></li>";
+			return $link = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".$user_name."  ".INFO_F."</a></li>";
 		}
 
 		if($user_plan_info['gift_daylimit']==0 || $user_plan_info['gift_daylimit']==2) { // UCHIDA EDIT 11/08/10 ０：初期値　２：メール送信済み
 			if ($this :: proccesse_gift_day_limit($user_id) == true) { // 発注締切日を過ぎたか
-				return $link = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".$party_day."  ".$user_info['man_lastname']."・".$user_info['woman_lastname']."  ".INFO_G."</a></li>";
+				return $link = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".$party_day."  ".$user_name."  ".INFO_G."</a></li>";
 			}
 		}
 

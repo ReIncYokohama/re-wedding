@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>gaiji_palette</title>
-  <link rel="stylesheet" type="text/css" href="css/common.css" media="all" />
+  <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
   <!--[if IE]>
       <style type="text/css" media="all">.borderitem {border-style: solid;}</style>
       <![endif]-->
