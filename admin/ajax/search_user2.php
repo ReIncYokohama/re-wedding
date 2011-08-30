@@ -7,6 +7,13 @@ $objinfo = new InformationClass();
 
 $post = $obj->protectXSS($_POST);
 
+//	echo $post['action']." : ".$post['user_id']." : ".$post['sortOptin']." : ".$post['date_from']." : ".$post['date_to']." : ".$post['mname']." : ".$post['wname'];
+	if($post['action']=='delete_user' && $post['user_id'] > 0)
+	{
+		$sql = "delete from spssp_user where id=".$post['user_id'];
+		mysql_query($sql);
+	}
+
 if($post['date_from'] != '')
 {
 	$date_from = $post['date_from'];
@@ -23,7 +30,6 @@ else
 {
 	$date_to = '';
 }
-
 $table = 'spssp_user';
 if($date_from != '' or $date_to != '')
 {
@@ -35,8 +41,6 @@ else
 }
 $mname = $post['mname'];
 $wname = $post['wname'];
-
-
 if($date_from != '' && $date_to != '')
 {
 	$qry .= " and party_day >= '".$date_from."' and party_day <= '".$date_to."'";
@@ -70,12 +74,15 @@ if($_SESSION['user_type'] == 222)
 {
 	if ($qry!="") $qry.=" and stuff_id=".$_SESSION['adminid']; else $qry.=" stuff_id=".$_SESSION['adminid'];
 }
-
-if ($post['sortOptin']==NULL) 	$qry .=" order by party_day asc , party_day_with_time asc ";
-else							$qry .=" order by ".$post['sortOptin'];
+$sortOptin = $post['sortOptin'];
+if ($sortOptin==NULL) 	$qry .=" order by party_day asc , party_day_with_time asc ";
+else {
+	$sortOptin = str_replace("+", ",", $post['sortOptin']); // +を,変換(,はPOST中に消滅する)
+	$qry .=" order by ".$sortOptin;
+}
 
 $rows = $obj->getRowsByQuery($qry);
-//echo $qry;
+//echo $qry." : ".$sortOptin;
 $count_rows = count($rows);
 if($count_rows > 5)
 {
@@ -122,8 +129,8 @@ else
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
                     <tr align="center">
                         <td width="70">披露宴日<span class="txt1">
-                        	<a href="javascript:void(0);" onclick="sortAction('party_day asc');">▲</a>
-                        	<a href="javascript:void(0);" onclick="sortAction('party_day desc');">▼</a></span></td>
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day asc + party_day_with_time asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day desc + party_day_with_time desc');">▼</a></span></td>
                         <td width="150" > 新郎氏名<span class="txt1">
                         	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname asc');">▲</a>
                         	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname desc');">▼</a></span>
@@ -167,7 +174,6 @@ else
 					$class = 'box6';
 				}
 
-				//$last_login = $obj->GetSingleData("spssp_user_log","max(login_time)"," id=".$row['id']);
 				$last_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$row['id']." and admin_id='0' ORDER BY login_time DESC");
 				$user_messages = $obj->GetAllRowsByCondition("spssp_message"," user_id=".$row['id']);
 
@@ -195,38 +201,6 @@ else
 				else
 				{
 					$msg_opt="";
-				}
-
-				$plan_row = $obj->GetSingleRow("spssp_plan", " user_id=".$row['id']);
-
-				if(!empty($plan_row) && $plan_row['id'] > 0)
-				{
-					$conf_plan_row = $obj->GetSingleRow("spssp_plan_details", " plan_id=".$plan_row['id']);
-					$user_guests = $obj->GetSingleRow("spssp_guest"," user_id=".$row['id']);
-					if(!empty($conf_plan_row))
-					{
-						//$plan_link = "<a href='make_plan.php?plan_id=".$plan_row['id']."&user_id=".$row['id']."'><img src='img/common/btn_syori.gif' height='17' width='42' border='0' /></a>";
-						$plan_link = "<img src='img/common/btn_syori.gif' height='17' width='42' border='0' />";
-					}
-					else
-					{
-						if(!empty($user_guests))
-						{
-							//$plan_link = "<a href='make_plan.php?plan_id=".$plan_row['id']."&user_id=".$row['id']."'><img src='img/common/btn_syori.gif' height='17' width='42' border='0' /></a>";
-							$plan_link = "<img src='img/common/btn_syori.gif' height='17' width='42' border='0' />";
-						}
-						else
-						{
-							$plan_link = "<a href='javascript:void(0);' onclick='guestCheck();'><img src='img/common/btn_kousei.gif' height='17' width='42' border='0' /></a>";
-						}
-					}
-
-					$layout_link = "<a href='set_table_layout.php?plan_id=".$plan_row['id']."&user_id=".(int)$row['id']."'><img src='img/common/btn_taku_ido.gif' boredr='0' width='52' height='17'> </a>";
-				}
-				else
-				{
-					$plan_link = "";
-					$layout_link = "";
 				}
 
 			?>
@@ -280,7 +254,7 @@ else
 					<?php echo $objMsg->admin_side_user_list_gift_day_limit_notification_image_link_system($row['id']);?>
 						</td>
                         <td width="40">
-                        	<a href="javascript:void(0);" onclick="<?=$delete_onclick;?>" >
+                        	<a href="javascript:void(0);" onclick="confirmDeleteUser(<?=$row['id']?>);">
                         		<img src="img/common/btn_deleate.gif" width="42" height="17" />
                             </a>
                         </td>

@@ -13,33 +13,29 @@
 	}*/
 	if($_POST['sub']!='')
 	{
-		$whereCloser = array('confirm_day_num','default_layout_title','rename_table_view','limitation_ranking');
+//		$whereCloser = array('confirm_day_num','default_layout_title','rename_table_view','limitation_ranking');
+		$whereCloser = array('default_layout_title','rename_table_view');
 		for($i=0;$i<count($whereCloser);$i++)
 		{
-
-			$sql="Update spssp_options set option_value='".$_POST[$whereCloser[$i]]."' where option_name='".$whereCloser[$i]."'";
-
+			$sql="Update spssp_options set option_value='".$post[$whereCloser[$i]]."' where option_name='".$whereCloser[$i]."'";
 			mysql_query($sql);
 		}
 
 		$tablename['name'] = $_POST['name'];
-        if($_POST['name'] !='')
-		{
+ //       if($_POST['name'] !='') {
 			if($_POST['edit_table_name'] !='')
 			{
 
-			   if(checkTableDuplicasy($tablename['name'],$_POST['edit_table_name']))
-			   {
+//			   if(checkTableDuplicasy($tablename['name'],$_POST['edit_table_name'])) {
 				   $sql="Update spssp_tables_name set name='".$_POST['name']."' where id=".$_POST['edit_table_name'];
 
 				   mysql_query($sql);
 				   redirect("default.php?meg=4");exit;
 
-			   }
+//			   }
 			}
 			else
 			{
-
 				if(checkTableDuplicasy($tablename['name']))
 				{
 					$tablename['display_order'] = time();
@@ -51,7 +47,7 @@
 					}
 				}
 			}
-		}
+//		}
 
 
 	}
@@ -217,14 +213,14 @@
 ?>
 <?php
 			$default_raname_table_view = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='rename_table_view'");
-			$confirm_day_num = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
-			$limitation_ranking = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");
+//			$confirm_day_num = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
+//			$limitation_ranking = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");
 			$default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
 		?>
 <script type="text/javascript">
 var tablename='';
-var confirmdaynum='<?=$confirm_day_num?>';
-var limitationranking='<?=$limitation_ranking?>';
+//var confirmdaynum='<?=$confirm_day_num?>';
+//var limitationranking='<?=$limitation_ranking?>';
 var Defaultlayouttitle='<?=$default_layout_title?>';
 $(function(){
 
@@ -235,6 +231,7 @@ $(function(){
 		$("#msg_rpt").fadeOut(5000);
 	}
 });
+/*
 $(document).ready(function(){
 
     $('#confirm_day_num').keyup(function(){
@@ -250,6 +247,7 @@ $(document).ready(function(){
     });
 
 });
+*/
 function isInteger(id){
 
  var i;
@@ -280,7 +278,7 @@ function isInteger(id){
 }
 
 function formvalid1()
-{
+{/*
 	var confirm_day_num = $("#confirm_day_num").val();
 	if(confirm_day_num =="")
 	{
@@ -293,11 +291,11 @@ function formvalid1()
 	{
 		isInteger("confirm_day_num");
 	}
-	document.aaa1.submit();
+	document.aaa1.submit();*/
 }
 
 function formvalid6()
-{
+{/*
 
 	var limitation_ranking1 = $("#limitation_ranking").val();
 	if(limitation_ranking1 =="")
@@ -311,7 +309,7 @@ function formvalid6()
 	{
 		isInteger("limitation_ranking");
 	}
-	document.aaa6.submit();
+	document.aaa6.submit();*/
 }
 function formvalid2()
 {
@@ -376,7 +374,7 @@ function edit_name(id, name,adminType,boxid)
 }
 
 function validForm()
-{
+{/*
 	var confirm_day_num = $("#confirm_day_num").val();
 	if(confirm_day_num =="")
 	{
@@ -402,7 +400,7 @@ function validForm()
 	{
 		isInteger("limitation_ranking");
 	}
-
+*/
 	//var DefaultLayoutTitle=$("#DefaultLayoutTitle").val();
 //	if(DefaultLayoutTitle =="")
 //	{
@@ -478,79 +476,66 @@ include("inc/return_dbcon.inc.php");
 //		{
 		?>
 
-	  <div style="width:600px; border:0px solid #fff" >
+	  <div style="width:100%; border:0px solid #fff" >
 	  <form name="defaultForm" action="default.php" method="post">
 	  <input type="hidden" name="sub" value="1" />
 	  <input type="hidden" name="edit_table_name" id="edit_table_name" value="<?=$_GET[id]?>" />
 	  <input type="hidden" name="insert_edit" value="<?=$_GET[id]?>"  />
 
-	  	<table width="600" border="0" cellspacing="0" cellpadding="0">
-<!-- UCHIDA -->
-		  <tr>
-			<td style="height:1px; overflow:hidden; border:none; border-top:1px solid #3681CB; text-align:left;height:20px;vertical-align:middle; background:#E1ECF7; color:#2252A3; width:200px; font-size:13px;">&nbsp;&nbsp;本発注締切日</td>
-			<td style="height:1px; overflow:hidden; border:none; border-top:1px solid #3681CB; text-align:left;height:20px;vertical-align:middle; background:#E1ECF7; color:#2252A3; width:200px; font-size:13px;">　　　　　　&nbsp;&nbsp;席次表編集利用制限日</td>
- 		  </tr>
-		  <tr>
-			<td valign="middle" style=" vertical-align:middle; text-align:left; height:40px;">　　　　　　　&nbsp;
 
-<?php 		if ($InputArea=="") {?> <input type="text" style="text-align:right" name="confirm_day_num" id="confirm_day_num" size="5" maxlength="2" onblur="isInteger('confirm_day_num')" value="<?=$confirm_day_num?>" />&nbsp;日前 <?php } else  echo $confirm_day_num." 日前"  ?>
-			</td>
-			<td valign="middle" style=" vertical-align:middle; text-align:left; height:40px;">　　　　　　　&nbsp;&nbsp;
+<h2><div style="width:100%;">高砂卓名設定<div></h2>
 
-<?php 		if ($InputArea=="") {?> <input type="text" style="text-align:right" name="limitation_ranking" id="limitation_ranking" size="5" maxlength="2" onblur="isInteger('limitation_ranking')" value="<?=$limitation_ranking?>" />&nbsp;日前 <?php } else	echo $limitation_ranking." 日前" ?>
-			</td>
-		  </tr>
-		  <tr>
-		    <td colspan="2" align="center" style="height:1px; overflow:hidden; border:none; border-top:1px solid #3681CB; text-align:left;height:20px;vertical-align:middle; background:#E1ECF7; color:#2252A3; height:20px; font-size:13px;">&nbsp;&nbsp;高砂卓名設定 </td>
-		  </tr>
-		  <tr>
-		    <td colspan="2" >
+<table style="width:340px;" border="0" align="left" cellpadding="0" cellspacing="10" >
+            <tr>
+              <td width="60" align="left" nowrap="nowrap">高砂卓名</td>
+                <td width="10" align="left" nowrap="nowrap">：</td>
+                <td width="270" nowrap="nowrap">
+                	 <?php 				if ($InputArea=="") {?> <input type="text" name="default_layout_title"  id="DefaultLayoutTitle" value="<?=$default_layout_title?>" /> <?php } else	echo $default_layout_title ?>
+           	  </td>
+  </tr>
+</table>
+
+<td valign="middle" style=" vertical-align:middle; text-align:left; height:140px;">　　　　　　　&nbsp;&nbsp;
+</td>
+
+<br /><br /><br /><br />
+
+
+<h2><div style="width:100%;"> 卓名設定 </div></h2>
+
+<table style="width:680px;" border="0" align="left" cellpadding="0" cellspacing="10">
+            <tr align="left">
+              <td width="60" align="left" nowrap="nowrap">卓名</td>
+                <td width="10" align="left" nowrap="nowrap">：</td>
+                <td width="270" nowrap="nowrap"><?php 				if ($InputArea=="") { ?> <input type="text" name="name" id="name"  value="<?=$_GET['name']?>"/> <?php } else echo $_GET['name'] ?></td>
+                <td width="60" nowrap="nowrap">卓名変更</td>
+                <td width="10" nowrap="nowrap">：</td>
+                <td width="270" nowrap="nowrap">
+                	<input type="radio" value="1" name="rename_table_view" <?php 	if($default_raname_table_view == 1){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;可&nbsp;&nbsp;
+					<input type="radio" value="0" name="rename_table_view" <?php 	if($default_raname_table_view == "0"){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;不可&nbsp;&nbsp;
+           	  </td>
+            </tr>
+        </table>
+
+
+
+<td valign="middle" style=" vertical-align:middle; text-align:left; height:140px;">　　　　　　　&nbsp;&nbsp;
+</td>
+
+<br /><br /><br /><br />
+
+
 				<table width="100%" border="0" cellspacing="1" cellpadding="4">
 				  <tr>
-					<td width="83" align="right" valign="middle">高砂卓名:</td>
-					<td width="191" align="left" valign="middle">
-<?php 				if ($InputArea=="") {?> <input type="text" name="default_layout_title"  id="DefaultLayoutTitle" value="<?=$default_layout_title?>" /> <?php } else	echo $default_layout_title ?>
-					</td>
-                    <td>&nbsp;</td>
-					<td height="40">&nbsp;</td>
-
-				  </tr>
-
-
-		  <tr>
-		    <td colspan="4" align="center" style="height:1px; overflow:hidden; border:none; border-top:1px solid #3681CB; text-align:left;height:20px;vertical-align:middle; background:#E1ECF7; color:#2252A3; height:20px; font-size:13px;">&nbsp;&nbsp;卓名設定 </td>
-		  </tr>
-
-
-                  <tr>
-<?php 				if ($InputArea=="") { ?> <td align="right"> 卓名 : <?php } else echo "<td align='right'>　　　" ?>
-					</td>
-					<td align="left">
-<?php 				if ($InputArea=="") { ?> <input type="text" name="name" id="name"  value="<?=$_GET['name']?>"/> <?php } else echo $_GET['name'] ?>
-					</td>
-
-					<td width="83" align="right" valign="middle">卓名変更:</td>
-					<td width="206" height="40" valign="middle" >&nbsp;<input type="radio" value="1" name="rename_table_view" <?php 	if($default_raname_table_view == 1){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;可&nbsp;&nbsp;
-					<input type="radio" value="0" name="rename_table_view" <?php 	if($default_raname_table_view == "0"){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;不可&nbsp;&nbsp;</td>
-
-
-				  </tr>
-				  <tr>
-				    <td align="right">&nbsp;</td>
-				    <td align="left">&nbsp;</td>
-				    <td>&nbsp;</td>
-				    <td>&nbsp;</td>
-			      </tr>
-				  <tr>
-<?php 				if ($InputArea=="") { ?>
-					    <td colspan="4" align="center" valign="middle"><a href="#"><img  onclick="validForm();"; border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg"></a>　　<a href="#"><img  onclick="clearForm()"; border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg"></a></td> <?php } ?>
+  <?php 				if ($InputArea=="") { ?>
+				    <td width="563" align="leftr" valign="middle"><p>　　　<a href="#"><img  onclick="validForm();"; border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg"></a>　　<a href="#"><img  onclick="clearForm()"; border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg"></a></p></td> <?php } ?>
 			      </tr>
 				</table>
-			</td>
-		  </tr>
-		</table>
+
+<br />
 
 	  </div>
+
 	  <?php
 //	  }
 	  ?>
@@ -565,7 +550,7 @@ include("inc/return_dbcon.inc.php");
 
 		<!-- UCHIDA EDIT 11/07/27 -->
 		<!-- <div id="message_BOX" style="height:450px; overflow:auto; width:950px;"> -->
-        <div id="message_BOX" style="width:950px;">
+        <div id="box_table" style="width:950px;">
             <div class="box4">
                 <table border="0" align="center" cellpadding="1" cellspacing="1" style="width:90%;">
                 <tr align="center">

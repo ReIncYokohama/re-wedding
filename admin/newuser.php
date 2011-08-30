@@ -192,19 +192,19 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 $j(document).ready(function(){
     setDeleteGaiji({
       input_id:"man_firstname",
-          form_name:"male_last_gaiji_",
+          form_name:"male_first_gaiji_",
           div_image:"male_firstname_img_div_id"});
     setDeleteGaiji({
       input_id:"man_lastname",
-          form_name:"male_first_gaiji_",
+          form_name:"male_last_gaiji_",
           div_image:"male_lastname_img_div_id"});
     setDeleteGaiji({
       input_id:"woman_firstname",
-          form_name:"female_last_gaiji_",
+          form_name:"female_first_gaiji_",
           div_image:"female_firstname_img_div_id"});
     setDeleteGaiji({
       input_id:"woman_lastname",
-          form_name:"female_first_gaiji_",
+          form_name:"female_last_gaiji_",
           div_image:"female_lastname_img_div_id"});
 });
 
@@ -463,9 +463,9 @@ function get_gaiji_value(from,img,gid,gsid)
 	if(from=="man_lastname")
 	{
 		var man_lastname = $j("#man_lastname").val();
-		$j("#male_first_div_id").append("<input type='hidden' name='male_first_gaiji_img[]' value='"+img+"'>");
-		$j("#male_first_div_id").append("<input type='hidden' name='male_first_gaiji_gid[]' value='"+gid+"'>");
-		$j("#male_first_div_id").append("<input type='hidden' name='male_first_gaiji_gsid[]' value='"+gsid+"'>");
+		$j("#male_last_div_id").append("<input type='hidden' name='male_last_gaiji_img[]' value='"+img+"'>");
+		$j("#male_last_div_id").append("<input type='hidden' name='male_last_gaiji_gid[]' value='"+gid+"'>");
+		$j("#male_last_div_id").append("<input type='hidden' name='male_last_gaiji_gsid[]' value='"+gsid+"'>");
 
 		$j("#male_lastname_img_div_id").append("<img src='../gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
 		$j("#man_lastname").attr("value", man_lastname+"＊");
@@ -473,9 +473,9 @@ function get_gaiji_value(from,img,gid,gsid)
 	if(from=="man_firstname")
 	{
 		var man_firstname = $j("#man_firstname").val();
-		$j("#male_last_div_id").append("<input type='hidden' name='male_last_gaiji_img[]' value='"+img+"'>");
-		$j("#male_last_div_id").append("<input type='hidden' name='male_last_gaiji_gid[]' value='"+gid+"'>");
-		$j("#male_last_div_id").append("<input type='hidden' name='male_last_gaiji_gsid[]' value='"+gsid+"'>");
+		$j("#male_first_div_id").append("<input type='hidden' name='male_first_gaiji_img[]' value='"+img+"'>");
+		$j("#male_first_div_id").append("<input type='hidden' name='male_first_gaiji_gid[]' value='"+gid+"'>");
+		$j("#male_first_div_id").append("<input type='hidden' name='male_first_gaiji_gsid[]' value='"+gsid+"'>");
 
 		$j("#male_firstname_img_div_id").append("<img src='../gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
 		$j("#man_firstname").attr("value", man_firstname+"＊");
@@ -483,9 +483,9 @@ function get_gaiji_value(from,img,gid,gsid)
 	if(from=="woman_lastname")
 	{
 		var woman_lastname = $j("#woman_lastname").val();
-		$j("#female_first_div_id").append("<input type='hidden' name='female_first_gaiji_img[]' value='"+img+"'>");
-		$j("#female_first_div_id").append("<input type='hidden' name='female_first_gaiji_gid[]' value='"+gid+"'>");
-		$j("#female_first_div_id").append("<input type='hidden' name='female_first_gaiji_gsid[]' value='"+gsid+"'>");
+		$j("#female_last_div_id").append("<input type='hidden' name='female_last_gaiji_img[]' value='"+img+"'>");
+		$j("#female_last_div_id").append("<input type='hidden' name='female_last_gaiji_gid[]' value='"+gid+"'>");
+		$j("#female_last_div_id").append("<input type='hidden' name='female_last_gaiji_gsid[]' value='"+gsid+"'>");
 
 		$j("#female_lastname_img_div_id").append("<img src='../gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
 		$j("#woman_lastname").attr("value", woman_lastname+"＊");
@@ -493,9 +493,9 @@ function get_gaiji_value(from,img,gid,gsid)
 	if(from=="woman_firstname")
 	{
 		var woman_firstname = $j("#woman_firstname").val();
-		$j("#female_last_div_id").append("<input type='hidden' name='female_last_gaiji_img[]' value='"+img+"'>");
-		$j("#female_last_div_id").append("<input type='hidden' name='female_last_gaiji_gid[]' value='"+gid+"'>");
-		$j("#female_last_div_id").append("<input type='hidden' name='female_last_gaiji_gsid[]' value='"+gsid+"'>");
+		$j("#female_first_div_id").append("<input type='hidden' name='female_first_gaiji_img[]' value='"+img+"'>");
+		$j("#female_first_div_id").append("<input type='hidden' name='female_first_gaiji_gid[]' value='"+gid+"'>");
+		$j("#female_first_div_id").append("<input type='hidden' name='female_first_gaiji_gsid[]' value='"+gsid+"'>");
 
 		$j("#female_firstname_img_div_id").append("<img src='../gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
 		$j("#woman_firstname").attr("value", woman_firstname+"＊");

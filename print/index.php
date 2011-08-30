@@ -122,15 +122,9 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 		 <input type="hidden" name="user_id" value="<?=$_GET['user_id']?>"/>
 		 <input type="hidden" name="page" value="<?=$_GET['page']?>"/>
 	  <div id="login_IDarea">
-         <? if($message ==1){?>
-		   <table width="100%" border="0" cellspacing="0" cellpadding="2">
-		  <tr>
-
-            <td width="100%" align="center" ><font color="#FF0000"> User name or password wrong</font></td>
-
-          </tr>
-		  </table>
-		  <? }?>
+         <? if($message ==1){
+		echo "<script> alert('ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください'); </script>";	
+	 }?>
 		<table width="100%" border="0" cellspacing="10" cellpadding="0">
 
 
@@ -182,7 +176,7 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->    </div>
   </div>
 <div class="clr"></div>
-  <div id="footer">
+  <div id="footer" style="width:1000px">
     <p>Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.</p>
   </div>
 </div>

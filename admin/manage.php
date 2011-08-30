@@ -80,15 +80,15 @@
 	}
 
 	$usermsgs = $obj->GetAllRowsByCondition("spssp_message",$umsg_where);
-
 	$adminmsgs = $obj->GetAllRowsByCondition("spssp_admin_messages"," $amsg_where order by display_order desc ");
+
+/* 削除はsearch_user2.phpで行う
 	if($_GET['action']=='delete_user' && (int)$_GET['id'] > 0)
 	{
 		$sql = "delete from spssp_user where id=".(int)$_GET['id'];
 		mysql_query($sql);
-
 	}
-
+*/
 ?>
 
 		   <!--User view respect to admin start-->
@@ -211,7 +211,7 @@ function add_supper_message()
 }
 function save_super_message()
 {
-	var title = $j("#super_title").val()
+	var title = $j("#super_title").val();
 	var desc = $j("#super_description").val();
 	if(title == '')
 	{
@@ -296,6 +296,31 @@ function ckDate(datestr) {
 	}
 }
 
+function confirmDeleteUser(user_id) {
+	var date_from;
+	var date_to;
+	var mname;
+	var wname;
+	var sortOptin = document.condition.h_sortOption.value;
+	var delete_user;
+
+	if(confirm("削除しても宜しいですか？") == false) return false;
+
+	date_from = document.condition.h_date_from.value;
+	date_to = document.condition.h_date_to.value;
+	mname= document.condition.h_man_lastname.value;
+	wname = document.condition.h_woman_lastname.value;
+	delete_user = "delete_user";
+
+	$j.post('ajax/search_user2.php',{'action':delete_user, 'user_id':user_id,'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname,'sortOptin':sortOptin}, function(data){
+
+	$j("#srch_result").fadeOut(100);
+	$j("#srch_result").html(data);
+	$j("#srch_result").fadeIn(700);
+	$j("#box_table").fadeOut(100);
+	});
+}
+
 function sortAction(sortOptin)
 {
 	var date_from;
@@ -303,14 +328,16 @@ function sortAction(sortOptin)
 	var mname;
 	var wname;
 
-	date_from = $j("#date_from").val();
-	date_to = $j("#date_to").val();
-	mname= $j("#man_lastname").val();
-	wname = $j("#woman_lastname").val();
+	date_from = document.condition.h_date_from.value;
+	date_to = document.condition.h_date_to.value;
+	mname= document.condition.h_man_lastname.value;
+	wname = document.condition.h_woman_lastname.value;
+
+	document.condition.h_sortOption.value = sortOptin;
 
 	$j.post('ajax/search_user2.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname,'sortOptin':sortOptin}, function(data){
 
-	$j("#srch_result").fadeOut(100)
+	$j("#srch_result").fadeOut(100);
 	$j("#srch_result").html(data);
 	$j("#srch_result").fadeIn(700);
 	$j("#box_table").fadeOut(100);
@@ -324,11 +351,15 @@ function validSearch()
 	var mname;
 	var wname;
 
-		date_from = $j("#date_from").val();
-		date_to = $j("#date_to").val();
-		mname= $j("#man_lastname").val();
-		wname = $j("#woman_lastname").val();
+	date_from = $j("#date_from").val();
+	date_to = $j("#date_to").val();
+	mname= $j("#man_lastname").val();
+	wname = $j("#woman_lastname").val();
 
+	document.condition.h_date_from.value = date_from;
+	document.condition.h_date_to.value = date_to;
+	document.condition.h_man_lastname.value = mname;
+	document.condition.h_woman_lastname.value = wname;
 
 	if(date_from == '' && date_to == '' && mname == '' && wname == '')
 	{
@@ -358,17 +389,17 @@ function validSearch()
 
 		$j.post('ajax/search_user2.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname}, function(data){
 
-		$j("#srch_result").fadeOut(100)
+		$j("#srch_result").fadeOut(100);
 		$j("#srch_result").html(data);
 		$j("#srch_result").fadeIn(700);
 		$j("#box_table").fadeOut(100);
-	});
+		});
 	}
 }
 function todays_user()
 {
 	$j.post('ajax/search_user.php',{'today':'today'}, function(data){
-		$j("#srch_result").fadeOut(100)
+		$j("#srch_result").fadeOut(100);
 		$j("#srch_result").html(data);
 		$j("#srch_result").fadeIn(700);
 		$j("#box_table").fadeOut(100);
@@ -466,7 +497,7 @@ include("inc/return_dbcon.inc.php");
             </div>-->
             <div id="top_search_view">
 
-                <form action="" method="post">
+                <form action="" method="post" name="condition">
 				<table width="720" border="0" cellpadding="0" cellspacing="0">
 
 			  <tr style="height:30px;">
@@ -502,13 +533,14 @@ include("inc/return_dbcon.inc.php");
 			    <td align="left" colspan="3" > <a href="newuser.php"><img src="img/common/new_register.gif" alt="New Register"></a></td>
 			   </tr>
 			</table>
+                <input type="hidden" name="h_date_from" value="">
+                <input type="hidden" name="h_date_to" value="">
+                <input type="hidden" name="h_man_lastname" value="">
+                <input type="hidden" name="h_woman_lastname" value="">
+                <input type="hidden" name="h_sortOption" value="">
 			</form>
 
-
             </div>
-
-
-
 
        		<p></p>
             <div style="width:100%; display:none;" id="srch_result"></div>
@@ -521,8 +553,8 @@ include("inc/return_dbcon.inc.php");
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
                     <tr align="center">
                         <td width="70">披露宴日<span class="txt1">
-                        	<a href="javascript:void(0);" onclick="sortAction('party_day asc');">▲</a>
-                        	<a href="javascript:void(0);" onclick="sortAction('party_day desc');">▼</a></span>
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day asc + party_day_with_time asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day desc + party_day_with_time desc');">▼</a></span>
                         </td>
                         <td width="150" > 新郎氏名<span class="txt1">
                         	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname asc');">▲</a>
@@ -568,61 +600,6 @@ include("inc/return_dbcon.inc.php");
 				//$last_login = $obj->GetSingleData("spssp_user_log","max(login_time)"," id=".$row['id']);
 
 				$last_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$row['id']." and admin_id='0' ORDER BY login_time DESC");
-
-
-				$plan_row = $obj->GetSingleRow("spssp_plan", " user_id=".$row['id']);
-
-				if(!empty($plan_row) && $plan_row['id'] > 0)
-				{
-					$conf_plan_row = $obj->GetSingleRow("spssp_plan_details", " plan_id=".$plan_row['id']);
-					$user_guests = $obj->GetSingleRow("spssp_guest"," user_id=".$row['id']);
-					if(!empty($conf_plan_row))
-					{
-						$plan_link = "<img src='img/common/btn_syori.gif'  border='0' />";
-					}
-					else
-					{
-						if(!empty($user_guests))
-						{
-							$plan_link = "<img src='img/common/btn_syori.gif'  border='0' />";
-
-						}
-						else
-						{
-							$plan_link = "<img src='img/common/btn_kousei.gif' border='0' />";
-						}
-					}
-
-					$layout_link = "<a href='set_table_layout.php?plan_id=".$plan_row['id']."&user_id=".(int)$row['id']."'><img src='img/common/btn_taku_edit.gif' boredr='0' > </a>";
-				}
-				else
-				{
-					$plan_link = "";
-					$layout_link = "";
-				}
-
-				if($_SESSION['user_type'] == 222)
-				{
-					if(!empty($staff_users))
-					{
-						if(in_array($row['id'],$staff_users))
-						{
-							$delete_onclick = "confirmDelete('manage.php?action=delete_user&page=".(int)$_GET['page']."&id=".$row['id']."');";
-						}
-						else
-						{
-							$delete_onclick = "alert_staff();";
-						}
-					}
-					else
-					{
-						$delete_onclick = "alert_staff();";
-					}
-				}
-				else
-				{
-					$delete_onclick = "confirmDelete('manage.php?action=delete_user&page=".(int)$_GET['page']."&id=".$row['id']."');";
-				}
 
 			?>
 	            <div class="<?=$class?>" style="width:1000px; ">
@@ -681,7 +658,7 @@ include("inc/return_dbcon.inc.php");
 						</td>
 
                         <td width="40">
-                        	<a href="javascript:void(0);" onclick="<?=$delete_onclick;?>" >
+                        	<a href="javascript:void(0);" onclick="confirmDeleteUser(<?=$row['id']?>);" >
                         		<img src="img/common/btn_deleate.gif"  />
                             </a>
                         </td>

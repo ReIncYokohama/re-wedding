@@ -73,9 +73,6 @@ if(isset($_GET['option']) && $_GET['option'] != '')
 					}
       }
     $order=implode(",",$orderarray);
-
-
-
 	}
 
 
@@ -545,10 +542,10 @@ $editable=$objInfo->get_editable_condition($plan_info);
 			$guest_row = $obj->GetSingleRow(" spssp_guest ", " id=".(int)$get['gid']);
 
       $query_string = "SELECT * FROM spssp_gaizi_detail_for_guest WHERE guest_id = ".$get['gid'];
-      $firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=0");
-      $lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=1");
-      $comment1_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=2");
-      $comment2_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=3");
+      $firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=0 order by gu_char_position");
+      $lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=1 order by gu_char_position");
+      $comment1_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=2 order by gu_char_position");
+      $comment2_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=3 order by gu_char_position");
 
       function getGaijis($gaiji_objs){
         $returnImage = "";
@@ -560,7 +557,7 @@ $editable=$objInfo->get_editable_condition($plan_info);
       function getGaijisInputEle($gaiji_objs){
         $html = "";
         for($i=0;$i<count($gaiji_objs);++$i){
-          $html .= getHiddenValue( $gaiji_objs[$i]["gu_trgt_type"],$gaiji_objs[$i]["gu_char_img"],$gaiji_objs[$i]["gu_id"],$gaiji_objs[$i]["gu_char_position"]);
+          $html .= getHiddenValue( $gaiji_objs[$i]["gu_trgt_type"],$gaiji_objs[$i]["gu_char_img"],$gaiji_objs[$i]["gu_char_setcode"],$gaiji_objs[$i]["gu_sjis_code"]);
         }
         return $html;
       }
@@ -580,7 +577,6 @@ $editable=$objInfo->get_editable_condition($plan_info);
         }
         return $html;
       }
-
 		}
 
 //print_r($guest_row);
@@ -591,6 +587,7 @@ if($editable)
     <div id="newgustform" style="width:873px; margin:auto; min-height:100px; padding-top:5px; display:block">
       <form id="newguest" name="newguest" method="post" action="new_guest.php?page="<?=$_GET['page']?>">
 	 <input type="hidden" name="id" id="id" value="<?=$_GET['gid']?>" />
+   <?php if($firstname_gaijis || $lastname_gaijis || $comment1_gaijis || $comment2_gaijis) echo getAllGaijisInputEle(array($firstname_gaijis,$lastname_gaijis,$comment1_gaijis,$comment2_gaijis))?>
 	   <table width="100%" border="0" cellspacing="1" cellpadding="1">
 		  <tr>
 				<td align="right" width="100"></td><td align="center" width="76"></td>
@@ -666,7 +663,7 @@ if($editable)
        	<input type="text" name="first_name" size="10" style="padding-top:3px; padding-bottom:3px;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')"/>
 
 			<div id="first_div_id" style="display:none;">
-      <?php if($firstname_gaijis || $lastname_gaijis || $comment1_gaijis || $comment2_gaijis) echo getAllGaijisInputEle(array($firstname_gaijis,$lastname_gaijis,$comment1_gaijis,$comment2_gaijis))?>
+
       </div>
 
 				</td>

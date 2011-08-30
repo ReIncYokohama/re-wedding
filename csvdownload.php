@@ -151,6 +151,19 @@ $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layo
    }
    return join(" ",$textArray);
  }
+function getGaijiSjis($text,$gaijis){
+  $textArray = explode("＊",$text);
+  $text = $textArray[0];
+  for($i=1;$i<count($textArray);++$i){
+    //$text .= "&#".$gaijis[$i-1]["gu_sjis_code"];
+    $sjiscode = $gaijis[$i-1]['gu_sjis_code'];
+    //$sjiscode = "80";
+    $text .= chr($sjiscode);
+    
+    $text .= $textArray[$i];
+  }
+  return $text;
+}
 
 	
 //echo "<pre>";
@@ -273,6 +286,7 @@ html;*/
 
 $lines .="Guests";
 
+$plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
 
 $usertblrows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".(int)$user_id." order by id ASC");
 $num_tables;
@@ -297,14 +311,15 @@ foreach($usertblrows as $tblRows)
 	$z=1;
 	foreach($usertblrows as $usertbldata)
 	{
-
+    $guesttblrows = null;
 		//echo "<pre>";print_r($usertbldata);
-		$guesttblrows = $obj->getRowsByQuery("select * from spssp_plan_details where seat_id = ".(int)$usertbldata['id']." order by id ASC");
+    //spssp_plan_detailsはplan_idとseat_idがセット
+		$guesttblrows = $obj->getRowsByQuery("select * from spssp_plan_details where seat_id = ".(int)$usertbldata['id']." and plan_id = ".$plan_id." order by id ASC");
     
 		if($guesttblrows[0]['guest_id'])
 		{	
       //一時的に表示を不可に
-      $guest_info = $obj->GetSingleRow("spssp_guest","id=".$guesttblrows[0]['guest_id']." and 1=-1");
+      $guest_info = $obj->GetSingleRow("spssp_guest","id=".$guesttblrows[0]['guest_id']);
     }
 		//echo "<pre>";print_r($guest_info);
 		//TableNumber
@@ -394,17 +409,17 @@ foreach($usertblrows as $tblRows)
 		$value = chop($guest_type);		
 		$cl22[] = "\"$value\"";
 		
-		//LastName	外字姓	
-		$value = chop($guest_info['first_name']);
+		//LastName	外字姓
+    $value = getGaijiSjis($guest_info['last_name'],$lastname_gaijis);
 		$cl22[] = "\"$value\"";
 		
 		//FirstName	 外字名	
-		$value = chop($guest_info['last_name']);		
+    $value = getGaijiSjis($guest_info['first_name'],$firstname_gaijis);
 		$cl22[] = "\"$value\"";
 		
 		
-		//外字姓名FullName		
-		$value = chop($guest_info['first_name']." ".$guest_info['last_name']);		
+		//外字姓名FullName
+    $value = getGaijiSjis($guest_info['last_name']." ".$guest_info['first_name'],array_merge($lastname_gaijis,$firstname_gaijis));
 		$cl22[] = "\"$value\"";
 		
 		//com1 com2 
