@@ -85,7 +85,7 @@
 
 
 	$room_row = $obj->GetSingleRow("spssp_room"," id= ".$user_row['room_id']);
-
+/*
 	if($_SESSION['user_type'] == 222)
 	{
 		$data = $obj->GetAllRowsByCondition("spssp_user"," stuff_id=".(int)$_SESSION['adminid']);
@@ -118,7 +118,7 @@
 		$registration_onclick = "valid_user(".$user_id.");";
 		$plan_onclick = "valid_plan();";
 	}
-
+*/
 
 
 	//USER GIFT GROUP NAME UPDaTE STart
@@ -195,7 +195,7 @@ width:200px;
 	}
 
 </style>
-<!-- <script src="../js/noConflict.js" type="text/javascript"></script> -->
+<script src="../js/noConflict.js" type="text/javascript"></script>
 <script type="text/javascript" src="calendar/calendar.js"></script>
 
 
@@ -316,16 +316,13 @@ function valid_plan(noUpdate)
 {
 
 	if (noUpdate == true) {
-<<<<<<< HEAD
 		alert("披露宴日が過ぎてきるため、登録・更新ができません");
-=======
-		alert("披露宴日が過ぎてきるため、登録・更新ができません２");
->>>>>>> 59414c003736717b79dc830115177559f44eb0e8
 		return false;
 	}
 
 	// UCHIDA EDIT 11/08/05 入力確認。上書きをカバー
 	var product_name = $j("#product_name").val();
+
 
 // UCHIDA EDIT 11/08/08 選択状態確認方法を変更
 //	var print_type = $("print_type").options[$("print_type").selectedIndex].text;
@@ -340,12 +337,13 @@ function valid_plan(noUpdate)
 		$j("#print_company").focus();
 		return false;
 	}
+/* 未入力を承認
 	if (product_name == "") {
 		alert("商品名を入力してください");
 		$j("#product_name").focus();
 		return false;
 	}
-
+*/
 	if (print_size == 0) {
 		alert("用紙サイズを選択してください");
 		$j("#print_size").focus();
@@ -450,11 +448,7 @@ function checkGroupForm(x, noUpdate)
 {	//alert(x);
 
 	if (noUpdate == true) {
-<<<<<<< HEAD
 		alert("披露宴日が過ぎてきるため、登録・更新ができません");
-=======
-		alert("披露宴日が過ぎてきるため、登録・更新ができません３");
->>>>>>> 59414c003736717b79dc830115177559f44eb0e8
 		return false;
 	}
 
@@ -482,11 +476,7 @@ function checkGiftForm(x, noUpdate)
 {	//alert(x);
 
 	if (noUpdate == true) {
-<<<<<<< HEAD
 		alert("披露宴日が過ぎてきるため、登録・更新ができません");
-=======
-		alert("披露宴日が過ぎてきるため、登録・更新ができません４");
->>>>>>> 59414c003736717b79dc830115177559f44eb0e8
 		return false;
 	}
 
@@ -516,11 +506,7 @@ function checkMenuGroupForm(x, noUpdate)
 {	//alert(x);
 
 	if (noUpdate == true) {
-<<<<<<< HEAD
 		alert("披露宴日が過ぎてきるため、登録・更新ができません");
-=======
-		alert("披露宴日が過ぎてきるため、登録・更新ができません５");
->>>>>>> 59414c003736717b79dc830115177559f44eb0e8
 		return false;
 	}
 
@@ -619,14 +605,8 @@ function change_gaiji_link(action)
 
 function valid_user(user_id, noUpdate) // registration_validation.jsから移動 11/08/26
 {
-<<<<<<< HEAD
 	if (noUpdate == true) {
 		alert("披露宴日が過ぎてきるため、登録・更新ができません");
-=======
-alert("TEST");
-	if (noUpdate == true) {
-		alert("披露宴日が過ぎてきるため、登録・更新ができません１");
->>>>>>> 59414c003736717b79dc830115177559f44eb0e8
 		return false;
 	}
 
@@ -735,11 +715,6 @@ alert("TEST");
 	}
 
    var str4 = document.getElementById("marriage_hour").value;
-<<<<<<< HEAD
-=======
-   alert("TEST");
-//   alert(str4.indexOf(" "));
->>>>>>> 59414c003736717b79dc830115177559f44eb0e8
    if (str4 == "") {
       alert("挙式時間を入力ください");
 	  document.getElementById('marriage_hour').focus();
@@ -950,7 +925,16 @@ if(document.getElementById("password").value=='')
 			document.user_form_register.submit();
 		}
 }
-
+function email_validate(email) {
+   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+   if(reg.test(email) == false) {
+       return false;
+   }
+   else
+   {
+   		return true;
+   }
+}
 </script>
 
 <script type="text/javascript"><!--
@@ -1272,7 +1256,7 @@ include("inc/return_dbcon.inc.php");
                 <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
                 <!--  UCHIDA EDIT 11/08/05 確認用メールアドレスのペーストを禁止 -->
                 <!--  UCHIDA EDIT 11/08/08 メッセージ変更 -->
-                <td onpaste="alert('メールアドレス確認用は貼り付けできません');return false;" colspan="3" nowrap="nowrap"><input style="padding-top:4px; padding-bottom:4px;" name="commail" type="text" id="con_mail" size="30" value="<?=$user_row['mail']?>" />
+                <td onpaste="alert('メールアドレス確認用は貼り付けできません');return false;" colspan="3" nowrap="nowrap"><input style="padding-top:4px; padding-bottom:4px;" name="con_mail" type="text" id="con_mail" size="30" value="<?=$user_row['mail']?>" />
 				</td>
             </tr>
             <tr>
@@ -1320,15 +1304,13 @@ include("inc/return_dbcon.inc.php");
 		 </div> <!--end of  id="div_box_1"-->
         <br />
         <h2><div>席次表設定</div></h2>
-        <?php
+        <?php/* エラーメッセージを抑制
         	if(isset($_GET['err']) && $_GET['err']!='')
 			{
 				echo "<script>
 				alert('".$obj->GetErrorMsgNew((int)$_GET['err'])."');
 				</script>";
-
-
-			}
+			}*/
 		?>
 		<div id="div_box_1" style="1000px;">
         <form action="insert_user_info_plan.php?user_id=<?=(int)$_GET['user_id']?>" method="post" name="user_info_plan">

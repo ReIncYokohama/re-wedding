@@ -8,6 +8,9 @@
 function get_image_text_width($fontsize,$str,$fontfile,$gaiji_image_url_arr = array(),$gaiji_str = "＊"
                               ,$angle = 0
                               ){
+  //空白を[あ]に置き換えて幅を計算する。
+  //もう少し丁寧に空白の調整を行うことも可能。
+  $str = str_replace(" ","く",$str);
   $str_not_gaiji_arr = explode($gaiji_str,$str);
   $gaiji_num = count($str_not_gaiji_arr)-1;
   $str_not_gaiji = implode("",$str_not_gaiji_arr);
@@ -16,6 +19,7 @@ function get_image_text_width($fontsize,$str,$fontfile,$gaiji_image_url_arr = ar
   $height = $image_arr[1]-$image_arr[5];
   $image_arr = imagettfbbox($fontsize,$angle,$fontfile,"".$str_not_gaiji);
   $width = $image_arr[2]-$image_arr[0];
+  
 
   $width_sum = $width;
   //イメージがないときにエラー処理を入れたい。

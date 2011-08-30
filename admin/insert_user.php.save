@@ -34,7 +34,7 @@ $woman_firstname_gaiji_pathArray = getGaijiPathArray($post["female_first_gaiji_i
 if(isset($user_id) && $user_id > 0)
   {
 
-/*
+
 	  if($post['mail'])
       {
         if(checkEmail($user_id,$post['mail'])>0)
@@ -48,7 +48,7 @@ if(isset($user_id) && $user_id > 0)
         redirect("user_info.php?user_id=$user_id&err=20");
         exit;
       }
-*/
+
     //更新時に必要なデータだけ送信する。
     $gaizi_detail_sql = "delete from spssp_gaizi_detail_for_user where gu_id=" .$user_id. ";";
     mysql_query($gaizi_detail_sql);
@@ -120,9 +120,9 @@ if(isset($user_id) && $user_id > 0)
 
     unset($post['current_room_id']);
 
-    unset($post['con_mail']);
+    unset($post['commail']);
 
-	$obj->UpdateData("spssp_user",$post," id=".$user_id);
+    $obj->UpdateData("spssp_user",$post," id=".$user_id);
 
     unset($post['confirm_day_num']);
 
@@ -253,9 +253,9 @@ else
     mkdir($user_folder."/thumb2");
 
     set_user_gaiji_position($user_id,$post["man_firstname"],0,$_POST["male_first_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
-    set_user_gaiji_position($user_id,$post["man_lastname"],1,$_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
-    set_user_gaiji_position($user_id,$post["woman_firstname"],2,$_POST["female_first_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
-    set_user_gaiji_position($user_id,$post["woman_lastname"],3,$_POST["female_last_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
+    set_user_gaiji_position($user_id,$post["man_lastname"],1,$_POST["male_last_gaiji_img"],$_POST["male_last_gaiji_gsid"]);
+    set_user_gaiji_position($user_id,$post["woman_firstname"],2,$_POST["female_first_gaiji_img"],$_POST["female_first_gaiji_gsid"]);
+    set_user_gaiji_position($user_id,$post["woman_lastname"],3,$_POST["female_last_gaiji_img"],$_POST["female_last_gaiji_gsid"]);
 
     make_text_save($post["man_lastname"],$man_lastname_gaiji_pathArray,$user_folder."man_lastname.png");
     make_text_save($post["man_lastname"]."様",$man_firstname_gaiji_pathArray,$user_folder."man_lastname_respect.png");

@@ -11,7 +11,11 @@ $post = $obj->protectXSS($_POST);
 $user_id = (int)$_SESSION['userid'];
 $guest_id = (int)$_POST['id'];
 
-
+/*
+print_r($_POST);
+print_r($post);
+exit();
+*/
 $orderst = $obj->GetSingleRow(" spssp_guest_orderstatus ", " user_id =".(int)$user_id);
 if($orderst)
   {
@@ -71,6 +75,7 @@ $firstname_gaiji_pathArray = getGaijiPathArray($_POST["male_first_gaiji_img"]);
 $comment1_gaiji_pathArray = getGaijiPathArray($_POST["comment1_gaiji_img"]);
 $comment2_gaiji_pathArray = getGaijiPathArray($_POST["comment2_gaiji_img"]);
 //$hotel_id = $HOTELID;
+
 $hotel_id=1;
 $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
 
