@@ -987,7 +987,7 @@ include("inc/return_dbcon.inc.php");
 	-->
 	        <a href="manage.php">ＴＯＰ</a> &raquo; お客様挙式情報</div>
         </h2>
-		<div style="width:700px;">
+		<div style="width:800px;">
         	<div class="navi">
             	<img src="img/common/navi01_on.jpg"/>
             </div>
@@ -999,7 +999,19 @@ include("inc/return_dbcon.inc.php");
             		<img src="img/common/navi03.jpg" class="on" />
                 </a>
             </div>
+
         	<div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
+          <?php
+          if($_SESSION['user_type'] == 111 ||$_SESSION['user_type'] == 333){
+          ?>
+          <div class="navi">
+            <a href="csv_upload.php?user_id=<?=$user_id?>" onclick="m_win(this.href,'mywindow7',500,200); return false;">
+            <img src="img/common/navi05.jpg" class="on" />
+            </a>
+          </div>
+          <?php
+          }
+          ?>
         	<div style="clear:both;"></div>
         </div>
         <br />

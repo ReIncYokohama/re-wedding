@@ -166,13 +166,13 @@ make_text_save($guest_respect,array(),$user_folder."guest_respect.png",15,150,$c
 make_text_save($post["last_name"].$guest_respect,$lastname_gaiji_pathArray,$user_folder."thumb1/last_name_respect.png",11,150,$colorArray);  
 make_text_save($post["comment1"],$comment1_gaiji_pathArray,$user_folder."thumb1/comment1.png",11,150,$colorArray);
 make_text_save($post["comment2"],$comment2_gaiji_pathArray,$user_folder."thumb1/comment2.png",11,150,$colorArray);
-make_text_save($post["comment1"].$comment2,$comment_gaiji_pathArray,$user_folder."thumb1/full_comment.png",11,150,$colorArray);
+make_text_save($post["comment1"].$post["comment2"],$comment_gaiji_pathArray,$user_folder."thumb1/full_comment.png",11,150,$colorArray);
 make_text_save($post["last_name"]." ".$post["first_name"]." ".$guest_respect,$fullname_gaiji_pathArray,$user_folder."thumb1/guest_fullname.png",11,150,$colorArray);
 
 make_text_save($post["last_name"].$guest_respect,$lastname_gaiji_pathArray,$user_folder."thumb2/last_name_respect.png",9,100,$colorArray);  
 make_text_save($post["comment1"],$comment1_gaiji_pathArray,$user_folder."thumb2/comment1.png",9,100,$colorArray);
 make_text_save($post["comment2"],$comment2_gaiji_pathArray,$user_folder."thumb2/comment2.png",9,100,$colorArray);
-make_text_save($post["comment1"].$comment2,$comment_gaiji_pathArray,$user_folder."thumb2/full_comment.png",9,100,$colorArray);
+make_text_save($post["comment1"].$post["comment2"],$comment_gaiji_pathArray,$user_folder."thumb2/full_comment.png",9,100,$colorArray);
 make_text_save($post["last_name"]." ".$post["first_name"]." ".$guest_respect,$fullname_gaiji_pathArray,$user_folder."thumb2/guest_fullname.png",9,100,$colorArray);
 
 //pdf用の画像を生成。

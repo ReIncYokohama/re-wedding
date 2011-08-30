@@ -198,10 +198,10 @@ include("inc/return_dbcon.inc.php");
               <td width="120" align="left" nowrap="nowrap">お客様ID利用期限日</td>
                 <td width="10" align="left" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
-                	 <?php if($_SESSION['user_type']=='333'){?>
-					披露宴日<input name="user_id_limit" type="text";" style="text-align:right" size="5" id="user_id_limit" maxlength="2"  value="<?=$user_id_limit?>" /> 日後
+                	 披露宴日<?php if($_SESSION['user_type']=='333'){?>
+					<input name="user_id_limit" type="text";" style="text-align:right" size="5" id="user_id_limit" maxlength="2"  value="<?=$user_id_limit?>" /> 日後
 					<? }else{?>
-						披露宴日<?=$user_id_limit?> 日後
+						<?=$user_id_limit?> 日後
 					<? }?>
            	  </td>
             </tr>

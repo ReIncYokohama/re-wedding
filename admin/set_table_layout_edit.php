@@ -728,14 +728,11 @@ include("inc/return_dbcon.inc.php");
 <?php
             $name_rows = $obj->GetAllRow("spssp_tables_name");
         ?>
-        <div style="font-size: 12px;">
         <div id="table_edit_name" title="卓編集" style="font-size: 12px;">
             <form action="" method="post" id="table_edit_form" name="table_edit_form">
             <fieldset style="height:100px;">
 
                 <input type="hidden" name="table_id" value="" id="table_id" />
-
-
 
                 <table align="center" border="0">
 
@@ -759,5 +756,3 @@ include("inc/return_dbcon.inc.php");
             </fieldset>
             </form>
         </div>
-		</div>
-

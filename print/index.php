@@ -5,38 +5,83 @@ include_once("../admin/inc/dbcon.inc.php");
 	$userID = $_POST['userID'];
 	$password = $_POST['password'];
 
-if(isset($_POST['sub']))
-{
+	$id=$_GET['userID'];
+	if($_GET['action']=='failed') {
+		echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください"); </script>';
+	}
+	if($_GET['action']=='noEntry') {
+		echo '<script type="text/javascript"> alert("現在、ログインはいただけません。\\nホテルから発注依頼があった場合のみログインいただけます。"); </script>';
+	}
+
+	if(isset($_POST['sub'])) {
 	$query_string = "SELECT * from spssp_printing_comapny WHERE email= '".$userID."' and number = '".$password."'";
 
 	$result = mysql_query( $query_string );
 	$row = mysql_fetch_array($result);
-$message='';
 
-
-
-	if($row['id'])
-	{
-		$_SESSION['contact_name'] = $row['contact_name'];
-		$_SESSION['company_name'] = $row['company_name'];
-		$_SESSION['email'] = $row['email'];
-		$_SESSION['printid'] = $row['id'];
-
-
-		if($_POST['page']!="")
+		if($row['id'])
 		{
-			redirect($_POST['page'].".php?user_id=".$_POST['user_id']);
+			$_SESSION['contact_name'] = $row['contact_name'];
+			$_SESSION['company_name'] = $row['company_name'];
+			$_SESSION['email'] = $row['email'];
+			$_SESSION['printid'] = $row['id'];
+
+
+			if($_POST['page']!="")
+			{
+				redirect($_POST['page'].".php?user_id=".$_POST['user_id']);
+			}
+			else
+			{
+				redirect("index.php?userID=$userID&action=noEntry");
+			}
+		}else{
+			redirect("index.php?userID=$userID&action=failed");
 		}
-		else
-		{
-			redirect("list.php");
-		}
-	}else{
-		$message=1;
 	}
-}
 
 ?>
+
+<script type="text/javascript">
+var reg = /^[A-Za-z0-9]{1,32}$/; // UCHIDA EDIT 11/07/26
+function login_admin()
+{
+	var adminid = document.getElementById('userID').value;
+	if(adminid =="") {
+		alert("ログインIDが未入力です");
+		document.getElementById('userID').focus();
+		return false;
+	}
+ 	if(email_validate(adminid) == false) {
+		alert("ログインIDを入力してください");
+		document.getElementById('userID').focus();
+		return false;
+	 }
+
+	var adminpass = document.getElementById('password').value;
+	if(adminpass =="") {
+		alert("パスワードが未入力です");
+		document.getElementById('password').focus();
+		return false;
+	}
+	if(reg.test(adminpass) == false) {
+		alert("パスワードは半角英数字で入力してください");
+		document.getElementById('password').focus();
+		return false;
+	}
+	document.loginform.submit();
+}
+function email_validate(email) {
+   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+   if(reg.test(email) == false) {
+       return false;
+   }
+   else
+   {
+   		return true;
+   }
+}
+</script>
 
 <style>
 body{
@@ -122,25 +167,25 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 		 <input type="hidden" name="user_id" value="<?=$_GET['user_id']?>"/>
 		 <input type="hidden" name="page" value="<?=$_GET['page']?>"/>
 	  <div id="login_IDarea">
-         <? if($message ==1){
-		echo "<script> alert('ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください'); </script>";	
-	 }?>
 		<table width="100%" border="0" cellspacing="10" cellpadding="0">
 
 
 		  <tr>
-            <td width="30%" align="right" nowrap="nowrap">ログインID：</td>
-            <td width="70%" nowrap="nowrap"><label for="ログインID"></label>
-            <input name="userID" type="text" id="userID" size="20" /></td>
+            <td width="20%" align="left" nowrap="nowrap" style="font-size:12px;">ログインID</td>
+            <td width=" 5%" align="left" nowrap="nowrap" style="font-size:12px;">：</td>
+            <td width="75%" nowrap="nowrap"><label for="ログインID"></label>
+            <input onkeydown="if (event.keyCode == 13) { login_admin(); }" name="userID" type="text" id="userID" size="20"  value='<?php echo $id ?>'/></td>
           </tr>
           <tr>
-            <td align="right" nowrap="nowrap">パスワード：</td>
-            <td nowrap="nowrap"><input name="password" type="password" id="password" size="20" /></td>
+            <td align="left" nowrap="nowrap" style="font-size:12px;">パスワード</td>
+            <td align="left" nowrap="nowrap" style="font-size:12px;">：</td>
+            <td nowrap="nowrap">
+            <input onkeydown="if (event.keyCode == 13) { login_admin(); }" name="password" type="password" id="password" size="20" /></td>
           </tr>
         </table>
-      </div>
-      <div id="login_bt"><a href="Javascript:document.loginform.submit();"><img src="img/common/btn_login.jpg" alt="ログイン" width="152" height="22" /></a></div>
+      <div id="login_bt"><a href="javascript:void(0);" onclick="login_admin();"><img src="img/common/btn_login.jpg" alt="ログイン" width="152" height="22" /></a></div>
 	  <input type="hidden" name="sub" value="1" />
+      </div>
 	  </form>
 </div><div class="clr"></div>
 <div><img src="../img/bar_recommended.jpg" /></div><div>
@@ -180,5 +225,6 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
     <p>Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.</p>
   </div>
 </div>
+	<script type="text/javascript"> document.loginform.userID.focus(); </script>
 </body>
 </html>
