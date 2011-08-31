@@ -38,6 +38,7 @@
 			}
 			else
 			{
+/*
 				if(checkTableDuplicasy($tablename['name']))
 				{
 					$tablename['display_order'] = time();
@@ -50,6 +51,7 @@
 //						redirect("default.php?meg=1");
 					}
 				}
+*/
 			}
 //		}
 
@@ -374,7 +376,6 @@ function edit_name(id, name,adminType,boxid)
 		$("#insert_edit").val(id);
 		$("#name").val(name);
 
-
 		//$("#title_bar").html("編集　卓名");
 		//$("#new_table").fadeOut(100);
 		//$("#new_table").fadeIn(500);
@@ -418,7 +419,7 @@ function validForm()
 //		document.getElementById('DefaultLayoutTitle').focus();
 //		return false;
 //	}
-
+/*
 	if($("#name").val() == '')
 	{
 		alert("卓名が未入力です");
@@ -426,7 +427,7 @@ function validForm()
 		$("#name").focus();
 		return false;
 	}
-
+*/
 	document.defaultForm.submit();
 
 }
