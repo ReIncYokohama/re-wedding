@@ -166,7 +166,6 @@
 
 	}
 	//USER MENU ITEM NAME UPDaTE END
-
 ?>
 <style>
 .datepickerControl table
@@ -1592,24 +1591,16 @@ include("inc/return_dbcon.inc.php");
   <tr>
     <td width="192" align="left" valign="middle" nowrap="nowrap">卓名変更<font color="red">*</font></td>
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
-                <td align="left" valign="middle" nowrap="nowrap">
-                	<?php
-						$default_raname_table_view = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='rename_table_view'");
-						if($user_plan_row['rename_table']=="" && $default_raname_table_view!="")
-						{
-					?>
-				<input name="rename_table" type="radio" id="radio1" value="1"  <?php 	if($default_raname_table_view == 1){echo "checked='checked'";}?> />   可
-				<input type="radio" name="rename_table" id="radio0" value="0" <?php 	if($default_raname_table_view == "0"){echo "checked='checked'";}?> /> 不可　
- 						<?php
-						}else
-						{?>
-		<input name="rename_table" type="radio" id="radio1" value="1"  <?php if($user_plan_row['rename_table'] == 1){echo "checked='checked'";}?> />   可
-		<input type="radio" name="rename_table" id="radio0" value="0" <?php if($user_plan_row['rename_table'] == "0"){echo "checked='checked'";}?> /> 不可
-
-						<?php }
-						?>
+            <td align="left" valign="middle" nowrap="nowrap">
+                <?php
+					$default_raname_table_view = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='rename_table_view'");
+					$_view = "";
+					if ($default_raname_table_view == "0") $_view = "disabled='disabled'";
+				?>
+				<input name="rename_table" type="radio" id="radio1" value="1"  <?php if($user_plan_row['rename_table'] == "1" || $user_plan_row['rename_table'] == "") {echo "checked='checked'";}?> <?=$_view ?> />   可
+				<input type="radio" name="rename_table" id="radio0" value="0"  <?php if($user_plan_row['rename_table'] == "0")                                         {echo "checked='checked'";}?> <?=$_view ?> /> 不可　
             </td>
-          </tr>
+  </tr>
             <tr>
               <td width="192" align="left" valign="middle" nowrap="nowrap">商品名<font color="red">　</font></td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
