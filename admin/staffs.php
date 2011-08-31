@@ -50,7 +50,7 @@
 				unset($post['conf_email']);
 				unset($post['permission_old']);
 				$post['display_order']= time();
-       
+
 				//$post['creation_date'] = date("Y-m-d H:i:s");
 				if($post['permission'] == '111')
 				{
@@ -157,13 +157,13 @@
 
 					$msg = 2;
 					$obj->UpdateData('spssp_admin',$post,"id=".$_POST['id']);
-          
+
           $upd_data = array();
           $upd_data["adminid"] = $post["username"];
           $upd_data["password"] = $post["password"];
           $upd_data["email"] = $post["email"];
           $upd_data["adminstrator"] = $post["name"];
-          
+
           $link = mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
 
           $obj->UpdateData("super_spssp_hotel ",$upd_data,"hotel_code=".$HOTELID);
@@ -732,15 +732,18 @@ include("inc/return_dbcon.inc.php");
 				</td>
 				<td width="157" align="left" valign="middle" >
 					権限：
-					<?php if($edit_data_rows['permission']==111){ ?>
-						<input type="radio" name="permission" id="radio2" value="111" <?php if($edit_data_rows['permission']==111){echo "checked='checked'";}?> <?php echo($edit_data_rows['permission']==333)? " disabled='disabled'":"";?> />
-						管理者　
-					<?php }else{ ?>
-						<input type="radio" name="permission" id="radio2" value="333" <?php echo($edit_data_rows['permission']==333)? "checked":"";?> <?php echo($edit_data_rows['permission']==333)? " disabled='disabled'":"";?> />
+					<?php if($edit_data_rows['permission']==333){ ?>
+						<input type="radio" name="permission" id="radio2" value="333" checked="checked"  disabled="disabled" />
 						管理者
-						<input type="radio" name="permission" id="radio2" value="222" checked="checked" <?php echo($edit_data_rows['permission']==222)?"checked":"";?> <?php echo($edit_data_rows['permission']==333)? " disabled='disabled'":"";?> />
+						<input type="radio" name="permission" id="radio2" value="222" checked="checked"  disabled="disabled"  />
 			 			スタッフ
-					<?php }?>
+			<?php   }
+					else if($edit_data_rows['permission']==222 || isset($edit_data_rows['permission'])==false) { ?>
+						<input type="radio" name="permission" id="radio2" value="333" />
+						管理者
+						<input type="radio" name="permission" id="radio2" value="222" checked="checked" />
+			 			スタッフ
+			<?php   }?>
 				</td>
 			</tr>
 			<tr>
