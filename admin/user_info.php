@@ -636,7 +636,7 @@ function valid_user(user_id, noUpdate) // registration_validation.jsから移動
 	}
 
    var str = document.getElementById("man_furi_firstname").value;
-   if( str.match( /[^ぁ-ん\s]+/ ) ) {
+   if( str.match( /[^ぁ-ん\sー]+/ ) ) {
       alert("新郎の名のふりがなを正しく入力してください");
 	  document.getElementById('man_furi_firstname').focus();
 	  return false;
@@ -651,7 +651,7 @@ function valid_user(user_id, noUpdate) // registration_validation.jsから移動
 	}
 
    var str1 = document.getElementById("man_furi_lastname").value;
-   if( str1.match( /[^ぁ-ん\s]+/ ) ) {
+   if( str1.match( /[^ぁ-ん\sー]+/ ) ) {
       alert("新郎の名のふりがなを正しく入力してください");
 	  document.getElementById('man_furi_lastname').focus();
 	  return false;
@@ -680,7 +680,7 @@ function valid_user(user_id, noUpdate) // registration_validation.jsから移動
 	}
 
     var str2 = document.getElementById("woman_furi_firstname").value;
-   if( str2.match( /[^ぁ-ん\s]+/ ) ) {
+   if( str2.match( /[^ぁ-ん\sー]+/ ) ) {
       alert("新婦の名のふりがなを正しく入力してください");
 	  document.getElementById('woman_furi_firstname').focus();
 	  return false;
@@ -694,7 +694,7 @@ function valid_user(user_id, noUpdate) // registration_validation.jsから移動
 	}
 
     var str3 = document.getElementById("woman_furi_lastname").value;
-   if( str3.match( /[^ぁ-ん\s]+/ ) ) {
+   if( str3.match( /[^ぁ-ん\sー]+/ ) ) {
       alert("新婦の姓のふりがなを正しく入力してください");
 	  document.getElementById('woman_furi_lastname').focus();
 	  return false;
