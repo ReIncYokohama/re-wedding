@@ -22,8 +22,6 @@
 					$tid  = $rt['id'];
 					$arr['name'] =$_POST["table_name_".$tid];
 
-
-
 					if(isset($tid) && $tid > 0 && $arr['name']!="")
 					{
 
@@ -219,7 +217,7 @@ include("inc/return_dbcon.inc.php");
 					</td>
             	</tr>
             <?php
-				  $query_string="SELECT * FROM spssp_tables_name  ORDER BY display_order DESC ;";
+				  $query_string="SELECT * FROM spssp_tables_name  ORDER BY display_order asc ;";
 				//echo $query_string;
 					$name_rows = $obj->getRowsByQuery($query_string);
 
@@ -287,7 +285,7 @@ include("inc/return_dbcon.inc.php");
 
 </div>
 <?php
-          $query_string="SELECT * FROM spssp_tables_name  ORDER BY display_order DESC ;";
+          $query_string="SELECT * FROM spssp_tables_name  ORDER BY display_order asc ;";
 				//echo $query_string;
 				$name_rows = $obj->getRowsByQuery($query_string);
 		  // $name_rows = $obj->GetAllRow("spssp_tables_name");

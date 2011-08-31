@@ -207,7 +207,7 @@ function isInteger(id){
 }
 function preview_room(room_id)
 {
-		$.post('../ajax/room_preview.php',{'room_id':room_id}, function(data){
+		$.post('ajax/room_preview.php',{'room_id':room_id}, function(data){
 		$("#table_preview div").fadeOut(100);
 		$("#table_preview div").html(data);
 		$("#table_preview div").fadeIn(500);

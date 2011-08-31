@@ -1,22 +1,26 @@
 <?php
 session_start();
 include_once("admin/inc/dbcon.inc.php");
+include_once("admin/inc/class.dbo.php");
 
-	$userID = $_POST['userID'];
-	$password = $_POST['password'];
+$obj = new dbo();
+$post = $obj->protectXSS($_POST);
+$userID = $post['userID'];
+$password = $post['password'];
+ 
+$query_string = "SELECT * from spssp_user WHERE user_id= '".$userID."' and password = '".$password."'";
 
+//echo $query_string;exit;
+$result = mysql_query( $query_string );
 
-	$query_string = "SELECT * from spssp_user WHERE user_id= '".$userID."' and password = '".$password."'";
-	//echo $query_string;exit;
-	$result = mysql_query( $query_string );
-	$row = mysql_fetch_array($result);
+$row = mysql_fetch_array($result);
 
-	if($row['id']){
-		$party_day = $row['party_day'];
-		$ab = strtotime($party_day);
-		$limit_date = strtotime("+7 day",$ab);
-
-		if(time() <= $limit_date)
+if($row['id']){
+  $party_day = $row['party_day'];
+  $ab = strtotime($party_day);
+  $limit_date = strtotime("+7 day",$ab);
+  
+  if(time() <= $limit_date)
 		{
 			$_SESSION['username'] = $row['user_id'];
 			$_SESSION['userid'] = $row['id'];
@@ -30,7 +34,6 @@ include_once("admin/inc/dbcon.inc.php");
 			$id = $obj->InsertData("spssp_user_log", $user_log);
 			$_SESSION['user_log_id'] = $id;
 
-
 			if($row['user_code']!="jis90" && $row['user_code']!="jis04")
 			{
 				redirect("welcome.php");
@@ -39,8 +42,6 @@ include_once("admin/inc/dbcon.inc.php");
 			{
 				redirect("dashboard.php");
 			}
-
-
 		}
 		else
 		{

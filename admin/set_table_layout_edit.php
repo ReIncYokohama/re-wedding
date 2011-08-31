@@ -12,6 +12,7 @@ $user_row = $obj->GetSingleRow("spssp_user"," id= ".(int)$get['user_id']);
 
 $default_plan_id = (int)$get['default_plan'];
 $plan_id = (int)$get['plan_id'];
+$stuff_id= (int)$get['stuff_id'];
 
 if($default_plan_id > 0)
 {
@@ -403,7 +404,7 @@ function deleteTable(tid,dtid,ralign)
 
 		if(parseInt(data) > 0)
 		{
-			alert("招待者を削除してください");
+			alert("卓に招待者が設定されています。\\n削除する前に、席次表編集にて卓を空にしてください");
 			$("#display_"+tid).attr("checked","checked");
 		}
 		else
@@ -522,7 +523,7 @@ include("inc/return_dbcon.inc.php");
 <!-- UCHIDA EDIT 11/08/02
             	 <a href="users.php">お客様一覧</a> &raquo;<a href="set_table_layout.php?plan_id=<?=$plan_row['id']?>&user_id=<?=(int)$get['user_id']?>"> お客様挙式情報 </a> &raquo;  卓レイアウト設定　
 -->
-            	 <a href="manage.php">ＴＯＰ</a> &raquo;<a href="user_info.php?user_id=<?=(int)$get['user_id']?>"> お客様挙式情報 </a> &raquo;  卓レイアウト
+            	 <a href="manage.php">ＴＯＰ</a> &raquo;<a href="user_info.php?user_id=<?=(int)$get['user_id']?>&stuff_id=<?=$stuff_id?>"> お客様挙式情報 </a> &raquo;  卓レイアウト
         </h2></div>
         <div class="box_table" style="width:800px;">
         	<div class="bottom_line_box">
@@ -706,7 +707,7 @@ include("inc/return_dbcon.inc.php");
                 		<!--<input type="submit" value="Update" name="submit" />
                			 &nbsp;<input type="button" value="保存" onClick="javascript:history.go(-1)" />-->
 
-					<input type="button" value="保存" onclick="javascript:window.location='user_info.php?user_id=<?=$user_id?>'"/>
+					<input type="button" value="保存" onclick="javascript:window.location='user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'"/>
                     &nbsp;&nbsp;<input type="button" value="戻る" onClick="javascript:history.go(-1)" />
                     </div>
             </div>
@@ -726,8 +727,11 @@ include("inc/return_dbcon.inc.php");
 	include_once("inc/new.footer.inc.php");
 ?>
 <?php
-            $name_rows = $obj->GetAllRow("spssp_tables_name");
-        ?>
+//            $name_rows = $obj->GetAllRow("spssp_tables_name ORDER BY display_order asc ;");
+          $query_string="SELECT * FROM spssp_tables_name  ORDER BY display_order asc ;";
+		  $name_rows = $obj->getRowsByQuery($query_string);
+?>
+
         <div id="table_edit_name" title="卓編集" style="font-size: 12px;">
             <form action="" method="post" id="table_edit_form" name="table_edit_form">
             <fieldset style="height:100px;">
@@ -741,6 +745,7 @@ include("inc/return_dbcon.inc.php");
                         <td>
                         <select id="table_name">
                             <?php
+                            	echo '<option value="-"> </option>';
                                 foreach($name_rows as $row)
                                 {
                                     echo "<option value='".$row['id']."'>".$row['name']."</option>";

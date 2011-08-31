@@ -627,7 +627,7 @@ $tblname = $table_row['name'];
                             }
                             else if($table_row['visibility']==0 && $table_row['display']==1)
                             {
-								$ct++;
+								//$ct++;
                                 $disp = 'visibility:hidden;';
                             }
                             else if($table_row['display']==0 && $table_row['visibility']==0)

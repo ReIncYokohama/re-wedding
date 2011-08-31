@@ -15,7 +15,7 @@ if($_SERVER['HTTP_HOST']=='localhost')
 		$sqlhost=$hotel_sqlhost;
 		$sqluser=$hotel_sqluser;
 		$sqlpassword=$hotel_sqlpassword;
-		$sqldatabase=$hotel_sqldatabase;		
+		$sqldatabase=$hotel_sqldatabase;
 	}
 
 
@@ -24,7 +24,7 @@ function mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase){
   $link = mysql_connect($sqlhost, $sqluser,$sqlpassword)
     	or die("COULD NOT CONNECT : " . mysql_error());
   mysql_select_db($sqldatabase) or die("COULD NOT SELECT DATABASE");
-  mysql_query("SET CHARACTER SET 'utf8'"); 
+  mysql_query("SET CHARACTER SET 'utf8'");
   mysql_query("SET NAMES 'utf8'");
   return $link;
   }
@@ -425,6 +425,7 @@ function inquery_mail($to,$mailbody,$mailbody2)
 				}
 			}
 
+
 	}
 
 
@@ -505,42 +506,6 @@ function inquery_mail($to,$mailbody,$mailbody2)
 
 	}
 
-function confirm_guest_register($from,$mailbody){
-		$to_admin='r.kubonaga@resonanceinc.com';
-
-		$header='From:'.$to_admin." \r\n";
-		$header.='Content-Type:text/plain; charset=utf-8'. "\r\n";
-
-		$header1='From:'.$from." \r\n";
-		$header1.='Content-Type:text/plain; charset=utf-8'. "\r\n";
-		//$header1.= "Cc: k.okubo@re-inc.jp\r\n";
-
-		$subject1='ゲストが登録されました。';
-		$charset = 'UTF-8';
-		//$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
-		$usersubject = "=?$charset?B?" . base64_encode($subject1) . "?=\n";
-
-		$subject0='ゲストが登録されました。'.$from;
-		$adminsubject = "=?$charset?B?" . base64_encode($subject0) . "?=\n";
-
-
-		$user_body=$mailbody;
-
-		$admin_body=$mailbody;
-  
-    //// MAIL TO ADMIN////////////////
-    if(@mail($to_admin, $adminsubject, $admin_body, $header1))
-      {
-        //////MAIL TO USER /////////////
-        if(@mail($from, $usersubject, $user_body, $header))
-          {
-							//header('location:thanks.html');
-          }
-      }
-    else echo 'エラー';
-  
-}
-
 
 
 	if($_SESSION['adminid'] !='' && $_SESSION['user_type'] !='')
@@ -612,7 +577,7 @@ function uploadFile($path,$file,$filename ,$extension='')
 							  16 => "Please enter correct ログインID / パスワード",//Login ID / password
 							  17 => "アカウントの有効期限が切れました",//Account Expired
 							  18 => "このメールアドレスで新規登録ができません。メールアドレス入力してください。",//Not valid your email address. Please enter your email address.
-							  19 => "同じ卓名のため変更されませんでした。",//Duplicate entries. Please try another.
+							  19 => "同じ卓名が既にあるので、登録できませんでした",//Duplicate entries. Please try another.
 							  20 => "同じ卓名のため変更されませんでした。",//Duplicate entries. Please try another.
 							  21 => "",
 							  22 => "",

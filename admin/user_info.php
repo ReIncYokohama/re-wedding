@@ -332,19 +332,18 @@ function valid_plan(noUpdate)
 	var print_company = $("print_company").selectedIndex;
 	var dowload_options = $("dowload_options").selectedIndex;
 
-
+/* 未入力を承認
 	if (print_company == 0) {
 		alert("印刷会社名を選択してください");
 		$j("#print_company").focus();
 		return false;
 	}
-/* 未入力を承認
 	if (product_name == "") {
 		alert("商品名を入力してください");
 		$j("#product_name").focus();
 		return false;
 	}
-*/
+
 	if (print_size == 0) {
 		alert("用紙サイズを選択してください");
 		$j("#print_size").focus();
@@ -355,7 +354,7 @@ function valid_plan(noUpdate)
 		$j("#print_type").focus();
 		return false;
 	}
-
+	*/
 	document.user_info_plan.submit();
 /*
 	var row_num = $j("#row_number").val();
@@ -1001,14 +1000,12 @@ include("inc/return_dbcon.inc.php");
                 </a>
             </div>
         	<div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
-          <?php
-                                                    if($_SESSION["super_user"]){
+<?php if($_SESSION["super_user"]){
 ?>
-        	<div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',500,200); return false;">
+          <div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',500,200); return false;">
             <img src="img/common/navi05.jpg" class="on" />
           </a></div>
-<?php
-                                                    }
+             <?php }
           ?>
         	<div style="clear:both;"></div>
         </div>
@@ -1027,9 +1024,9 @@ include("inc/return_dbcon.inc.php");
         <form action="insert_user.php?user_id=<?=$user_id;?>" method="post" name="user_form_register">
         <table width="800" border="0" cellspacing="10" cellpadding="0">
             <tr>
-              <td width="192" align="left" valign="top" nowrap="nowrap">披露宴日<font color="red">*</font>　</td>
-                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
-                <td nowrap="nowrap" colspan="1">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">披露宴日<font color="red">*</font>　</td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td colspan="1" align="left" valign="middle" nowrap="nowrap">
                 	<input name="party_day" type="text" id="party_day" value="<?=$obj->date_dashes_convert($user_row['party_day'])?>" size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;padding-top:4px; padding-bottom:4px;" class="datepicker"/>
 					<?php
 					if ($user_row['party_day'] < date("Y-m-d")) $noUpdate = true; else $noUpdate = false;
@@ -1040,7 +1037,7 @@ include("inc/return_dbcon.inc.php");
 					<input type="text" style="width:17px;" maxlength="2" name="party_day" id="party_day" value="<?=$party_day_array[2]?>"> yyyy/mm/dd-->
                 <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day').value='';">クリア </a>-->
                 </td>
-                <td colspan="2" align="left" nowrap="nowrap">　　&nbsp;披露宴時間<font color="red">*</font>：<!--<input name="party_day_with_time" type="text" id="party_day_with_time" value="<?=date("H:i", strtotime($user_row['party_day_with_time']))?>" size="10" readonly="readonly" style="width:86px;background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>-->
+                <td colspan="2" align="left" valign="middle" nowrap="nowrap">　　&nbsp;披露宴時間<font color="red">*</font>：<!--<input name="party_day_with_time" type="text" id="party_day_with_time" value="<?=date("H:i", strtotime($user_row['party_day_with_time']))?>" size="10" readonly="readonly" style="width:86px;background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>-->
 				<?php
 					$party_time_array = explode(":",$user_row['party_day_with_time']);
 					?>
@@ -1051,9 +1048,9 @@ include("inc/return_dbcon.inc.php");
             </tr>
 
             <tr>
-              <td width="192" align="left" valign="top" nowrap="nowrap">新郎氏名<font color="red">*</font></td>
-                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
-                <td width="92%" nowrap="nowrap" colspan="3">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">新郎氏名<font color="red">*</font></td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td width="92%" colspan="3" align="left" valign="middle" nowrap="nowrap">
 		   <div id="form_hidden_value"><? echo getAllGaijisInputEle(array($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis));?></div>
 		   <div style="height:20px;width:346px;">
 
@@ -1067,18 +1064,18 @@ include("inc/return_dbcon.inc.php");
 
             </tr>
             <tr>
-              <td width="192" align="left" valign="top" nowrap="nowrap">ふりがな<font color="red">*</font>　</td>
-            	<td width="10" align="left" valign="top" nowrap="nowrap">：</td>
-           		<td nowrap="nowrap"  colspan="3">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">ふりがな<font color="red">*</font>　</td>
+            	<td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+           		<td  colspan="3" align="left" valign="middle" nowrap="nowrap">
 
                		<input name="man_furi_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_furi_lastname" value="<?=$user_row['man_furi_lastname']?>" size="30" />
             		<input name="man_furi_firstname" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_furi_firstname" value="<?=$user_row['man_furi_firstname']?>" size="30" /> 様
                 </td>
             </tr>
             <tr>
-              <td width="192" align="left" valign="top" nowrap="nowrap">新婦氏名<font color="red">*</font></td>
-            	<td width="10" align="left" valign="top" nowrap="nowrap">：</td>
-            	<td nowrap="nowrap"  colspan="3">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">新婦氏名<font color="red">*</font></td>
+            	<td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+            	<td  colspan="3" align="left" valign="middle" nowrap="nowrap">
 		    	<div style="width:346px;height:20px;">
 		        <div id="female_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($woman_lastname_gaijis);?></div>
             <div id="female_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($woman_firstname_gaijis);?></div>
@@ -1091,9 +1088,9 @@ include("inc/return_dbcon.inc.php");
 
             </tr>
             <tr>
-              <td width="192" align="left" valign="top" nowrap="nowrap">ふりがな<font color="red">*</font>　</td>
-            	<td width="10" align="left" valign="top" nowrap="nowrap">：</td>
-            	<td nowrap="nowrap"  colspan="3">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">ふりがな<font color="red">*</font>　</td>
+            	<td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+            	<td  colspan="3" align="left" valign="middle" nowrap="nowrap">
                   	<input name="woman_furi_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_furi_lastname" value="<?=$user_row['woman_furi_lastname']?>" size="30" />
 
                    <input name="woman_furi_firstname" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_furi_firstname" value="<?=$user_row['woman_furi_firstname']?>" size="30" />
@@ -1102,9 +1099,9 @@ include("inc/return_dbcon.inc.php");
                 </td>
             </tr>
             <tr>
-              <td width="192" align="left" valign="top" nowrap="nowrap">披露宴会場</td>
-                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
-                <td nowrap="nowrap">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">披露宴会場</td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td align="left" valign="middle" nowrap="nowrap">
 				<input type="hidden" name="current_room_id" id="current_room_id" value="<?=$user_row['room_id']?>"  />
                 	<select name="room_id" id="room_id" style="padding-top:4px; padding-bottom:4px;">
 
@@ -1125,16 +1122,16 @@ include("inc/return_dbcon.inc.php");
                     ?>
                 </select>
                 </td>
-                <td align="left" nowrap="nowrap">&nbsp;</td>
+                <td align="left" valign="middle" nowrap="nowrap">&nbsp;</td>
                 <td nowrap="nowrap">&nbsp;</td>
             </tr>
 
 
 
             <tr>
-              <td valign="top" nowrap="nowrap" width="192" style="text-align:left;" >挙式日</td>
-                <td valign="top" nowrap="nowrap" width="10" style="text-align:left;" >：</td>
-                <td nowrap="nowrap" width="60">
+              <td width="192" align="left" valign="middle" nowrap="nowrap" style="text-align:left;" >挙式日</td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap" style="text-align:left;" >：</td>
+                <td width="60" align="left" valign="middle" nowrap="nowrap">
 
 					<input name="marriage_day" type="text" id="marriage_day" value="<?=$obj->date_dashes_convert($user_row['marriage_day'])?>"  size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; padding-top:4px; padding-bottom:4px;" class="datepicker" />
 
@@ -1146,7 +1143,7 @@ include("inc/return_dbcon.inc.php");
 					<input type="text" style="width:17px;" maxlength="2" name="marriage_day" id="marriage_day" value="<?=$marriage_day_array[2]?>"> yyyy/mm/dd-->
                 	<!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('marriage_day').value='';">クリア </a>-->
                 </td>
-                <td width="200" align="left" nowrap="nowrap" colspan="2">　　&nbsp;挙式時間&nbsp;　：
+                <td width="200" colspan="2" align="left" valign="middle" nowrap="nowrap">　　&nbsp;挙式時間&nbsp;　：
                 <!--<input name="marriage_day_with_time" type="text" id="marriage_day_with_time" value="<?=date("H:i",strtotime($user_row['marriage_day_with_time']))?>" size="10" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>-->
 				<?php
 					$marriage_time_array = explode(":",$user_row['marriage_day_with_time']);
@@ -1157,10 +1154,10 @@ include("inc/return_dbcon.inc.php");
                 </td>
             </tr>
             <tr>
-              <td width="192" align="left" nowrap="nowrap">挙式種類</td>
+              <td width="192" align="left" valign="middle" nowrap="nowrap">挙式種類</td>
 
-                <td width="10" align="left" nowrap="nowrap">：</td>
-                <td nowrap="nowrap">
+              <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td align="left" valign="middle" nowrap="nowrap">
                 	<select name="religion" style="padding-top:4px; padding-bottom:4px;" id="religion" ><!--onchange="load_party_room(this.value);"-->
 
 <!-- UCHIDA EDIT 11/08/03  <option value=""  <?php if($user_row[religion]=='') {?> selected="selected" <?php } ?>>選択してください</option> -->
@@ -1183,7 +1180,7 @@ include("inc/return_dbcon.inc.php");
                     </select>
                 </td>
 
-                <td nowrap="nowrap">
+                <td align="left" valign="middle" nowrap="nowrap">
                 	　　&nbsp;挙式会場<font color="red">*</font>　：
 					<?php
 						$party_rooms_name = $obj->GetSingleData("spssp_party_room","name"," id=".$user_row['party_room_id']);
@@ -1215,9 +1212,9 @@ include("inc/return_dbcon.inc.php");
 
 
             <tr>
-              <td width="192" align="left" valign="top" nowrap="nowrap">ログインID</td>
-                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
-                <td colspan="3" nowrap="nowrap">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">ログインID</td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td colspan="3" align="left" valign="middle" nowrap="nowrap">
 
                 <!--
                 Kumar
@@ -1229,9 +1226,9 @@ include("inc/return_dbcon.inc.php");
                 </td>
             </tr>
             <tr>
-              <td width="192" align="left" valign="top" nowrap="nowrap">お客様パスワード</td>
-                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
-                <td colspan="3" nowrap="nowrap"><!--<input name="password" style="padding-top:4px; padding-bottom:4px;" type="text" id="password" value="<?=$user_row['password']?>" size="30"  onblur="checkvalidity()"/>
+              <td width="192" align="left" valign="middle" nowrap="nowrap">お客様パスワード</td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td colspan="3" align="left" valign="middle" nowrap="nowrap"><!--<input name="password" style="padding-top:4px; padding-bottom:4px;" type="text" id="password" value="<?=$user_row['password']?>" size="30"  onblur="checkvalidity()"/>
 				<br /><span id="password_msg">パスワードは英数字6文字以上にしてください</span>-->
 
                 <input name="password" style="padding-top:4px; padding-bottom:4px;" type="hidden" id="password" value="<?=$user_row['password']?>" size="30"  onblur="checkvalidity()"/>
@@ -1240,8 +1237,8 @@ include("inc/return_dbcon.inc.php");
                 </td>
             </tr>
 			<tr>
-			  <td width="192" align="left" valign="top" nowrap="nowrap">お客様ＩＤ利用期限日</td>
-                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
+			  <td width="192" align="left" valign="middle" nowrap="nowrap">お客様ＩＤ利用期限日</td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                <?php $user_id_limit = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='user_id_limit'");
 
 
@@ -1250,38 +1247,38 @@ include("inc/return_dbcon.inc.php");
 				// UCHIDA EDIT 11/08/17 曜日表示
 				$weekname = $objMsg->get_youbi_name( $dateBeforeparty );
 			   ?>
-			   <td colspan="3" nowrap="nowrap"><?=$dateBeforeparty?><?=$weekname?> 披露宴日&nbsp;<?=$user_id_limit?>日後</td>
+			   <td colspan="3" align="left" valign="middle" nowrap="nowrap"><?=$dateBeforeparty?><?=$weekname?> 披露宴日&nbsp;<?=$user_id_limit?>日後</td>
             </tr>
 <tr>
-  <td width="192" align="left" valign="top" nowrap="nowrap">メールアドレス</td>
-                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
-                <td colspan="3" nowrap="nowrap"><input style="padding-top:4px; padding-bottom:4px;" name="mail" type="text" id="mail" size="30" value="<?=$user_row['mail']?>" />
+  <td width="192" align="left" valign="middle" nowrap="nowrap">メールアドレス</td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td colspan="3" align="left" valign="middle" nowrap="nowrap"><input style="padding-top:4px; padding-bottom:4px;" name="mail" type="text" id="mail" size="30" value="<?=$user_row['mail']?>" />
 
 				</td>
             </tr>
 
 
 <tr>
-  <td width="192" align="left" valign="top" nowrap="nowrap">メールアドレス確認用</td>
-                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
+  <td width="192" align="left" valign="middle" nowrap="nowrap">メールアドレス確認用</td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <!--  UCHIDA EDIT 11/08/05 確認用メールアドレスのペーストを禁止 -->
                 <!--  UCHIDA EDIT 11/08/08 メッセージ変更 -->
-                <td onpaste="alert('メールアドレス確認用は貼り付けできません');return false;" colspan="3" nowrap="nowrap"><input style="padding-top:4px; padding-bottom:4px;" name="con_mail" type="text" id="con_mail" size="30" value="<?=$user_row['mail']?>" />
+                <td colspan="3" align="left" valign="middle" nowrap="nowrap" onpaste="alert('メールアドレス確認用は貼り付けできません');return false;"><input style="padding-top:4px; padding-bottom:4px;" name="con_mail" type="text" id="con_mail" size="30" value="<?=$user_row['mail']?>" />
 				</td>
             </tr>
             <tr>
-              <td width="192" align="left" valign="top" nowrap="nowrap">お知らせをメールで受信する</td>
-				 <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
-				<td colspan="3" nowrap="nowrap">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">お知らせをメールで受信する</td>
+				 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+				<td colspan="3" align="left" valign="middle" nowrap="nowrap">
 
 			<input type="radio" name="subcription_mail" value="0" <?php if($user_row['subcription_mail']=='0'){echo "checked='checked'";}else{echo "checked='checked'";}?> /> 受信する
 			<input type="radio" name="subcription_mail" value="1" <?php if($user_row['subcription_mail']=='1'){echo "checked='checked'";}?>/>  受信しない
 				</td>
 			</tr>
             <tr>
-              <td width="192" align="left" valign="top" nowrap="nowrap">担当</td>
-                <td width="10" align="left" valign="top" nowrap="nowrap">：</td>
-                <td colspan="3" nowrap="nowrap">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">担当</td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td colspan="3" align="left" valign="middle" nowrap="nowrap">
 				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;">
 				<?php
 					foreach($All_staffs as $staf_rows){
@@ -1295,15 +1292,15 @@ include("inc/return_dbcon.inc.php");
 				</td>
             </tr>
             <tr>
-              <td width="192" align="right" valign="top" nowrap="nowrap">&nbsp;</td>
-                <td width="10" align="right" valign="top" nowrap="nowrap">&nbsp;</td>
-                <td colspan="3" nowrap="nowrap" align="left">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">&nbsp;</td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap">&nbsp;</td>
+                <td colspan="3" align="left" valign="middle" nowrap="nowrap">
                 	<a href="javascript:void(0)" onclick="valid_user('<?=$user_row['id']?>' , '<?=$noUpdate?>');">
                     	<img src="img/common/btn_regist_update.jpg" border="0" width="82" height="22" /><br /><br />
                     </a>
                 </td>
             </tr>
-            <tr>
+            <tr align="left" valign="middle">
             	<td colspan="5" nowrap="nowrap"><div style="width:450px;">
                 	<a href="user_log.php?user_id=<?=(int)$_GET['user_id']?>"><img src="img/common/btn_access.jpg" width="173" height="23" /></a>　
                     <a href="change_log.php?user_id=<?=(int)$_GET['user_id']?>"><img src="img/common/btn_data.jpg" width="173" height="23" /></a></div>
@@ -1334,9 +1331,9 @@ include("inc/return_dbcon.inc.php");
 
 
             <tr>
-              <td width="192" align="left" nowrap="nowrap">披露宴会場名</td>
-                <td width="10" align="left" nowrap="nowrap">：</td>
-              <td width="200" nowrap="nowrap">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">披露宴会場名</td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+              <td width="200" align="left" valign="middle" nowrap="nowrap">
                	<label for="新郎 姓3"></label>  <?=$room_name?>
               </td>
                  <td colspan="2" rowspan="10" align="left" valign="top" nowrap="nowrap">
@@ -1559,7 +1556,7 @@ include("inc/return_dbcon.inc.php");
 			<div>
 			<?php
 				if ($noUpdate == false) { ?>
-				<a href='set_table_layout_edit.php?plan_id=<?=$user_plan_row['id']?>&user_id=<?=$user_id?>'>
+				<a href='set_table_layout_edit.php?plan_id=<?=$user_plan_row['id']?>&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'>
                   <img src='img/common/btn_taku_edit.gif' boredr='0' height='17'>
                 </a>
               <?php } ?>
@@ -1574,9 +1571,9 @@ include("inc/return_dbcon.inc.php");
             </td>
             </tr>
             <tr>
-              <td width="192" align="left" nowrap="nowrap">最大卓数</td>
-                <td width="10" align="left" nowrap="nowrap">：</td>
-                <td nowrap="nowrap">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">最大卓数</td>
+              <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td align="left" valign="middle" nowrap="nowrap">
                 	横 <?php if($user_plan_row['column_number']){echo $user_plan_row['column_number'];}else{echo $room_row['max_columns'];}?>
                     <input name="column_number" type="hidden" id="column_number" value="<?php if($user_plan_row['column_number']){echo $user_plan_row['column_number'];}else{echo $room_row['max_columns'];}?>" size="1" />
                 	列×縦 <?php if($user_plan_row['row_number']){echo $user_plan_row['row_number'];}else{echo $room_row['max_rows'];}?>
@@ -1585,17 +1582,17 @@ include("inc/return_dbcon.inc.php");
               </td>
             </tr>
             <tr>
-              <td width="192" align="left" nowrap="nowrap">一卓人数</td>
-                <td width="10" align="left" nowrap="nowrap">：</td>
-              <td width="200" nowrap="nowrap"><?php if($user_plan_row['seat_number']){echo $user_plan_row['seat_number'];}else{echo $room_row['max_seats'];}?>
+              <td width="192" align="left" valign="middle" nowrap="nowrap">一卓人数</td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+              <td width="200" align="left" valign="middle" nowrap="nowrap"><?php if($user_plan_row['seat_number']){echo $user_plan_row['seat_number'];}else{echo $room_row['max_seats'];}?>
               <input name="seat_number" type="hidden" id="seat_number" value="<?php if($user_plan_row['seat_number']){echo $user_plan_row['seat_number'];}else{echo $room_row['max_seats'];}?>" size="1" />
               名まで</td>
             </tr>
 
   <tr>
-    <td width="192" align="left" nowrap="nowrap">卓名変更<font color="red">*</font></td>
-                <td width="10" align="left" nowrap="nowrap">：</td>
-                <td nowrap="nowrap">
+    <td width="192" align="left" valign="middle" nowrap="nowrap">卓名変更<font color="red">*</font></td>
+            <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td align="left" valign="middle" nowrap="nowrap">
                 	<?php
 						$default_raname_table_view = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='rename_table_view'");
 						if($user_plan_row['rename_table']=="" && $default_raname_table_view!="")
@@ -1614,16 +1611,16 @@ include("inc/return_dbcon.inc.php");
             </td>
           </tr>
             <tr>
-              <td width="192" align="left" nowrap="nowrap">商品名<font color="red">　</font></td>
-                <td width="10" align="left" nowrap="nowrap">：</td>
-                <td nowrap="nowrap">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">商品名<font color="red">　</font></td>
+              <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td align="left" valign="middle" nowrap="nowrap">
                	  <input name="product_name" type="text" id="product_name" value="<?=$user_plan_row['product_name']?>" size="20" />
               </td>
             </tr>
       <tr>
-        <td align="left" nowrap="nowrap" width="192">商品区分<font color="red">*</font></td>
-                <td align="left" nowrap="nowrap" width="10">：</td>
-                <td nowrap="nowrap">
+        <td width="192" align="left" valign="middle" nowrap="nowrap">商品区分<font color="red">*</font></td>
+            <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td align="left" valign="middle" nowrap="nowrap">
 
 				<select name="dowload_options" id="dowload_options">
                     	<option value="1" <?php if($user_plan_row['dowload_options'] == 1) echo "selected='selected'";?>>席次表</option>
@@ -1634,17 +1631,17 @@ include("inc/return_dbcon.inc.php");
 
           </tr>
             <tr>
-              <td width="192" align="left" nowrap="nowrap">サイズ／タイプ<font color="red">*</font></td>
+              <td width="192" align="left" valign="middle" nowrap="nowrap">サイズ／タイプ</td>
 
-                <td width="10" align="left" nowrap="nowrap">：</td>
-                <td nowrap="nowrap">
-                	<select name="print_size" id="print_size">
-					<option value="">選択してください</option>
+              <td width="40" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td align="left" valign="middle" nowrap="nowrap">
+                	<select name="print_size" id="print_size" style="width:45px;">
+<!-- 					<option value="">選択してください</option> -->
 					<option value="1" <?php if($user_plan_row['print_size'] == 1) echo "selected='selected'";?>>A3</option>
 					<option value="2" <?php if($user_plan_row['print_size'] == 2) echo "selected='selected'";?>>B4</option>
 				</select>
-				<select name="print_type" id="print_type">
-					<option value="">選択してください</option>
+				<select name="print_type" id="print_type" style="width:45px;">
+<!--					<option value="">選択してください</option> -->
 					<option value="1" <?php if($user_plan_row['print_type'] == 1) echo "selected='selected'";?>>横</option>
 					<option value="2" <?php if($user_plan_row['print_type'] == 2) echo "selected='selected'";?>>縦
 </option>
@@ -1653,9 +1650,9 @@ include("inc/return_dbcon.inc.php");
               </td>
             </tr>
             <tr>
-              <td width="192" align="left" nowrap="nowrap">本発注締切日</td>
-                <td width="10" align="left" nowrap="nowrap">：</td>
-                <td nowrap="nowrap">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">本発注締切日</td>
+              <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td align="left" valign="middle" nowrap="nowrap">
                 	<?php
 						 //$obj->date_dashes_convert($user_plan_row['confirm_date']);
 						//$confirm_day_num = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
@@ -1672,9 +1669,9 @@ include("inc/return_dbcon.inc.php");
 			  <input type="hidden" value="<?=$user_row['party_day']?>" name="party_day_for_confirm" />	</td>
             </tr>
             <tr>
-              <td align="left" nowrap="nowrap" width="192">席次表編集利用制限日</td>
-                <td align="left" nowrap="nowrap" width="10">：</td>
-                <td nowrap="nowrap">
+              <td width="192" align="left" valign="middle" nowrap="nowrap">席次表編集利用制限日</td>
+              <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td align="left" valign="middle" nowrap="nowrap">
 
 				<?php
 
@@ -1688,10 +1685,10 @@ include("inc/return_dbcon.inc.php");
             </tr>
 
             <tr>
-              <td width="192" align="left" nowrap="nowrap">印刷会社名<font color="red">*</font></td>
+              <td width="192" align="left" valign="middle" nowrap="nowrap">印刷会社名<font color="red">*</font></td>
 
-                <td width="10" align="left" nowrap="nowrap">：</td>
-                <td nowrap="nowrap">
+              <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td align="left" valign="middle" nowrap="nowrap">
                 	<?php
 // UCHIDA EDIT 11/08/02 印刷会社の並び順を印刷会社一覧と同様にする
 //					$sql_company = "select * from spssp_printing_comapny order by id desc";
@@ -1700,7 +1697,7 @@ include("inc/return_dbcon.inc.php");
 					?>
 
 					<select name="print_company" id="print_company">
-						<option value="">選択してください</option>
+<!-- 						<option value="">選択してください</option> -->
 						<?php foreach($company_results as $company){?>
 						<option value="<?=$company['id']?>" <?php if($user_plan_row['print_company']==$company['id']){echo "selected='selected'";}?> ><?=$company['company_name']?></option>
 						<?php }?>
