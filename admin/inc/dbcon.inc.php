@@ -425,7 +425,6 @@ function inquery_mail($to,$mailbody,$mailbody2)
 				}
 			}
 
-
 	}
 
 
@@ -505,6 +504,42 @@ function inquery_mail($to,$mailbody,$mailbody2)
 				else echo 'エラー';
 
 	}
+
+function confirm_guest_register($from,$mailbody){
+		$to_admin='r.kubonaga@resonanceinc.com';
+
+		$header='From:'.$to_admin." \r\n";
+		$header.='Content-Type:text/plain; charset=utf-8'. "\r\n";
+
+		$header1='From:'.$from." \r\n";
+		$header1.='Content-Type:text/plain; charset=utf-8'. "\r\n";
+		//$header1.= "Cc: k.okubo@re-inc.jp\r\n";
+
+		$subject1='ゲストが登録されました。';
+		$charset = 'UTF-8';
+		//$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
+		$usersubject = "=?$charset?B?" . base64_encode($subject1) . "?=\n";
+
+		$subject0='ゲストが登録されました。'.$from;
+		$adminsubject = "=?$charset?B?" . base64_encode($subject0) . "?=\n";
+
+
+		$user_body=$mailbody;
+
+		$admin_body=$mailbody;
+  
+    //// MAIL TO ADMIN////////////////
+    if(@mail($to_admin, $adminsubject, $admin_body, $header1))
+      {
+        //////MAIL TO USER /////////////
+        if(@mail($from, $usersubject, $user_body, $header))
+          {
+							//header('location:thanks.html');
+          }
+      }
+    else echo 'エラー';
+  
+}
 
 
 

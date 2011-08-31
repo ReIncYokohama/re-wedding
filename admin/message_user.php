@@ -51,7 +51,7 @@
 
 	$data_per_page=5;
 	$current_page=(int)$_GET['page'];
-	$redirect_url = 'message_user.php?user_id='.$user_id;
+	$redirect_url = 'message_user.php?user_id='.$user_id.'$stuff_id'.$stuff_id;
 
 	$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
 
@@ -68,7 +68,7 @@
 			$lastid = $obj->InsertData('spssp_message',$post);
 			if($lastid)
 			{
-				redirect("message_user.php?user_id=".$_GET['user_id']."&page=".$current_page);
+				redirect("message_user.php?user_id=".$_GET['user_id']."&page=".$current_page."&stuff_id=".$stuff_id);
 			}
 			else
 			{
@@ -86,7 +86,7 @@
 		$sql = "delete from spssp_message where id=".(int)$_GET['id'];
 		mysql_query($sql);
 		//redirect('message_user.php?user_id='.$_GET['user_id'].'&page='.$_GET['page']);
-         redirect("message_user.php?user_id=".$_GET['user_id']."&page=".$current_page);
+         redirect("message_user.php?user_id=".$_GET['user_id']."&page=".$current_page."&stuff_id=".$stuff_id);
 	}
 
 	if(isset($_GET['action']) && $_GET['action']=='edit_msg')
@@ -175,16 +175,16 @@ include("inc/return_dbcon.inc.php");
 <!--                  <a href="users.php">お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報 </a>&raquo; メッセージ</div> -->
                  <a href="manage.php">ＴＯＰ</a> &raquo; メッセージ</div>
         </h2>
-        <div  style="width:800px;"><div class="navi"><a href="user_info.php?user_id=<?=$user_id?>"><img src="img/common/navi01.jpg" class="on" /></a></div>
+        <div  style="width:800px;"><div class="navi"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi01.jpg" class="on" /></a></div>
       <div class="navi"><img src="img/common/navi02_on.jpg" /></div>
       <div class="navi"><a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank"><img src="img/common/navi03.jpg" class="on" /></a></div>
-     <div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
+     <div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
       <div style="clear:both;"></div></div>
       <br />
      <!-- <p class="txt3"><a href="#" onclick="view_user_msg_count(<?=$user_id?>);"><img src="img/common/btn_message.jpg" width="112" height="22" /></a></p>-->
        <div id="insert_msg" style="display:none;">
 		<div  style="width:800px;"><h2> &nbsp;新着メッセージ</h2></div>
-		<form action="message_user.php?user_id=<?=$_GET['user_id']?>&page=<?=(int)$_GET['page']?>" method="post" name="msg_form">
+		<form action="message_user.php?user_id=<?=$_GET['user_id']?>&page=<?=(int)$_GET['page']?>&stuff_id=<?=$stuff_id?>" method="post" name="msg_form">
 			<input type="hidden" name="insert" value="insert">
 <!-- 			<input type="hidden" name="admin_id" value="<?=$_SESSION['adminid']?>"> -->
 			<input type="hidden" name="admin_id" value="<?=$stuff_id?>">
@@ -220,7 +220,7 @@ include("inc/return_dbcon.inc.php");
 	  <br />
       <div id="update_msg" style="display:none;">
 		<div  style="width:800px;"><h2> &nbsp;メッセージ編集</h2></div>
-		<form action="message_user.php?action=edit_msg&user_id=<?=$_GET['user_id']?>&page=<?=(int)$_GET['page']?>" method="post" name="msg_form_edit">
+		<form action="message_user.php?action=edit_msg&user_id=<?=$user_id?>&page=<?=(int)$_GET['page']?>&stuff_id=<?=$stuff_id?>" method="post" name="msg_form_edit">
 
             <input type="hidden" id="edit_msg_id" value="" name="edit_msg_id" />
 
@@ -248,7 +248,7 @@ include("inc/return_dbcon.inc.php");
 		</form>
 	</div>
 	  <div>
-      <div class="navi"><a href="message_admin.php?user_id=<?=$user_id?>"><img src="img/common/soushin_img.jpg" width="71" height="22" class="on" /></a></div>
+      <div class="navi"><a href="message_admin.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/soushin_img.jpg" width="71" height="22" class="on" /></a></div>
       <div class="navi"><img src="img/common/jushin_img_on.jpg" width="71" height="22" /></div>
       <div style="clear:both;"></div></div>
 

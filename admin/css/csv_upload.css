@@ -1,0 +1,88 @@
+﻿@charset "UTF-8";
+/* CSS Document */
+
+
+
+*{
+	margin: 0;
+	padding: 0;
+}
+img {
+	border: 0;
+	vertical-align: bottom;
+}
+
+body {
+	background: #FFF;
+	margin: 0;
+	padding: 0;
+	color: #4C4C4C;
+	font-family: "メイリオ", "Meiryo";
+	font-size: 11px;
+	line-height: 1.4;
+}
+
+h1 {
+	color: #FFF;
+	font-size: 14px;
+	float: left;
+}
+
+h2 {
+	font-size: 14px;
+	font-weight: bold;
+	color: #2252A3;
+	background-color: #E1ECF7;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #3681CB;
+	height: 18px;
+	padding-top: 1px;
+	padding-bottom: 3px;
+	padding-left: 5px;
+	margin-bottom: 15px;
+}
+
+
+#container{
+	width: 100%;
+	float: right;
+	margin-left: -180px;
+}
+
+#contents{
+	position: relative;
+	margin-right: 5px;
+	margin-bottom: 0;
+	margin-left: 170px;
+	padding: 0;
+}
+
+
+#top_search_view {
+	float: left;
+	padding-left: 20px;
+	width: 410px;
+	font-size: 12px;
+}
+
+.top_box1{
+	padding: 5px;
+	width: 420px;
+	margin-left: 50px;
+}
+#hotel_box {
+	background-color: #efe7df;
+	padding: 10px;
+	width: 420px;
+	float: left;
+}
+
+.top_box2 {
+	width: 420px;
+	padding-top: 8px;
+	padding-right: 5px;
+	padding-bottom: 8px;
+	padding-left: 5px;
+	margin-left: 50px;
+}

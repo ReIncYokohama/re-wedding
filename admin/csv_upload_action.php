@@ -22,10 +22,67 @@ mb_convert_variables("UTF-8", "SJIS-win", $csv);
 
 $post = $obj->protectXSS($_POST);
 
-$user_id = $_POST["user_id"];
+if($_GET["force"]){
+  $user_id = $_SESSION["csv_user_id"];
+  $csv = $_SESSION["csv"];
+  $force = true;
+}
+$user_id = $_POST["user_id"]?$_POST["user_id"]:$user_id;
+
 
 if(!$user_id) $user_id = $_GET["user_id"];
 if(!$user_id) return;
+
+if(!$force){
+  //姓名が同じ人がいれば確認alertを出す。
+  for($i=0;$i<count($csv);++$i){
+    $csv[$i] = $obj->protectXSS($csv[$i]);
+    $data = array();
+    $last_name = $csv[$i][1];
+    $first_name = $csv[$i][3];
+    
+    $user_row = $obj->GetSingleRow("spssp_guest"," last_name = '$last_name' and first_name = '$first_name'");
+    if($user_row){
+      $_SESSION["csv"] = $csv;
+      $_SESSION["csv_user_id"] = $user_id;
+      ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>招待者リストcsv一括アップロード</title>
+  <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
+  
+  <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+</head>
+<body>
+
+<br />
+
+<h2>招待者リストcsv一括アップロード</h2>
+    <div class="top_box1">
+    <script>
+
+   if(window.confirm('姓名が同じ人が既に登録されています。追加してよろしいですか？（同姓同名の場合はOKを押下してください）')){
+     location.href = location.href+"?force=true";
+   }else{
+     location.href = "csv_upload.php?user_id=<?=$user_id?>";
+   }
+
+   </script>
+</div>
+
+</body>
+</html>
+
+      
+      <?php
+
+      exit();
+    }
+  }
+}
 
 $hotel_id=1;
 $user_folder_base = sprintf("../%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
@@ -44,7 +101,7 @@ for($i=0;$i<count($csv);++$i){
     $data["sex"] = "Female";
   }else{
     $data["sex"] = "Male";
-  }
+  } 
   $data["last_name"] = $csv[$i][1];
   $data["furigana_last"] = $csv[$i][2];
   $data["first_name"] = $csv[$i][3];
@@ -97,6 +154,16 @@ for($i=0;$i<count($csv);++$i){
 
 
 //ホテル管理者と新郎新婦にメール
+$admin_row = $obj->GetSingleRow("spssp_admin"," permission='333'");
+$admin_email = $admin_row["email"];
+$user_row = $obj->GetSingleRow("spssp_user"," id='$user_id'");
+$user_email = $user_row["mail"];
+if($user_row["subcription_mail"] === '0' && $user_email){
+  confirm_guest_register($user_email,"ゲストが登録されました。");
+}
+if($admin_email){
+  confirm_guest_register($admin_email,"ゲストが登録されました。");
+}
 
 function get_image_db_directory($hotel_id){
   $result_image_db_dir = "";
@@ -119,8 +186,8 @@ function get_image_db_directory($hotel_id){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>gaiji_palette</title>
-  <link rel="stylesheet" type="text/css" href="css/common.css" media="all" />
+  <title>招待者リストcsv一括アップロード</title>
+  <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
   
   <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 </head>
