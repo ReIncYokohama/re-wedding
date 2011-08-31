@@ -515,43 +515,36 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
                     foreach($tblrows as $tblrow)
                     {
                        $table_rows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".(int)$user_id." and row_order=".$tblrow['row_order']." order by  column_order asc");
+                       $ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".$user_id." limit 1");
 
-					   $align_term=0;
-					   foreach($table_rows as $table_row)
-							{
+                       $num_first = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order limit 1");
+                       $num_last = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
+                       $num_max = $obj->GetSingleData("spssp_table_layout", "column_order "," user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
+                       $num_none = $num_max-$num_last+$num_first-1;
 
-								if($table_row['display']==0 && $table_row['visibility']==0)
-								{
-									$align_term=1;
-									break;
-								}
-							}
+                       if($ralign == 'C')
+                         {
 
+                           if($num_none > 0)
+                             {
+                               $con_width = $row_width -((int)($num_none*178));
+                             }
+                           else
+                             {
+                               $con_width = $row_width;
+                             }
 
-					   $ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".$user_id." limit 1");
-						if($ralign == 'C' && $align_term==1)
-						{
-							$num_none = $obj->GetNumRows("spssp_table_layout","user_id=".$user_id." and row_order=".$tblrow['row_order']." and display=0");
-							if($num_none > 0)
-							{
-								$con_width = $row_width -((int)($num_none*178));
-							}
-							else
-							{
-								$con_width = $row_width;
-							}
-
-							$pos = 'margin:0 auto; width:'.$con_width.'px';
-						}
-						else if($ralign=='R' && $align_term==1)
-						{
-							$pos = 'float:right;';
-						}
-						else
-						{
-							$pos = 'float:left;';
-
-						}
+                           $pos = 'margin:0 auto; width:'.$con_width.'px';
+                         }
+                       else if($ralign=='R' && $align_term==1)
+                         {
+                           $pos = 'float:right;';
+                         }
+                       else
+                         {
+                           $pos = 'float:left;';
+                           
+                         }
 
 
 
@@ -589,23 +582,16 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
 									$tblname2=mb_substr ($tblname, 1,$len,'UTF-8');
 								}
 
-								if($table_row['visibility']==1 && $table_row['display']==1)
-								{
-
-									$disp = 'display:block;';
+                if($table_row["display"] == 1){
+                  $disp = 'display:block;';
 									$class = 'droppable';
-
-								}
-								else if($table_row['visibility']==0 && $table_row['display']==1)
-								{
+                }else if($num_first <= $table_row["column_order"] && $table_row["column_order"]<=$num_last){
 									$disp = 'visibility:hidden;';
-									 $class = 'seat_droppable';
-								}
-								else if($table_row['display']==0 && $table_row['visibility']==0)
-								{
+                  $class = 'seat_droppable';
+                }else{
 									$disp = 'display:none;';
 									$class = 'seat_droppable';
-								}
+                }
                     		?>
                         	<div class="tables" id="tid_<?=$table_row['id']?>" style=" <?=$disp?>" >
 

@@ -3,14 +3,17 @@
 include_once('../inc/dbcon.inc.php');
 include_once('../inc/class.dbo.php');
 $obj = new DBO();
+$post = $obj->protectXSS($_POST);
 
 $align=$_POST[ralign];
 $tablename= "spssp_table_layout";
 if(isset($_POST['display']) && $_POST['display'] != '')
 {
 	$arr['display'] = (int)$_POST['display'];
+
 	///MODIFICATION BY FAHIM 18-08-11
-	$arr['visibility'] = (int)$_POST['visibility'];
+  if($_POST["visibility"]) $arr['visibility'] = (int)$_POST['visibility'];
+
 	if($align == "N" && $_POST['display']==0)
 	{
 		$arr['visibility'] =0;

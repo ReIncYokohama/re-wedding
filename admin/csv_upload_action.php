@@ -41,7 +41,7 @@ if(!$force){
     $last_name = $csv[$i][1];
     $first_name = $csv[$i][3];
     
-    $user_row = $obj->GetSingleRow("spssp_guest"," last_name = '$last_name' and first_name = '$first_name'");
+    $user_row = $obj->GetSingleRow("spssp_guest"," last_name = '$last_name' and first_name = '$first_name' and user_id = '$user_id'");
     if($user_row){
       $_SESSION["csv"] = $csv;
       $_SESSION["csv_user_id"] = $user_id;
@@ -85,11 +85,15 @@ if(!$force){
 }
 
 $hotel_id=1;
-$user_folder_base = sprintf("../%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
-
-mkdir($user_folder_base."guest");
+$user_folder_base = sprintf("../%s",get_image_db_directory($hotel_id));
+mkdir($user_folder_base);
+$user_folder_base .= "/user_name";
+mkdir($user_folder_base);
+$user_folder_base = $user_folder_base."/".$user_id;
+mkdir($user_folder_base);
 $colorArray = array(0x00,0x00,0x00);
 //if($_POST["stage"] == 1) $colorArray = array(255,0,0);
+$user_folder_base = $user_folder_base."/";
 mkdir($user_folder_base."/guest");
 
 for($i=0;$i<count($csv);++$i){
@@ -117,9 +121,8 @@ for($i=0;$i<count($csv);++$i){
   }
 
   $data["comment1"] = $csv[$i][6];
-  $data["comment2"] = "";
+  $data["comment2"] = $csv[$i][7];
   $data["user_id"] = $user_id;
-
 
   $guest_id = $obj->InsertData("spssp_guest",$data);
   mkdir($user_folder_base."/guest/".$guest_id);
@@ -150,8 +153,12 @@ for($i=0;$i<count($csv);++$i){
   make_text_save($data["last_name"]." ".$data["first_name"]." ".$respect_title,array(),
                  $user_folder."thumb2/guest_fullname.png",9,100,$colorArray);
                  //print_r($data);
+  
+  $savefile = sprintf("%s/user_name/%d/%s/%d/%s",get_image_db_directory($hotel_id),$user_id,"guest",$guest_id,"namecard.png");
+  make_name_plate_save($data["last_name"],$data["first_name"],$data["comment1"],$data["comment2"],
+                       array(),array(),
+                       array(),array(),$savefile,$colorArray,$respect_title);
 }
-
 
 //ホテル管理者と新郎新婦にメール
 $admin_row = $obj->GetSingleRow("spssp_admin"," permission='333'");
@@ -159,10 +166,33 @@ $admin_email = $admin_row["email"];
 $user_row = $obj->GetSingleRow("spssp_user"," id='$user_id'");
 $user_email = $user_row["mail"];
 if($user_row["subcription_mail"] === '0' && $user_email){
-  confirm_guest_register($user_email,"ゲストが登録されました。");
+  confirm_guest_register($user_email,"ゲストが登録されました。","ゲストが登録されました。");
 }
 if($admin_email){
-  confirm_guest_register($admin_email,"ゲストが登録されました。");
+  
+  confirm_guest_register($admin_email,"ゲストが登録されました。","ゲストが登録されました。");
+}
+
+function confirm_guest_register($to,$subject,$mailbody){
+	$from='r.kubonaga@resonanceinc.com';
+  $header='From:'.$from." \r\n";
+  $header.='Content-Type:text/plain; charset=utf-8'."\r\n";
+  //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
+
+  $subject = base64_encode(mb_convert_encoding($subject,"JIS","UTF8"));
+  $usersubject = '=?ISO-2022-JP?B?'.$subject.'?=';
+
+  $user_body=$mailbody;
+
+		///////MAIL TO USER /////////////
+  if(@mail($to, $usersubject, $user_body, $header))
+		{
+			return 1;
+		}
+		else
+		{
+			return 2;
+		}
 }
 
 function get_image_db_directory($hotel_id){

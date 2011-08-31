@@ -137,6 +137,7 @@ else
     $post['user_id']=$user_id;
     $guest_id=$obj->InsertData("spssp_guest",$post);
   }
+mkdir($user_folder);
 mkdir($user_folder."guest");
 $colorArray = array(0x00,0x00,0x00);
 //if($_POST["stage"] == 1) $colorArray = array(255,0,0);
