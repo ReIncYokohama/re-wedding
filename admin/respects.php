@@ -143,7 +143,7 @@ include("inc/return_dbcon.inc.php");
 
         </div>
         <p>&nbsp;</p>
-        <div id="message_BOX" style="height:450px; overflow:auto;">
+        <div id="box_table" style="height:450px; overflow:auto;">
             <div class="box4">
                 <table border="0" align="center" cellpadding="1" cellspacing="1">
                 <tr align="center">

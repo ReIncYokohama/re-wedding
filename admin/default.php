@@ -30,7 +30,9 @@
 				   $sql="Update spssp_tables_name set name='".$_POST['name']."' where id=".$_POST['edit_table_name'];
 
 				   mysql_query($sql);
-				   redirect("default.php?meg=4");exit;
+				   echo '<script> alert("卓名が変更されました"); </script>';
+				   unset($post);
+//				   redirect("default.php?meg=4");exit;
 
 //			   }
 			}
@@ -40,10 +42,12 @@
 				{
 					$tablename['display_order'] = time();
 					$lid = $obj->InsertData("spssp_tables_name", $tablename);
+
 					if($lid)
 					{
-						echo "<script> alert('新しい卓名が登録されました'); </script>";
-						redirect("default.php?meg=1");exit;
+						echo '<script> alert("新しい卓名が登録されました"); </script>';
+						unset($post);
+//						redirect("default.php?meg=1");
 					}
 				}
 			}
@@ -64,11 +68,13 @@
 			{
 				$post['display_order'] = time();
 				$lid = $obj->InsertData("spssp_tables_name", $post);
+				echo '<script> alert("新しい卓名が登録されました"); </script>';
 				if($lid > 0)
 				{
 					//$msg = 1;
-					echo "<script> alert('新しい卓名が登録されました'); </script>";
-					redirect("default.php?meg=1");exit;
+					echo '<script> alert("新しい卓名が登録されました"); </script>';
+					unset($post);
+//					redirect("default.php?meg=1");exit;
 				}
 				else
 				{
@@ -86,8 +92,8 @@
 			if(checkTableDuplicasy($post['name'] , $id ))
 			{
 				$obj->UpdateData("spssp_tables_name", $post," id=".$id);
-
-				$msg = 4;
+				echo '<script> alert("卓名が変更されました"); </script>';
+				//$msg = 4;
 			}
 			else
 			{
@@ -146,16 +152,19 @@
 
 		$id = $get['id'];
 		$move = $get['move'];
+		if($move=="down") $move="up"; else $move="down";
 		$obj->sortItem($table,$id,$move);
 	}
 	if(isset($get['action']) && $get['action'] !== '' && $get['action'] == "delete")
 	{
-
 		$id = (int)$get['id'];
 		if($id > 0)
 		{
 			$suc = $obj->DeleteRow("spssp_tables_name", "id=".$id);
-			if($suc){$msg = 3;}
+			if($suc){
+				$msg = 3;
+			}
+			redirect("default.php");
 		}
 		else
 		{
@@ -199,13 +208,12 @@
 
 		if($tableid!="" && $tableid>0)
 		{
-			$where_check = " id!='".$tableid."' and name like '%".$tname."%'";
+			$where_check = " id!='".$tableid."' and name='$tname'";
 		}
 		else
 		{
-			$where_check = "  name like '%".$tname."%'";
+			$where_check = "  name='$tname'";
 		}
-
 		$nm = $obj->GetRowCount("spssp_tables_name",$where_check);
 
 		if($nm){return false;}else{return true;}
@@ -411,13 +419,13 @@ function validForm()
 //		return false;
 //	}
 
-	//if($("#name").val() == '')
-//	{
-//		alert("「卓名」を入力してください");
-//		$("#name").val(tablename);
-//		$("#name").focus();
-//		return false;
-//	}
+	if($("#name").val() == '')
+	{
+		alert("卓名が未入力です");
+		$("#name").val(tablename);
+		$("#name").focus();
+		return false;
+	}
 
 	document.defaultForm.submit();
 
@@ -505,9 +513,10 @@ include("inc/return_dbcon.inc.php");
 
 <table style="width:680px;" border="0" align="left" cellpadding="0" cellspacing="10">
             <tr align="left">
+			<?php if ($InputArea=="") {?>
               <td width="60" align="left" nowrap="nowrap">卓名</td>
                 <td width="10" align="left" nowrap="nowrap">：</td>
-                <td width="270" nowrap="nowrap"><?php 				if ($InputArea=="") { ?> <input type="text" name="name" id="name"  value="<?=$_GET['name']?>"/> <?php } else echo $_GET['name'] ?></td>
+                <td width="270" nowrap="nowrap"><input type="text" name="name" id="name"  value="<?=$_GET['name']?>"/></td>
                 <td width="60" nowrap="nowrap">卓名変更</td>
                 <td width="10" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
@@ -515,6 +524,15 @@ include("inc/return_dbcon.inc.php");
 					<input type="radio" value="0" name="rename_table_view" <?php 	if($default_raname_table_view == "0"){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;不可&nbsp;&nbsp;
            	  </td>
             </tr>
+            <?php }
+                  else {?>
+                <td width="60" nowrap="nowrap">卓名変更</td>
+                <td width="10" nowrap="nowrap">：</td>
+                <td width="270" nowrap="nowrap">
+                	<input type="radio" value="1" name="rename_table_view" <?php 	if($default_raname_table_view == 1){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;可&nbsp;&nbsp;
+					<input type="radio" value="0" name="rename_table_view" <?php 	if($default_raname_table_view == "0"){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;不可&nbsp;&nbsp;
+           	  </td>
+            <?php } ?>
         </table>
 
 
@@ -569,7 +587,7 @@ include("inc/return_dbcon.inc.php");
               </table>
             </div>
             <?php
-            	$query_string="SELECT * FROM spssp_tables_name  ORDER BY display_order DESC ;";
+            	$query_string="SELECT * FROM spssp_tables_name  ORDER BY display_order asc ;";
 				//echo $query_string;
 				$data_rows = $obj->getRowsByQuery($query_string);
 
@@ -644,7 +662,7 @@ include("inc/return_dbcon.inc.php");
               </table>
             </div>
             <?php
-            	$query_string="SELECT * FROM spssp_tables_name  ORDER BY display_order DESC ;";
+            	$query_string="SELECT * FROM spssp_tables_name  ORDER BY display_order asc ;";
 				//echo $query_string;
 				$data_rows = $obj->getRowsByQuery($query_string);
 
@@ -679,14 +697,10 @@ include("inc/return_dbcon.inc.php");
 ?>
 
 
-
-
-
-
         <? if($_GET['id'] !=''){
 		?>
 		<script>
-		$("#boxid<?=$_GET['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
+		// $("#boxid<?=$_GET['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
 		</script>
 		<? }?>
 			</div>

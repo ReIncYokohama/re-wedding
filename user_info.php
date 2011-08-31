@@ -1,12 +1,12 @@
 <?php
 @session_start();
 include_once("admin/inc/dbcon.inc.php");
-	include_once("admin/inc/class.dbo.php");
+include_once("admin/inc/class.dbo.php");
 include_once("inc/checklogin.inc.php");
 
-	$obj = new DBO();
-	$get = $obj->protectXSS($_GET);
-    $user_id = (int)$_SESSION['userid'];
+$obj = new DBO();
+$get = $obj->protectXSS($_GET);
+$user_id = (int)$_SESSION['userid'];
 include("inc/new.header.inc.php");
 
 $user_row = $obj->GetSingleRow("spssp_user"," id= $user_id");

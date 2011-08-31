@@ -252,7 +252,7 @@ include("inc/return_dbcon.inc.php");
       <div class="navi"><img src="img/common/jushin_img_on.jpg" width="71" height="22" /></div>
       <div style="clear:both;"></div></div>
 
-      <div id="message_BOX" style="width:800px;">
+      <div id="box_table" style="width:800px;">
 	  <!--<div class="page_next"><?php echo $pageination;?></div>-->
       <div class="box4">
           <table border="0" align="center" cellpadding="1" cellspacing="1">

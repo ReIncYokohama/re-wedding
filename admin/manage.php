@@ -16,6 +16,7 @@
 
 	include_once("inc/new.header.inc.php");
 
+	$stuff_id = (int)$_SESSION['adminid'];
 	if($_SESSION['user_type'] == 222 || $_SESSION['user_type'] == 333)
 	{
 		$stuff_users = $obj->GetAllRowsByCondition("spssp_user", "stuff_id=".(int)$_SESSION['adminid']);
@@ -482,6 +483,7 @@ include("inc/return_dbcon.inc.php");
 				  $man_name = $objinfo->get_user_name_image_or_src($umsg['user_id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
           $woman_name = $objinfo->get_user_name_image_or_src($umsg['user_id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
           $user_name = $man_name."・".$woman_name;
+
 					echo "<li><a href='message_user.php?user_id=".$umsg['user_id']."' >".$party_day." ".$user_name." 様よりの未読メッセージがあります。</a></li>";
 				}
 			?>
@@ -585,10 +587,9 @@ include("inc/return_dbcon.inc.php");
 				$man_respect = $obj->GetSingleData(" spssp_respect", " title", " id=".(int)$data_rows['man_respect_id']);
 				$woman_respect = $obj->GetSingleData(" spssp_respect", " title", " id=".(int)$data_rows['woman_respect_id']);
 				include("inc/return_dbcon.inc.php");
-        
+
 				$staff_name = $obj->GetSingleData("spssp_admin","name"," id=".$row['stuff_id']);
-        
-        
+
 				if($i%2==0)
 				{
 					$class = 'box5';
@@ -623,7 +624,7 @@ include("inc/return_dbcon.inc.php");
 					   ?>
                         </td>
 
-                    	<td width="60"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif"  /></a></td>
+                    	<td width="60"><a href="user_info.php?user_id=<?=$row['id']?>&stuff_id=<?=$stuff_id?>"><img src="img/common/customer_info.gif"  /></a></td>
                          <!--<td><?php //echo $obj->japanyDateFormate($row['party_day'] , $row['party_day_with_time'])?></td>-->
 
                         <td width="80"> <?=$staff_name?></td>
