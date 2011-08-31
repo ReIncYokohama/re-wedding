@@ -1594,11 +1594,16 @@ include("inc/return_dbcon.inc.php");
             <td align="left" valign="middle" nowrap="nowrap">
                 <?php
 					$default_raname_table_view = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='rename_table_view'");
-					$_view = "";
-					if ($default_raname_table_view == "0") $_view = "disabled='disabled'";
+					$_def_view = "";
+					if ($default_raname_table_view == "0") $_def_view = "disabled='disabled'";
+					if ($user_plan_row['rename_table'] != "") {
 				?>
-				<input name="rename_table" type="radio" id="radio1" value="1"  <?php if($user_plan_row['rename_table'] == "1" || $user_plan_row['rename_table'] == "") {echo "checked='checked'";}?> <?=$_view ?> />   可
-				<input type="radio" name="rename_table" id="radio0" value="0"  <?php if($user_plan_row['rename_table'] == "0")                                         {echo "checked='checked'";}?> <?=$_view ?> /> 不可　
+					<input name="rename_table" type="radio" id="radio1" value="1"  <?php if($user_plan_row['rename_table'] == "1") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
+					<input type="radio" name="rename_table" id="radio0" value="0"  <?php if($user_plan_row['rename_table'] == "0") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
+			  <?php } else {?>
+					<input name="rename_table" type="radio" id="radio1" value="1"  <?php if($_def_view=="") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
+					<input type="radio" name="rename_table" id="radio0" value="0"  <?php if($_def_view!="") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
+			  <?php }?>
             </td>
   </tr>
             <tr>
