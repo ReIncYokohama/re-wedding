@@ -132,16 +132,23 @@ var table_array=new Array();
 	var	table_string=table_array.join("&");
 	//alert(table_string);
 	$.post('table_layout.php',{'layoutname':layoutname_ajax,'ajax':"ajax"}, function(data){
+				if (layoutname_ajax=="" || !isset(layoutname_ajax)) layoutname_ajax = "　　　";
 				$("#user_layoutname").html(layoutname_ajax);
-				$("#layoutname").val(layoutname_ajax);
-			});
+				$("#default_layout_title").html(layoutname_ajax);
+				$("#img_default_layout_title").val(layoutname_ajax);
+				});
 
 	$.get('ajax/plan_table_name_update_all.php?total_table='+num+"&"+table_string, function(data){
 
 			$("#table_information").html(data);
 			$("#loading_td").hide();
+
+			$("#user_layoutname").html(layoutname_ajax);
+			$("#default_layout_title").html(layoutname_ajax);
+			$("#img_default_layout_title").val(layoutname_ajax);
+
 			alert("更新されました");
-			return false;
+			return true;
 			});
 
 
@@ -348,7 +355,7 @@ function user_layout_title_input_show(id)
 
         <br />
        <?php
-		$user_tables = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".$user_id." and display=1");
+		$user_tables = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".$user_id." and visibility=1 and display=1");
 		$permission_table_edit = $obj->GetSingleData("spssp_plan", "rename_table"," user_id =".$user_id);
 		$layoutname = $obj->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
 		$default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
@@ -525,9 +532,9 @@ function user_layout_title_input_show(id)
 
 
        		<?php
-      $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
-      $num_tables = $obj->getSingleData("spssp_plan", "column_number"," user_id= $user_id");
-      $rw_width = (int)($num_tables* 51);
+            	$tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
+				$num_tables = $obj->getSingleData("spssp_plan", "column_number"," user_id= $user_id");
+				$rw_width = (int)($num_tables* 51);
 			?>
 			<div>
 	<?php
@@ -573,12 +580,6 @@ function user_layout_title_input_show(id)
 
 						$ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".(int)$user_id." limit 1");
 						$num_hidden_table = $obj->GetNumRows("spssp_table_layout","user_id = $user_id and display = 0 and row_order=".$tblrow['row_order']);
-
-            $num_first = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order limit 1");
-            $num_last = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
-            $num_max = $obj->GetSingleData("spssp_table_layout", "column_order "," user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
-            $num_none = $num_max-$num_last+$num_first-1;
-
 						if($ralign == 'L')
 						{
 							$pos = 'float:left;';
@@ -589,7 +590,7 @@ function user_layout_title_input_show(id)
 						}
 						else
 						{
-							$wd = $rw_width - ($num_none*51);
+							$wd = $rw_width - ($num_hidden_table*51);
 							$pos = 'margin:0 auto; width:'.$wd.'px';
 						}
 
@@ -599,37 +600,47 @@ function user_layout_title_input_show(id)
 
             		<div class="row_conatiner" id="rowcon_<?=$tblrow['row_order']?>" style="<?=$pos;?>">
 				<?php
-             $table_rows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".(int)$user_id." and row_order=".$tblrow['row_order']." order by  column_order asc");
-
+                $table_rows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".(int)$user_id." and row_order=".$tblrow['row_order']." order by  column_order asc");
 
                     foreach($table_rows as $table_row)
                     {
                     	$new_name_row = $obj->GetSingleRow("spssp_user_table", " user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
-                      
 
-                      $tblname='';
+
+                            $tblname='';
 							//print_r($new_name_row);//exit;
-                      if($table_row['name']!='')
-                        {
-                          $tblname = $table_row['name'];
+                            if($table_row['name']!='')
+                            {
+$tblname = $table_row['name'];
 					//			echo'<pre>';
 				//print_r($tblname_row);
                             }
                             elseif(is_array($new_name_row) && $new_name_row['id'] !='')
                             {
 
-                              $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-                              $tblname = $tblname_row['name'];
+							    $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
+
+								$tblname = $tblname_row['name'];
                             }
 
-                        if($table_row["display"] == 1){
-                          $disp = 'display:block;';
-                          $ct++;
-                        }else if($num_first <= $table_row["column_order"] && $table_row["column_order"]<=$num_last){
-                          $disp = "visibility:hidden";
-                        }else{
-                          $disp = "display:none";
-                        }
+
+
+                            if($table_row['visibility']==1 && $table_row['display']==1)
+                            {
+
+								$ct++; // UCHIDA EDIT 11/07/28
+                            	$disp = 'display:block;';
+
+                            }
+                            else if($table_row['visibility']==0 && $table_row['display']==1)
+                            {
+								$ct++;
+                                $disp = 'visibility:hidden;';
+                            }
+                            else if($table_row['display']==0 && $table_row['visibility']==0)
+                            {
+                                $disp = 'display:none;';
+                            }
                     ?>
                     <div class="tables" style="<?=$disp?>">
                         <p align="left" style="text-align:center;" id="table_<?=$table_row['id']?>">
