@@ -350,7 +350,12 @@ foreach($tblrows as $tblrow)
       {
         $number++;
         $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
-	
+        
+        $num_first = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$table_row['row_order']." order by column_order limit 1");
+        $num_last = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$table_row['row_order']." order by column_order desc limit 1");
+        $num_max = $obj->GetSingleData("spssp_table_layout", "column_order "," user_id=".$user_id." and row_order=".$table_row['row_order']." order by column_order desc limit 1");
+        $num_none = $num_max-$num_last+$num_first-1;
+        
         if(isset($new_name_row) && $new_name_row['id'] !='')
           {
             $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
@@ -362,39 +367,20 @@ foreach($tblrows as $tblrow)
             $tblname = $table_row['name'];
           }
 			
-        if($table_row['visibility']==1 && $table_row['display']==1)
-          {
-
-            $disp = '2';
-			
-
-          }
-        else if($table_row['visibility']==0 && $table_row['display']==1)
-          {
-            $disp = '1';
-				 
-          }
-        else if($table_row['display']==0 && $table_row['visibility']==0)
-          {
-            $disp = '0';
-				
-				
-			
-          }
-			
-			
+        if($table_row["display"] == 1){
+          $disp = '2';
+        }else if($num_first <= $table_row["column_order"] && $table_row["column_order"]<=$num_last){
+          $disp = "1";
+        }else{
+          $disp = "0";
+        }
 			
         if($disp!='0')
           {                   
             $html.="<td ><table  cellspacing=\"4\" cellspadding=\"4\">";
-				
-				
-				
-				
+
             if($disp=='1')
               $tblname="&nbsp;";
-				
-				
 								   
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
             $seats_nums=0;
@@ -642,13 +628,7 @@ foreach($tblrows as $tblrow)
                 $seats_nums++;
 						
                 if($seats_nums==2)
-                  $seats_nums=0; 
-					
-						
-						
-						
-				
-				
+                  $seats_nums=0;				
               }
 				
 				

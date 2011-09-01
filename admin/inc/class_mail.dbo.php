@@ -10,7 +10,6 @@ class MailClass extends MessageClass
 	}
 	function user_suborder_mail_to_admin($user_id,$print_company_id)
 	{
-
 		/*	THIS EMAIL WILL BE SEND TO ADMIN FROM USER TO SEND USER SUBORDER TO PRINT COMPANY
 			１　システムからホテルスタッフへ( from:  to: hotelstaff )
 			１-１　um-1　click　　sub order 仮発注依頼発生　　sytem　→　hotel staff
@@ -24,8 +23,6 @@ class MailClass extends MessageClass
 		$admin_link = ADMIN_LINK ;
 		$party_date_array=explode("-",$user_info['party_day']);
 		$party_day00=$party_date_array[1]."/".$party_date_array[2];
-
-
 
 		if($staff_info['subcription_mail']=="0" && $staff_info['email'] != "")
 		{

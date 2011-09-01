@@ -394,11 +394,8 @@ function removeTable(id,dtid)
 function deleteTable(tid,dtid,ralign)
 {
 
-
 	var table_div = "#drop_"+tid;
-
 	var user_id = $("#user_id").val();
-
 
 	$.post('ajax/check_plan_guest.php',{'tid':dtid,'user_id':user_id}, function(data){
 
@@ -484,7 +481,7 @@ function change_align(order,default_plan_id,user_id,align)
 	{
 	float:left;
 	width:100%;
-	text-align:center;
+	text-align:left;
 	}
 
 </style>
@@ -549,17 +546,15 @@ include("inc/return_dbcon.inc.php");
 			?>
 
 
-                <p class="txt3">会場名：<?=$roomName;?>　　最大卓数：横<?=$room_tables?>列 × 縦<?=$room_rows?>段　　一卓人数：<?=$room_seats?>名</p>
+                <p class="txt2">会場名：<?=$roomName;?>　　最大卓数：横<?=$room_tables?>列 × 縦<?=$room_rows?>段　　一卓人数：<?=$room_seats?>名</p>
         	</div>
 
         </div>
 
         <div class="box_table" style="width:800px; font-size: 12px;">
-        	<div class="bottom_line_box">
-        		<p class="txt3"><font color="#1F52A3"><strong>卓レイアウト設定</strong></font></p>
-        	</div>
+        		<h2>卓レイアウト設定</h2>
         	  		<br />
-        		●会場の最大卓数が表示されます。不要な卓はチェックし「削除」ボタンを押してください。
+        		●会場の最大卓数が表示されます。不要な卓はチェックを外して削除してください。
             </p>
         </div>
 
@@ -567,7 +562,6 @@ include("inc/return_dbcon.inc.php");
 
         <div style="width:1000px; float:left; text-align:center; font-size: 12px;">
         	<form action="set_table_layout_edit.php" method="post">
-
             <div style="width:<?=$row_width?>px; margin:0 auto;" id="toptstaa">
                 <?php
                     foreach($tblrows as $tblrow)
@@ -591,9 +585,9 @@ include("inc/return_dbcon.inc.php");
                 ?>
                     <div class="rows" style="float:left;width:100%;" id="row_<?=$tblrow['row_order']?>">
                     	<div class="row_center" >
-                        <input type="radio" id="rowcenter_<?=$tblrow['row_order']?>" name="rowcenter_<?=$tblrow['row_order']?>" value="L" <?php if($ralign=='L' || $ralign=='') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'L')" /> 左寄せ &nbsp;
+                        <!--<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>" name="rowcenter_<?=$tblrow['row_order']?>" value="L" <?php if($ralign=='L' || $ralign=='') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'L')" /> 左寄せ &nbsp;-->
                         	<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="C"  <?php if($ralign=='C') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'C')" /> 中央配置 &nbsp;
-                            <input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"  <?php if($ralign=='R') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'R')" /> 右寄せ
+                            <!--<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"  <?php if($ralign=='R') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'R')" /> 右寄せ-->
 							<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"  <?php if($ralign=='N') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'N')" /> そのまま
 
 
@@ -632,7 +626,7 @@ include("inc/return_dbcon.inc.php");
 									$tblname = $table_row['name'];
 								}
 
-								if($table_row['visibility']==1)
+								if($table_row['display']==1)
 								{
 
 									$disp = 'display:block;';
@@ -643,7 +637,7 @@ include("inc/return_dbcon.inc.php");
 									$disp = 'display:none;';
 									$disp1 = 'visibility:hidden;';
 								}
-								if($table_row['display']==1 && $table_row['visibility']==1)
+								if($table_row['display']==1)
 								{
 									$chk = 'checked="checked" ';
 								}
@@ -667,9 +661,18 @@ include("inc/return_dbcon.inc.php");
 
                                             <div class="tables" id="tbl_<?=$table_row['id']?>" style="float:left;">
 
-                                                <p align="center" style="text-align:center;" id="table_<?=$table_row['id']?>">
+                                                <p align="center" style="text-align:center;font-size:120%;" id="table_<?=$table_row['id']?>">
 
-                                                    <a href="#" onClick="edit_table_name(<?=$table_row['id']?>);"  class="drag_false" > <b> <?=$tblname?> </b> </a> &nbsp;
+                                                    <a href="#" onClick="edit_table_name(<?=$table_row['id']?>);"  class="drag_false" > <b>
+                <?php
+                if($tblname && $tblname != ""){
+                  echo $tblname;
+                }else{
+                  echo "&nbsl;&nbsl;";
+                }
+                
+                ?> 
+                                                   </b> </a> &nbsp;
 
                                                 </p>
 
@@ -706,9 +709,11 @@ include("inc/return_dbcon.inc.php");
                     <div style="width:100%; text-align:left;">
                 		<!--<input type="submit" value="Update" name="submit" />
                			 &nbsp;<input type="button" value="保存" onClick="javascript:history.go(-1)" />-->
-
-					<input type="button" value="保存" onclick="javascript:window.location='user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'"/>
-                    &nbsp;&nbsp;<input type="button" value="戻る" onClick="javascript:history.go(-1)" />
+          <img src="img/common/btn_save.jpg" onclick="javascript:window.location='user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'">
+          <!--					<input type="button" value="保存" onclick="javascript:window.location='user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'"/>-->
+                    &nbsp;&nbsp;
+          <img src="img/common/btn_cancel.jpg" onclick="javascript:window.location='user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'">
+         <!--<input type="button" value="戻る" onClick="javascript:history.go(-1)" />-->
                     </div>
             </div>
             </form>
