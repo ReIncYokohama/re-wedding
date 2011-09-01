@@ -393,7 +393,6 @@ function removeTable(id,dtid)
 }
 function deleteTable(tid,dtid,ralign)
 {
-
 	var table_div = "#drop_"+tid;
 	var user_id = $("#user_id").val();
 
@@ -401,7 +400,7 @@ function deleteTable(tid,dtid,ralign)
 
 		if(parseInt(data) > 0)
 		{
-			alert("卓に招待者が設定されています。\\n削除する前に、席次表編集にて卓を空にしてください");
+			alert("卓に招待者が設定されています。\n削除する前に、席次表編集にて卓を空にしてください");
 			$("#display_"+tid).attr("checked","checked");
 		}
 		else
@@ -546,7 +545,7 @@ include("inc/return_dbcon.inc.php");
 			?>
 
 
-                <p class="txt2">会場名：<?=$roomName;?>　　最大卓数：横<?=$room_tables?>列 × 縦<?=$room_rows?>段　　一卓人数：<?=$room_seats?>名</p>
+                <p class="txt2">会場名：<?=$roomName;?>　　最大卓数：横<?=$room_tables?>列 × 縦<?=$room_rows?>段　　一卓人数：<?=$room_seats?>名まで</p>
         	</div>
 
         </div>

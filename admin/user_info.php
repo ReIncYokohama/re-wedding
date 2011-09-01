@@ -1705,8 +1705,8 @@ include("inc/return_dbcon.inc.php");
         <br />
         <h2><div>引出物設定</div></h2>
             <?php
-            	$gift_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".(int)$_GET['user_id']." order by id ASC");
-				$gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".(int)$_GET['user_id']." order by id ASC")
+            $gift_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".(int)$_GET['user_id']." order by id ASC");
+$gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".(int)$_GET['user_id']." order by id ASC")
 			?>
 
         <div style="width:1000px; float:left;" id="div_box_3">
