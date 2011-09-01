@@ -7,74 +7,48 @@
 	$get = $obj->protectXSS($_GET);
 	$post = $obj->protectXSS($_POST);
 
-	/*if($_SESSION['user_type'] != 111)
+	$default_raname_table_view = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='rename_table_view'");
+	$default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
+
+	$_title = $post['default_layout_title'];
+	$_view  = $post['rename_table_view'];
+	$chng = 0;
+	if ($_title != $default_layout_title || $_view != $default_raname_table_view) $chng = 1;
+
+	if($_POST['sub']!='' && $chng == 1)
 	{
-		redirect("manage.php");
-	}*/
-	if($_POST['sub']!='')
-	{
-//		$whereCloser = array('confirm_day_num','default_layout_title','rename_table_view','limitation_ranking');
 		$whereCloser = array('default_layout_title','rename_table_view');
 		for($i=0;$i<count($whereCloser);$i++)
 		{
 			$sql="Update spssp_options set option_value='".$post[$whereCloser[$i]]."' where option_name='".$whereCloser[$i]."'";
 			mysql_query($sql);
 		}
-
-		$tablename['name'] = $_POST['name'];
- //       if($_POST['name'] !='') {
-			if($_POST['edit_table_name'] !='')
-			{
-
-//			   if(checkTableDuplicasy($tablename['name'],$_POST['edit_table_name'])) {
-				   $sql="Update spssp_tables_name set name='".$_POST['name']."' where id=".$_POST['edit_table_name'];
-
-				   mysql_query($sql);
-				   echo '<script> alert("卓名が変更されました"); </script>';
-				   unset($post);
-//				   redirect("default.php?meg=4");exit;
-
-//			   }
-			}
-			else
-			{
-				if(checkTableDuplicasy($tablename['name']))
-				{
-					$tablename['display_order'] = time();
-					$lid = $obj->InsertData("spssp_tables_name", $tablename);
-
-					if($lid)
-					{
-						echo '<script> alert("新しい卓名が登録されました"); </script>';
-						unset($post);
-//						redirect("default.php?meg=1");
-					}
-				}
-			}
-//		}
-
-
 	}
+	$tablename['name'] = $_POST['name'];
+	if($_POST['edit_table_name'] !='' && $_POST['name'] !="")
+	{
+		   $sql="Update spssp_tables_name set name='".$_POST['name']."' where id=".$_POST['edit_table_name'];
+		   mysql_query($sql);
+		   echo '<script> alert("卓名が変更されました"); </script>';
+		   unset($post);
+	}
+
 	if(isset($post['name']) && $post['name'] != '')
 	{
 		$id = (int)$post['insert_edit'];
-
 		unset($post['insert_edit']);
-
-
 		if($id <= 0)
 		{
 			if(checkTableDuplicasy($post['name']))
 			{
-				$post['display_order'] = time();
-				$lid = $obj->InsertData("spssp_tables_name", $post);
-				echo '<script> alert("新しい卓名が登録されました"); </script>';
+				$_post["name "]=$post["name"];
+				$_post['display_order'] = time();
+				$lid = $obj->InsertData("spssp_tables_name", $_post);
 				if($lid > 0)
 				{
 					//$msg = 1;
 					echo '<script> alert("新しい卓名が登録されました"); </script>';
 					unset($post);
-//					redirect("default.php?meg=1");exit;
 				}
 				else
 				{
@@ -88,7 +62,6 @@
 		}
 		else
 		{
-
 			if(checkTableDuplicasy($post['name'] , $id ))
 			{
 				$obj->UpdateData("spssp_tables_name", $post," id=".$id);
@@ -102,50 +75,6 @@
 		}
 
 	}
-	if($post['DefaultSettings']=="DefaultSettings1")
-	{
-
-		unset($post['DefaultSettings']);
-		unset($value['option_value']);
-
-		$value['option_value '] = $post['confirm_day_num'];
-		$res = $obj->UpdateData("spssp_options", $value," option_name='confirm_day_num'");
-		if($res ==1){echo'<script>alert("校了日が変更になりました");</script>';}
-	}
-	if($post['DefaultSettings']=="DefaultSettings2")
-	{
-
-		unset($post['DefaultSettings']);
-		unset($value['option_value']);
-
-		$value['option_value '] = $post['DefaultLayoutTitle'];
-		$res = $obj->UpdateData("spssp_options", $value," option_name='default_layout_title'");
-		if($res ==1){$msg = 4;}
-	}
-	if($post['DefaultSettings']=="DefaultSettings3")
-	{
-
-		unset($post['DefaultSettings']);
-		unset($value['option_value']);
-
-		$value['option_value '] = $post['table_view'];
-		$res = $obj->UpdateData("spssp_options", $value," option_name='rename_table_view'");
-		if($res ==1){$msg = 4;}
-	}
-	if($post['DefaultSettings']=="DefaultSettings6")
-	{
-
-		unset($post['DefaultSettings']);
-		unset($value['option_value']);
-
-		$value['option_value '] = $post['limitation_ranking'];
-		$res = $obj->UpdateData("spssp_options", $value," option_name='limitation_ranking'");
-		if($res ==1){
-		echo'<script>alert("席次表編集利用制限日が変更になりました");</script>';
-
-		}
-	}
-
 	if($_GET['action']=='sort' && (int)$_GET['id'] > 0)
 	{
 		$table = 'spssp_tables_name';
@@ -171,35 +100,6 @@
 			$err = 11;
 		}
 	}
-	//SORING START
-	if(isset($_GET['order_by']) && $_GET['order_by'] != '')
-	{
-		$orderby = mysql_real_escape_string($_GET['order_by']);
-		$dir = mysql_real_escape_string($_GET['asc']);
-
-		if($orderby=='name')
-		{
-			$order=" name ";
-
-		}
-
-
-		if($dir == 'true')
-		{
-			$order.=' asc';
-		}
-		else
-		{
-			$order.=' desc';
-		}
-
-	}
-	else
-	{
-		$order="display_order ASC";
-	}
-	//SORING END
-
 
 	//check DEFaULT table NAME DUPLICACY
 	function checkTableDuplicasy( $tname, $tableid = false )
@@ -220,11 +120,9 @@
 	}
 ?>
 <?php
-			$default_raname_table_view = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='rename_table_view'");
-//			$confirm_day_num = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
-//			$limitation_ranking = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");
-			$default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
-		?>
+	$default_raname_table_view = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='rename_table_view'");
+	$default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
+?>
 <script type="text/javascript">
 var tablename='';
 //var confirmdaynum='<?=$confirm_day_num?>';
@@ -374,7 +272,6 @@ function edit_name(id, name,adminType,boxid)
 		$("#insert_edit").val(id);
 		$("#name").val(name);
 
-
 		//$("#title_bar").html("編集　卓名");
 		//$("#new_table").fadeOut(100);
 		//$("#new_table").fadeIn(500);
@@ -418,7 +315,7 @@ function validForm()
 //		document.getElementById('DefaultLayoutTitle').focus();
 //		return false;
 //	}
-
+/*
 	if($("#name").val() == '')
 	{
 		alert("卓名が未入力です");
@@ -426,7 +323,7 @@ function validForm()
 		$("#name").focus();
 		return false;
 	}
-
+*/
 	document.defaultForm.submit();
 
 }
@@ -573,13 +470,7 @@ include("inc/return_dbcon.inc.php");
                 <table border="0" align="center" cellpadding="1" cellspacing="1" style="width:90%;">
                 <tr align="center">
                   <td width="10%">No.</td>
-                  <td>卓名
-				 <!-- <span class="txt1"><a href="default.php?order_by=name&asc=true">▲</a>
-                        	<a href="default.php?order_by=name&asc=false">▼</a></span>-->
-
-<!--//							 	<span style="color:gray;">▲▼</span>-->
-
-				  </td>
+                  <td>卓名</td>
              	  <td>順序変更</td>
                   <td>編集</td>
                   <td>削除</td>

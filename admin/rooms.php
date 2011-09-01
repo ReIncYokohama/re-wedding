@@ -321,7 +321,7 @@ include("inc/return_dbcon.inc.php");
          <?php } ?>
 
 <!-- UCHIDA EDIT 11/08/08 テーブルレイアウト表示を画面上に移動  -->
-        <div class="sekiji_table" id="table_preview">
+        <div class="sekiji_table" id="table_preview" >
         <div>
 			<table width="1000px" style = " text-align:center;" align="center" border="0" cellspacing="10" cellpadding="0">
 
@@ -379,7 +379,7 @@ include("inc/return_dbcon.inc.php");
 
 <!-- テーブルレイアウト  -->
 
-         <div class="box_table" style="width:1000px;">
+         <div class="box_table" style="width:1000px; color: black;">
             <!--<div class="page_next"><?=$pageination?></div>-->
             <div class="box4">
                 <table border="0" align="center" cellpadding="1" cellspacing="1">
