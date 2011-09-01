@@ -16,3 +16,4 @@ conf/conf.php
 #生成ファイル
 Yourexcel.html
 admin/Yourexcel.html
+cron/mail.log
