@@ -32,7 +32,7 @@ else
 }
 ?>
 
- <table width="100%" style = " text-align:center;" align="center" border="0" cellspacing="10" cellpadding="0">
+ <table width="100%" style = " text-align:center; color: black;" align="center" border="0" cellspacing="10" cellpadding="0">
 
 	<?php
 
@@ -42,7 +42,7 @@ else
             foreach($room_tables as $rt)
             {
 //                $names[] = $rt['name'];
-                $names[] = substr($rt['name'],0,3);// 先頭の1文字
+                $names[] = mb_substr($rt['name'], 0,1,'UTF-8');// 先頭の1文字
             }
 
 

@@ -166,7 +166,6 @@
 
 	}
 	//USER MENU ITEM NAME UPDaTE END
-
 ?>
 <style>
 .datepickerControl table
@@ -636,7 +635,7 @@ function valid_user(user_id, noUpdate) // registration_validation.jsから移動
 	}
 
    var str = document.getElementById("man_furi_firstname").value;
-   if( str.match( /[^ぁ-ん\s]+/ ) ) {
+   if( str.match( /[^ぁ-ん\sー]+/ ) ) {
       alert("新郎の名のふりがなを正しく入力してください");
 	  document.getElementById('man_furi_firstname').focus();
 	  return false;
@@ -651,7 +650,7 @@ function valid_user(user_id, noUpdate) // registration_validation.jsから移動
 	}
 
    var str1 = document.getElementById("man_furi_lastname").value;
-   if( str1.match( /[^ぁ-ん\s]+/ ) ) {
+   if( str1.match( /[^ぁ-ん\sー]+/ ) ) {
       alert("新郎の名のふりがなを正しく入力してください");
 	  document.getElementById('man_furi_lastname').focus();
 	  return false;
@@ -680,7 +679,7 @@ function valid_user(user_id, noUpdate) // registration_validation.jsから移動
 	}
 
     var str2 = document.getElementById("woman_furi_firstname").value;
-   if( str2.match( /[^ぁ-ん\s]+/ ) ) {
+   if( str2.match( /[^ぁ-ん\sー]+/ ) ) {
       alert("新婦の名のふりがなを正しく入力してください");
 	  document.getElementById('woman_furi_firstname').focus();
 	  return false;
@@ -694,7 +693,7 @@ function valid_user(user_id, noUpdate) // registration_validation.jsから移動
 	}
 
     var str3 = document.getElementById("woman_furi_lastname").value;
-   if( str3.match( /[^ぁ-ん\s]+/ ) ) {
+   if( str3.match( /[^ぁ-ん\sー]+/ ) ) {
       alert("新婦の姓のふりがなを正しく入力してください");
 	  document.getElementById('woman_furi_lastname').focus();
 	  return false;
@@ -1570,24 +1569,21 @@ include("inc/return_dbcon.inc.php");
   <tr>
     <td width="192" align="left" valign="middle" nowrap="nowrap">卓名変更<font color="red">*</font></td>
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
-                <td align="left" valign="middle" nowrap="nowrap">
-                	<?php
-						$default_raname_table_view = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='rename_table_view'");
-						if($user_plan_row['rename_table']=="" && $default_raname_table_view!="")
-						{
-					?>
-				<input name="rename_table" type="radio" id="radio1" value="1"  <?php 	if($default_raname_table_view == 1){echo "checked='checked'";}?> />   可
-				<input type="radio" name="rename_table" id="radio0" value="0" <?php 	if($default_raname_table_view == "0"){echo "checked='checked'";}?> /> 不可　
- 						<?php
-						}else
-						{?>
-		<input name="rename_table" type="radio" id="radio1" value="1"  <?php if($user_plan_row['rename_table'] == 1){echo "checked='checked'";}?> />   可
-		<input type="radio" name="rename_table" id="radio0" value="0" <?php if($user_plan_row['rename_table'] == "0"){echo "checked='checked'";}?> /> 不可
-
-						<?php }
-						?>
+            <td align="left" valign="middle" nowrap="nowrap">
+                <?php
+					$default_raname_table_view = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='rename_table_view'");
+					$_def_view = "";
+					if ($default_raname_table_view == "0") $_def_view = "disabled='disabled'";
+					if ($user_plan_row['rename_table'] != "") {
+				?>
+					<input name="rename_table" type="radio" id="radio1" value="1"  <?php if($user_plan_row['rename_table'] == "1") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
+					<input type="radio" name="rename_table" id="radio0" value="0"  <?php if($user_plan_row['rename_table'] == "0") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
+			  <?php } else {?>
+					<input name="rename_table" type="radio" id="radio1" value="1"  <?php if($_def_view=="") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
+					<input type="radio" name="rename_table" id="radio0" value="0"  <?php if($_def_view!="") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
+			  <?php }?>
             </td>
-          </tr>
+  </tr>
             <tr>
               <td width="192" align="left" valign="middle" nowrap="nowrap">商品名<font color="red">　</font></td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>

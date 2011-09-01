@@ -4,7 +4,7 @@
 }
 #foot_left {
 	float: left; /* SEKIDUKA ADD 11/08/12 */
-	width: 269px;
+	width: 140px;
 	text-align: left;
 }
 #foot_center {
@@ -80,9 +80,9 @@
 	    </ul>
         <br />
 <div id="foot_left">
-<table width="269" border="0" cellpadding="2" cellspacing="0" title="SSLサーバ証明書導入の証 グローバルサインのサイトシール">
+<table border="0" cellpadding="2" cellspacing="0" title="SSLサーバ証明書導入の証 グローバルサインのサイトシール">
 <tr>
-<td width="269" align="center" valign="top"> <span id="ss_img_wrapper_115-57_image_ja">
+<td align="center" valign="top"> <span id="ss_img_wrapper_115-57_image_ja">
 <a href="http://jp.globalsign.com/" target="_blank"> <img alt="SSL グローバルサインのサイトシール" border="0" id="ss_jpn2_gif" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_115-57_ja.gif">
 </a>
 </span><br>
