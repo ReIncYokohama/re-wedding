@@ -188,12 +188,16 @@ $menu_grp = $_POST['menu_grp'];
     
 if(isset($gift_group) && $gift_group != '')
   {
+    $query_string="delete from spssp_guest_gift where guest_id = '".$guest_id."' and user_id = '".$user_id."'";
+    mysql_query($query_string);
     $query_string="INSERT INTO spssp_guest_gift (guest_id,group_id,user_id) VALUES ('".$guest_id."','".$gift_group."','".$user_id."');";
-    mysql_query($query_string);   
+    mysql_query($query_string);
   }
   
 if(isset($menu_grp) && $menu_grp != '')
   {
+    $query_string="delete from spssp_guest_menu where guest_id = '".$guest_id."' and user_id = '".$user_id."'";
+    mysql_query($query_string);
     $query_string="INSERT INTO spssp_guest_menu (guest_id,menu_id,user_id) VALUES ('".$guest_id."','".$menu_grp."','".$user_id."');";
     mysql_query($query_string);
   }

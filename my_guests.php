@@ -1311,33 +1311,35 @@ if($editable)
 					$gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
 					$gift_arr = explode("|",$gift_ids);
 					$groups = array();
+          
 					if(in_array($gift['id'],$gift_arr))
 					{
-						$htm = "<img src='./admin/img/tick.jpg' style='border:0; width:40px; height:35px' />";
 						array_push($groups,$grp['id']);
 					}
-					else
-					{
-						$htm = '&nbsp;';
-
-					}
-
+					
+					
+          $num_gifts_in_group = 0;
 					if(!empty($groups))
 					{
 						foreach($groups as $grp)
 						{
 							$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp);
 							$num_gifts += $num_guests_groups;
+              $num_gifts_in_group += $num_guests_groups;
 						}
 						unset($groups);
 					}
+          $htm = $num_gifts_in_group;
+          
 			?>
             <td width="42" align="center" bgcolor="#FFFFFF"> <?=$htm?> </td>
             <?php
             	}
+          $num_reserve = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift["id"]);
+          $num_gifts += $num_reserve;
 			?>
            	<td width="42" align="center" bgcolor="#FFFFFF">&nbsp;</td>
-            <td width="60" align="center" bgcolor="#FFFFFF">&nbsp;</td>
+            <td width="60" align="center" bgcolor="#FFFFFF"><?=$num_reserve?></td>
             <td width="59" align="center" bgcolor="#FFFFFF"><?=$num_gifts?></td>
           </tr>
           <?php
