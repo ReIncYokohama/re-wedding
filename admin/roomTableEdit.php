@@ -9,10 +9,8 @@
 	$data_per_page=10;
 	$current_page=(int)$_GET['page'];
 
-
 	$get = $obj->protectXSS($_GET);
 	$default_id = $get['room_id'];
-echo $default_id." : ".$_POST['save'];
 	if($_POST['save'])
 	{
 		$room_row = $obj->GetSingleRow("spssp_room", " id=".$default_id);
