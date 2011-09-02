@@ -89,7 +89,7 @@ include_once("inc/header.inc.php");
             </form><br />
 
         </div>
-      <div id="message_BOX" style="overflow:auto;">
+      <div class="box_table" style="width:100%;">
         <div class="box4">
           <table border="0" align="center" cellpadding="1" cellspacing="1">
             <tr align="center">
