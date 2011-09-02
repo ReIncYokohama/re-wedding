@@ -9,8 +9,7 @@
 	$user_row = $obj->GetSingleRow("spssp_user"," id= $user_id");
 	$table='spssp_message';
 	if($user_id > 0) {
-// UCHIDA EDIT 11/08/16 ２重にユーザIDをチェックすることになるので処理を削除
-//		$where = " user_id=".$user_id;
+		$where = " user_id=".$user_id;
 	}
 	else {
 		$where = " 1= 1";
@@ -19,35 +18,32 @@
 // UCHIDA EDIT 11/08/18 管理者用お客様一覧から各スタッフのメールを確認する
 	$modify = 0;
 	$stuff_id = $_GET['stuff_id'];
-	if ($stuff_id=="") {
+	if ($stuff_id=="" || $stuff_id=="0") {
 		$modify = 1; // 未読を既読にする
-		$stuff_id = (int)$_SESSION['adminid'];
+//		$stuff_id = (int)$_SESSION['adminid'];
 	}
 	$user_type = $_SESSION['user_type'];
 
-//	if($_SESSION['user_type'] == 222 || $_SESSION['user_type'] == 333)
+/*
 	if($user_type == 222 || $user_type == 333)
 	{
-//		$stuff_users = $obj->GetAllRowsByCondition("spssp_user", "stuff_id=".(int)$_SESSION['adminid']);
 		$stuff_users = $obj->GetAllRowsByCondition("spssp_user", "stuff_id=".$stuff_id);
 
-		foreach($stuff_users as $su)
-		{
-			$user_id_arr[] = $su['id'];
+		if ($stuff_id>0) {
+			foreach($stuff_users as $su)
+			{
+				$user_id_arr[] = $su['id'];
+			}
+			if(!empty($user_id_arr))
+			{
+				$stuff_users_string = implode(",",$user_id_arr);
+				$where.= " user_id in ( $stuff_users_string ) ";
+			}
 		}
-		if(!empty($user_id_arr))
-		{
-			$stuff_users_string = implode(",",$user_id_arr);
-
-// UCHIDA EDIT 11/08/16 $stuff_users_stringに全てのユーザがいるので、and は不要
-//			$where.= " and  user_id in ( $stuff_users_string )  order by id DESC";
-// UCHIDA EDIT 11/08/18 余計なOrderが不要
-//			$where.= " user_id in ( $stuff_users_string ) order by user_id DESC";
-			$where.= " user_id in ( $stuff_users_string ) ";
-		}
-
 	}
-//echo "<script> alert('$where'); </script>";
+*/
+
+//echo "<script> alert('$stuff_id $where'); </script>";
 
 	$data_per_page=5;
 	$current_page=(int)$_GET['page'];

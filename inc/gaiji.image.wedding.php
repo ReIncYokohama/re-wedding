@@ -14,6 +14,8 @@ function make_name_plate_save($last_name,$first_name,$comment1="",$comment2="",
   $image = get_image_name_plate($last_name,$first_name,$comment1,$comment2,
                                 $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
   imagefilter($image, IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
+  print $file;
+  print $image;
   imagepng($image,$file);
   imagedestroy($image);
 }

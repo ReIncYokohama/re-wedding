@@ -155,9 +155,10 @@ for($i=0;$i<count($csv);++$i){
                  //print_r($data);
   
   $savefile = sprintf("%s/user_name/%d/%s/%d/%s",get_image_db_directory($hotel_id),$user_id,"guest",$guest_id,"namecard.png");
+
   make_name_plate_save($data["last_name"],$data["first_name"],$data["comment1"],$data["comment2"],
                        array(),array(),
-                       array(),array(),$savefile,$colorArray,$respect_title);
+                       array(),array(),dirname(__FILE__)."/../".$savefile,$colorArray,$respect_title);
 }
 
 //ホテル管理者と新郎新婦にメール

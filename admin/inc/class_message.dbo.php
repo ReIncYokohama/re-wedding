@@ -8,7 +8,7 @@ class MessageClass extends InformationClass
 	{
 
 	}
-	function admin_side_user_list_new_status_notification_image_link_system($user_id)
+	function admin_side_user_list_new_status_notification_image_link_system($user_id, $msg="")
 	{
 		//SELECT count(*) FROM `spssp_plan` WHERE `user_id` =81 AND `order` !=0
 			return $this :: get_admin_side_user_list_new_status_notification_when_ordered($user_id);
@@ -25,6 +25,7 @@ class MessageClass extends InformationClass
 //			if($this :: sekiji_user_day_over_email_send_for_today_check($user_id) )
 			if($this :: sekiji_user_day_over_email_send_for_today_check($user_id) && $this :: GetRowCount("spssp_plan"," `order` < 2 and user_id=".$user_id) )
 			{
+				if ($msg!="") echo $user_id." : [Mail Send 8, 10 ]<br />\n";
 				$objMail = new MailClass();
 				$objMail -> sekiji_day_limit_over_admin_notification_mail($user_id);//mail 8=>admin
 				$objMail -> sekiji_day_limit_over_user_notification_mail($user_id);//mail 10=>user
@@ -88,13 +89,14 @@ class MessageClass extends InformationClass
 		}
 		return $msg_opt;
 	}
-	function admin_side_user_list_gift_day_limit_notification_image_link_system($user_id) // UCHIDA EDIT 11/08/10 引出物 メール、アイコン
+	function admin_side_user_list_gift_day_limit_notification_image_link_system($user_id, $msg="") // UCHIDA EDIT 11/08/10 引出物 メール、アイコン
 	{
 		$objMail = new MailClass();
 		$user_plan_info = $this :: get_user_plan_info($user_id);
 
 		if($user_plan_info['gift_daylimit']==0) {
 			if ($this :: proccesse_gift_day_limit($user_id)) { // 発注締切日を過ぎたか
+				if ($msg!="") echo $user_id." : [Mail Send 9, 11 ]<br />\n";
 				$objMail -> hikidemono_day_limit_over_admin_notification_mail($user_id); //mail  9=>Stuff
 				$objMail -> hikidemono_day_limit_over_user_notification_mail($user_id);  //mail 11=>user
 				// UCHIDA EDIT 11/08/10 メール９，１１の送信を記録
@@ -146,12 +148,12 @@ class MessageClass extends InformationClass
 
 		$party_date_array=explode("-",$user_info['party_day']);
 		$party_day=$party_date_array[1]."/".$party_date_array[2];
-    
-    
+
+
     $man_name = $this::get_user_name_image_or_src($user_id ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
     $woman_name = $this::get_user_name_image_or_src($user_id,$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
     $user_name = $man_name."・".$woman_name;
-    
+
 		$msg_text = "";
 		if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 0 and `order` = 1 and user_id=".$user_id) )
 				{

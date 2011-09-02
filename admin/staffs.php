@@ -52,18 +52,9 @@
 				$post['display_order']= time();
 
 				//$post['creation_date'] = date("Y-m-d H:i:s");
-				if($post['permission'] == '111')
+				if($post['permission'] == '222')
 				{
-					$num_admin = $obj->GetNumRows("spssp_admin"," permission = '111'");
-					if($num_admin > 0)
-					{
-
-						$err = 5;
-					}
-					else
-					{
-						$lastid = $obj->InsertData('spssp_admin',$post);
-					}
+					$lastid = $obj->InsertData('spssp_admin',$post);
 				}
 				else
 				{
@@ -129,19 +120,10 @@
 				//$post['display_order']= time();
 				//$post['creation_date'] = date("Y-m-d H:i:s");
 
-				if($post['permission'] == '111')
+				if($post['permission'] == '222')
 				{
-					$num_admin = $obj->GetNumRows("spssp_admin"," permission = '111'");
-					if($num_admin > 0)
-					{
-
-						$err = 5;
-					}
-					else
-					{
-						$msg = 2;
-						$obj->UpdateData('spssp_admin',$post,"id=".$_POST['id']);
-					}
+          $msg = 2;
+          $obj->UpdateData('spssp_admin',$post,"id=".$_POST['id']);
 
 				}
 				else
@@ -161,7 +143,6 @@
           $upd_data = array();
           $upd_data["adminid"] = $post["username"];
           $upd_data["password"] = $post["password"];
-          $upd_data["email"] = $post["email"];
           $upd_data["adminstrator"] = $post["name"];
 
           $link = mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
@@ -735,7 +716,7 @@ include("inc/return_dbcon.inc.php");
 					<?php if($edit_data_rows['permission']==333){ ?>
 						<input type="radio" name="permission" id="radio2" value="333" checked="checked"  disabled="disabled" />
 						管理者
-						<input type="radio" name="permission" id="radio2" value="222" checked="checked"  disabled="disabled"  />
+						<input type="radio" name="permission" id="radio2" value="222" disabled="disabled"  />
 			 			スタッフ
 			<?php   }
 					else if($edit_data_rows['permission']==222 || isset($edit_data_rows['permission'])==false) { ?>

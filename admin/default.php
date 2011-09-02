@@ -24,6 +24,7 @@
 			mysql_query($sql);
 		}
 	}
+/*
 	$tablename['name'] = $_POST['name'];
 	if($_POST['edit_table_name'] !='' && $_POST['name'] !="")
 	{
@@ -32,7 +33,7 @@
 		   echo '<script> alert("卓名が変更されました"); </script>';
 		   unset($post);
 	}
-
+*/
 	if(isset($post['name']) && $post['name'] != '')
 	{
 		$id = (int)$post['insert_edit'];
@@ -64,7 +65,9 @@
 		{
 			if(checkTableDuplicasy($post['name'] , $id ))
 			{
-				$obj->UpdateData("spssp_tables_name", $post," id=".$id);
+	            $sql = "update spssp_tables_name set name ='".$post['name']."' where id=".$id;
+	            echo $sql;
+	            mysql_query($sql);
 				echo '<script> alert("卓名が変更されました"); </script>';
 				//$msg = 4;
 			}
@@ -83,6 +86,7 @@
 		$move = $get['move'];
 		if($move=="down") $move="up"; else $move="down";
 		$obj->sortItem($table,$id,$move);
+		redirect("default.php");
 	}
 	if(isset($get['action']) && $get['action'] !== '' && $get['action'] == "delete")
 	{
@@ -443,7 +447,8 @@ include("inc/return_dbcon.inc.php");
 				<table width="100%" border="0" cellspacing="1" cellpadding="4">
 				  <tr>
   <?php 				if ($InputArea=="") { ?>
-				    <td width="563" align="leftr" valign="middle"><p>　　　<a href="#"><img  onclick="validForm();"; border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg"></a>　　<a href="#"><img  onclick="clearForm()"; border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg"></a></p></td> <?php } ?>
+				    <td width="563" align="leftr" valign="middle"><p>　　　<a href="#"><img  onclick="validForm();"; border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg">
+				    </a>　　<a href="#"><img  onclick="clearForm()"; border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg"></a></p></td> <?php } ?>
 			      </tr>
 				</table>
 
