@@ -128,21 +128,28 @@ var table_array=new Array();
 */
 			table_array[loop]="name_"+loop+"="+table_name+"&id_"+loop+"="+table_id;
 		}
-	$("#loading_td").show();
+//	$("#loading_td").show();
 	var	table_string=table_array.join("&");
 	//alert(table_string);
 	$.post('table_layout.php',{'layoutname':layoutname_ajax,'ajax':"ajax"}, function(data){
-				$("#user_layoutname").html(layoutname_ajax);
-				$("#layoutname").val(layoutname_ajax);
-			});
+		if (layoutname_ajax=="" || !isset(layoutname_ajax)) layoutname_ajax = "　　　";
+		$("#user_layoutname").html(layoutname_ajax);
+		$("#default_layout_title").html(layoutname_ajax);
+		$("#img_default_layout_title").val(layoutname_ajax);
+		});
 
-	$.get('ajax/plan_table_name_update_all.php?total_table='+num+"&"+table_string, function(data){
+$.get('ajax/plan_table_name_update_all.php?total_table='+num+"&"+table_string, function(data){
 
-			$("#table_information").html(data);
-			$("#loading_td").hide();
-			alert("更新されました");
-			return false;
-			});
+	$("#table_information").html(data);
+//	$("#loading_td").hide();
+
+	$("#user_layoutname").html(layoutname_ajax);
+	$("#default_layout_title").html(layoutname_ajax);
+	$("#img_default_layout_title").val(layoutname_ajax);
+
+	alert("更新されました");
+	return true;
+	});
 
 
 }
@@ -401,6 +408,7 @@ function user_layout_title_input_show(id)
 		</td>
 		</tr>
 		<br />
+		<br />
 		<tr>
 			<td colspan="4" align="center">
 			高砂卓名： <!-- UCHIDA EDIT 11/08/04  -->
@@ -605,7 +613,7 @@ function user_layout_title_input_show(id)
                     foreach($table_rows as $table_row)
                     {
                     	$new_name_row = $obj->GetSingleRow("spssp_user_table", " user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
-                      
+
 
                       $tblname='';
 							//print_r($new_name_row);//exit;
