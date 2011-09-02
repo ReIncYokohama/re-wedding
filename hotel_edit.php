@@ -36,8 +36,6 @@ if($_POST["hotel_name"])
 
     if(!$hotel_row){
       $obj->InsertData("spssp_admin", $data);
-    }else{
-      $obj->UpdateData("spssp_admin", $data, "id=".$hotel_row["id"]);
     }
     mysql_close($link);
 

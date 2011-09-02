@@ -9,7 +9,7 @@
 
 	if($_GET['action']=='failed')
 	{
-		echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください。"); </script>';
+		echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください"); </script>';
 		//redirect("index.php");
 	}
 
