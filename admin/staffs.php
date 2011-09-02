@@ -139,7 +139,7 @@
 
 					$msg = 2;
 					$obj->UpdateData('spssp_admin',$post,"id=".$_POST['id']);
-          
+
           $upd_data = array();
           $upd_data["adminid"] = $post["username"];
           $upd_data["password"] = $post["password"];
@@ -716,7 +716,7 @@ include("inc/return_dbcon.inc.php");
 					<?php if($edit_data_rows['permission']==333){ ?>
 						<input type="radio" name="permission" id="radio2" value="333" checked="checked"  disabled="disabled" />
 						管理者
-						<input type="radio" name="permission" id="radio2" value="222" checked="checked"  disabled="disabled"  />
+						<input type="radio" name="permission" id="radio2" value="222" disabled="disabled"  />
 			 			スタッフ
 			<?php   }
 					else if($edit_data_rows['permission']==222 || isset($edit_data_rows['permission'])==false) { ?>
