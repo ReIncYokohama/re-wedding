@@ -66,7 +66,7 @@
 			if(checkTableDuplicasy($post['name'] , $id ))
 			{
 	            $sql = "update spssp_tables_name set name ='".$post['name']."' where id=".$id;
-	            echo $sql;
+//	            echo $sql;
 	            mysql_query($sql);
 				echo '<script> alert("卓名が変更されました"); </script>';
 				//$msg = 4;
