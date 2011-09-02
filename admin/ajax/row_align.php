@@ -17,7 +17,7 @@ if($_POST['default_plan_id']!=0)
 	$sql_select="select * from spssp_table_layout where  default_plan_id=".(int)$_POST['default_plan_id']." and row_order=".(int)$_POST['row_order'];
 else
 	$sql_select="select * from spssp_table_layout where  row_order=".(int)$_POST['row_order']." and user_id=".(int)$_POST['user_id'];	
-
+/*
 if($arr['align']=="N")
 {
 	
@@ -47,5 +47,5 @@ else
 			}
 		}
 
-}
+    }*/
 ?>

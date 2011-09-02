@@ -1206,10 +1206,6 @@ include("inc/return_dbcon.inc.php");
                 	</select>-->
                 </td>
             </tr>
-
-
-
-
             <tr>
               <td width="192" align="left" valign="middle" nowrap="nowrap">ログインID</td>
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
@@ -1474,7 +1470,7 @@ include("inc/return_dbcon.inc.php");
                     $num_max = $obj->GetSingleData("spssp_table_layout", "column_order "," user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
                     $num_none = $num_max-$num_last+$num_first-1;
 
-                    if($ralign == 'L')
+                    if($ralign == 'L' or $ralign == "N")
                       {
                         $styles = 'float:left;';
                       }
@@ -1512,7 +1508,7 @@ include("inc/return_dbcon.inc.php");
 
                         if($table["display"] == 1){
                           $disp = 'display:block;';
-                        }else if($num_first <= $table["column_order"] && $table["column_order"]<=$num_last){
+                        }else if(($num_first <= $table["column_order"] && $table["column_order"]<=$num_last) or $ralign == "N"){
                           $disp = "visibility:hidden";
                         }else{
                           $disp = "display:none";

@@ -15,21 +15,21 @@ $plan_id = (int)$get['plan_id'];
 $stuff_id= (int)$get['stuff_id'];
 
 if($default_plan_id > 0)
-{
-	$plan_row = $obj->GetSingleRow("spssp_default_plan", " id=".(int)$default_plan_id);
+  {
+    $plan_row = $obj->GetSingleRow("spssp_default_plan", " id=".(int)$default_plan_id);
 
-}
+  }
 else if($plan_id > 0)
-{
-	$plan_row = $obj->GetSingleRow("spssp_plan", " id=".(int)$plan_id);
-	$user_id = (int)$get['user_id'];
-}
+  {
+    $plan_row = $obj->GetSingleRow("spssp_plan", " id=".(int)$plan_id);
+    $user_id = (int)$get['user_id'];
+  }
 
 
 if(!isset($plan_row['id']))
-{
-	echo "<script type='text/javascript'>alert('Please Define Plan Criteria First'); window.location='users.php';</script>";
-}
+  {
+    echo "<script type='text/javascript'>alert('Please Define Plan Criteria First'); window.location='users.php';</script>";
+  }
 
 
 
@@ -48,7 +48,7 @@ $table_rows = $obj->getRowsByQuery("select * from spssp_default_plan_table where
 
 
 /*if($num_layouts <= 0)
-{
+  {
 
 	$row_ord = 1;
 	$column_ord = 1;
@@ -57,33 +57,33 @@ $table_rows = $obj->getRowsByQuery("select * from spssp_default_plan_table where
 	for($i = 1; $i<= (int)$room_rows; $i++)
 	{
 
-		for($j=1; $j<= (int)$room_tables; $j++)
-		{
-			$tr = array_shift($table_rows);
+  for($j=1; $j<= (int)$room_tables; $j++)
+  {
+  $tr = array_shift($table_rows);
 
-			$lo_arr['plan_id'] = $plan_row['id'];
-			$lo_arr['table_id'] = $tr['id'];
+  $lo_arr['plan_id'] = $plan_row['id'];
+  $lo_arr['table_id'] = $tr['id'];
 
-			$lo_arr['visibility'] = 1;
-			$lo_arr['row_order'] = $i;
-			$lo_arr['column_order'] = $j;
-			$lo_arr['name'] = $tr['name'];
-			$lo_arr['default_plan_id'] = $default_plan_id;
+  $lo_arr['visibility'] = 1;
+  $lo_arr['row_order'] = $i;
+  $lo_arr['column_order'] = $j;
+  $lo_arr['name'] = $tr['name'];
+  $lo_arr['default_plan_id'] = $default_plan_id;
 
-			$lid = $obj->InsertData("spssp_table_layout", $lo_arr);
+  $lid = $obj->InsertData("spssp_table_layout", $lo_arr);
 
-		}
+  }
 
 	}
-}*/
+  }*/
 if($default_plan_id > 0)
-{
-	$tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where default_plan_id= ".(int)$default_plan_id);
-}
+  {
+    $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where default_plan_id= ".(int)$default_plan_id);
+  }
 else if($plan_id > 0)
-{
-	$tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
-}
+  {
+    $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
+  }
 
 //$r = 1;
 
@@ -91,85 +91,85 @@ else if($plan_id > 0)
 
 <link rel="stylesheet" type="text/css" href="../css/jquery.ui.all.css">
 
-<link href="../css/choose_plan.css" rel="stylesheet" type="text/css" />
+  <link href="../css/choose_plan.css" rel="stylesheet" type="text/css" />
 
-<script src="../js/jquery-1.4.2.js" type="text/javascript"></script>
-<script src="../js/jquery.ui.position.js" type="text/javascript"></script>
-<script src="../js/jquery.ui.core.js" type="text/javascript"></script>
-<script src="../js/jquery.ui.widget.js" type="text/javascript"></script>
-<script src="../js/jquery.ui.mouse.js" type="text/javascript"></script>
-<script src="../js/jquery.ui.draggable.js" type="text/javascript"></script>
-<script src="../js/jquery.ui.droppable.js" type="text/javascript"></script>
-<script src="../js/jquery.ui.resizable.js" type="text/javascript"></script>
-<script src="../js/jquery.ui.dialog.js" type="text/javascript"></script>
-<link rel="stylesheet" href="../css/demos.css" type="text/css">
+  <script src="../js/jquery-1.4.2.js" type="text/javascript"></script>
+  <script src="../js/jquery.ui.position.js" type="text/javascript"></script>
+  <script src="../js/jquery.ui.core.js" type="text/javascript"></script>
+  <script src="../js/jquery.ui.widget.js" type="text/javascript"></script>
+  <script src="../js/jquery.ui.mouse.js" type="text/javascript"></script>
+  <script src="../js/jquery.ui.draggable.js" type="text/javascript"></script>
+  <script src="../js/jquery.ui.droppable.js" type="text/javascript"></script>
+  <script src="../js/jquery.ui.resizable.js" type="text/javascript"></script>
+  <script src="../js/jquery.ui.dialog.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="../css/demos.css" type="text/css">
 
-<script>
-var dragged_id;
+  <script>
+  var dragged_id;
 var is_guest_exist = 0;
 $(function(){
 
 
-$( "#table_edit_name" ).dialog({
-	autoOpen: false,
-	height: 200,
-	width: 420,
-	//show: "blind",
-	//hide: "explode",
-	modal: true,
-	buttons: {
-		"保存": function() {
-				var tnid = $("#table_name").val();
-				var name = $("#table_name :selected").text();
-				var id = $("#table_id").val();
+    $( "#table_edit_name" ).dialog({
+      autoOpen: false,
+          height: 200,
+          width: 420,
+          //show: "blind",
+          //hide: "explode",
+          modal: true,
+          buttons: {
+          "保存": function() {
+            var tnid = $("#table_name").val();
+            var name = $("#table_name :selected").text();
+            var id = $("#table_id").val();
 
 
-				$("#table_"+id+ " a").html(name+"<span id = 'tnameid' style= 'display:none'>"+tnid+"</span>");
+            $("#table_"+id+ " a").html(name+"<span id = 'tnameid' style= 'display:none'>"+tnid+"</span>");
 
-				var user_id = $("#user_id").val();
+            var user_id = $("#user_id").val();
 
-				$.post('ajax/edit_table_name.php', {'tnid': tnid,'id':id,'user_id':user_id}, function(data) {
+            $.post('ajax/edit_table_name.php', {'tnid': tnid,'id':id,'user_id':user_id}, function(data) {
 
-					//alert(data);
-					/*if(parseInt(data) > 0)
-					{
-						$("#table_"+id+ " a").removeAttr('onclick');
-						$("#table_"+id+ " a").click(function(){
-							edit_table_name(id,name);
-						});
-					}*/
-				});
+                //alert(data);
+                /*if(parseInt(data) > 0)
+                  {
+                  $("#table_"+id+ " a").removeAttr('onclick');
+                  $("#table_"+id+ " a").click(function(){
+                  edit_table_name(id,name);
+                  });
+                  }*/
+              });
 
-				$( this ).dialog( "close" );
-
-
-		},
-		"キャンセル": function() {
-
-			$( this ).dialog( "close" );
-		},
-		"閉じる":function() {
-
-			$( this ).dialog( "close" );
-		}
-	},
-	close: function() {
-
-	}
-});
+            $( this ).dialog( "close" );
 
 
-var flag = false;
+          },
+            "キャンセル": function() {
+
+              $( this ).dialog( "close" );
+            },
+              "閉じる":function() {
+
+                $( this ).dialog( "close" );
+              }
+        },
+          close: function() {
+
+        }
+      });
+
+
+    var flag = false;
 
 
 
-$(".rows").filter(":first").css("border-top","1px solid #666666");
+    $(".rows").filter(":first").css("border-top","1px solid #666666");
 
-//$("div#toptst :first").css("border-left","solid 1px #666666");
-/* Drag and Drop Starts Here//   Dragging */
-/*var drop_divid = "";
-$( ".tables").draggable({
-			 cancel:'.drag_false',
+    //$("div#toptst :first").css("border-left","solid 1px #666666");
+    /* Drag and Drop Starts Here//   Dragging */
+    /*var drop_divid = "";
+      $( ".tables").draggable({
+      cancel:'.drag_false',
 			revert: "invalid", // when not dropped, the item will revert back to its initial position
 			//containment: $( "#demo-frame" ).length ? "#demo-frame" : "document", // stick to demo-frame if present
 			helper: "clone",
@@ -177,103 +177,103 @@ $( ".tables").draggable({
 			opacity:.8
 
 			});
-$(".table_droppable").droppable({
+      $(".table_droppable").droppable({
 			activeClass: "ui-state-highlight",
 			over: function (event, ui){
-				//divid = "#"+this.id;
-				$(this).css("border","solid 1px red");
-				drop_divid = this.id;
+      //divid = "#"+this.id;
+      $(this).css("border","solid 1px red");
+      drop_divid = this.id;
 
 
 			},
 			out:function (event, ui){
-				//divid = "#"+this.id;
-				$(this).css("border","0");
+      //divid = "#"+this.id;
+      $(this).css("border","0");
 
 
 			},
 			drop: function( event, ui ) {
-				$(this).css("border","0");
-				dropTable( ui.draggable, drop_divid );
+      $(this).css("border","0");
+      dropTable( ui.draggable, drop_divid );
 			}
 
-		});*/
+      });*/
 
-/*function dropTable($item, drop_divid)
-{
-
-
-	var drag_arr = $($item).attr('id').split("_");
-	var drag_table_id ="#"+$($item).parent().parent().attr('id');
-	var drag_con_arr = drag_table_id.split("_");
-	var drag_row_order = $("#row_"+drag_con_arr[1]).val();
-	var drag_column_order = $("#column_"+drag_con_arr[1]).val();
-	var drag_table = drag_arr[1];
-	var drag_table_display = 0;
-
-	var drga_check_div_id = "#checkcontainer_"+drag_arr[1];
+    /*function dropTable($item, drop_divid)
+      {
 
 
+      var drag_arr = $($item).attr('id').split("_");
+      var drag_table_id ="#"+$($item).parent().parent().attr('id');
+      var drag_con_arr = drag_table_id.split("_");
+      var drag_row_order = $("#row_"+drag_con_arr[1]).val();
+      var drag_column_order = $("#column_"+drag_con_arr[1]).val();
+      var drag_table = drag_arr[1];
+      var drag_table_display = 0;
 
-	$item.fadeOut(function() {
-		var drop_table_id = "#"+$("#"+drop_divid).parent().attr('id');
-		var drop_con_arr = 	drop_table_id.split("_");
-		var arr = drop_divid.split("_");
-
-		var drop_row_order = $("#row_"+drop_con_arr[1]).val();
-		var drop_column_order = $("#column_"+drop_con_arr[1]).val();
-		var drop_table = arr[1];
-
-		var drop_id = arr[1];
-
-		var tabledisplay = $("#tbl_"+drop_id).css('display');
-
-		var drag_html = $(drag_table_id).html();
-		var drop_html = $(drop_table_id).html();
-
-		$(drag_table_id).html(drop_html);
-
-		$(drop_table_id).html(drag_html);
-
-		var drop_check_div_id = "#checkcontainer_"+drop_id;
-
-		var drag_check_html =  $(drga_check_div_id).html();
-		var drop_check_html = $(drop_check_div_id).html();
-
-
-		$(drga_check_div_id).html(drop_check_html);
-
-		$(drop_check_div_id).html(drag_check_html);
-
-		flag = true;
+      var drga_check_div_id = "#checkcontainer_"+drag_arr[1];
 
 
 
-		$(drop_table_id+ " .tables").fadeOut(1);
-		$(drop_table_id+ " .tables").fadeIn(100, function(){
+      $item.fadeOut(function() {
+      var drop_table_id = "#"+$("#"+drop_divid).parent().attr('id');
+      var drop_con_arr = 	drop_table_id.split("_");
+      var arr = drop_divid.split("_");
 
-		});
-		$(drop_table_id+ " .tables").css("opacity",1);
+      var drop_row_order = $("#row_"+drop_con_arr[1]).val();
+      var drop_column_order = $("#column_"+drop_con_arr[1]).val();
+      var drop_table = arr[1];
 
-		var drop_table_display = 1;
-		if(tabledisplay !='none')
-		{
+      var drop_id = arr[1];
+
+      var tabledisplay = $("#tbl_"+drop_id).css('display');
+
+      var drag_html = $(drag_table_id).html();
+      var drop_html = $(drop_table_id).html();
+
+      $(drag_table_id).html(drop_html);
+
+      $(drop_table_id).html(drag_html);
+
+      var drop_check_div_id = "#checkcontainer_"+drop_id;
+
+      var drag_check_html =  $(drga_check_div_id).html();
+      var drop_check_html = $(drop_check_div_id).html();
+
+
+      $(drga_check_div_id).html(drop_check_html);
+
+      $(drop_check_div_id).html(drag_check_html);
+
+      flag = true;
+
+
+
+      $(drop_table_id+ " .tables").fadeOut(1);
+      $(drop_table_id+ " .tables").fadeIn(100, function(){
+
+      });
+      $(drop_table_id+ " .tables").css("opacity",1);
+
+      var drop_table_display = 1;
+      if(tabledisplay !='none')
+      {
 			$(drag_table_id+" .tables").fadeIn(100);
 
 			drag_table_display = 1;
-		}
-		else
-		{
+      }
+      else
+      {
 			drag_table_display= 0;
-		}
+      }
 
-		$.post('ajax/set_table_layout_session.php',{'drag_row_order':drag_row_order,'drag_column_order':drag_column_order,'drag_table':drag_table,'drop_row_order':drop_row_order,'drop_column_order':drop_column_order,'drop_table':drop_table,'drop_table_display':drop_table_display,'drag_table_display':drag_table_display},
-		function (data){
+      $.post('ajax/set_table_layout_session.php',{'drag_row_order':drag_row_order,'drag_column_order':drag_column_order,'drag_table':drag_table,'drop_row_order':drop_row_order,'drop_column_order':drop_column_order,'drop_table':drop_table,'drop_table_display':drop_table_display,'drag_table_display':drag_table_display},
+      function (data){
 
-		});
+      });
 
-		if(flag== true)
-		{
+      if(flag== true)
+      {
 			var drag_check_id = $(drga_check_div_id+' input').attr('id');
 
 			var drag_check_id_arr = drag_check_id.split("_");
@@ -286,12 +286,12 @@ $(".table_droppable").droppable({
 
 			$(drop_check_div_id).attr('id','checkcontainer_'+drop_check_id_arr[1]);
 			$('testchk').attr('id','checkcontainer_'+drag_check_id_arr[1]);
-		}
+      }
 
 
 
-		$( ".tables").draggable({
-			 cancel:'.dragfalse',
+      $( ".tables").draggable({
+      cancel:'.dragfalse',
 			revert: "invalid", // when not dropped, the item will revert back to its initial position
 			//containment: $( "#demo-frame" ).length ? "#demo-frame" : "document", // stick to demo-frame if present
 			helper: "clone",
@@ -300,35 +300,35 @@ $(".table_droppable").droppable({
 
 			});
 
-		$(".table_droppable").droppable({
+      $(".table_droppable").droppable({
 			activeClass: "ui-state-highlight",
 			over: function (event, ui){
-				//divid = "#"+this.id;
-				$(this).css("border","solid 1px red");
-				drop_divid = this.id;
+      //divid = "#"+this.id;
+      $(this).css("border","solid 1px red");
+      drop_divid = this.id;
 
 
 			},
 			out:function (event, ui){
-				//divid = "#"+this.id;
-				$(this).css("border","0");
+      //divid = "#"+this.id;
+      $(this).css("border","0");
 
 
 			},
 			drop: function( event, ui ) {
-				$(this).css("border","0");
-				dropTable( ui.draggable, drop_divid );
+      $(this).css("border","0");
+      dropTable( ui.draggable, drop_divid );
 			}
 
-		});
+      });
 
 
 
-	});
+      });
 
-}*/
+      }*/
 
-});
+  });
 
 
 function edit_table_name(id)
@@ -338,17 +338,17 @@ function edit_table_name(id)
 	var newname_id = $("#table_"+id+ " a span").html();
 
 	if(newname_id > 0)
-	{
+    {
 
-		$("#table_edit option").each(function (){
-			if(parseInt($(this).val()) == parseInt(newname_id))
-			{
-				$(this).attr('selected','selected');
-			}
-		});
+      $("#table_edit option").each(function (){
+          if(parseInt($(this).val()) == parseInt(newname_id))
+            {
+              $(this).attr('selected','selected');
+            }
+        });
 
 
-	}
+    }
 	$("#table_edit_name").dialog("open");
 
 }
@@ -363,7 +363,7 @@ function viewTable(id)
 
 	$.post('ajax/table_layout_visibility.php', {'id':id, 'visibility':1}, function(data) {
 
-	});
+    });
 
 }
 function removeTable(id,dtid)
@@ -372,24 +372,24 @@ function removeTable(id,dtid)
 
 	$.post('ajax/check_plan_guest.php',{'tid':dtid,'user_id':user_id}, function(data){
 
-		if(parseInt(data) > 0)
-		{
-			alert("全て卓の招待者を削除してください");
-			$("#display_"+tid).attr("checked","checked");
-		}
-		else
-		{
-		var tableid = 'tbl_'+id;
-			$("#"+tableid).fadeOut(1000, function(){
-				$("#"+tableid).parent().css("background-image","url(img/circle_big1.jpg)");
-				$("#"+tableid).next().html("<a href = '#' onclick='viewTable("+id+")'> 表示</a>");
-				$("#"+tableid).next().show();
-			});
-			$.post('ajax/table_layout_visibility.php', {'id':id, 'visibility':0}, function(data) {
+      if(parseInt(data) > 0)
+        {
+          alert("全て卓の招待者を削除してください");
+          $("#display_"+tid).attr("checked","checked");
+        }
+      else
+        {
+          var tableid = 'tbl_'+id;
+          $("#"+tableid).fadeOut(1000, function(){
+              $("#"+tableid).parent().css("background-image","url(img/circle_big1.jpg)");
+              $("#"+tableid).next().html("<a href = '#' onclick='viewTable("+id+")'> 表示</a>");
+              $("#"+tableid).next().show();
+            });
+          $.post('ajax/table_layout_visibility.php', {'id':id, 'visibility':0}, function(data) {
 
-			});
-		}
-	});
+            });
+        }
+    });
 }
 function deleteTable(tid,dtid,ralign)
 {
@@ -398,31 +398,31 @@ function deleteTable(tid,dtid,ralign)
 
 	$.post('ajax/check_plan_guest.php',{'tid':dtid,'user_id':user_id}, function(data){
 
-		if(parseInt(data) > 0)
-		{
-			alert("卓に招待者が設定されています。\n削除する前に、席次表編集にて卓を空にしてください");
-			$("#display_"+tid).attr("checked","checked");
-		}
-		else
-		{
-			if($("#display_"+tid).is(':checked') == true)
-			{
-				$(table_div).css('visibility','visible');
-				$(table_div).fadeIn(500,function(){});
-				$.post('ajax/table_layout_visibility.php', {'id':tid, 'display':1,'ralign':ralign}, function(data) {
+      if(parseInt(data) > 0)
+        {
+          alert("卓に招待者が設定されています。\n削除する前に、席次表編集にて卓を空にしてください");
+          $("#display_"+tid).attr("checked","checked");
+        }
+      else
+        {
+          if($("#display_"+tid).is(':checked') == true)
+            {
+              $(table_div).css('visibility','visible');
+              $(table_div).fadeIn(500,function(){});
+              $.post('ajax/table_layout_visibility.php', {'id':tid, 'display':1,'ralign':ralign}, function(data) {
 
-				});
-			}
-			else
-			{
-				$(table_div).fadeOut(500,function(){});
-				$.post('ajax/table_layout_visibility.php', {'display':0,'id':tid,'ralign':ralign},function (data){
+                });
+            }
+          else
+            {
+              $(table_div).fadeOut(500,function(){});
+              $.post('ajax/table_layout_visibility.php', {'display':0,'id':tid,'ralign':ralign},function (data){
 
-				});
-			}
-		}
+                });
+            }
+        }
 
-	});
+    });
 
 
 
@@ -433,7 +433,7 @@ function change_align(order,default_plan_id,user_id,align)
 {
 
 
-		$.post('ajax/row_align.php', {'row_order':order, 'align':align,'default_plan_id':default_plan_id,'user_id':user_id}, function(data) {
+  $.post('ajax/row_align.php', {'row_order':order, 'align':align,'default_plan_id':default_plan_id,'user_id':user_id}, function(data) {
 
 
 		});
@@ -442,204 +442,203 @@ function change_align(order,default_plan_id,user_id,align)
 }
 </script>
 <style>
-	.abc
-	{
-		width:100px;
-	}
+.abc
+{
+width:100px;
+}
 
-	.tables
-	{
-		height:72px;
-		width: 72px;
-		float:left;
+.tables
+{
+height:72px;
+width: 72px;
+  float:left;
 
-		background-image:url(img/circle_big.jpg);
+  background-image:url(img/circle_big.jpg);
 
-	}
+}
 
-	.display_chk
-	{
-	width:20px;
+.display_chk
+{
+width:20px;
 	text-align:center;
 	float:left;
-	height:70px;
-	}
-	.display_chk input
-	{
+height:70px;
+}
+.display_chk input
+{
 	vertical-align:middle;
-	width:15px;
+width:15px;
 	margin-top:30px;
-	}
-	.table_droppable
-	{
-		width:72px;
-		border:0;
+}
+.table_droppable
+{
+width:72px;
+border:0;
 
-	}
-	.row_center
-	{
+}
+.row_center
+{
 	float:left;
-	width:100%;
+width:100%;
 	text-align:left;
-	}
+}
 
 </style>
 
 <div id="topnavi">
-    <?php
-include("inc/main_dbcon.inc.php");
+  <?php
+  include("inc/main_dbcon.inc.php");
 $hcode=$HOTELID;
 $hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
 ?>
 <h1><?=$hotel_name?></h1>
-<?
-include("inc/return_dbcon.inc.php");
+  <?
+  include("inc/return_dbcon.inc.php");
 ?>
 
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
-<div id="container">
-    <div id="contents">
-   <div style="font-size:18; font-weight:bold; width:250px;">
+<div id="top_btn">
+  <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
+  <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
+  </div>
+  </div>
+  <div id="container">
+  <div id="contents">
+  <div style="font-size:18; font-weight:bold; width:250px;">
  	<?php
 	$user_id0=$get['user_id'];
-	$user_row = $obj->GetSingleRow("spssp_user"," id= $user_id0");	?>
+$user_row = $obj->GetSingleRow("spssp_user"," id= $user_id0");	?>
 
 
-  <?php  echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1",$height=20);?>
+<?php  echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1",$height=20);?>
 ・
-  <?php  echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20);?>
-  様
+<?php  echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20);?>
+様
 
-    </div>
-   <div style="width:1200px; font-size:18; font-weight:bold;"> <h2>
-<!-- UCHIDA EDIT 11/08/02
-            	 <a href="users.php">お客様一覧</a> &raquo;<a href="set_table_layout.php?plan_id=<?=$plan_row['id']?>&user_id=<?=(int)$get['user_id']?>"> お客様挙式情報 </a> &raquo;  卓レイアウト設定　
--->
-            	 <a href="manage.php">ＴＯＰ</a> &raquo;<a href="user_info.php?user_id=<?=(int)$get['user_id']?>&stuff_id=<?=$stuff_id?>"> お客様挙式情報 </a> &raquo;  卓レイアウト
-        </h2></div>
-        <div class="box_table" style="width:800px;">
-        	<div class="bottom_line_box">
-        		<?php
-                $rooms = $obj->GetAllRow("spssp_room");
+</div>
+<div style="width:1200px; font-size:18; font-weight:bold;"> <h2>
+  <!-- UCHIDA EDIT 11/08/02
+  <a href="users.php">お客様一覧</a> &raquo;<a href="set_table_layout.php?plan_id=<?=$plan_row['id']?>&user_id=<?=(int)$get['user_id']?>"> お客様挙式情報 </a> &raquo;  卓レイアウト設定　
+  -->
+  <a href="manage.php">ＴＯＰ</a> &raquo;<a href="user_info.php?user_id=<?=(int)$get['user_id']?>&stuff_id=<?=$stuff_id?>"> お客様挙式情報 </a> &raquo;  卓レイアウト
+  </h2></div>
+  <div class="box_table" style="width:800px;">
+                                                                                                                                                           <div class="bottom_line_box">
+                                                                                                                                                           <?php
+                                                                                                                                                           $rooms = $obj->GetAllRow("spssp_room");
 
-				if(is_array($rooms))
-				{
-					foreach($rooms as $room)
-					{
-						if($room['id']==$user_row['room_id'])
-						{
-						  // echo $room['name'];
-						   $room_name = $room['name'];
-						   $roomName = $room['name'];
-						}
-						//else
-						// echo "<option value ='".$room['id']."'> ".$room['name']."</option>";
+if(is_array($rooms))
+  {
+    foreach($rooms as $room)
+      {
+        if($room['id']==$user_row['room_id'])
+          {
+            // echo $room['name'];
+            $room_name = $room['name'];
+            $roomName = $room['name'];
+          }
+        //else
+        // echo "<option value ='".$room['id']."'> ".$room['name']."</option>";
 
-					}
-				}
+      }
+  }
 
-			?>
-
-
-                <p class="txt2">会場名：<?=$roomName;?>　　最大卓数：横<?=$room_tables?>列 × 縦<?=$room_rows?>段　　一卓人数：<?=$room_seats?>名まで</p>
-        	</div>
-
-        </div>
-
-        <div class="box_table" style="width:800px; font-size: 12px;">
-        		<h2>卓レイアウト設定</h2>
-        	  		<br />
-        		●会場の最大卓数が表示されます。不要な卓はチェックを外して削除してください。
-            </p>
-        </div>
+?>
 
 
+<p class="txt2">会場名：<?=$roomName;?>　　最大卓数：横<?=$room_tables?>列 × 縦<?=$room_rows?>段　　一卓人数：<?=$room_seats?>名まで</p>
+  </div>
 
-        <div style="width:1000px; float:left; text-align:center; font-size: 12px;">
-        	<form action="set_table_layout_edit.php" method="post">
-            <div style="width:<?=$row_width?>px; margin:0 auto;" id="toptstaa">
-                <?php
-                    foreach($tblrows as $tblrow)
-                    {
-                        if($default_plan_id > 0)
-						{
-                        	$ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and default_plan_id=".(int)$default_plan_id." limit 1");
-						}
-						else if($plan_id > 0)
-						{
-							$ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".$user_id." limit 1");
-						}
-                        if($ralign==0)
-                        {
-                            $row_chk = "checked='checked'";
-                        }
-                        else
-                        {
-                            $row_chk = "";
-                        }
-                ?>
-                    <div class="rows" style="float:left;width:100%;" id="row_<?=$tblrow['row_order']?>">
-                    	<div class="row_center" >
-                        <!--<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>" name="rowcenter_<?=$tblrow['row_order']?>" value="L" <?php if($ralign=='L' || $ralign=='') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'L')" /> 左寄せ &nbsp;-->
-                        	<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="C"  <?php if($ralign=='C') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'C')" /> 中央配置 &nbsp;
-                            <!--<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"  <?php if($ralign=='R') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'R')" /> 右寄せ-->
-							<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"  <?php if($ralign=='N') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'N')" /> そのまま
+  </div>
+
+  <div class="box_table" style="width:800px; font-size: 12px;">
+  <h2>卓レイアウト設定</h2>
+  <br />
+  ●会場の最大卓数が表示されます。不要な卓はチェックを外して削除してください。
+  </p>
+  </div>
 
 
-                    	</div>
 
-                        <?php
-                        	if($default_plan_id > 0)
-							{
-                            	$table_rows = $obj->getRowsByQuery("select * from spssp_table_layout where default_plan_id = ".(int)$default_plan_id." and row_order=".$tblrow['row_order']." order by  column_order asc");
-							}
-							else if($plan_id > 0)
-							{
-								$table_rows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".$user_id." and row_order=".$tblrow['row_order']." order by  column_order asc");
-							}
+  <div style="width:1000px; float:left; text-align:center; font-size: 12px;">
+  <form action="set_table_layout_edit.php" method="post">
+  <div style="width:<?=$row_width?>px; margin:0 auto;" id="toptstaa">
+  <?php
+  foreach($tblrows as $tblrow)
+{
+  if($default_plan_id > 0)
+    {
+      $ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and default_plan_id=".(int)$default_plan_id." limit 1");
+    }
+  else if($plan_id > 0)
+    {
+      $ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".$user_id." limit 1");
+    }
+  if($ralign==0)
+    {
+      $row_chk = "checked='checked'";
+    }
+  else
+    {
+      $row_chk = "";
+    }
+  ?>
+  <div class="rows" style="float:left;width:100%;" id="row_<?=$tblrow['row_order']?>">
+  <div class="row_center" >
+  <!--<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>" name="rowcenter_<?=$tblrow['row_order']?>" value="L" <?php if($ralign=='L' || $ralign=='') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'L')" /> 左寄せ &nbsp;-->
+  <input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="C"  <?php if($ralign=='C') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'C')" /> 中央配置 &nbsp;
+  <!--<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"  <?php if($ralign=='R') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'R')" /> 右寄せ-->
+  <input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"  <?php if($ralign=='N') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'N')" /> そのまま
 
-                            foreach($table_rows as $table_row)
-                            {
 
-								if($default_plan_id > 0)
-								{
-									$new_name_row = $obj->GetSingleRow("spssp_user_table", "default_plan_id = ".(int)$default_plan_id." and default_table_id=".$table_row['id']);
-								}
-								else if($plan_id > 0)
-								{
-									$new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
-								}
+  </div>
 
-								if(isset($new_name_row) && $new_name_row['id'] !='')
-								{
-									$tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-									$tblname = $tblname_row['name'];
-									$tblname .= " &nbsp; <span style = 'display:none;'>".$tblname_row['id']." </span>";
-								}
-								else
-								{
-									$tblname = $table_row['name'];
-								}
+  <?php
+  if($default_plan_id > 0)
+    {
+      $table_rows = $obj->getRowsByQuery("select * from spssp_table_layout where default_plan_id = ".(int)$default_plan_id." and row_order=".$tblrow['row_order']." order by  column_order asc");
+    }
+  else if($plan_id > 0)
+    {
+      $table_rows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".$user_id." and row_order=".$tblrow['row_order']." order by  column_order asc");
+    }
 
-								if($table_row['display']==1)
-								{
+  foreach($table_rows as $table_row)
+    {
 
-									$disp = 'display:block;';
-									$disp1 = 'display:block;';
-								}
-								else
-								{
-									$disp = 'display:none;';
-									$disp1 = 'visibility:hidden;';
-								}
-								if($table_row['display']==1)
-								{
-									$chk = 'checked="checked" ';
-								}
+      if($default_plan_id > 0)
+        {
+          $new_name_row = $obj->GetSingleRow("spssp_user_table", "default_plan_id = ".(int)$default_plan_id." and default_table_id=".$table_row['id']);
+        }
+      else if($plan_id > 0)
+        {
+          $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
+        }
+
+      if(isset($new_name_row) && $new_name_row['id'] !='')
+        {
+          $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
+          $tblname = $tblname_row['name'];
+          $tblname .= " &nbsp; <span style = 'display:none;'>".$tblname_row['id']." </span>";
+        }
+      else
+        {
+          $tblname = $table_row['name'];
+        }
+
+      if($table_row['display']==1)
+        {
+          $disp = 'display:block;';
+          $disp1 = 'display:block;';
+        }
+      else
+        {
+          $disp = 'display:none;';
+          $disp1 = 'visibility:hidden;';
+        }
+      if($table_row['display']==1)
+        {
+          $chk = 'checked="checked" ';
+        }
 								else
 								{
 									$chk = '';
@@ -677,22 +676,10 @@ include("inc/return_dbcon.inc.php");
 
 
                                                 <div class="remove_option"  style="position:relative;top:-4px;left:10px;">
-                                                <?php
-                                                    /*if($table_row['visibility']==1)
-                                                    {
-                                                        echo "<a href='#' onclick = 'removeTable(".$table_row['id'].",".$table_row['table_id'].")' class='drag_false'> 削除</a>";
-                                                    }*/
-                                                ?>
                                                 </div>
                                              </div>
                                              <div class = "view_option"  style="position:relative;top:-75px;">
-                                             <?php
-                                                   /* if(($table_row['visibility']== 0))
-                                                    {
-                                                        echo "<a href='javascript:void()' onclick = 'viewTable(".$table_row['id'].")'  class='drag_false'> 表示</a>";
-                                                    }*/
 
-                                                ?>
                                              </div>
                                         </div>
                                     </div>
@@ -711,7 +698,7 @@ include("inc/return_dbcon.inc.php");
           <img src="img/common/btn_save.jpg" onclick="javascript:window.location='user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'">
           <!--					<input type="button" value="保存" onclick="javascript:window.location='user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'"/>-->
                     &nbsp;&nbsp;
-          <img src="img/common/btn_cancel.jpg" onclick="javascript:window.location='user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'">
+          <!--<img src="img/common/btn_cancel.jpg" onclick="javascript:window.location='user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'">-->
          <!--<input type="button" value="戻る" onClick="javascript:history.go(-1)" />-->
                     </div>
             </div>
