@@ -6,7 +6,7 @@ define("DEBUG", "yes");
 	$objMsg = new MessageClass();
 
 //	$query_string="SELECT * FROM spssp_user where party_day >= '".date("Y-m-d")."' and mail != '' and subcription_mail=0;";
-	$query_string="SELECT * FROM spssp_user where party_day >= '".date("Y-m-d")."';";
+	$query_string="SELECT * FROM spssp_user where party_day >= '".date("Y-m-d")."' order by party_day asc;";
 	$data_rows=mysql_query($query_string);
 
 	if (DEBUG!=NULL) echo "ミッドナイトメール　：　".date("Y-m-d")."<br />\n";
