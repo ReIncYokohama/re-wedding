@@ -411,5 +411,19 @@ function get_user_name_image_or_src_from_user_side_make_plan( $user_id ,$hotel_i
 
 		$this->UpdateData('spssp_clicktime',$post,"user_id=".$user_id);
 	}
+// UCHIDA EDIT 11/09/02
+	function get_table_name($id) {
+		$sql = "SELECT * FROM spssp_tables_name where id = ".$id.";"; // name=id
+		$data_rows=mysql_query($sql);
+		$row=mysql_fetch_array($data_rows);
+		return $row['name'];
+	}
+	function get_table_id($name) {
+		$sql = "SELECT * FROM spssp_tables_name where name = '".$name."';"; // name=id
+		$data_rows=mysql_query($sql);
+		$row=mysql_fetch_array($data_rows);
+		return $row['id'];
+	}
+
 }//END OF CLASS_InformationClass
 ?>

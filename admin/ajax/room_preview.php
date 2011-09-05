@@ -2,7 +2,10 @@
 @session_start();
 include_once('../inc/dbcon.inc.php');
 include_once('../inc/class.dbo.php');
+include_once("../inc/class_information.dbo.php");
+
 $obj = new DBO();
+$objInfo = new InformationClass(); // UCHIDA EDIT 11/09/02
 
 $post = $obj->protectXSS($_POST);
 
@@ -38,13 +41,14 @@ else
 
             $room_tables = $obj->GetAllRowsByCondition("spssp_default_plan_table",$where);
 
+
             $names = array();
             foreach($room_tables as $rt)
             {
-//                $names[] = $rt['name'];
-                $names[] = mb_substr($rt['name'], 0,1,'UTF-8');// 先頭の1文字
+//				$names[] = mb_substr($rt['name'], 0,1,'UTF-8');// 先頭の1文字
+				$nm=$objInfo->get_table_name($rt['name']);
+				$names[] = mb_substr($nm, 0,1,'UTF-8');// 先頭の1文字
             }
-
 
     ?>
          <tr>

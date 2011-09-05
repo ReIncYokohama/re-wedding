@@ -2,7 +2,10 @@
 	require_once("inc/class.dbo.php");
 	include_once("inc/checklogin.inc.php");
 	include_once("inc/new.header.inc.php");
+	include_once("inc/class_information.dbo.php");
+
 	$obj = new DBO();
+	$objInfo = new InformationClass(); // UCHIDA EDIT 11/09/02
 
 	$table='spssp_room';
 	$where = " 1=1";
@@ -19,12 +22,11 @@
 			{
 					$tid  = $rt['id'];
 					$arr['name'] =$_POST["table_name_".$tid];
-
+					$arr2['id'] = $objInfo->get_table_id($arr['name']);
 					if(isset($tid) && $tid > 0 && $arr['name']!="")
 					{
-
-						$rrr=$obj->UpdateData("spssp_default_plan_table", $arr, " id = $tid");
-
+						$sql="update spssp_default_plan_table set name='".$arr2['id']."' where id='".$tid."';";
+						mysql_query($sql);
 					}
 			}
 		redirect("rooms.php");
@@ -195,7 +197,7 @@ include("inc/return_dbcon.inc.php");
 					{
 						if(isset($rt['name']) && $rt['name'] !="")
 						{
-							$names[] = $rt['name'];
+							$names[] = $objInfo->get_table_name($rt['name']);
 						}
 						else
 						{

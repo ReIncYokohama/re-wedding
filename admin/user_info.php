@@ -1206,6 +1206,10 @@ include("inc/return_dbcon.inc.php");
                 	</select>-->
                 </td>
             </tr>
+
+
+
+
             <tr>
               <td width="192" align="left" valign="middle" nowrap="nowrap">ログインID</td>
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
@@ -1376,7 +1380,7 @@ include("inc/return_dbcon.inc.php");
 
                   foreach($tblrows as $tblrow)
                     {
-                      
+
                       $ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".(int)$user_id." limit 1");
 
                       $num_none = $obj->GetSingleData("spssp_table_layout", "count(*) "," display=0 and row_order=".$tblrow['row_order']." and default_plan_id=".(int)$plan_row['id']." limit 1");
@@ -1393,7 +1397,7 @@ include("inc/return_dbcon.inc.php");
                         {
                           $width = $row_width - ($num_none*41);
                           $styles = "width:".$width."px;margin: 0 auto;";
-                          
+
                         }
                       else
                         {
@@ -1415,7 +1419,7 @@ include("inc/return_dbcon.inc.php");
                             }
                           else
                             {
-                              $tblname = $table['name'];
+                              //$tblname = $table['name'];
                             }
 
                           if($table["display"] == 1){
@@ -1430,8 +1434,6 @@ include("inc/return_dbcon.inc.php");
                     }
 
                   echo "</div>";
-
-                  
                 }
             }
             else
@@ -1441,7 +1443,7 @@ include("inc/return_dbcon.inc.php");
                 $layout_rows = $obj->GetAllRowsByCondition("spssp_table_layout"," plan_id=".$user_plan_row['id']);
 
                 $num_layouts = $obj->GetNumRows("spssp_table_layout"," default_plan_id=".$user_plan_row['id']);
-                
+
                 $row_width = $user_plan_row['column_number'] *45;
                 echo "<div class='plans' id='plan_".$user_plan_row['id']."' style='width:".$row_width."px;margin:0 auto; display:block;'>";
                 $default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
@@ -1457,20 +1459,20 @@ include("inc/return_dbcon.inc.php");
                   {
                     echo "<p id='img_default_layout_title' style='text-align:center'><img src='img/sakiji_icon/icon_takasago.gif' width='102' height='22' /></p>";
                   }
-                
+
                 echo "<div id='input_user_layoutname' style='display:none;'><input type='text' name='layoutname' value='".$user_plan_row['layoutname']."'></div>";
                 $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
-           
+
                 foreach($tblrows as $tblrow)
                   {
                     $ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".(int)$user_id." limit 1");
-                    
+
                     $num_first = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order limit 1");
                     $num_last = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
                     $num_max = $obj->GetSingleData("spssp_table_layout", "column_order "," user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
                     $num_none = $num_max-$num_last+$num_first-1;
 
-                    if($ralign == 'L' or $ralign == "N")
+                    if($ralign == 'L')
                       {
                         $styles = 'float:left;';
                       }
@@ -1491,11 +1493,11 @@ include("inc/return_dbcon.inc.php");
 
                     echo "<div class='rows' style='width:100%;float; left; clear:both;'><div style='".$styles."'>";
                     $tables = $obj->getRowsByQuery("select * from spssp_table_layout where user_id= ".$user_id." and row_order=".$tblrow['row_order']);
-                    
+
                     foreach($tables as $table)
                       {
                         $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".$user_id." and default_table_id=".$table['id']);
-                        
+
                         if(isset($new_name_row) && $new_name_row['id'] !='')
                           {
                             $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
@@ -1503,12 +1505,12 @@ include("inc/return_dbcon.inc.php");
                           }
                         else
                           {
-                            $tblname = $table['name'];
+                            //$tblname = $table['name'];
                           }
 
                         if($table["display"] == 1){
                           $disp = 'display:block;';
-                        }else if(($num_first <= $table["column_order"] && $table["column_order"]<=$num_last) or $ralign == "N"){
+                        }else if($num_first <= $table["column_order"] && $table["column_order"]<=$num_last){
                           $disp = "visibility:hidden";
                         }else{
                           $disp = "display:none";
