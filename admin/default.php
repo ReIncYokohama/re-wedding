@@ -2,7 +2,10 @@
 	require_once("inc/class.dbo.php");
 	include_once("inc/checklogin.inc.php");
 	include_once("inc/new.header.inc.php");
+	include_once("inc/class_information.dbo.php");
+
 	$obj = new DBO();
+	$objInfo = new InformationClass();
 
 	$get = $obj->protectXSS($_GET);
 	$post = $obj->protectXSS($_POST);
@@ -24,6 +27,16 @@
 			mysql_query($sql);
 		}
 	}
+?>
+<script>
+function deleteGoorNot ()
+{
+	var agree = confirm("会場レイアウトで使用されれています。\n削除してもよろしいですか？");
+	if(!agree) window.location.href = "default.php?action=";
+}
+</script>
+<?php
+
 /*
 	$tablename['name'] = $_POST['name'];
 	if($_POST['edit_table_name'] !='' && $_POST['name'] !="")
@@ -78,7 +91,7 @@
 		}
 
 	}
-	if($_GET['action']=='sort' && (int)$_GET['id'] > 0)
+	if($get['action']=='sort' && (int)$get['id'] > 0)
 	{
 		$table = 'spssp_tables_name';
 
@@ -91,18 +104,24 @@
 	if(isset($get['action']) && $get['action'] !== '' && $get['action'] == "delete")
 	{
 		$id = (int)$get['id'];
+		$nm = $obj->GetRowCount("spssp_default_plan_table"," name=".$id);
+		if ($nm>0) {
+//			echo '<script> deleteGoorNot(); </script>';
+		}
+		$id = (int)$get['id'];
 		if($id > 0)
 		{
 			$suc = $obj->DeleteRow("spssp_tables_name", "id=".$id);
-			if($suc){
-				$msg = 3;
-			}
-			redirect("default.php");
+			//if($suc){
+				//$msg = 3;
+			//}
 		}
 		else
 		{
 			$err = 11;
 		}
+		$get['id']=0;
+		//redirect("default.php?delete=yes");
 	}
 
 	//check DEFaULT table NAME DUPLICACY
@@ -339,6 +358,16 @@ function clearForm()
 //	$("#DefaultLayoutTitle").val("");
 //	$("#name").val("");
 }
+
+function confirmDeletePlus(urls)
+{
+   	var agree = confirm("削除してもよろしいですか？");
+	if(agree)
+	{
+		window.location.href = urls;
+	}
+}
+
 </script>
 <div id="topnavi">
     <?php
@@ -388,8 +417,8 @@ include("inc/return_dbcon.inc.php");
 	  <div style="width:100%; border:0px solid #fff" >
 	  <form name="defaultForm" action="default.php" method="post">
 	  <input type="hidden" name="sub" value="1" />
-	  <input type="hidden" name="edit_table_name" id="edit_table_name" value="<?=$_GET[id]?>" />
-	  <input type="hidden" name="insert_edit" value="<?=$_GET[id]?>"  />
+	  <input type="hidden" name="edit_table_name" id="edit_table_name" value="<?=$get[id]?>" />
+	  <input type="hidden" name="insert_edit" value="<?=$get[id]?>"  />
 
 
 <h2><div style="width:100%;">高砂卓名設定<div></h2>
@@ -412,12 +441,12 @@ include("inc/return_dbcon.inc.php");
 
 <h2><div style="width:100%;"> 卓名設定 </div></h2>
 
-<table style="width:680px;" border="0" align="left" cellpadding="0" cellspacing="10">
             <tr align="left">
 			<?php if ($InputArea=="") {?>
-              <td width="60" align="left" nowrap="nowrap">卓名</td>
+			<table style="width:680px;" border="0" align="left" cellpadding="0" cellspacing="10">
+                <td width="60" align="left" nowrap="nowrap">卓名</td>
                 <td width="10" align="left" nowrap="nowrap">：</td>
-                <td width="270" nowrap="nowrap"><input type="text" name="name" id="name"  value="<?=$_GET['name']?>"/></td>
+                <td width="270" nowrap="nowrap"><input type="text" name="name" id="name"  value="<?=$get['name']?>"/></td>
                 <td width="60" nowrap="nowrap">卓名変更</td>
                 <td width="10" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
@@ -427,6 +456,7 @@ include("inc/return_dbcon.inc.php");
             </tr>
             <?php }
                   else {?>
+			<table style="width:340px;" border="0" align="left" cellpadding="0" cellspacing="10">
                 <td width="60" nowrap="nowrap">卓名変更</td>
                 <td width="10" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
@@ -513,7 +543,7 @@ include("inc/return_dbcon.inc.php");
 
 									?>
 							  <span class="txt1"><a href="default.php?page=<?=$current_page?>&action=sort&amp;move=up&amp;id=<?=$row['id']?>">▲</a>
-                             <a href="default.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=down&amp;id=<?=$row['id']?>"> ▼</a></span>
+                             <a href="default.php?page=<?=(int)$get['page']?>&action=sort&amp;move=down&amp;id=<?=$row['id']?>"> ▼</a></span>
 							 <?php
 							 }else
 							 {?>
@@ -529,7 +559,7 @@ include("inc/return_dbcon.inc.php");
                                 </a>
                             </td>
               				<td>
-                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>confirmDelete('default.php?action=delete&id=<?=$row['id']?>');<?php }?>">
+                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>confirmDeletePlus('default.php?action=delete&id=<?=$row['id']?>');<?php }?>">
                                 	<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
                             </td>
@@ -593,10 +623,10 @@ include("inc/return_dbcon.inc.php");
 ?>
 
 
-        <? if($_GET['id'] !=''){
+        <? if($$get['id'] !=''){
 		?>
 		<script>
-		// $("#boxid<?=$_GET['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
+		// $("#boxid<?=$get['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
 		</script>
 		<? }?>
 			</div>
