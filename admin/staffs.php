@@ -646,6 +646,20 @@ function clearform()
 	$('#email').attr("value","");
 	$('#conf_email').attr("value","");
 }
+
+function confirmDeletePlus(urls, permission)
+{
+	if(permission == '333') {
+		alert("管理者は削除できません。\n他のスタッフへ権限を移し、新しい管理者から削除してください");
+		return false;
+	}
+	var agree = confirm("削除してもよろしいですか？");
+	if(agree)
+	{
+		window.location = urls;
+	}
+}
+
 </script>
 <div id="topnavi" >
     <?php
@@ -819,7 +833,7 @@ include("inc/return_dbcon.inc.php");
 							</td>
                             <td>
 							<?php// if($row['id']!=$_SESSION['adminid']) { ?>
-                            	<a href="javascript:void(0);" onClick="confirmDelete('staffs.php?page=<?=(int)$_GET['page']?>&action=delete&id=<?=$row['id']?>');">
+                            	<a href="javascript:void(0);" onClick="confirmDeletePlus('staffs.php?page=<?=(int)$_GET['page']?>&action=delete&id=<?=$row['id']?>', <?=$row['permission']?>);">
                             		<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
 							<?php // } ?>
