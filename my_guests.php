@@ -304,6 +304,7 @@ function validForm()
 			$("#last_name").focus();
 			return false;
 		}
+ 
   if(first_name == '')
 		{
 			alert("名を入力してください");

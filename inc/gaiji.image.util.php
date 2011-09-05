@@ -111,7 +111,7 @@ function get_image_font_size($maxfontsize,$str,$fontfile,$width,$gaiji_image_url
   $fontsize = $maxfontsize;
   $nowWidth = get_image_text_width($fontsize,$str,$fontfile,$gaiji_image_url_arr,$gaiji_str,$angle);
 
-  while($nowWidth>$width && $fontsize>5){
+  while($nowWidth>$width && $fontsize>1){
     $fontsize -= 0.5;
     $nowWidth = get_image_text_width($fontsize,$str,$fontfile,$gaiji_image_url_arr,$gaiji_str,$angle);
   }
