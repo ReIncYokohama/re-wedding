@@ -121,10 +121,11 @@ font-weight:normal;
 					echo "<td width='15%'><span class='date2'>".date('Y/m/d',$msg['display_order'])."</span> &nbsp; &nbsp; &nbsp; &nbsp</td>
 					   <td width='35%'><a href='javascript:void(0);' onclick='view_dsc_super(".$msg['id'].")' id='super_title_".$msg['id']."'> ".$msg['title']."</a> &nbsp; &nbsp; &nbsp; &nbsp;</td>";
 
-					if($msg['show_it'])
-					echo "<a href='manage.php?delete_view=1&msg_id=".$msg['id']."'><td width='20%'><img src='img/common/hotel_delete.png' alt='ホテル画面から削除' /></td></a>";
-					else
-					echo '<td width="20%"><img src="img/common/hotel_delete_economics.png" alt="ホテル画面から削除済み" /></td>';
+					if($msg['show_it']) {
+					echo "<td width='20%'><a href='manage.php?delete_view=1&msg_id=".$msg['id']."'><img src='img/common/hotel_delete.png' alt='ホテル画面から削除' /></a></td>";
+					} else {
+					echo "<td width='20%'><img src='img/common/hotel_delete_economics.png' alt='ホテル画面から削除済み' /></td>";
+					}
 					echo "</tr>";
 					echo "</table>";
 
