@@ -17,20 +17,16 @@
 
 ?>
 <script type="text/javascript">
-function view_adminitem(id,no){
-
-		$.post("ajax/admin_message_edit.php",{'id':id},function(data){
+function view_adminitem(id,no,is_stuff){
+		$.post("ajax/admin_message_edit.php",{'id':id,'is_stuff':is_stuff},function(data){
 			//alert(data);
 			var substrs = data.split('#');
-			$("#v_no").html("No."+no);
+			//$("#v_no").html("No."+no);
 			$("#v_title").html(substrs[2]);
 			$("#v_desc").html(substrs[3]);
 
-			$("#view_"+id).hide();
-
+			if (is_stuff==0) $("#view_"+id).hide();
 		});
-
-
 }
 $(function(){
 		$("ul#menu li").removeClass();
@@ -51,13 +47,13 @@ $(function(){
 
 <!--	<div class="page_next">< ?php #echo $pageination;?></div>-->
 	<div class="message_area">
-      <table width="854" border="0" cellspacing="1" cellpadding="3" bgcolor="#CCCCCC">
+      <table border="0" cellspacing="1" cellpadding="3" bgcolor="#CCCCCC">
         <tr>
-          <td width="28" align="center" nowrap="nowrap" bgcolor="#FFFFFF">No.</td>
-          <td width="100" align="center" nowrap="nowrap" bgcolor="#FFFFFF">受信日時</td>
-          <td width="200" align="center" nowrap="nowrap" bgcolor="#FFFFFF">タイトル</td>
+          <td width="200" align="center" nowrap="nowrap" bgcolor="#FFFFFF">受信日時</td>
+          <td width="28" align="center" nowrap="nowrap" bgcolor="#FFFFFF">未読</td>
+          <td width="400" align="center" nowrap="nowrap" bgcolor="#FFFFFF">タイトル</td>
 		  <td width="28" align="center" nowrap="nowrap" bgcolor="#FFFFFF">添付</td>
-          <td width="70" align="center" nowrap="nowrap" bgcolor="#FFFFFF"></td>
+          <td width="150" align="center" nowrap="nowrap" bgcolor="#FFFFFF"></td>
         </tr>
 	<?php
 		//$query_string="SELECT * FROM ".$table." ORDER BY display_order DESC LIMIT ".((int)($current_page)*$data_per_page).",".((int)$data_per_page).";";
@@ -67,29 +63,27 @@ $(function(){
 		//print_r($data_rows);exit;
 		$i=0;$j=$current_page*$data_per_page+1;
 
-
+		if ($_SESSION['userid_admin'] != "") $is_stuff=1; else $is_stuff=0;
 		foreach($data_rows as $row)
 		{
 	?>
 
-
-
-
         <tr>
-          <td  width="28"  align="center" nowrap="nowrap" bgcolor="#FFFFFF"><?=$j?></td>
-          <td width="102"  align="center" bgcolor="#FFFFFF"><?=$row['creation_date']?></td>
-          <td  width="200" align="left" bgcolor="#FFFFFF" align="left">
-
-		  <?php if($row['user_view']==0){?><a href="javascript:void(0)" onclick="view_adminitem(<?=$row['id']?>,<?=$j?>);" ><img src="admin/img/common/btn_midoku.gif" id="view_<?=$row['id']?>" width="42" height="17" /></a>&nbsp;&nbsp;<?php }?><?=$row['title']?></td>
-		  <td width="28" align="center" bgcolor="#FFFFFF">
+          <td align="center" bgcolor="#FFFFFF"><?=$row['creation_date']?></td>
+          <td align="center" bgcolor="#FFFFFF" align="left">
+		  <?php if($row['user_view']==0){?><a href="javascript:void(0)" onclick="view_adminitem(<?=$row['id']?>,<?=$j?>,<?=$is_stuff?>);"/>
+		  <img src="admin/img/common/btn_midoku.gif" id="view_<?=$row['id']?>" /></a><?php }?>
+		  </td>
+		  <td align="left" bgcolor="#FFFFFF" align="left"><?=$row['title']?></td>
+		  <td align="center" bgcolor="#FFFFFF">
 		  	<?php  if($row['attach_file']) { ?>
 			  <a href="download_attach.php?download_file=<?=$row['attach_file']?>&id=<?=$row['id']?>"><img src="img/btn_clip_attachment.gif" width="17" height="17" /></a>
 			  <?php } else { ?>
 			  <img src="admin/img/common/file_no.gif" width="6" height="5" />
 			  <?php } ?>
 			</td>
-          <td  width="70"  bgcolor="#FFFFFF" align="center">
-		  <input type="button" name="button1" id="button1" value="本文表示" onclick="view_adminitem(<?=$row['id']?>,<?=$j?>);"/>
+          <td bgcolor="#FFFFFF" align="center">
+		  <input type="button" name="button1" id="button1" value="本文表示" onclick="view_adminitem(<?=$row['id']?>,<?=$j?>,<?=$is_stuff?>);"/>
 		  </td>
         </tr>
 
