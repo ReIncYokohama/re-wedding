@@ -15,6 +15,7 @@
 
 	$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
 
+	$is_stuff = $_SESSION['userid_admin'];
 ?>
 <script type="text/javascript">
 function view_adminitem(id,no,is_stuff){
@@ -33,6 +34,23 @@ $(function(){
 		$("ul#menu li:eq(8)").addClass("active");
 	});
 
+function to_user_message(url) {
+	var is_stuff = "<?=$is_stuff?>";
+	if (is_stuff!="") {
+		alert("ホテルスタッフはこの画面よりメッセージを送信できません");
+		return false;
+	}
+	window.location=url;
+}
+function to_downloadfile(url) {
+	var is_stuff = "<?=$is_stuff?>";
+	if (is_stuff!="") {
+		alert("ホテルスタッフは添付ファイルを開くことはできません");
+		return false;
+	}
+	window.location=url;
+}
+
 	 var title=$("title");
  $(title).html("メッセージ受信 - ウエディングプラス");
 </script>
@@ -42,7 +60,7 @@ $(function(){
     <div class="title_bar_txt_R"></div>
 <div class="clear"></div></div>
   <div class="cont_area">
-    <div class="message_bt"><a href="user_messages.php?page=<?=(int)$_GET['page']?>"><img src="img/message_bt01.jpg" width="59" height="30" class="on" /></a></div>
+    <div class="message_bt"><a href="javascript:void(0);" onclick="to_user_message('user_messages.php?page=<?=(int)$_GET['page']?>')"><img src="img/message_bt01.jpg" width="59" height="30" class="on" /></a></div>
     <div class="message_bt"><img src="img/message_bt02.jpg" width="59" height="30"  /></div>
 
 <!--	<div class="page_next">< ?php #echo $pageination;?></div>-->
@@ -77,7 +95,7 @@ $(function(){
 		  <td align="left" bgcolor="#FFFFFF" align="left"><?=$row['title']?></td>
 		  <td align="center" bgcolor="#FFFFFF">
 		  	<?php  if($row['attach_file']) { ?>
-			  <a href="download_attach.php?download_file=<?=$row['attach_file']?>&id=<?=$row['id']?>"><img src="img/btn_clip_attachment.gif" width="17" height="17" /></a>
+			  <a href="javascript:void(0);" onclick="to_downloadfile('download_attach.php?download_file=<?=$row['attach_file']?>&id=<?=$row['id']?>')"><img src="img/btn_clip_attachment.gif" width="17" height="17" /></a>
 			  <?php } else { ?>
 			  <img src="admin/img/common/file_no.gif" width="6" height="5" />
 			  <?php } ?>

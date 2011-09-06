@@ -280,8 +280,8 @@ include("inc/return_dbcon.inc.php");
 		<tr>
 					<td>&nbsp;</td>
 					<td>
-						<a href="javascript:void(0);" name="insert" onclick="validForm();"/><img src="img/common/btn_send_user.jpg" alt="送信" /></a> &nbsp;
-						<a href="javascript:void(0);" name="reset" onclick="cancel_insert();"/><img src="img/common/btn_cancel_user.jpg" alt="チャンセル" /></a>
+						&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" name="insert" onclick="validForm();"/><img src="img/common/btn_send_user.jpg" alt="送信" /></a> &nbsp;
+						&nbsp;&nbsp;<a href="javascript:void(0);" name="reset" onclick="cancel_insert();"/><img src="img/common/btn_cancel_user.jpg" alt="チャンセル" /></a>
 					</td>
 				</tr>
 			</table>
