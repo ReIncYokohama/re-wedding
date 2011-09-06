@@ -32,6 +32,7 @@
 
 	if($_POST{'insert'})
 	{
+		unset($_POST['file1']);
 		$basepath='../upload/';
 		@mkdir($basepath);
 
@@ -193,6 +194,12 @@ function validForm_Edit()
 	document.msg_form_edit.submit();
 }
 
+function button1_onclick() {
+	document.msg_form.upfile.click();
+}
+function filename_change() {
+	document.msg_form.file1.value = document.msg_form.upfile.value;
+}
 </script>
 
 <div id="topnavi">
@@ -242,37 +249,39 @@ include("inc/return_dbcon.inc.php");
 			<input type="hidden" name="insert" value="insert">
 			<input type="hidden" name="admin_id" value="<?=$_SESSION['adminid']?>">
 
-			<table align="center" border="0">
-				<tr>
+			<table align="center" border="0" cellspacing="6" cellpadding="4">
+<!-- 				<tr>
 					<td width="7%" style="text-align:left;">No.　　　：</td>
 					<td style="text-align:left;">
-<!-- UCHIDA EDIT 11/08/09 入力フィールドを表示のみに修正 -->
-<!--						<input name="No" type="text" id="No" value="<?=$count_messege?>" size="1" /> -->
 						<?=$count_messege?>
 					</td>
-				</tr>
+				</tr> -->
 				<tr>
-					<td width="5%" style="text-align:left;">タイトル&nbsp;&nbsp;：</td>
+					<td width="7%" style="text-align:left;">タイトル&nbsp;&nbsp;：</td>
 					<td style="text-align:left;">
 						<input type="text" name="title" id="title" style="width:579px;"/>
 					</td>
 				</tr>
 				<tr>
-					<td width="5%" style="text-align:left;">本文　　&nbsp;&nbsp;：</td>
+					<td width="7%" style="text-align:left;">本文　　&nbsp;&nbsp;：</td>
 					<td style="text-align:left;">
 						<textarea name="description" id="description" cols="70" rows="5"></textarea>
 					</td>
 				</tr>
 				<tr>
-					<td width="5%" style="text-align:left;">添付　　&nbsp;&nbsp;：</td>
-					<td style="text-align:left;">
-						<input type="file" name="upfile" />
+					<td width="7%" style="text-align:left;">添付　　&nbsp;&nbsp;：</td>
+					<td style="text-align:left;" >
+						<input type="text" id="file1" name="file1" readonly style="margin-bottom:2px;"/>
+
+						<input id="upfile" type="file" name="upfile" onchange="filename_change();" style="display: none">
+						<a href="javascript:void(0);" name="file2" onclick="button1_onclick();"/><img src="img/common/btn_attach_user.jpg" alt="参照" /></a>
 					</td>
 				</tr>
 		<tr>
 					<td>&nbsp;</td>
 					<td>
-						<input type="button" name="insert" value="送信" onclick="validForm();"/> &nbsp; <input type="reset" value="キャンセル"  onclick="cancel_insert();" />
+						<a href="javascript:void(0);" name="insert" onclick="validForm();"/><img src="img/common/btn_send_user.jpg" alt="送信" /></a> &nbsp;
+						<a href="javascript:void(0);" name="reset" onclick="cancel_insert();"/><img src="img/common/btn_cancel_user.jpg" alt="チャンセル" /></a>
 					</td>
 				</tr>
 			</table>
@@ -287,13 +296,13 @@ include("inc/return_dbcon.inc.php");
 			<table align="center" border="0" style="width:800px;">
 
 				<tr>
-					<td width="5%" style="text-align:right;">タイトル</td>
+					<td width="7%" style="text-align:right;">タイトル</td>
 					<td style="text-align:left;">
 						<input type="text" name="title" id="edit_title" style="width:250px;"/>
 					</td>
 				</tr>
 				<tr>
-					<td width="5%" style="text-align:right;">内容</td>
+					<td width="7%" style="text-align:right;">内容</td>
 					<td style="text-align:left;">
 						<textarea name="description" id="edit_description" cols="70" rows="5"></textarea>
 					</td>
@@ -317,7 +326,7 @@ include("inc/return_dbcon.inc.php");
       <div class="box4">
           <table border="0" align="center" cellpadding="1" cellspacing="1">
             <tr align="center">
-              <td>No.</td>
+<!--               <td>No.</td> -->
               <td>日　付</td>
               <td>&nbsp;</td>
               <td>タイトル</td>
@@ -360,7 +369,7 @@ include("inc/return_dbcon.inc.php");
 	 <div class="<?=$class?>">
 	 	<table border="0" align="center" cellpadding="1" cellspacing="1">
             <tr align="center">
-              <td><?=$j?></td>
+<!--               <td><?=$j?></td> -->
               <td><?=strftime('%Y/%m/%d',strtotime($row['creation_date']))?></td>
               <td></td>
               <!--< ?php $data_user_name = $obj->GetSingleData("spssp_admin", "username","id=".$row['admin_id']);?>
@@ -373,9 +382,7 @@ include("inc/return_dbcon.inc.php");
 			  <img src="img/common/file_no.gif" width="6" height="5" />
 			  <?php } ?>
 			  </td>
-             <!-- <td><a href="#" onclick="edit_admin_msg(< ?=$row['id']?>);"><img src="img/common/btn_edit.gif" width="42" height="17" /></a></td>-->
 			  <td><a href="#" onclick="view_adminitem(<?=$row['id']?>);"><img src="img/common/btn_honbun.gif" width="42" height="17" /></a></td>
-              <!--<td><a href="javascript:void(0);" onClick="confirmDelete('message_admin.php?page=<?=$current_page?>&action=delete&id=<?=$row['id']?>&user_id=<?=$user_id?>');"><img src="img/common/btn_deleate.gif" width="42" height="17" /></a></td>-->
             </tr>
           </table>
 	 <div id="viewadmin<?=$row['id']?>" style="display:<?php if($_GET['id']==$row['id']){echo "block";}else{echo "none";}?>;padding-top:10px;">
@@ -433,7 +440,9 @@ function cancel_insert()
 {
 	$("#title").attr("value","");
 	$("#description").attr("value","");
-	$("#insert_msg").hide("slow");
+	$("#upfile").attr("value","");
+	$("#file1").attr("value","");
+//	$("#insert_msg").hide("slow");
 }
 function cancel_update()
 {
@@ -441,6 +450,7 @@ function cancel_update()
 	$("#edit_description").attr("value","");
 	$("#update_msg").hide("slow");
 }
+
 </script>
 <?php
 	include_once("inc/left_nav.inc.php");

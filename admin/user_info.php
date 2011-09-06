@@ -991,7 +991,7 @@ include("inc/return_dbcon.inc.php");
             	<img src="img/common/navi01_on.jpg"/>
             </div>
         	<div class="navi">
-            	<a href="message_admin.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi02.jpg" class="on" /></a>
+            	<a href="message_user.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi02.jpg" class="on" /></a>
             </div>
         	<div class="navi">
             	<a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank">
