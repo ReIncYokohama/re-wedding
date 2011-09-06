@@ -50,7 +50,7 @@ $(function(){
       <table border="0" cellspacing="1" cellpadding="3" bgcolor="#CCCCCC">
         <tr>
           <td width="200" align="center" nowrap="nowrap" bgcolor="#FFFFFF">受信日時</td>
-          <td width="28" align="center" nowrap="nowrap" bgcolor="#FFFFFF">未読</td>
+          <td width="28" align="center" nowrap="nowrap" bgcolor="#FFFFFF"></td>
           <td width="400" align="center" nowrap="nowrap" bgcolor="#FFFFFF">タイトル</td>
 		  <td width="28" align="center" nowrap="nowrap" bgcolor="#FFFFFF">添付</td>
           <td width="150" align="center" nowrap="nowrap" bgcolor="#FFFFFF"></td>
