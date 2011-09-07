@@ -984,7 +984,15 @@ include("inc/return_dbcon.inc.php");
 	<!-- UCHIDA EDIT 11/08/02
 	        <a href="users.php">お客様一覧</a> &raquo; お客様挙式情報</div>
 	-->
-	        <a href="manage.php">ＴＯＰ</a> &raquo; お客様挙式情報</div>
+		<?php
+		if($stuff_id==0) {
+            echo '<a href="manage.php">ＴＯＰ</a> &raquo; お客様挙式情報';
+		}
+		else {
+            echo '<a href="users.php">管理者用お客様一覧</a> &raquo; お客様挙式情報';
+		}
+		?>
+		</div>
         </h2>
 		<div style="width:800px;">
         	<div class="navi">
@@ -1301,8 +1309,8 @@ include("inc/return_dbcon.inc.php");
             </tr>
             <tr align="left" valign="middle">
             	<td colspan="5" nowrap="nowrap"><div style="width:450px;">
-                	<a href="user_log.php?user_id=<?=(int)$_GET['user_id']?>"><img src="img/common/btn_access.jpg" width="173" height="23" /></a>　
-                    <a href="change_log.php?user_id=<?=(int)$_GET['user_id']?>"><img src="img/common/btn_data.jpg" width="173" height="23" /></a></div>
+                	<a href="user_log.php?user_id=<?=(int)$_GET['user_id']?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_access.jpg" width="173" height="23" /></a>　
+                    <a href="change_log.php?user_id=<?=(int)$_GET['user_id']?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_data.jpg" width="173" height="23" /></a></div>
                 </td>
             </tr>
         </table>
