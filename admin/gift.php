@@ -58,17 +58,17 @@
 				}
 				else
 				{
-					$err=1;
+					//$err=1;
 				}
 			}
 			else
 			{
-				$err=3;
+				//$err=3;
 			}
 		}
 		else
 		{
-			$err=2;
+			//$err=2;
 		}
 	}
 
@@ -109,12 +109,12 @@
 			}
 			else
 			{
-				$err=3;
+				//$err=3;
 			}
 		}
 		else
 		{
-			$err=2;
+			//$err=2;
 		}
 	}
 	if($gift_criteria_num>0)
@@ -146,17 +146,17 @@
 				}
 				else
 				{
-					$err=1;
+					//$err=1;
 				}
 			}
 			else
 			{
-				$err=3;
+				//$err=3;
 			}
 		}
 		else
 		{
-			$err=2;
+			//$err=2;
 		}
 	}
 	if($_POST['update2']=="update")
@@ -181,17 +181,17 @@
 				}
 				else
 				{
-					$err=1;
+					//$err=1;
 				}
 			}
 			else
 			{
-				$err=3;
+				//$err=3;
 			}
 		}
 		else
 		{
-			$err=2;
+			//$err=2;
 		}
 	}
 	if($menu_criteria_num>0)
@@ -220,7 +220,7 @@ var numgiftgroups='<?=$gift_criteria_data_row[0]['num_gift_groups']?>';
 //var orderdeadline='<?=$gift_criteria_data_row[0]['order_deadline']?>';
 var nummenugroups = 3;
 $(document).ready(function(){
-
+/*
 	$('#num_gift_items').keyup(function(){
 		var r=isInteger("num_gift_items","引出物商品数は");
     });
@@ -232,7 +232,7 @@ $(document).ready(function(){
 //    });
 	$('#num_menu_groups').keyup(function(){
 		var r=isInteger("num_menu_groups","子供料理数は");
-    });
+    });*/
 });
 
 function isInteger(id, kind_msg){
@@ -380,6 +380,7 @@ function validForm2()
 		if(num_menu_groups>3)
 		{
 			 alert("子供料理数の上限は3種類までです");
+			 document.menu_criteria_form.num_menu_groups.value = <?=$menu_criteria_data_row[0]['num_menu_groups']?>;
 			 document.getElementById('num_menu_groups').focus();
 			 return false;
 		}
@@ -415,6 +416,7 @@ function checkGroupForm(x)
 		document.gift_criteria_form.submit();
 	}
 }
+
 </script>
 <div id="topnavi">
 <?php
@@ -620,13 +622,13 @@ unset($_SESSION['msg']);
 <div style="width:1035px;">
      <h2>料理設定
 </h2>
-	<form  action="gift.php" method="post" name="menu_criteria_form">
+	<form  action="gift.php" method="post" name="menu_criteria_form" onsubmit="return false;">
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr>
     <td width="100">子供料理　　　　：</td>
     <td>
     <?php if(($_SESSION['user_type']==111)||(($_SESSION['user_type']==333))){?>
-    <input name="num_menu_groups" type="text" id="num_menu_groups" size="10" <?=$ro?> value="<?=$menu_criteria_data_row[0]['num_menu_groups']?>" />
+    <input name="num_menu_groups" type="text" id="num_menu_groups" onkeydown="if (event.keyCode == 13) { validForm2(); }" size="10" <?=$ro?> value="<?=$menu_criteria_data_row[0]['num_menu_groups']?>" />
       種類(最大3つまで)
       <?
 	}else{
@@ -655,10 +657,6 @@ else
 	</td>
   </tr>
 </table>
-
-
-
-
 
 	</form>
 	</div>
