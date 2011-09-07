@@ -334,7 +334,11 @@ include("inc/return_dbcon.inc.php");
 				<input type="hidden" name="room_id" value="0" />
              </form>
          </p></div>
-         <?php } ?>
+         <?php } else {?>
+         	<form method="post" name="room_form">
+				<input type="hidden" name="room_id" value="0" />
+            </form>
+         <?php }?>
 
 <!-- UCHIDA EDIT 11/08/08 テーブルレイアウト表示を画面上に移動  -->
         <div class="sekiji_table" id="table_preview" >
@@ -443,22 +447,14 @@ include("inc/return_dbcon.inc.php");
                             <!--<td><a href="plans.php?room_id=<?=$row['id']?>"><?=$row['name']?></a></td>-->
                             <td width ="20" >横<?=$row['max_columns']?>列 × 縦<?=$row['max_rows']?>段</td>
                             <td width ="20" ><?=$row['max_seats']?>名</td>
-							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
+							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){ ?>
                             <td width ="20" class="txt1">
-                            <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] > "1"){ ?>
-								<a href="javascript:void(0);" onClick="sort_view('rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=up&amp;id=<?=$row['id']?>')">▲</a> &nbsp;
+    							<a href="javascript:void(0);" onClick="sort_view('rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=up&amp;id=<?=$row['id']?>')">▲</a> &nbsp;
                 				<a href="javascript:void(0);" onClick="sort_view('rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=down&amp;id=<?=$row['id']?>')">▼</a>
-							<?php }else {?>	<span style="color:gray;">▲▼</span><?php }	 ?>
                              </td>
-							 <?php }	 ?>
+							 <?php } ?>
                             <td width ="20" >
-<!-- UCHIDA EDIT 11/08/05 ボタン変更
-                               <input type="radio" name="radio" id="room_<?=$row['id']?>" value="radio" <?=$chk?> onclick="preview_room(<?=$row['id']?>)"  />
-                               <label for="radio">プレビューする</label>
- -->
-							<a href="#" >
-							<img src="img/common/btn_preview.gif" id="room_<?=$row['id']?>" onclick="preview_room(<?=$row['id']?>)">
-							</a>
+							  <a href="javascript:void(0);" onClick="preview_room(<?=$row['id']?>)"><img src="img/common/btn_preview.gif" id="room_<?=$row['id']?>"></a>
                             </td>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
                            <td width ="20" >
