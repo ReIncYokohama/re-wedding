@@ -85,6 +85,18 @@ var table_array=new Array();
 			return false;
 		}
 */
+//卓名空白は非許可
+for(var loop=1;loop<=num;loop++)
+{
+	var tId="tableId_"+loop;
+	var table_name=	$("#"+tId).val();
+
+	if(table_name=="") {
+		alert("卓名を入力してください");
+ 		document.getElementById(tId).focus();
+ 		return false;
+	}
+}
 
 // 重複した卓名の確認
 /* UCHIDA EDIT 11/08/16 重複チェックは仕様から削除

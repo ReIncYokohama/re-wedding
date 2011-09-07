@@ -414,14 +414,14 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
                     <tr align="center">
                         <td width="70"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'])?></td>
-                        <td width="150">
+                        <td width="150" align="left">
 						<?php
                           $man_name = $objinfo->get_user_name_image_or_src($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
 						  if($man_name==false){$man_name = $row['man_firstname']." ".$row['man_lastname'].' 様';}
 						  echo $man_name;
 					    ?>
 				        </td>
-                        <td width="150">
+                        <td width="150" align="left" >
 						<?php
                            $woman_name = $objinfo->get_user_name_image_or_src($row['id'],$hotel_id=1 , $name="woman_fullname.png",$extra="thumb1");
 						   if($woman_name==false){$woman_name = $row['woman_firstname']." ".$row['woman_lastname'].' 様';}

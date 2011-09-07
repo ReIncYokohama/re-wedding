@@ -6,13 +6,13 @@ $adminid = $_POST["adminid"];
 $adminpass = $_POST["adminpass"];
 if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 	{
-		$query_string="SELECT * FROM spssp_admin WHERE username='".jp_encode($_POST['adminid'])."' AND password='".jp_encode($_POST['adminpass'])."' AND sessionid='' LIMIT 0,1;";
+		$query_string="SELECT * FROM spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' AND sessionid='' LIMIT 0,1;";
 		//echo $query_string;
 		$db_result=mysql_query($query_string);
-    
+
     if(!mysql_num_rows($db_result)){
       mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
-      $query_string = "SELECT * from super_spssp_admin WHERE username= '".$adminid."' and password = '".$adminpass."'";
+      $query_string = "SELECT * from super_spssp_admin WHERE BINARY username= '".$adminid."' and BINARY password = '".$adminpass."'";
       $db_result = mysql_query($query_string);
       mysql_connected($hotel_sqlhost,$hotel_sqluser,$hotel_sqlpassword,$hotel_sqldatabase);
       if(mysql_num_rows($db_result)){
@@ -23,7 +23,7 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 		{
 			if($db_row=mysql_fetch_array($db_result))
 			{
-        
+
 				$_SESSION['adminid']=jp_decode($db_row['id']);
 				$_SESSION['user_type'] = $db_row['permission'];
         if($_SESSION["super_user"]){

@@ -2,7 +2,10 @@
 	require_once("inc/class.dbo.php");
 	include_once("inc/checklogin.inc.php");
 	include_once("inc/new.header.inc.php");
+	include_once("inc/class_information.dbo.php");
+
 	$obj = new DBO();
+	$objInfo = new InformationClass();
 
 	$get = $obj->protectXSS($_GET);
 	$post = $obj->protectXSS($_POST);
@@ -24,6 +27,10 @@
 			mysql_query($sql);
 		}
 	}
+?>
+
+<?php
+
 /*
 	$tablename['name'] = $_POST['name'];
 	if($_POST['edit_table_name'] !='' && $_POST['name'] !="")
@@ -78,7 +85,7 @@
 		}
 
 	}
-	if($_GET['action']=='sort' && (int)$_GET['id'] > 0)
+	if($get['action']=='sort' && (int)$get['id'] > 0)
 	{
 		$table = 'spssp_tables_name';
 
@@ -94,15 +101,16 @@
 		if($id > 0)
 		{
 			$suc = $obj->DeleteRow("spssp_tables_name", "id=".$id);
-			if($suc){
-				$msg = 3;
-			}
-			redirect("default.php");
+			//if($suc){
+				//$msg = 3;
+			//}
 		}
 		else
 		{
 			$err = 11;
 		}
+		$get['id']=0;
+		//redirect("default.php?delete=yes");
 	}
 
 	//check DEFaULT table NAME DUPLICACY
@@ -339,6 +347,16 @@ function clearForm()
 //	$("#DefaultLayoutTitle").val("");
 //	$("#name").val("");
 }
+
+function confirmDeletePlus(urls)
+{
+   	var agree = confirm("削除してもよろしいですか？");
+	if(agree)
+	{
+		window.location.href = urls;
+	}
+}
+
 </script>
 <div id="topnavi">
     <?php
@@ -363,7 +381,7 @@ include("inc/return_dbcon.inc.php");
 	<div id="contents">
 	<!-- UCHIDA EDIT 11/07/26 -->
 	<!-- <h2><div style="width:450px;"><a href="manage.php">席次表・席札 </a> &raquo; 基本設定</div></h2> -->
-	<h2><div style="width:450px;">席次表・席札 &raquo; 卓名</div></h2>
+	<div style="width:100%;"><h2>席次表・席札 &raquo; 卓名</h2></div>
 		<!--<p class="txt3">
             <b>卓名</b>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <a href="respects.php"><b>敬称</b></a>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
@@ -388,11 +406,11 @@ include("inc/return_dbcon.inc.php");
 	  <div style="width:100%; border:0px solid #fff" >
 	  <form name="defaultForm" action="default.php" method="post">
 	  <input type="hidden" name="sub" value="1" />
-	  <input type="hidden" name="edit_table_name" id="edit_table_name" value="<?=$_GET[id]?>" />
-	  <input type="hidden" name="insert_edit" value="<?=$_GET[id]?>"  />
+	  <input type="hidden" name="edit_table_name" id="edit_table_name" value="<?=$get[id]?>" />
+	  <input type="hidden" name="insert_edit" value="<?=$get[id]?>"  />
 
 
-<h2><div style="width:100%;">高砂卓名設定<div></h2>
+<div style="width:100%;"><h2>高砂卓名設定</h2></div>
 
 <table style="width:340px;" border="0" align="left" cellpadding="0" cellspacing="10" >
             <tr>
@@ -404,42 +422,39 @@ include("inc/return_dbcon.inc.php");
   </tr>
 </table>
 
-<td valign="middle" style=" vertical-align:middle; text-align:left; height:140px;">　　　　　　　&nbsp;&nbsp;
-</td>
 
 <br /><br /><br /><br />
 
 
-<h2><div style="width:100%;"> 卓名設定 </div></h2>
+<div style="width:100%;"><h2> 卓名設定</h2></div>
 
-<table style="width:680px;" border="0" align="left" cellpadding="0" cellspacing="10">
-            <tr align="left">
 			<?php if ($InputArea=="") {?>
-              <td width="60" align="left" nowrap="nowrap">卓名</td>
+			<table style="width:680px;" border="0" align="left" cellpadding="0" cellspacing="10">
+            <tr align="left">
+                <td width="60" align="left" nowrap="nowrap">卓名</td>
                 <td width="10" align="left" nowrap="nowrap">：</td>
-                <td width="270" nowrap="nowrap"><input type="text" name="name" id="name"  value="<?=$_GET['name']?>"/></td>
+                <td width="270" nowrap="nowrap"><input type="text" name="name" id="name"  value="<?=$get['name']?>"/></td>
                 <td width="60" nowrap="nowrap">卓名変更</td>
                 <td width="10" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
                 	<input type="radio" value="1" name="rename_table_view" <?php 	if($default_raname_table_view == 1){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;可&nbsp;&nbsp;
 					<input type="radio" value="0" name="rename_table_view" <?php 	if($default_raname_table_view == "0"){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;不可&nbsp;&nbsp;
            	  </td>
-            </tr>
+	        </tr>
+	        </table>
             <?php }
                   else {?>
+			<table style="width:340px;" border="0" align="left" cellpadding="0" cellspacing="10">
+            <tr align="left">
                 <td width="60" nowrap="nowrap">卓名変更</td>
                 <td width="10" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
                 	<input type="radio" value="1" name="rename_table_view" <?php 	if($default_raname_table_view == 1){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;可&nbsp;&nbsp;
 					<input type="radio" value="0" name="rename_table_view" <?php 	if($default_raname_table_view == "0"){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;不可&nbsp;&nbsp;
            	  </td>
+           	</tr>
+        	</table>
             <?php } ?>
-        </table>
-
-
-
-<td valign="middle" style=" vertical-align:middle; text-align:left; height:140px;">　　　　　　　&nbsp;&nbsp;
-</td>
 
 <br /><br /><br /><br />
 
@@ -447,14 +462,12 @@ include("inc/return_dbcon.inc.php");
 				<table width="100%" border="0" cellspacing="1" cellpadding="4">
 				  <tr>
   <?php 				if ($InputArea=="") { ?>
-				    <td width="563" align="leftr" valign="middle"><p>　　　<a href="#"><img  onclick="validForm();"; border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg">
+				    <td width="563" align="left" valign="middle"><p>　　　<a href="#"><img  onclick="validForm();"; border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg">
 				    </a>　　<a href="#"><img  onclick="clearForm()"; border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg"></a></p></td> <?php } ?>
 			      </tr>
 				</table>
 
 <br />
-
-	  </div>
 
 	  <?php
 //	  }
@@ -466,7 +479,6 @@ include("inc/return_dbcon.inc.php");
 		{
 
 		?>
-
 
 		<!-- UCHIDA EDIT 11/07/27 -->
 		<!-- <div id="message_BOX" style="height:450px; overflow:auto; width:950px;"> -->
@@ -513,7 +525,7 @@ include("inc/return_dbcon.inc.php");
 
 									?>
 							  <span class="txt1"><a href="default.php?page=<?=$current_page?>&action=sort&amp;move=up&amp;id=<?=$row['id']?>">▲</a>
-                             <a href="default.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=down&amp;id=<?=$row['id']?>"> ▼</a></span>
+                             <a href="default.php?page=<?=(int)$get['page']?>&action=sort&amp;move=down&amp;id=<?=$row['id']?>"> ▼</a></span>
 							 <?php
 							 }else
 							 {?>
@@ -529,7 +541,7 @@ include("inc/return_dbcon.inc.php");
                                 </a>
                             </td>
               				<td>
-                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>confirmDelete('default.php?action=delete&id=<?=$row['id']?>');<?php }?>">
+                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>confirmDeletePlus('ajax/delete_table.php?id=<?=$row['id']?>');<?php }?>">
                                 	<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
                             </td>
@@ -592,25 +604,28 @@ include("inc/return_dbcon.inc.php");
 		}
 ?>
 
-
-        <? if($_GET['id'] !=''){
+        <? if($$get['id'] !=''){
 		?>
 		<script>
-		// $("#boxid<?=$_GET['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
+		// $("#boxid<?=$get['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
 		</script>
 		<? }?>
 			</div>
         </div>
- </div>
+</form>
+</div>
+</div>
+</div>
 <?php
 	include_once("inc/left_nav.inc.php");
 	include_once("inc/new.footer.inc.php");
 ?>
 <?php if(isset($err)){
-		echo "<script>
-			alert('".$obj->GetErrorMsgNew($err)."');
-			</script>";
-		}?>
-		<?php if(isset($msg)){	echo "<script>
-			alert('".$obj->GetSuccessMsgNew($msg)."');
-			</script>"; } ?>
+	echo "<script>
+		alert('".$obj->GetErrorMsgNew($err)."');
+		</script>";
+	}?>
+<?php if(isset($msg)){	echo "<script>
+		alert('".$obj->GetSuccessMsgNew($msg)."');
+		</script>"; }
+?>

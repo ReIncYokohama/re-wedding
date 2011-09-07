@@ -38,6 +38,7 @@ function get_image_text_height($fontsize,$font,$text,$angle=0){
 
 function text_imagettftext($image,$insert_height,$angle,$left,$bottom,$color,$font,$text,$width_compression=100){
   $fontsize = 15;
+  $text = mb_ereg_replace("　", " ", $text);
   $image_arr = imagettfbbox($fontsize,$angle,$font,$text);
   $height = $image_arr[1] - $image_arr[5];
   $width = $image_arr[2] - $image_arr[0];
@@ -73,6 +74,7 @@ function gaiji_imagettftext($image,$fontsize,$angle,$left,$bottom,$color,
                             $font,$str,$gaiji_image_url_arr=array(),$width_compression=100,$gaiji_str="＊"){
   $str_not_gaiji_arr = explode($gaiji_str,$str);
   $gaiji_num = count($str_not_gaiji_arr);
+  $str = mb_ereg_replace("　", " ", $str);
 
   $image_arr = imagettfbbox($fontsize,$angle,$font,"あ".implode("",$str_not_gaiji_arr));
   $height = $image_arr[1]-$image_arr[5];
