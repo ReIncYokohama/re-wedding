@@ -14,7 +14,7 @@ include_once("../admin/inc/dbcon.inc.php");
 	}
 
 	if(isset($_POST['sub'])) {
-	$query_string = "SELECT * from spssp_printing_comapny WHERE email= '".$userID."' and number = '".$password."'";
+	$query_string = "SELECT * from spssp_printing_comapny WHERE BINARY email= '".$userID."' and number = '".$password."'";
 
 	$result = mysql_query( $query_string );
 	$row = mysql_fetch_array($result);
