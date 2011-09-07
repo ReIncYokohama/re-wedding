@@ -12,8 +12,10 @@
 
 	$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
 
-
 	$get = $obj->protectXSS($_GET);
+
+	$room_id = $get['room_id'];
+	unset($get['room_id']);
 
 	if($_GET['action']=='delete' && (int)$_GET['id'] > 0)
 	{
@@ -61,8 +63,6 @@
 	//$query_string="SELECT * FROM spssp_room  ORDER BY display_order DESC LIMIT ".((int)($current_page)*$data_per_page).",".((int)$data_per_page).";";
 	$query_string="SELECT * FROM spssp_room where status=1  ORDER BY display_order ASC ;";
 	$data_rows = $obj->getRowsByQuery($query_string);
-
-
 
 if($_SESSION["new_rooms"]=="success")
 	{
@@ -207,6 +207,8 @@ function isInteger(id){
 }
 function preview_room(room_id)
 {
+		document.room_form.room_id.value=room_id;
+
 		$.post('ajax/room_preview.php',{'room_id':room_id}, function(data){
 		$("#table_preview div").fadeOut(100);
 		$("#table_preview div").html(data);
@@ -225,6 +227,19 @@ function cancel_new()
 		$("#max_seats").val('4');
 
 	//$("#new_table").fadeOut(300);
+}
+function confirmDeletePlus(urls)
+{
+   	var agree = confirm("会場名を削除しても宜しいですか？");
+	if(agree)
+	{
+		var urlPlus = urls+"&room_id="+document.room_form.room_id.value;
+		window.location = urlPlus;
+	}
+}
+function sort_view(urls) {
+	var urlPlus = urls+"&room_id="+document.room_form.room_id.value;
+	window.location = urlPlus;
 }
 </script>
 
@@ -315,7 +330,8 @@ include("inc/return_dbcon.inc.php");
                     <img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22"  />
 
                 </a>&nbsp;&nbsp;
-					<a href="#"><img width="82" height="22" border="0" src="img/common/btn_clear.jpg" alt="クリア" onclick="cancel_new();" value="クリア">
+					<a href="#"><img width="82" height="22" border="0" src="img/common/btn_clear.jpg" alt="クリア" onclick="cancel_new();""></a>
+				<input type="hidden" name="room_id" value="0" />
              </form>
          </p></div>
          <?php } ?>
@@ -430,8 +446,8 @@ include("inc/return_dbcon.inc.php");
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
                             <td width ="20" class="txt1">
                             <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] > "1"){ ?>
-								<a href="rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=up&amp;id=<?=$row['id']?>">▲</a> &nbsp;
-                				<a href="rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=down&amp;id=<?=$row['id']?>">▼</a>
+								<a href="javascript:void(0);" onClick="sort_view('rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=up&amp;id=<?=$row['id']?>')">▲</a> &nbsp;
+                				<a href="javascript:void(0);" onClick="sort_view('rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=down&amp;id=<?=$row['id']?>')">▼</a>
 							<?php }else {?>	<span style="color:gray;">▲▼</span><?php }	 ?>
                              </td>
 							 <?php }	 ?>
@@ -453,7 +469,7 @@ include("inc/return_dbcon.inc.php");
 							<?php }	 ?>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
                             <td width ="20" >
-                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] =="222"){?>alert('権限がありません');<?php }else{?>confirmDelete('rooms.php?page=<?=(int)$_GET['page']?>&action=delete&id=<?=$row['id']?>'); <?php }?>">
+                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] =="222"){?>alert('権限がありません');<?php }else{?>confirmDeletePlus('rooms.php?page=<?=(int)$_GET['page']?>&action=delete&id=<?=$row['id']?>'); <?php }?>">
                             		<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
                             </td>
@@ -466,12 +482,14 @@ include("inc/return_dbcon.inc.php");
 			}
 			?>
       	</div>
-
+      	<?php
+		if ($room_id>0) {
+			echo "<script> preview_room($room_id); </script>";
+		}
+		?>
     </div>
 
 </div>
-
-
 <?php
 include_once('inc/left_nav.inc.php');
 
