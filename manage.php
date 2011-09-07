@@ -55,7 +55,7 @@
 {
 padding:5px 5px 5px 147px;;
 display:none;
-color:#999999;
+color:#000000;
 font-weight:normal;
 }
 </style>
@@ -179,7 +179,7 @@ function save_super_message()
 */
 function view_dsc_super(id)
 {
-	$j("#super_desc_"+id).toggle("slow");
+	$j("#super_desc_"+id).toggle();
 
 }
 function edit_super_msg(id)

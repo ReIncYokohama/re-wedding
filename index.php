@@ -15,7 +15,7 @@
 
 	if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 	{
-		$query_string="SELECT * FROM super_spssp_admin WHERE username='".jp_encode($_POST['adminid'])."' AND password='".jp_encode($_POST['adminpass'])."' LIMIT 0,1;";
+		$query_string="SELECT * FROM super_spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' LIMIT 0,1;";
 
 		$db_result=mysql_query($query_string);
 		if(mysql_num_rows($db_result))
