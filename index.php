@@ -25,8 +25,9 @@
 
 				$_SESSION['super_adminid']=$db_row['id'];
 // UCHIDA EDIT 11/08/11
-//				redirect("hotel.php");
-				redirect("manage.php");
+// UCHIDA EDIT 11/09/07
+//				redirect("manage.php");
+				redirect("hotel.php");
 			}
 			else
 			{
