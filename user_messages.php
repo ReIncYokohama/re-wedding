@@ -6,8 +6,8 @@
 	$get = $obj->protectXSS($_GET);
 	$user_id = (int)$_SESSION['userid'];
 	include_once("inc/new.header.inc.php");
-	
-	
+
+
 	$num=$obj->GetNumRows("spssp_message", " user_id=".(int)$user_id);
 	$count_messege=$num+1;
 
@@ -27,6 +27,7 @@
 	}
 	if($_POST{'insert'})
 	{
+		unset($_POST['file1']);
 		$basepath='./upload/';
 		@mkdir($basepath);
 
@@ -58,7 +59,7 @@
 					</script>
 					<?php
 				}
-			
+
 
 			}
 			if($ext!="exe" && $ext!="EXE")
@@ -74,13 +75,13 @@
 						if(!empty($filename))
 						{
 							$samplefile=$filename;
-								
+
 							$basepath='./upload/attach/'.$lastid."/";
 							@mkdir($basepath);
-							
+
 							@move_uploaded_file($_FILES['upfile']["tmp_name"],$basepath.$samplefile);
 						}
-						
+
 						if($samplefile)
 						{
 							$values['attach']='1';
@@ -172,7 +173,7 @@ function view_adminitem(id,no){
 		$.post("ajax/view_user_message.php",{'id':id},function(data){
 
 			var substrs = data.split('#');
-			$("#v_no").html("No."+no);
+			//$("#v_no").html("No."+no);
 			$("#v_title").html(substrs[2]);
 			$("#v_desc").html(substrs[3]);
 
@@ -213,7 +214,9 @@ function cancel_insert()
 {
 	$("#title").attr("value","");
 	$("#description").attr("value","");
-	$("#insert_msg").hide("slow");
+	$("#upfile").attr("value","");
+	$("#file1").attr("value","");
+	//$("#insert_msg").hide("slow");
 }
 function cancel_update()
 {
@@ -238,6 +241,13 @@ function confirmDelete(urls)
  var title=$("title");
  $(title).html("メッセージ送信 - ウエディングプラス");
 
+ function button1_onclick() {
+		document.msg_form.upfile.click();
+	}
+function filename_change() {
+	document.msg_form.file1.value = document.msg_form.upfile.value;
+}
+
 </script>
 <div id="main_contents">
   <div class="title_bar">
@@ -255,36 +265,32 @@ function confirmDelete(urls)
 		<form action="user_messages.php?page=<?=(int)$_GET['page']?>" method="post" name="msg_form" enctype="multipart/form-data">
 			<input type="hidden" name="insert" value="insert">
 			<input type="hidden" name="admin_id" value="<?=$_SESSION['adminid']?>">
-			<table align="center" border="0">
-
+			<table align="left" border="0" >
 				<tr>
-					<td width="5%" style="text-align:right;">No.：</td>
-					<td style="text-align:left;">
-						<input name="No" type="text" id="No" value="<?=$count_messege?>" size="1"  readonly="readonly"/>
+					<td width="40" style="text-align:right;">タイトル</td>
+					<td colspan="2" style="text-align:left;" > <input size="114" type="text" name="title" id="title" /></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;">本文</td>
+					<td colspan="2" style="text-align:left;"><textarea name="description" id="description" cols="70" rows="5"></textarea></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;">添付</td>
+					<td width="10" style="text-align:left;"  valign="baseline">
+						<input type="text" id="file1" name="file1" readonly />
+						<input id="upfile" type="file" name="upfile" onchange="filename_change();" style="display: none">
+					</td>
+					<td width="480" >
+						<a href="javascript:void(0);" name="file2" onclick="button1_onclick();"><img src="img//btn_attach_user.jpg" alt="参照" /></a>
 					</td>
 				</tr>
 				<tr>
-					<td style="text-align:right; width:50px;">タイトル</td>
-					<td style="text-align:left;">
-						<input type="text" name="title" id="title" style="width:250px;"/>
-					</td>
-				</tr>
-				<tr>
-					<td width="5%" style="text-align:right;">本文</td>
-					<td style="text-align:left;">
-						<textarea name="description" id="description" cols="70" rows="5"></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td width="5%" style="text-align:right;">添付</td>
-					<td style="text-align:left;">
-						<input type="file" name="upfile" />
-					</td>
-				</tr>
-		<tr>
 					<td>&nbsp;</td>
-					<td>
-						<input type="button" name="insert" value="送信" onclick="validForm();"/> &nbsp; <input type="reset" value="キャンセル"  onclick="cancel_insert();" />
+					<td style="text-align:center">
+						<a href="javascript:void(0);" name="insert" onclick="validForm();"/><img src="img/btn_send_user.jpg" alt="送信" /></a> &nbsp;
+					</td>
+					<td style="text-align:left;">
+						<a href="javascript:void(0);" name="reset" onclick="cancel_insert();"/><img src="img/btn_cancel_user.jpg" alt="チャンセル" /></a>
 					</td>
 				</tr>
 			</table>
@@ -325,7 +331,7 @@ function confirmDelete(urls)
 	<div class="message_area">
       <table width="854" border="0" cellspacing="1" cellpadding="3" bgcolor="#CCCCCC">
         <tr>
-          <td width="28" align="center" nowrap="nowrap" bgcolor="#FFFFFF">No.</td>
+<!--           <td width="28" align="center" nowrap="nowrap" bgcolor="#FFFFFF">No.</td> -->
           <td width="130" align="center" nowrap="nowrap" bgcolor="#FFFFFF">送信日時</td>
           <td width="200" align="center" nowrap="nowrap" bgcolor="#FFFFFF">タイトル</td>
 		  <td width="28" align="center" nowrap="nowrap" bgcolor="#FFFFFF">添付</td>
@@ -345,10 +351,8 @@ function confirmDelete(urls)
 	?>
 
 
-
-
         <tr>
-          <td width="28" align="center" nowrap="nowrap" bgcolor="#FFFFFF"><?=$j?></td>
+<!--           <td width="28" align="center" nowrap="nowrap" bgcolor="#FFFFFF"><?=$j?></td> -->
           <td width="130"  align="center" bgcolor="#FFFFFF"><?=$row['creation_date']?></td>
           <td width="200" align="left" bgcolor="#FFFFFF"><?=$row['title']?></td>
 		  <td width="28" align="center" bgcolor="#FFFFFF">

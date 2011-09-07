@@ -185,7 +185,6 @@ include("inc/return_dbcon.inc.php");
 <!-- 			<input type="hidden" name="admin_id" value="<?=$_SESSION['adminid']?>"> -->
 			<input type="hidden" name="admin_id" value="<?=$stuff_id?>">
 			<table align="center" border="0" style="width:800px;">
-
 				<tr>
 					<td width="5%" style="text-align:right;">No.：</td>
 					<td style="text-align:left;">
@@ -253,7 +252,7 @@ include("inc/return_dbcon.inc.php");
       <div class="box4">
           <table border="0" align="center" cellpadding="1" cellspacing="1">
             <tr align="center">
-              <td>No.</td>
+<!--               <td>No.</td> -->
               <td>日　付</td>
               <td>&nbsp;</td>
               <td>タイトル</td>
@@ -291,7 +290,7 @@ include("inc/return_dbcon.inc.php");
 		<div class="<?=$class?>">
 			<table border="0" align="center" cellpadding="1" cellspacing="1">
             <tr align="center">
-              <td><?=$j?></td>
+<!--               <td><?=$j?></td> -->
               <td><?=strftime('%Y/%m/%d',strtotime($row['creation_date']))?></td>
               <td><div id="view_<?=$row['id']?>"><?php if($row['admin_viewed']==0){?><a href="javascript:void(0)" onclick="view_adminitem(<?=$row['id']?>,<?=$view?>,<?=$modify?>);"><img src="img/common/btn_midoku.gif" id="view<?=$row['id']?>" width="42" height="17" /></a><?php }?></td>
               <!-- < ?php if($row['admin_id']){
