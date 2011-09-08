@@ -9,6 +9,17 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete' && (int)$_GET['id'] > 0
 {
 	$obj->DeleteRow("super_spssp_hotel"," id =".(int)$_GET['id']);
 }
+
+$query_string="SELECT * FROM super_spssp_admin;";
+$db_result=mysql_query($query_string);
+if(mysql_num_rows($db_result))
+{
+	if($db_row=mysql_fetch_array($db_result))
+	{
+		$adminid=$db_row['username'];
+		$adminpass=$db_row['password'];
+	}
+}
 ?>
   <div id="topnavi">
 
@@ -60,6 +71,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete' && (int)$_GET['id'] > 0
 
 				$class=($i%2==0)?"box5":"box6";
 		?>
+	  <form action="../hotel<?php echo (int)$hotel['hotel_code']?>/admin/index.php" name="fm<?=(int)$hotel['hotel_code']?>" method="post">
       <div class="<?=$class?>">
         <table border="0" align="center" cellpadding="1" cellspacing="1">
           <tr align="center">
@@ -70,13 +82,17 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete' && (int)$_GET['id'] > 0
 <!-- UCHIDA EDIT 11/08/11 デモ用に登録したホテルＩＤでホテル画面に遷移させる -->
 <!--             <td><a href="#"><img src="img/common/hotel_display.png" width="61" height="17" alt="ホテル画面" /></a></td> -->
             <td>
-			<a href="../hotel<?php echo (int)$hotel['hotel_code']?>/admin/index.php?key=<?=md5($hotel['email'])?>"><img src="img/common/hotel_display.png" width="61" height="17" alt="ホテル画面" /></a>
+<!-- 			<a href="../hotel<?php echo (int)$hotel['hotel_code']?>/admin/index.php?key=<?=md5($hotel['email'])?>"><img src="img/common/hotel_display.png" width="61" height="17" alt="ホテル画面" /></a> -->
+ 			<a href="javascript:void(0);" onClick="hotelSubmit(<?=(int)$hotel['hotel_code']?>);"><img src="img/common/hotel_display.png" width="61" height="17" alt="ホテル画面" /></a>
 			</td>
 
             <td><a href="hotel.php?action=delete&id=<?=$hotel['id']?>" onclick="return confirm('削除しても宜しいですか？');"> <img src="img/common/btn_deleate.png" alt="削除" width="42" height="17" /></a></td>
           </tr>
         </table>
       </div>
+      	<input type="hidden" name="adminid" value="<?=$adminid?>" />
+      	<input type="hidden" name="adminpass" value="<?=$adminpass?>" />
+      </form>
 	  <?php
 	  		$i++;
 	  		}
@@ -92,5 +108,9 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete' && (int)$_GET['id'] > 0
 function submitform()
 {
     document.forms["hotel_search"].submit();
+}
+function hotelSubmit(no)
+{
+    document.forms["fm"+no].submit();
 }
 </script>
