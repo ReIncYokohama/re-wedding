@@ -4,6 +4,7 @@ include_once("inc/dbcon.inc.php");
 $id=$_GET['adminid']; // UCHIDA EDIT 11/08/17 ＩＤを再表示
 $adminid = $_POST["adminid"];
 $adminpass = $_POST["adminpass"];
+
 if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 	{
 		$query_string="SELECT * FROM spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' AND sessionid='' LIMIT 0,1;";
