@@ -205,10 +205,9 @@ include("inc/return_dbcon.inc.php");
                 <tr align="center">
                   <td width="10%">No.</td>
                   <td>挙式種類</td>
-<!-- UCHIDA EDIT 11/08/08 表示位置の入れ替え  -->
-                 <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td>順序変更</td>
+                   <td>順序変更</td>
 				   <td>編集</td>
-                  <td>削除</td> <?php } ?>
+                   <td>削除</td>
                 </tr>
               </table>
             </div>
@@ -244,7 +243,6 @@ include("inc/return_dbcon.inc.php");
                             <td><?=$row['title']?></td>
                             <!--<td><a href="party_rooms.php?religion_id=< ?=$row['id']?>">挙式会場</a></td>-->
                             <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
-<!-- UCHIDA EDIT 11/08/08 表示位置の入れ替え  -->
 							<td>
 							 <span class="txt1"><a href="sort.php?table=religion&sort=ASC&move=up&id=<?=$row['id']?>&pagename=religions">▲</a>
                              <a href="sort.php?table=religion&sort=ASC&move=down&id=<?=$row['id']?>&pagename=religions"> ▼</a></span>
@@ -259,6 +257,10 @@ include("inc/return_dbcon.inc.php");
                                 	<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
                             </td>
+							<?php } else {?>
+							<td></td>
+							<td><img src="img/common/btn_edit_greyed.gif" width="42" height="17" /></td>
+							<td><img src="img/common/btn_deleate_greyed.gif" width="42" height="17" /></td>
 							<?php } ?>
             			</tr>
                      </table>
