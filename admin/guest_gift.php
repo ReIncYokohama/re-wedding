@@ -300,10 +300,10 @@ include("inc/return_dbcon.inc.php");
 		<div style="width:600px">
 		<?php
 		if($stuff_id==0) {
-            echo '<a href="manage.php">ＴＯＰ</a> &raquo; 席次表・引出物発注';
+            echo '<a href="manage.php">ＴＯＰ</a> &raquo; お客様挙式情報 &raquo; 席次表・引出物発注';
 		}
 		else {
-            echo '<a href="users.php">管理者用お客様一覧</a> &raquo; 席次表・引出物発注';
+            echo '<a href="users.php">管理者用お客様一覧</a> &raquo; お客様挙式情報 &raquo; 席次表・引出物発注';
 		}
 		?>
 		</div>

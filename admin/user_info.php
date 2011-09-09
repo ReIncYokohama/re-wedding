@@ -980,16 +980,16 @@ include("inc/return_dbcon.inc.php");
   様
 
     </div>
-        <h2><div style="width:400px; ">
+        <h2><div style="width:500px; ">
 	<!-- UCHIDA EDIT 11/08/02
 	        <a href="users.php">お客様一覧</a> &raquo; お客様挙式情報</div>
 	-->
 		<?php
 		if($stuff_id==0) {
-            echo '<a href="manage.php">ＴＯＰ</a> &raquo; お客様挙式情報';
+            echo '<a href="manage.php">ＴＯＰ</a> &raquo; お客様挙式情報 &raquo; お挙式情報・各種設定';
 		}
 		else {
-            echo '<a href="users.php">管理者用お客様一覧</a> &raquo; お客様挙式情報';
+            echo '<a href="users.php">管理者用お客様一覧</a> &raquo; お客様挙式情報 &raquo; お挙式情報・各種設定';
 		}
 		?>
 		</div>

@@ -233,10 +233,10 @@ include("inc/return_dbcon.inc.php");
 <!--             	 <a href="users.php">お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報</a> &raquo; メッセージ</div> -->
 		<?php
 		if($stuff_id==0) {
-            echo '<a href="manage.php">ＴＯＰ</a> &raquo; メッセージ';
+            echo '<a href="manage.php">ＴＯＰ</a> &raquo; お客様挙式情報 &raquo; メッセージ';
 		}
 		else {
-            echo '<a href="users.php">管理者用お客様一覧</a> &raquo; メッセージ';
+            echo '<a href="users.php">管理者用お客様一覧</a> &raquo; お客様挙式情報 &raquo; メッセージ';
 		}
 		?>
 		</div>
