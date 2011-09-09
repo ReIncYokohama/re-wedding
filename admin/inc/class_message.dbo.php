@@ -511,7 +511,7 @@ class MessageClass extends InformationClass
 	function clicktime_format($target) {
 		if ($target == NULL or $target == "0000-00-00 00:00:00") 	return NULL;
 //		else														return "[".substr($target, 5, 2 )."/".substr($target, 8, 2 )." ".substr($target, 11, 5 )."]";
-		else														return substr($target, 0, 4 )."年".substr($target, 5, 2 )."月".substr($target, 8, 2 )."日 ".substr($target, 11, 5 );
+		else														return substr($target, 0, 4 )."年".substr($target, 5, 2 )."月".substr($target, 8, 2 )."日 ".substr($target, 11, 5 )." 依頼済";
 
 	}
 
