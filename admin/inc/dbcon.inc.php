@@ -30,8 +30,6 @@ function mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase){
   }
 mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase);
 
-$Client_site_url="http://re-dev.sakura.ne.jp/dev2/hotel11/";
-$Admin_site_url="http://re-dev.sakura.ne.jp/dev2/hotel11/admin/";
 function curPageURL()
  {
 		 $pageURL = 'http';
@@ -590,12 +588,13 @@ function uploadFile($path,$file,$filename ,$extension='')
 							  29 => "Your admin message sending error",
 							  30 => "The user did not select any print company.Please select one or contact to the user.",
 				             );
-
 define('SCRIPT_VERSION', '4');
 
-define('ADMIN_LINK', 'http://re-dev.sakura.ne.jp/demo/demo1/hotel1/admin/');     //this link is used in email system
-define('MAIN_LINK', 'http://re-dev.sakura.ne.jp/dev2/hotel11/');         //this link is used in email system
-define('PRINT_COMPANY_LINK', 'http://re-dev.sakura.ne.jp/dev2/hotel11/print/');     //this link is used in email system
+$current="http://re-dev.sakura.ne.jp/demo/demo2/hotel".(int)$HOTELID;
+
+define('ADMIN_LINK', $current."/admin/");     //this link is used in email system
+define('MAIN_LINK', $current);         //this link is used in email system
+define('PRINT_COMPANY_LINK', $current."/print/");     //this link is used in email system
 
 define('GIFT_GROUP_NAME', '');
 define('GIFT_ITEM_NAME', 'Item');

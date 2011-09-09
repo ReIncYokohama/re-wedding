@@ -160,11 +160,16 @@ class MessageClass extends InformationClass
 			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".$user_name."  ".INFO_A."</a></li>";
 		}
 
-		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and `order` = 0 and user_id=".$user_id) )
+		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and `order` = 1 and user_id=".$user_id) )
 		{
 			$dl = $user_plan_info['dl_print_com_times'];
-			if (($dl & 0x200) == 0x000) // UCHIDA EDIT 11/08/15 スタッフがPDF表示を行っていないか
-			$msg_text = "<li id='msg_hide1'><a href='".$user_plan_info['p_company_file_up']."'  target='_blank' onclick='hide_this(\"msg_hide1\"); $this::pdf_readed($user_id, $dl, 0x200)' >".$party_day."  ".$user_name." ".INFO_B."</a></li>";
+			if (($dl & 0x200) == 0x000) {// UCHIDA EDIT 11/08/15 スタッフがPDF表示を行っていないか
+				$dl = $dl | 0x200;
+				$msg_text  = "<li id=msg_hide1>";
+				$msg_text .= "<a href=ajax/pdf_readed?user_id=".$user_id."&filename=".$user_plan_info[p_company_file_up]."&vset=".$dl." target=_blank";
+				$msg_text .= " onclick='hide_this(\"msg_hide1\");'>";
+				$msg_text .= $party_day." ".$user_name." ".INFO_B."</a></li>";
+			}
 		}
 		else if( $this :: GetRowCount("spssp_plan"," `order` = 2 and `admin_to_pcompany` != 3 and user_id=".$user_id) )
 		{
@@ -271,16 +276,18 @@ class MessageClass extends InformationClass
 		{
 			$msg_text .= "";
 		}
-		if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and `order` = 0 and user_id=".$user_id) )
+		if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and `order` = 1 and user_id=".$user_id) )
 		{
 			$dl = $user_plan_info['dl_print_com_times'];
 			if (($dl & 0x100) == 0x000) { // UCHIDA EDIT 11/08/15 ユーザがPDF表示を行っていないか
 				// UCHIDA EDIT 11/08/09 UPLOADフォルダがユーザディレクトにあるので、先頭の'../'を削除してリンク先にする
+				$dl = $dl | 0x100;
 				$href = $user_plan_info['p_company_file_up'];
-				$l = strlen($href)-3;
-	//			$msg_text = "<div id='msg_hide1'><a href='".substr($href, 3, $l)."'  target='_blank' onclick='$this::reset_guest_gift_page_and_user_orders_conditions($user_id);' >".INFO_C."</a></div>";  // UCHIDA EDIT 11/08/15 完結したので初期状態にする
-				$msg_text = "<div id='msg_hide1'><a href='".substr($href, 3, $l)."'  target='_blank' onclick='hide_this(\"msg_hide1\"); $this::pdf_readed($user_id, $dl, 0x100)' >".INFO_C."</a></div>";
-	//			$msg_text = "<li id='msg_hide1'><a href='".$user_plan_info['p_company_file_up']."'  target='_blank' onclick='hide_this(\"msg_hide1\");' >".INFO_C."</a></li>";
+//				$l = strlen($href)-3;
+//				$href = substr($href, 3, $l);
+				$msg_text  = "<div id=msg_hide1>";
+				$msg_text .= "<a href=admin/ajax/pdf_readed?user_id=".$user_id."&filename=".$href."&vset=".$dl." target=_blank";
+				$msg_text .= " onclick='hide_this(\"msg_hide1\")';>".INFO_C."</a></div>";
 			}
 		}
 		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 3 and `order` = 2 and user_id=".$user_id) )
@@ -503,7 +510,8 @@ class MessageClass extends InformationClass
 // UCHIDA EDIT 11/08/16 クリック日付のフォーマト
 	function clicktime_format($target) {
 		if ($target == NULL or $target == "0000-00-00 00:00:00") 	return NULL;
-		else														return "[".substr($target, 5, 2 )."/".substr($target, 8, 2 )." ".substr($target, 11, 5 )."]";
+//		else														return "[".substr($target, 5, 2 )."/".substr($target, 8, 2 )." ".substr($target, 11, 5 )."]";
+		else														return substr($target, 0, 4 )."年".substr($target, 5, 2 )."月".substr($target, 8, 2 )."日 ".substr($target, 11, 5 );
 
 	}
 

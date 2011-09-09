@@ -52,7 +52,7 @@ if(isset($_POST['sub']))
 		{
 			unset($post);
 			$post['ul_print_com_times'] = $user_plan_info['ul_print_com_times'] - 1;
-			$obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
+//			$obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
 
 			$post['p_company_file_up']=$message;
 			$post['admin_to_pcompany']=2;
@@ -62,8 +62,8 @@ if(isset($_POST['sub']))
 				$objMail->printCompany_upload_admin_notification_mail($user_id,$printCompany_id);
 				$objMail->printCompany_upload_user_notification_mail($user_id,$printCompany_id);
 
-				//this call of function reset this whole  user's order and admin process system 
-				$objInfo->reset_guest_gift_page_and_user_orders_conditions($user_id,$flag=2);
+				//this call of function reset this whole  user's order and admin process system
+				//$objInfo->reset_guest_gift_page_and_user_orders_conditions($user_id,$flag=2);
 			}
 			$message =1;
 		}
@@ -98,8 +98,8 @@ $row = $objInfo->get_user_info($user_id);
   <div id="container">
     <div id="contents">
 <h2>アップロード</h2>
-   
-   
+
+
     <div class="top_searchbox1">
       <table width="420" border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -110,7 +110,7 @@ $row = $objInfo->get_user_info($user_id);
           </tr>
         </table>
 
- 
+
     </div>
      <form action="upload.php?user_id=<?=$_GET['user_id']?>" name="uploaddoc" method="post" enctype="multipart/form-data">
     <div class="top_searchbox1">
@@ -132,7 +132,7 @@ $row = $objInfo->get_user_info($user_id);
 		 </td>
           </tr>
         </table>
-   
+
     </div>
     <div class="top_searchbox2">
 	<?php
