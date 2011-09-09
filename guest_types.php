@@ -126,7 +126,7 @@ $get = $obj->protectXSS($_GET);
                             <td><?=$row['name']?></td>
 							<td>
 							<span class="txt1"><a href="guest_types.php?action=sort&amp;move=up&amp;id=<?=$row['id']?>">▲</a>
-							<a href="guest_types?action=sort&amp;move=down&amp;id=<?=$row['id']?>"> ▼</a></span>
+							<a href="guest_types.php?action=sort&amp;move=down&amp;id=<?=$row['id']?>"> ▼</a></span>
 							</td>
                             <td>
                             	<a href="#" onclick="edit_name(<?=$row['id']?>,'<?=$row['name']?>');">
