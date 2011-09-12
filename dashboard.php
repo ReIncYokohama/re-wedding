@@ -34,29 +34,7 @@ $date = date("m/d/Y h:i A",mktime($fullTime));
 echo "<h1>".$fullTime ." $user_id  $date   ////  03/15/2011 05:00 PM <h1>";*/
 
 //$user_room_data = $obj->GetSingleRow("spssp_party_room", " id=".$user_data['party_room_id']);
-
-$rooms = $obj->GetAllRow("spssp_room");
-
-if(is_array($rooms))
-{
-	foreach($rooms as $room)
-	{
-		if($room['id']==$user_data['room_id'])
-		{
-		  // echo $room['name'];
-		   $room_name = $room['name'];
-		   $roomName = $room['name'];
-		}
-		//else
-		// echo "<option value ='".$room['id']."'> ".$room['name']."</option>";
-
-	}
-}
-//echo  $roomName;
-
-
-
-
+$roomName = $obj->GetSingleData("spssp_room","name"," id = ".$user_data["room_id"]);
 
 include("inc/new.header.inc.php");
 
