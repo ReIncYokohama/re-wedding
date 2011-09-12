@@ -27,12 +27,12 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 
 				$_SESSION['adminid']=jp_decode($db_row['id']);
 				$_SESSION['user_type'] = $db_row['permission'];
-        if($_SESSION["super_user"]){
-          $_SESSION["user_type"] = 333;
-        }
+		        if($_SESSION["super_user"]){
+		          $_SESSION["user_type"] = 333;
+		        }
 			//$sql="update spssp_admin set sessionid='".session_id()."',logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
 
-        	if ($_SESSION["super_user"]!=true) {
+        	if ($_SESSION["super_user"]) {
 				$sql="update spssp_admin set logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
 				mysql_query($sql);
         	}
