@@ -9,18 +9,24 @@
 
 	if(trim($_POST['password'])!=="" && trim($_POST['userID'])!='')
 		{
-			$query_string="UPDATE spssp_user SET password='".$_POST['password']."' WHERE password='".$_POST['userID']."';";
+			$old_pw = $_POST['userID'];
+			$nm = $obj->GetRowCount("spssp_user", "password='$old_pw' and id=".$user_id);
+			if ($nm) {
+				$query_string="UPDATE spssp_user SET password='".$_POST['password']."' WHERE password='".$_POST['userID']."';";
 
-			mysql_query($query_string);
-			if(mysql_affected_rows())
-			{
+				mysql_query($query_string);
+				if(mysql_affected_rows())
+				{
 
-				redirect("changepassword.php?mass=1");
+					redirect("changepassword.php?mass=1");
+				}
+				else
+				{
+				   redirect("changepassword.php?mass=2");
+				}
 			}
-			else
-			{
-
-			   redirect("changepassword.php?mass=2");
+			else {
+				   redirect("changepassword.php?mass=3");
 			}
 		}
 
@@ -87,12 +93,16 @@ $(function(){
 	if(newPw != rePw)
 	{
 	   alert("新しいパスワードが一致しません。新しいパスワードを再入力してください。");
+	   document.getElementById('password').value="";
+	   document.getElementById('repassword').value="";
 	   document.getElementById('password').focus();
 	   return false;
 	}
 	if(newPw == oldPw)
 	{
 	   alert("古いパスワードと新しいパスワードが同じです。\n新しいパスワードを再入力してください。");
+	   document.getElementById('password').value="";
+	   document.getElementById('repassword').value="";
 	   document.getElementById('password').focus();
 	   return false;
 	}
@@ -132,24 +142,16 @@ $(function(){
 
    <form action="changepassword.php" method="post" name="login_form">
 		<table style="font-size:10px;" align="center" cellspacing="10" cellpadding="0" width="100%">
-
-<!-- UCHIDA EDIT 11/08/01 -->
-<!--
-
-			<? if($_GET['mass'] >=1){?>
-  			<tr>
-				<td  colspan="2"><font color="#FF0000"><b> <?=($_GET['mass'] ==1)?"パスワードの変更が正常に完了しました。":"パスワード変更に失敗しました ";?></b></font></td>
-				</td>
-			</tr>
-  <? }?>
- -->
 			<?
 			 if($_GET['mass'] >=1) {
-				if($_GET['mass'] ==1) {
+				if($_GET['mass'] == 1) {
 					echo "<script> alert('パスワードの変更が正常に完了しました'); </script>";
 				}
-				else {
+				else if ($_GET['mass'] == 2) {
 					echo "<script> alert('パスワード変更に失敗しました'); </script>";
+				}
+				else {
+					echo "<script> alert('古いパスワードが違っています'); </script>";
 				}
 			}
 			?>
@@ -173,11 +175,12 @@ $(function(){
 			</tr>
 		</table>
 	 </form>
-
+    <script>document.getElementById('userID').focus();</script>
     </div>
-    <div class="clear"></div></div>
+    <div class="clear"></div>
     <div align="center"><a href="javascript:history.back();">&lt;&lt;戻る</a></div> <!-- UCHIDA EDIT 11/07/28 -->
-<div class="clear"></div>
+  <div class="clear"></div>
+
   </div>
 <?php
 include("inc/new.footer.inc.php");
