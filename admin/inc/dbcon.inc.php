@@ -503,10 +503,8 @@ function inquery_mail($to,$mailbody,$mailbody2)
 				else echo 'エラー';
 
 	}
-
-
-
-	if($_SESSION['adminid'] !='' && $_SESSION['user_type'] !='')
+/*
+	if($_SESSION['adminid'] !='' && $_SESSION['user_type'] !='' && !$_SESSION["super_user"])
 	{
 	$sql="update spssp_admin set updatetime='".date("Y-m-d H:i:s")."' WHERE id='".$_SESSION['adminid']."';";
 	mysql_query($sql);
@@ -515,9 +513,7 @@ function inquery_mail($to,$mailbody,$mailbody2)
 	$currentdate = date('Y-m-d H:i:s');
 	$query = "update `spssp_admin` set sessionid='' WHERE (TIMESTAMPDIFF(MINUTE,updatetime,'".$currentdate."')) > 2";
 	mysql_query($query);
-
-
-
+*/
 
 function uploadFile($path,$file,$filename ,$extension='')
 {
@@ -590,7 +586,23 @@ function uploadFile($path,$file,$filename ,$extension='')
 				             );
 define('SCRIPT_VERSION', '4');
 
-$current="http://re-dev.sakura.ne.jp/demo/demo2/hotel".(int)$HOTELID;
+
+if( isset($_SERVER['HTTPS']) ) {
+	$http = ($_SERVER['HTTPS'])?'https://':'http://';
+} else {
+	$http = 'http://';
+}
+define('CONFIG_THIS_URL',$http.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+
+$reqfile = strrchr(CONFIG_THIS_URL, "/");
+$urilen = strlen(CONFIG_THIS_URL);
+$reqfilelen = strlen($reqfile);
+$requrl = substr( CONFIG_THIS_URL, 0, $urilen - $reqfilelen );
+
+$reqfile = strrchr($requrl, "/");
+$urilen = strlen($requrl);
+$reqfilelen = strlen($reqfile);
+$current = substr( $requrl, 0, $urilen - $reqfilelen );
 
 define('ADMIN_LINK', $current."/admin/");     //this link is used in email system
 define('MAIN_LINK', $current);         //this link is used in email system

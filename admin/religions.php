@@ -167,9 +167,9 @@ include("inc/return_dbcon.inc.php");
 		}
 		?>
 <!-- UCHIDA EDIT 11/07/27　↑ -->
-
       <?php
-	  	if($_SESSION['user_type'] != 222)
+
+      if($_SESSION['user_type'] != 222)
 		{
 		if($_GET['id'])
 		  $getrow = $obj->GetSingleData('spssp_religion','title', 'id='.$_GET['id']);

@@ -30,32 +30,31 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
         if($_SESSION["super_user"]){
           $_SESSION["user_type"] = 333;
         }
-				//$sql="update spssp_admin set sessionid='".session_id()."',logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
+			//$sql="update spssp_admin set sessionid='".session_id()."',logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
 
+        	if ($_SESSION["super_user"]!=true) {
 				$sql="update spssp_admin set logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
-
 				mysql_query($sql);
-
-				redirect("manage.php");
-			}
-			else
-			{
-				// UCHIDA EDIT 11/08/17 ＩＤを再表示
-				$id=$_POST['adminid'];
-				redirect("index.php?adminid=$id&action=failed");
-			}
+        	}
+			redirect("manage.php");
 		}
 		else
 		{
 			// UCHIDA EDIT 11/08/17 ＩＤを再表示
 			$id=$_POST['adminid'];
-			redirect("index.php?adminid=$id&action=failed");
+			redirect("index.php?adminid=$id&action=failed");			}
 		}
-	}
 	else
 	{
-		@session_destroy();
+			// UCHIDA EDIT 11/08/17 ＩＤを再表示
+			$id=$_POST['adminid'];
+			redirect("index.php?adminid=$id&action=failed");
 	}
+}
+else
+{
+	@session_destroy();
+}
 
 
 //	include_once("inc/new.header.inc.php");
