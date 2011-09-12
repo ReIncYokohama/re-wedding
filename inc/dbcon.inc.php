@@ -22,7 +22,7 @@ function mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase){
   $link = mysql_connect($sqlhost, $sqluser,$sqlpassword)
     	or die("COULD NOT CONNECT : " . mysql_error());
   mysql_select_db($sqldatabase) or die("COULD NOT SELECT DATABASE");
-  mysql_query("SET CHARACTER SET 'utf8'"); 
+  mysql_query("SET CHARACTER SET 'utf8'");
   mysql_query("SET NAMES 'utf8'");
   return $link;
 }
@@ -57,7 +57,7 @@ function jp_decode($string)
 		//$string=mb_convert_encoding($string, "SJIS", "UTF8");
 		return $string;
 	}
-	
+
 function redirect($url)
 	{
 		if(!headers_sent())
@@ -65,7 +65,7 @@ function redirect($url)
 		else
 			echo '<meta http-equiv="refresh" content="0;url='.$url.'" />';
 	}
-	
+
 	function mysubstr($string, $limit, $break=".", $pad="")
 {
   // return with no change if string is shorter than $limit
@@ -78,7 +78,7 @@ function redirect($url)
 	  $string =  mb_substr($string,0,$breakpoint,"EUC-JP" ). $pad;
     }
   }
-  
+
   return $string;
 }
 
@@ -127,13 +127,13 @@ function randtext($length)
 	  $strset .= "abcdefghijklmnopqrstuvwxyz";
 	  $strset .= "1234567890";
 	  // Add the special characters to $strset if needed
-	
+
 	  for($i = 0; $i < $length; $i++)
 		  {
 			$random .= substr($strset,(rand()%(strlen($strset))), 1);
 		  }
 	  return $random;
-	} 
+	}
 
 
 function ob_sid_rewrite($buffer){
@@ -141,12 +141,12 @@ function ob_sid_rewrite($buffer){
         '/<\s*(a|link|script)\s[^>]*(href|src)\s*=\s*"([^"]*)"/',
         '/<\s*(a|link|script)\s[^>]*(href|src)\s*=\s*\'([^\'<>]*)\'/',
         );
-         
+
    $buffer = preg_replace_callback($replacements, "pa_sid_rewriter", $buffer);
 
    $buffer = preg_replace('/<form\s[^>]*>/',
         '\0<input type="hidden" name="' . session_name() . '" value="' . session_id() . '"/>', $buffer);
-       
+
    return $buffer;
 }
 
@@ -160,7 +160,7 @@ function pa_sid_rewriter($matches){
     $ses_name = session_name();
     if (strstr($url, "$session_name="))
         return $buf;
-   
+
     $p = strpos($url, "#");
     $ref = false;
     if($p){
@@ -187,7 +187,7 @@ function dumpvar($str)
 
 function registration_mail($to,$mailbody,$mailbody2)
 	{
-	
+
 		//$to_admin='kumar@re-inc.jp';
 
 		$header='From:'.$to_admin." \r\n";
@@ -195,23 +195,23 @@ function registration_mail($to,$mailbody,$mailbody2)
 
 		$header1='From:'.$to." \r\n";
 		$header1.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";	
+        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
 
-	
+
 		$subject1='Registration mail';
 		$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
 		$usersubject = '=?ISO-2022-JP?B?'.$subject11.'?=';
-	
+
 		$subject0='Registration mail';
 		$subject00 = base64_encode(mb_convert_encoding($subject0,"JIS","SJIS"));
 		$adminsubject = '=?ISO-2022-JP?B?'.$subject00.'?=';
-	
-	
+
+
 	    $user_body=$mailbody;
-	
+
 		$admin_body=$mailbody2;
-	
-	
+
+
 		//// MAIL TO ADMIN////////////////
 		if(@mail($to_admin, $adminsubject, $admin_body, $header1))
 			{
@@ -221,12 +221,12 @@ function registration_mail($to,$mailbody,$mailbody2)
 					//header('location:thanks.html');
 				}
 			}
-		
-	
+
+
 	}
 function forgetPassword_mail($to,$mailbody)
 	{
-	
+
 		//$to_admin='kumar@re-inc.jp';
 
 		//$header='From:'.$to_admin." \r\n";
@@ -234,100 +234,58 @@ function forgetPassword_mail($to,$mailbody)
 
 		$header1='From:'.$to." \r\n";
 		$header1.='Content-Type:text/plain; charset=utf-8'. "\r\n";
-        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";	
+        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
 
-	
+
 		//$subject1='パスワードを忘れる';
 		//$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
 		//$usersubject = '=?ISO-2022-JP?B?'.$subject11.'?=';
-	
+
 		$subject0='パスワードを忘れる';
 		$charset = 'UTF-8';
 		$usersubject = "=?$charset?B?" . base64_encode($subject0) . "?=\n";
-		
-	
-	
-	   $user_body=$mailbody;	
-	
+
+
+
+	   $user_body=$mailbody;
+
 		//////MAIL TO USER /////////////
 		if(@mail($to, $usersubject, $user_body, $header1))
 			{
 				return 1;
 			}
-				
-		
-	
-		
-	
-	}	
+
+
+
+
+
+	}
 
 function hotelPassword_mail($to,$mailbody)
 	{
-	
+
 		$to_admin='kumar@re-inc.jp';
 
 		$header='From:'.$to_admin." \r\n";
         $header.='Content-Type:text/plain; charset=utf-8'. "\r\n";
 		$header1='From:'.$to." \r\n";
 		$header1.='Content-Type:text/plain; charset=utf-8'. "\r\n";
-        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";	
-	
+        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
+
 		$subject0='パスワードを忘れる';
 		$charset = 'UTF-8';
 		$usersubject = "=?$charset?B?" . base64_encode($subject0) . "?=\n";
-		
+
 
 		$subject1='パスワードを忘れる1';
 		$charset = 'UTF-8';
 		$adminsubject = "=?$charset?B?" . base64_encode($subject1) . "?=\n";
-		
-	
+
+
 	   $user_body=$mailbody;
-	   $admin_body=$mailbody;	
-	
-		
-		//// MAIL TO ADMIN////////////////
-		if(@mail($to_admin, $adminsubject, $admin_body, $header1))
-			{
-				//////MAIL TO USER /////////////
-				if(@mail($to, $usersubject, $user_body, $header))
-				{
-					//header('location:thanks.html');
-				}
-			}	
-		
-	
-	}		
-	
+	   $admin_body=$mailbody;
 
-function order_mail($to,$mailbody,$mailbody2)
-	{
-	
-		$to_admin='kumar@re-inc.jp';
-	    
 
-		$header='From:'.$to_admin." \r\n";
-		$header.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-
-		$header1='From:'.$to." \r\n";
-		$header1.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";	
-
-	
-		$subject1='Order mail';
-		$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
-		$usersubject = '=?ISO-2022-JP?B?'.$subject11.'?=';
-	
-		$subject0='Order mail';
-		$subject00 = base64_encode(mb_convert_encoding($subject0,"JIS","SJIS"));
-		$adminsubject = '=?ISO-2022-JP?B?'.$subject00.'?=';
-	
-	
-	    $user_body=$mailbody;
-	
-		$admin_body=$mailbody2;
-	
-	
 		//// MAIL TO ADMIN////////////////
 		if(@mail($to_admin, $adminsubject, $admin_body, $header1))
 			{
@@ -337,38 +295,80 @@ function order_mail($to,$mailbody,$mailbody2)
 					//header('location:thanks.html');
 				}
 			}
-	
-	
+
+
+	}
+
+
+function order_mail($to,$mailbody,$mailbody2)
+	{
+
+		$to_admin='kumar@re-inc.jp';
+
+
+		$header='From:'.$to_admin." \r\n";
+		$header.='Content-Type:text/plain; charset=shift_jis'."\r\n";
+
+		$header1='From:'.$to." \r\n";
+		$header1.='Content-Type:text/plain; charset=shift_jis'."\r\n";
+        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
+
+
+		$subject1='Order mail';
+		$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
+		$usersubject = '=?ISO-2022-JP?B?'.$subject11.'?=';
+
+		$subject0='Order mail';
+		$subject00 = base64_encode(mb_convert_encoding($subject0,"JIS","SJIS"));
+		$adminsubject = '=?ISO-2022-JP?B?'.$subject00.'?=';
+
+
+	    $user_body=$mailbody;
+
+		$admin_body=$mailbody2;
+
+
+		//// MAIL TO ADMIN////////////////
+		if(@mail($to_admin, $adminsubject, $admin_body, $header1))
+			{
+				//////MAIL TO USER /////////////
+				if(@mail($to, $usersubject, $user_body, $header))
+				{
+					//header('location:thanks.html');
+				}
+			}
+
+
 	}
 
 function planorder_mail($to,$mailbody,$mailbody2)
 	{
-	
+
 		$to_admin='kumar@re-inc.jp';
-	    
+
 
 		$header='From:'.$to_admin." \r\n";
 		$header.='Content-Type:text/plain; charset=shift_jis'."\r\n";
 
 		$header1='From:'.$to." \r\n";
 		$header1.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";	
+        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
 
-	
+
 		$subject1='planorder_mail';
 		$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
 		$usersubject = '=?ISO-2022-JP?B?'.$subject11.'?=';
-	
+
 		$subject0='planorder_mail';
 		$subject00 = base64_encode(mb_convert_encoding($subject0,"JIS","SJIS"));
 		$adminsubject = '=?ISO-2022-JP?B?'.$subject00.'?=';
-	
-	
+
+
 	    $user_body=$mailbody;
-	
+
 		$admin_body=$mailbody2;
-	
-	
+
+
 		//// MAIL TO ADMIN////////////////
 		if(@mail($to_admin, $adminsubject, $admin_body, $header1))
 			{
@@ -378,40 +378,40 @@ function planorder_mail($to,$mailbody,$mailbody2)
 					//header('location:thanks.html');
 				}
 			}
-	
-	
+
+
 	}
-	
-	
+
+
 
 function inquery_mail($to,$mailbody,$mailbody2)
 	{
-	
+
 		$to_admin='kumar@re-inc.jp';
-	    
+
 
 		$header='From:'.$to_admin." \r\n";
 		$header.='Content-Type:text/plain; charset=shift_jis'."\r\n";
 
 		$header1='From:'.$to." \r\n";
 		$header1.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";	
+        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
 
-	
+
 		$subject1='inquery_mail';
 		$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
 		$usersubject = '=?ISO-2022-JP?B?'.$subject11.'?=';
-	
+
 		$subject0='inquery_mail';
 		$subject00 = base64_encode(mb_convert_encoding($subject0,"JIS","SJIS"));
 		$adminsubject = '=?ISO-2022-JP?B?'.$subject00.'?=';
-	
-	
+
+
 	    $user_body=$mailbody;
-	
+
 		$admin_body=$mailbody2;
-	
-	
+
+
 		//// MAIL TO ADMIN////////////////
 		if(@mail($to_admin, $adminsubject, $admin_body, $header1))
 			{
@@ -421,11 +421,11 @@ function inquery_mail($to,$mailbody,$mailbody2)
 					//header('location:thanks.html');
 				}
 			}
-		
-	
+
+
 	}
 
-	
+
 	if($_GET[catid])
 	{
 	$loginurl="login.php?catid=".$_GET[catid];
@@ -445,51 +445,51 @@ function inquery_mail($to,$mailbody,$mailbody2)
 	$registrationurl="registration.php";
 	$registrationconfirmurl="registration_confirm.php";
 	$registrationthanksurl="registration_thanks.php";
-	
+
 	}
-	
+
 		function contactmail($from,$mailbody)
 	{
-	
+
 		$to_admin='kumar@re-inc.jp';
 		$header='From:'.$to_admin." \r\n";
 		$header.='Content-Type:text/plain; charset=utf-8'. "\r\n";
 
-	
-	
+
+
 		$subject1='メールオーダーフォーム';
 		$charset = 'UTF-8';
 		$usersubject = "=?$charset?B?" . base64_encode($subject1) . "?=\n";
-		
-	
+
+
 		$subject0='メールオーダーフォーム';
 		$adminsubject = "=?$charset?B?" . base64_encode($subject0) . "?=\n";
-		
-		
-	
+
+
+
 		$to_admin='kumar@re-inc.jp';
-		
+
 		$header='From:'.$to_admin." \r\n";
 		$header.='Content-Type:text/plain; charset=utf-8'. "\r\n";
-		
+
 		$header1='From:'.$from." \r\n";
 		$header1.='Content-Type:text/plain; charset=utf-8'. "\r\n";
 		//$header1.= "Cc: k.okubo@re-inc.jp\r\n";
-		
+
 		$subject1='仮予約ありがとうございます';
 		$charset = 'UTF-8';
 		//$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
 		$usersubject = "=?$charset?B?" . base64_encode($subject1) . "?=\n";
-		
+
 		$subject0='仮予約のお申し込みがありました';
 		$adminsubject = "=?$charset?B?" . base64_encode($subject0) . "?=\n";
-		
-		
+
+
 		$user_body=$mailbody;
-		
+
 		$admin_body=$mailbody;
-		
-		
+
+
 				//// MAIL TO ADMIN////////////////
 				if(@mail($to_admin, $adminsubject, $admin_body, $header1))
 					{
@@ -500,23 +500,21 @@ function inquery_mail($to,$mailbody,$mailbody2)
 						}
 					}
 				else echo 'エラー';
-		
+
 	}
-	
-	
-	
-	if($_SESSION['adminid'] !='' && $_SESSION['user_type'] !='')
+
+
+/*
+	if($_SESSION['adminid'] !='' && $_SESSION['user_type'] !='' && !$_SESSION["super_user"])
 	{
 	$sql="update spssp_admin set updatetime='".date("Y-m-d H:i:s")."' WHERE id='".$_SESSION['adminid']."';";
 	mysql_query($sql);
 	}
-	
+
 	$currentdate = date('Y-m-d H:i:s');
 	$query = "update `spssp_admin` set sessionid='' WHERE (TIMESTAMPDIFF(MINUTE,updatetime,'".$currentdate."')) > 2";
 	mysql_query($query);
-
-
-
+*/
 
 
 
@@ -567,22 +565,22 @@ define('LAST_GIFT_PRESENT_DATE_EXCEED_MSG', '校了予定日 :');
 
 function uploadFile($path,$file,$filename ,$extension='')
 {
-	$ext = strtoupper(end(explode(".", $file)));			
+	$ext = strtoupper(end(explode(".", $file)));
 	$samplefile=time().".".$ext;
 	if($extension)
 	{
 		if(ucwords($ext) == 'PDF' || ucwords($ext) == 'CSV')
 		{
-			@move_uploaded_file($_FILES[$filename]["tmp_name"],$path.$samplefile);	
-			return $message ='1';		
+			@move_uploaded_file($_FILES[$filename]["tmp_name"],$path.$samplefile);
+			return $message ='1';
 		}
 		else
 		return $message ='2';
 	}
 	else
 	{
-	  @move_uploaded_file($_FILES[$filename]["tmp_name"],$path.$samplefile);	
-	  return $message ='1';		
+	  @move_uploaded_file($_FILES[$filename]["tmp_name"],$path.$samplefile);
+	  return $message ='1';
 	}
 }
 ?>
