@@ -4,15 +4,16 @@ include_once("inc/dbcon.inc.php");
 $id=$_GET['adminid']; // UCHIDA EDIT 11/08/17 ＩＤを再表示
 $adminid = $_POST["adminid"];
 $adminpass = $_POST["adminpass"];
+
 if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 	{
-		$query_string="SELECT * FROM spssp_admin WHERE username='".jp_encode($_POST['adminid'])."' AND password='".jp_encode($_POST['adminpass'])."' AND sessionid='' LIMIT 0,1;";
+		$query_string="SELECT * FROM spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' AND sessionid='' LIMIT 0,1;";
 		//echo $query_string;
 		$db_result=mysql_query($query_string);
-    
+
     if(!mysql_num_rows($db_result)){
       mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
-      $query_string = "SELECT * from super_spssp_admin WHERE username= '".$adminid."' and password = '".$adminpass."'";
+      $query_string = "SELECT * from super_spssp_admin WHERE BINARY username= '".$adminid."' and BINARY password = '".$adminpass."'";
       $db_result = mysql_query($query_string);
       mysql_connected($hotel_sqlhost,$hotel_sqluser,$hotel_sqlpassword,$hotel_sqldatabase);
       if(mysql_num_rows($db_result)){
@@ -23,38 +24,37 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 		{
 			if($db_row=mysql_fetch_array($db_result))
 			{
-        
+
 				$_SESSION['adminid']=jp_decode($db_row['id']);
 				$_SESSION['user_type'] = $db_row['permission'];
         if($_SESSION["super_user"]){
           $_SESSION["user_type"] = 333;
         }
-				//$sql="update spssp_admin set sessionid='".session_id()."',logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
+			//$sql="update spssp_admin set sessionid='".session_id()."',logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
 
+        	if ($_SESSION["super_user"]!=true) {
 				$sql="update spssp_admin set logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
-
 				mysql_query($sql);
-
-				redirect("manage.php");
-			}
-			else
-			{
-				// UCHIDA EDIT 11/08/17 ＩＤを再表示
-				$id=$_POST['adminid'];
-				redirect("index.php?adminid=$id&action=failed");
-			}
+        	}
+			redirect("manage.php");
 		}
 		else
 		{
 			// UCHIDA EDIT 11/08/17 ＩＤを再表示
 			$id=$_POST['adminid'];
-			redirect("index.php?adminid=$id&action=failed");
+			redirect("index.php?adminid=$id&action=failed");			}
 		}
-	}
 	else
 	{
-		@session_destroy();
+			// UCHIDA EDIT 11/08/17 ＩＤを再表示
+			$id=$_POST['adminid'];
+			redirect("index.php?adminid=$id&action=failed");
 	}
+}
+else
+{
+	@session_destroy();
+}
 
 
 //	include_once("inc/new.header.inc.php");

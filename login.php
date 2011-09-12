@@ -7,8 +7,8 @@ $obj = new dbo();
 $post = $obj->protectXSS($_POST);
 $userID = $post['userID'];
 $password = $post['password'];
- 
-$query_string = "SELECT * from spssp_user WHERE user_id= '".$userID."' and password = '".$password."'";
+
+$query_string = "SELECT * from spssp_user WHERE BINARY user_id= '".$userID."' and BINARY password = '".$password."'";
 
 //echo $query_string;exit;
 $result = mysql_query( $query_string );
@@ -19,7 +19,7 @@ if($row['id']){
   $party_day = $row['party_day'];
   $ab = strtotime($party_day);
   $limit_date = strtotime("+7 day",$ab);
-  
+
   if(time() <= $limit_date)
 		{
 			$_SESSION['username'] = $row['user_id'];

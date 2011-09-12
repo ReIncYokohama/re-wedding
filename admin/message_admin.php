@@ -229,12 +229,17 @@ include("inc/return_dbcon.inc.php");
 
     </div>
 
-
-
-
 	 <h2> <div style="width:400px">
 <!--             	 <a href="users.php">お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報</a> &raquo; メッセージ</div> -->
-                 <a href="manage.php">ＴＯＰ</a> &raquo; メッセージ</div>
+		<?php
+		if($stuff_id==0) {
+            echo '<a href="manage.php">ＴＯＰ</a> &raquo; お客様挙式情報 &raquo; メッセージ';
+		}
+		else {
+            echo '<a href="users.php">管理者用お客様一覧</a> &raquo; お客様挙式情報 &raquo; メッセージ';
+		}
+		?>
+		</div>
         </h2>
 		<div  style="width:800px;"><div class="navi"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi01.jpg" class="on" /></a></div>
       <div class="navi"><img src="img/common/navi02_on.jpg" /></div>

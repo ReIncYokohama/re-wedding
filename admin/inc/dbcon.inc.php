@@ -30,8 +30,6 @@ function mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase){
   }
 mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase);
 
-$Client_site_url="http://re-dev.sakura.ne.jp/dev2/hotel11/";
-$Admin_site_url="http://re-dev.sakura.ne.jp/dev2/hotel11/admin/";
 function curPageURL()
  {
 		 $pageURL = 'http';
@@ -505,10 +503,8 @@ function inquery_mail($to,$mailbody,$mailbody2)
 				else echo 'エラー';
 
 	}
-
-
-
-	if($_SESSION['adminid'] !='' && $_SESSION['user_type'] !='')
+/*
+	if($_SESSION['adminid'] !='' && $_SESSION['user_type'] !='' && !$_SESSION["super_user"])
 	{
 	$sql="update spssp_admin set updatetime='".date("Y-m-d H:i:s")."' WHERE id='".$_SESSION['adminid']."';";
 	mysql_query($sql);
@@ -517,9 +513,7 @@ function inquery_mail($to,$mailbody,$mailbody2)
 	$currentdate = date('Y-m-d H:i:s');
 	$query = "update `spssp_admin` set sessionid='' WHERE (TIMESTAMPDIFF(MINUTE,updatetime,'".$currentdate."')) > 2";
 	mysql_query($query);
-
-
-
+*/
 
 function uploadFile($path,$file,$filename ,$extension='')
 {
@@ -590,12 +584,29 @@ function uploadFile($path,$file,$filename ,$extension='')
 							  29 => "Your admin message sending error",
 							  30 => "The user did not select any print company.Please select one or contact to the user.",
 				             );
-
 define('SCRIPT_VERSION', '4');
 
-define('ADMIN_LINK', 'http://re-dev.sakura.ne.jp/demo/demo1/hotel1/admin/');     //this link is used in email system
-define('MAIN_LINK', 'http://re-dev.sakura.ne.jp/dev2/hotel11/');         //this link is used in email system
-define('PRINT_COMPANY_LINK', 'http://re-dev.sakura.ne.jp/dev2/hotel11/print/');     //this link is used in email system
+
+if( isset($_SERVER['HTTPS']) ) {
+	$http = ($_SERVER['HTTPS'])?'https://':'http://';
+} else {
+	$http = 'http://';
+}
+define('CONFIG_THIS_URL',$http.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+
+$reqfile = strrchr(CONFIG_THIS_URL, "/");
+$urilen = strlen(CONFIG_THIS_URL);
+$reqfilelen = strlen($reqfile);
+$requrl = substr( CONFIG_THIS_URL, 0, $urilen - $reqfilelen );
+
+$reqfile = strrchr($requrl, "/");
+$urilen = strlen($requrl);
+$reqfilelen = strlen($reqfile);
+$current = substr( $requrl, 0, $urilen - $reqfilelen );
+
+define('ADMIN_LINK', $current."/admin/");     //this link is used in email system
+define('MAIN_LINK', $current);         //this link is used in email system
+define('PRINT_COMPANY_LINK', $current."/print/");     //this link is used in email system
 
 define('GIFT_GROUP_NAME', '');
 define('GIFT_ITEM_NAME', 'Item');

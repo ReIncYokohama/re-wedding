@@ -173,7 +173,7 @@ padding:5px;
 {
 padding:5px 5px 5px 160px;;
 display:none;
-color:#999999;
+color:#000000;
 font-weight:normal;
 }
 
@@ -237,7 +237,7 @@ function cancel_super_message()
 
 function view_dsc_super(id)
 {
-	$j("#super_desc_"+id).toggle("slow");
+	$j("#super_desc_"+id).toggle();
 
 }
 function edit_super_msg(id)
@@ -737,7 +737,7 @@ include("inc/return_dbcon.inc.php");
 
                             <?php
 	include("inc/main_dbcon.inc.php");
- 	$super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," 1 = 1 order by id desc");
+ 	$super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," show_it=1 order by id desc");
 
  include("inc/return_dbcon.inc.php");
  foreach($super_messeges as $msg)

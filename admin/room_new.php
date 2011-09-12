@@ -14,6 +14,9 @@
 
 		$name_exists =  $obj->GetSingleData("spssp_tables_name", "name"," name='".$post['name']."'");
 
+		$room_id = $post['room_id'];
+		unset($post['room_id']);
+
 		$post['max_rows'] = (int)$post['max_rows'];
 		$post['max_columns'] = (int)$post['max_columns'];
 		$post['max_seats'] = (int)$post['max_seats'];
@@ -64,7 +67,7 @@
 							$stid = $obj->InsertData('spssp_default_plan_seat',$sit_arr);
 							if($stid >0)
 							{
-								redirect("rooms.php?page=".(int)$_GET['page']);
+								redirect("rooms.php?page=".(int)$_GET['page']."&room_id=".$room_id);
 							}
 						}
 					}
@@ -125,11 +128,11 @@
 
 			}
 
-			redirect("rooms.php?page=".(int)$_GET['page']);
+			redirect("rooms.php?page=".(int)$_GET['page']."&room_id=".$room_id);
 		}
 		else
 		{
-			redirect("rooms.php?page=".(int)$_GET['page']."&err=6");
+			redirect("rooms.php?page=".(int)$_GET['page']."&err=6"."&room_id=".$room_id);
 		}
 
 	}

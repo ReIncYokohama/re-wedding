@@ -12,8 +12,10 @@
 
 	$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
 
-
 	$get = $obj->protectXSS($_GET);
+
+	$room_id = $get['room_id'];
+	unset($get['room_id']);
 
 	if($_GET['action']=='delete' && (int)$_GET['id'] > 0)
 	{
@@ -61,8 +63,6 @@
 	//$query_string="SELECT * FROM spssp_room  ORDER BY display_order DESC LIMIT ".((int)($current_page)*$data_per_page).",".((int)$data_per_page).";";
 	$query_string="SELECT * FROM spssp_room where status=1  ORDER BY display_order ASC ;";
 	$data_rows = $obj->getRowsByQuery($query_string);
-
-
 
 if($_SESSION["new_rooms"]=="success")
 	{
@@ -207,6 +207,8 @@ function isInteger(id){
 }
 function preview_room(room_id)
 {
+		document.room_form.room_id.value=room_id;
+
 		$.post('ajax/room_preview.php',{'room_id':room_id}, function(data){
 		$("#table_preview div").fadeOut(100);
 		$("#table_preview div").html(data);
@@ -225,6 +227,19 @@ function cancel_new()
 		$("#max_seats").val('4');
 
 	//$("#new_table").fadeOut(300);
+}
+function confirmDeletePlus(urls)
+{
+   	var agree = confirm("会場名を削除しても宜しいですか？");
+	if(agree)
+	{
+		var urlPlus = urls+"&room_id="+document.room_form.room_id.value;
+		window.location = urlPlus;
+	}
+}
+function sort_view(urls) {
+	var urlPlus = urls+"&room_id="+document.room_form.room_id.value;
+	window.location = urlPlus;
 }
 </script>
 
@@ -315,10 +330,15 @@ include("inc/return_dbcon.inc.php");
                     <img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22"  />
 
                 </a>&nbsp;&nbsp;
-					<a href="#"><img width="82" height="22" border="0" src="img/common/btn_clear.jpg" alt="クリア" onclick="cancel_new();" value="クリア">
+					<a href="#"><img width="82" height="22" border="0" src="img/common/btn_clear.jpg" alt="クリア" onclick="cancel_new();""></a>
+				<input type="hidden" name="room_id" value="0" />
              </form>
          </p></div>
-         <?php } ?>
+         <?php } else {?>
+         	<form method="post" name="room_form">
+				<input type="hidden" name="room_id" value="0" />
+            </form>
+         <?php }?>
 
 <!-- UCHIDA EDIT 11/08/08 テーブルレイアウト表示を画面上に移動  -->
         <div class="sekiji_table" id="table_preview" >
@@ -427,22 +447,14 @@ include("inc/return_dbcon.inc.php");
                             <!--<td><a href="plans.php?room_id=<?=$row['id']?>"><?=$row['name']?></a></td>-->
                             <td width ="20" >横<?=$row['max_columns']?>列 × 縦<?=$row['max_rows']?>段</td>
                             <td width ="20" ><?=$row['max_seats']?>名</td>
-							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
+							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){ ?>
                             <td width ="20" class="txt1">
-                            <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] > "1"){ ?>
-								<a href="rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=up&amp;id=<?=$row['id']?>">▲</a> &nbsp;
-                				<a href="rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=down&amp;id=<?=$row['id']?>">▼</a>
-							<?php }else {?>	<span style="color:gray;">▲▼</span><?php }	 ?>
+    							<a href="javascript:void(0);" onClick="sort_view('rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=up&amp;id=<?=$row['id']?>')">▲</a> &nbsp;
+                				<a href="javascript:void(0);" onClick="sort_view('rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=down&amp;id=<?=$row['id']?>')">▼</a>
                              </td>
-							 <?php }	 ?>
+							 <?php } ?>
                             <td width ="20" >
-<!-- UCHIDA EDIT 11/08/05 ボタン変更
-                               <input type="radio" name="radio" id="room_<?=$row['id']?>" value="radio" <?=$chk?> onclick="preview_room(<?=$row['id']?>)"  />
-                               <label for="radio">プレビューする</label>
- -->
-							<a href="#" >
-							<img src="img/common/btn_preview.gif" id="room_<?=$row['id']?>" onclick="preview_room(<?=$row['id']?>)">
-							</a>
+							  <a href="javascript:void(0);" onClick="preview_room(<?=$row['id']?>)"><img src="img/common/btn_preview.gif" id="room_<?=$row['id']?>"></a>
                             </td>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
                            <td width ="20" >
@@ -453,7 +465,7 @@ include("inc/return_dbcon.inc.php");
 							<?php }	 ?>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
                             <td width ="20" >
-                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] =="222"){?>alert('権限がありません');<?php }else{?>confirmDelete('rooms.php?page=<?=(int)$_GET['page']?>&action=delete&id=<?=$row['id']?>'); <?php }?>">
+                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] =="222"){?>alert('権限がありません');<?php }else{?>confirmDeletePlus('rooms.php?page=<?=(int)$_GET['page']?>&action=delete&id=<?=$row['id']?>'); <?php }?>">
                             		<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
                             </td>
@@ -466,12 +478,14 @@ include("inc/return_dbcon.inc.php");
 			}
 			?>
       	</div>
-
+      	<?php
+		if ($room_id>0) {
+			echo "<script> preview_room($room_id); </script>";
+		}
+		?>
     </div>
 
 </div>
-
-
 <?php
 include_once('inc/left_nav.inc.php');
 
