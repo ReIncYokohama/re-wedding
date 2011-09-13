@@ -47,6 +47,18 @@
 		}
 
 	}
+
+	if($get['action']=='sort' && (int)$get['id'] > 0)
+	{
+		$table = 'spssp_printing_comapny';
+
+		$id = $get['id'];
+		$move = $get['move'];
+		if($move=="down") $move="up"; else $move="down";
+		$obj->sortItem($table,$id,$move);
+		redirect("printing_company.php");
+	}
+
 	if(isset($get['action']) && $get['action'] == 'delete')
 	{
 		$id = (int)$get['id'];
@@ -307,8 +319,8 @@ include("inc/return_dbcon.inc.php");
         </p></div>-->
 
 		<div  id="new_table" style="display:block; width:1200px;">
-        	<? if($_GET['id']) {
-			$comp= $obj->GetSingleRow('spssp_printing_comapny','id='.$_GET['id']);
+        	<? if($get['id']) {
+			$comp= $obj->GetSingleRow('spssp_printing_comapny','id='.$get['id']);
 			}
 
 // UCHIDA EDIT 11/08/02
@@ -442,8 +454,8 @@ include("inc/return_dbcon.inc.php");
               </table>
             </div>
             <?php
-			    $orderItem = ($_GET['sort'] =='')?'ASC': $_GET['sort'];
-            	$query_string="SELECT * FROM spssp_printing_comapny  ORDER BY display_order $orderItem ;";
+			    $orderItem = ($get['sort'] =='')?'ASC': $get['sort'];
+           	$query_string="SELECT * FROM spssp_printing_comapny  ORDER BY display_order $orderItem ;";
 				$data_rows = $obj->getRowsByQuery($query_string);
 
 				$i=0;
@@ -467,8 +479,8 @@ include("inc/return_dbcon.inc.php");
                             <td><b><?=$row['company_name']?></b></td>
 							<?php if($_SESSION['user_type']=='333'){?>
 							<td>
-								 <span class="txt1"><a href="sort.php?table=printing_comapny&sort=ASC&move=up&id=<?=$row['id']?>&pagename=printing_company">▲</a>
-	                             <a href="sort.php?table=printing_comapny&sort=ASC&move=down&id=<?=$row['id']?>&pagename=printing_company"> ▼</a></span>
+								 <span class="txt1"><a href="printing_company.php?action=sort&amp;move=up&amp;id=<?=$row['id']?>">▲</a>
+	                             <a href="printing_company.php?action=sort&amp;move=down&amp;id=<?=$row['id']?>"> ▼</a></span>
               				</td>
 							<?php } else {?>
 									<td></td>
@@ -508,12 +520,12 @@ include("inc/return_dbcon.inc.php");
 			 ?>
 
 			</div>
-			<? if($_GET['id'] !=''){
+			<? if($get['id'] !=''){
 
 
 				?>
 				<script>
-				$("#boxid<?=$_GET['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
+				$("#boxid<?=$get['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
 				</script>
 				<? }?>
         </div>

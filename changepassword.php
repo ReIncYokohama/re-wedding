@@ -184,7 +184,6 @@ $(function(){
     <div align="center"><a href="user_info.php">&lt;&lt;戻る</a></div> <!-- UCHIDA EDIT 11/07/28 -->
 >>>>>>> abf2b59b9ff449d4d9cd59eaaac058e5b74abe16
   <div class="clear"></div>
-
   </div>
 <?php
 include("inc/new.footer.inc.php");
