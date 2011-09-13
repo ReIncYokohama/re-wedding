@@ -180,7 +180,6 @@ $(function(){
     <div class="clear"></div>
     <div align="center"><a href="user_info.php">&lt;&lt;戻る</a></div> <!-- UCHIDA EDIT 11/07/28 -->
   <div class="clear"></div>
-
   </div>
 <?php
 include("inc/new.footer.inc.php");
