@@ -178,7 +178,7 @@ $(function(){
     <script>document.getElementById('userID').focus();</script>
     </div>
     <div class="clear"></div>
-    <div align="center"><a href="javascript:history.back();">&lt;&lt;戻る</a></div> <!-- UCHIDA EDIT 11/07/28 -->
+    <div align="center"><a href="user_info.php">&lt;&lt;戻る</a></div> <!-- UCHIDA EDIT 11/07/28 -->
   <div class="clear"></div>
 
   </div>
