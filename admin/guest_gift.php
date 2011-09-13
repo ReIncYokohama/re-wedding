@@ -261,7 +261,24 @@ function confirmAction(urls , msg)
 
 
 </script>
-
+<script type="text/javascript"><!--
+function m_win(url,windowname,width,height) {
+ var features="location=no, menubar=no, status=yes, scrollbars=yes, resizable=yes, toolbar=no";
+ if (width) {
+  if (window.screen.width > width)
+   features+=", left="+(window.screen.width-width)/2;
+  else width=window.screen.width;
+  features+=", width="+width;
+ }
+ if (height) {
+  if (window.screen.height > height)
+   features+=", top="+(window.screen.height-height)/2;
+  else height=window.screen.height;
+  features+=", height="+height;
+ }
+ window.open(url,windowname,features);
+}
+// --></script>
 <div id="topnavi">
 <!--
 // UCHIDA EDIT 11/08/17 ホテル名をメール送信で利用するため移動
@@ -317,7 +334,11 @@ include("inc/return_dbcon.inc.php");
       </div>
       <div class="navi"><img src="img/common/navi04_on.jpg" /></div>
       <!--<div class="navi"><a href="customers_date_dl.php?user_id=<?=$user_id?>"><img src="img/common/navi05.jpg" width="116" height="22" class="on" /></a></div>-->
-      <div style="clear:both;"></div>
+<?php if($_SESSION["super_user"]){ ?>
+          <div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',500,200); return false;">
+            <img src="img/common/navi05.jpg" class="on" />
+          </a></div>
+<?php } ?>      <div style="clear:both;"></div>
 	  </div>
       <br />
 

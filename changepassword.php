@@ -64,7 +64,7 @@ $(function(){
 
 	if(oldPw=='')
 	{
-	   alert("古いパスワードを入力してください");
+	   alert("現在のパスワードを入力してください");
 	   document.getElementById('userID').focus();
 	   return false;
 	}
@@ -100,7 +100,7 @@ $(function(){
 	}
 	if(newPw == oldPw)
 	{
-	   alert("古いパスワードと新しいパスワードが同じです。\n新しいパスワードを再入力してください。");
+	   alert("現在のパスワードと新しいパスワードが同じです。\n新しいパスワードを再入力してください。");
 	   document.getElementById('password').value="";
 	   document.getElementById('repassword').value="";
 	   document.getElementById('password').focus();
@@ -151,14 +151,14 @@ $(function(){
 					echo "<script> alert('パスワード変更に失敗しました'); </script>";
 				}
 				else {
-					echo "<script> alert('古いパスワードが違っています'); </script>";
+					echo "<script> alert('現在のパスワードが違っています'); </script>";
 				}
 			}
 			?>
 <!-- UCHIDA EDIT 11/08/01 -->
 
 			<tr>
-				<td width="200" align="right">古いパスワード</td>
+				<td width="200" align="right">現在のパスワード</td>
 				<td align="left"><input style="width:250px;" type="password" id="userID" name="userID" /></td>
 			</tr>
 			<tr>
