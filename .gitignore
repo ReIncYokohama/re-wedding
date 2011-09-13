@@ -17,5 +17,7 @@ conf/conf.php
 Yourexcel.html
 admin/Yourexcel.html
 cron/mail.log
-upload/attach/*
-"upload/
+
+*upload/attach/*
+upload/*
+user_name/*

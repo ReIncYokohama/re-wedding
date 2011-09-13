@@ -198,18 +198,17 @@ width:200px;
                 <td style="text-align:center"><font color="#2052A3"></font>：</td>
                 <td colspan="3" nowrap="nowrap" style="text-align:left"><?=$staff_name?></td>
             </tr>
-           <!-- <tr>
-                <td align="right" valign="top" nowrap="nowrap">&nbsp;</td>
-                <td colspan="3" nowrap="nowrap" align="left">
-                	<a href="javascript:void(0)" onclick="<?=$registration_onclick; ?>">
-                    	<img src="img/common/btn_regist.jpg" border="0" width="62" height="22" />
-                    </a>
-                </td>
-            </tr>-->
         </table>
-		<table>
+		<table cellspacing="0" cellpadding="6">
+		<?php 	if ($_SESSION['userid_admin'] == "") {?>
             <tr>
-            	<td colspan="4" nowrap="nowrap">
+                <td  align="left" colspan="0" nowrap="nowrap">
+                	<a href="changepassword.php" ><img src="img/btn_change_password_user.jpg" /></a>
+                </td>
+            </tr>
+        <?php } ?>
+            <tr>
+            	<td  align="left" colspan="0" nowrap="nowrap">
                 	<a href="user_log.php"><img src="img/btn_access_user.jpg" width="173" height="23" /></a>
                     <a href="change_log_all.php"><img src="img/btn_data_user.jpg" width="173" height="23" /></a>
                 </td>
@@ -440,6 +439,35 @@ width:200px;
         </table>
 		<table width="80%" border="0" cellspacing="10" cellpadding="0">
 		  <tr>
+			<td style="border-bottom:1px solid #3681CB; text-align:left; "><strong>引出物</strong></td>
+		  </tr>
+		</table>
+
+	 	<table width="80%" border="0" cellspacing="10" cellpadding="0">
+			<?php
+            	$gift_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".(int)$user_id." order by id ASC");
+				$gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".$user_id." order by id ASC")
+			?>
+			<?php
+			$gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
+			?>
+		  <tr>
+			<td align="left" nowrap="nowrap">締切日は披露宴の&nbsp;<?=$gift_criteria['order_deadline']?> &nbsp;日前となります</td>
+		  </tr>
+			<?php
+				$day = strftime('%d',strtotime($user_row['party_day']));
+				$month = strftime('%m',strtotime($user_row['party_day']));
+				$year = strftime('%Y',strtotime($user_row['party_day']));
+				$lastmonth = mktime(0, 0, 0, $month, $day-$gift_criteria['order_deadline'], $year);
+				$dateBeforeparty = date("Y-m-d",$lastmonth);
+			?>
+		  <tr>
+			<td align="left" nowrap="nowrap">締切予定日は&nbsp; <?=$obj->japanyDateFormate($dateBeforeparty)?>となります</td>
+		  </tr>
+		</table>
+
+		<table width="80%" border="0" cellspacing="10" cellpadding="0">
+		  <tr>
 			<td style="border-bottom:1px solid #3681CB; text-align:left; "><strong>商品</strong></td>
 		  </tr>
 		</table>
@@ -473,34 +501,6 @@ width:200px;
             </tr>
 		</table>
 
-		<table width="80%" border="0" cellspacing="10" cellpadding="0">
-		  <tr>
-			<td style="border-bottom:1px solid #3681CB; text-align:left; "><strong>引出物</strong></td>
-		  </tr>
-		</table>
-
-	 	<table width="80%" border="0" cellspacing="10" cellpadding="0">
-			<?php
-            	$gift_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".(int)$user_id." order by id ASC");
-				$gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".$user_id." order by id ASC")
-			?>
-			<?php
-			$gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
-			?>
-		  <tr>
-			<td align="left" nowrap="nowrap">締切日は披露宴の&nbsp;<?=$gift_criteria['order_deadline']?> &nbsp;日前となります</td>
-		  </tr>
-			<?php
-				$day = strftime('%d',strtotime($user_row['party_day']));
-				$month = strftime('%m',strtotime($user_row['party_day']));
-				$year = strftime('%Y',strtotime($user_row['party_day']));
-				$lastmonth = mktime(0, 0, 0, $month, $day-$gift_criteria['order_deadline'], $year);
-				$dateBeforeparty = date("Y-m-d",$lastmonth);
-			?>
-		  <tr>
-			<td align="left" nowrap="nowrap">締切予定日は&nbsp; <?=$obj->japanyDateFormate($dateBeforeparty)?>となります</td>
-		  </tr>
-		</table>
 	</div>
 		<div">&nbsp;</div>
 		<div">&nbsp;</div>

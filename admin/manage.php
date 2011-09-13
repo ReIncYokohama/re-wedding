@@ -1,10 +1,11 @@
 <?php
-	require_once("inc/include_class_files.php");
-	include_once("inc/checklogin.inc.php");
-	$obj = new DBO();
-	$objMsg = new MessageClass();
-    $objinfo = new InformationClass();
-	$post = $obj->protectXSS($_POST);
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
+
+$obj = new DBO();
+$objMsg = new MessageClass();
+$objinfo = new InformationClass();
+$post = $obj->protectXSS($_POST);
 
 	if(isset($_POST['ajax']) && $_POST['ajax'] != '' && $_POST['id'] != '')
 	{
@@ -20,6 +21,8 @@
 	if($_SESSION['user_type'] == 222 || $_SESSION['user_type'] == 333)
 	{
 		$stuff_users = $obj->GetAllRowsByCondition("spssp_user", "stuff_id=".(int)$_SESSION['adminid']);
+
+    if(!$stuff_users) $stuff_users = array();
 
 		foreach($stuff_users as $su)
 		{
@@ -45,6 +48,7 @@
 				$var = 0;
 			}
 		}
+    $umsg_where = " 1=1";
 	}
 	else
 	{

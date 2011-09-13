@@ -53,10 +53,10 @@ class InformationClass extends DBO
 	}
 
 // UCHIDA EDIT 11/08/15 'dl_print_com_times'にpdfを参照を記録
-	function pdf_readed($user_id, $dl, $v)
+	function pdf_readed($user_id, $v)
 	{
 		unset($post);
-		$post['dl_print_com_times'] = $dl | $v;
+		$post['dl_print_com_times'] = $v;
 		$this->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 	}
 

@@ -70,7 +70,7 @@ function confirmDelete(urls)
 
 </head>
 
-<body style="color: #959595;font: 12px/1.8em Arial,Helvetica,sans-serif;">
+<body style="color: #000000;font: 12px/1.8em Arial,Helvetica,sans-serif;">
 	<div style="width:900px;margin:0 auto;border:1px solid;">
 		<div id="header" style="height:66px;border-bottom: 8px solid #00C6FF;">
 			<img border="0" src="img/logo.jpg">

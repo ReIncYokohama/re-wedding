@@ -18,27 +18,32 @@
 		$id = (int)$post['insert_edit'];
 		unset($post['insert_edit']);
 		unset($post['conf_email']);
-
 		if($id <= 0)
 		{
 
-			$post['display_order'] = time();
-			$post['date'] = date();
-			$lid = $obj->InsertData("spssp_printing_comapny", $post);
-			if($lid > 0)
-			{
-//				$msg = 1; // UCHIDA EDIT 11/08/01
-				echo "<script> alert('新しい印刷会社が登録されました'); </script>";
+			if(checkcompanyDuplicasy($post['company_name'])) {
+				$post['display_order'] = time();
+				$post['date'] = date();
+				$lid = $obj->InsertData("spssp_printing_comapny", $post);
+				if($lid > 0)
+				{
+	//				$msg = 1; // UCHIDA EDIT 11/08/01
+					echo "<script> alert('新しい印刷会社が登録されました'); </script>";
+				}
+				else
+				{
+					$err = 1;
+				}
 			}
-			else
-			{
-				$err = 1;
+			else {
+				echo '<script> alert("既に同じ名前の印刷会社があるため、登録できませんでした"); </script>';
 			}
 		}
 		else
 		{
 			$obj->UpdateData("spssp_printing_comapny", $post," id=".$id);
-			$msg = 2;
+			echo '<script> alert("変更されました"); </script>';
+			//$msg = 2;
 		}
 
 	}
@@ -55,8 +60,16 @@
 		{
 			$err = 11;
 		}
+		$get['id']=0;
 	}
 
+function checkcompanyDuplicasy( $cname )
+{
+	$obj = new DBO();
+	$nm = $obj->GetRowCount("spssp_printing_comapny", "company_name='$cname'");
+
+	if($nm){return false;}else{return true;}
+}
 ?>
 <script type="text/javascript">
 $(function(){
@@ -75,6 +88,7 @@ $(document).ready(function(){
     });
 
 });
+
 function isInteger(id){
 
  var i;
@@ -233,6 +247,15 @@ function edit_name(id, name,email,number,postcode,address_1,address_2,contact_na
 //		$("#new_table").fadeIn(500);-->
 	//}
 }
+
+function confirmDeletePlus(urls)
+{
+   	var agree = confirm("削除してもよろしいですか？");
+	if(agree)
+	{
+		window.location.href = urls;
+	}
+}
 </script>
 <div id="topnavi">
     <?php
@@ -292,14 +315,14 @@ include("inc/return_dbcon.inc.php");
 //			if($_SESSION['user_type'] == '222' && $_GET['id'] !='') {
 			if($_SESSION['user_type'] == '222') { // スタッフログイン
 			?>
-			 <table>
+			 <table style="width:1200px;" >
 					<tr>
 						<td width="12%">会社名 :</td>
-						<td width="90%"><?=$comp[company_name]?></td>
+						<td width="88%"><?=$comp[company_name]?></td>
 					</tr>
 					<tr>
-						<td width="10%">メールアドレス :</td>
-						<td width="90%"><?=$comp[email]?></td>
+						<td>メールアドレス :</td>
+						<td><?=$comp[email]?></td>
 					</tr>
 <!-- UCHIDA EDIT 11/08/08 確認用は表示不要
 					<tr>
@@ -308,24 +331,24 @@ include("inc/return_dbcon.inc.php");
 					</tr>
  -->
  					<tr>
-						<td width="10%">電話番号 :</td>
-						<td width="90%"><?=$comp[number]?></td>
+						<td>電話番号 :</td>
+						<td><?=$comp[number]?></td>
 					</tr>
 					<tr>
-						<td width="10%">郵便番号 :</td>
-						<td width="90%"><?=$comp[postcode]?></td>
+						<td>郵便番号 :</td>
+						<td><?=$comp[postcode]?></td>
 					</tr>
 					<tr>
-						<td width="10%">住所1 :</td>
-						<td width="90%"><?=$comp[address_1]?></td>
+						<td>住所1 :</td>
+						<td><?=$comp[address_1]?></td>
 					</tr>
 					<tr>
-						<td width="10%">住所2 :</td>
-						<td width="90%"><?=$comp[address_2]?></td>
+						<td>住所2 :</td>
+						<td><?=$comp[address_2]?></td>
 					</tr>
 					<tr>
-						<td width="10%">担当者名 :</td>
-						<td width="90%"><?=$comp[contact_name]?></td>
+						<td >担当者名 :</td>
+						<td ><?=$comp[contact_name]?></td>
 					</tr>
 				<!--	<tr>
 						<td width="10%">表示する :</td>
@@ -339,42 +362,40 @@ include("inc/return_dbcon.inc.php");
 				</table>
 			<? }else if($_SESSION['user_type'] != '222' ) {?>
         	<form action="printing_company.php" method="post" name="new_name">
-            	<input type="hidden" name="insert_edit" id="insert_edit" value="<?=$_GET['id']?>" />
-                <table>
+            	<input type="hidden" name="insert_edit" id="insert_edit" value="<?=$get[id]?>" />
+                <table style="width:1200px;" >
 					<tr>
 						<td width="12%">会社名<span style="color:red;">*</span> :</td>
-						<td width="90%"><input type="text" name="company_name" id="company_name" size="40" value="<?=$comp[company_name]?>" /></td>
+						<td width="88%"><input type="text" name="company_name" id="company_name" size="40" value="<?=$comp[company_name]?>" /></td>
 					</tr>
 					<tr>
-						<td width="10%">メールアドレス<span style="color:red;">*</span> :</td>
-						<td width="90%"><input type="text" name="email" id="email"  size="30" value="<?=$comp[email]?>" /></td>
+						<td>メールアドレス<span style="color:red;">*</span> :</td>
+						<td><input type="text" name="email" id="email"  size="30" value="<?=$comp[email]?>" /></td>
 					</tr>
 					<tr>
-						<td width="10%">メールアドレス確認用<span style="color:red;">*</span> :</td>
+						<td>メールアドレス確認用<span style="color:red;">*</span> :</td>
 						<!--  UCHIDA EDIT 11/08/08 確認用メールアドレスのペーストを禁止 -->
-						<td width="90%" onpaste="alert('メールアドレス確認用は貼り付けできません');return false;"><input type="text" name="conf_email" id="conf_email" size="30" value="<?=$comp[email]?>"  /></td>
+						<td onpaste="alert('メールアドレス確認用は貼り付けできません');return false;"><input type="text" name="conf_email" id="conf_email" size="30" value="<?=$comp[email]?>"  /></td>
 					</tr>
 					<tr>
-						<td width="10%">電話番号 :
-
-                      </td>
-						<td width="90%"><input type="text" name="number" id="number" onblur="isInteger('number')" value="<?=$comp[number]?>"  size="20"/>（例　0451111111)</td>
+						<td>電話番号 :</td>
+						<td><input type="text" name="number" id="number" onblur="isInteger('number')" value="<?=$comp[number]?>"  size="20"/>（例　0451111111)</td>
 					</tr>
 					<tr>
-						<td width="10%">郵便番号 :</td>
-						<td width="90%"><input name="postcode" type="text" id="postcode" value="<?=$comp[postcode]?>"  size="8" maxlength="8" />（例　231-0000）</td>
+						<td>郵便番号 :</td>
+						<td><input name="postcode" type="text" id="postcode" value="<?=$comp[postcode]?>" size="8" maxlength="8" />（例　231-0000）</td>
 					</tr>
 					<tr>
-						<td width="10%">住所1 :</td>
-						<td width="90%"><input type="text" name="address_1" id="address_1" size="35" value="<?=$comp[address_1]?>"  /></td>
+						<td>住所1 :</td>
+						<td><input type="text" name="address_1" id="address_1" size="50" value="<?=$comp[address_1]?>"  /></td>
 					</tr>
 					<tr>
-						<td width="10%">住所2 :</td>
-						<td width="90%"><input type="text" name="address_2" id="address_2"  size="35" value="<?=$comp[address_2]?>" /></td>
+						<td>住所2 :</td>
+						<td><input type="text" name="address_2" id="address_2"  size="50" value="<?=$comp[address_2]?>" /></td>
 					</tr>
 					<tr>
-						<td width="10%">担当者名 :</td>
-						<td width="90%"><input name="contact_name" type="text" id="contact_name" value="<?=$comp[contact_name]?>" size="10"  /></td>
+						<td>担当者名 :</td>
+						<td><input name="contact_name" type="text" id="contact_name" value="<?=$comp[contact_name]?>" size="10"  /></td>
 					</tr>
 				<!--	<tr>
 						<td width="10%">表示する :</td>
@@ -414,16 +435,9 @@ include("inc/return_dbcon.inc.php");
                 <tr align="center">
                   <td width="10%">No.</td>
                   <td>印刷会社名</td>
-
-<!-- UCHIDA EDIT 11/08/02 詳細・編集/詳細情報の切り替え -->
-				   <?php if($_SESSION['user_type']=='333' OR $_SESSION['user_type']=='111' ){?>
-	                  	<td>詳細・編集</td>
-				   		<td>順序変更</td>
-                  		<td>削除 &nbsp;</td>
-				  <? }
-				  	else {?>
-	                  	<td>詳細情報</td>
-				  <?} ?>
+                  <td>順序変更</td>
+                  <td>詳細</td>
+                  <td>削除 &nbsp;</td>
                 </tr>
               </table>
             </div>
@@ -451,35 +465,39 @@ include("inc/return_dbcon.inc.php");
             			<tr align="center">
                         	<td width="10%"><?=$j?></td>
                             <td><b><?=$row['company_name']?></b></td>
-                            <!--<td><a href="party_rooms.php?religion_id=< ?=$row['id']?>">挙式会場</a></td>-->
+							<?php if($_SESSION['user_type']=='333'){?>
+							<td>
+								 <span class="txt1"><a href="sort.php?table=printing_comapny&sort=ASC&move=up&id=<?=$row['id']?>&pagename=printing_company">▲</a>
+	                             <a href="sort.php?table=printing_comapny&sort=ASC&move=down&id=<?=$row['id']?>&pagename=printing_company"> ▼</a></span>
+              				</td>
+							<?php } else {?>
+									<td></td>
+								<? } ?>
+
                             <td>
                             	<a href="#" onclick="edit_name(<?=$row['id']?>,'<?=$row['company_name']?>','<?=$row['email']?>','<?=$row['number']?>','<?=$row['postcode']?>','<?=$row['address_1']?>','<?=$row['address_2']?>','<?=$row['contact_name']?>','<?=$row['status']?>',<?=$_SESSION['user_type']?>);">
-
-<!-- UCHIDA EDIT 11/08/02 ログイン状態によるボタンの変更 -->
-						<?php
+							<?php
 	  							if($_SESSION['user_type'] != 222) { ?>
                                 	<!-- <img src="img/common/btn_regist_update.gif" /> -->
                                 	<img src="img/common/btn_edit02.gif" />
-								<? }
-								else { ?>
+								<? } else { ?>
                                 	<img src="img/common/btn_disp.gif" />
 								<? } ?>
                                 </a>
 
                             </td>
-							<?php if($_SESSION['user_type']=='333' OR $_SESSION['user_type']=='111' ){?>
-							<td>
-							 <span class="txt1"><a href="sort.php?table=printing_comapny&sort=ASC&move=up&id=<?=$row['id']?>&pagename=printing_company">▲</a>
-                             <a href="sort.php?table=printing_comapny&sort=ASC&move=down&id=<?=$row['id']?>&pagename=printing_company"> ▼</a></span>
-              				</td>
-							<td>
 
-                            	<a href="javascript:void(0);" onClick="confirmDelete('printing_company.php?action=delete&id=<?=$row['id']?>');">
+							<?php if($_SESSION['user_type']=='333'){?>
+							<td>
+                            	<a href="javascript:void(0);" onClick="confirmDeletePlus('printing_company.php?action=delete&id=<?=$row['id']?>');">
                                 	<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
-
                             </td>
-							<?php }?>
+								<? } else { ?>
+									<td>
+                                	<img src="img/common/btn_deleate_greyed.gif" width="42" height="17" />
+
+								<?php }?>
             			</tr>
                      </table>
         		</div>

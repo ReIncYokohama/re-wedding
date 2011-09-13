@@ -7,9 +7,7 @@
 	$user_id=$_GET[user_id];
 	$table='spssp_change_log';
 	$where = " user_id=".$user_id." and (guest_id in (select id from spssp_guest where user_id=".$user_id.") or type='3')";
-
-
-
+	$stuff_id= (int)$_GET['stuff_id'];
 
 	if($_GET['guest_id'])
 	{
@@ -116,7 +114,14 @@ include("inc/return_dbcon.inc.php");
 <!-- UCHIDA EDIT 11/08/04
         <a href="users.php">お客様一覧 </a> &gt;&gt; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報 </a> &gt;&gt; 席次データ修正ログ
  -->
-		<a href="manage.php">ＴＯＰ</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報 </a> &raquo; 席次表データ修正ログ
+		<?php
+		if($stuff_id==0) {?>
+            <a href="manage.php">ＴＯＰ</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; 席次表データ修正ログ
+		<?php }
+		else {?>
+            <a href="users.php">管理者用お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; 席次表データ修正ログ
+		<?php }
+		?>
 
      </h2>
 	 <h2>席次表データ修正ログ</h2>
@@ -693,7 +698,7 @@ include("inc/return_dbcon.inc.php");
 			 ?>
 
         </div>
-   <div align="center"><a href="user_info.php?user_id=<?=$user_id?>">&lt;&lt;戻る</a></div> <!--   -->
+   <div align="center"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">&lt;&lt;戻る</a></div> <!--   -->
     </div>
 <div style="height:18px; text-align:right"><a href="#">▲ページ上へ</a></div>
 </div>

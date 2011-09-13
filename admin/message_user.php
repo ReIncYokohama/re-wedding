@@ -162,14 +162,26 @@ include("inc/return_dbcon.inc.php");
 </div>
 <div id="container">
     <div id="contents">
-    <div style="font-size:18px; font-weight:bold; width:300px;">
-           <?php  echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="man_lastname_respect.png",$extra="thumb1");?>
-		   <?php  echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="woman_lastname_respect.png",$extra="thumb1");?>
+    <div style="font-size:11px; width:250px;">
+
+  <?php  echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1",$height=20);?>
+・
+  <?php  echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20);?>
+  様
     </div>
 
 	 <h2><div style="width:400px">
 <!--                  <a href="users.php">お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報 </a>&raquo; メッセージ</div> -->
-                 <a href="manage.php">ＴＯＰ</a> &raquo; メッセージ</div>
+		<?php
+		if($stuff_id==0) {
+            echo '<a href="manage.php">ＴＯＰ</a> &raquo; お客様挙式情報 &raquo; メッセージ';
+		}
+		else {
+            echo '<a href="users.php">管理者用お客様一覧</a> &raquo; お客様挙式情報 &raquo; メッセージ';
+		}
+		?>
+		</div>
+
         </h2>
         <div  style="width:800px;"><div class="navi"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi01.jpg" class="on" /></a></div>
       <div class="navi"><img src="img/common/navi02_on.jpg" /></div>

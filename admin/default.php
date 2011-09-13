@@ -559,13 +559,15 @@ include("inc/return_dbcon.inc.php");
 
 		<!-- UCHIDA EDIT 11/07/27 -->
 		<!-- <div id="message_BOX" style="height:450px; overflow:auto; width:950px;"> -->
-        <div id="box_table" style="width:400px;">
+        <div id="box_table" style="width:950px;">
             <div class="box4">
                 <table border="0" align="center" cellpadding="1" cellspacing="1" style="width:90%;">
                 <tr align="center">
                   <td width="10%">No.</td>
-                  <td>卓名
-				  </td>
+                  <td>卓名</td>
+             	  <td>順序変更</td>
+                  <td>編集</td>
+                  <td>削除</td>
                 </tr>
               </table>
             </div>
@@ -593,6 +595,9 @@ include("inc/return_dbcon.inc.php");
             			<tr align="center">
                         	<td width="10%"><?=$j?></td>
                             <td><?=$row['name']?></td>
+                            <td></td>
+                            <td> <img src="img/common/btn_edit_greyed.gif" width="42" height="17" /> </td>
+                            <td> <img src="img/common/btn_deleate_greyed.gif" width="42" height="17" /> </td>
             			</tr>
                      </table>
         		</div>

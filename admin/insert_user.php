@@ -17,19 +17,7 @@ $user_id = (int)$get['user_id'];
 //print_r($post);
 //exit;
 
-function getGaijiPathArray($gaiji_img){
-  $pathArray = array();
-  $hotelid = 1;
-  for($i=0;$i<count($gaiji_img);++$i){
-    array_push($pathArray,"../gaiji/upload/img_select/".$gaiji_img[$i]);
-  }
-  return $pathArray;
-}
 
-$man_lastname_gaiji_pathArray = getGaijiPathArray($post["male_last_gaiji_img"]);
-$man_firstname_gaiji_pathArray = getGaijiPathArray($post["male_first_gaiji_img"]);
-$woman_lastname_gaiji_pathArray = getGaijiPathArray($post["female_last_gaiji_img"]);
-$woman_firstname_gaiji_pathArray = getGaijiPathArray($post["female_first_gaiji_img"]);
 
 if(isset($user_id) && $user_id > 0)
   {
@@ -66,7 +54,6 @@ if(isset($user_id) && $user_id > 0)
 		unset($post['female_last_gaiji_img']);
 		unset($post['female_last_gaiji_gid']);
 		unset($post['female_last_gaiji_gsid']);
-
 
     $party_rooms = $obj->GetFields("spssp_user",'party_room_id'," id=".$user_id);
 
@@ -122,7 +109,7 @@ if(isset($user_id) && $user_id > 0)
 
     unset($post['con_mail']);
 
-	$obj->UpdateData("spssp_user",$post," id=".$user_id);
+    $obj->UpdateData("spssp_user",$post," id=".$user_id);
 
     unset($post['confirm_day_num']);
 
@@ -141,50 +128,13 @@ if(isset($user_id) && $user_id > 0)
 
     $obj->UpdateData("spssp_guest",$guest_array2," user_id=".$user_id." and sex='Female' and self=1");
 
-
-    //gaiji用画像作成
-
-    $hotel_id = 1;
-    $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
-    mkdir(get_image_db_directory($hotel_id));
-    mkdir(get_image_db_directory($hotel_id)."/user_name");
-    mkdir($user_folder);
-    mkdir($user_folder."/thumb1");
-    mkdir($user_folder."/thumb2");
-
     set_user_gaiji_position($user_id,$post["man_firstname"],0,$_POST["male_first_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["man_lastname"],1,$_POST["male_last_gaiji_img"],$_POST["male_last_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["woman_firstname"],2,$_POST["female_first_gaiji_img"],$_POST["female_first_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["woman_lastname"],3,$_POST["female_last_gaiji_img"],$_POST["female_last_gaiji_gsid"]);
 
-    make_text_save($post["man_lastname"],$man_lastname_gaiji_pathArray,$user_folder."man_lastname.png");
-    make_text_save($post["man_lastname"]."様",$man_firstname_gaiji_pathArray,$user_folder."man_lastname_respect.png");
-    make_text_save($post["man_firstname"],$man_firstname_gaiji_pathArray,$user_folder."man_firstname.png");
-    $man_fullname_gaiji_pathArray = array_merge($man_lastname_gaiji_pathArray,$man_firstname_gaiji_pathArray);
-    make_text_save($post["man_lastname"]." ".$post["man_firstname"]." 様",$man_fullname_gaiji_pathArray,$user_folder."man_fullname.png");
-
-    make_text_save($post["man_lastname"],$man_lastname_gaiji_pathArray,$user_folder."thumb1/man_lastname.png",11);
-    make_text_save($post["man_lastname"]."様",$man_firstname_gaiji_pathArray,$user_folder."thumb1/man_lastname_respect.png",11);
-    make_text_save($post["man_lastname"]." ".$post["man_firstname"]." 様",$man_fullname_gaiji_pathArray,$user_folder."thumb1/man_fullname.png",11);
-
-    make_text_save($post["man_lastname"],$man_lastname_gaiji_pathArray,$user_folder."thumb2/man_lastname.png",9,100);
-    make_text_save($post["man_lastname"]."様",$man_firstname_gaiji_pathArray,$user_folder."thumb2/man_lastname_respect.png",9,100);
-    make_text_save($post["man_lastname"]." ".$post["man_firstname"]." 様",$man_fullname_gaiji_pathArray,$user_folder."thumb2/man_fullname.png",9,100);
-
-
-    make_text_save($post["woman_lastname"],$woman_lastname_gaiji_pathArray,$user_folder."woman_lastname.png");
-    make_text_save($post["woman_lastname"]."様",$woman_firstname_gaiji_pathArray,$user_folder."woman_lastname_respect.png");
-    make_text_save($post["woman_firstname"],$woman_firstname_gaiji_pathArray,$user_folder."woman_firstname.png");
-    $woman_fullname_gaiji_pathArray = array_merge($woman_lastname_gaiji_pathArray,$woman_firstname_gaiji_pathArray);
-    make_text_save($post["woman_lastname"]." ".$post["woman_firstname"]." 様",$woman_fullname_gaiji_pathArray,$user_folder."woman_fullname.png");
-
-    make_text_save($post["woman_lastname"],$woman_lastname_gaiji_pathArray,$user_folder."thumb1/woman_lastname.png",11);
-    make_text_save($post["woman_lastname"]."様",$woman_firstname_gaiji_pathArray,$user_folder."thumb1/woman_lastname_respect.png",11);
-    make_text_save($post["woman_lastname"]." ".$post["woman_firstname"]." 様",$woman_fullname_gaiji_pathArray,$user_folder."thumb1/woman_fullname.png",11);
-
-    make_text_save($post["woman_lastname"],$woman_lastname_gaiji_pathArray,$user_folder."thumb2/woman_lastname.png",9,100);
-    make_text_save($post["woman_lastname"]."様",$woman_firstname_gaiji_pathArray,$user_folder."thumb2/woman_lastname_respect.png",9,100);
-    make_text_save($post["woman_lastname"]." ".$post["woman_firstname"]." 様",$woman_fullname_gaiji_pathArray,$user_folder."thumb2/woman_fullname.png",9,100);
+    //外字およびpdf生成に必要なファイルの作成
+    make_user_images($user_id,$post["man_lastname"],$post["man_firstname"],$post["woman_lastname"],$post["woman_firstname"],$_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],$_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"]);
 
     redirect("user_info.php?user_id=$user_id");
 
@@ -242,49 +192,12 @@ else
     //$last_id = 233;
     $user_id = $last_id;
 
-    //gaiji用画像作成
-
-    $hotel_id = 1;
-    $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
-    mkdir(get_image_db_directory($hotel_id));
-    mkdir(get_image_db_directory($hotel_id)."/user_name");
-    mkdir($user_folder);
-    mkdir($user_folder."/thumb1");
-    mkdir($user_folder."/thumb2");
-
     set_user_gaiji_position($user_id,$post["man_firstname"],0,$_POST["male_first_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["man_lastname"],1,$_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["woman_firstname"],2,$_POST["female_first_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["woman_lastname"],3,$_POST["female_last_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
 
-    make_text_save($post["man_lastname"],$man_lastname_gaiji_pathArray,$user_folder."man_lastname.png");
-    make_text_save($post["man_lastname"]."様",$man_firstname_gaiji_pathArray,$user_folder."man_lastname_respect.png");
-    make_text_save($post["man_firstname"],$man_firstname_gaiji_pathArray,$user_folder."man_firstname.png");
-    $man_fullname_gaiji_pathArray = array_merge($man_lastname_gaiji_pathArray,$man_firstname_gaiji_pathArray);
-    make_text_save($post["man_lastname"]." ".$post["man_firstname"]." 様",$man_fullname_gaiji_pathArray,$user_folder."man_fullname.png");
-
-    make_text_save($post["man_lastname"],$man_lastname_gaiji_pathArray,$user_folder."thumb1/man_lastname.png",11);
-    make_text_save($post["man_lastname"]."様",$man_firstname_gaiji_pathArray,$user_folder."thumb1/man_lastname_respect.png",11);
-    make_text_save($post["man_lastname"]." ".$post["man_firstname"]." 様",$man_fullname_gaiji_pathArray,$user_folder."thumb1/man_fullname.png",11);
-
-    make_text_save($post["man_lastname"],$man_lastname_gaiji_pathArray,$user_folder."thumb2/man_lastname.png",9,100);
-    make_text_save($post["man_lastname"]."様",$man_firstname_gaiji_pathArray,$user_folder."thumb2/man_lastname_respect.png",9,100);
-    make_text_save($post["man_lastname"]." ".$post["man_firstname"]." 様",$man_fullname_gaiji_pathArray,$user_folder."thumb2/man_fullname.png",9,100);
-
-
-    make_text_save($post["woman_lastname"],$woman_lastname_gaiji_pathArray,$user_folder."woman_lastname.png");
-    make_text_save($post["woman_lastname"]."様",$woman_firstname_gaiji_pathArray,$user_folder."woman_lastname_respect.png");
-    make_text_save($post["woman_firstname"],$woman_firstname_gaiji_pathArray,$user_folder."woman_firstname.png");
-    $woman_fullname_gaiji_pathArray = array_merge($woman_lastname_gaiji_pathArray,$woman_firstname_gaiji_pathArray);
-    make_text_save($post["woman_lastname"]." ".$post["woman_firstname"]." 様",$woman_fullname_gaiji_pathArray,$user_folder."woman_fullname.png");
-
-    make_text_save($post["woman_lastname"],$woman_lastname_gaiji_pathArray,$user_folder."thumb1/woman_lastname.png",11);
-    make_text_save($post["woman_lastname"]."様",$woman_firstname_gaiji_pathArray,$user_folder."thumb1/woman_lastname_respect.png",11);
-    make_text_save($post["woman_lastname"]." ".$post["woman_firstname"]." 様",$woman_fullname_gaiji_pathArray,$user_folder."thumb1/woman_fullname.png",11);
-
-    make_text_save($post["woman_lastname"],$woman_lastname_gaiji_pathArray,$user_folder."thumb2/woman_lastname.png",9,100);
-    make_text_save($post["woman_lastname"]."様",$woman_firstname_gaiji_pathArray,$user_folder."thumb2/woman_lastname_respect.png",9,100);
-    make_text_save($post["woman_lastname"]." ".$post["woman_firstname"]." 様",$woman_fullname_gaiji_pathArray,$user_folder."thumb2/woman_fullname.png",9,100);
+    make_user_images($user_id,$post["man_lastname"],$post["man_firstname"],$post["woman_lastname"],$post["woman_firstname"],$_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],$_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"]);
 
     //insert USER AS GUEST
     $guest_array['first_name']=$post['man_firstname'];
@@ -639,18 +552,5 @@ function get_font_size($font_type,$hotel_id){
   //
   return $result_font_size;
 }
-function get_image_db_directory($hotel_id){
-  $result_image_db_dir = "";
-  $query = "select gc_sval_0 as val from spssp_gaizi_cfg where gc_cfg_type = 3 and gc_cscode = ".$hotel_id;
-  $result = mysql_query($query );
-  $num = mysql_num_rows($result);
-  if($num>0){
-    while($fetchedRow = mysql_fetch_assoc($result)){
-      $result_image_db_dir = (string)$fetchedRow["val"];
-    }
-  }
-  mysql_free_result($result);
-  //
-  return dirname(__FILE__)."/".$result_image_db_dir;
-}
+
 ?>

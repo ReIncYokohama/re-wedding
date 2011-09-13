@@ -56,7 +56,8 @@
 	if($get['action']=="allow")
 	{
 
-		if($obj->GetRowCount("spssp_plan"," `order` = 1 and user_id=".$user_id) >0 )
+//		if($obj->GetRowCount("spssp_plan"," `order` = 1 and user_id=".$user_id) >0 )
+		if($obj->GetRowCount("spssp_plan"," `order` = 0 or `order` = 1 and user_id=".$user_id) >0 )
 		{
 			if($plan_info['print_company']>0)
 			{
@@ -64,6 +65,7 @@
 				if($res==6)
 				{
 					unset($post);
+					$post['order']=1;
 					$post['admin_to_pcompany']=1;
 					$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 
@@ -295,7 +297,16 @@ include("inc/return_dbcon.inc.php");
 	<!-- UCHIDA EDIT 11/08/04
         <div style="width:600px"><a href="users.php">お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報</a> &raquo; 席次表・引出物発注</div>
 	-->
-       <div style="width:600px"><a href="manage.php">ＴＯＰ</a> &raquo; 席次表・引出物発注</div>
+		<div style="width:600px">
+		<?php
+		if($stuff_id==0) {
+            echo '<a href="manage.php">ＴＯＰ</a> &raquo; お客様挙式情報 &raquo; 席次表・引出物発注';
+		}
+		else {
+            echo '<a href="users.php">管理者用お客様一覧</a> &raquo; お客様挙式情報 &raquo; 席次表・引出物発注';
+		}
+		?>
+		</div>
         </h2>
 	  <div   style="width:800px;"><div class="navi"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi01.jpg" class="on" /></a></div>
       <div class="navi"><a href="message_user.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi02.jpg" class="on" /></a></div>
@@ -424,10 +435,13 @@ include("inc/return_dbcon.inc.php");
 				<td width="210" valign="middle"></td>
 
 			  	<td width="617" valign="middle">
+			  	<?php if ($plan_info['admin_to_pcompany']==1) { // アップロードされるまで ?>
+			  		<img src="img/common/order/seat_order_release_greyed.gif" /></a>
+			  	<?php }else { ?>
 					<a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=reset&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>','依頼解除を行います。宜しいですか？')"><img src="img/common/order/seat_order_release.gif" /></a>
+				<?php }?>
 					<br>※お客様画面の「依頼」ボタンが押されていて、<br>
 　　						依頼解除したい場合にはこちらを押してください。
-
 				</td>
 
 			  </tr>

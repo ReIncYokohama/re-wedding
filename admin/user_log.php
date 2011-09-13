@@ -9,6 +9,7 @@
 	$data_per_page=10;
 	$current_page=(int)$_GET['page'];
 	$redirect_url = 'user_log.php?user_id='.$user_id;
+	$stuff_id= (int)$_GET['stuff_id'];
 
 	//$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
 
@@ -85,8 +86,14 @@ include("inc/return_dbcon.inc.php");
 <!-- UCHIDA EDIT 11/08/02
             <a href="users.php">お客様一覧 </a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様画面挙式情報 </a> &raquo; お客様画面アクセスログ
  -->
-            <a href="manage.php">ＴＯＰ </a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報 </a> &raquo; お客様画面アクセスログ
-
+		<?php
+		if($stuff_id==0) {?>
+            <a href="manage.php">ＴＯＰ</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; お客様画面アクセスログ
+		<?php }
+		else {?>
+            <a href="users.php">管理者用お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; お客様画面アクセスログ
+		<?php }
+		?>
 
         </h2>
 		<h2>お客様画面アクセスログ</h2>
@@ -189,7 +196,7 @@ include("inc/return_dbcon.inc.php");
 			 	}
 			 ?>
         </div>
-    <div align="center"><a href="user_info.php?user_id=<?=$user_id?>">&lt;&lt;戻る</a></div>
+    <div align="center"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">&lt;&lt;戻る</a></div>
 	<div style="height:18px; text-align:right"><a href="#">▲ページ上へ</a></div>
     </div>
 

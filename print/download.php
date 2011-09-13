@@ -45,9 +45,19 @@ else if($_SESSION['printid'] =='')
 <link href="css/common.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="js/jquery.rollover.js"></script>
+<script>
+var downloaded=0;
+function click_check(url) {
+	if (downloaded==0) {
+		downloaded++;
+		window.location.href=url;
+	}
+}
+</script>
 <style type="text/css">
 .datepicker {cursor:pointer;
 }
+
 </style>
 </head>
 
@@ -121,7 +131,7 @@ else if($_SESSION['printid'] =='')
 		 if($user_plan_info['dl_print_com_times']>0 && $user_plan_info['dl_print_com_times'] < 2)
 		 {	//NEED TO CHECK THE DAY LIMIT
 		 ?>
-		<a href="csvdownload.php?user_id=<?=$_GET['user_id']?>&file=csv" ><img src="img/common/btn_download_csv.jpg" alt="検索" width="152" height="22" /></a>
+		<a href="javascript:void(0);" onclick="click_check('csvdownload.php?user_id=<?=$_GET['user_id']?>&file=csv');" ><img src="img/common/btn_download_csv.jpg" alt="検索" width="152" height="22" /></a>
 		<?php }else{?>
 		  <img src="img/common/btn_download_csv.jpg" alt="検索" width="152" height="22" /> <span style="color:red;">[You have no access here.]</span>
 		  <?php }?>
