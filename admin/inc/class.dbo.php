@@ -1,5 +1,6 @@
 <?php
 include_once('dbcon.inc.php');
+
 	class DBO
 	{
 		
@@ -163,9 +164,13 @@ include_once('dbcon.inc.php');
 		public function getRowsByQuery($qry)
 		{
 			$fetch_rows = array();
-			//echo $qry;exit;
-			$result = mysql_query($qry);
-			$num = mysql_num_rows($result);
+      $result = mysql_query($qry);
+      if(!$result && DEBUG){
+        echo "error:".mysql_error();
+        exit();
+			}
+      $num = mysql_num_rows($result);
+      
 			if($num>0)
 				{
 				while($row = mysql_fetch_assoc($result))
@@ -225,10 +230,9 @@ include_once('dbcon.inc.php');
 		
 		public function GetAllRowsByCondition($tablename,$where)
 		{
-			$fetchedRows = "";
 			$query = "select * from $tablename where  ".$where;
 			//echo $query;exit;
-			$result = mysql_query($query );
+			$result = mysql_query($query);
 			$num = mysql_num_rows($result);
 			if($num>0)
 			{

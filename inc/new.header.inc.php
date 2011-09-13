@@ -28,7 +28,7 @@ $last_log_date = str_replace("-", "/",$_SESSION['lastlogintime']);
 ?>
 
 <?php
-        	$user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
+$user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
 		
 ?>
 
@@ -152,10 +152,8 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
             	<div id="inform_user" style="text-align:center; font-size:15px; font-weight:bold; color:#006600;"></div>
                 <div class="logo"> <div><img src="img/logo.jpg" width="200" height="57" border="0" /></div>
                     <div style="font-size:11px;height:12px;vertical-align:top;">
-    <?php  echo $objInfo->get_user_name_image_or_src_from_user_side($usert_id ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");?>
-・
-    <?php  echo $objInfo->get_user_name_image_or_src_from_user_side($usert_id ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb2");?>
-様専用ページ </div>
+    <?php  echo $objInfo->get_user_name_image_or_src_from_user_side($usert_id ,$hotel_id=1, $name="guest_page.png",$extra=".");?>
+</div>
                 </div>
                 <div id="head_right">
                   <div id="login_date">前回のログイン　<?=$last_log_date?></div>

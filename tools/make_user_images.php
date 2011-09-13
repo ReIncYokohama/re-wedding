@@ -17,15 +17,15 @@ function get_gaiji_ima_arr($gaijis){
 
 foreach($users as $user){
   $user_respect = "";
-  echo $user["user_id"].":".$user["man_last_name"];
+  echo $user["id"].":".$user["man_lastname"];
   
-  $query_string = "SELECT * FROM spssp_gaizi_detail_for_user where id = ".$user["id"];
-  $man_firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=0 order by gu_char_position");
-  $man_lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=1 order by gu_char_position");
-  $woman_firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=2 order by gu_char_position");
-  $woman_lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=3 order by gu_char_position");
+  $query_string = "SELECT * FROM spssp_gaizi_detail_for_user where gu_id = ".$user["id"];
+  $man_firstname_gaijis = getObjectArrayToArray($obj->getRowsByQuery($query_string." and gu_trgt_type=0 order by gu_char_position"),"gu_char_img");
+  $man_lastname_gaijis = getObjectArrayToArray($obj->getRowsByQuery($query_string." and gu_trgt_type=1 order by gu_char_position"),"gu_char_img");
+  $woman_firstname_gaijis = getObjectArrayToArray($obj->getRowsByQuery($query_string." and gu_trgt_type=2 order by gu_char_position"),"gu_char_img");
+  $woman_lastname_gaijis = getObjectArrayToArray($obj->getRowsByQuery($query_string." and gu_trgt_type=3 order by gu_char_position"),"gu_char_img");
 
   //外字の画像を生成する。
-  make_user_images($user["user_id"],$user["id"],$user["man_lastname"],$user["man_firstname"],$user["woman_lastname"],$user["woman_firstname"],
-                    $man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis);
+  make_user_images($user["id"],$user["man_lastname"],$user["man_firstname"],$user["woman_lastname"],$user["woman_firstname"],
+                    $man_lastname_gaijis,$man_firstname_gaijis,$woman_lastname_gaijis,$woman_firstname_gaijis);
 }

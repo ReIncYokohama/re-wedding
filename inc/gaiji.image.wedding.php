@@ -222,60 +222,62 @@ function set_user_gaiji_position($user_id,$str,$target_type,$gaiji_file_name_arr
 function make_user_images($user_id,$man_last_name,$man_first_name,$woman_last_name,$woman_first_name,$man_last_name_img,$man_first_name_img,$woman_last_name_img,$woman_first_name_img){
   $hotel_id=1;
   $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
-  mkdir(get_image_db_directory($hotel_id));
-  mkdir(get_image_db_directory($hotel_id)."/user_name");
-  mkdir($user_folder);
-  mkdir($user_folder."/thumb1");
-  mkdir($user_folder."/thumb2");
+  @mkdir(get_image_db_directory($hotel_id));
+  @mkdir(get_image_db_directory($hotel_id)."/user_name");
+  @mkdir($user_folder);
+  @mkdir($user_folder."/thumb1");
+  @mkdir($user_folder."/thumb2");
 
   $man_lastname_gaiji_pathArray = getGaijiPathArray($man_last_name_img);
   $man_firstname_gaiji_pathArray = getGaijiPathArray($man_first_name_img);
-  $woman_lastname_gaiji_pathArray = getGaijiPathArray($woman_first_name_img);
+  $woman_lastname_gaiji_pathArray = getGaijiPathArray($woman_last_name_img);
   $woman_firstname_gaiji_pathArray = getGaijiPathArray($woman_first_name_img);
-  
+
   make_text_save($man_last_name,$man_lastname_gaiji_pathArray,$user_folder."man_lastname.png");
-  make_text_save($man_last_name."様",$man_firstname_gaiji_pathArray,$user_folder."man_lastname_respect.png");
+  make_text_save($man_last_name."様",$man_lastname_gaiji_pathArray,$user_folder."man_lastname_respect.png");
   make_text_save($man_first_name,$man_firstname_gaiji_pathArray,$user_folder."man_firstname.png");
   $man_fullname_gaiji_pathArray = array_merge($man_lastname_gaiji_pathArray,$man_firstname_gaiji_pathArray);
   make_text_save($man_last_name." ".$man_first_name." 様",$man_fullname_gaiji_pathArray,$user_folder."man_fullname.png");
   
   make_text_save($man_last_name,$man_lastname_gaiji_pathArray,$user_folder."thumb1/man_lastname.png",11);
-  make_text_save($man_last_name."様",$man_firstname_gaiji_pathArray,$user_folder."thumb1/man_lastname_respect.png",11);
+  make_text_save($man_last_name."様",$man_lastname_gaiji_pathArray,$user_folder."thumb1/man_lastname_respect.png",11);
   make_text_save($man_last_name." ".$man_first_name." 様",$man_fullname_gaiji_pathArray,$user_folder."thumb1/man_fullname.png",11);
 
   make_text_save($man_last_name,$man_lastname_gaiji_pathArray,$user_folder."thumb2/man_lastname.png",9,100);
-  make_text_save($man_last_name."様",$man_firstname_gaiji_pathArray,$user_folder."thumb2/man_lastname_respect.png",9,100);
+  make_text_save($man_last_name."様",$man_lastname_gaiji_pathArray,$user_folder."thumb2/man_lastname_respect.png",9,100);
   make_text_save($man_last_name." ".$man_first_name." 様",$man_fullname_gaiji_pathArray,$user_folder."thumb2/man_fullname.png",9,100);
 
   make_text_save($woman_last_name,$woman_lastname_gaiji_pathArray,$user_folder."woman_lastname.png");
-  make_text_save($woman_last_name."様",$woman_firstname_gaiji_pathArray,$user_folder."woman_lastname_respect.png");
+  make_text_save($woman_last_name."様",$woman_lastname_gaiji_pathArray,$user_folder."woman_lastname_respect.png");
   make_text_save($woman_first_name,$woman_firstname_gaiji_pathArray,$user_folder."woman_firstname.png");
   $woman_fullname_gaiji_pathArray = array_merge($woman_lastname_gaiji_pathArray,$woman_firstname_gaiji_pathArray);
+
   make_text_save($woman_last_name." ".$woman_first_name." 様",$woman_fullname_gaiji_pathArray,$user_folder."woman_fullname.png");
 
   make_text_save($woman_last_name,$woman_lastname_gaiji_pathArray,$user_folder."thumb1/woman_lastname.png",11);
-  make_text_save($woman_last_name."様",$woman_firstname_gaiji_pathArray,$user_folder."thumb1/woman_lastname_respect.png",11);
+  make_text_save($woman_last_name."様",$woman_lastname_gaiji_pathArray,$user_folder."thumb1/woman_lastname_respect.png",11);
   make_text_save($woman_last_name." ".$woman_first_name." 様",$woman_fullname_gaiji_pathArray,$user_folder."thumb1/woman_fullname.png",11);
 
   make_text_save($woman_last_name,$woman_lastname_gaiji_pathArray,$user_folder."thumb2/woman_lastname.png",9,100);
-  make_text_save($woman_last_name."様",$woman_firstname_gaiji_pathArray,$user_folder."thumb2/woman_lastname_respect.png",9,100);
+  make_text_save($woman_last_name."様",$woman_lastname_gaiji_pathArray,$user_folder."thumb2/woman_lastname_respect.png",9,100);
   make_text_save($woman_last_name." ".$woman_first_name." 様",$woman_fullname_gaiji_pathArray,$user_folder."thumb2/woman_fullname.png",9,100);
-  
+
   $guest_page_gaiji_pathArray = array_merge($woman_lastname_gaiji_pathArray,$woman_lastname_gaiji_pathArray);
-  meke_text_save($man_last_name."・".$woman_last_name."様専用ページ",$guest_page_gaiji_pathArray,$user_folder,"guest_page.png");
+
+  make_text_save($man_last_name."・".$woman_last_name."様専用ページ",$guest_page_gaiji_pathArray,$user_folder."guest_page.png",13,250);
 }
 
 function make_guest_images($user_id,$guest_id,$last_name,$first_name,$comment1,$comment2,$respect,$last_name_gaiji_img,$first_name_gaiji_img,$comment1_gaiji_img,$comment2_gaiji_img){
   $hotel_id=1;
   $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
-  mkdir($user_folder);
-  mkdir($user_folder."guest");
+  @mkdir($user_folder);
+  @mkdir($user_folder."guest");
   $colorArray = array(0x00,0x00,0x00);
   //if($_POST["stage"] == 1) $colorArray = array(255,0,0);
-  mkdir($user_folder."/guest");
-  mkdir($user_folder."/guest/".$guest_id);
-  mkdir($user_folder."/guest/".$guest_id."/thumb1");
-  mkdir($user_folder."/guest/".$guest_id."/thumb2");
+  @mkdir($user_folder."/guest");
+  @mkdir($user_folder."/guest/".$guest_id);
+  @mkdir($user_folder."/guest/".$guest_id."/thumb1");
+  @mkdir($user_folder."/guest/".$guest_id."/thumb2");
   $user_folder = $user_folder."/guest/".$guest_id."/";
   
   $lastname_gaiji_pathArray = getGaijiPathArray($last_name_gaiji_img);
@@ -311,7 +313,7 @@ function make_guest_images($user_id,$guest_id,$last_name,$first_name,$comment1,$
   make_name_plate_save($last_name,$first_name,$comment1,$comment2,
                        $lastname_gaiji_pathArray,$firstname_gaiji_pathArrays,
                        $comment1_gaiji_pathArray,$comment2_gaiji_pathArray,$savefile,$colorArray,$respect);
-  
+  print "end<br><br>";
 
 }
 
@@ -337,4 +339,11 @@ function getGaijiPathArray($gaiji_img){
     array_push($pathArray,dirname(__FILE__)."/../gaiji/upload/img_ans/".$gaiji_img[$i]);
   }
   return $pathArray;
+}
+function getObjectArrayToArray($arr,$name){
+  $re_arr = array();
+  for($i=0;$i<count($arr);++$i){
+    array_push($re_arr,$arr[$i][$name]);
+  }
+  return $re_arr;
 }
