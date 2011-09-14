@@ -17,12 +17,12 @@
 		//redirect('stuffs.php');
 	}
 
-	//print_r($_POST);
-	if($_POST['insert']=="insert")
+	//print_r($post);
+	if($post['insert']=="insert")
 	{
-		if(trim($_POST['name']) && trim($_POST['username']) && trim($_POST['password'])&& trim($_POST['permission']))
+		if(trim($post['name']) && trim($post['username']) && trim($post['password'])&& trim($post['permission']))
 		{
-			$num=$obj->GetNumRows('spssp_admin',"username='".$_POST['username']."'");
+			$num=$obj->GetNumRows('spssp_admin',"username='".$post['username']."'");
 			if(!$num)
 			{
 				unset($post['insert']);
@@ -81,15 +81,15 @@
 			$err=2;
 		}
 	}
-	if($_POST['update']=="update")
+	if($post['update']=="update")
 	{
-		if(trim($_POST['name']) && trim($_POST['username']) && trim($_POST['password']))
+		if(trim($post['name']) && trim($post['username']) && trim($post['password']))
 		{
-			$num=$obj->GetNumRows('spssp_admin'," id!=".$_POST['id']." and username='".$_POST['username']."'");
+			$num=$obj->GetNumRows('spssp_admin'," id!=".$post['id']." and username='".$post['username']."'");
 
 			if(!($num>0))
 			{
-				$post = $obj->protectXSS($_POST);
+				$post = $obj->protectXSS($post);
 				unset($post['update']);
 				unset($post['conf_email']);
 				unset($post['permission_old']);
@@ -97,7 +97,7 @@
 				if($post['permission'] == '222')
 				{
 		          $msg = 2;
-		          $obj->UpdateData('spssp_admin',$post,"id=".$_POST['id']);
+		          $obj->UpdateData('spssp_admin',$post,"id=".$post['id']);
 
 				}
 				else
@@ -112,7 +112,7 @@
 					}
 
 					$msg = 2;
-					$obj->UpdateData('spssp_admin',$post,"id=".$_POST['id']);
+					$obj->UpdateData('spssp_admin',$post,"id=".$post['id']);
 
 			          $upd_data = array();
 			          $upd_data["adminid"] = $post["username"];
@@ -167,13 +167,7 @@
 		}
 
 		$order_main=" permission DESC,".$order;
-	}
-	else
-	{
-		$order_main=" permission DESC";
-	}
 
-	if($get['action']!="edit") {
 		$edit_data_rows['name']				=$get['name'];
 		$edit_data_rows['username']			=$get['username'];
 		$edit_data_rows['password']			=$get['password'];
@@ -181,6 +175,10 @@
 		$edit_data_rows['subcription_mail']	=$get['subcription_mail'];
 		$edit_data_rows['email']			=$get['email'];
 		$edit_data_rows['conf_email']		=$get['conf_email'];
+	}
+	else
+	{
+		$order_main=" permission DESC";
 	}
 
 	$query_string="SELECT * FROM spssp_admin where permission!=111  ORDER BY  $order_main ;";
@@ -264,8 +262,6 @@ function validForm()
 	}
 	else if($.inArray(ID,idArray)!=-1 && username_current!=ID)
 	{
-// UCHIDA EDIT 11/07/26
-//		alert("名前が重複しています");
 		alert("ログインIDが既に登録されています");
 		document.getElementById('ID').focus();
 		return false;
@@ -423,8 +419,6 @@ function validForm_staff()
 	}
 	if($.inArray(name,nameArray)!=-1 && name_current!=name)
 	{
-// UCHIDA EDIT 11/07/26
-//		alert("この名前で新規登録ができません。名前入力してください");
 		alert("同じ名前があるため登録・変更できません");
 		document.getElementById('name').focus();
 		return false;
@@ -437,9 +431,6 @@ function validForm_staff()
 	}
 	else if($.inArray(ID,idArray)!=-1 && username_current!=ID)
 	{
-//		alert("氏名が重複しております。"); UCHIDA EDIT 11/07/24
-// UCHIDA EDIT 11/07/26
-//		alert("名前が重複しています");
 		alert("ログインIDが既に登録されています");
 		document.getElementById('ID').focus();
 		return false;
@@ -661,7 +652,6 @@ include("inc/return_dbcon.inc.php");
 		<form  action="staffs.php" method="post" name="stuff_form">
 		<?php if($get['action']=="edit"){?>
 		<input type="hidden" name="update" value="update">
-
 
 		<input type="hidden" name="id" value="<?=$get['id']?>">
 		<?php }else{?>
@@ -940,17 +930,18 @@ var radio1  = document.stuff_form.permission[0].checked;
 var radio2  = document.stuff_form.subcription_mail[0].checked;
 var edit_data;
 var urlPlus;
-var perm, sub;
-	if (radio1==true) perm="333"; else perm="222";
-	if (radio2==true) sub="0"; else sub="1";
+var perm = (radio1==true)? "333" : "222";;
+var sub = (radio2==true)? "0" : "1";
+var action = "<?=$get['action']?>";
+	edit_data  = "&name="			  + document.stuff_form.name.value;
+	edit_data += "&username="		  + document.stuff_form.username.value;
+	edit_data += "&password="		  + document.stuff_form.password.value;
+	edit_data += "&permission="		  + perm;
+	edit_data += "&subcription_mail=" + sub;
+	edit_data += "&email="			  + document.stuff_form.email.value;
+	edit_data += "&conf_email="		  + document.stuff_form.conf_email.value;
 
-	edit_data =             "&name="			+document.stuff_form.name.value;
-	edit_data = edit_data + "&username="		+document.stuff_form.username.value;
-	edit_data = edit_data + "&password="		+document.stuff_form.password.value;
-	edit_data = edit_data + "&permission="		+perm;
-	edit_data = edit_data + "&subcription_mail="+sub;
-	edit_data = edit_data + "&email="			+document.stuff_form.email.value;
-	edit_data = edit_data + "&conf_email="		+document.stuff_form.conf_email.value;
+	if(action=="edit") 	edit_data += "&action=edit";
 
 	urlPlus = url+edit_data;
 	return urlPlus;

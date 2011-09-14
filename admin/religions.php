@@ -7,12 +7,6 @@
 	$get = $obj->protectXSS($_GET);
 	$post = $obj->protectXSS($_POST);
 
-	/*if($_SESSION['user_type'] != 111)
-	{
-		redirect("manage.php");
-	}
-*/
-
 	if(isset($post['title']) && $post['title'] != '')
 	{
 		$id = (int)$post['insert_edit'];
@@ -37,7 +31,7 @@
 		}
 
 	}
-	if(isset($get['action']) && $get['action'] !== '')
+	if(isset($get['action']) && $get['action'] == 'delete')
 	{
 		$id = (int)$get['id'];
 		if($id > 0)
@@ -46,17 +40,30 @@
 			$obj->DeleteRow("spssp_party_room", "religion_id=".$id);
 
 			$msg = 3;
-			redirect('religions.php'); // UCHIDA EDIT 11/07/27
+			$get['id'] = $get['edit_id'];
+			//redirect('religions.php'); // UCHIDA EDIT 11/07/27
 		}
 		else
 		{
 			$err = 11;
 		}
 	}
-
+	if(isset($get['action']) && $get['action']=='sort' && (int)$get['id'] > 0) {
+		$table = 'spssp_religion';
+		$id = $get['id'];
+		$move = $get['move'];
+		if($move=="down") $move="up"; else $move="down";
+		$obj->sortItem($table,$id,$move);
+		$get['id']=$get['edit_id'];
+	}
+	if(isset($get['action']) && $get['action']=='edit' && (int)$get['id'] > 0) {
+		$get['name']="";
+	}
 ?>
 <script type="text/javascript">
+
 var kindArray=new Array(); // UCHIDA EDIT 11/07/27
+
 $(function(){
 
 	var msg_html=$("#msg_rpt").html();
@@ -79,6 +86,7 @@ function cancel_new()
 	window.location='religions.php';
 	//$("#name").val("");
 }
+
 function check_name()
 {
 var kindname = document.getElementById('name').value; // UCHIDA EDIT 11/07/27
@@ -97,23 +105,42 @@ var kindname = document.getElementById('name').value; // UCHIDA EDIT 11/07/27
  // UCHIDA EDIT 11/07/27 ↑
 	document.new_name.submit();
 }
+
 function edit_name(id, name,adminType)
 {
-	window.location='religions.php?id='+id;
+	window.location='religions.php?id='+id+"&action=edit";
 
 	if(adminType==222)
 	{
 		alert("権限がありません");
 	}
-	//else
-//	{
-//		$("#insert_edit").val(id);
-//		$("#name").val(name);
-//		$("#title_bar").html("編集　挙式種類");
-//		$("#new_table").fadeOut(100);
-//		$("#new_table").fadeIn(500);
-//	}
 }
+
+function confirmDeletePlus(urls, id)
+{
+	var edit_id="<?=$get['id']?>";
+	var agree = confirm("挙式種類を削除してもよろしいですか？");
+	if(agree)
+	{
+		if (edit_id != id) window.location = collecting_data(urls);
+		else               window.location = urls;
+	}
+}
+
+function orderAction(url) {
+	window.location = collecting_data(url);
+}
+
+function collecting_data(url) {
+var edit_data;
+var urlPlus;
+var edit_id="<?=$get['id']?>";
+	edit_data  = "&name="+document.new_name.name.value;
+	edit_data += "&edit_id="+edit_id;
+	urlPlus = url+edit_data;
+	return urlPlus;
+}
+
 </script>
 <div id="topnavi">
     <?php
@@ -141,17 +168,12 @@ include("inc/return_dbcon.inc.php");
             <a href="guest_types.php"> <b>区分</b></a>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <b>挙式種類</b>
       </p>-->
-        <?php if(isset($err)){echo "<script>
-			alert('".$obj->GetErrorMsgNew($err)."');
-			</script>";}?>
+        <?php if(isset($err)){
+        	echo "<script>
+				 alert('".$obj->GetErrorMsgNew($err)."');
+				 </script>";
+        }?>
 
-<!-- UCHIDA EDIT 11/07/27　↓
-		<?php
-//		if(isset($msg)){echo "<script>
-//			alert('".$obj->GetSuccessMsgNew($msg)."');
-//			</script>";}
-		?>
- -->
 		<?php
 		switch ($msg) {
 		    case 1:
@@ -171,15 +193,19 @@ include("inc/return_dbcon.inc.php");
 
       if($_SESSION['user_type'] != 222)
 		{
-		if($_GET['id'])
-		  $getrow = $obj->GetSingleData('spssp_religion','title', 'id='.$_GET['id']);
+		if($get['name']) {
+			$getrow=$get['name'];
+		}
+		else if($get['id']) {
+		  $getrow = $obj->GetSingleData('spssp_religion','title', 'id='.$get['id']);
+		}
 
 	  ?>
 
 		<div  id="new_table" style="display:block; width:1035px;">
         	<h2 id="title_bar">挙式種類設定 </h2>
         	<form action="religions.php" method="post" name="new_name">
-            	<input type="hidden" name="insert_edit" id="insert_edit" value="<?=$_GET['id']?>" />
+            	<input type="hidden" name="insert_edit" id="insert_edit" value="<?=$get['id']?>" />
                 挙式種類 : &nbsp;<input type="text" name="title" id="name"  value="<?=$getrow?>" /> &nbsp; &nbsp; &nbsp;
                  <a href="#"><img  onclick="check_name()"; border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg"></a>
 				 &nbsp;
@@ -193,10 +219,9 @@ include("inc/return_dbcon.inc.php");
         	<a href="javascript:void(0);" onclick="new_table()"> <b>新規登録</b></a>	</div>
         </p>-->
 
-	<?php
-	}
-	?>
-
+		<?php
+		}
+		?>
 
         <p>&nbsp;</p>
         <div class="box_table" style="width:700px;">
@@ -212,8 +237,7 @@ include("inc/return_dbcon.inc.php");
               </table>
             </div>
             <?php
-			$orderItem = ($_GET['sort'] =='')?'ASC': $_GET['sort'];
-            	$query_string="SELECT * FROM spssp_religion  ORDER BY display_order $orderItem ;";
+            	$query_string="SELECT * FROM spssp_religion  ORDER BY display_order ASC ;";
 				$data_rows = $obj->getRowsByQuery($query_string);
 
 				$i=0;
@@ -233,7 +257,6 @@ include("inc/return_dbcon.inc.php");
 				<!-- UCHIDA EDIT 11/07/27 ↓ -->
 				<script language="javascript" type="text/javascript">
 				kindArray[<?=$i?>]="<?=$row['title']?>";
-
 				</script>
 				<!-- UCHIDA EDIT 11/07/27 ↑ -->
 				<div class="<?=$class?>" id="boxid<?=$row['id']?>">
@@ -244,8 +267,10 @@ include("inc/return_dbcon.inc.php");
                             <!--<td><a href="party_rooms.php?religion_id=< ?=$row['id']?>">挙式会場</a></td>-->
                             <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
 							<td>
-							 <span class="txt1"><a href="sort.php?table=religion&sort=ASC&move=up&id=<?=$row['id']?>&pagename=religions">▲</a>
-                             <a href="sort.php?table=religion&sort=ASC&move=down&id=<?=$row['id']?>&pagename=religions"> ▼</a></span>
+							 <span class="txt1">
+							 <a href="javascript:void(0);" onClick="orderAction('religions.php?action=sort&move=up&id=<?=$row['id']?>');">▲</a>
+                             <a href="javascript:void(0);" onClick="orderAction('religions.php?action=sort&move=down&id=<?=$row['id']?>');">▼</a>
+                             </span>
               				</td>
 							<td>
                             	<a href="#" onclick="edit_name(<?=$row['id']?>,'<?=$row['title']?>',<?=$_SESSION['user_type']?>);">
@@ -253,7 +278,7 @@ include("inc/return_dbcon.inc.php");
                                 </a>
                             </td>
               				<td>
-                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>confirmDelete('religions.php?action=delete&id=<?=$row['id']?>');<?php }?>">
+                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>confirmDeletePlus('religions.php?action=delete&id=<?=$row['id']?>', <?=$row['id']?>);<?php }?>">
                                 	<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
                             </td>
@@ -270,14 +295,14 @@ include("inc/return_dbcon.inc.php");
 				$j++;
              	}
 			 ?>
-       <? if($_GET['id'] !=''){
-?>
-<script>
-$("#boxid<?=$_GET['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
-</script>
-<? }?>
+		<? if($get['id'] !='') {?>
+			<script>
+				$("#boxid<?=$get['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
+			</script>
+		<? } ?>
 			</div>
         </div>
+		<script type="text/javascript"> document.new_name.name.focus(); </script>
  </div>
 <?php
 	include_once("inc/left_nav.inc.php");

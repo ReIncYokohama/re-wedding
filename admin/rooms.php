@@ -4,80 +4,38 @@
 	include_once("inc/new.header.inc.php");
 	$obj = new DBO();
 
-	$table='spssp_room';
-	$where = " 1=1";
-	$data_per_page=5;
-	$current_page=(int)$_GET['page'];
-	$redirect_url = 'rooms.php';
-
-	$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
-
 	$get = $obj->protectXSS($_GET);
 
-	$room_id = $get['room_id'];
-	unset($get['room_id']);
-
-	if($_GET['action']=='delete' && (int)$_GET['id'] > 0)
+	if($get['action']=='delete' && (int)$get['room_id'] > 0)
 	{
-
-		$delete_query="Update spssp_room set status=0 where id=".(int)$_GET['id'];
+		$delete_query="Update spssp_room set status=0 where id=".(int)$get['room_id'];
 		mysql_query($delete_query);
-
-		//delete all information
-		/*
-
-		$tables= $obj->GetAllRowsByCondition("spssp_default_plan_table"," room_id=".(int)$_GET['id']);
-		foreach($tables as $tbl)
-		{
-			$obj->DeleteRow("spssp_default_plan_seat"," table_id=".$tbl['id']);
-		}
-
-		$obj->DeleteRow("spssp_default_plan_table"," room_id=".(int)$_GET['id']);
-
-		$obj->DeleteRow("spssp_room"," id=".(int)$_GET['id']);
-
-		$user_rows = $obj->getRowsByQuery("select * from spssp_user where room_id = ".(int)$_GET['id']);
-
-		foreach($user_rows as $user)
-		{
-			$usei_id=$user['id'];
-			$obj->DeleteRow("spssp_table_layout","user_id= ".(int)$user_id);
-			$user_plan =  $obj->GetSingleRow("spssp_plan"," user_id=".(int)$user_id);
-			$obj->DeleteRow("spssp_plan_details"," plan_id='".(int)$user_plan['id']."'");
-
-			$obj->DeleteRow("spssp_plan","user_id= ".(int)$user_id);
-		}
-		*/
-
+		$get['room_id']=$get['edit_id'];
 	}
-	else if($_GET['action']=='sort' && (int)$_GET['id'] > 0)
+	if($get['action']=='sort' && (int)$get['room_id'] > 0)
 	{
-
-		$id = $get['id'];
+		$table='spssp_room';
+		$id = $get['room_id'];
 		$move = $get['move'];
-		//$redirect = 'rooms.php?page='.(int)$get['page'];
-
+		//if($move=="down") $move="up"; else $move="down";
 		$obj->sortItem2($table,$id,$move);
+		$get['room_id']=$get['edit_id'];
+	}
+	if(isset($get['action']) && $get['action']=='edit' && (int)$get['room_id'] > 0) {
+		//$get['name']="";
 	}
 
-	//$query_string="SELECT * FROM spssp_room  ORDER BY display_order DESC LIMIT ".((int)($current_page)*$data_per_page).",".((int)$data_per_page).";";
 	$query_string="SELECT * FROM spssp_room where status=1  ORDER BY display_order ASC ;";
 	$data_rows = $obj->getRowsByQuery($query_string);
 
-if($_SESSION["new_rooms"]=="success")
-	{
-		unset($_SESSION["new_rooms"]);
+	$room_name 		= $get['name'];
+	$max_columns 	= $get['max_columns'];
+	$max_rows 		= $get['max_rows'];
+	$max_seats 		= $get['max_seats'];
 ?>
-<script type="text/javascript">
-alert("新しい披露宴会場が登録されました");
-</script>
-<?php
-	}
-?>
+
 <script type="text/javascript">
 var roomsName=new Array(); // regular array
-
-
 $(document).ready(function(){
 
     $('#max_rows').keyup(function(){
@@ -182,7 +140,6 @@ function validForm()
 	document.room_form.submit();
 }
 
-
 function isInteger(id){
  var i;
  var s=$("#"+id).val();
@@ -228,19 +185,37 @@ function cancel_new()
 
 	//$("#new_table").fadeOut(300);
 }
-function confirmDeletePlus(urls)
+
+function sort_view(url) {
+	window.location = collecting_data(url);
+}
+
+function confirmDeletePlus(url, id)
 {
-   	var agree = confirm("会場名を削除しても宜しいですか？");
+	var edit_id=document.room_form.room_id.value;
+	var agree = confirm("会場名を削除してもよろしいですか？");
 	if(agree)
 	{
-		var urlPlus = urls+"&room_id="+document.room_form.room_id.value;
-		window.location = urlPlus;
+//		if (edit_id != id) window.location = collecting_data(url);
+//		else               window.location = url;
+		window.location = collecting_data(url);
 	}
 }
-function sort_view(urls) {
-	var urlPlus = urls+"&room_id="+document.room_form.room_id.value;
-	window.location = urlPlus;
+
+function collecting_data(url) {
+var edit_data;
+var urlPlus;
+var edit_id=document.room_form.room_id.value;
+	edit_data  = "&name="			+document.room_form.name.value;
+	edit_data  += "&max_columns="	+document.room_form.max_columns.value;
+	edit_data  += "&max_rows="		+document.room_form.max_rows.value;
+	edit_data  += "&max_seats="		+document.room_form.max_seats.value;
+
+	edit_data += "&edit_id="+edit_id;
+	urlPlus = url+edit_data;
+	return urlPlus;
 }
+
 </script>
 
 <div id="topnavi">
@@ -266,34 +241,39 @@ include("inc/return_dbcon.inc.php");
         </h2>
 		<h2><div style="width:1035px;"><?php if ($_SESSION['user_type'] =="222") {echo '会場レイアウト';} else {echo '会場レイアウト設定';} ?></div></h2>
          <?php
-        	if(isset($_GET['err']) && $_GET['err']!='')
+        	if(isset($get['msg']) && $get['msg']!='')
 			{
-				echo "<script>
-			alert('".$obj->GetErrorMsgNew((int)$_GET['err'])."');
-			</script>";
-
-
+				if ($get['msg']==0) {
+					echo "<script>
+					alert('新しい披露宴会場が登録されました');
+					      </script>";
+				}
+				else {
+					echo "<script>;
+					alert('卓名と同じ名前は設定できません');
+					      </script>";
+				}
 			}
 		?>
 <!-- UCHIDA EDIT 11/08/08 横一列の表示を縦一列に変え、横にプレビューを表示する -->
 		 <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){ ?>
 		<div style="width:1000px;">
         <p class="txt3">
-        	<form action="room_new.php?page=<?=$_GET['page']?>" method="post" name="room_form">
-                披露宴会場名：<label for="textfield"></label>   <input name="name" type="text" id="name" size="40" />
+        	<form action="room_new.php?page=<?=$get['page']?>" method="post" name="room_form">
+                披露宴会場名：<label for="textfield"></label>   <input name="name" type="text" id="name" size="40" value="<?=$room_name?>"/>
 				<br /><br />
 
          		最大卓数　　：横 <label for="textfield2"></label> <!--  <input name="max_columns" type="text" id="max_columns"  maxlength="1" size="1" />-->
                 <select name="max_columns"  id="max_columns">
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				<option value="6">6</option>
-				<option value="7">7</option>
-				<option value="8">8</option>
-				<option value="9">9</option>
+				<option value="1" <?=($max_columns==1)? "selected" : ""?>>1</option>
+				<option value="2" <?=($max_columns==2)? "selected" : ""?>>2</option>
+				<option value="3" <?=($max_columns==3)? "selected" : ""?>>3</option>
+				<option value="4" <?=($max_columns==4)? "selected" : ""?>>4</option>
+				<option value="5" <?=($max_columns==5)? "selected" : ""?>>5</option>
+				<option value="6" <?=($max_columns==6)? "selected" : ""?>>6</option>
+				<option value="7" <?=($max_columns==7)? "selected" : ""?>>7</option>
+				<option value="8" <?=($max_columns==8)? "selected" : ""?>>8</option>
+				<option value="9" <?=($max_columns==9)? "selected" : ""?>>9</option>
 				</select>
 
           列×縦
@@ -301,26 +281,26 @@ include("inc/return_dbcon.inc.php");
 
                 <label for="textfield3"></label><!-- <input name="max_rows" type="text" id="max_rows" maxlength="1" size="1" />-->
                 <select name="max_rows"  id="max_rows">
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				<option value="6">6</option>
-				<option value="7">7</option>
-				<option value="8">8</option>
-				<option value="9">9</option>
+				<option value="1" <?=($max_rows==1)? "selected" : ""?>>1</option>
+				<option value="2" <?=($max_rows==2)? "selected" : ""?>>2</option>
+				<option value="3" <?=($max_rows==3)? "selected" : ""?>>3</option>
+				<option value="4" <?=($max_rows==4)? "selected" : ""?>>4</option>
+				<option value="5" <?=($max_rows==5)? "selected" : ""?>>5</option>
+				<option value="6" <?=($max_rows==6)? "selected" : ""?>>6</option>
+				<option value="7" <?=($max_rows==7)? "selected" : ""?>>7</option>
+				<option value="8" <?=($max_rows==8)? "selected" : ""?>>8</option>
+				<option value="9" <?=($max_rows==9)? "selected" : ""?>>9</option>
 				</select>
                   段　
 				<br /><br />
 
                 一卓人数　　：<label for="textfield4"></label>
 				<select name="max_seats"  id="max_seats">
-				<option value="4">4</option>
-				<option value="6">6</option>
-				<option value="8">8</option>
-				<option value="10">10</option>
-				<option value="12">12</option>
+				<option value="4"  <?=($max_seats==4)?  "selected" : ""?>>4</option>
+				<option value="6"  <?=($max_seats==6)?  "selected" : ""?>>6</option>
+				<option value="8"  <?=($max_seats==8)?  "selected" : ""?>>8</option>
+				<option value="10" <?=($max_seats==10)? "selected" : ""?>>10</option>
+				<option value="12" <?=($max_seats==12)? "selected" : ""?>>12</option>
 				</select>
 
 				 <!--<input name="max_seats" type="text" id="max_seats" maxlength="2" size="1" />-->    名まで
@@ -449,8 +429,8 @@ include("inc/return_dbcon.inc.php");
                             <td width ="20" ><?=$row['max_seats']?>名</td>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){ ?>
                             <td width ="20" class="txt1">
-    							<a href="javascript:void(0);" onClick="sort_view('rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=up&amp;id=<?=$row['id']?>')">▲</a> &nbsp;
-                				<a href="javascript:void(0);" onClick="sort_view('rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=down&amp;id=<?=$row['id']?>')">▼</a>
+    							<a href="javascript:void(0);" onClick="sort_view('rooms.php?action=sort&amp;move=up&amp;room_id=<?=$row['id']?>')">▲</a>
+                				<a href="javascript:void(0);" onClick="sort_view('rooms.php?action=sort&amp;move=down&amp;room_id=<?=$row['id']?>')">▼</a>
                              </td>
 							 <?php } ?>
                             <td width ="20" >
@@ -465,7 +445,7 @@ include("inc/return_dbcon.inc.php");
 							<?php }	 ?>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
                             <td width ="20" >
-                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] =="222"){?>alert('権限がありません');<?php }else{?>confirmDeletePlus('rooms.php?page=<?=(int)$_GET['page']?>&action=delete&id=<?=$row['id']?>'); <?php }?>">
+                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] =="222"){?>alert('権限がありません');<?php }else{?>confirmDeletePlus('rooms.php?action=delete&room_id=<?=$row['id']?>',<?=$row['id']?>); <?php }?>">
                             		<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
                             </td>
@@ -479,6 +459,7 @@ include("inc/return_dbcon.inc.php");
 			?>
       	</div>
       	<?php
+      	$room_id=$get['room_id'];
 		if ($room_id>0) {
 			echo "<script> preview_room($room_id); </script>";
 		}

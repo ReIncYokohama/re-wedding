@@ -25,11 +25,6 @@
 
 		if( ($post['max_rows'] > 0 &&  $post['max_rows'] <= 500) && ($post['max_columns'] > 0 && $post['max_columns'] <=500) && ( $post['max_seats'] > 0 && $post['max_seats'] <= 100) && $name_exists=="")
 		{
-
-
-
-
-			$_SESSION["new_rooms"]="success";
 			$lastid = $obj->InsertData('spssp_room',$post);
 			if($lastid > 0)
 			{
@@ -45,8 +40,6 @@
 
 
 				$planinsertid = $obj->InsertData('spssp_default_plan',$post);
-
-
 
 				for($i=1; $i <= (int)($room_data['max_rows']) *($room_data['max_columns']); $i++)
 				{
@@ -90,7 +83,6 @@
 
 						$num_layouts = $obj->GetNumRows("spssp_table_layout","default_plan_id= ".(int)$planinsertid);
 
-
 						if($num_layouts <= 0)
 						{
 
@@ -115,25 +107,16 @@
 									$lo_arr['default_plan_id'] = $planinsertid;
 
 									$lid = $obj->InsertData("spssp_table_layout", $lo_arr);
-
-
 								}
-
 							}
 						}
-
 				}
-
-
-
 			}
-
-			redirect("rooms.php?page=".(int)$_GET['page']."&room_id=".$room_id);
+			redirect("rooms.php?room_id=".$room_id."&msg=0");
 		}
 		else
 		{
-			redirect("rooms.php?page=".(int)$_GET['page']."&err=6"."&room_id=".$room_id);
+			redirect("rooms.php?room_id=".$room_id."&msg=1");
 		}
-
 	}
 ?>
