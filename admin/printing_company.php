@@ -91,7 +91,6 @@ $(document).ready(function(){
     });
 
 });
-
 function isInteger(id){
 
  var i;
@@ -113,6 +112,9 @@ function isInteger(id){
     // All characters are numbers.
     return true;
 }
+</script>
+
+<script>
 function new_table()
 {
 	$("#insert_edit").val("0");
@@ -248,8 +250,54 @@ function edit_name(id, name,email,number,postcode,address_1,address_2,contact_na
 		$("#boxid"+id).css({backgroundColor: "#FFF0FF", color: "#990000"});
 */
 }
+</script>
+
+<script>
+
+
+function sortAction(id, action) {
+
+	document.forms["name_list"+id].h_company_name.value = $("#company_name").val();
+	document.forms["name_list"+id].h_email.value        = $("#email").val();
+	document.forms["name_list"+id].h_conf_email.value   = $("#conf_email").val();
+	document.forms["name_list"+id].h_number.value       = $("#number").val();
+	document.forms["name_list"+id].h_postcode.value     = $("#postcode").val();
+	document.forms["name_list"+id].h_address_1.value    = $("#address_1").val();
+	document.forms["name_list"+id].h_address_2.value    = $("#address_2").val();
+	document.forms["name_list"+id].h_contact_name.value = $("#contact_name").val();
+	document.forms["name_list"+id].h_id.value           = id;
+	document.forms["name_list"+id].h_action.value       = action;
+//alert("name_list"+id+" : "+action);
+	document.forms["name_list"+id].submit();
+}
+
+function confirmDeletePlus(id, action)
+{
+var get_id = <?=$get['id']  ?>;
+	var agree = confirm("削除してもよろしいですか？");
+	if(agree)
+	{
+		if (get_id != id) {
+			document.forms["name_list"+id].h_company_name.value = $("#company_name").val();
+			document.forms["name_list"+id].h_email.value        = $("#email").val();
+			document.forms["name_list"+id].h_conf_email.value   = $("#conf_email").val();
+			document.forms["name_list"+id].h_number.value       = $("#number").val();
+			document.forms["name_list"+id].h_postcode.value     = $("#postcode").val();
+			document.forms["name_list"+id].h_address_1.value    = $("#address_1").val();
+			document.forms["name_list"+id].h_address_2.value    = $("#address_2").val();
+			document.forms["name_list"+id].h_contact_name.value = $("#contact_name").val();
+			document.forms["name_list"+id].insert_edit.value    = get_id;
+		}
+
+		document.forms["name_list"+id].h_id.value           = id;
+		document.forms["name_list"+id].h_action.value       = action;
+//alert("name_list"+id+" : "+action+" : "+document.forms["name_list"+id].insert_edit.value);
+		document.forms["name_list"+id].submit();
+	}
+}
 
 </script>
+
 <div id="topnavi">
     <?php
 include("inc/main_dbcon.inc.php");
@@ -481,9 +529,9 @@ include("inc/return_dbcon.inc.php");
 								<? } ?>
 
                             <td>
-                            	<a href="#" onclick="edit_name(<?=$row['id']?>,'<?=$row['company_name']?>','<?=$row['email']?>','<?=$row['number']?>','<?=$row['postcode']?>','<?=$row['address_1']?>','<?=$row['address_2']?>','<?=$row['contact_name']?>','<?=$row['status']?>',<?=$_SESSION['user_type']?>);">
+                            	<a href="javascript:void(0);"  onclick="edit_name(<?=$row['id']?>,'<?=$row['company_name']?>','<?=$row['email']?>','<?=$row['number']?>','<?=$row['postcode']?>','<?=$row['address_1']?>','<?=$row['address_2']?>','<?=$row['contact_name']?>','<?=$row['status']?>',<?=$_SESSION['user_type']?>);">
 							<?php
-	  							if($_SESSION['user_type'] != 222) { ?>
+	  							if($_SESSION['user_type'] == 333) { ?>
                                 	<!-- <img src="img/common/btn_regist_update.gif" /> -->
                                 	<img src="img/common/btn_edit02.gif" />
 								<? } else { ?>
@@ -553,47 +601,3 @@ include("inc/return_dbcon.inc.php");
 			</script>";}
 ?>
 
-<script>
-
-function confirmDeletePlus(id, action)
-{
-var get_id = <?=$get['id']  ?>;
-	var agree = confirm("削除してもよろしいですか？");
-	if(agree)
-	{
-		if (get_id != id) {
-			document.forms["name_list"+id].h_company_name.value = $("#company_name").val();
-			document.forms["name_list"+id].h_email.value        = $("#email").val();
-			document.forms["name_list"+id].h_conf_email.value   = $("#conf_email").val();
-			document.forms["name_list"+id].h_number.value       = $("#number").val();
-			document.forms["name_list"+id].h_postcode.value     = $("#postcode").val();
-			document.forms["name_list"+id].h_address_1.value    = $("#address_1").val();
-			document.forms["name_list"+id].h_address_2.value    = $("#address_2").val();
-			document.forms["name_list"+id].h_contact_name.value = $("#contact_name").val();
-			document.forms["name_list"+id].insert_edit.value    = get_id;
-		}
-
-		document.forms["name_list"+id].h_id.value           = id;
-		document.forms["name_list"+id].h_action.value       = action;
-//alert("name_list"+id+" : "+action+" : "+document.forms["name_list"+id].insert_edit.value);
-		document.forms["name_list"+id].submit();
-	}
-}
-
-function sortAction(id, action) {
-
-	document.forms["name_list"+id].h_company_name.value = $("#company_name").val();
-	document.forms["name_list"+id].h_email.value        = $("#email").val();
-	document.forms["name_list"+id].h_conf_email.value   = $("#conf_email").val();
-	document.forms["name_list"+id].h_number.value       = $("#number").val();
-	document.forms["name_list"+id].h_postcode.value     = $("#postcode").val();
-	document.forms["name_list"+id].h_address_1.value    = $("#address_1").val();
-	document.forms["name_list"+id].h_address_2.value    = $("#address_2").val();
-	document.forms["name_list"+id].h_contact_name.value = $("#contact_name").val();
-	document.forms["name_list"+id].h_id.value           = id;
-	document.forms["name_list"+id].h_action.value       = action;
-
-	  document.forms["name_list"+id].submit();
-}
-
-</script>
