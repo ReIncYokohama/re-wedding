@@ -18,7 +18,7 @@
 	$chng = 0;
 	if ($_title != $default_layout_title || $_view != $default_raname_table_view) $chng = 1;
 
-	if($_POST['sub']!='' && $chng == 1)
+	if($post['sub']!='' && $chng == 1)
 	{
 		$whereCloser = array('default_layout_title','rename_table_view');
 		for($i=0;$i<count($whereCloser);$i++)
@@ -94,6 +94,11 @@
 		{
 			$err = 11;
 		}
+		$get['id'] = $get['edit_id'];
+	}
+echo " : ".$get['action'];
+	if(isset($get['action']) && $get['action'] !== '' && $get['action'] == "nodelete")
+	{
 		$get['id'] = $get['edit_id'];
 	}
 	if(isset($get['action']) && $get['action']=='edit' && (int)$get['id'] > 0) {
@@ -419,7 +424,7 @@ include("inc/return_dbcon.inc.php");
                                 </a>
                             </td>
               				<td>
-                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>confirmDeletePlus('default.php?action=delete&id=<?=$row['id']?>', <?=$row['id']?>);<?php }?>">
+                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>confirmDeletePlus('ajax/delete_table.php?id=<?=$row['id']?>', <?=$row['id']?>);<?php }?>">
                                 	<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
                             </td>
