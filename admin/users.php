@@ -304,7 +304,7 @@ include("inc/return_dbcon.inc.php");
 <div id="container">
     <div id="contents">
 
-    	<h2><div> 管理者用お客様一覧</div></h2>
+    	<h4><div> 管理者用お客様一覧</div></h4>
 
 <?php
 if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)

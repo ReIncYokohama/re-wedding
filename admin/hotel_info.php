@@ -230,7 +230,7 @@ include("inc/return_dbcon.inc.php");
 <div id="container">
     <div id="contents">
 
-        <h2><div style="width:300px;">ホテル情報設定</div></h2>
+        <h4><div style="width:300px;">ホテル情報</div></h4>
 
             <!--<div id="top_imgbox">
                 <a href="javascript:void()" onclick="todays_user();"><img src="img/common/img_top01.jpg" width="200" height="122" class="top_img01" /></a>

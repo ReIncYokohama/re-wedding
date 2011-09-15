@@ -453,10 +453,10 @@ unset($_SESSION['msg']);
 
 <div style="clear:both;"></div>
 	<div id="contents">
-	 <h2>  <div style="width:300px;">
+	 <h4>  <div style="width:300px;">
             	 引出物・料理
 </div>
-        </h2>
+        </h4>
 	<div style="width:1035px;"><h2>引出物設定</h2></div>
 	<div>
 			<?php
