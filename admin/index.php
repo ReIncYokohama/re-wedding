@@ -99,7 +99,7 @@ body{
 	}
 #logo {
 	float: left;
-	margin-top: 120px;
+	margin-top: 80px;
 }
 #login_area {
 	float: right;
@@ -158,8 +158,14 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 <div align="center">
 <div id="login_BOX">
    	<div><img src="../img/bar_wm.jpg" /></div>
-<div id="logo"><img src="../img/logo_wp.jpg" width="269" height="77" /></div>
-<div id="login_area">
+      	<table id="logo">
+      		<tr><td>
+	        <img src="../img/logo_wp.jpg" width="269" height="77" />
+	        </td></tr>
+      		<tr><td>&nbsp;</td></tr>
+      		<tr><td align="center" style="font-size:14;"><?php echo $weddingVersion; ?></td></tr>
+		</table>
+	<div id="login_area">
   <?
 			if($_GET['action']=='failed')
 	{

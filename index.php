@@ -63,7 +63,7 @@ width:300px;
 }
 #logo {
 	float: left;
-	margin-top: 120px;
+	margin-top: 80px;
 }
 #login_area {
 	float: right;
@@ -201,7 +201,13 @@ $(function(){
 		?>
 		<div id="login_BOX">
 			<div><img src="img/bar_user.jpg" /></div>
-			<div id="logo"><img src="img/logo_wp.jpg" width="269" height="77" /></div>
+	      	<table id="logo">
+	      		<tr><td>
+		        <img src="../img/logo_wp.jpg" width="269" height="77" />
+		        </td></tr>
+	      		<tr><td>&nbsp;</td></tr>
+	      		<tr><td align="center" style="font-size:18;"><?php echo $weddingVersion; ?></td></tr>
+			</table>
             <div id="login_area">こちらからログインしてください。<br />
 ログインID、パスワードを忘れた方は、ホテル担当者へお問い合わせください。<br />
 <br />

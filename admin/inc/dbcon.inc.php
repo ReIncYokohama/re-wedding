@@ -2,6 +2,7 @@
 @session_start();
 
 include_once(dirname(__FILE__)."/../../conf/conf.php");
+include_once(dirname(__FILE__)."/../../../madmin/conf/version.php");
 
 $sqlhost=$hotel_sqlhost;
 $sqluser=$hotel_sqluser;

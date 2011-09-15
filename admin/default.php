@@ -96,7 +96,7 @@
 		}
 		$get['id'] = $get['edit_id'];
 	}
-echo " : ".$get['action'];
+
 	if(isset($get['action']) && $get['action'] !== '' && $get['action'] == "nodelete")
 	{
 		$get['id'] = $get['edit_id'];
