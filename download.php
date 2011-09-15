@@ -174,7 +174,7 @@ height:45px;
 
 <div id="main_contents">
 <div class="title_bar">
-    <div class="title_bar_txt_L">招待者リストダウンロード</div>
+    <div class="title_bar_txt_L">招待者リストのダウンロード</div>
     <div class="title_bar_txt_R"></div>
 <div class="clear"></div></div>
 
@@ -209,7 +209,7 @@ height:45px;
 
 <div class="cont_area">
 <div style="font-size:12px;">
-招待者リストをエクセル形式（.xls）でダウンロードいただけます。</div><br />
+招待者リストをエクセル形式（.xls）でダウンロードできます。</div><br />
 <table width="700" border="0" cellspacing="1" cellpadding="3">
     <tr>
       <td valign="middle">
@@ -217,7 +217,7 @@ height:45px;
       </td>
       </tr>
      <tr>
-      <td valign="middle"><a href="csvdownload.php">ダウンロード CSV</a></td>
+      <td valign="middle"><br /><br /><br /><br /><br /><!--<a href="csvdownload.php">ダウンロード CSV</a>--></td>
       </tr>
 
   </table>

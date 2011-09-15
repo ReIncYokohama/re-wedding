@@ -1,5 +1,6 @@
 <?php
 	include_once("inc/dbcon.inc.php");
+<<<<<<< HEAD
 	include_once(dirname(__FILE__)."/../../madmin/conf/version.php");
 
 	if($_SESSION['super_adminid']!="")
@@ -7,6 +8,13 @@
 		redirect("hotel.php");
 	}
 
+=======
+	if($_SESSION['super_adminid']!="")
+	{
+		redirect("hotel.php");
+	}
+
+>>>>>>> 488ad7f35a7d858268f2a5d50927c53e55d95bc3
 	$id=$_GET['adminid']; // UCHIDA EDIT 11/08/17 ＩＤを再表示
 
 	if($_GET['action']=='failed')
@@ -14,11 +22,19 @@
 		echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください"); </script>';
 		//redirect("index.php");
 	}
+<<<<<<< HEAD
 
 	if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 	{
 		$query_string="SELECT * FROM super_spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' LIMIT 0,1;";
 
+=======
+
+	if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
+	{
+		$query_string="SELECT * FROM super_spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' LIMIT 0,1;";
+
+>>>>>>> 488ad7f35a7d858268f2a5d50927c53e55d95bc3
 		$db_result=mysql_query($query_string);
 		if(mysql_num_rows($db_result))
 		{
