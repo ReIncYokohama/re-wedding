@@ -515,7 +515,7 @@ include("inc/return_dbcon.inc.php");
   様
 
     </div>
-   <div style="width:1200px; font-size:18; font-weight:bold;"> <h2>
+   <div style="width:1200px; font-size:18; font-weight:bold;"> <h4>
 <!-- UCHIDA EDIT 11/08/02
             	 <a href="users.php">お客様一覧</a> &raquo;<a href="set_table_layout.php?plan_id=<?=$plan_row['id']?>&user_id=<?=(int)$get['user_id']?>"> お客様挙式情報 </a> &raquo;  卓レイアウト設定　
 -->
@@ -524,10 +524,10 @@ include("inc/return_dbcon.inc.php");
             <a href="manage.php">ＴＯＰ</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; 卓レイアウト
 		<?php }
 		else {?>
-            <a href="users.php">管理者用お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; 卓レイアウト
+            <a href="users.php">管理者用お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; 卓レイアウト</h4>
 		<?php }
 		?>
-		</h2></div>
+		</h4></div>
         <div class="box_table" style="width:800px;">
         	<div class="bottom_line_box">
         		<?php
