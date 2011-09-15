@@ -272,7 +272,7 @@ include("inc/return_dbcon.inc.php");
 
 	<div style="clear:both;"></div>
 	<div id="contents">
-	<div style="width:100%;"><h2>席次表・席札 &raquo; 卓名</h2></div>
+	<div style="width:100%;"><h4>席次表・席札 &raquo; 卓名</h4></div>
 
 <!-- UCHIDA EDIT 11/08/09 スタッフの場合は表示のみに変更  -->
 		<?php
