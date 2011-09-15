@@ -515,7 +515,7 @@ include("inc/return_dbcon.inc.php");
   様
 
     </div>
-   <div style="width:1200px; font-size:18; font-weight:bold;"> <h4>
+   <div style="width:1035px; font-size:18; font-weight:bold;"> <h4>
 <!-- UCHIDA EDIT 11/08/02
             	 <a href="users.php">お客様一覧</a> &raquo;<a href="set_table_layout.php?plan_id=<?=$plan_row['id']?>&user_id=<?=(int)$get['user_id']?>"> お客様挙式情報 </a> &raquo;  卓レイアウト設定　
 -->
@@ -528,7 +528,7 @@ include("inc/return_dbcon.inc.php");
 		<?php }
 		?>
 		</h4></div>
-        <div class="box_table" style="width:800px;">
+        <div class="box_table" style="width:1035px;">
         	<div class="bottom_line_box">
         		<?php
                 $rooms = $obj->GetAllRow("spssp_room");
@@ -557,7 +557,7 @@ include("inc/return_dbcon.inc.php");
 
         </div>
 
-        <div class="box_table" style="width:800px; font-size: 12px;">
+        <div class="box_table" style="width:1035px; font-size: 12px;">
         		<h2>卓レイアウト設定</h2>
         	  		<br />
         		●会場の最大卓数が表示されます。不要な卓はチェックを外して削除してください。
