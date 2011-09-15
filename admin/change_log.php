@@ -110,7 +110,7 @@ include("inc/return_dbcon.inc.php");
 ・
   <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20);?>
   様
-	 <h2>
+	 <h4>
 <!-- UCHIDA EDIT 11/08/04
         <a href="users.php">お客様一覧 </a> &gt;&gt; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報 </a> &gt;&gt; 席次データ修正ログ
  -->
@@ -123,7 +123,7 @@ include("inc/return_dbcon.inc.php");
 		<?php }
 		?>
 
-     </h2>
+     </h4>
 	 <h2>席次表データ修正ログ</h2>
 
 		<!--<form action="change_log.php" method="get">
@@ -174,14 +174,14 @@ include("inc/return_dbcon.inc.php");
                     <tr align="center">
 
                         <!--<td  width="10%">Plan name</td>-->
-                        <td  width="15%" bgcolor="#993300" style="color:#FFFFFF">アクセス日時</td>
-                        <td  width="15%" bgcolor="#993300" style="color:#FFFFFF">ログイン名</td>
-                        <td  width="13%" bgcolor="#993300" style="color:#FFFFFF">アクセス画面名</td>
-                        <td  width="13%" bgcolor="#993300" style="color:#FFFFFF">修正対象者</td>
-						<td  width="13%" bgcolor="#993300" style="color:#FFFFFF">修正種別</td>
-						<td  width="10%" bgcolor="#993300" style="color:#FFFFFF">変更項目名</td>
-						<td  width="10%" bgcolor="#993300" style="color:#FFFFFF">変更前情報</td>
-						<td  width="10%" bgcolor="#993300" style="color:#FFFFFF">変更後情報</td>
+                        <td  width="15%" bgcolor="#2252A3" style="color:#FFFFFF">アクセス日時</td>
+                        <td  width="15%" bgcolor="#2252A3" style="color:#FFFFFF">ログイン名</td>
+                        <td  width="13%" bgcolor="#2252A3" style="color:#FFFFFF">アクセス画面名</td>
+                        <td  width="13%" bgcolor="#2252A3" style="color:#FFFFFF">修正対象者</td>
+						<td  width="13%" bgcolor="#2252A3" style="color:#FFFFFF">修正種別</td>
+						<td  width="10%" bgcolor="#2252A3" style="color:#FFFFFF">変更項目名</td>
+						<td  width="10%" bgcolor="#2252A3" style="color:#FFFFFF">変更前情報</td>
+						<td  width="10%" bgcolor="#2252A3" style="color:#FFFFFF">変更後情報</td>
 
 
                     </tr>

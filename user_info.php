@@ -209,8 +209,8 @@ width:200px;
         <?php } ?>
             <tr>
             	<td  align="left" colspan="0" nowrap="nowrap">
-                	<a href="user_log.php"><img src="img/btn_access_user.jpg" width="173" height="23" /></a>
-                    <a href="change_log_all.php"><img src="img/btn_data_user.jpg" width="173" height="23" /></a>
+                	<a href="user_log.php"><img src="img/btn_access_user.jpg" width="172" height="22" /></a>
+                    <a href="change_log_all.php"><img src="img/btn_data_user.jpg" width="172" height="22" /></a>
                 </td>
             </tr>
         </table>

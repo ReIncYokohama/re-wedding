@@ -163,14 +163,14 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
                     <tr align="center">
 
                         <!--<td  width="10%">Plan name</td>-->
-                        <td  width="15%" bgcolor="#993300" style="color:#FFFFFF">アクセス日時</td>
-                        <td  width="15%" bgcolor="#993300" style="color:#FFFFFF">ログイン名</td>
-                        <td  width="13%" bgcolor="#993300" style="color:#FFFFFF">アクセス画面名</td>
-                        <td  width="13%" bgcolor="#993300" style="color:#FFFFFF">修正対象者</td>
-						<td  width="13%" bgcolor="#993300" style="color:#FFFFFF">修正種別</td>
-						<td  width="10%" bgcolor="#993300" style="color:#FFFFFF">変更項目名</td>
-						<td  width="10%" bgcolor="#993300" style="color:#FFFFFF">変更前情報</td>
-						<td  width="10%" bgcolor="#993300" style="color:#FFFFFF">変更後情報</td>
+                        <td  width="15%" bgcolor="#00C6FF" style="color:#FFFFFF">アクセス日時</td>
+                        <td  width="15%" bgcolor="#00C6FF" style="color:#FFFFFF">ログイン名</td>
+                        <td  width="13%" bgcolor="#00C6FF" style="color:#FFFFFF">アクセス画面名</td>
+                        <td  width="13%" bgcolor="#00C6FF" style="color:#FFFFFF">修正対象者</td>
+						<td  width="13%" bgcolor="#00C6FF" style="color:#FFFFFF">修正種別</td>
+						<td  width="10%" bgcolor="#00C6FF" style="color:#FFFFFF">変更項目名</td>
+						<td  width="10%" bgcolor="#00C6FF" style="color:#FFFFFF">変更前情報</td>
+						<td  width="10%" bgcolor="#00C6FF" style="color:#FFFFFF">変更後情報</td>
 
 
                     </tr>

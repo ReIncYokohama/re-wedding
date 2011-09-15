@@ -68,15 +68,15 @@ $(function(){
       		<div class="box4">
                 <table border="0" width="875" align="center" cellpadding="3" cellspacing="1">
                     <tr align="center">
-                        <td align="left" width="5%" bgcolor="#993300" style="color:#FFFFFF">No.</td>
+                        <td align="left" width="5%" bgcolor="#00C6FF" style="color:#FFFFFF">No.</td>
 <!--
-                        <td align="left" width="22%" bgcolor="#993300" style="color:#FFFFFF">最終ログイン</td>
-						<td align="left" width="22%" bgcolor="#993300" style="color:#FFFFFF">ログイン名</td>
-                        <td align="left" width="22%" bgcolor="#993300" style="color:#FFFFFF">最後のログアウト</td>
+                        <td align="left" width="22%" bgcolor="#00C6FF" style="color:#FFFFFF">最終ログイン</td>
+						<td align="left" width="22%" bgcolor="#00C6FF" style="color:#FFFFFF">ログイン名</td>
+                        <td align="left" width="22%" bgcolor="#00C6FF" style="color:#FFFFFF">最後のログアウト</td>
  -->
-                        <td align="left" width="22%" bgcolor="#993300" style="color:#FFFFFF">アクセス日時</td>
-						<td align="left" width="22%" bgcolor="#993300" style="color:#FFFFFF">ログイン名</td>
-                        <td align="left" width="22%" bgcolor="#993300" style="color:#FFFFFF">状態</td>
+                        <td align="left" width="22%" bgcolor="#00C6FF" style="color:#FFFFFF">アクセス日時</td>
+						<td align="left" width="22%" bgcolor="#00C6FF" style="color:#FFFFFF">ログイン名</td>
+                        <td align="left" width="22%" bgcolor="#00C6FF" style="color:#FFFFFF">状態</td>
                     </tr>
                 </table>
         	</div>
