@@ -46,7 +46,20 @@ h3 {
 	font-size: 14px;
 	color: #2353A3;
 }
-
+h4 {
+	font-size: 14px;
+	font-weight: bold;
+	color: #2252A3;
+	background-color: #FFFFFF;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #3681CB;
+	height: 18px;
+	padding-top: 1px;
+	padding-bottom: 3px;
+	padding-left: 5px;
+	margin-bottom: 15px;
+}
 table {
 	table-layout:fixed;
 	width:100%;

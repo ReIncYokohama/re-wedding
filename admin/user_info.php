@@ -980,7 +980,7 @@ include("inc/return_dbcon.inc.php");
   様
 
     </div>
-        <h2><div style="width:500px; ">
+        <h4><div style="width:500px; ">
 	<!-- UCHIDA EDIT 11/08/02
 	        <a href="users.php">お客様一覧</a> &raquo; お客様挙式情報</div>
 	-->
@@ -993,7 +993,7 @@ include("inc/return_dbcon.inc.php");
 		}
 		?>
 		</div>
-        </h2>
+        </h4>
 		<div style="width:800px;">
         	<div class="navi">
             	<img src="img/common/navi01_on.jpg"/>

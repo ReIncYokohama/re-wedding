@@ -7,24 +7,27 @@
 	$get = $obj->protectXSS($_GET);
 	$post = $obj->protectXSS($_POST);
 
-	if(isset($get['action']) && $get['action']!="" && (int)$get['id'] > 0) {
-		if($get['action']=='sort')
+//echo "sort : ".$post['h_action']." : ".$post['h_id'];
+
+	if(isset($post['h_action']) && $post['h_action']!="" && (int)$post['h_id'] > 0) {
+		if($post['h_action']=='up' || $post['h_action']=='down')
 		{
 			$table = 'spssp_printing_comapny';
 
-			$id = $get['id'];
-			$move = $get['move'];
+			$id = $post['h_id'];
+			$move = $post['h_action'];
 			if($move=="down") $move="up"; else $move="down";
 			$obj->sortItem($table,$id,$move);
-			$get['id']=$get['edit_id'];
+			$get['id']=0;
 		}
 
-		if($get['action'] == 'delete')
+		if($post['h_action'] == 'delete')
 		{
-			$id = (int)$get['id'];
+			$id = (int)$post['h_id'];
 			$obj->DeleteRow("spssp_printing_comapny", "id=".$id);
-			$get['id']=$get['edit_id'];
+			$get['id']=(int)$post['insert_edit'];
 		}
+
 	}
 	else {
 		if(isset($post['company_name']) && $post['company_name'] != '' && isset($post['email']) && $post['email'] != '')
@@ -252,38 +255,45 @@ function edit_name(id, name,email,number,postcode,address_1,address_2,contact_na
 <script>
 
 
-function sortAction(url) {
-	window.location = collecting_data(url);
+function sortAction(id, action) {
+
+	document.forms["name_list"+id].h_company_name.value = $("#company_name").val();
+	document.forms["name_list"+id].h_email.value        = $("#email").val();
+	document.forms["name_list"+id].h_conf_email.value   = $("#conf_email").val();
+	document.forms["name_list"+id].h_number.value       = $("#number").val();
+	document.forms["name_list"+id].h_postcode.value     = $("#postcode").val();
+	document.forms["name_list"+id].h_address_1.value    = $("#address_1").val();
+	document.forms["name_list"+id].h_address_2.value    = $("#address_2").val();
+	document.forms["name_list"+id].h_contact_name.value = $("#contact_name").val();
+	document.forms["name_list"+id].h_id.value           = id;
+	document.forms["name_list"+id].h_action.value       = action;
+//alert("name_list"+id+" : "+action);
+	document.forms["name_list"+id].submit();
 }
 
-function confirmDeletePlus(url, id)
+function confirmDeletePlus(id, action)
 {
-	var edit_id="<?=$get['id']?>";
-	var agree = confirm("印刷会社を削除してもよろしいですか？");
+var get_id = <?=$get['id']  ?>;
+	var agree = confirm("削除してもよろしいですか？");
 	if(agree)
 	{
-		if (edit_id != id) window.location = collecting_data(url);
-		else               window.location = url;
+		if (get_id != id) {
+			document.forms["name_list"+id].h_company_name.value = $("#company_name").val();
+			document.forms["name_list"+id].h_email.value        = $("#email").val();
+			document.forms["name_list"+id].h_conf_email.value   = $("#conf_email").val();
+			document.forms["name_list"+id].h_number.value       = $("#number").val();
+			document.forms["name_list"+id].h_postcode.value     = $("#postcode").val();
+			document.forms["name_list"+id].h_address_1.value    = $("#address_1").val();
+			document.forms["name_list"+id].h_address_2.value    = $("#address_2").val();
+			document.forms["name_list"+id].h_contact_name.value = $("#contact_name").val();
+			document.forms["name_list"+id].insert_edit.value    = get_id;
+		}
+
+		document.forms["name_list"+id].h_id.value           = id;
+		document.forms["name_list"+id].h_action.value       = action;
+//alert("name_list"+id+" : "+action+" : "+document.forms["name_list"+id].insert_edit.value);
+		document.forms["name_list"+id].submit();
 	}
-}
-
-function collecting_data(url) {
-var edit_data;
-var urlPlus;
-var edit_id="<?=$get['id']?>";
-
-	edit_data  = "&company_name="	+document.new_name.company_name.value;
-	edit_data += "&email="			+document.new_name.email.value;
-	edit_data += "&conf_email="		+document.new_name.conf_email.value;
-	edit_data += "&number="			+document.new_name.number.value;
-	edit_data += "&postcode="		+document.new_name.postcode.value;
-	edit_data += "&address_1="		+document.new_name.address_1.value;
-	edit_data += "&address_2="		+document.new_name.address_2.value;
-	edit_data += "&contact_name="	+document.new_name.contact_name.value;
-
-	edit_data += "&edit_id="+edit_id;
-	urlPlus = url+edit_data;
-	return urlPlus;
 }
 
 </script>
@@ -309,7 +319,7 @@ include("inc/return_dbcon.inc.php");
 
 	<div style="clear:both;"></div>
 	<div id="contents">
-		<h2><div style="width:200px;">印刷会社</div></h2>
+		<h4><div style="width:200px;">印刷会社</div></h4>
 		<!--<p class="txt3">
             <a href="default.php"><b>テーブル名</b></a>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <a href="respects.php"><b>敬称</b></a>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
@@ -342,6 +352,18 @@ include("inc/return_dbcon.inc.php");
 				$comp= $obj->GetSingleRow('spssp_printing_comapny','id='.$get['id']);
 				$comp[conf_email] = $comp[email];
 			}
+			if ($post['h_id'] > 0) {
+				unset($comp);
+				$comp[company_name] = $post['h_company_name'];
+				$comp[email]        = $post['h_email'];
+				$comp[conf_email]   = $post['h_conf_email'];
+				$comp[number]       = $post['h_number'];
+				$comp[postcode]     = $post['h_postcode'];
+				$comp[address_1]    = $post['h_address_1'];
+				$comp[address_2]    = $post['h_address_2'];
+				$comp[contact_name] = $post['h_contact_name'];
+			}
+
 			if($_SESSION['user_type'] == '222') { // スタッフログイン
 			?>
 			 <table style="width:1200px;" >
@@ -498,8 +520,8 @@ include("inc/return_dbcon.inc.php");
 							<?php if($_SESSION['user_type']=='333'){?>
 							<td>
 								 <span class="txt1">
-							  <a href="javascript:void(0);" onClick="sortAction('printing_company.php?action=sort&amp;move=up&amp;id=<?=$row['id']?>');">▲</a>
-                              <a href="javascript:void(0);" onClick="sortAction('printing_company.php?action=sort&amp;move=down&amp;id=<?=$row['id']?>');">▼</a>
+								 <a href="javascript:void(0);" onclick="sortAction(<?=$row['id']?>,'up');">▲</a>
+	                             <a href="javascript:void(0);" onclick="sortAction(<?=$row['id']?>,'down');"> ▼</a>
 	                             </span>
               				</td>
 							<?php } else {?>
@@ -521,7 +543,7 @@ include("inc/return_dbcon.inc.php");
 
 							<?php if($_SESSION['user_type']=='333'){?>
 							<td>
-                            	<a href="javascript:void(0);" onClick="confirmDeletePlus('printing_company.php?action=delete&id=<?=$row['id']?>', <?=$row['id']?>);">
+                            	<a href="javascript:void(0);" onClick="confirmDeletePlus(<?=$row['id']?>,'delete');">
                                 	<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
                             </td>
@@ -533,6 +555,17 @@ include("inc/return_dbcon.inc.php");
             			</tr>
                      </table>
         		</div>
+					 <input type="hidden"  name="h_company_name" id="h_company_name" />
+					 <input type="hidden"  name="h_email"        id="h_email"        />
+					 <input type="hidden"  name="h_conf_email"   id="h_conf_email"   />
+					 <input type="hidden"  name="h_number"       id="h_number"       />
+					 <input type="hidden"  name="h_postcode".    id="h_postcode"     />
+					 <input type="hidden"  name="h_address_1"    id="h_address_1"    />
+					 <input type="hidden"  name="h_address_2"    id="h_address_2"    />
+					 <input type="hidden"  name="h_contact_name" id="h_contact_name" />
+					 <input type="hidden"  name="h_id"           id="h_id"           />
+					 <input type="hidden"  name="h_action"       id="h_action"       />
+	            	 <input type="hidden"  name="insert_edit"    id="insert_edit"    />
         		</form>
              <?php
 			 	$i++;
@@ -546,6 +579,11 @@ include("inc/return_dbcon.inc.php");
 				<script>
 				$("#boxid<?=$get['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
 				</script>
+			<? } else if ($post['h_id'] > 0) { ?>
+				<script>
+				$("#boxid<?=$post['h_id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
+				</script>
+				<?php $get['id'] = $post['h_id']; ?>
 			<? } ?>
 			</div>
         </div>
@@ -562,3 +600,4 @@ include("inc/return_dbcon.inc.php");
 			alert('".$obj->GetSuccessMsgNew($msg)."');
 			</script>";}
 ?>
+

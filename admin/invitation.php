@@ -31,7 +31,7 @@ include("inc/return_dbcon.inc.php");
 <div id="container">
 <div style="clear:both;"></div>
 	<div id="contents">
-		<h2>招待状</h2>
+		<h4>招待状</h4>
 
         <br /><br /><br /><br />
         <br /><br /><br /><br />
