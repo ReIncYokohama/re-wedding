@@ -86,7 +86,7 @@ body{
 	}
 #logo {
 	float: left;
-	margin-top: 120px;
+	margin-top: 80px;
 }
 #login_area {
 	float: right;
@@ -153,10 +153,15 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
   <div align="center">
     <div id="login_BOX">
       	<div><img src="../img/bar_pri.jpg" /></div>
-        <div id="logo"><img src="../img/logo_wp.jpg" width="269" height="77" /></div>
+      	<table id="logo">
+      		<tr><td>
+	        <img src="../img/logo_wp.jpg" width="269" height="77" />
+	        </td></tr>
+      		<tr><td>&nbsp;</td></tr>
+      		<tr><td align="center" style="font-size:14;"><?php echo $weddingVersion; ?></td></tr>
+		</table>
 
         <div id="login_area">こちらからログインしてください。<br />
-ログインID、パスワードを忘れた方は、ホテル管理者へお問い合わせください。<br />
 <br />
 <form action="index.php" name="login_form" method="post" id="login_form">
 

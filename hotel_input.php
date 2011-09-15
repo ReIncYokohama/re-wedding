@@ -34,16 +34,16 @@ if($_POST['hotel_name'])
 	{
 		unset($post['email_confirm']);
 		$hid = $obj->InsertData("super_spssp_hotel", $post);
-    
+
     $hotel_code = $_POST["hotel_code"];
     $hotel_sqlhost_val = "hotel".((int)$hotel_code)."_sqlhost";
     $hotel_sqluser_val = "hotel".((int)$hotel_code)."_sqluser";
     $hotel_sqlpassword_val = "hotel".((int)$hotel_code)."_sqlpassword";
     $hotel_sqldatabase_val = "hotel".((int)$hotel_code)."_sqldatabase";
-    
+
     if($hid > 0){
       mysql_close();
-      
+
       $link = mysql_connected($$hotel_sqlhost_val,$$hotel_sqluser_val,$$hotel_sqlpassword_val,$$hotel_sqldatabase_val);
       $hotel_row = $obj->GetSingleRow("spssp_admin","stype=1");
 
@@ -65,23 +65,11 @@ if($_POST['hotel_name'])
 		redirect("hotel.php");
 	}
 ?>
-  <div id="topnavi">
+ <div id="topnavi">
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-  <tr>
-    <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-</table>
-<h1>サンプリンティングシステム 　管理</h1>
+	<h1>サンプリンティングシステム 　管理</h1>
     <div id="top_btn"> <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a></div>
-  </div>
+</div>
   <div id="container">
     <div id="contents">
       <h2><a href="hotel.php">ホテル管理</a> &raquo; 新規登録</h2>
@@ -204,6 +192,7 @@ function clearSubmit()
 }
 
 // UCHIDA EDIT 11/08/19 アラートメッセージの表示、メール内容の確認
+var gReg = /[!-~A-Za-z0-9ｦ-ﾝ]$/;
 function validform_hotel(){
 
 	var email = document.getElementById('email').value;
@@ -214,6 +203,14 @@ function validform_hotel(){
 		alert("ホテル名を入力してください");
 		document.getElementById('hotel_name').focus();
 		return false;
+	}
+	else {
+		var hn = document.getElementById("hotel_name").value;
+		if(gReg.test(hn)==true) {
+			alert("ホテル名は全て全角で入力してください");
+			document.getElementById('hotel_name').focus();
+			return false;
+		}
 	}
 	if(document.getElementById("zip").value=='')
 	{

@@ -2,7 +2,7 @@
 @session_start();
 
 include_once(dirname(__FILE__)."/../conf/conf.php");
-
+include_once(dirname(__FILE__)."/../conf/version.php");
 if($_SERVER['HTTP_HOST']=='localhost')
 	{
 		$sqlhost=$localhost_sqlhost;

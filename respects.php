@@ -7,9 +7,6 @@ include_once("inc/header.inc.php");
 	$get = $obj->protectXSS($_GET);
 	$post = $obj->protectXSS($_POST);
 
-
-
-
 	if(isset($post['title']) && $post['title'] != '')
 	{
 		$id = (int)$post['insert_edit'];
@@ -35,27 +32,35 @@ include_once("inc/header.inc.php");
 		}
 
 	}
-	if($_GET['action']=='sort' && (int)$_GET['id'] > 0) // UCHIDA EDIT 11/08/22
+	if(isset($get['action']) && $get['action']=='sort' && (int)$get['id'] > 0) // UCHIDA EDIT 11/08/22
 	{
 		$table = 'spssp_respect';
 
-		$id = (int)$_GET['id'];
-		$move = $_GET['move'];
-//		if ($_GET['move'] == "down") $move = "up"; else $move="down";
+		$id = (int)$get['id'];
+		$move = $get['move'];
+//		if ($get['move'] == "down") $move = "up"; else $move="down";
 		$obj->sortItem($table, $id, $move);
+		$edit_id=$get['edit_id'];
+		$rTitle=$get['title'];
 	}
-	else if(isset($get['action']) && $get['action'] !== '')
+	else if(isset($get['action']) && $get['action'] == 'delete' && (int)$get['id'] > 0)
 	{
 		$id = (int)$get['id'];
 		if($id > 0)
 		{
 			$obj->DeleteRow("spssp_respect", "id=".$id);
 			$msg = 3;
+			if ((int)$get['id'] != (int)$get['edit_id']) $edit_id=$get['edit_id'];
+			$rTitle=$get['title'];
 		}
 		else
 		{
 			$err = 11;
 		}
+	}
+	if (isset($get['action']) && $get['action'] == 'edit' && (int)$get['id'] > 0) {
+		$edit_id=$get['edit_id'];
+		$rTitle=$get['title'];
 	}
 
 ?>
@@ -76,8 +81,8 @@ include_once("inc/header.inc.php");
 <!--         	<h2 id="title_bar">登録　敬称: </h2> -->
 			<div class="subtitle">登録　敬称: </div>
         	<form action="respects.php" method="post" name="new_name">
-            	<input type="hidden" name="insert_edit" id="insert_edit" value="0" />
-                	敬称 : &nbsp;<input type="text" name="title" id="name"  /> &nbsp; &nbsp; &nbsp;
+            	<input type="hidden" name="insert_edit" id="insert_edit" value="<?=$edit_id?>" />
+                	敬称 : &nbsp;<input type="text" name="title" id="name"  value="<?=$rTitle?>" /> &nbsp; &nbsp; &nbsp;
                  <a onclick="check_name()" href="javascript:void(0)">
 						<img src="img/common/btn_regist_update_admin.jpg"" alt="登録">
 				</a>
@@ -123,22 +128,22 @@ include_once("inc/header.inc.php");
 				kindArray[<?=$i?>]="<?=$row['title']?>";
 				</script>
 
-            	 <div class="<?=$class?>">
+            	 <div class="<?=$class?>" id="boxid<?=$row['id']?>">
             		<table border="0" align="center" cellpadding="1" cellspacing="1">
             			<tr align="center">
                         	<td width="10%"><?=$j?></td>
                             <td><?=$row['title']?></td>
 							<td>
-							<span class="txt1"><a href="respects.php?action=sort&amp;move=up&amp;id=<?=$row['id']?>">▲</a>
-							<a href="respects.php?action=sort&amp;move=down&amp;id=<?=$row['id']?>"> ▼</a></span>
+							<span class="txt1"><a href="respects.php?action=sort&amp;move=up&amp;id=<?=$row['id']?>&title=<?=$rTitle?>&edit_id=<?=$edit_id?>">▲</a>
+							<a href="respects.php?action=sort&amp;move=down&amp;id=<?=$row['id']?>&title=<?=$rTitle?>&edit_id=<?=$edit_id?>"> ▼</a></span>
 							</td>
                             <td>
-                            	<a href="#" onclick="edit_name(<?=$row['id']?>,'<?=$row['title']?>');">
+                            	<a href="javascript:void(0);" onclick="edit_name(<?=$row['id']?>,'<?=$row['title']?>');">
                                 	<img src="img/common/btn_edit.png" width="42" height="17" />
                                 </a>
                             </td>
               				<td>
-                            	<a href="javascript:void(0);" onClick="confirmDelete('respects.php?action=delete&id=<?=$row['id']?>');">
+                            	<a href="javascript:void(0);" onClick="confirmDeletePlus('respects.php?action=delete&id=<?=$row['id']?>&edit_id=<?=$edit_id?>',<?=$row['id']?>,'<?=$rTitle?>');">
                                 	<img src="img/common/btn_deleate.png" width="42" height="17" />
                                 </a>
                             </td>
@@ -151,14 +156,18 @@ include_once("inc/header.inc.php");
              	}
 			 ?>
       </div>
-    </div>
+		<? if($edit_id !='') {?>
+			<script>
+				$j("#boxid<?=$edit_id?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
+			</script>
+		<? } ?>
+     </div>
   </div>
  <?php
   	include_once("inc/sidebar.inc.php");
 	include_once("inc/footer.inc.php");
 ?>
  <script type="text/javascript">
-
 $j(function(){
 
 	var msg_html=$j("#msg_rpt").html();
@@ -177,8 +186,10 @@ function new_table()
 }
 function cancel_new()
 {
-	$j("#name").val("");
-	$j("#insert_edit").val("0");
+	window.location = "respects.php";
+
+//	$j("#name").val("");
+//	$j("#insert_edit").val("0");
 }
 function check_name()
 {
@@ -203,11 +214,24 @@ function check_name()
 }
 function edit_name(id, name)
 {
-	$j("#insert_edit").val(id);
-	$j("#name").val(name);
+	window.location = "respects.php?action=edit&id="+id+"&title="+name+"&edit_id="+id;
+}
+function confirmDeletePlus(url, id, title) {
+	var edit_id="<?=$edit_id?>";
+	var msg = "";
+	if (edit_id != id) 	{
+		msg = "削除してもよろしいですか？";
+		var urls = url+"&title="+title;
+	}
+	else {
+		msg = "編集中ですが削除してもよろしいですか？";
+		var urls = url;
+	}
 
-	$j("#title_bar").html("編集　敬称");
-	$j("#new_table").fadeOut(100);
-	$j("#new_table").fadeIn(500);
+	var agree = confirm(msg);
+	if(agree)
+	{
+		window.location = urls;
+	}
 }
 </script>
