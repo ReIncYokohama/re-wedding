@@ -86,7 +86,7 @@ function get_user_tategaki($comment,$name,$gaiji_arr=array(),$angle=0,$color = a
       $maxfontsize = 13;
       $nameLeft = 2;
     }
-    if($num==8){
+    if($num==7){
       $maxfontsize = 10;
       $nameLeft = 3;
     }
@@ -122,7 +122,7 @@ function get_user_tategaki($comment,$name,$gaiji_arr=array(),$angle=0,$color = a
 
 function get_image_name_plate($last_name,$first_name,$comment1="",$comment2="",
                          $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
-                              $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect){
+                              $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect=""){
 
   $comment_max_fontsize = "8";
   $name_max_fontsize = "12";
@@ -156,9 +156,10 @@ function get_image_name_plate($last_name,$first_name,$comment1="",$comment2="",
                                        $gaiji_name_arr);
   
   $nowLeft = gaiji_imagettftext($image,$name_fontsize,0,0,45,$col_t,$font,$name,$gaiji_name_arr);
-  if(mb_strlen($respect) == 1){
+
+  if(mb_strlen($respect) <= 3){
     gaiji_imagettftext($image,$name_fontsize,0,$nowLeft,45,$col_t,$font,$respect,array());
-  }else if(mb_strlen($respect)>1){
+  }else if(mb_strlen($respect)>4){
     gaiji_imagettftext($image,$name_fontsize,0,$nowLeft,45,$col_t,$font,$respect,array(),50);
   }
   
