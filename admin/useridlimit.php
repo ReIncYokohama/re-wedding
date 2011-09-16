@@ -108,7 +108,7 @@ include("inc/return_dbcon.inc.php");
 <div id="container">
   <div id="contents">
 
-<h2><div style="width:300px;"> 締切日設定 </div></h2>
+<h4><div style="width:300px;"> 締切日設定 </div></h4>
 
 
 <h2>席次表本発注締切日</h2>

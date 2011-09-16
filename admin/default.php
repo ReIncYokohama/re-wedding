@@ -18,7 +18,7 @@
 	$chng = 0;
 	if ($_title != $default_layout_title || $_view != $default_raname_table_view) $chng = 1;
 
-	if($_POST['sub']!='' && $chng == 1)
+	if($post['sub']!='' && $chng == 1)
 	{
 		$whereCloser = array('default_layout_title','rename_table_view');
 		for($i=0;$i<count($whereCloser);$i++)
@@ -30,17 +30,6 @@
 ?>
 
 <?php
-
-/*
-	$tablename['name'] = $_POST['name'];
-	if($_POST['edit_table_name'] !='' && $_POST['name'] !="")
-	{
-		   $sql="Update spssp_tables_name set name='".$_POST['name']."' where id=".$_POST['edit_table_name'];
-		   mysql_query($sql);
-		   echo '<script> alert("卓名が変更されました"); </script>';
-		   unset($post);
-	}
-*/
 	if(isset($post['name']) && $post['name'] != '')
 	{
 		$id = (int)$post['insert_edit'];
@@ -73,7 +62,6 @@
 			if(checkTableDuplicasy($post['name'] , $id ))
 			{
 	            $sql = "update spssp_tables_name set name ='".$post['name']."' where id=".$id;
-//	            echo $sql;
 	            mysql_query($sql);
 				echo '<script> alert("卓名が変更されました"); </script>';
 				//$msg = 4;
@@ -85,7 +73,7 @@
 		}
 
 	}
-	if($get['action']=='sort' && (int)$get['id'] > 0)
+	if(isset($get['action']) && $get['action']=='sort' && (int)$get['id'] > 0)
 	{
 		$table = 'spssp_tables_name';
 
@@ -93,7 +81,7 @@
 		$move = $get['move'];
 		if($move=="down") $move="up"; else $move="down";
 		$obj->sortItem($table,$id,$move);
-		redirect("default.php");
+		$get['id'] = $get['edit_id'];
 	}
 	if(isset($get['action']) && $get['action'] !== '' && $get['action'] == "delete")
 	{
@@ -101,16 +89,20 @@
 		if($id > 0)
 		{
 			$suc = $obj->DeleteRow("spssp_tables_name", "id=".$id);
-			//if($suc){
-				//$msg = 3;
-			//}
 		}
 		else
 		{
 			$err = 11;
 		}
-		$get['id']=0;
-		//redirect("default.php?delete=yes");
+		$get['id'] = $get['edit_id'];
+	}
+
+	if(isset($get['action']) && $get['action'] !== '' && $get['action'] == "nodelete")
+	{
+		$get['id'] = $get['edit_id'];
+	}
+	if(isset($get['action']) && $get['action']=='edit' && (int)$get['id'] > 0) {
+		//$get['name']="";
 	}
 
 	//check DEFaULT table NAME DUPLICACY
@@ -134,11 +126,12 @@
 <?php
 	$default_raname_table_view = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='rename_table_view'");
 	$default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
+
+	if ($get['rename_table_view']!="") $default_raname_table_view = $get['rename_table_view'];
+	if ($get['Title']!="") $default_layout_title = $get['Title'];
 ?>
 <script type="text/javascript">
 var tablename='';
-//var confirmdaynum='<?=$confirm_day_num?>';
-//var limitationranking='<?=$limitation_ranking?>';
 var Defaultlayouttitle='<?=$default_layout_title?>';
 $(function(){
 
@@ -149,23 +142,7 @@ $(function(){
 		$("#msg_rpt").fadeOut(5000);
 	}
 });
-/*
-$(document).ready(function(){
 
-    $('#confirm_day_num').keyup(function(){
-		var r=isInteger("confirm_day_num");
-    });
-
-});
-
-$(document).ready(function(){
-
-    $('#limitation_ranking').keyup(function(){
-		var r=isInteger("limitation_ranking");
-    });
-
-});
-*/
 function isInteger(id){
 
  var i;
@@ -195,57 +172,6 @@ function isInteger(id){
     return true;
 }
 
-function formvalid1()
-{/*
-	var confirm_day_num = $("#confirm_day_num").val();
-	if(confirm_day_num =="")
-	{
-		alert("校了日設定を入力してください");//Unable to empty fields
-		$("#confirm_day_num").val(confirmdaynum);
-		document.getElementById('confirm_day_num').focus();
-		return false;
-	}
-	else
-	{
-		isInteger("confirm_day_num");
-	}
-	document.aaa1.submit();*/
-}
-
-function formvalid6()
-{/*
-
-	var limitation_ranking1 = $("#limitation_ranking").val();
-	if(limitation_ranking1 =="")
-	{
-		alert("席次表編集利用制限日を入力ください");//Unable to empty fields
-		$("#limitation_ranking").val(limitationranking);
-		document.getElementById('limitation_ranking').focus();
-		return false;
-	}
-	else
-	{
-		isInteger("limitation_ranking");
-	}
-	document.aaa6.submit();*/
-}
-function formvalid2()
-{
-	var DefaultLayoutTitle=$("#DefaultLayoutTitle").val();
-	if(DefaultLayoutTitle =="")
-	{
-		alert("「高砂名」を入力してください");//Unable to empty fields
-
-		$("#DefaultLayoutTitle").val(Defaultlayouttitle);
-		document.getElementById('DefaultLayoutTitle').focus();
-		return false;
-	}
-	document.aaa2.submit();
-}
-function formvalid3()
-{
-	document.aaa3.submit();
-}
 function new_table()
 {
 	$("#insert_edit").val("0");
@@ -256,7 +182,6 @@ function new_table()
 function cancel_new()
 {
 	$("#name").val("");
-	//$("#new_table").fadeOut(300);
 }
 
 function check_name(id)
@@ -283,78 +208,46 @@ function edit_name(id, name,adminType,boxid)
 	{
 		$("#insert_edit").val(id);
 		$("#name").val(name);
-
-		//$("#title_bar").html("編集　卓名");
-		//$("#new_table").fadeOut(100);
-		//$("#new_table").fadeIn(500);
 	}
 }
 
 function validForm()
-{/*
-	var confirm_day_num = $("#confirm_day_num").val();
-	if(confirm_day_num =="")
-	{
-		alert("校了日設定を入力してください");//Unable to empty fields
-		$("#confirm_day_num").val(confirmdaynum);
-		document.getElementById('confirm_day_num').focus();
-		return false;
-	}
-	else
-	{
-		isInteger("confirm_day_num");
-	}
-
-	var limitation_ranking1 = $("#limitation_ranking").val();
-	if(limitation_ranking1 =="")
-	{
-		alert("席次表編集利用制限日を入力ください");//Unable to empty fields
-		$("#limitation_ranking").val(limitationranking);
-		document.getElementById('limitation_ranking').focus();
-		return false;
-	}
-	else
-	{
-		isInteger("limitation_ranking");
-	}
-*/
-	//var DefaultLayoutTitle=$("#DefaultLayoutTitle").val();
-//	if(DefaultLayoutTitle =="")
-//	{
-//		alert("「高砂名」を入力してください");//Unable to empty fields
-//
-//		$("#DefaultLayoutTitle").val(Defaultlayouttitle);
-//		document.getElementById('DefaultLayoutTitle').focus();
-//		return false;
-//	}
-/*
-	if($("#name").val() == '')
-	{
-		alert("卓名が未入力です");
-		$("#name").val(tablename);
-		$("#name").focus();
-		return false;
-	}
-*/
+{
 	document.defaultForm.submit();
 
 }
 function clearForm()
 {
 	window.location="default.php";
-	//$("#confirm_day_num").val("");
-//	$("#limitation_ranking").val("");
-//	$("#DefaultLayoutTitle").val("");
-//	$("#name").val("");
 }
 
-function confirmDeletePlus(urls)
+function confirmDeletePlus(url, id)
 {
-   	var agree = confirm("削除してもよろしいですか？");
+	var edit_id="<?=$get['id']?>";
+	var agree = confirm("卓名を削除してもよろしいですか？");
 	if(agree)
 	{
-		window.location.href = urls;
+		if (edit_id != id) window.location = collecting_data(url);
+		else               window.location = url;
 	}
+}
+
+function orderAction(url) {
+	window.location = collecting_data(url);
+}
+
+function collecting_data(url) {
+var radio1  = document.defaultForm.rename_table_view[0].checked;
+var edit_data;
+var urlPlus;
+var edit_id="<?=$get['id']?>";
+var chng = (radio1==true)? "1": "0";
+	edit_data  = "&name="+document.defaultForm.name.value;
+	edit_data += "&Title="+document.defaultForm.default_layout_title.value;
+	edit_data += "&rename_table_view="+chng;
+	edit_data += "&edit_id="+edit_id;
+	urlPlus = url+edit_data;
+	return urlPlus;
 }
 
 </script>
@@ -379,15 +272,7 @@ include("inc/return_dbcon.inc.php");
 
 	<div style="clear:both;"></div>
 	<div id="contents">
-	<!-- UCHIDA EDIT 11/07/26 -->
-	<!-- <h2><div style="width:450px;"><a href="manage.php">席次表・席札 </a> &raquo; 基本設定</div></h2> -->
-	<div style="width:100%;"><h2>席次表・席札 &raquo; 卓名</h2></div>
-		<!--<p class="txt3">
-            <b>卓名</b>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
-            <a href="respects.php"><b>敬称</b></a>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
-            <a href="guest_types.php"> <b>区分</b></a>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
-            <a href="religions.php"><b>挙式種類</b></a>
-        </p>-->
+	<div style="width:100%;"><h4>席次表・席札 &raquo; 卓名</h4></div>
 
 <!-- UCHIDA EDIT 11/08/09 スタッフの場合は表示のみに変更  -->
 		<?php
@@ -397,10 +282,6 @@ include("inc/return_dbcon.inc.php");
 		else {
 			$InputArea = " disabled='disabled'";
 		}
-		?>
-        <?php
-//		if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222")
-//		{
 		?>
 
 	  <div style="width:100%; border:0px solid #fff" >
@@ -524,8 +405,10 @@ include("inc/return_dbcon.inc.php");
 									{
 
 									?>
-							  <span class="txt1"><a href="default.php?page=<?=$current_page?>&action=sort&amp;move=up&amp;id=<?=$row['id']?>">▲</a>
-                             <a href="default.php?page=<?=(int)$get['page']?>&action=sort&amp;move=down&amp;id=<?=$row['id']?>"> ▼</a></span>
+							  <span class="txt1">
+							  <a href="javascript:void(0);" onClick="orderAction('default.php?action=sort&amp;move=up&amp;id=<?=$row['id']?>');">▲</a>
+                              <a href="javascript:void(0);" onClick="orderAction('default.php?action=sort&amp;move=down&amp;id=<?=$row['id']?>');">▼</a>
+                             </span>
 							 <?php
 							 }else
 							 {?>
@@ -536,12 +419,12 @@ include("inc/return_dbcon.inc.php");
 
                            </td>
 							<td>
-                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>window.location='default.php?id=<?=$row['id']?>&name=<?=$row['name']?>&userid=<?=$_SESSION['user_type']?>';<?php }?>" >
+                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>window.location='default.php?id=<?=$row['id']?>&name=<?=$row['name']?>&userid=<?=$_SESSION['user_type']?>&action=edit';<?php }?>" >
                                 	<img src="img/common/btn_edit.gif" width="42" height="17" />
                                 </a>
                             </td>
               				<td>
-                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>confirmDeletePlus('ajax/delete_table.php?id=<?=$row['id']?>');<?php }?>">
+                            	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>confirmDeletePlus('ajax/delete_table.php?id=<?=$row['id']?>', <?=$row['id']?>);<?php }?>">
                                 	<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
                             </td>
@@ -553,10 +436,7 @@ include("inc/return_dbcon.inc.php");
 				$j++;
              	}
 
-		}else{
-			 ?>
-
-
+		}else{ ?>
 		<!-- UCHIDA EDIT 11/07/27 -->
 		<!-- <div id="message_BOX" style="height:450px; overflow:auto; width:950px;"> -->
         <div id="box_table" style="width:950px;">
@@ -609,10 +489,10 @@ include("inc/return_dbcon.inc.php");
 		}
 ?>
 
-        <? if($$get['id'] !=''){
+        <? if($get['id'] !=''){
 		?>
 		<script>
-		// $("#boxid<?=$get['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
+		$("#boxid<?=$get['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
 		</script>
 		<? }?>
 			</div>

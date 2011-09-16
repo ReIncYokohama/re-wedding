@@ -2,42 +2,22 @@
 	require_once("inc/class.dbo.php");
 	include_once("inc/checklogin.inc.php");
 	include_once("inc/new.header.inc.php");
-  include_once(dirname(__FILE__)."/../conf/conf.php");
+	include_once(dirname(__FILE__)."/../conf/conf.php");
 	$obj = new DBO();
 
-	$table='spssp_admin';
-	$where = " 1=1";
-	$data_per_page=10;
-	$current_page=(int)$_GET['page'];
-	$redirect_url = 'staffs.php';
-
-	//$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
 
 	$get = $obj->protectXSS($_GET);
-	if($_GET['action']=='delete' && (int)$_GET['id'] > 0)
+	$post = $obj->protectXSS($_POST);
+
+	if($get['action']=='delete' && (int)$get['id'] > 0)
 	{
-		$sql = "delete from spssp_admin where id=".(int)$_GET['id'];
+		$sql = "delete from spssp_admin where id=".(int)$get['id'];
 		mysql_query($sql);
-		//redirect('stuffs.php?page='.$_GET['page']);
-	}
-	else if($_GET['action']=='sort' && (int)$_GET['id'] > 0)
-	{
-		$table = 'spssp_admin';
-
-		$id = $get['id'];
-		$move = $get['move'];
-		//$redirect = 'staffs.php?page='.(int)$get['page'];
-
-		$obj->sortItem($table,$id,$move,$redirect);
-	}
-	else if($_GET['action']=='delete' && (int)$_GET['id'] > 0)
-	{
-
-		$obj->DeleteRow("spssp_admin", " id=".$get['id']);
+		$get['id'] = $get['edit_id'];
+		//redirect('stuffs.php');
 	}
 
 	//print_r($_POST);
-	//Inser stuff or admin
 	if($_POST['insert']=="insert")
 	{
 		if(trim($_POST['name']) && trim($_POST['username']) && trim($_POST['password'])&& trim($_POST['permission']))
@@ -45,47 +25,45 @@
 			$num=$obj->GetNumRows('spssp_admin',"username='".$_POST['username']."'");
 			if(!$num)
 			{
-				$post = $obj->protectXSS($_POST);
 				unset($post['insert']);
 				unset($post['conf_email']);
 				unset($post['permission_old']);
 				$post['display_order']= time();
 
-				//$post['creation_date'] = date("Y-m-d H:i:s");
 				if($post['permission'] == '222')
 				{
 					$lastid = $obj->InsertData('spssp_admin',$post);
 				}
 				else
 				{
-          $post['stype'] = 1;
-          //管理者を登録
-          //既存の管理者をスタッフに変更
+			        $post['stype'] = 1;
+			        //管理者を登録
+			        //既存の管理者をスタッフに変更
 					if($post['permission'] == '333')
 					{
 					   $value['permission']='222';
-             $value['stype'] = 0;
+             		   $value['stype'] = 0;
 					   $where = "permission = '333'";
 					   $obj->UpdateData('spssp_admin',$value, $where);
 					}
-					$lastid = $obj->InsertData('spssp_admin',$post);
+					  $lastid = $obj->InsertData('spssp_admin',$post);
 
-          $upd_data = array();
-          $upd_data["adminid"] = $post["username"];
-          $upd_data["password"] = $post["password"];
-          $upd_data["email"] = $post["email"];
-          $upd_data["adminstrator"] = $post["name"];
-          mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
-          $obj->UpdateData("super_spssp_hotel",$upd_data,"hotel_code=".$HOTELID."");
-          //$obj->UpdateData("super_spssp_admin",$upd_data,"hotel_code=".$HOTELID);
-          mysql_connected($hotel_sqlhost,$hotel_sqluser,$hotel_sqlpassword,$hotel_sqldatabase);
+			          $upd_data = array();
+			          $upd_data["adminid"] = $post["username"];
+			          $upd_data["password"] = $post["password"];
+			          $upd_data["email"] = $post["email"];
+			          $upd_data["adminstrator"] = $post["name"];
+			          mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
+			          $obj->UpdateData("super_spssp_hotel",$upd_data,"hotel_code=".$HOTELID."");
+			          //$obj->UpdateData("super_spssp_admin",$upd_data,"hotel_code=".$HOTELID);
+			          mysql_connected($hotel_sqlhost,$hotel_sqluser,$hotel_sqlpassword,$hotel_sqldatabase);
 				}
 
 				if($lastid > 0)
 				{
 					$msg=130;
 
-					redirect("staffs.php?msg=".$msg."&page=".$current_page);
+					redirect("staffs.php");
 
 				}
 				else if($lastid <= 0 && $err != 5)
@@ -105,7 +83,6 @@
 	}
 	if($_POST['update']=="update")
 	{
-
 		if(trim($_POST['name']) && trim($_POST['username']) && trim($_POST['password']))
 		{
 			$num=$obj->GetNumRows('spssp_admin'," id!=".$_POST['id']." and username='".$_POST['username']."'");
@@ -117,39 +94,35 @@
 				unset($post['conf_email']);
 				unset($post['permission_old']);
 
-				//$post['display_order']= time();
-				//$post['creation_date'] = date("Y-m-d H:i:s");
-
 				if($post['permission'] == '222')
 				{
-          $msg = 2;
-          $obj->UpdateData('spssp_admin',$post,"id=".$_POST['id']);
+		          $msg = 2;
+		          $obj->UpdateData('spssp_admin',$post,"id=".$_POST['id']);
 
 				}
 				else
 				{
-          $post['stype'] = 1;
+ 			        $post['stype'] = 1;
 					if($post['permission'] == '333')
 					{
 					   $value['permission']='222';
 					   $where = "permission = '333'";
-             $value['stype'] = 0;
+       	  			   $value['stype'] = 0;
 					   $obj->UpdateData('spssp_admin',$value, $where);
 					}
 
 					$msg = 2;
 					$obj->UpdateData('spssp_admin',$post,"id=".$_POST['id']);
 
-          $upd_data = array();
-          $upd_data["adminid"] = $post["username"];
-          $upd_data["password"] = $post["password"];
-          $upd_data["adminstrator"] = $post["name"];
+			          $upd_data = array();
+			          $upd_data["adminid"] = $post["username"];
+			          $upd_data["password"] = $post["password"];
+			          $upd_data["adminstrator"] = $post["name"];
 
-          $link = mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
+			          $link = mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
 
-          $obj->UpdateData("super_spssp_hotel ",$upd_data,"hotel_code=".$HOTELID);
-          //$obj->UpdateData("super_spssp_hotel",$upd_data,"id=1");
-          mysql_connected($hotel_sqlhost,$hotel_sqluser,$hotel_sqlpassword,$hotel_sqldatabase);
+			          $obj->UpdateData("super_spssp_hotel ",$upd_data,"hotel_code=".$HOTELID);
+			          mysql_connected($hotel_sqlhost,$hotel_sqluser,$hotel_sqlpassword,$hotel_sqldatabase);
 				}
 			}
 			else
@@ -162,16 +135,15 @@
 			$err=2;
 		}
 	}
-	if($_GET['action']=="edit")
+	if($get['action']=="edit")
 	{
-		$edit_data_rows = $obj->GetSingleRow("spssp_admin"," id=".$_GET['id']);
-
+		$edit_data_rows = $obj->GetSingleRow("spssp_admin"," id=".$get['id']);
 	}
 	//SORING START
-	if(isset($_GET['order_by']) && $_GET['order_by'] != '')
+	if(isset($get['order_by']) && $get['order_by'] != '')
 	{
-		$orderby = mysql_real_escape_string($_GET['order_by']);
-		$dir = mysql_real_escape_string($_GET['asc']);
+		$orderby = mysql_real_escape_string($get['order_by']);
+		$dir = mysql_real_escape_string($get['asc']);
 
 		if($orderby=='name')
 		{
@@ -186,10 +158,12 @@
 		if($dir == 'true')
 		{
 			$order.=' asc';
+			$getOrder="&order_by=name&asc=true";
 		}
 		else
 		{
 			$order.=' desc';
+			$getOrder="&order_by=name&asc=false";
 		}
 
 		$order_main=" permission DESC,".$order;
@@ -198,24 +172,19 @@
 	{
 		$order_main=" permission DESC";
 	}
-	//SORING END
 
-	//$query_string="SELECT * FROM spssp_admin where permission!=111  ORDER BY  $order LIMIT ".((int)($current_page)*$data_per_page).",".((int)$data_per_page).";";
-	$query_string="SELECT * FROM spssp_admin where permission!=111  ORDER BY  $order_main ;";
-	$data_rows = $obj->getRowsByQuery($query_string);
-
-
-
-
-	/*COUNT MANAGER ADMIN WHICH COULD BE ONLY ONE*/
-	if($_GET['action']=="edit")
-	{
-		$num_of_manager_admin=$obj->GetNumRows($table," id !=".$_GET['id']." and permission=333");
-	}else
-	{
-		$num_of_manager_admin=$obj->GetNumRows($table," permission=333");
+	if($get['action']!="edit") {
+		$edit_data_rows['name']				=$get['name'];
+		$edit_data_rows['username']			=$get['username'];
+		$edit_data_rows['password']			=$get['password'];
+		$edit_data_rows['permission']		=$get['permission'];
+		$edit_data_rows['subcription_mail']	=$get['subcription_mail'];
+		$edit_data_rows['email']			=$get['email'];
+		$edit_data_rows['conf_email']		=$get['conf_email'];
 	}
 
+	$query_string="SELECT * FROM spssp_admin where permission!=111  ORDER BY  $order_main ;";
+	$data_rows = $obj->getRowsByQuery($query_string);
 
 ?>
 
@@ -337,9 +306,7 @@ function validForm()
 	{
   		if (radio2[i].checked == true)
   		{
-
 			permission=true;
-
 		}
 
 	}
@@ -403,7 +370,6 @@ function validForm()
 						{
 							return false;
 						}
-
 					}
 				}
 				document.stuff_form.submit();
@@ -432,7 +398,6 @@ function validForm()
 		}
 		document.stuff_form.submit();
 	}
-
 }
 function validForm_staff()
 {
@@ -647,16 +612,18 @@ function clearform()
 	$('#conf_email').attr("value","");
 }
 
-function confirmDeletePlus(urls, permission)
+function confirmDeletePlus(urls, permission, id)
 {
 	if(permission == '333') {
 		alert("管理者は削除できません。\n他のスタッフへ権限を移し、新しい管理者から削除してください");
 		return false;
 	}
+	var edit_id="<?=$get['id']?>";
 	var agree = confirm("削除してもよろしいですか？");
 	if(agree)
 	{
-		window.location = urls;
+		if (edit_id != id) window.location = collecting_data(urls)+"&edit_id="+edit_id;
+		else               window.location = urls;
 	}
 }
 
@@ -682,21 +649,21 @@ include("inc/return_dbcon.inc.php");
 
 <div style="clear:both;"></div>
 	<div id="contents">
-	 <h2>
+	 <h4>
             	<div style="width:200px;"> スタッフ</div>
-        </h2>
+        </h4>
 		<h2><div style="width:180px;">スタッフ設定</div></h2>
         	<?php
         	if($_SESSION['user_type'] == 111 ||$_SESSION['user_type'] == 333)
 			{
 		?>
 		<div style="width:1000px;">
-		<form  action="staffs.php?page=<?=$current_page?>" method="post" name="stuff_form">
-		<?php if($_GET['action']=="edit"){?>
+		<form  action="staffs.php" method="post" name="stuff_form">
+		<?php if($get['action']=="edit"){?>
 		<input type="hidden" name="update" value="update">
 
 
-		<input type="hidden" name="id" value="<?=$_GET['id']?>">
+		<input type="hidden" name="id" value="<?=$get['id']?>">
 		<?php }else{?>
 		<input type="hidden" name="insert" value="insert">
 		<?php }?>
@@ -749,14 +716,14 @@ include("inc/return_dbcon.inc.php");
 				</td>
 				<td align="left" width="100">メールアドレス：
 				</td>
-				<td width="180"><input name="email" type="text" id="email" size="30" value="<?=$edit_data_rows['email']?>" />
+				<td width="180"><input name="email" type="text" id="email" size="25" value="<?=$edit_data_rows['email']?>" />
 					<input  type="hidden" id="email_current" size="20" value="<?=$edit_data_rows['email']?>" />
 				</td>
 				<td width="140">メールアドレス確認用：
 				</td>
 				<!--  UCHIDA EDIT 11/08/08 確認用メールアドレスのペーストを禁止 -->
 				<td width="160" onpaste="alert('メールアドレス確認用は貼り付けできません');return false;">
-					<input name="conf_email" type="text" id="conf_email" size="30" value="<?=$edit_data_rows['email']?>" />
+					<input name="conf_email" type="text" id="conf_email" size="25" value="<?=$edit_data_rows['email']?>" />
 
 				</td>
 			</tr>
@@ -764,10 +731,10 @@ include("inc/return_dbcon.inc.php");
 			<br>
 
             <label for="権限"></label><div style="width:250px; text-align:left;"> <a href="#" onclick="validForm();"><img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22" /></a>&nbsp;&nbsp;&nbsp;
-			<?php if($_GET[id]=="") { ?>
+			<?php if($get[id]=="") { ?>
 			<a  href="#" onclick="clearform();"><img src="img/common/btn_clear.jpg" alt="クリア" width="82" height="22" /></a>
 			<?php } else { ?>
-			<a  href="#" onclick="window.location='staffs.php?page=<?=$_GET[page]?>';"><img src="img/common/btn_clear.jpg" alt="クリア" width="82" height="22" /></a>
+			<a  href="#" onclick="window.location='staffs.php?page=<?=$get[page]?>';"><img src="img/common/btn_clear.jpg" alt="クリア" width="82" height="22" /></a>
 			<?php } ?>
 			</div>
         </p>
@@ -781,16 +748,14 @@ include("inc/return_dbcon.inc.php");
                 <table border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
                         <td>名前
-						<span class="txt1"><a href="staffs.php?order_by=name&asc=true">▲</a>
-                        	<a href="staffs.php?order_by=name&asc=false">▼</a></span>
+						<span class="txt1">
+							<a href="javascript:void(0);" onClick="sortAction('staffs.php?id=<?=$get['id']?>&order_by=name&asc=true');">▲</a>
+                        	<a href="javascript:void(0);" onClick="sortAction('staffs.php?id=<?=$get['id']?>&order_by=name&asc=false');">▼</a>
+                        </span>
 						</td>
-                        <td>ログインID
-						<!--<span class="txt1"><a href="staffs.php?order_by=ID&asc=true">▲</a>
-                        	<a href="staffs.php?order_by=ID&asc=false">▼</a></span>-->
-						</td>
+                        <td>ログインID</td>
                         <td>パスワード</td>
                         <td>権限</td>
-                        <!--<td>順序変更</td>-->
                         <td>編集</td>
                         <td>削除</td>
                     </tr>
@@ -822,18 +787,14 @@ include("inc/return_dbcon.inc.php");
                             <td><?=$row['username']?></td>
                             <td><?=$row['password']?></td>
                             <td <?php if($row['permission']==333){?>id="m_admin"<?php }?>><?php if($row['permission']==222){echo 'スタッフ';} if($row['permission']==111){echo 'スーパー管理者';}if($row['permission']==333){echo '管理者';}?></td>
-                            <!--<td><form id="form1" name="form1" method="post" action="">
-                              <span class="txt1"><a href="staffs.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=up&amp;id=<?=$row['id']?>">▲</a>
-                             <a href="staffs.php?page=<?=$current_page?>&action=sort&amp;move=bottom&amp;id=<?=$row['id']?>"> ▼</a></span>
-                            </form></td>-->
                             <td>
 							<?php //if($row['id']!=$_SESSION['adminid']) { ?>
-							<a href="staffs.php?id=<?=$row['id']?>&action=edit&page=<?=$current_page?>"><img src="img/common/btn_edit.gif" width="42" height="17" /></a>
+							<a href="staffs.php?id=<?=$row['id']?>&action=edit<?=$getOrder?>"><img src="img/common/btn_edit.gif" width="42" height="17" /></a>
 							<?php //} ?>
 							</td>
                             <td>
 							<?php// if($row['id']!=$_SESSION['adminid']) { ?>
-                            	<a href="javascript:void(0);" onClick="confirmDeletePlus('staffs.php?page=<?=(int)$_GET['page']?>&action=delete&id=<?=$row['id']?>', <?=$row['permission']?>);">
+                            	<a href="javascript:void(0);" onClick="confirmDeletePlus('staffs.php?action=delete&id=<?=$row['id']?><?=$getOrder?>', <?=$row['permission']?>, <?=$row['id']?>);">
                             		<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
 							<?php // } ?>
@@ -931,14 +892,12 @@ include("inc/return_dbcon.inc.php");
 		?>
     </div>
 </div>
-<? if($_GET['id'] !=''){
+		<? if($get['id'] !=''){ ?>
+			<script>
+			$("#boxid<?=$get['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
+			</script>
+		<? }?>
 
-
-				?>
-				<script>
-				$("#boxid<?=$_GET['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
-				</script>
-				<? }?>
 <?php
 	include_once("inc/left_nav.inc.php");
 ?>
@@ -950,12 +909,12 @@ include("inc/return_dbcon.inc.php");
 
 <?php
 
-			if($_GET['msg'] ==130)
+			if($get['msg'] ==130)
 			{
 			echo'<script>alert("新しいスタッフが登録されました");</script>';
 			}
-			if($_GET['err']){$err=$_GET['err'];}
-			if($_GET['msg']){$msg=$_GET['msg'];}
+			if($get['err']){$err=$get['err'];}
+			if($get['msg']){$msg=$get['msg'];}
 			echo $err;
 			///ERROR MESSAGE
 			if($err){
@@ -963,11 +922,37 @@ include("inc/return_dbcon.inc.php");
 			alert('".$obj->GetErrorMsgNew($err)."');
 			</script>";
 			}
-			if($msg && $_GET['msg'] !='130')
+			if($msg && $get['msg'] !='130')
 			echo "<script>
 			alert('".$obj->GetSuccessMsgNew($msg)."');
 			</script>";
-
-
-
 ?>
+
+<script>
+function sortAction(url) {
+
+	window.location = collecting_data(url);
+}
+
+function collecting_data(url) {
+
+var radio1  = document.stuff_form.permission[0].checked;
+var radio2  = document.stuff_form.subcription_mail[0].checked;
+var edit_data;
+var urlPlus;
+var perm, sub;
+	if (radio1==true) perm="333"; else perm="222";
+	if (radio2==true) sub="0"; else sub="1";
+
+	edit_data =             "&name="			+document.stuff_form.name.value;
+	edit_data = edit_data + "&username="		+document.stuff_form.username.value;
+	edit_data = edit_data + "&password="		+document.stuff_form.password.value;
+	edit_data = edit_data + "&permission="		+perm;
+	edit_data = edit_data + "&subcription_mail="+sub;
+	edit_data = edit_data + "&email="			+document.stuff_form.email.value;
+	edit_data = edit_data + "&conf_email="		+document.stuff_form.conf_email.value;
+
+	urlPlus = url+edit_data;
+	return urlPlus;
+}
+</script>

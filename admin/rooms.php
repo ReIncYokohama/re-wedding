@@ -261,9 +261,9 @@ include("inc/return_dbcon.inc.php");
 </div>
 <div id="container">
     <div id="contents">
-    	 <h2>  <div style="width:400px;">
+    	 <h4>  <div style="width:400px;">
             	 席次表・席札 &raquo; 会場レイアウト</div>
-        </h2>
+        </h4>
 		<h2><div style="width:1035px;"><?php if ($_SESSION['user_type'] =="222") {echo '会場レイアウト';} else {echo '会場レイアウト設定';} ?></div></h2>
          <?php
         	if(isset($_GET['err']) && $_GET['err']!='')

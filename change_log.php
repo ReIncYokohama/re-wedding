@@ -153,10 +153,10 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
                     <tr align="center">
                         
                         <!--<td  width="10%">Plan name</td>-->
-                        <td  width="24%" bgcolor="#993300" style="color:#FFFFFF">招待者名</td>
-                        <td  width="24%" bgcolor="#993300" style="color:#FFFFFF">Previous Status</td>
-                        <td  width="24%" bgcolor="#993300" style="color:#FFFFFF">Current Status</td>
-                        <td  width="24%" bgcolor="#993300" style="color:#FFFFFF">Modified Date</td>              
+                        <td  width="24%" bgcolor="#00C6FF" style="color:#FFFFFF">招待者名</td>
+                        <td  width="24%" bgcolor="#00C6FF" style="color:#FFFFFF">Previous Status</td>
+                        <td  width="24%" bgcolor="#00C6FF" style="color:#FFFFFF">Current Status</td>
+                        <td  width="24%" bgcolor="#00C6FF" style="color:#FFFFFF">Modified Date</td>              
                        
                     </tr>
                 </table>

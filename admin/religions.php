@@ -134,7 +134,7 @@ include("inc/return_dbcon.inc.php");
 
 	<div style="clear:both;"></div>
 	<div id="contents">
-		<h2><div style="width:300px;"> 席次表・席札  &raquo; 挙式種類</div></h2>
+		<h4><div style="width:300px;"> 席次表・席札  &raquo; 挙式種類</div></h4>
 		<!--<p class="txt3">
             <a href="default.php"><b>テーブル名</b></a>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <a href="respects.php"><b>敬称</b></a>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;

@@ -21,8 +21,7 @@
 
 	if($_POST['insert']=="insert")
 	{
-//		if(trim($_POST['num_gift_groups']) && trim($_POST['num_gift_items']) && trim($_POST['order_deadline']))
-		if(trim($_POST['num_gift_groups']) && trim($_POST['num_gift_items']))
+		if(trim($_POST['num_gift_groups']) && trim($_POST['num_gift_items']) && trim($_POST['order_deadline']))
 		{
 			$num=$obj->GetNumRows("spssp_gift_criteria"," 1=1");
 			if(!$num)
@@ -34,7 +33,7 @@
 
 				$spssp_gift_criteria_post[num_gift_items]=$post[num_gift_items];
 				$spssp_gift_criteria_post[num_gift_groups]=$post[num_gift_groups];
-//				$spssp_gift_criteria_post[order_deadline]=$post[order_deadline];
+				$spssp_gift_criteria_post[order_deadline]=$post[order_deadline];
 
 				$lastid = $obj->InsertData('spssp_gift_criteria',$spssp_gift_criteria_post);
 
@@ -58,26 +57,25 @@
 				}
 				else
 				{
-					//$err=1;
+					$err=1;
 				}
 			}
 			else
 			{
-				//$err=3;
+				$err=3;
 			}
 		}
 		else
 		{
-			//$err=2;
+			$err=2;
 		}
 	}
 
 	if($_POST['update']=="update")
 	{
-//		if(trim($_POST['num_gift_groups'])<=7 && trim($_POST['num_gift_items'])<=7 && trim($_POST['order_deadline']))
-		if(trim($_POST['num_gift_groups']) && trim($_POST['num_gift_items']))
+		if(trim($_POST['num_gift_groups'])<=7 && trim($_POST['num_gift_items'])<=7 && trim($_POST['order_deadline']))
 		{
-			$num=$obj->GetNumRows("spssp_gift_criteria"," 1=1");
+						$num=$obj->GetNumRows("spssp_gift_criteria"," 1=1");
 			if($num==1)
 			{
 				$post = $obj->protectXSS($_POST);
@@ -87,7 +85,7 @@
 
 				$spssp_gift_criteria_post[num_gift_items]=$post[num_gift_items];
 				$spssp_gift_criteria_post[num_gift_groups]=$post[num_gift_groups];
-//				$spssp_gift_criteria_post[order_deadline]=$post[order_deadline];
+				$spssp_gift_criteria_post[order_deadline]=$post[order_deadline];
 				$lastid = $obj->UpdateData('spssp_gift_criteria',$spssp_gift_criteria_post,"id=".$_POST['id']);
 
 					mysql_query("TRUNCATE TABLE `spssp_gift_group_default` ");
@@ -109,12 +107,12 @@
 			}
 			else
 			{
-				//$err=3;
+				$err=3;
 			}
 		}
 		else
 		{
-			//$err=2;
+			$err=2;
 		}
 	}
 	if($gift_criteria_num>0)
@@ -146,17 +144,17 @@
 				}
 				else
 				{
-					//$err=1;
+					$err=1;
 				}
 			}
 			else
 			{
-				//$err=3;
+				$err=3;
 			}
 		}
 		else
 		{
-			//$err=2;
+			$err=2;
 		}
 	}
 	if($_POST['update2']=="update")
@@ -181,17 +179,17 @@
 				}
 				else
 				{
-					//$err=1;
+					$err=1;
 				}
 			}
 			else
 			{
-				//$err=3;
+				$err=3;
 			}
 		}
 		else
 		{
-			//$err=2;
+			$err=2;
 		}
 	}
 	if($menu_criteria_num>0)
@@ -217,22 +215,22 @@
 <script type="text/javascript">
 var numgiftitems='<?=$gift_criteria_data_row[0]['num_gift_items']?>';
 var numgiftgroups='<?=$gift_criteria_data_row[0]['num_gift_groups']?>';
-//var orderdeadline='<?=$gift_criteria_data_row[0]['order_deadline']?>';
+var orderdeadline='<?=$gift_criteria_data_row[0]['order_deadline']?>';
 var nummenugroups = 3;
 $(document).ready(function(){
-/*
+
 	$('#num_gift_items').keyup(function(){
 		var r=isInteger("num_gift_items","引出物商品数は");
     });
     $('#num_gift_groups').keyup(function(){
 		var r=isInteger("num_gift_groups","引出物グループ数");
     });
-//	$('#order_deadline').keyup(function(){
-//		var r=isInteger("order_deadline","発注締切日は");
-//    });
+	$('#order_deadline').keyup(function(){
+		var r=isInteger("order_deadline","発注締切日は");
+    });
 	$('#num_menu_groups').keyup(function(){
 		var r=isInteger("num_menu_groups","子供料理数は");
-    });*/
+    });
 });
 
 function isInteger(id, kind_msg){
@@ -262,7 +260,7 @@ function validForm(x)
 {
 	var num_gift_groups  = document.getElementById('num_gift_groups').value;
 	var num_gift_items  = document.getElementById('num_gift_items').value;
-//	var order_deadline  = document.getElementById('order_deadline').value;
+	var order_deadline  = document.getElementById('order_deadline').value;
 	var num_menu_groups  = document.getElementById('num_menu_groups').value;
 	$r_flg = 0;
 
@@ -334,7 +332,6 @@ function validForm(x)
 //			 return false;
 		}
 	}
-/*
 	if(!order_deadline || order_deadline == 0)
 	{
 		 if($r_flg == 0)
@@ -346,7 +343,6 @@ function validForm(x)
 		 $r_flg = 1;
 //		 return false;
 	}
-
 	if(reg1.test(order_deadline) == false)
 	{
 		 if($r_flg == 0)
@@ -358,7 +354,6 @@ function validForm(x)
 		 $r_flg = 1;
 //		 return false;
 	}
-*/
 	if($r_flg == 1)
 	{
 	return false;
@@ -380,7 +375,6 @@ function validForm2()
 		if(num_menu_groups>3)
 		{
 			 alert("子供料理数の上限は3種類までです");
-			 document.menu_criteria_form.num_menu_groups.value = <?=$menu_criteria_data_row[0]['num_menu_groups']?>;
 			 document.getElementById('num_menu_groups').focus();
 			 return false;
 		}
@@ -395,8 +389,7 @@ function validForm2()
 	document.menu_criteria_form.submit();
 }
 // UCHIDA EDIT 11/08/09 半角英数字１文字のみ有効に設定
-//var gReg = /^[A-Za-z0-9]$/;
-var gReg = /^[Ａ-Ｚａ-ｚ０-９]$/;
+var gReg = /^[A-Za-z0-9]$/;
 function checkGroupForm(x)
 {	//alert(x);
 
@@ -405,7 +398,7 @@ function checkGroupForm(x)
 		var gval = $("#name"+y).val();
 		if(gReg.test(gval)==false && gval != "")
 		{
-			alert("全角英数字１文字で入力してください");
+			alert("半角英数字１文字で入力してください");
 			var error =1;
 			document.getElementById("name"+y).focus();
 			return false;
@@ -416,7 +409,6 @@ function checkGroupForm(x)
 		document.gift_criteria_form.submit();
 	}
 }
-
 </script>
 <div id="topnavi">
 <?php
@@ -542,7 +534,7 @@ unset($_SESSION['msg']);
 		  ?>
 				</td>
 			  </tr>
-			  <!-- <tr>
+			  <tr>
 				<td>発注締切日　　　：</td>
 				<td>
                 <?php if(($_SESSION['user_type']==111)||(($_SESSION['user_type']==333))){?>
@@ -555,8 +547,10 @@ unset($_SESSION['msg']);
 					<?
 					}
 				?>
+
+
             </td>
-			  </tr> -->
+			  </tr>
 			  <tr>
 				<td colspan="2">
 				<div style="margin:5px;float:left; padding-left:95px; clear:both;">
@@ -622,13 +616,13 @@ unset($_SESSION['msg']);
 <div style="width:1035px;">
      <h2>料理設定
 </h2>
-	<form  action="gift.php" method="post" name="menu_criteria_form" onsubmit="return false;">
+	<form  action="gift.php" method="post" name="menu_criteria_form">
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr>
     <td width="100">子供料理　　　　：</td>
     <td>
     <?php if(($_SESSION['user_type']==111)||(($_SESSION['user_type']==333))){?>
-    <input name="num_menu_groups" type="text" id="num_menu_groups" onkeydown="if (event.keyCode == 13) { validForm2(); }" size="10" <?=$ro?> value="<?=$menu_criteria_data_row[0]['num_menu_groups']?>" />
+    <input name="num_menu_groups" type="text" id="num_menu_groups" size="10" <?=$ro?> value="<?=$menu_criteria_data_row[0]['num_menu_groups']?>" />
       種類(最大3つまで)
       <?
 	}else{
@@ -657,6 +651,10 @@ else
 	</td>
   </tr>
 </table>
+
+
+
+
 
 	</form>
 	</div>

@@ -980,7 +980,7 @@ include("inc/return_dbcon.inc.php");
   様
 
     </div>
-        <h2><div style="width:500px; ">
+        <h4><div style="width:500px; ">
 	<!-- UCHIDA EDIT 11/08/02
 	        <a href="users.php">お客様一覧</a> &raquo; お客様挙式情報</div>
 	-->
@@ -993,7 +993,7 @@ include("inc/return_dbcon.inc.php");
 		}
 		?>
 		</div>
-        </h2>
+        </h4>
 		<div style="width:800px;">
         	<div class="navi">
             	<img src="img/common/navi01_on.jpg"/>
@@ -1007,13 +1007,11 @@ include("inc/return_dbcon.inc.php");
                 </a>
             </div>
         	<div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
-<?php if($_SESSION["super_user"]){
-?>
+<?php if($_SESSION["super_user"]){　?>
           <div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',500,200); return false;">
             <img src="img/common/navi05.jpg" class="on" />
           </a></div>
-             <?php }
-          ?>
+<?php } ?>
         	<div style="clear:both;"></div>
         </div>
         <br />

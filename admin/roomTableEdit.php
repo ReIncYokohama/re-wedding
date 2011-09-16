@@ -150,9 +150,9 @@ include("inc/return_dbcon.inc.php");
 </div>
 <div id="container">
     <div id="contents">
-    	 <h2> <div style="width:400px;">
+    	 <h4> <div style="width:400px;">
             	席次表・席札 &gt;&gt; <a href="rooms.php">会場レイアウト</a> &gt;&gt; 会場レイアウト卓名</div>
-        </h2>
+        </h4>
 		<h2><div style="width:350px">  会場レイアウト卓名設定</div></h2>
 
 

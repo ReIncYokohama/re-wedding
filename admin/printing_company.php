@@ -7,60 +7,63 @@
 	$get = $obj->protectXSS($_GET);
 	$post = $obj->protectXSS($_POST);
 
-	/*if($_SESSION['user_type'] != 111)
-	{
-		redirect("manage.php");
-	}
-*/
+//echo "sort : ".$post['h_action']." : ".$post['h_id'];
 
-	if(isset($post['company_name']) && $post['company_name'] != '' && isset($post['email']) && $post['email'] != '')
-	{
-		$id = (int)$post['insert_edit'];
-		unset($post['insert_edit']);
-		unset($post['conf_email']);
-		if($id <= 0)
+	if(isset($post['h_action']) && $post['h_action']!="" && (int)$post['h_id'] > 0) {
+		if($post['h_action']=='up' || $post['h_action']=='down')
 		{
+			$table = 'spssp_printing_comapny';
 
-			if(checkcompanyDuplicasy($post['company_name'])) {
-				$post['display_order'] = time();
-				$post['date'] = date();
-				$lid = $obj->InsertData("spssp_printing_comapny", $post);
-				if($lid > 0)
-				{
-	//				$msg = 1; // UCHIDA EDIT 11/08/01
-					echo "<script> alert('新しい印刷会社が登録されました'); </script>";
-				}
-				else
-				{
-					$err = 1;
-				}
-			}
-			else {
-				echo '<script> alert("既に同じ名前の印刷会社があるため、登録できませんでした"); </script>';
-			}
-		}
-		else
-		{
-			$obj->UpdateData("spssp_printing_comapny", $post," id=".$id);
-			echo '<script> alert("変更されました"); </script>';
-			//$msg = 2;
+			$id = $post['h_id'];
+			$move = $post['h_action'];
+			if($move=="down") $move="up"; else $move="down";
+			$obj->sortItem($table,$id,$move);
+			$get['id']=0;
 		}
 
-	}
-	if(isset($get['action']) && $get['action'] == 'delete')
-	{
-		$id = (int)$get['id'];
-		if($id > 0)
+		if($post['h_action'] == 'delete')
 		{
+			$id = (int)$post['h_id'];
 			$obj->DeleteRow("spssp_printing_comapny", "id=".$id);
-//			$msg = 3;
-//			redirect('printing_company.php'); // UCHIDA EDIT 11/08/01
+			$get['id']=(int)$post['insert_edit'];
 		}
-		else
+
+	}
+	else {
+		if(isset($post['company_name']) && $post['company_name'] != '' && isset($post['email']) && $post['email'] != '')
 		{
-			$err = 11;
+			$id = (int)$post['insert_edit'];
+			unset($post['insert_edit']);
+			unset($post['conf_email']);
+			if($id <= 0)
+			{
+
+				if(checkcompanyDuplicasy($post['company_name'])) {
+					$post['display_order'] = time();
+					$post['date'] = date();
+					$lid = $obj->InsertData("spssp_printing_comapny", $post);
+					if($lid > 0)
+					{
+		//				$msg = 1; // UCHIDA EDIT 11/08/01
+						echo "<script> alert('新しい印刷会社が登録されました'); </script>";
+					}
+					else
+					{
+						$err = 1;
+					}
+				}
+				else {
+					echo '<script> alert("既に同じ名前の印刷会社があるため、登録できませんでした"); </script>';
+				}
+			}
+			else
+			{
+				$obj->UpdateData("spssp_printing_comapny", $post," id=".$id);
+				echo '<script> alert("変更されました"); </script>';
+				//$msg = 2;
+			}
+
 		}
-		$get['id']=0;
 	}
 
 function checkcompanyDuplicasy( $cname )
@@ -88,7 +91,6 @@ $(document).ready(function(){
     });
 
 });
-
 function isInteger(id){
 
  var i;
@@ -110,6 +112,9 @@ function isInteger(id){
     // All characters are numbers.
     return true;
 }
+</script>
+
+<script>
 function new_table()
 {
 	$("#insert_edit").val("0");
@@ -229,34 +234,70 @@ function edit_name(id, name,email,number,postcode,address_1,address_2,contact_na
 	//{
 
 	 window.location='printing_company.php?id='+id;
-		//<!--$("#insert_edit").val(id);
-//		$("#company_name").val(name);
-//		$("#email").val(email);
-//		$("#conf_email").val(email);
-//		$("#number").val(number);
-//		$("#postcode").val(postcode);
-//		$("#address_1").val(address_1);
-//		$("#address_2").val(address_2);
-//		$("#contact_name").val(contact_name);
-//		//if(status=="1")
-//			//$('input:radio[name=status]')[0].checked = true;
-//		//if(status=="0")
-//			//$('input:radio[name=status]')[1].checked = true;
-//
-//		$("#new_table").fadeOut(100);
-//		$("#new_table").fadeIn(500);-->
-	//}
-}
+/*
+		$("#insert_edit").val(id);
+		$("#company_name").val(name);
+		$("#email").val(email);
+		$("#conf_email").val(email);
+		$("#number").val(number);
+		$("#postcode").val(postcode);
+		$("#address_1").val(address_1);
+		$("#address_2").val(address_2);
+		$("#contact_name").val(contact_name);
+		$("#new_table").fadeOut(100);
+		$("#new_table").fadeIn(100);
 
-function confirmDeletePlus(urls)
-{
-   	var agree = confirm("削除してもよろしいですか？");
-	if(agree)
-	{
-		window.location.href = urls;
-	}
+		$("#boxid"+id).css({backgroundColor: "#FFF0FF", color: "#990000"});
+*/
 }
 </script>
+
+<script>
+
+
+function sortAction(id, action) {
+
+	document.forms["name_list"+id].h_company_name.value = $("#company_name").val();
+	document.forms["name_list"+id].h_email.value        = $("#email").val();
+	document.forms["name_list"+id].h_conf_email.value   = $("#conf_email").val();
+	document.forms["name_list"+id].h_number.value       = $("#number").val();
+	document.forms["name_list"+id].h_postcode.value     = $("#postcode").val();
+	document.forms["name_list"+id].h_address_1.value    = $("#address_1").val();
+	document.forms["name_list"+id].h_address_2.value    = $("#address_2").val();
+	document.forms["name_list"+id].h_contact_name.value = $("#contact_name").val();
+	document.forms["name_list"+id].h_id.value           = id;
+	document.forms["name_list"+id].h_action.value       = action;
+//alert("name_list"+id+" : "+action);
+	document.forms["name_list"+id].submit();
+}
+
+function confirmDeletePlus(id, action)
+{
+var get_id = <?=$get['id']  ?>;
+	var agree = confirm("削除してもよろしいですか？");
+	if(agree)
+	{
+		if (get_id != id) {
+			document.forms["name_list"+id].h_company_name.value = $("#company_name").val();
+			document.forms["name_list"+id].h_email.value        = $("#email").val();
+			document.forms["name_list"+id].h_conf_email.value   = $("#conf_email").val();
+			document.forms["name_list"+id].h_number.value       = $("#number").val();
+			document.forms["name_list"+id].h_postcode.value     = $("#postcode").val();
+			document.forms["name_list"+id].h_address_1.value    = $("#address_1").val();
+			document.forms["name_list"+id].h_address_2.value    = $("#address_2").val();
+			document.forms["name_list"+id].h_contact_name.value = $("#contact_name").val();
+			document.forms["name_list"+id].insert_edit.value    = get_id;
+		}
+
+		document.forms["name_list"+id].h_id.value           = id;
+		document.forms["name_list"+id].h_action.value       = action;
+//alert("name_list"+id+" : "+action+" : "+document.forms["name_list"+id].insert_edit.value);
+		document.forms["name_list"+id].submit();
+	}
+}
+
+</script>
+
 <div id="topnavi">
     <?php
 include("inc/main_dbcon.inc.php");
@@ -278,7 +319,7 @@ include("inc/return_dbcon.inc.php");
 
 	<div style="clear:both;"></div>
 	<div id="contents">
-		<h2><div style="width:200px;">印刷会社</div></h2>
+		<h4><div style="width:200px;">印刷会社</div></h4>
 		<!--<p class="txt3">
             <a href="default.php"><b>テーブル名</b></a>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <a href="respects.php"><b>敬称</b></a>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
@@ -307,12 +348,22 @@ include("inc/return_dbcon.inc.php");
         </p></div>-->
 
 		<div  id="new_table" style="display:block; width:1200px;">
-        	<? if($_GET['id']) {
-			$comp= $obj->GetSingleRow('spssp_printing_comapny','id='.$_GET['id']);
+        	<? if($get['id']) {
+				$comp= $obj->GetSingleRow('spssp_printing_comapny','id='.$get['id']);
+				$comp[conf_email] = $comp[email];
+			}
+			if ($post['h_id'] > 0) {
+				unset($comp);
+				$comp[company_name] = $post['h_company_name'];
+				$comp[email]        = $post['h_email'];
+				$comp[conf_email]   = $post['h_conf_email'];
+				$comp[number]       = $post['h_number'];
+				$comp[postcode]     = $post['h_postcode'];
+				$comp[address_1]    = $post['h_address_1'];
+				$comp[address_2]    = $post['h_address_2'];
+				$comp[contact_name] = $post['h_contact_name'];
 			}
 
-// UCHIDA EDIT 11/08/02
-//			if($_SESSION['user_type'] == '222' && $_GET['id'] !='') {
 			if($_SESSION['user_type'] == '222') { // スタッフログイン
 			?>
 			 <table style="width:1200px;" >
@@ -375,7 +426,7 @@ include("inc/return_dbcon.inc.php");
 					<tr>
 						<td>メールアドレス確認用<span style="color:red;">*</span> :</td>
 						<!--  UCHIDA EDIT 11/08/08 確認用メールアドレスのペーストを禁止 -->
-						<td onpaste="alert('メールアドレス確認用は貼り付けできません');return false;"><input type="text" name="conf_email" id="conf_email" size="30" value="<?=$comp[email]?>"  /></td>
+						<td onpaste="alert('メールアドレス確認用は貼り付けできません');return false;"><input type="text" name="conf_email" id="conf_email" size="30" value="<?=$comp[conf_email]?>"  /></td>
 					</tr>
 					<tr>
 						<td>電話番号 :</td>
@@ -383,7 +434,7 @@ include("inc/return_dbcon.inc.php");
 					</tr>
 					<tr>
 						<td>郵便番号 :</td>
-						<td><input name="postcode" type="text" id="postcode" value="<?=$comp[postcode]?>" size="8" maxlength="8" />（例　231-0000）</td>
+						<td><input name="postcode" type="text" id="postcode" value="<?=$comp[postcode]?>" size="10" maxlength="8" />（例　231-0000）</td>
 					</tr>
 					<tr>
 						<td>住所1 :</td>
@@ -397,6 +448,7 @@ include("inc/return_dbcon.inc.php");
 						<td>担当者名 :</td>
 						<td><input name="contact_name" type="text" id="contact_name" value="<?=$comp[contact_name]?>" size="10"  /></td>
 					</tr>
+					<tr><td>&nbsp;</td></tr>
 				<!--	<tr>
 						<td width="10%">表示する :</td>
 						<td width="90%">
@@ -427,7 +479,6 @@ include("inc/return_dbcon.inc.php");
 	//}
 	?>
 
-
         <p>&nbsp;</p>
         <div class="box_table" style="width:800px;">
             <div class="box4">
@@ -442,7 +493,7 @@ include("inc/return_dbcon.inc.php");
               </table>
             </div>
             <?php
-			    $orderItem = ($_GET['sort'] =='')?'ASC': $_GET['sort'];
+			    $orderItem = ($get['sort'] =='')?'ASC': $get['sort'];
             	$query_string="SELECT * FROM spssp_printing_comapny  ORDER BY display_order $orderItem ;";
 				$data_rows = $obj->getRowsByQuery($query_string);
 
@@ -460,6 +511,7 @@ include("inc/return_dbcon.inc.php");
 						$class = 'box6';
 					}
 			?>
+        		<form action="printing_company.php" method="post" name="name_list<?=$row['id']?>" id="name_list<?=$row['id']?>">
             	 <div class="<?=$class?>" id="boxid<?=$row['id']?>">
             		<table border="0" align="center" cellpadding="1" cellspacing="1">
             			<tr align="center">
@@ -467,17 +519,19 @@ include("inc/return_dbcon.inc.php");
                             <td><b><?=$row['company_name']?></b></td>
 							<?php if($_SESSION['user_type']=='333'){?>
 							<td>
-								 <span class="txt1"><a href="sort.php?table=printing_comapny&sort=ASC&move=up&id=<?=$row['id']?>&pagename=printing_company">▲</a>
-	                             <a href="sort.php?table=printing_comapny&sort=ASC&move=down&id=<?=$row['id']?>&pagename=printing_company"> ▼</a></span>
+								 <span class="txt1">
+								 <a href="javascript:void(0);" onclick="sortAction(<?=$row['id']?>,'up');">▲</a>
+	                             <a href="javascript:void(0);" onclick="sortAction(<?=$row['id']?>,'down');"> ▼</a>
+	                             </span>
               				</td>
 							<?php } else {?>
 									<td></td>
 								<? } ?>
 
                             <td>
-                            	<a href="#" onclick="edit_name(<?=$row['id']?>,'<?=$row['company_name']?>','<?=$row['email']?>','<?=$row['number']?>','<?=$row['postcode']?>','<?=$row['address_1']?>','<?=$row['address_2']?>','<?=$row['contact_name']?>','<?=$row['status']?>',<?=$_SESSION['user_type']?>);">
+                            	<a href="javascript:void(0);"  onclick="edit_name(<?=$row['id']?>,'<?=$row['company_name']?>','<?=$row['email']?>','<?=$row['number']?>','<?=$row['postcode']?>','<?=$row['address_1']?>','<?=$row['address_2']?>','<?=$row['contact_name']?>','<?=$row['status']?>',<?=$_SESSION['user_type']?>);">
 							<?php
-	  							if($_SESSION['user_type'] != 222) { ?>
+	  							if($_SESSION['user_type'] == 333) { ?>
                                 	<!-- <img src="img/common/btn_regist_update.gif" /> -->
                                 	<img src="img/common/btn_edit02.gif" />
 								<? } else { ?>
@@ -489,7 +543,7 @@ include("inc/return_dbcon.inc.php");
 
 							<?php if($_SESSION['user_type']=='333'){?>
 							<td>
-                            	<a href="javascript:void(0);" onClick="confirmDeletePlus('printing_company.php?action=delete&id=<?=$row['id']?>');">
+                            	<a href="javascript:void(0);" onClick="confirmDeletePlus(<?=$row['id']?>,'delete');">
                                 	<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
                             </td>
@@ -501,6 +555,18 @@ include("inc/return_dbcon.inc.php");
             			</tr>
                      </table>
         		</div>
+					 <input type="hidden"  name="h_company_name" id="h_company_name" />
+					 <input type="hidden"  name="h_email"        id="h_email"        />
+					 <input type="hidden"  name="h_conf_email"   id="h_conf_email"   />
+					 <input type="hidden"  name="h_number"       id="h_number"       />
+					 <input type="hidden"  name="h_postcode".    id="h_postcode"     />
+					 <input type="hidden"  name="h_address_1"    id="h_address_1"    />
+					 <input type="hidden"  name="h_address_2"    id="h_address_2"    />
+					 <input type="hidden"  name="h_contact_name" id="h_contact_name" />
+					 <input type="hidden"  name="h_id"           id="h_id"           />
+					 <input type="hidden"  name="h_action"       id="h_action"       />
+	            	 <input type="hidden"  name="insert_edit"    id="insert_edit"    />
+        		</form>
              <?php
 			 	$i++;
 				$j++;
@@ -508,14 +574,18 @@ include("inc/return_dbcon.inc.php");
 			 ?>
 
 			</div>
-			<? if($_GET['id'] !=''){
-
-
-				?>
+			<div id="selectMark">
+			<? if($get['id'] !=''){ ?>
 				<script>
-				$("#boxid<?=$_GET['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
+				$("#boxid<?=$get['id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
 				</script>
-				<? }?>
+			<? } else if ($post['h_id'] > 0) { ?>
+				<script>
+				$("#boxid<?=$post['h_id']?>").css({backgroundColor: "#FFF0FF", color: "#990000"});
+				</script>
+				<?php $get['id'] = $post['h_id']; ?>
+			<? } ?>
+			</div>
         </div>
  </div>
 <?php
@@ -524,7 +594,10 @@ include("inc/return_dbcon.inc.php");
 ?>
 <?php if(isset($err)){echo "<script>
 			alert('".$obj->GetErrorMsgNew($err)."');
-			</script>";}?>
+			</script>";}
+?>
 		<?php if(isset($msg)){echo "<script>
 			alert('".$obj->GetSuccessMsgNew($msg)."');
-			</script>";}?>
+			</script>";}
+?>
+

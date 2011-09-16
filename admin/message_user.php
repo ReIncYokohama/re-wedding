@@ -144,6 +144,24 @@ function validForm_Edit()
 	document.msg_form_edit.submit();
 }
 </script>
+<script type="text/javascript"><!--
+function m_win(url,windowname,width,height) {
+ var features="location=no, menubar=no, status=yes, scrollbars=yes, resizable=yes, toolbar=no";
+ if (width) {
+  if (window.screen.width > width)
+   features+=", left="+(window.screen.width-width)/2;
+  else width=window.screen.width;
+  features+=", width="+width;
+ }
+ if (height) {
+  if (window.screen.height > height)
+   features+=", top="+(window.screen.height-height)/2;
+  else height=window.screen.height;
+  features+=", height="+height;
+ }
+ window.open(url,windowname,features);
+}
+// --></script>
 <div id="topnavi">
     <?php
 include("inc/main_dbcon.inc.php");
@@ -170,7 +188,7 @@ include("inc/return_dbcon.inc.php");
   様
     </div>
 
-	 <h2><div style="width:400px">
+	 <h4><div style="width:400px">
 <!--                  <a href="users.php">お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報 </a>&raquo; メッセージ</div> -->
 		<?php
 		if($stuff_id==0) {
@@ -182,12 +200,18 @@ include("inc/return_dbcon.inc.php");
 		?>
 		</div>
 
-        </h2>
+        </h4>
         <div  style="width:800px;"><div class="navi"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi01.jpg" class="on" /></a></div>
-      <div class="navi"><img src="img/common/navi02_on.jpg" /></div>
-      <div class="navi"><a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank"><img src="img/common/navi03.jpg" class="on" /></a></div>
-     <div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
-      <div style="clear:both;"></div></div>
+        <div class="navi"><img src="img/common/navi02_on.jpg" /></div>
+        <div class="navi"><a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank"><img src="img/common/navi03.jpg" class="on" /></a></div>
+        <div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
+<?php if($_SESSION["super_user"]){ ?>
+          <div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',500,200); return false;">
+            <img src="img/common/navi05.jpg" class="on" />
+          </a></div>
+<?php } ?>
+        <div style="clear:both;"></div>
+        </div>
       <br />
      <!-- <p class="txt3"><a href="#" onclick="view_user_msg_count(<?=$user_id?>);"><img src="img/common/btn_message.jpg" width="112" height="22" /></a></p>-->
        <div id="insert_msg" style="display:none;">

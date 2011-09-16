@@ -82,7 +82,7 @@ include("inc/return_dbcon.inc.php");
 ・
   <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20);?>
   様
-		 <h2>
+		 <h4>
 <!-- UCHIDA EDIT 11/08/02
             <a href="users.php">お客様一覧 </a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様画面挙式情報 </a> &raquo; お客様画面アクセスログ
  -->
@@ -95,7 +95,7 @@ include("inc/return_dbcon.inc.php");
 		<?php }
 		?>
 
-        </h2>
+        </h4>
 		<h2>お客様画面アクセスログ</h2>
 
 <!-- UCHIDA EDIT 11/08/04 ↓ -->
@@ -110,15 +110,15 @@ include("inc/return_dbcon.inc.php");
       		<div class="box4">
                 <table border="0" width="100%" align="center" cellpadding="1" cellspacing="3">
                     <tr align="center">
-                        <td align="left" width="5%" bgcolor="#993300" style="color:#FFFFFF">No.</td>
+                        <td align="left" width="5%" bgcolor="#2252A3" style="color:#FFFFFF">No.</td>
 <!-- UCHIDA EDIT 11/08/04
-                        <td align="left" width="22%" bgcolor="#993300" style="color:#FFFFFF">最終ログイン</td>
-						<td align="left" width="22%" bgcolor="#993300" style="color:#FFFFFF">ログイン名</td>
-                        <td align="left" width="22%" bgcolor="#993300" style="color:#FFFFFF">最後のログアウト</td>
+                        <td align="left" width="22%" bgcolor="#2252A3" style="color:#FFFFFF">最終ログイン</td>
+						<td align="left" width="22%" bgcolor="#2252A3" style="color:#FFFFFF">ログイン名</td>
+                        <td align="left" width="22%" bgcolor="#2252A3" style="color:#FFFFFF">最後のログアウト</td>
  -->
-                        <td align="left" width="22%" bgcolor="#993300" style="color:#FFFFFF">アクセス日時</td>
-						<td align="left" width="22%" bgcolor="#993300" style="color:#FFFFFF">ログイン名</td>
-                        <td align="left" width="22%" bgcolor="#993300" style="color:#FFFFFF">状態</td>
+                        <td align="left" width="22%" bgcolor="#2252A3" style="color:#FFFFFF">アクセス日時</td>
+						<td align="left" width="22%" bgcolor="#2252A3" style="color:#FFFFFF">ログイン名</td>
+                        <td align="left" width="22%" bgcolor="#2252A3" style="color:#FFFFFF">状態</td>
 
                     </tr>
                 </table>
