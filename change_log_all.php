@@ -164,13 +164,13 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 
                         <!--<td  width="10%">Plan name</td>-->
                         <td  width="15%" bgcolor="#00C6FF" style="color:#FFFFFF">アクセス日時</td>
-                        <td  width="15%" bgcolor="#00C6FF" style="color:#FFFFFF">ログイン名</td>
-                        <td  width="13%" bgcolor="#00C6FF" style="color:#FFFFFF">アクセス画面名</td>
+                        <td  width="14%" bgcolor="#00C6FF" style="color:#FFFFFF">ログイン名</td>
+                        <td  width="14%" bgcolor="#00C6FF" style="color:#FFFFFF">アクセス画面名</td>
                         <td  width="13%" bgcolor="#00C6FF" style="color:#FFFFFF">修正対象者</td>
-						<td  width="13%" bgcolor="#00C6FF" style="color:#FFFFFF">修正種別</td>
+						<td  width="7%" bgcolor="#00C6FF" style="color:#FFFFFF">修正種別</td>
 						<td  width="10%" bgcolor="#00C6FF" style="color:#FFFFFF">変更項目名</td>
-						<td  width="10%" bgcolor="#00C6FF" style="color:#FFFFFF">変更前情報</td>
-						<td  width="10%" bgcolor="#00C6FF" style="color:#FFFFFF">変更後情報</td>
+						<td  width="13%" bgcolor="#00C6FF" style="color:#FFFFFF">変更前情報</td>
+						<td  width="13%" bgcolor="#00C6FF" style="color:#FFFFFF">変更後情報</td>
 
 
                     </tr>
@@ -206,7 +206,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
                            <td  width="15%">
                             	&nbsp;<?=$row[date]?>
                             </td>
-							<td  width="15%">
+							<td  width="14%">
 <!-- UCHIDA EDIT 11/08/04  -->
 <!--                             	<?php if($stuff_name!="") echo $stuff_name; else echo "お客様"; ?> -->
 								<?php
@@ -222,7 +222,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 								echo $msg;
 								?>
 							</td>
-							<td  width="13%">
+							<td  width="14%">
 							<?php if($row[type]==1) { ?>
                             	席次表編集
 							<?php } else { ?>
@@ -240,41 +240,41 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 							<?php } ?>
 							</td>
 							<?php if($row[type]==3) { ?>
-							<td  width="13%">
+							<td  width="7%">
 							削除
 							</td>
 							<td   width="10%">
 							<!--<font color="#FF0000">Blank</font>-->
 							&nbsp;
                             </td>
-							<td   width="10%">
+							<td   width="13%">
 							<!--<font color="#FF0000">Blank</font>-->
 							&nbsp;
 							</td>
-							<td   width="10%">
+							<td   width="13%">
 							<!--<font color="#FF0000">Blank</font>-->
 							&nbsp;
 							</td>
 
 							<?php } else if($row[type]==4) { ?>
-							<td  width="13%">
+							<td  width="7%">
 							新規
 							</td>
 							<td   width="10%">
 							<!--<font color="#FF0000">Blank</font>-->
 							&nbsp;
                             </td>
-							<td   width="10%">
+							<td   width="13%">
 							<!--<font color="#FF0000">Blank</font>-->
 							&nbsp;
 							</td>
-							<td   width="10%">
+							<td   width="13%">
 							<!--<font color="#FF0000">Blank</font>-->
 							&nbsp;
 							</td>
 							<?php
 							 } else if($row[type]==2) { ?>
-							<td  width="13%">
+							<td  width="7%">
 							変更
 							</td>
                             <td   width="10%">
@@ -355,7 +355,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 									}
 								?>
 							</td>
-							 <td   width="10%">
+							 <td   width="13%">
 								<?php
 									$before_log_array=explode("|",$row['previous_status']);
 									$after_log_array=explode("|",$row['current_status']);
@@ -462,7 +462,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 									}
 								?>
 							</td>
-                            <td  width="10%">
+                            <td  width="13%">
 							<?php
 									$before_log_array=explode("|",$row['previous_status']);
 									$after_log_array=explode("|",$row['current_status']);
@@ -642,7 +642,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 								}
 
 							?>
-							<td  width="13%">
+							<td  width="7%">
 							<?php
 							if($tblname_prev=="")
 							echo "新規";
@@ -651,7 +651,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 							?>
 							</td>
 							<td  width="10%">席次表</td>
-                            <td   width="10%">
+                            <td   width="13%">
 							<?php
 							if($tblname_prev!="")
 							{
@@ -668,7 +668,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 									}
 								?>
 							</td>
-                            <td  width="10%">
+                            <td  width="13%">
 							<?php
 								if($tblname_current!="")
 								{
@@ -699,11 +699,18 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 			 ?>
 
         </div>
-     <div align="center"><a href="user_info.php?user_id=<?=$user_id?>">&lt;&lt;戻る</a></div> <!-- UCHIDA EDIT 11/08/04 -->
-    </div>
+        <div align="center"> 
+        <table width="875px" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><div style="height:20px; text-align:right"><a href="#">▲ページ上へ</a></div></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/btn_back_user.gif" width="43" height="17" alt="戻る" /></a></td>
+  </tr>
+</table></div>
 </div>
-</div>
-<div style="height:18px; text-align:right"><a href="#">▲ページ上へ</a></div>
+
+</div><br /><br />
 <?php
 include("inc/new.footer.inc.php");
 ?>

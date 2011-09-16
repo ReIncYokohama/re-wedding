@@ -68,7 +68,7 @@ $(function(){
       		<div class="box4">
                 <table border="0" width="875" align="center" cellpadding="3" cellspacing="1">
                     <tr align="center">
-                        <td align="left" width="5%" bgcolor="#00C6FF" style="color:#FFFFFF">No.</td>
+                        <td align="center" width="5%" bgcolor="#00C6FF" style="color:#FFFFFF">No.</td>
 <!--
                         <td align="left" width="22%" bgcolor="#00C6FF" style="color:#FFFFFF">最終ログイン</td>
 						<td align="left" width="22%" bgcolor="#00C6FF" style="color:#FFFFFF">ログイン名</td>
@@ -111,7 +111,7 @@ $(function(){
 									$msg = $stuff_name;
 								}
 
-								echo "<td align='left' width='5%'>$j</td>";
+								echo "<td align='center' width='5%'>$j</td>";
 								$time = str_replace('-','/',$row['login_time']); echo "<td align='left' width='22%'>$time</td>";
 								echo "<td align='left' width='22%'>$msg</td>";
 								if ($msg != "お客様") {
@@ -124,7 +124,7 @@ $(function(){
 									$time2 = str_replace('-','/',$row['logout_time']);
 									if ($time2 != "0000/00/00 00:00:00" and $time != $time2) {
 										echo "<tr align='center'>";
-										$j++; echo "<td align='left' width='5%'>$j</td>";
+										$j++; echo "<td align='center' width='5%'>$j</td>";
 										echo "<td align='left' width='22%'>$time2</td>";
 										echo "<td align='left' width='22%'>$msg</td>";
 										echo "<td align='left' width='22%'>ログアウト</td>";
@@ -132,8 +132,8 @@ $(function(){
 									}
 									else {
 											echo "<tr align='center'>";
-											$j++; echo "<td align='left' width='5%'>$j</td>";
-											echo "<td align='left' width='22%'style='font-size:100%;' >----/--/-- --:--:--</td>";
+											$j++; echo "<td align='center' width='5%'>$j</td>";
+											echo "<td align='left' width='22%'style='font-size:100%;' >----&nbsp;/&nbsp;&nbsp;--&nbsp;/&nbsp;&nbsp;--&nbsp;&nbsp;--&nbsp;:&nbsp;--&nbsp;:&nbsp;--</td>";
 											echo "<td align='left' width='22%'>$msg</td>";
 											echo "<td align='left' width='22%'>画面消去</td>";
 											echo "</tr>";
@@ -149,11 +149,18 @@ $(function(){
 			 	}
 			 ?>
         </div>
-    <div align="center"><a href="user_info.php?user_id=<?=$user_id?>">&lt;&lt;戻る</a></div> <!-- UCHIDA EDIT 11/07/28 -->
-    </div>
+        <div align="center"> 
+        <table width="875px" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><div style="height:20px; text-align:right"><a href="#">▲ページ上へ</a></div></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/btn_back_user.gif" width="43" height="17" alt="戻る" /></a></td>
+  </tr>
+</table></div>
 </div>
-<div style="height:18px; text-align:right"><a href="#">▲ページ上へ</a></div>
-</div>
+
+</div><br /><br />
 <?php
 include("inc/new.footer.inc.php");
 ?>
