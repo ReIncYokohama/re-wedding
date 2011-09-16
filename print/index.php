@@ -168,6 +168,8 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 	  </form>
 </div><div class="clr"></div>
 <div><img src="../img/bar_recommended.jpg" /></div>
+		<!-- UCHIDA EDIT 11/07/26 -->
+		<script type="text/javascript"> document.loginform.userID.focus(); </script>
 <div>
 
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 Start -->
@@ -196,8 +198,6 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 </tr>
 </table>
 </div>
-		<!-- UCHIDA EDIT 11/07/26 -->
-		<script type="text/javascript"> document.loginform.userID.focus(); </script>
 </div>
 </div>
 </div>

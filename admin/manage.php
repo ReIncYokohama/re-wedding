@@ -387,7 +387,7 @@ function validSearch()
 		}
 		if (date_from != "" && date_to != "") {
 			if (date_from > date_to) {
-				alert("披露宴開始日より終了日が後の日付になっています。\n披露宴日の検索範囲を正しく指定してください");
+				alert("検索開始日より検索終了日が先になっています。\n検索範囲を正しく指定してください");
 				return false;
 			}
 		}
@@ -507,19 +507,19 @@ include("inc/return_dbcon.inc.php");
 
 			  <tr style="height:30px;">
 				<td width="80">披露宴日：</td>
-				<td width="169"><input name="date_from" type="text" id="date_from"    style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
+				<td width="169"><input name="date_from" type="text" id="date_from" value="<?=$post['date_from']?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
 
 				<!-- UCHIDA EDIT 11/07/26 -->
 			    <!-- <td width="62" >～</td> -->
 			    <td width="80" >～</td>
 
-				<td width="389"><input name="date_to" type="text" id="date_to"   style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>
+				<td width="389"><input name="date_to" type="text" id="date_to" value="<?=$post['date_to']?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>
 			  </tr>
 			  <tr style="height:30px;">
 				<td>新郎姓：</td>
-				<td><input name="man_lastname" type="text" id="man_lastname"  class="input_text" /></td>
+				<td><input name="man_lastname" type="text" id="man_lastname"  class="input_text"  value="<?=$post['mname']?>" /></td>
 			    <td>新婦姓：</td>
-				<td><input name="woman_lastname" type="text" id="woman_lastname" class="input_text" /></td>
+				<td><input name="woman_lastname" type="text" id="woman_lastname" class="input_text" value="<?=$post['wname']?>" /></td>
 			  </tr>
 			  </table>
 
@@ -612,7 +612,7 @@ include("inc/return_dbcon.inc.php");
                     <tr align="center">
 						<td  width="70"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
 
-                        <td width="150" align="left">
+                        <td width="150">
                         <?php
                           $man_name = $objinfo->get_user_name_image_or_src($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
 						  if($man_name==false){$man_name = $row['man_firstname']." ".$row['man_lastname'].' 様';}
@@ -620,7 +620,7 @@ include("inc/return_dbcon.inc.php");
 					   ?>
                         </td>
 
-                        <td width="150" align="left">
+                        <td width="150">
                         <?php
                            $woman_name = $objinfo->get_user_name_image_or_src($row['id'],$hotel_id=1 , $name="woman_fullname.png",$extra="thumb1");
 						   if($woman_name==false){$woman_name = $row['woman_firstname']." ".$row['woman_lastname'].' 様';}
@@ -740,10 +740,10 @@ include("inc/return_dbcon.inc.php");
                             <ul class="ul3">
 
                             <?php
-include("inc/main_dbcon.inc.php");
- $super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," show_it=1 order by id desc");
-  
-include("inc/return_dbcon.inc.php");
+	include("inc/main_dbcon.inc.php");
+ 	$super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," show_it=1 order by id desc");
+
+ include("inc/return_dbcon.inc.php");
  foreach($super_messeges as $msg)
                                 {
                                     echo "<li><span class='date2'>".date('Y/m/d',$msg['display_order'])."</span> &nbsp; &nbsp; &nbsp; &nbsp;

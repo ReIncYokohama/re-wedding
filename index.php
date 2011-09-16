@@ -260,7 +260,7 @@ $(function(){
 	    <div class="clr"></div>
 	    </div>
 		<!-- UCHIDA EDIT 11/07/26 -->
-		<script type="text/javascript"> document.login_form.adminid.focus(); </script>
+		<script type="text/javascript"> document.login_form.userID.focus(); </script>
 </div>
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
 	</div>
