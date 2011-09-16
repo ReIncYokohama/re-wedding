@@ -1,240 +1,166 @@
 <?php
-	include_once("inc/dbcon.inc.php");
-<<<<<<< HEAD
-	include_once(dirname(__FILE__)."/../../madmin/conf/version.php");
+@session_start();
+include_once("../admin/inc/include_class_files.php");
+$obj = new DBO();
+$objInfo = new InformationClass();
 
-	if($_SESSION['super_adminid']!="")
-	{
-		redirect("hotel.php");
-	}
+$user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
+//$printCompany_id = $objInfo->get_print_company_id_md5( $_GET['print_company']);
 
-=======
-	if($_SESSION['super_adminid']!="")
-	{
-		redirect("hotel.php");
-	}
-
->>>>>>> 488ad7f35a7d858268f2a5d50927c53e55d95bc3
-	$id=$_GET['adminid']; // UCHIDA EDIT 11/08/17 ＩＤを再表示
-
-	if($_GET['action']=='failed')
-	{
-		echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください"); </script>';
-		//redirect("index.php");
-	}
-<<<<<<< HEAD
-
-	if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
-	{
-		$query_string="SELECT * FROM super_spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' LIMIT 0,1;";
-
-=======
-
-	if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
-	{
-		$query_string="SELECT * FROM super_spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' LIMIT 0,1;";
-
->>>>>>> 488ad7f35a7d858268f2a5d50927c53e55d95bc3
-		$db_result=mysql_query($query_string);
-		if(mysql_num_rows($db_result))
-		{
-			if($db_row=mysql_fetch_array($db_result))
-			{
-
-				$_SESSION['super_adminid']=$db_row['id'];
-// UCHIDA EDIT 11/08/11
-// UCHIDA EDIT 11/09/07
-//				redirect("manage.php");
-				redirect("hotel.php");
-			}
-			else
-			{
-				// UCHIDA EDIT 11/08/17 ＩＤを再表示
-				$id=$_POST['adminid'];
-				redirect("index.php?adminid=$id&action=failed");
-			}
-		}
-		else
-		{
-			// UCHIDA EDIT 11/08/17 ＩＤを再表示
-			$id=$_POST['adminid'];
-			redirect("index.php?adminid=$id&action=failed");
-		}
-	}
-	else
-	{
-		@session_destroy();
-	}
-?>
-
-<script type="text/javascript">
-var reg = /^[A-Za-z0-9]{1,32}$/; // UCHIDA EDIT 11/07/26
-function login_admin()
+if($user_id  && $printCompany_id )
 {
-	var adminid = document.getElementById('adminid').value;
-	if(adminid =="") {
-		alert("ログインIDが未入力です");
-		document.getElementById('adminid').focus();
-		return false;
-	}
- 	if(reg.test(adminid) == false) {
-		alert("ログインIDは半角英数字で入力してください");
-		document.getElementById('adminid').focus();
-		return false;
+	//OK
+	$_SESSION['printid'] = $printCompany_id;
+}
+else if($_SESSION['printid'] =='')
+{
+   redirect("index.php");exit;
+}
+
+
+	$user_plan_info = $objInfo->get_user_plan_info($user_id);
+
+	//ONECE BROWSE THIS PAGE PRINT COMPANY WILL LOSE 1 TIME OF QUATA 2
+	if($user_plan_info['dl_print_com_times']>0 && $user_plan_info['dl_print_com_times'] < 2 )
+	 {
+		unset($post);
+		$post['dl_print_com_times'] = $user_plan_info['dl_print_com_times'] - 1;
+		$obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
+
+
+	 }
+	 else
+	 {
+	 	redirect("index.php?msg=3");exit;
 	 }
 
-	var adminpass = document.getElementById('adminpass').value;
-	if(adminpass =="") {
-		alert("パスワードが未入力です");
-		document.getElementById('adminpass').focus();
-		return false;
+     $row = $objInfo->get_user_info($user_id);
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>ダウンロード - 印刷会社様画面 - ウエディングプラス</title>
+<link href="css/common.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.rollover.js"></script>
+<script>
+var downloaded=0;
+function click_check(url) {
+	if (downloaded==0) {
+		downloaded++;
+		window.location.href=url;
 	}
-	if(reg.test(adminpass) == false) {
-		alert("パスワードは半角英数字で入力してください");
-		document.getElementById('adminpass').focus();
-		return false;
-	}
-	document.login_form.submit();
 }
 </script>
-
-<style>
-body{
-	font: normal 11px "メイリオ","Meiryo","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","Osaka","Osaka－等幅", Osaka-mono, monospace,"ＭＳ Ｐゴシック","MS P Gothic", sans-serif;
-	}
-#logo {
-	float: left;
-	margin-top: 80px;
-}
-#login_area {
-	float: right;
-	width: 310px;
-	margin-left: 30px;
-	margin-top: 50px;
-	padding: 20px;
-	background: #efe7df;
-	border: 1px solid #9E846B;
-	margin-bottom: 30px;
-	text-align: left;
+<style type="text/css">
+.datepicker {cursor:pointer;
 }
 
-#login_BOX{
-	margin:30px auto;
-	width:680px;
-}
-#footer{
-clear:both;
-margin-left:auto;
-margin-right:auto;
-text-align:center;
-width:1000px;
-}
-
-#foot_left {
-	float: left;
-	width: 330px;
-	text-align: left;
-}
-#foot_right {
-	float: right;
-	width: 330px;
-	text-align: left;
-}
-.clr {	clear: both;
-}
-.login
-{
-width:150px;
-ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
-}
-#text-indent {
-	text-indent: 125px; /* SEKIDUKA ADD 11/08/12 */
-}
-#foot_left {
-	float: left; /* SEKIDUKA ADD 11/08/12 */
-	width: 269px;
-	text-align: left;
-}
-#foot_center {
-	float: left;
-	width: 205px; /* SEKIDUKA EDIT 11/08/12 */
-	text-align: left;
-}
-#foot_right {
-	float: left;
-	width: 205px; /* SEKIDUKA EDIT 11/08/12 */
-	text-align: left;
-}
 </style>
-<title>ログイン - ウエディングプラス</title>
+</head>
 
-  <div align="center">
-    <div id="login_BOX">
-      	<div><img src="img/common/bar_print.jpg" /></div>
-      	<table id="logo">
-      		<tr><td>
-	        <img src="../img/logo_wp.jpg" width="269" height="77" />
-	        </td></tr>
-      		<tr><td>&nbsp;</td></tr>
-      		<tr><td align="center" style="font-size:14;"><?php echo $weddingVersion; ?></td></tr>
-		</table>
+<body>
+<div id="wrapper">
+  <div id="header"><a href="manage.html"><img src="img/common/logo.jpg" alt="席次表システム" width="246" height="43" /></a> </div>
+  <div id="topnavi">
+<h1>印刷会社向け画面</h1>
+<div id="top_btn"> <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a></div>
+  </div>
+  <div id="container">
+    <div id="contents">
+<h2>ダウンロード</h2>
 
-        <div id="login_area">こちらからログインしてください。<br />
-<br />
-<form action="index.php" name="login_form" method="post" id="login_form">
 
-        <table width="100%" border="0" cellspacing="10" cellpadding="0">
-          <tr>
-            <td width="27%" align="left" nowrap="nowrap" style=" font-size:11px ">ログインID</td>
-            <td width="73%" align="left" nowrap="nowrap"><label for="ログインID"></label>
-            <input onkeydown="if (event.keyCode == 13) { login_admin(); }" name="adminid" type="text" id="adminid" size="20" class="login"  value='<?php echo $id ?>' /></td> <!-- UCHIDA EDIT 11/08/17 ＩＤを再表示 -->
-          </tr>
-          <tr>
-            <td align="left" nowrap="nowrap" style=" font-size:11px ">パスワード</td>
-            <td align="left" nowrap="nowrap">
-            <input onkeydown="if (event.keyCode == 13) { login_admin(); }"name="adminpass" type="password" id="adminpass" size="20" class="login" /></td>
-          </tr>
-          <tr>
-            <td align="right" nowrap="nowrap">&nbsp;</td>
-            <td nowrap="nowrap">
-            <input type="button" value="ログイン" onclick="login_admin()" /></td>
+    <div class="top_searchbox1">
+      <table width="420" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>PDF、または、CSVファイルをダウンロードできます。</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
           </tr>
         </table>
-      <div id="login_bt"></div>
-	  </form></div><div class="clr"></div>
-      <div><img src="../img/bar_recommended.jpg" /></div>
+      <form id="form1" name="form1" method="post" action="">
+        ・席次表　PDFファイル
+      </form>
 
-<!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 Start -->
-<br/>
-<div id="text-indent">当システムは下記OS、ブラウザを推奨しております。</div>
-<br/>
-<div id="foot_left">
-<table width="269" border="0" cellpadding="2" cellspacing="0" title="SSLサーバ証明書導入の証 グローバルサインのサイトシール">
-<tr>
-<td width="269" align="center" valign="top"> <span id="ss_img_wrapper_115-57_image_ja">
-<a href="http://jp.globalsign.com/" target="_blank"> <img alt="SSL グローバルサインのサイトシール" border="0" id="ss_jpn2_gif" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_115-57_ja.gif">
-</a>
-</span><br>
-<script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gs_image_115-57_ja.js" defer="defer"></script> <a href="https://www.sslcerts.jp/" target="_blank" style="color:#000000; text-decoration:none; font:bold 12px 'ＭＳ ゴシック',sans-serif; letter-spacing:.5px; text-align:center; margin:0px; padding:0px;">SSLとは?</a>
-</td>
-</tr>
-</table>
+      <!--<input  type="checkbox" value="" id="chk_man_lastname"  />-->
+      <!-- <a href="javascript:void(0);" onclick="document.getElementById('man_lastname').value=''"> クリア </a> &nbsp; -->
+      <!--<input  type="checkbox"  id="chk_woman_lastname"  />-->
+      <!--&nbsp;<a href="javascript:void(0);" onclick="document.getElementById('woman_lastname').value=''"> クリア </a>-->
+    </div>
+   <!-- <div class="top_selectbox2"> <a href="downloadhelper.php?id=<?=$_GET['id']?>&file=pdf" onclick="validSearch();"><img src="img/common/btn_download_pdf.jpg" alt="検索" width="152" height="22" /></a>　</div>-->
+     <div class="top_selectbox2">
+	 <?php
+
+	 if($user_plan_info['dl_print_com_times']>0 && $user_plan_info['dl_print_com_times'] < 2)
+	 {
+	 //plan_pdf_small.php?user_id=<?=$_GET['user_id']&file=pdf
+	 //NEED TO CHECK THE DAY LIMIT
+
+	 ?>
+	  <a href="plan_pdf_small.php?user_id=<?=$_GET['user_id']?>&file=pdf"><img src="img/common/btn_download_pdf.jpg" alt="検索" width="152" height="22" /></a>
+	  <?php }else{?>
+	  <img src="img/common/btn_download_pdf.jpg" alt="検索" width="152" height="22" /> <span style="color:red;">[You have no access here.]</span>
+	  <?php }?>
+
+	  　</div>
+    <div class="top_searchbox1">
+      <table width="420" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          </tr>
+        </table>
+      <form id="form1" name="form1" method="post" action="">
+        ・席次表　CSVファイル
+      </form>
+
+      <!--<input  type="checkbox" value="" id="chk_man_lastname"  />-->
+      <!-- <a href="javascript:void(0);" onclick="document.getElementById('man_lastname').value=''"> クリア </a> &nbsp; -->
+      <!--<input  type="checkbox"  id="chk_woman_lastname"  />-->
+      <!--&nbsp;<a href="javascript:void(0);" onclick="document.getElementById('woman_lastname').value=''"> クリア </a>-->
+    </div>
+        <!--<div class="top_selectbox2"> <a href="downloadhelper.php?id=<?=$_GET['id']?>&file=csv" ><img src="img/common/btn_download_csv.jpg" alt="検索" width="152" height="22" /></a>　</div>-->
+		<div class="top_selectbox2">
+		 <?php
+		 if($user_plan_info['dl_print_com_times']>0 && $user_plan_info['dl_print_com_times'] < 2)
+		 {	//NEED TO CHECK THE DAY LIMIT
+		 ?>
+		<a href="javascript:void(0);" onclick="click_check('csvdownload.php?user_id=<?=$_GET['user_id']?>&file=csv');" ><img src="img/common/btn_download_csv.jpg" alt="検索" width="152" height="22" /></a>
+		<?php }else{?>
+		  <img src="img/common/btn_download_csv.jpg" alt="検索" width="152" height="22" /> <span style="color:red;">[You have no access here.]</span>
+		  <?php }?>
+		　</div>
+    <p>&nbsp;</p>
+    </div>
+  </div>
+  <div id="sidebar">
+    <ul class="nav">
+      <li>■ホテル名：
+        <p>横浜ロイヤルパークホテル </p>
+        <a href="download.php"></a>■新郎新婦氏名：
+        <p><?=jp_decode($row['man_firstname'].' '.$row['man_lastname'].' '.$row['woman_firstname'].' '.$row['woman_lastname']) ;?> 様 </p>
+        <a href="download.php"></a>■披露宴日：
+        <p><?=strftime('%Y年%m月%d日（木）',strtotime($row['party_day'])) ;?></p>
+      </li>
+      <li>      </li>
+    </ul>
+  </div>
+  <!--<div id="sidebar">
+    <ul class="nav">
+      <li><a href="list.php"><img src="img/common/nav_list.gif" alt="お客様一覧" width="148" height="30" class="on" /></a><a href="download.html"></a></li>
+      <li></li>
+    </ul>
+  </div>-->
+  <div id="footer">
+    <p>Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.
+</p>
+  </div>
 </div>
-    <div id="foot_center"> ●Windows XP ／ Vista ／ 7<br />
-	      ・Internet Explorer 7／8<br />
-	      ・FireFox 3.5／3.6／4.0 </div>
-  <div id="foot_right">●Mac OS Ｘ（10.4）<br />
-
-	      ・Safari 3.0以上<br />
-	      ・FireFox 3.5／3.6／4.0 </div>
-	    <div class="clr"></div>
-	    </div>
-</div>
-<!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
-
-	<!-- UCHIDA EDIT 11/07/26 -->
-	<script type="text/javascript"> document.login_form.adminid.focus(); </script>
-
-<?php
-	include_once("inc/footer.inc.php");
-?>
+</body>
+</html>

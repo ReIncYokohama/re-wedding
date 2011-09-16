@@ -108,9 +108,9 @@ include("inc/return_dbcon.inc.php");
 			<div style="text-align:right;"><?=$pageination?></div>
 
       		<div class="box4">
-                <table border="0" width="100%" align="center" cellpadding="1" cellspacing="3">
+                <table border="0" width="100%" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-                        <td align="left" width="5%" bgcolor="#2252A3" style="color:#FFFFFF">No.</td>
+                        <td align="center" width="4%" bgcolor="#2252A3" style="color:#FFFFFF">No.</td>
 <!-- UCHIDA EDIT 11/08/04
                         <td align="left" width="22%" bgcolor="#2252A3" style="color:#FFFFFF">最終ログイン</td>
 						<td align="left" width="22%" bgcolor="#2252A3" style="color:#FFFFFF">ログイン名</td>
@@ -158,7 +158,7 @@ include("inc/return_dbcon.inc.php");
 									$msg = $stuff_name;
 								}
 
-								echo "<td align='left' width='5%'>$j</td>";
+								echo "<td align='center' width='5%'>$j</td>";
 								$time = str_replace('-','/',$row['login_time']); echo "<td align='left' width='22%'>$time</td>";
 								echo "<td align='left' width='22%'>$msg</td>";
 								if ($msg != "お客様") {
@@ -171,7 +171,7 @@ include("inc/return_dbcon.inc.php");
 									$time2 = str_replace('-','/',$row['logout_time']);
 									if ($time2 != "0000/00/00 00:00:00" and $time != $time2) {
 										echo "<tr align='center'>";
-										$j++; echo "<td align='left' width='5%'>$j</td>";
+										$j++; echo "<td align='center' width='5%'>$j</td>";
 										echo "<td align='left' width='22%'>$time2</td>";
 										echo "<td align='left' width='22%'>$msg</td>";
 										echo "<td align='left' width='22%'>ログアウト</td>";
@@ -179,8 +179,8 @@ include("inc/return_dbcon.inc.php");
 									}
 									else {
 											echo "<tr align='center'>";
-											$j++; echo "<td align='left' width='5%'>$j</td>";
-											echo "<td align='left' width='22%'style='font-size:130%;' >----/--/--&nbsp;&nbsp;&nbsp;--:--:--</td>";
+											$j++; echo "<td align='center' width='5%'>$j</td>";
+											echo "<td align='left' width='22%'style='font-size:100%;' >----&nbsp;/&nbsp;--&nbsp;/&nbsp;--&nbsp;&nbsp;--: --: --</td>";
 											echo "<td align='left' width='22%'>$msg</td>";
 											echo "<td align='left' width='22%'>画面消去</td>";
 											echo "</tr>";
