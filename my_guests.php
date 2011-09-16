@@ -274,15 +274,15 @@ function cancel_div(did)
 {
   $("#"+did).hide(500);
 }
-function confirmDelete(urls)
+function confirmDelete(urls, id)
 {
-  // UCHIDA EDIT 00/07/27
-  //		var agree = confirm("削除しても宜しいですか？");
-  var agree = confirm("編集中ですが、削除してよろしいですか？\n現在の入力内容は破棄されます");
-  if(agree)
-		{
-			window.location = urls;
-		}
+var gid = "<?=$get['gid']?>";
+var msg;
+	if (gid == id) msg="編集中ですが、削除してよろしいですか？\n現在の入力内容は破棄されます"; else msg="削除してよろしいですか？";
+	var agree = confirm(msg);
+	if(agree) {
+		window.location = urls;
+	}
 }
 
 function validForm()
@@ -304,7 +304,7 @@ function validForm()
 			$("#last_name").focus();
 			return false;
 		}
- 
+
   if(first_name == '')
 		{
 			alert("名を入力してください");
@@ -1207,7 +1207,7 @@ if($editable)
 			?>
             	<input type="button" name="button" id="button" value="編集" onclick="edit_guest(<?=$guest['id']?>)" /> &nbsp;
 
-				<input name="button" type="button" value="削除" onclick="confirmDelete('my_guests.php?guest_id=<?=$guest['id']?>&action=delete&page=<?=(int)$_GET['page']?>')" />
+				<input name="button" type="button" value="削除" onclick="confirmDelete('my_guests.php?guest_id=<?=$guest['id']?>&action=delete&page=<?=(int)$_GET['page']?>', <?=$guest['id']?>)" />
 				<?php
 					}
 				?>
@@ -1312,13 +1312,13 @@ if($editable)
 					$gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
 					$gift_arr = explode("|",$gift_ids);
 					$groups = array();
-          
+
 					if(in_array($gift['id'],$gift_arr))
 					{
 						array_push($groups,$grp['id']);
 					}
-					
-					
+
+
           $num_gifts_in_group = 0;
 					if(!empty($groups))
 					{
@@ -1331,7 +1331,7 @@ if($editable)
 						unset($groups);
 					}
           $htm = $num_gifts_in_group;
-          
+
 			?>
             <td width="42" align="center" bgcolor="#FFFFFF"> <?=$htm?> </td>
             <?php
