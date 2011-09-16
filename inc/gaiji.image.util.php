@@ -163,3 +163,10 @@ function get_image_font_size($maxfontsize,$str,$fontfile,$width,$gaiji_image_url
   }
   return $fontsize;
 }
+
+
+function error_include_gaiji($str,$gaiji_str = "＊"){
+  $str_not_gaiji_arr = explode($gaiji_str,$str);
+  if($str_not_gaiji_arr<=1) return true;
+  return false;
+}
