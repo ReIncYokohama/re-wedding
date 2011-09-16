@@ -336,7 +336,7 @@ $this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_n
 
 // UCHIDA EDIT 11/07/28 ↑
 
- $File = "Yourexcel.html";
+ $File = "cache/Yourexcel.html";
  $Handle = fopen($File, 'w');
  fwrite($Handle, $html);
  fclose($Handle);
@@ -344,7 +344,7 @@ $this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_n
  include_once('admin/inc/ExportToExcel.class.php');
 
 	$exp=new ExportToExcel();
-	$exp->exportWithPage("Yourexcel.html",$this_name.".xls");
+	$exp->exportWithPage($File,$this_name.".xls");
 
 
 ?>
