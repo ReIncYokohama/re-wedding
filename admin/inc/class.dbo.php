@@ -235,6 +235,7 @@ include_once('dbcon.inc.php');
 			$query = "select * from $tablename where  ".$where;
 			//echo $query;exit;
 			$result = mysql_query($query);
+      if(!$result) return array();
 			$num = mysql_num_rows($result);
 			if($num>0)
 			{

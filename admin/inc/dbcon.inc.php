@@ -20,6 +20,15 @@ function mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase){
 }
 mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase);
 
+
+function getObjectArrayToArray($arr,$name){
+  $re_arr = array();
+  for($i=0;$i<count($arr);++$i){
+    array_push($re_arr,$arr[$i][$name]);
+  }
+  return $re_arr;
+}
+
 function curPageURL()
  {
 		 $pageURL = 'http';

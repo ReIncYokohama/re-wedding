@@ -529,7 +529,7 @@ $editable=$objInfo->get_editable_condition($plan_info);
 
   <div id="contents_right">
   <div class="title_bar">
-  <div class="title_bar_txt_L">招待者リストの作成を行います。</div>
+  <div class="title_bar_txt_L">招待者リストの作成を行います</div>
   <div class="title_bar_txt_R"></div>
   <div class="clear"></div></div>
 	<?php
@@ -602,6 +602,7 @@ if($editable)
     ?>
 
     <div id="newgustform" style="width:873px; margin:auto; min-height:100px; padding-top:5px; display:block">
+    ■ 招待者名を入力のうえ、各項目の情報を入力してください。
       <form id="newguest" name="newguest" method="post" action="new_guest.php?page="<?=$_GET['page']?>">
 	 <input type="hidden" name="id" id="id" value="<?=$_GET['gid']?>" />
    <?php if($firstname_gaijis || $lastname_gaijis || $comment1_gaijis || $comment2_gaijis) echo getAllGaijisInputEle(array($firstname_gaijis,$lastname_gaijis,$comment1_gaijis,$comment2_gaijis))?>
@@ -706,7 +707,7 @@ if($editable)
 			<td width="169" colspan="2" align="right" valign="top" ><table width="315" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
 			    <td width="78" align="right">敬称:</td>
-			    <td width="123"><select id="respect_id" name="respect_id" style="width:120px; padding-top:3px; padding-bottom:3px;"  <?php if($guest_row['self']==1){echo "disabled";}?>>)
+			    <td width="123"><select id="respect_id" name="respect_id" style="width:70px; padding-top:3px; padding-bottom:3px;"  <?php if($guest_row['self']==1){echo "disabled";}?>>)
 			      <?php
 					foreach($respects as $respect)
 					{
@@ -955,8 +956,6 @@ if($editable)
 
 <br>
 	<div class="guests_area_L">
-
-    ■ 招待者名を入力のうえ、各項目の情報を入力してください。
 
 	<table width="863" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999" style="padding-top:1px">
     	<tr>
@@ -1362,11 +1361,10 @@ if($editable)
                 	$num_guests = $obj->GetNumRows(" spssp_guest "," user_id = $user_id ");
 					$not_gifted = $num_guests - $total;
 					echo $not_gifted;
-
 				?>
              </td>
             <td align="center" bgcolor="#FFFFFF">&nbsp;</td>
-            <td bgcolor="#FFFFFF" align="center"><?=$num_guests?></td>
+            <td bgcolor="#FFFFFF" align="center">×</td>
           </tr>
         </table>
       </div>
@@ -1378,7 +1376,9 @@ if($editable)
 					$gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
 					$gift_arr = explode("|",$gift_ids);
 					$gift_ids = implode(',',$gift_arr);
-					$item_names = $obj->GetSingleData("spssp_gift" , "group_concat(name separator ' ・ ') as names" , " id in ( $gift_ids )");
+					$item_name_arr = getObjectArrayToArray($obj->GetAllRowsByCondition("spssp_gift" , " id in ( $gift_ids )"),"name");
+          if(count($item_name_arr) == 0) continue;
+          $item_names = implode("<br>",$item_name_arr);
 
 					echo "<tr><td bgcolor='#FFFFFF' width='30' align='center'>".$grp['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".$item_names."</td></tr>";
 				}
@@ -1395,7 +1395,7 @@ if($editable)
 <div class="cont_area">
 
 ■ 料理数
-  <table width="398" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999" style="padding-top:1px">
+  <table width="180" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999" style="padding-top:1px">
   <?php
   	$menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".(int)$user_id);
 	$num_groups = count($menu_groups);
@@ -1416,9 +1416,9 @@ if($editable)
 
   ?>
     <tr>
-      <td width="124" align="center" bgcolor="#FFFFFF"><?=$mg['name']?></td>
+      <td width="120" align="center" bgcolor="#FFFFFF"><?=$mg['name']?></td>
 
-      <td width="124" align="center" bgcolor="#FFFFFF"><?=$num_menu_guest?></td>
+      <td width="60" align="center" bgcolor="#FFFFFF"><?=$num_menu_guest?></td>
     </tr>
    <?php
    	}

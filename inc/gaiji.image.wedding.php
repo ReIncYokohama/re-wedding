@@ -341,10 +341,3 @@ function getGaijiPathArray($gaiji_img){
   }
   return $pathArray;
 }
-function getObjectArrayToArray($arr,$name){
-  $re_arr = array();
-  for($i=0;$i<count($arr);++$i){
-    array_push($re_arr,$arr[$i][$name]);
-  }
-  return $re_arr;
-}
