@@ -131,7 +131,7 @@ set_guest_gaiji_position($user_id,$guest_id,$post["comment1"],2,$_POST["comment1
 set_guest_gaiji_position($user_id,$guest_id,$post["comment2"],3,$_POST["comment2_gaiji_img"],$_POST["comment2_gaiji_gsid"],$_POST["comment2_gaiji_gid"]);
 
 //外字の画像を生成する。
-make_guest_images($user_id,$guest_id,$post["last_name"],$post["first_name"],$post["comment1"],$post["comment2"],$post["respect"],
+make_guest_images($user_id,$guest_id,$post["last_name"],$post["first_name"],$post["comment1"],$post["comment2"],$guest_respect,
                   $_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],$_POST["comment1_gaiji_img"],$_POST["comment2_gaiji_img"]);
 
 $gift_group = $_POST['gift_group_id'];

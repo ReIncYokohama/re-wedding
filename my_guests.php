@@ -433,18 +433,13 @@ function m_win(url,windowname,width,height) {
 
 
 
-
+var now_action = null;
 function change_gaiji_link(action)
 {
-
-	if(action == "first_name")
-		$("a#gaiji_link_id").attr("href", "gaiji/palette.php?from=first_name");
-	else if(action == "last_name")
-		$("a#gaiji_link_id").attr("href", "gaiji/palette.php?from=last_name");
-	else if(action == "comment1")
-		$("a#gaiji_comment_link_id").attr("href", "gaiji/palette.php?from=comment1");
-	else if(action == "comment2")
-		$("a#gaiji_comment_link_id").attr("href", "gaiji/palette.php?from=comment2");
+  if(now_action==action) return;
+  $(".gaiji_button").hide();
+  $("#gaiji_button_"+action).show();
+  now_action = action;
 }
 
 
@@ -580,6 +575,27 @@ $editable=$objInfo->get_editable_condition($plan_info);
       }
 		}
 
+$gaiji_button_first_name = <<<_EOE_
+<a id="gaiji_button_first_name" class="gaiji_button" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="gaiji/palette.php?from=first_name" style="display:none;">
+						 <img src="img/btn_gaiji_user.jpg" width="82" height="22">
+					</a>
+_EOE_;
+$gaiji_button_last_name = <<<_EOE_
+<a id="gaiji_button_last_name" class="gaiji_button" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="gaiji/palette.php?from=last_name" style="display:none;">
+						 <img src="img/btn_gaiji_user.jpg" width="82" height="22">
+					</a>
+_EOE_;
+$gaiji_button_comment1 = <<<_EOE_
+<a id="gaiji_button_comment1" class="gaiji_button" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="gaiji/palette.php?from=comment1" style="display:none;">
+						 <img src="img/btn_gaiji_user.jpg" width="82" height="22">
+					</a>
+_EOE_;
+$gaiji_button_comment2 = <<<_EOE_
+<a id="gaiji_button_comment2" class="gaiji_button" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="gaiji/palette.php?from=comment2" style="display:none;">
+						 <img src="img/btn_gaiji_user.jpg" width="82" height="22">
+					</a>
+_EOE_;
+
 //print_r($guest_row);
 if($editable)
   {
@@ -627,14 +643,14 @@ if($editable)
   </tr>
 </table></td>
 			<td colspan="2">
-			<table  width="190" border="0" cellspacing="2" cellpadding="2">
+			<table  width="237" border="0" cellspacing="2" cellpadding="2">
 			<tr>
 			<td align="right" width="100">姓:</td>
-			<td align="center" width="76">
+			<td align="center" width="137">
 
-			  <input type="text" size="10"  style="padding-top:3px; padding-bottom:3px;" name="last_name" id="last_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['last_name']?>" onfocus="change_gaiji_link('last_name')"/>
+			  <input type="text" size="20"  style="padding-top:3px; padding-bottom:3px;" name="last_name" id="last_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['last_name']?>" onfocus="change_gaiji_link('last_name');"/>
 				<div id="last_div_id" style="display:none;"></div>
-
+        <div><?=$gaiji_button_last_name?></div>
 			</td>
 			</tr>
 			<tr>
@@ -652,21 +668,19 @@ if($editable)
 					$furigana_lastname=$guest_row['furigana_last'];
 				}
 				?>
-				<td align="center" width="76" ><input type="text" size="10"  style="padding-top:3px; padding-bottom:3px;" name="furigana_last" id="furigana_last" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_lastname?>" /></td>
+				<td align="center" width="137" ><input type="text" size="20"  style="padding-top:3px; padding-bottom:3px;" name="furigana_last" id="furigana_last" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_lastname?>" /></td>
 			</tr>
 			</table>
 			</td>
 			<td width="198">
-			<table  width="180" border="0" cellspacing="2" cellpadding="2">
+			<table  width="227" border="0" cellspacing="2" cellpadding="2">
 			<tr>
 				<td align="right" width="90">名:</td>
-				<td align="center" width="76" >
-       	<input type="text" name="first_name" size="10" style="padding-top:3px; padding-bottom:3px;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')"/>
+				<td align="center" width="108" >
+       	<input type="text" name="first_name" size="20" style="padding-top:3px; padding-bottom:3px;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')"/>
 
-			<div id="first_div_id" style="display:none;">
-
-      </div>
-
+			  <div id="first_div_id" style="display:none;" ></div>
+        <div><?=$gaiji_button_first_name?></div>
 				</td>
 			</tr>
 			<tr>
@@ -684,18 +698,13 @@ if($editable)
 				$furigana_first_name=$guest_row['furigana_first'];
 			}
 			?>
-			<td align="center" width="76"><input type="text" name="furigana_first" size="10"  style="padding-top:3px; padding-bottom:3px;" id="furigana_first" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_first_name?>" /></td>
+			<td align="center" width="108"><input type="text" name="furigana_first" size="20"  style="padding-top:3px; padding-bottom:3px;" id="furigana_first" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_first_name?>" /></td>
 			</tr>
 			</table>
 			</td>
 
-			<td width="283" colspan="2" align="right" valign="top" ><table width="315" border="0" cellspacing="2" cellpadding="2">
+			<td width="169" colspan="2" align="right" valign="top" ><table width="315" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-			    <td width="94" align="center">
-					<a id="gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="gaiji/palette.php">
-						 <img src="img/btn_gaiji_user.jpg" width="82" height="22">
-					</a>
-				</td>
 			    <td width="78" align="right">敬称:</td>
 			    <td width="123"><select id="respect_id" name="respect_id" style="width:120px; padding-top:3px; padding-bottom:3px;"  <?php if($guest_row['self']==1){echo "disabled";}?>>)
 			      <?php
@@ -715,11 +724,6 @@ if($editable)
 				?>
 			      <option value="">なし</option>
 		        </select></td>
-		      </tr>
-			  <tr>
-			    <td>&nbsp;</td>
-			    <td>&nbsp;</td>
-			    <td>&nbsp;</td>
 		      </tr>
 		    </table></td>
 		  </tr>
@@ -759,36 +763,33 @@ if($editable)
 					?>
 			  </select>			</td>
 			<td colspan="2">
-				<table width="189" border="0" cellspacing="2" cellpadding="2">
+				<table width="237" border="0" cellspacing="2" cellpadding="2">
 			  		<tr>
 						<td width="100" align="right">肩書 1:</td>
-						<td width="75">
+						<td width="137">
 
-							<input  name="comment1" type="text" id="comment1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')"/>
+							<input size="20" name="comment1" type="text" id="comment1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')"/>
 							<div id="comment1_div_id" style="display:none;"></div>
+              <div><?=$gaiji_button_comment1?></div>
 						</td>
 		      		 </tr>
 				</table>
  		    </td>
 			<td>
-				<table width="180" border="0" cellspacing="2" cellpadding="2">
+				<table width="227" border="0" cellspacing="2" cellpadding="2">
 					<tr>
 			    		<td width="90" align="right">肩書 2:</td>
-			    		<td width="76" align="center">
+			    		<td width="137" align="center">
 
-							<input  name="comment2" type="text" id="comment2" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')"/>
+							<input size="20" name="comment2" type="text" id="comment2" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')"/>
 							<div id="comment2_div_id" style="display:none;"></div>
+              <div><?=$gaiji_button_comment2?></div>
 						</td>
 		      		</tr>
 		    	</table>
 			</td>
-			<td width="283" colspan="2" align="right" valign="top" ><table width="313" border="0" cellspacing="2" cellpadding="2">
+			<td width="196" colspan="2" align="right" valign="top" ><table width="313" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-			    <td width="94" align="right">
-					<a id="gaiji_comment_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="gaiji/palette.php">
-						<img src="img/btn_gaiji_user.jpg" width="82" height="22">
-					</a>
-				</td>
 			    <td width="76" align="right">　特記:</td>
 			    <td width="123"><input type="text" style="padding-top:3px; padding-bottom:3px; width:114px;"   name="memo" id="memo" maxlength="40" value="<?=$guest_row['memo']?>" /></td>
 		      </tr>
@@ -875,7 +876,6 @@ if($editable)
                         </table> </td>
                         <td width="283" colspan="2" align="right" valign="top" ><table width="313" border="0" cellspacing="2" cellpadding="2">
                           <tr>
-                            <td width="94" align="right">&nbsp;</td>
                             <td width="76" align="right">高砂席名: <input type="hidden" id="stage_guest_current" value="<?=$guest_row[stage_guest]?>" ></td>
                             <td width="123"><select id="stage_guest" name="stage_guest" style="width:120px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1 || $guest_row['stage']!="1"){echo "disabled";}?>>
                               <option value="">選択してください</option>
@@ -914,9 +914,9 @@ if($editable)
                             </select></td>
                           </tr>
                           <tr>
+
                             <td align="right">&nbsp;</td>
-                            <td align="right">&nbsp;</td>
-                            <td align="right"><a href="my_guests_takasago.html" onclick="m_win(this.href,'mywindow7',520,270); return false;">高砂席位置について</a></td>
+                            <td align="left"><a href="my_guests_takasago.html" onclick="m_win(this.href,'mywindow7',520,270); return false;">高砂席位置について</a></td>
                           </tr>
                         </table>                          <div align="right"></div></td>
          </tr>
