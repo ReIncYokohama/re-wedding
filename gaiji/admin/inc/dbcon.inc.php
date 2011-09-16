@@ -2,36 +2,10 @@
 @session_start();
 include_once(dirname(__FILE__)."/../../../conf/conf.php");
 
-if($_SERVER['HTTP_HOST']=='localhost')
-	{
-		$sqlhost=$localhost_gaiji_sqlhost;
-		$sqluser=$localhost_gaiji_sqluser;
-		$sqlpassword=$localhost_gaiji_sqlpassword;
-		$sqldatabase=$localhost_gaiji_sqldatabase;
-	}
-	else
-	{
-		$sqlhost=$hotel_gaiji_sqlhost;
-		$sqluser=$hotel_gaiji_sqluser;
-		$sqlpassword=$hotel_gaiji_sqlpassword;
-		$sqldatabase=$hotel_gaiji_sqldatabase;		
-	}
-/*
-if($_SERVER['HTTP_HOST']=='localhost')
-	{
-		$sqlhost='localhost';
-		$sqluser='root';
-		$sqlpassword="";
-		$sqldatabase="spssp_gaiji";
-	}
-	else
-	{
-		$sqlhost='localhost';
-		$sqluser='wplus_hotel1_2';
-		$sqlpassword="wph1_123456";
-		$sqldatabase="wplus_hotel1_2";
-	}
-*/
+$sqlhost=$hotel_gaiji_sqlhost;
+$sqluser=$hotel_gaiji_sqluser;
+$sqlpassword=$hotel_gaiji_sqlpassword;
+$sqldatabase=$hotel_gaiji_sqldatabase;		
 
 $link = mysql_connect($sqlhost, $sqluser,$sqlpassword)
     	or die("COULD NOT CONNECT : " . mysql_error());

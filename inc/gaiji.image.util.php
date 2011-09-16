@@ -23,7 +23,7 @@ function get_image_text_width($fontsize,$str,$fontfile,$gaiji_image_url_arr = ar
   $width_sum = $width;
   //イメージがないときにエラー処理を入れたい。
   for($i=0;$i<$gaiji_num;++$i){
-    //if(!$gaiji_image_url_arr[$i]) continue;
+    if(!$gaiji_image_url_arr[$i]) continue;
     list($gaiji_image_width,$gaiji_image_height) = getimagesize($gaiji_image_url_arr[$i]);
     $width_sum += $gaiji_image_width*$height/$gaiji_image_height;
   }
@@ -90,7 +90,7 @@ function gaiji_imagettftext($image,$fontsize,$angle,$left,$bottom,$color,
     $text_width = text_imagettftext($image,$height,$angle,$nowLeft,$bottom,$color,$font,$str_not_gaiji_arr[$i],$width_compression);
     $nowLeft += $text_width;
     if($i+1!=$gaiji_num){
-      $gaiji_image_url_arr[$i] = $gaiji_image_url_arr[$i];
+      if(!$gaiji_image_url_arr[$i]) continue;
       list($gaiji_image_width,$gaiji_image_height) = getimagesize($gaiji_image_url_arr[$i]);
       $gaiji_image = imagecreatefrompng($gaiji_image_url_arr[$i]);
       $gaiji_image_insert_width = (int)($gaiji_image_width*$height/$gaiji_image_height);
