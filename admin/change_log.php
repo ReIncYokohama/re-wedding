@@ -170,7 +170,7 @@ include("inc/return_dbcon.inc.php");
 			<!--<div style="text-align:right;">< ?=$pageination?></div>-->
 
       		<div class="box4">
-                <table border="0" width="1000px" align="center" cellpadding="1" cellspacing="1">
+                <table border="0" width="100%" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
 
                         <!--<td  width="10%">Plan name</td>-->
