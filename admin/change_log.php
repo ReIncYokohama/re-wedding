@@ -170,16 +170,16 @@ include("inc/return_dbcon.inc.php");
 			<!--<div style="text-align:right;">< ?=$pageination?></div>-->
 
       		<div class="box4">
-                <table border="0" width="1000px" align="center" cellpadding="1" cellspacing="1">
+                <table border="0" width="100%" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
 
                         <!--<td  width="10%">Plan name</td>-->
-                        <td  width="15%" bgcolor="#2252A3" style="color:#FFFFFF">アクセス日時</td>
+                        <td  width="14%" bgcolor="#2252A3" style="color:#FFFFFF">アクセス日時</td>
                         <td  width="15%" bgcolor="#2252A3" style="color:#FFFFFF">ログイン名</td>
                         <td  width="13%" bgcolor="#2252A3" style="color:#FFFFFF">アクセス画面名</td>
                         <td  width="13%" bgcolor="#2252A3" style="color:#FFFFFF">修正対象者</td>
 						<td  width="13%" bgcolor="#2252A3" style="color:#FFFFFF">修正種別</td>
-						<td  width="10%" bgcolor="#2252A3" style="color:#FFFFFF">変更項目名</td>
+						<td  width="12%" bgcolor="#2252A3" style="color:#FFFFFF">変更項目名</td>
 						<td  width="10%" bgcolor="#2252A3" style="color:#FFFFFF">変更前情報</td>
 						<td  width="10%" bgcolor="#2252A3" style="color:#FFFFFF">変更後情報</td>
 
