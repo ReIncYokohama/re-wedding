@@ -331,6 +331,7 @@ function get_image_db_directory($hotel_id){
 
   return dirname(__FILE__)."/".$result_image_db_dir[0];
 }
+
 //pdf用の変数及び関数の準備
 function getGaijiPathArray($gaiji_img){
   $pathArray = array();

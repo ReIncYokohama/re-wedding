@@ -488,7 +488,7 @@ public function japanyDateFormate($rawTime, $time_24h=0) {
 		$keys_T = array_keys($day_TE, $timepart);
 		
 		$time = strftime('%I時%M分',strtotime($time_24h));
-		echo $day_TJ[$keys_T[0]].$time;
+		//echo $day_TJ[$keys_T[0]].$time;
 	}
 	//print_r($keys);g:i a
 }
