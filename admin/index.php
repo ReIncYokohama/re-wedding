@@ -10,6 +10,7 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 		$query_string="SELECT * FROM spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' AND sessionid='' LIMIT 0,1;";
 		//echo $query_string;
 		$db_result=mysql_query($query_string);
+        $_SESSION["super_user"] = false;
 
     if(!mysql_num_rows($db_result)){
       mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);

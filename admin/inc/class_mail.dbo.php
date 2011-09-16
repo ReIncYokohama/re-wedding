@@ -734,7 +734,7 @@ html;
 		echo "<br><br>";*/
 
 
-		$header='From:'.$to." \r\n";
+		$header='From:'."weddingplus@sunpri.com"." \r\n";
 		$header.='Content-Type:text/plain; charset=utf-8'."\r\n";
 		//$header1.= "Cc: k.okubo@re-inc.jp\r\n";
 
