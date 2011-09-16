@@ -1,100 +1,86 @@
 <?php
-	include_once("inc/dbcon.inc.php");
-<<<<<<< HEAD
-	include_once(dirname(__FILE__)."/../../madmin/conf/version.php");
+@session_start();
+include_once("../admin/inc/dbcon.inc.php");
+include_once(dirname(__FILE__)."/../../madmin/conf/version.php");
 
-	if($_SESSION['super_adminid']!="")
-	{
-		redirect("hotel.php");
-	}
+	$userID = $_POST['userID'];
+	$password = $_POST['password'];
 
-=======
-	if($_SESSION['super_adminid']!="")
-	{
-		redirect("hotel.php");
-	}
-
->>>>>>> 488ad7f35a7d858268f2a5d50927c53e55d95bc3
-	$id=$_GET['adminid']; // UCHIDA EDIT 11/08/17 ＩＤを再表示
-
-	if($_GET['action']=='failed')
-	{
+	$id=$_GET['userID'];
+	if($_GET['action']=='failed') {
 		echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください"); </script>';
-		//redirect("index.php");
 	}
-<<<<<<< HEAD
+	if($_GET['action']=='noEntry') {
+		echo '<script type="text/javascript"> alert("現在、ログインはいただけません。\\nホテルから発注依頼があった場合のみログインいただけます。"); </script>';
+	}
 
-	if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
-	{
-		$query_string="SELECT * FROM super_spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' LIMIT 0,1;";
+	if(isset($_POST['sub'])) {
+	$query_string = "SELECT * from spssp_printing_comapny WHERE BINARY email= '".$userID."' and number = '".$password."'";
 
-=======
+	$result = mysql_query( $query_string );
+	$row = mysql_fetch_array($result);
 
-	if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
-	{
-		$query_string="SELECT * FROM super_spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' LIMIT 0,1;";
-
->>>>>>> 488ad7f35a7d858268f2a5d50927c53e55d95bc3
-		$db_result=mysql_query($query_string);
-		if(mysql_num_rows($db_result))
+		if($row['id'])
 		{
-			if($db_row=mysql_fetch_array($db_result))
-			{
+			$_SESSION['contact_name'] = $row['contact_name'];
+			$_SESSION['company_name'] = $row['company_name'];
+			$_SESSION['email'] = $row['email'];
+			$_SESSION['printid'] = $row['id'];
 
-				$_SESSION['super_adminid']=$db_row['id'];
-// UCHIDA EDIT 11/08/11
-// UCHIDA EDIT 11/09/07
-//				redirect("manage.php");
-				redirect("hotel.php");
+
+			if($_POST['page']!="")
+			{
+				redirect($_POST['page'].".php?user_id=".$_POST['user_id']);
 			}
 			else
 			{
-				// UCHIDA EDIT 11/08/17 ＩＤを再表示
-				$id=$_POST['adminid'];
-				redirect("index.php?adminid=$id&action=failed");
+				redirect("index.php?userID=$userID&action=noEntry");
 			}
-		}
-		else
-		{
-			// UCHIDA EDIT 11/08/17 ＩＤを再表示
-			$id=$_POST['adminid'];
-			redirect("index.php?adminid=$id&action=failed");
+		}else{
+			redirect("index.php?userID=$userID&action=failed");
 		}
 	}
-	else
-	{
-		@session_destroy();
-	}
+
 ?>
 
 <script type="text/javascript">
 var reg = /^[A-Za-z0-9]{1,32}$/; // UCHIDA EDIT 11/07/26
 function login_admin()
 {
-	var adminid = document.getElementById('adminid').value;
+	var adminid = document.getElementById('userID').value;
 	if(adminid =="") {
 		alert("ログインIDが未入力です");
-		document.getElementById('adminid').focus();
+		document.getElementById('userID').focus();
 		return false;
 	}
- 	if(reg.test(adminid) == false) {
-		alert("ログインIDは半角英数字で入力してください");
-		document.getElementById('adminid').focus();
+ 	if(email_validate(adminid) == false) {
+		alert("ログインIDを入力してください");
+		document.getElementById('userID').focus();
 		return false;
 	 }
 
-	var adminpass = document.getElementById('adminpass').value;
+	var adminpass = document.getElementById('password').value;
 	if(adminpass =="") {
 		alert("パスワードが未入力です");
-		document.getElementById('adminpass').focus();
+		document.getElementById('password').focus();
 		return false;
 	}
 	if(reg.test(adminpass) == false) {
 		alert("パスワードは半角英数字で入力してください");
-		document.getElementById('adminpass').focus();
+		document.getElementById('password').focus();
 		return false;
 	}
-	document.login_form.submit();
+	document.loginform.submit();
+}
+function email_validate(email) {
+   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+   if(reg.test(email) == false) {
+       return false;
+   }
+   else
+   {
+   		return true;
+   }
 }
 </script>
 
@@ -112,8 +98,8 @@ body{
 	margin-left: 30px;
 	margin-top: 50px;
 	padding: 20px;
-	background: #efe7df;
-	border: 1px solid #9E846B;
+	background: #FCFAF3;
+	border: 1px solid #CCC;
 	margin-bottom: 30px;
 	text-align: left;
 }
@@ -124,50 +110,27 @@ body{
 }
 #footer{
 clear:both;
-margin-left:auto;
+margin-left:200px;
 margin-right:auto;
 text-align:center;
 width:1000px;
 }
 
-#foot_left {
-	float: left;
-	width: 330px;
-	text-align: left;
+#text-indent {
+	text-indent: 125px; /* SEKIDUKA ADD 11/08/12 */
 }
-#foot_right {
-	float: right;
-	width: 330px;
-	text-align: left;
-}
+
 .clr {	clear: both;
 }
+
 .login
 {
 width:150px;
 ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 }
-#text-indent {
-	text-indent: 125px; /* SEKIDUKA ADD 11/08/12 */
-}
-#foot_left {
-	float: left; /* SEKIDUKA ADD 11/08/12 */
-	width: 269px;
-	text-align: left;
-}
-#foot_center {
-	float: left;
-	width: 205px; /* SEKIDUKA EDIT 11/08/12 */
-	text-align: left;
-}
-#foot_right {
-	float: left;
-	width: 205px; /* SEKIDUKA EDIT 11/08/12 */
-	text-align: left;
-}
 </style>
-<title>ログイン - ウエディングプラス</title>
 
+<title>ログイン - 印刷会社様画面 - ウエディングプラス</title>
   <div align="center">
     <div id="login_BOX">
       	<div><img src="img/common/bar_print.jpg" /></div>
@@ -179,62 +142,67 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
       		<tr><td align="center" style="font-size:14;"><?php echo $weddingVersion; ?></td></tr>
 		</table>
 
-        <div id="login_area">こちらからログインしてください。<br />
-<br />
-<form action="index.php" name="login_form" method="post" id="login_form">
+        <div id="login_area">こちらからログインしてください。<br /><br />
+        <form name="loginform" method="post" action="index.php">
+		<input type="hidden" name="user_id" value="<?=$_GET['user_id']?>"/>
+		<input type="hidden" name="page" value="<?=$_GET['page']?>"/>
+	    <div id="login_IDarea">
+		<table width="100%" border="0" cellspacing="10" cellpadding="0">
 
-        <table width="100%" border="0" cellspacing="10" cellpadding="0">
-          <tr>
-            <td width="27%" align="left" nowrap="nowrap" style=" font-size:11px ">ログインID</td>
-            <td width="73%" align="left" nowrap="nowrap"><label for="ログインID"></label>
-            <input onkeydown="if (event.keyCode == 13) { login_admin(); }" name="adminid" type="text" id="adminid" size="20" class="login"  value='<?php echo $id ?>' /></td> <!-- UCHIDA EDIT 11/08/17 ＩＤを再表示 -->
+		  <tr>
+            <td width="20%" align="left" nowrap="nowrap" style="font-size:12px;">ログインID</td>
+            <td width=" 5%" align="left" nowrap="nowrap" style="font-size:12px;">：</td>
+            <td width="75%" nowrap="nowrap"><label for="ログインID"></label>
+            <input onkeydown="if (event.keyCode == 13) { login_admin(); }" name="userID" type="text" id="userID" size="20"  value='<?php echo $id ?>'/></td>
           </tr>
           <tr>
-            <td align="left" nowrap="nowrap" style=" font-size:11px ">パスワード</td>
-            <td align="left" nowrap="nowrap">
-            <input onkeydown="if (event.keyCode == 13) { login_admin(); }"name="adminpass" type="password" id="adminpass" size="20" class="login" /></td>
-          </tr>
-          <tr>
-            <td align="right" nowrap="nowrap">&nbsp;</td>
+            <td align="left" nowrap="nowrap" style="font-size:12px;">パスワード</td>
+            <td align="left" nowrap="nowrap" style="font-size:12px;">：</td>
             <td nowrap="nowrap">
-            <input type="button" value="ログイン" onclick="login_admin()" /></td>
+            <input onkeydown="if (event.keyCode == 13) { login_admin(); }" name="password" type="password" id="password" size="20" /></td>
           </tr>
         </table>
-      <div id="login_bt"></div>
-	  </form></div><div class="clr"></div>
-      <div><img src="../img/bar_recommended.jpg" /></div>
+      <div id="login_bt" style="margin-left: 104px;"><a href="javascript:void(0);" onclick="login_admin();"><img src="img/common/btn_login.jpg" alt="ログイン" width="152" height="22" /></a></div>
+	  <input type="hidden" name="sub" value="1" />
+      </div>
+	  </form>
+</div><div class="clr"></div>
+<div><img src="../img/bar_recommended.jpg" /></div>
+<div>
 
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 Start -->
 <br/>
 <div id="text-indent">当システムは下記OS、ブラウザを推奨しております。</div>
 <br/>
-<div id="foot_left">
-<table width="269" border="0" cellpadding="2" cellspacing="0" title="SSLサーバ証明書導入の証 グローバルサインのサイトシール">
+<div style="width:500px">
+<table border="0" cellpadding="2" cellspacing="0" align="center" width="500" title="SSLサーバ証明書導入の証 グローバルサインのサイトシール">
 <tr>
-<td width="269" align="center" valign="top"> <span id="ss_img_wrapper_115-57_image_ja">
+<td width="120" align="center" valign="top"> <span id="ss_img_wrapper_115-57_image_ja">
 <a href="http://jp.globalsign.com/" target="_blank"> <img alt="SSL グローバルサインのサイトシール" border="0" id="ss_jpn2_gif" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_115-57_ja.gif">
 </a>
-</span><br>
+</span><br />
 <script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gs_image_115-57_ja.js" defer="defer"></script> <a href="https://www.sslcerts.jp/" target="_blank" style="color:#000000; text-decoration:none; font:bold 12px 'ＭＳ ゴシック',sans-serif; letter-spacing:.5px; text-align:center; margin:0px; padding:0px;">SSLとは?</a>
+</td>
+<td width="120" style="font-size:12px;">
+●Windows XP ／ Vista ／ 7<br />
+・Internet Explorer 7／8<br />
+・FireFox 3.5／3.6／4.0
+</td>
+<td width="120" style="font-size:12px;">
+●Mac OS Ｘ（10.4）<br />
+・Safari 3.0以上<br />
+・FireFox 3.5／3.6／4.0
 </td>
 </tr>
 </table>
 </div>
-    <div id="foot_center"> ●Windows XP ／ Vista ／ 7<br />
-	      ・Internet Explorer 7／8<br />
-	      ・FireFox 3.5／3.6／4.0 </div>
-  <div id="foot_right">●Mac OS Ｘ（10.4）<br />
-
-	      ・Safari 3.0以上<br />
-	      ・FireFox 3.5／3.6／4.0 </div>
-	    <div class="clr"></div>
-	    </div>
+		<!-- UCHIDA EDIT 11/07/26 -->
+		<script type="text/javascript"> document.loginform.userID.focus(); </script>
 </div>
-<!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
+</div>
+</div>
+<div class="clr"></div>
+  <div id="footer" style="width:1000px">
+    <p>Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.</p>
+  </div>
 
-	<!-- UCHIDA EDIT 11/07/26 -->
-	<script type="text/javascript"> document.login_form.adminid.focus(); </script>
-
-<?php
-	include_once("inc/footer.inc.php");
-?>

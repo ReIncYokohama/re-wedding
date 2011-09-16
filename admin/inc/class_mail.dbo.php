@@ -1,4 +1,5 @@
 <?php
+include_once('dbcon.inc.php');
 class MailClass extends MessageClass
 {
 
