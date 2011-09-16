@@ -32,7 +32,7 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 		        }
 			//$sql="update spssp_admin set sessionid='".session_id()."',logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
 
-        	if ($_SESSION["super_user"]) {
+        	if ($_SESSION["super_user"]!=true) {
 				$sql="update spssp_admin set logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
 				mysql_query($sql);
         	}
@@ -53,7 +53,7 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 }
 else
 {
-	@session_destroy();
+//	@session_destroy();
 }
 
 
