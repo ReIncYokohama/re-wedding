@@ -612,7 +612,7 @@ include("inc/return_dbcon.inc.php");
                     <tr align="center">
 						<td  width="70"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
 
-                        <td width="150">
+                        <td width="150" align="left">
                         <?php
                           $man_name = $objinfo->get_user_name_image_or_src($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
 						  if($man_name==false){$man_name = $row['man_firstname']." ".$row['man_lastname'].' 様';}
@@ -620,7 +620,7 @@ include("inc/return_dbcon.inc.php");
 					   ?>
                         </td>
 
-                        <td width="150">
+                        <td width="150" align="left">
                         <?php
                            $woman_name = $objinfo->get_user_name_image_or_src($row['id'],$hotel_id=1 , $name="woman_fullname.png",$extra="thumb1");
 						   if($woman_name==false){$woman_name = $row['woman_firstname']." ".$row['woman_lastname'].' 様';}
@@ -740,10 +740,10 @@ include("inc/return_dbcon.inc.php");
                             <ul class="ul3">
 
                             <?php
-	include("inc/main_dbcon.inc.php");
- 	$super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," show_it=1 order by id desc");
-
- include("inc/return_dbcon.inc.php");
+include("inc/main_dbcon.inc.php");
+ $super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," show_it=1 order by id desc");
+  
+include("inc/return_dbcon.inc.php");
  foreach($super_messeges as $msg)
                                 {
                                     echo "<li><span class='date2'>".date('Y/m/d',$msg['display_order'])."</span> &nbsp; &nbsp; &nbsp; &nbsp;

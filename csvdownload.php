@@ -295,7 +295,7 @@ $o=1;
 $cl22 = "";
 foreach($usertblrows as $tblRows)
 {	//echo "<br>".$tblRows['table_id']."<br>";
-	$usertblrows = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id = ".(int)$tblRows['table_id']." order by id ASC");
+	$userseatrows = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id = ".(int)$tblRows['table_id']." order by id ASC");
 	//echo "<pre>";print_r($usertblrows);
 	$new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$tblRows['id']);
 	if(isset($new_name_row) && $new_name_row['id'] !='')
@@ -309,15 +309,15 @@ foreach($usertblrows as $tblRows)
 		$tblname = $tblRows['name'];
 	}
 	$z=1;
-	foreach($usertblrows as $usertbldata)
+	foreach($userseatrows as $usertbldata)
 	{
     $guesttblrows = null;
 		//echo "<pre>";print_r($usertbldata);
     //spssp_plan_detailsはplan_idとseat_idがセット
 		$guesttblrows = $obj->getRowsByQuery("select * from spssp_plan_details where seat_id = ".(int)$usertbldata['id']." and plan_id = ".$plan_id." order by id ASC");
-    
+    if(!$guesttblrows) continue;
 		if($guesttblrows[0]['guest_id'])
-		{	
+		{
       //一時的に表示を不可に
       $guest_info = $obj->GetSingleRow("spssp_guest","id=".$guesttblrows[0]['guest_id']);
     }
@@ -341,7 +341,7 @@ foreach($usertblrows as $tblRows)
 			$z=1;
 		}
 		//gaiji
-    $query_string = "SELECT * FROM spssp_gaizi_detail_for_guest WHERE guest_id = ".$guest_info["id"];
+    $query_string = "SELECT * FROM spssp_gaizi_detail_for_guest WHERE guest_id = ".$guesttblrows[0]["guest_id"];
     $firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=0");
     $lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=1");
     $comment1_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=2");
@@ -586,4 +586,6 @@ $this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_n
 header("Content-Type: application/octet-stream");
 header("Content-Disposition: attachment; filename=${this_name}.csv");
 echo $lines;
+
+
 ?>

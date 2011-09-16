@@ -111,6 +111,7 @@ include_once('dbcon.inc.php');
 			$query = "select * from $tablename where ".$where;
 			//echo $query;exit;
 			$result = mysql_query($query);
+      if(!$result) return false;
 			return mysql_num_rows($result);
 		}
 		public function GetRowCount($tablename,$where)
@@ -192,6 +193,7 @@ include_once('dbcon.inc.php');
 			$query = "select * from $tablename where  ".$where;
 			//echo $query;exit;
 			$result = mysql_query($query );
+      if(!$result) return;
 			$num = mysql_num_rows($result);
 			if($num>0)
 			{

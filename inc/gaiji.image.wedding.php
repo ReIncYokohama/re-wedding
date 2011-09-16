@@ -149,8 +149,8 @@ function get_image_name_plate($last_name,$first_name,$comment1="",$comment2="",
                                            $gaiji_comment2_arr);
   
   gaiji_imagettftext($image,$comment2_fontsize,0,0,26,$col_t,$font,$comment2,$gaiji_comment2_arr);
-  
-  $gaiji_name_arr = array_merge($gaiji_last_name_arr, $gaiji_first_name_arr);
+
+  $gaiji_name_arr = array_merge((array)$gaiji_last_name_arr, (array)$gaiji_first_name_arr);
   $name_for_fontsize = $name.$respect;
   $name_fontsize = get_image_font_size($name_max_fontsize,$name,$font,$width_px,
                                        $gaiji_name_arr);
@@ -313,7 +313,6 @@ function make_guest_images($user_id,$guest_id,$last_name,$first_name,$comment1,$
   make_name_plate_save($last_name,$first_name,$comment1,$comment2,
                        $lastname_gaiji_pathArray,$firstname_gaiji_pathArrays,
                        $comment1_gaiji_pathArray,$comment2_gaiji_pathArray,$savefile,$colorArray,$respect);
-  print "end<br><br>";
 
 }
 
