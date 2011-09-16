@@ -33,6 +33,10 @@
 
 	$plan_row = $obj->GetSingleRow("spssp_plan", " id =".$plan_id);
 
+	$permission_table_edit = $obj->GetSingleData("spssp_plan", "rename_table"," user_id =".$user_id);
+	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".$user_id);
+	$editable=$objInfo->get_editable_condition($plan_info);
+	if($permission_table_edit==1 && $editable) $button_enable=true; else $button_enable=false;
 
 	$room_rows = $plan_row['row_number'];
 
@@ -150,14 +154,22 @@ function checkConfirm()
 }
 function make_plan_check()
 {
-	if(confirm("席次表を保存しますか？"))
-	{
-		$.post('ajax/insert_plan.php',{'make_plan':'true'}, function (data){
-			return true;
-		});
+var button_enable="<?=$button_enable?>";
+	if(button_enable==true) {
+		if(confirm("席次表を保存しますか？"))
+		{
+			$.post('ajax/insert_plan.php',{'make_plan':'true'}, function (data){
+				return true;
+			});
+		}
+		else
+		{
+			$.post('ajax/unset_plan.php',{'make_plan':'true'}, function (data){
+				return true;
+			});
+		}
 	}
-	else
-	{
+	else {
 		$.post('ajax/unset_plan.php',{'make_plan':'true'}, function (data){
 			return true;
 		});
@@ -243,14 +255,14 @@ height:30px;
  -->
 <!-- UCHIDA EDIT 11/08/05 ボタンをセンタに移動 ↓ -->
 	<div align="left">
-	  <table border="0" cellpadding="0">
+	  <table border="0" cellpadding="0" align="center" >
 	    <tr >
-	   	<td width="165" height="60" >&nbsp;</td>
 	    <td class="make_plan_bt"><a href="plan_pdf_small.php" target="_blank"><img src="img/make_plan_bt03.jpg" width="154" class="on" /></a></td>
+	   	<td width="65" height="60" >&nbsp;</td>
     	<td width="1"></td>
     	<td class="make_plan_bt"><a href="plan_pdf.php" target="_blank"><img src="img/make_plan_bt04.jpg" width="154" class="on" /></a></td>
-    	<td width="1"></td>
-	    <td class="make_plan_bt"><a href="#"><img src="img/make_plan_bt05.jpg" width="154" class="on" /></a></td>
+ <!--    	<td width="1"></td>
+	    <td class="make_plan_bt"><a href="#"><img src="img/make_plan_bt05.jpg" width="154" class="on" /></a></td> -->
 	    </tr>
 	  </table>
 	</div>
@@ -438,7 +450,7 @@ height:30px;
 								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_<?=$guest['id']?>" class="tooltip"
                    title="<span style='font-size:14px'><?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="namecard.png",$extra="guest/".$guest['id']."/");?></span>" >
 								<input type="hidden" value="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="full_comment.png",$extra="guest/".$guest['id']."/thumb1");?>" class="comeent1_hidden" />
-								
+
 								<input type="hidden" value="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$guest['id']."/thumb1");?>" class="guest_name_hidden" />
 								<!--<span style="display:none;font-size:<?=$fsize?>; text-align:left; "><?=$guest['comment1']?>&nbsp;<?=$guest['comment2']?></span><br/>-->
 								<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$guest['id']."/thumb2");?>
@@ -543,7 +555,7 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
                        else
                          {
                            $pos = 'float:left;';
-                           
+
                          }
 
 
@@ -725,10 +737,10 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
 
 
 													<input type="hidden" value="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="full_comment.png",$extra="guest/".$item_info['id']."/thumb1");?><" class="comeent1_hidden" />
-												
+
 													<input type="hidden" value="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$item_info['id']."/thumb1");?>" class="guest_name_hidden" />
 													<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$item_info['id']."/thumb2");?>
-													
+
 													<!--<img src="user_name/thumb2/man_fullname.png" alt="<?=$guest['first_name']." ".$guest['last_name']." ".$rsp ;?>"  />
 														<span style="display:none;font-size:<?=$fsize?>; text-align:left;"><?=$item_info['comment1']?>&nbsp;<?=$item_info['comment2']?></span><br/>
 														<span style="font-size:<?=$fsize?>; text-align:left;"><?php echo $item_info['first_name']." ".$item_info['last_name']." ".$rspct;?></span>-->
@@ -799,9 +811,12 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
   <div class="clear" style="float:left; clear:both; height:10px;"></div></div>
   <div id="makeplanbox_foot">
 			<div id="makeplanbox_foot_submit">
+			<?php
+			if($button_enable==true) {?>
 			<div align="right">
 			<input id="button" type="button" value="保存" onclick="checkConfirm()">
 			</div>
+			<?php } ?>
 			</div>
 			<div style="clear:both;"></div>
 	</div>

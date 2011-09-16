@@ -178,10 +178,10 @@ include("inc/return_dbcon.inc.php");
                         <td  width="15%" bgcolor="#2252A3" style="color:#FFFFFF">ログイン名</td>
                         <td  width="13%" bgcolor="#2252A3" style="color:#FFFFFF">アクセス画面名</td>
                         <td  width="13%" bgcolor="#2252A3" style="color:#FFFFFF">修正対象者</td>
-						<td  width="13%" bgcolor="#2252A3" style="color:#FFFFFF">修正種別</td>
+						<td  width="7%" bgcolor="#2252A3" style="color:#FFFFFF">修正種別</td>
 						<td  width="12%" bgcolor="#2252A3" style="color:#FFFFFF">変更項目名</td>
-						<td  width="10%" bgcolor="#2252A3" style="color:#FFFFFF">変更前情報</td>
-						<td  width="10%" bgcolor="#2252A3" style="color:#FFFFFF">変更後情報</td>
+						<td  width="13%" bgcolor="#2252A3" style="color:#FFFFFF">変更前情報</td>
+						<td  width="13%" bgcolor="#2252A3" style="color:#FFFFFF">変更後情報</td>
 
 
                     </tr>
@@ -210,7 +210,7 @@ include("inc/return_dbcon.inc.php");
                     <div  style="background:<?=$bgcolor?>">
                         <table width="1000px"  border="0" align="center" cellpadding="4" cellspacing=4">
                             <tr align="left">
-                           <td  width="15%">
+                           <td  width="14%">
                             	&nbsp;<?=$row[date]?>
                             </td>
 							<td  width="15%">
@@ -247,42 +247,42 @@ include("inc/return_dbcon.inc.php");
 							<?php } ?>
 							</td>
 							<?php if($row[type]==3) { ?>
-							<td  width="13%">
+							<td  width="7%">
 							削除
 							</td>
-							<td   width="10%">
+							<td   width="12%">
 							<!--<font color="#FF0000">Blank</font>-->
 							&nbsp;
                             </td>
-							<td   width="10%">
+							<td   width="13%">
 							<!--<font color="#FF0000">Blank</font>-->
 							&nbsp;
 							</td>
-							<td   width="10%">
+							<td   width="13%">
 							<!--<font color="#FF0000">Blank</font>-->
 							&nbsp;
 							</td>
 							<?php } else if($row[type]==4) { ?>
-							<td  width="13%">
+							<td  width="7%">
 							新規
 							</td>
-							<td   width="10%">
+							<td   width="12%">
 							<!--<font color="#FF0000">Blank</font>-->
 							&nbsp;
                             </td>
-							<td   width="10%">
+							<td   width="13%">
 							<!--<font color="#FF0000">Blank</font>-->
 							&nbsp;
 							</td>
-							<td   width="10%">
+							<td   width="13%">
 							<!--<font color="#FF0000">Blank</font>-->
 							&nbsp;
 							</td>
 							<?php } else if($row[type]==2) { ?>
-							<td  width="13%">
+							<td  width="7%">
 							変更
 							</td>
-                            <td   width="10%">
+                            <td   width="12%">
 
 								<?php
 									$before_log_array=explode("|",$row['previous_status']);
@@ -362,7 +362,7 @@ include("inc/return_dbcon.inc.php");
 									}
 								?>
 							</td>
-							 <td   width="10%">
+							 <td   width="13%">
 								<?php
 									$before_log_array=explode("|",$row['previous_status']);
 									$after_log_array=explode("|",$row['current_status']);
@@ -464,7 +464,7 @@ include("inc/return_dbcon.inc.php");
 									}
 								?>
 							</td>
-                            <td  width="10%">
+                            <td  width="13%">
 							<?php
 									$before_log_array=explode("|",$row['previous_status']);
 									$after_log_array=explode("|",$row['current_status']);
@@ -642,7 +642,7 @@ include("inc/return_dbcon.inc.php");
 								}
 
 							?>
-							<td  width="13%">
+							<td  width="7%">
 							<?php
 							if($tblname_prev=="")
 							echo "新規";
@@ -650,8 +650,8 @@ include("inc/return_dbcon.inc.php");
 							echo "移動";
 							?>
 							</td>
-							<td  width="10%">席次表</td>
-                            <td   width="10%">
+							<td  width="12%">席次表</td>
+                            <td   width="13%">
 							<?php
 							if($tblname_prev!="")
 							{
@@ -668,7 +668,7 @@ include("inc/return_dbcon.inc.php");
 									}
 								?>
 							</td>
-                            <td  width="10%">
+                            <td  width="13%">
 							<?php
 								if($tblname_current!="")
 								{
@@ -698,9 +698,18 @@ include("inc/return_dbcon.inc.php");
 			 ?>
 
         </div>
-   <div align="center"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">&lt;&lt;戻る</a></div> <!--   -->
-    </div>
-<div style="height:18px; text-align:right"><a href="#">▲ページ上へ</a></div>
+        
+        <div align="center"> 
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><div style="height:20px; text-align:right"><a href="#">▲ページ上へ</a></div></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_back.gif" width="43" height="17" alt="戻る" /></a></td>
+  </tr>
+</table></div>
+</div>
+
 </div>
 
 <?php

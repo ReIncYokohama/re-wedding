@@ -8,12 +8,13 @@ $objinfo = new InformationClass();
 $post = $obj->protectXSS($_POST);
 
 //	echo $post['action']." : ".$post['user_id']." : ".$post['sortOptin']." : ".$post['date_from']." : ".$post['date_to']." : ".$post['mname']." : ".$post['wname'];
+/*
 	if($post['action']=='delete_user' && $post['user_id'] > 0)
 	{
 		$sql = "delete from spssp_user where id=".$post['user_id'];
 		mysql_query($sql);
 	}
-
+*/
 if($post['date_from'] != '')
 {
 	$date_from = $post['date_from'];
@@ -77,7 +78,7 @@ if($_SESSION['user_type'] == 222)
 $sortOptin = $post['sortOptin'];
 if ($sortOptin==NULL) 	$qry .=" order by party_day asc , party_day_with_time asc ";
 else {
-	$sortOptin = str_replace("+", ",", $post['sortOptin']); // +を,変換(,はPOST中に消滅する)
+	$sortOptin = str_replace(":", ",", $post['sortOptin']); // +を,変換(,はPOST中に消滅する)
 	$qry .=" order by ".$sortOptin;
 }
 
@@ -129,8 +130,8 @@ else
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
                     <tr align="center">
                         <td width="70">披露宴日<span class="txt1">
-                        	<a href="javascript:void(0);" onclick="sortAction('party_day asc + party_day_with_time asc');">▲</a>
-                        	<a href="javascript:void(0);" onclick="sortAction('party_day desc + party_day_with_time desc');">▼</a></span></td>
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day asc : party_day_with_time asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day desc : party_day_with_time desc');">▼</a></span></td>
                         <td width="150" > 新郎氏名<span class="txt1">
                         	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname asc');">▲</a>
                         	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname desc');">▼</a></span>

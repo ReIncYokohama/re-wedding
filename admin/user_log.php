@@ -142,7 +142,7 @@ include("inc/return_dbcon.inc.php");
                         <table width="100%"  border="0" align="center" cellpadding="0" cellspacing="1">
                             <tr align="center">
 <!-- UCHIDA EDIT 11/08/04 ↓
-                            <td align="left" width="5%"><?=$j?></td>
+                            <td align="center" width="5%"><?=$j?></td>
                             <td align="left" width="22%"><?=str_replace('-','/',$row['login_time'])?></td>
 							<td align="left" width="22%"><?php if($stuff_name!="") echo $stuff_name; else echo "お客様"; ?></td>
                             <td align="left" width="22%"><?=str_replace('-','/',$row['logout_time'])?></td>
@@ -180,7 +180,7 @@ include("inc/return_dbcon.inc.php");
 									else {
 											echo "<tr align='center'>";
 											$j++; echo "<td align='center' width='5%'>$j</td>";
-											echo "<td align='left' width='22%'style='font-size:100%;' >----&nbsp;/&nbsp;--&nbsp;/&nbsp;--&nbsp;&nbsp;--: --: --</td>";
+											echo "<td align='left' width='22%'style='font-size:100%;' >----&nbsp;/&nbsp;--&nbsp;/&nbsp;--&nbsp;&nbsp;--:&nbsp;--:&nbsp;--</td>";
 											echo "<td align='left' width='22%'>$msg</td>";
 											echo "<td align='left' width='22%'>画面消去</td>";
 											echo "</tr>";
@@ -196,9 +196,18 @@ include("inc/return_dbcon.inc.php");
 			 	}
 			 ?>
         </div>
-    <div align="center"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">&lt;&lt;戻る</a></div>
-	<div style="height:18px; text-align:right"><a href="#">▲ページ上へ</a></div>
-    </div>
+        <div align="center"> 
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><div style="height:20px; text-align:right"><a href="#">▲ページ上へ</a></div></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_back.gif" width="43" height="17" alt="戻る" /></a></td>
+  </tr>
+</table></div>
+</div>
+
+</div></div>
 
 <?php
 	include_once("inc/left_nav.inc.php");

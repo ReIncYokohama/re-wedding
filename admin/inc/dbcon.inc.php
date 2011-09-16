@@ -232,7 +232,7 @@ function forgetPassword_mail($to,$mailbody)
 		//$header='From:'.$to_admin." \r\n";
 		//$header.='Content-Type:text/plain; charset=shift_jis'."\r\n";
 
-		$header1='From:'.$to." \r\n";
+		$header1='From:'."weddingplus@sunpri.com"." \r\n";
 		$header1.='Content-Type:text/plain; charset=utf-8'. "\r\n";
         //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
 
@@ -585,7 +585,7 @@ function uploadFile($path,$file,$filename ,$extension='')
 				             );
 define('SCRIPT_VERSION', '4');
 
-
+/*
 if( isset($_SERVER['HTTPS']) ) {
 	$http = ($_SERVER['HTTPS'])?'https://':'http://';
 } else {
@@ -602,9 +602,10 @@ $reqfile = strrchr($requrl, "/");
 $urilen = strlen($requrl);
 $reqfilelen = strlen($reqfile);
 $current = substr( $requrl, 0, $urilen - $reqfilelen );
-
+*/
+$current="http://re-dev.sakura.ne.jp/demo/demo2/hotel".(int)$HOTELID;
 define('ADMIN_LINK', $current."/admin/");     //this link is used in email system
-define('MAIN_LINK', $current);         //this link is used in email system
+define('MAIN_LINK', $current."/");         //this link is used in email system
 define('PRINT_COMPANY_LINK', $current."/print/");     //this link is used in email system
 
 define('GIFT_GROUP_NAME', '');

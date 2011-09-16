@@ -6,10 +6,11 @@ $obj = new DBO();
 $objMsg = new MessageClass();
 $objinfo = new InformationClass();
 $post = $obj->protectXSS($_POST);
+$get = $obj->protectXSS($_GET);
 
-	if(isset($_POST['ajax']) && $_POST['ajax'] != '' && $_POST['id'] != '')
+	if(isset($post['ajax']) && $post['ajax'] != '' && $post['id'] != '')
 	{
-		$super_msg_row = $obj->GetSingleRow("spssp_super_message", "id=".(int)$_POST['id']);
+		$super_msg_row = $obj->GetSingleRow("spssp_super_message", "id=".(int)$post['id']);
 		$des = str_replace('<br />','',$super_msg_row['description']);
 		echo $super_msg_row['title'].','.$des;
 		exit;
@@ -79,34 +80,50 @@ $post = $obj->protectXSS($_POST);
 
 	}
 
-	if(isset($_GET['action']) && $_GET['action'] == 'delete' && (int)$_GET['smsg_id'] > 0 )
+	if(isset($get['action']) && $get['action'] == 'delete' && (int)$get['smsg_id'] > 0 )
 	{
-		$obj->DeleteRow("spssp_super_message"," id =".(int)$_GET['smsg_id']);
+		$obj->DeleteRow("spssp_super_message"," id =".(int)$get['smsg_id']);
 	}
 
 	$usermsgs = $obj->GetAllRowsByCondition("spssp_message",$umsg_where);
 	$adminmsgs = $obj->GetAllRowsByCondition("spssp_admin_messages"," $amsg_where order by display_order desc ");
 
-/* 削除はsearch_user2.phpで行う
-	if($_GET['action']=='delete_user' && (int)$_GET['id'] > 0)
+	if($get['action']=='delete' && (int)$get['id'] > 0)
 	{
-		$sql = "delete from spssp_user where id=".(int)$_GET['id'];
+		$sql = "delete from spssp_user where id=".(int)$get['id'];
 		mysql_query($sql);
+		$sql = "delete from spssp_plan where user_id=".(int)$get['id'];
+		mysql_query($sql);
+		$post['date_from']=$get['date_from'];
+		$post['date_to']=$get['date_to'];
+		$post['mname']=$get['mname'];
+		$post['wname']=$get['wname'];
 	}
-*/
 ?>
 
 		   <!--User view respect to admin start-->
 <?php
+	$table_users ="spssp_user";
+	$where_users = " stuff_id = ".$_SESSION['adminid']." and  party_day >= '".date("Y-m-d")."'";
+
+	$sortOptin = $get['sortOptin'];
+	if ($sortOptin==NULL) 	$order =" order by party_day asc , party_day_with_time asc ";
+	else {
+		$sortOptin = str_replace(":", ",", $get['sortOptin']); // +を,変換(,はPOST中に消滅する)
+		$order =" order by ".$sortOptin;
+	}
+	$query_string="SELECT * FROM $table_users where $where_users $order ;";
+	$data_rows = $obj->getRowsByQuery($query_string);
+/*
 	$table_users='spssp_user';
 	$where_users = " stuff_id = ".$_SESSION['adminid']." and  party_day >= '".date("Y-m-d")."'";
 	$data_per_page_users=10;
-	$current_page_users=(int)$_GET['page'];
+	$current_page_users=(int)$get['page'];
 
 	$order="party_day ASC , party_day_with_time asc ";
 	$query_string="SELECT * FROM $table_users where $where_users ORDER BY $order ;";
 	$data_rows = $obj->getRowsByQuery($query_string);
-
+*/
 ?>
 
 
@@ -311,10 +328,13 @@ function confirmDeleteUser(user_id) {
 
 	if(confirm("削除しても宜しいですか？") == false) return false;
 
-	date_from = document.condition.h_date_from.value;
-	date_to = document.condition.h_date_to.value;
-	mname= document.condition.h_man_lastname.value;
-	wname = document.condition.h_woman_lastname.value;
+	date_from = $j("#date_from").val();
+	date_to = $j("#date_to").val();
+	mname= $j("#man_lastname").val();
+	wname = $j("#woman_lastname").val();
+
+	window.location = "manage.php?action=delete&id="+user_id+"&date_from="+date_from+"&date_to="+date_to+"&mname="+mname+"&wname="+wname+"&sortOptin="+sortOptin;
+/*
 	delete_user = "delete_user";
 
 	$j.post('ajax/search_user2.php',{'action':delete_user, 'user_id':user_id,'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname,'sortOptin':sortOptin}, function(data){
@@ -324,6 +344,7 @@ function confirmDeleteUser(user_id) {
 	$j("#srch_result").fadeIn(700);
 	$j("#box_table").fadeOut(100);
 	});
+*/
 }
 
 function sortAction(sortOptin)
@@ -387,7 +408,7 @@ function validSearch()
 		}
 		if (date_from != "" && date_to != "") {
 			if (date_from > date_to) {
-				alert("披露宴開始日より終了日が後の日付になっています。\n披露宴日の検索範囲を正しく指定してください");
+				alert("検索開始日より検索終了日が先になっています。\n検索範囲を正しく指定してください");
 				return false;
 			}
 		}
@@ -507,19 +528,19 @@ include("inc/return_dbcon.inc.php");
 
 			  <tr style="height:30px;">
 				<td width="80">披露宴日：</td>
-				<td width="169"><input name="date_from" type="text" id="date_from"    style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
+				<td width="169"><input name="date_from" type="text" id="date_from" value="<?=$post['date_from']?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
 
 				<!-- UCHIDA EDIT 11/07/26 -->
 			    <!-- <td width="62" >～</td> -->
 			    <td width="80" >～</td>
 
-				<td width="389"><input name="date_to" type="text" id="date_to"   style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>
+				<td width="389"><input name="date_to" type="text" id="date_to" value="<?=$post['date_to']?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>
 			  </tr>
 			  <tr style="height:30px;">
 				<td>新郎姓：</td>
-				<td><input name="man_lastname" type="text" id="man_lastname"  class="input_text" /></td>
+				<td><input name="man_lastname" type="text" id="man_lastname"  class="input_text"  value="<?=$post['mname']?>" /></td>
 			    <td>新婦姓：</td>
-				<td><input name="woman_lastname" type="text" id="woman_lastname" class="input_text" /></td>
+				<td><input name="woman_lastname" type="text" id="woman_lastname" class="input_text" value="<?=$post['wname']?>" /></td>
 			  </tr>
 			  </table>
 
@@ -558,8 +579,8 @@ include("inc/return_dbcon.inc.php");
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
                     <tr align="center">
                         <td width="70">披露宴日<span class="txt1">
-                        	<a href="javascript:void(0);" onclick="sortAction('party_day asc + party_day_with_time asc');">▲</a>
-                        	<a href="javascript:void(0);" onclick="sortAction('party_day desc + party_day_with_time desc');">▼</a></span>
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day asc : party_day_with_time asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day desc : party_day_with_time desc');">▼</a></span>
                         </td>
                         <td width="150" > 新郎氏名<span class="txt1">
                         	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname asc');">▲</a>
@@ -612,7 +633,7 @@ include("inc/return_dbcon.inc.php");
                     <tr align="center">
 						<td  width="70"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
 
-                        <td width="150" align="left">
+                        <td width="150">
                         <?php
                           $man_name = $objinfo->get_user_name_image_or_src($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
 						  if($man_name==false){$man_name = $row['man_firstname']." ".$row['man_lastname'].' 様';}
@@ -620,7 +641,7 @@ include("inc/return_dbcon.inc.php");
 					   ?>
                         </td>
 
-                        <td width="150" align="left">
+                        <td width="150">
                         <?php
                            $woman_name = $objinfo->get_user_name_image_or_src($row['id'],$hotel_id=1 , $name="woman_fullname.png",$extra="thumb1");
 						   if($woman_name==false){$woman_name = $row['woman_firstname']." ".$row['woman_lastname'].' 様';}
@@ -740,10 +761,10 @@ include("inc/return_dbcon.inc.php");
                             <ul class="ul3">
 
                             <?php
-include("inc/main_dbcon.inc.php");
- $super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," show_it=1 order by id desc");
-  
-include("inc/return_dbcon.inc.php");
+	include("inc/main_dbcon.inc.php");
+ 	$super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," show_it=1 order by id desc");
+
+ include("inc/return_dbcon.inc.php");
  foreach($super_messeges as $msg)
                                 {
                                     echo "<li><span class='date2'>".date('Y/m/d',$msg['display_order'])."</span> &nbsp; &nbsp; &nbsp; &nbsp;

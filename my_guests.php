@@ -274,12 +274,16 @@ function cancel_div(did)
 {
   $("#"+did).hide(500);
 }
-function confirmDelete(urls)
+function confirmDelete(urls,id)
 {
-  // UCHIDA EDIT 00/07/27
-  //		var agree = confirm("削除しても宜しいですか？");
-  var agree = confirm("編集中ですが、削除してよろしいですか？\n現在の入力内容は破棄されます");
-  if(agree)
+  var gid = "<?=$get["gid"]?>";
+  var msg;
+  if(gid == id){
+    msg = "編集中ですが、削除してよろしいですか？\n現在の入力内容は破棄されます";
+  }else{
+    msg = "削除してよろしいですか";
+  }
+  if(confirm(msg))
 		{
 			window.location = urls;
 		}
@@ -1206,7 +1210,7 @@ if($editable)
 			?>
             	<input type="button" name="button" id="button" value="編集" onclick="edit_guest(<?=$guest['id']?>)" /> &nbsp;
 
-				<input name="button" type="button" value="削除" onclick="confirmDelete('my_guests.php?guest_id=<?=$guest['id']?>&action=delete&page=<?=(int)$_GET['page']?>')" />
+				<input name="button" type="button" value="削除" onclick="confirmDelete('my_guests.php?guest_id=<?=$guest['id']?>&action=delete&page=<?=(int)$_GET['page']?>',<?=$guest["id"]?>)" />
 				<?php
 					}
 				?>

@@ -253,7 +253,7 @@ function validSearch()
 		}
 		if (date_from != "" && date_to != "") {
 			if (date_from > date_to) {
-				alert("披露宴開始日より終了日が後の日付になっています。\n披露宴日の検索範囲を正しく指定してください");
+				alert("検索開始日より検索終了日が先になっています。\n検索範囲を正しく指定してください");
 				return false;
 			}
 		}
@@ -304,7 +304,7 @@ include("inc/return_dbcon.inc.php");
 <div id="container">
     <div id="contents">
 
-    	<h4><div> 管理者用お客様一覧</div></h4>
+    	<h2><div> 管理者用お客様一覧</div></h2>
 
 <?php
 if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)

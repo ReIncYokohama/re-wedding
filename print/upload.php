@@ -31,7 +31,7 @@ redirect("index.php?msg=3");exit;
 	 }
 	 else
 	 {
-	 	redirect("list.php");exit;
+	 	//redirect("list.php");exit;
 	 }
 
 if(isset($_POST['sub']))

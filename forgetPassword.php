@@ -1,9 +1,9 @@
 <?php
 	include_once("admin/inc/dbcon.inc.php");
 	include_once("admin/inc/class.dbo.php");
-	
+
 	$obj = new DBO();
-	
+
 	if($_POST['getForm']=='getForm')
 	{
 		if($_POST['email']=="")
@@ -19,11 +19,11 @@
 			}
 			else
 			{
-				
+
 $mailbody = <<<html
 =====このメールは-自動配信メールです。======
 
-{$dataRow['man_firstname']} {$dataRow['man_lastname']} 様
+{$dataRow['man_lastname']} {$dataRow['man_firstname']} 様
 ウエディングプラスのマイページにログインするための
 パスワードを送信しました
 
@@ -43,7 +43,7 @@ html;
 		}
 		//redirect("index.php");
 	}
-		
+
 	//include_once("inc/new.header.inc.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -70,7 +70,7 @@ height:400px;
 }
 #login_BOX{
 border:1px solid #00C6FF;
-margin:30px auto;
+margin:10px auto;
 width:500px;
 }
 #login_midashi
@@ -111,17 +111,17 @@ font-size:13px;
 function validForm()
 {
 	var email  = document.getElementById('email').value;
-	
-	
+
+
 	var flag = true;
 	if(!email)
 	{
-		 
+
 		 alert("メールアドレスが未入力です");
-		 document.getElementById('email').focus();		 
+		 document.getElementById('email').focus();
 		 return false;
 	}
-	
+
 	document.passwordForgetForm.submit();
 }
 
@@ -135,37 +135,40 @@ function validForm()
 		  </div>
 			<div style="border-bottom: 8px solid #00C6FF;"></div>
 		</div>
-		
+
 			<div align="center">
 				<div id="login_BOX" style="padding:1px; width:520px;">
 					<div id="login_midashi">ウエディングプラス</div>
 					<div id="login_IDarea">
 						<form action="forgetPassword.php" method="post" name="passwordForgetForm">
-							<input type="hidden" name="getForm" value="getForm">
-							<table style="font-size:10px;" align="center" cellspacing="10" cellpadding="0" width="100%">
+							<table style="font-size:12px;" width="400" align="center" cellspacing="10" cellpadding="0" border="0">
 								<tr>
-									<td width="40%">メールアドレス</td>
-									<td width="60%"><input type="text" id="email" size="30px;" name="email" /></td>
+									<td colspan="2">パスワードを忘れ場合は、下記のフォームにメールアドレスを入力の上、<br />送信ボタンを押下してください<br />登録されているメールアドレスと照合の上、パスワードを送信いたします<br/></td>
+								</tr>
+								<tr>
+									<td width="30%">メールアドレス</td>
+									<td width="70%"><input type="text" id="email" size="30px;" name="email" /></td>
 								</tr>
 								<tr>
 									<td>&nbsp;</td>
 									<td><input type="button" name="forgetpass" value="送信"  onclick="validForm();"/></td>
 								</tr>
 							</table>
+							<input type="hidden" name="getForm" value="getForm">
 						 </form>
 					</div>
 					<div  style="width:350px;"><a href="index.php"><b>戻る</b></a></div>
 				</div>
-			</div>		
-	
+			</div>
+
 		<div class="footer">
 		<div style="border-bottom: 8px solid #00C6FF;"></div>
 		<div id="footer">
     		Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.
   		 </div>
 		</div>
+		<script type="text/javascript"> document.passwordForgetForm.email.focus(); </script>
 	</div>
-
 </body>
 </html>
 
