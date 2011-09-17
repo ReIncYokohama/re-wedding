@@ -337,8 +337,6 @@ function order_mail($to,$mailbody,$mailbody2)
 					//header('location:thanks.html');
 				}
 			}
-
-
 	}
 
 function planorder_mail($to,$mailbody,$mailbody2)
@@ -346,14 +344,12 @@ function planorder_mail($to,$mailbody,$mailbody2)
 
 		$to_admin='kumar@re-inc.jp';
 
-
 		$header='From:'.$to_admin." \r\n";
 		$header.='Content-Type:text/plain; charset=shift_jis'."\r\n";
 
 		$header1='From:'.$to." \r\n";
 		$header1.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
-
+    //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
 
 		$subject1='planorder_mail';
 		$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
@@ -363,11 +359,8 @@ function planorder_mail($to,$mailbody,$mailbody2)
 		$subject00 = base64_encode(mb_convert_encoding($subject0,"JIS","SJIS"));
 		$adminsubject = '=?ISO-2022-JP?B?'.$subject00.'?=';
 
-
-	    $user_body=$mailbody;
-
+	  $user_body=$mailbody;
 		$admin_body=$mailbody2;
-
 
 		//// MAIL TO ADMIN////////////////
 		if(@mail($to_admin, $adminsubject, $admin_body, $header1))
@@ -378,17 +371,11 @@ function planorder_mail($to,$mailbody,$mailbody2)
 					//header('location:thanks.html');
 				}
 			}
-
-
 	}
-
-
 
 function inquery_mail($to,$mailbody,$mailbody2)
 	{
-
 		$to_admin='kumar@re-inc.jp';
-
 
 		$header='From:'.$to_admin." \r\n";
 		$header.='Content-Type:text/plain; charset=shift_jis'."\r\n";
@@ -406,8 +393,7 @@ function inquery_mail($to,$mailbody,$mailbody2)
 		$subject00 = base64_encode(mb_convert_encoding($subject0,"JIS","SJIS"));
 		$adminsubject = '=?ISO-2022-JP?B?'.$subject00.'?=';
 
-
-	    $user_body=$mailbody;
+    $user_body=$mailbody;
 
 		$admin_body=$mailbody2;
 
@@ -421,10 +407,7 @@ function inquery_mail($to,$mailbody,$mailbody2)
 					//header('location:thanks.html');
 				}
 			}
-
-
 	}
-
 
 	if($_GET[catid])
 	{
@@ -448,24 +431,19 @@ function inquery_mail($to,$mailbody,$mailbody2)
 
 	}
 
-		function contactmail($from,$mailbody)
+function contactmail($from,$mailbody)
 	{
 
 		$to_admin='kumar@re-inc.jp';
 		$header='From:'.$to_admin." \r\n";
 		$header.='Content-Type:text/plain; charset=utf-8'. "\r\n";
 
-
-
 		$subject1='メールオーダーフォーム';
 		$charset = 'UTF-8';
 		$usersubject = "=?$charset?B?" . base64_encode($subject1) . "?=\n";
 
-
 		$subject0='メールオーダーフォーム';
 		$adminsubject = "=?$charset?B?" . base64_encode($subject0) . "?=\n";
-
-
 
 		$to_admin='kumar@re-inc.jp';
 
@@ -484,23 +462,19 @@ function inquery_mail($to,$mailbody,$mailbody2)
 		$subject0='仮予約のお申し込みがありました';
 		$adminsubject = "=?$charset?B?" . base64_encode($subject0) . "?=\n";
 
-
 		$user_body=$mailbody;
-
 		$admin_body=$mailbody;
 
-
-				//// MAIL TO ADMIN////////////////
-				if(@mail($to_admin, $adminsubject, $admin_body, $header1))
-					{
-						//////MAIL TO USER /////////////
-						if(@mail($from, $usersubject, $user_body, $header))
-						{
-							//header('location:thanks.html');
-						}
-					}
-				else echo 'エラー';
-
+    //// MAIL TO ADMIN////////////////
+    if(@mail($to_admin, $adminsubject, $admin_body, $header1))
+      {
+        //////MAIL TO USER /////////////
+        if(@mail($from, $usersubject, $user_body, $header))
+          {
+            //header('location:thanks.html');
+          }
+      }
+    else echo 'エラー';
 	}
 /*
 	if($_SESSION['adminid'] !='' && $_SESSION['user_type'] !='' && !$_SESSION["super_user"])
@@ -523,10 +497,8 @@ function uploadFile($path,$file,$filename ,$extension='')
 	{
 		if(ucwords($ext) == 'PDF' || ucwords($ext) == 'CSV')
 		{
-
 			@move_uploaded_file($_FILES[$filename]["tmp_name"],$path.$samplefile);
 			return $message = $path.$samplefile;
-
 		}
 
 	}
