@@ -980,7 +980,7 @@ include("inc/return_dbcon.inc.php");
   様
 
     </div>
-        <h4><div style="width:500px; ">
+        <h2><div style="width:500px; ">
 	<!-- UCHIDA EDIT 11/08/02
 	        <a href="users.php">お客様一覧</a> &raquo; お客様挙式情報</div>
 	-->
@@ -993,7 +993,7 @@ include("inc/return_dbcon.inc.php");
 		}
 		?>
 		</div>
-        </h4>
+        </h2>
 		<div style="width:800px;">
         	<div class="navi">
             	<img src="img/common/navi01_on.jpg"/>
@@ -1425,7 +1425,7 @@ include("inc/return_dbcon.inc.php");
                             }
                           else
                             {
-                              $tblname = $table['name'];
+                              //$tblname = $table['name'];
                             }
 
                           if($table["display"] == 1){
@@ -1717,7 +1717,7 @@ $gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".(int)$_GET['user_id
                 <div style="width:200px;; float:left;">
 
                 	<?php
-							/*$j=1;
+							$j=1;
                             foreach($gifts as $gift)
                             {
                             	echo " <input style='background:#EBEBE4;border:1px solid gray;padding:2px;' type='text' readonly='readonly' value='".$gift['name']."' size='13'> ";
@@ -1725,7 +1725,7 @@ $gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".(int)$_GET['user_id
 								{
 									echo "</p><p>";
 								}
-                            }*/
+                            }
                       ?>
 
                <!--GIFT ITEM BOX START-->

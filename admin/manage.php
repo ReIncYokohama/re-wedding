@@ -49,7 +49,8 @@ $get = $obj->protectXSS($_GET);
 				$var = 0;
 			}
 		}
-    $umsg_where = " 1=1";
+	//    $umsg_where = " 1=1";
+	$umsg_where = " admin_viewed=0 order by id DESC";
 	}
 	else
 	{
@@ -394,17 +395,34 @@ function validSearch()
 	}else
 	{
 // UCHIDA EDIT 11/08/02 日付チェックを追加
+
+	date = new Date();
+	y = date.getFullYear();
+	m = date.getMonth() + 1;
+	d = date.getDate();
+	if (m < 10) { m = "0" + m; }
+	if (d < 10) { d = "0" + d; }
+	var today = y + "/" + m + "/" + d;
+
 		if (date_from != "") {
 			if (ckDate(date_from) == false) {
 				alert("披露宴開始日の日付指定が間違っています。\nカレンダーアイコンから選択するか、正しく入力してください");
 				return false;
 			}
 		}
+		if (date_from < today) {
+			alert("披露宴開始日が過去になっています");
+			return false;
+		}
 		if (date_to != "") {
 			if (ckDate(date_to) == false) {
 				alert("披露宴終了日の日付指定が間違っています。\nカレンダーアイコンから選択するか、正しく入力してください");
 				return false;
 			}
+		}
+		if (date_to < today) {
+			alert("披露宴終了日が過去になっています");
+			return false;
 		}
 		if (date_from != "" && date_to != "") {
 			if (date_from > date_to) {
@@ -496,20 +514,23 @@ include("inc/return_dbcon.inc.php");
 
 					$user_id_array[]=$umsg['user_id'];
 
-					$man_firstname = $obj->GetSingleData("spssp_user", "man_firstname"," id=".$umsg['user_id']);
+					$userWhere = "id=".$umsg['user_id']." and party_day >= '".date("Y-m-d")."'";
+					$nm = $obj->GetRowCount("spssp_user",$userWhere);
+					if ($nm >0) {
+						$man_firstname = $obj->GetSingleData("spssp_user", "man_firstname"," id=".$umsg['user_id']);
+						$woman_firstname = $obj->GetSingleData("spssp_user", "woman_firstname"," id=".$umsg['user_id']);
+						$party_day = $obj->GetSingleData("spssp_user", "party_day"," id=".$umsg['user_id']);
 
-					$woman_firstname = $obj->GetSingleData("spssp_user", "woman_firstname"," id=".$umsg['user_id']);
-					$party_day = $obj->GetSingleData("spssp_user", "party_day"," id=".$umsg['user_id']);
+						$party_date_array=explode("-",$party_day);
 
-					$party_date_array=explode("-",$party_day);
+						$party_day=$party_date_array[1]."/".$party_date_array[2];
 
-					$party_day=$party_date_array[1]."/".$party_date_array[2];
+						$man_name = $objinfo->get_user_name_image_or_src($umsg['user_id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
+			    		$woman_name = $objinfo->get_user_name_image_or_src($umsg['user_id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
+			    		$user_name = $man_name."・".$woman_name;
 
-				  $man_name = $objinfo->get_user_name_image_or_src($umsg['user_id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
-          $woman_name = $objinfo->get_user_name_image_or_src($umsg['user_id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
-          $user_name = $man_name."・".$woman_name;
-
-					echo "<li><a href='message_user.php?stuff_id=0&user_id=".$umsg['user_id']."' >".$party_day." ".$user_name." 様よりの未読メッセージがあります。</a></li>";
+						echo "<li><a href='message_user.php?stuff_id=0&user_id=".$umsg['user_id']."' >".$party_day." ".$user_name." 様よりの未読メッセージがあります。</a></li>";
+					}
 				}
 			?>
         </ul>
