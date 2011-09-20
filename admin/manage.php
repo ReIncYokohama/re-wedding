@@ -637,7 +637,7 @@ include("inc/return_dbcon.inc.php");
 				include("inc/return_dbcon.inc.php");
 
 				$staff_name = $obj->GetSingleData("spssp_admin","name"," id=".$row['stuff_id']);
-
+        $staff_id = $row["stuff_id"];
 				if($i%2==0)
 				{
 					$class = 'box5';
@@ -646,7 +646,6 @@ include("inc/return_dbcon.inc.php");
 				{
 					$class = 'box6';
 				}
-				//$last_login = $obj->GetSingleData("spssp_user_log","max(login_time)"," id=".$row['id']);
 
 				$last_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$row['id']." and admin_id='0' ORDER BY login_time DESC");
 
@@ -676,7 +675,7 @@ include("inc/return_dbcon.inc.php");
                          <!--<td><?php //echo $obj->japanyDateFormate($row['party_day'] , $row['party_day_with_time'])?></td>-->
 
                         <td width="80"> <?=$staff_name?></td>
-                        <td width="60" > <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id']);?> </td>
+                            <td width="60" > <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'],$staff_id);?> </td>
                         <td  width="80">
 						<?php
 // UCHIDA EDIT 11/08/03 'ログイン中' → ログイン時間

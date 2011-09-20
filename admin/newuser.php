@@ -109,6 +109,7 @@
 	if($_SESSION['user_type'] == 222  || $_SESSION['user_type'] == 333)
 	{
 		$data = $obj->GetAllRowsByCondition("spssp_user"," stuff_id=".(int)$_SESSION['adminid']);
+    if(!$data) $data=array();
 		foreach($data as $dt)
 		{
 			$staff_users[] = $dt['id'];
