@@ -87,7 +87,9 @@ $get = $obj->protectXSS($_GET);
 	}
 
 	$usermsgs = $obj->GetAllRowsByCondition("spssp_message",$umsg_where);
+  if(!$usermsgs) $usermsgs = array();
 	$adminmsgs = $obj->GetAllRowsByCondition("spssp_admin_messages"," $amsg_where order by display_order desc ");
+  if($adminmsgs) $adminmsgs = array();
 
 	if($get['action']=='delete' && (int)$get['id'] > 0)
 	{
@@ -507,7 +509,7 @@ include("inc/return_dbcon.inc.php");
 
 			<?php
 				$user_id_array=array();
-            	foreach($usermsgs as $umsg)
+        foreach($usermsgs as $umsg)
 				{
 					if(in_array($umsg['user_id'],$user_id_array))
 					continue;
