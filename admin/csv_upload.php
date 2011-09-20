@@ -19,10 +19,13 @@
     <div class="top_box1">
       <table width="420" border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td>「参照...」ボタンを押して、アップロードするファイルを選択してください。</td>
+          <td>「参照...」ボタンを押して、アップロードするファイルを選択してください</td>
         </tr>
         <tr>
-          <td>&nbsp;</td>
+          <td>　　※アップロードは時間がかかります</td>
+        </tr>
+                <tr>
+          <td> 　　　完了メッセージが出るまで画面を閉じないでください</td>
         </tr>
       </table>
 
@@ -56,9 +59,7 @@
     <div class="top_box2">
       <a href="javascript:void(0);"><img onclick="javascript:document.uploaddoc.submit();" src="img/btn_upload_list.jpg" alt="アップロード" width="82" height="22" /></a>
       　</div>
-<div class="top_box2">
-<div>※アップロードは時間がかかります</div><div>完了メッセージが出るまで画面を閉じないでください</div>   
-</div>
+
 
 
 </body>
