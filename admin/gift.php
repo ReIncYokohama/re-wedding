@@ -629,7 +629,7 @@ unset($_SESSION['msg']);
     <td>
     <?php if(($_SESSION['user_type']==111)||(($_SESSION['user_type']==333))){?>
     <input name="num_menu_groups" type="text" id="num_menu_groups" onkeydown="if (event.keyCode == 13) { validForm2(); }" size="10" <?=$ro?> value="<?=$menu_criteria_data_row[0]['num_menu_groups']?>" />
-      種類(最大3つまで)
+      種類(最大3種類まで)
       <?
 	}else{
 		echo $menu_criteria_data_row[0]['num_menu_groups']."&nbsp;種類"; // UCHIDA EDIT 11/08/08 メッセージ変更
