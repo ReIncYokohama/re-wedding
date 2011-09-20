@@ -256,8 +256,11 @@ $(function(){
     <?php
     if($_GET["gid"]) print "/*";
     ?>
-    $("#guest_type").val($.cookie('user_guest_type'+"<?=$HOTELID?>"));
-    $("#gift_group").val($.cookie('user_gift_group'+"<?=$HOTELID?>"));
+    var cookieArray = ["sex","guest_type","gift_group"];
+    for(var i=0;i<cookieArray.length;++i){
+      var t = cookieArray[i];
+      if($.cookie('user_'+t+"<?=$HOTELID?>")) $("#"+t).val($.cookie('user_'+t+"<?=$HOTELID?>"));      
+    }
     <?php
     if($_GET["gid"]) print "*/";
     ?>
@@ -365,8 +368,11 @@ function validForm()
 			}
 		}
   //続けて登録する際に選択させるため。1日だけ保存
-  $.cookie('user_guest_type'+'<?=$HOTELID?>', $("#guest_type").val());
-  $.cookie('user_gift_group'+'<?=$HOTELID?>', $("#gift_group").val());
+  var cookieArray = ["sex","guest_type","gift_group"];
+  for(var i=0;i<cookieArray.length;++i){
+    var t = cookieArray[i];
+    $.cookie('user_'+t+'<?=$HOTELID?>', $("#"+t).val());
+  }
   document.newguest.submit();
 }
 
