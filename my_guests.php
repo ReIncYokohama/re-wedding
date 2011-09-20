@@ -847,7 +847,7 @@ if($editable)
                             	$gift_groups = $obj->GetAllRowsByCondition(" spssp_gift_group "," user_id=".$user_id);
 								if((int)$_GET['gid'])
 								 $guest_gifts = $obj->GetAllRowsByCondition(" spssp_guest_gift "," user_id=".$user_id." and guest_id='".$_GET['gid']."'");
-
+                
 								$gg_arr = array();
 							    if(is_array($guest_gifts))
 								{
@@ -1017,12 +1017,12 @@ foreach($guests as $guest){
   $guest_type = $obj->GetSingleData(" spssp_guest_type ", "name", " id=".$guest['guest_type']);
   include("admin/inc/return_dbcon.inc.php");
 	$gift_id = $obj->GetSingleData(" spssp_guest_gift ", "group_id", " guest_id=".$guest['id']." and user_id = ".$user_id);
-    
+
 	$gift_name='';
 		if((int)$gift_id > 0)
 		{
-			$gift_group = $obj->GetSingleData(" spssp_gift_group ", "name", " id=".$gift_id." and  user_id = ".$user_id);
-      $gift_name = $gift_group["name"];
+			$gift_group = $obj->GetSingleData(" spssp_gift_group ", "name", " id=".$gift_id);
+      $gift_name = $gift_group;
 		}
 
 		$menu_id = $obj->GetSingleData(" spssp_guest_menu ", "menu_id", " guest_id=".$guest['id']." and user_id = ".$user_id);
@@ -1254,8 +1254,8 @@ $gift_id = $obj->GetSingleData(" spssp_guest_gift ", "group_id", " guest_id=".$g
 	$gift_name='';
 		if((int)$gift_id > 0)
 		{
-			$gift_group = $obj->GetSingleData(" spssp_gift_group ", "name", " id=".$gift_id." and  user_id = ".$user_id);
-      $gift_name = $gift_group["name"];
+			$gift_group = $obj->GetSingleData(" spssp_gift_group ", "name", " id=".$gift_id);
+      $gift_name = $gift_group;
 		}
 
 		$menu_id = $obj->GetSingleData(" spssp_guest_menu ", "menu_id", " guest_id=".$guest['id']." and user_id = ".$user_id);
