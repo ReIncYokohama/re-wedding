@@ -72,7 +72,12 @@ if($date_from == '' && $date_to != '')
 }
 if($date_from == '' && $date_to == '')
 {
-	$qry .= "";
+	if($current_view=="before") {
+		$qry .= " and party_day < '".$today."'";
+	}
+	else {
+		$qry .= " and party_day >= '".$today."'";
+	}
 }
 if($mdate !='')
 {
