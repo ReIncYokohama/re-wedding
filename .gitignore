@@ -17,11 +17,8 @@ conf/conf.php
 Yourexcel.html
 admin/Yourexcel.html
 cron/mail.log
-<<<<<<< HEAD
 
 *upload/attach/*
 upload/*
 user_name/*
-=======
-*upload/attach/*
->>>>>>> abf2b59b9ff449d4d9cd59eaaac058e5b74abe16
+gaizi.log
