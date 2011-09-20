@@ -861,7 +861,7 @@ if($editable)
 
 								 if($guest_row['self']==1){$access= "disabled";}
 								echo "<select id='gift_group'  name='gift_group_id' style='width:80px; padding-top:3px; padding-bottom:3px;' >";
-								echo "<option value='' >なし</option>";
+
 								foreach($gift_groups as $gg)
 								{
 									$selected = (in_array($gg['id'],$gg_arr))?"selected":"";
@@ -1386,7 +1386,7 @@ if($guest["sex"] == "Male"){
             	}
 			?>
 
-            <td width="42" align="center" bgcolor="#FFFFFF">×</td>
+
             <td width="60" align="center" bgcolor="#FFFFFF">予備</td>
             <td width="59" align="center" bgcolor="#FFFFFF">合計</td>
           </tr>
@@ -1431,7 +1431,7 @@ if($guest["sex"] == "Male"){
           $num_reserve = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift["id"]);
           $num_gifts += $num_reserve;
 			?>
-           	<td width="42" align="center" bgcolor="#FFFFFF">&nbsp;</td>
+
             <td width="60" align="center" bgcolor="#FFFFFF"><?=$num_reserve?></td>
             <td width="59" align="center" bgcolor="#FFFFFF"><?=$num_gifts?></td>
           </tr>
@@ -1449,13 +1449,7 @@ if($guest["sex"] == "Male"){
 					echo "<td align='center' bgcolor='#FFFFFF'> $num_guests_groups </td>";
 				}
 			?>
-            <td width="42" align="center" bgcolor="#FFFFFF">
-				<?php
-                	$num_guests = $obj->GetNumRows(" spssp_guest "," user_id = $user_id ");
-					$not_gifted = $num_guests - $total;
-					echo $not_gifted;
-				?>
-             </td>
+           
             <td align="center" bgcolor="#FFFFFF">&nbsp;</td>
             <td bgcolor="#FFFFFF" align="center">×</td>
           </tr>
@@ -1476,11 +1470,6 @@ if($guest["sex"] == "Male"){
 					echo "<tr><td bgcolor='#FFFFFF' width='30' align='center'>".$grp['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".$item_names."</td></tr>";
 				}
 			?>
-
-          <tr>
-            <td bgcolor="#FFFFFF">　×</td>
-            <td bgcolor="#FFFFFF">&nbsp;</td>
-          </tr>
         </table>
       </div>
 <div class="clear"></div>

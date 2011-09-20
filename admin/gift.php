@@ -334,31 +334,7 @@ function validForm(x)
 //			 return false;
 		}
 	}
-/*
-	if(!order_deadline || order_deadline == 0)
-	{
-		 if($r_flg == 0)
-		 {
-		 alert("発注締切日を入力してください");
-		 document.getElementById('order_deadline').focus();
-		 }
-		 $('#order_deadline').val(orderdeadline);
-		 $r_flg = 1;
-//		 return false;
-	}
 
-	if(reg1.test(order_deadline) == false)
-	{
-		 if($r_flg == 0)
-		 {
-		 alert("発注締切日は半角数字で入力してください");
-		 document.getElementById('order_deadline').focus();
-		 }
-		 $('#order_deadline').val(orderdeadline);
-		 $r_flg = 1;
-//		 return false;
-	}
-*/
 	if($r_flg == 1)
 	{
 	return false;
@@ -399,18 +375,18 @@ function validForm2()
 var gReg = /^[Ａ-Ｚａ-ｚ０-９]$/;
 function checkGroupForm(x)
 {	//alert(x);
-
+  /*
 	for(var y=1;y<x;y++)
 	{
 		var gval = $("#name"+y).val();
-		if(gReg.test(gval)==false && gval != "")
+		if(gval.length>1 && gval != "")
 		{
-			alert("全角英数字１文字で入力してください");
+			alert("１文字で入力してください");
 			var error =1;
 			document.getElementById("name"+y).focus();
 			return false;
 		}
-	}
+    }*/
 	if(error!=1)
 	{
 		document.gift_criteria_form.submit();
