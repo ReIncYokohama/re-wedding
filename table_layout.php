@@ -77,14 +77,6 @@ function validForm(num)
 {
 var layoutname_ajax  = $("#layoutname_ajax").val();
 var table_array=new Array();
-/* 高砂卓名の未入力を許可 UCHIDA EDIT 11/08/04
-	if(layoutname_ajax=="")
-		{
-			alert("卓名を入力してください");
-			document.getElementById("layoutname_ajax").focus();
-			return false;
-		}
-*/
 //卓名空白は非許可
 for(var loop=1;loop<=num;loop++)
 {
@@ -97,52 +89,17 @@ for(var loop=1;loop<=num;loop++)
  		return false;
 	}
 }
-
-// 重複した卓名の確認
-/* UCHIDA EDIT 11/08/16 重複チェックは仕様から削除
-	for(var loop=1;loop<=num;loop++)
-	{
-		var tId="tableId_"+loop;
-		var table_name=	$("#"+tId).val();
-		var valueid="hiddenid_"+loop;
-		var table_id=	$("#"+valueid).val();
-
-		if(table_name!="") {
-			for(var loop2 = loop+1; loop2<=num; loop2++) {
-				var tId2="tableId_"+loop2;
-				var table_name2 =$("#"+tId2).val();
-				if (table_name == table_name2) {
-					alert("卓名が重複しています");
-			 		document.getElementById(tId2).focus();
-			 		return false;
-				}
-			}
-		}
-	}
-*/
 	for(var loop=1;loop<=num;loop++)
 		{
 			var tId="tableId_"+loop;
 			var table_name=	$("#"+tId).val();
 			var valueid="hiddenid_"+loop;
 			var table_id=	$("#"+valueid).val();
-/* 卓名の未入力を許可 UCHIDA EDIT 11/08/04
-			if(table_name=="")
-				{
-					alert("卓名が入力されていない項目があります。卓名を入力してください");
-			 		document.getElementById(tId).focus();
-			 		return false;
-				}
-			else
-				{
-					table_array[loop]="name_"+loop+"="+table_name+"&id_"+loop+"="+table_id;
-				}
-*/
 			table_array[loop]="name_"+loop+"="+table_name+"&id_"+loop+"="+table_id;
 		}
-//	$("#loading_td").show();
+
 	var	table_string=table_array.join("&");
-	//alert(table_string);
+
 	$.post('table_layout.php',{'layoutname':layoutname_ajax,'ajax':"ajax"}, function(data){
 		if (layoutname_ajax=="" || !isset(layoutname_ajax)) layoutname_ajax = "　　　";
 		$("#user_layoutname").html(layoutname_ajax);
@@ -153,7 +110,7 @@ for(var loop=1;loop<=num;loop++)
 $.get('ajax/plan_table_name_update_all.php?total_table='+num+"&"+table_string, function(data){
 
 	$("#table_information").html(data);
-//	$("#loading_td").hide();
+
 
 	$("#user_layoutname").html(layoutname_ajax);
 	$("#default_layout_title").html(layoutname_ajax);
@@ -166,107 +123,6 @@ $.get('ajax/plan_table_name_update_all.php?total_table='+num+"&"+table_string, f
 
 }
 
-/*function validForm(num,i)
-{
-// UCHIDA EDIT 11/07/29 ↓　更新しつつ入力名をチェックしていたので、先頭で未入力をチェックする
-	var loop;
-	var tId;
-	var nm;
-	if (i == 1) {
-
-		for(loop=1; loop<num; loop=loop+1) {
-			tId="tableId_"+loop;
-			nm  = document.getElementById(tId).value;
-			// alert ("name  = ["+nm+"]");
-			if (nm == "") {
-				alert("卓名が入力されていない項目があります。卓名を入力してください");
-			 	document.getElementById(tId).focus();
-			 	return false;
-			}
-		}
-	}
-// UCHIDA EDIT 11/07/29　↑
-
-	if(i==num)
-	{
-
-	alert("更新されました");
-	return false;
-
-	}
-		var tableId="tableId_"+i;
-		var valueid="hiddenid_"+i;
-
-		var name  = document.getElementById(tableId).value;
-		var id=document.getElementById(valueid).value;
-		var showtableid="table_"+id;
-		if(i==1)
-		{
-			var layoutname_ajax  = document.getElementById("layoutname_ajax").value;
-			if(layoutname_ajax!="")
-			{
-			$.post('table_layout.php',{'layoutname':layoutname_ajax,'ajax':"ajax"}, function(data){
-				$("#user_layoutname").html(layoutname_ajax);
-				$("#layoutname").val(layoutname_ajax);
-			});
-			}
-			else
-			{
-				alert("卓名を入力してください");
-			 	document.getElementById("layoutname_ajax").focus();
-			 	return false;
-			}
-		}
-
-
-		var flag = true;
-
-		if(!name)
-		{
-			 alert("卓名を入力してください");
-			 document.getElementById(tableId).focus();
-			 return false;
-		}
-		else
-		{
-			/*
-//			alert (name+" : "+id);
-//			xx = new String(name);
-//			alert(xx.charAt(0)+" : "+data);
-*/
-/*
-//<?php
-//$_update = array("name" => name);
-//$obj->UpdateData("spssp_table_layout", $_update, " user_id=_user_id and id =id");
-//?>
-
-//var _user_id;
-//_user_id = "<?php echo $user_id; ?>";
-//alert (_user_id);
-				$.post('ajax/plan_table_name_update.php',{'name':name,'id':id}, function(data){
-				if(data)
-				{
-					$("#"+showtableid+" b").html(data);
-					if(i<num)
-					{
-					i++;
-					validForm(num,i);
-					}
-
-					//$("#msg_rpt_err").hide("slow");
-				}
-				else
-				{
-					//$("#msg_rpt_err").show("slow");
-
-					//$("#msg_rpt").hide("slow");
-				}
-		});
-
-	}
-
-
-}*/
 function user_layout_title_input_show(id)
 	{
 		$("#"+id).fadeOut();
@@ -486,64 +342,11 @@ function user_layout_title_input_show(id)
 		</table>
 		</form>
 		<? } ?>
-		<!--<table width="410" border="0" cellspacing="0" cellpadding="5">
-         <tr>
-		  <?php
-		  /*$k=1;
-
-			foreach($user_tables as $user_table_row)
-			{
-				$optionvalue='';
-				foreach($user_tables as $key => $user_table_row1)
-				{
-				    $keyvalue= $key+1;
-				    $selected =($k == $keyvalue)?"selected":"";
-					$optionvalue .='<option '.$selected.' value="'.$user_table_row1['name'].'">'.$user_table_row1['name'].'</option>';
-				}
-
-				if($user_table_row['table_id'])
-				{
-				 	//$default_table_name = $obj->GetSingleData("spssp_default_plan_table", "name"," id=".$user_table_row['table_id']);
-				  if($permission_table_edit==1)
-				  {?>
-				  <form name="tableEdit_form_<?=$k?>" method="post" action="table_layout.php">
-				 <?php }
-			?>
-
-           <td width="14" align="center" valign="middle" nowrap="nowrap"><strong><?=$k?></strong></td>
-           <td width="104" nowrap="nowrap">
-		   <select name="tableName_<?=$k?>" id="tableId_<?=$k?>" style="width:100px;" onchange="validForm(<?=$k?>,<?=$user_table_row['id']?>);">
-		   <?=$optionvalue?>
-		   </select>
-
-		   </td>
-          <?php
-		   if($permission_table_edit==1)
-				  {?>
-				  <td><input type="button" name="edit" value="保存" onclick="validForm(<?=$k?>,<?=$user_table_row['id']?>);"></td>
-				  </form>
-				 <?php }
-
-
-		  	if($k%2==0)
-			{
-				echo "</tr><tr>";
-			}
-
-		  ?>
-
-
-         <?php $k++;} */?>
-        </tr>
-		</table>-->
 
       </div>
       <div class="info_area_R" style="">■　テーブルのレイアウト<br />
 
       		<div style="width:100%; float:left; text-align:center; ">
-
-
-
        		<?php
       $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
       $num_tables = $obj->getSingleData("spssp_plan", "column_number"," user_id= $user_id");
@@ -567,9 +370,6 @@ function user_layout_title_input_show(id)
 				<td style="text-align:center;"><div id="img_default_layout_title"  style="text-align:center"><div style="border:1px solid #000000; width:60px;">　　　</div></div></td>
 			  </tr>
 			</table>';
-
-			//echo "<p id='img_default_layout_title'  style='text-align:center'><img src='admin/img/sakiji_icon/icon_takasago.gif' width='102' height='22' /></p>";
-			//echo "<div id='img_default_layout_title'  style='text-align:center'><div style='border:1px solid #000000; width:60px;'> &nbsp;</div></div>";
 		}
 
 		echo "<div id='input_user_layoutname' style='display:none;'>
@@ -626,14 +426,12 @@ function user_layout_title_input_show(id)
                     {
                     	$new_name_row = $obj->GetSingleRow("spssp_user_table", " user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
 
-
                       $tblname='';
-							//print_r($new_name_row);//exit;
                       if($table_row['name']!='')
                         {
                           $tblname = $table_row['name'];
-					//			echo'<pre>';
-				//print_r($tblname_row);
+
+
                             }
                             elseif(is_array($new_name_row) && $new_name_row['id'] !='')
                             {
