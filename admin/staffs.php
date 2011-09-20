@@ -639,9 +639,9 @@ include("inc/return_dbcon.inc.php");
 
 <div style="clear:both;"></div>
 	<div id="contents">
-	 <h2>
+	 <h4>
             	<div style="width:200px;"> スタッフ</div>
-        </h2>
+        </h4>
 		<h2><div style="width:180px;">スタッフ設定</div></h2>
         	<?php
         	if($_SESSION['user_type'] == 111 ||$_SESSION['user_type'] == 333)
