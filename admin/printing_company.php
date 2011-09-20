@@ -309,7 +309,7 @@ include("inc/return_dbcon.inc.php");
 
 	<div style="clear:both;"></div>
 	<div id="contents">
-		<h2><div style="width:200px;">印刷会社</div></h2>
+		<h4><div style="width:200px;">印刷会社</div></h4>
 		<!--<p class="txt3">
             <a href="default.php"><b>テーブル名</b></a>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <a href="respects.php"><b>敬称</b></a>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
