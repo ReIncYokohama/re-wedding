@@ -488,11 +488,11 @@ unset($_SESSION['msg']);
 				<td>
                 <?php if(($_SESSION['user_type']==111)||(($_SESSION['user_type']==333))){?>
                 <input name="num_gift_groups" <?=$ro?> type="text"  onlyNumeric="i" id="num_gift_groups" size="10" maxlength='1' value="<?=$gift_criteria_data_row[0]['num_gift_groups']?>"  />
-		&nbsp;種類（最大7グループまで）
+		&nbsp;グループ（最大7グループまで）
                 <?
 				}else{
 					?>
-					<?=$gift_criteria_data_row[0]['num_gift_groups']?>&nbsp;種類 <!-- UCHIDA EDIT 11/08/08 メッセージ変更  -->
+					<?=$gift_criteria_data_row[0]['num_gift_groups']?>&nbsp;グループ <!-- UCHIDA EDIT 11/08/08 メッセージ変更  -->
 					<?
 					}
 				?>
