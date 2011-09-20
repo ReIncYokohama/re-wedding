@@ -1,5 +1,5 @@
 <?php
-include_once("class_mail.dbo.php");
+include_once("class_information.dbo.php");
 
 class MessageClass extends InformationClass
 {
@@ -145,10 +145,7 @@ class MessageClass extends InformationClass
 	{
 		$user_info = $this :: get_user_info($user_id);
 		$user_plan_info = $this :: get_user_plan_info($user_id);
-
-		$party_date_array=explode("-",$user_info['party_day']);
-		$party_day=$party_date_array[1]."/".$party_date_array[2];
-
+    $party_day = $this->getMonthAndDate($user_info["party_day"]);
 
     $man_name = $this::get_user_name_image_or_src($user_id ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
     $woman_name = $this::get_user_name_image_or_src($user_id,$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
@@ -528,5 +525,58 @@ class MessageClass extends InformationClass
 		return "(".$weekjp_array[intval($weekno)].")";
 	}
 
-}//END OF CLASS_MAIL
+/*
+データベースにテーブルの追加とセッション値の追加
+
+state　1のとき、まだお知らせの出力をする。0のとき、お知らせを表示しない。
+hotel  1のとき、ホテルユーザ用のお知らせ。0のとき、ユーザ用のお知らせ。
+  create table guest_csv_upload_log (
+                                     id int primary key auto_increment, 
+                                     create_at TIMESTAMP default current_timestamp, 
+                                     update_at timestamp,
+                                     state int default 1, 
+                                     user_id int, 
+                                     hotel int );
+
+セッションの値について
+管理者333(adminid 1),一般ホテルユーザ 222,(adminid 2),一般ユーザ 222(adminid 2)  
+これを
+管理者333(adminid 1),一般ホテルユーザ 222,(adminid 2),一般ユーザ 222(adminid 0)
+に変更した。  
+*/
+  public function get_message_csv_import_for_user($user_id){
+    $logs_arr = $this->GetAllRowsByCondition("guest_csv_upload_log"," user_id = ".$user_id." and hotel=0 and state = 1");
+    $text = "";
+    for($i=0;$i<count($logs_arr);++$i){
+      $text .= "<li><a href='my_guests.php'>招待客リストデータが追加されました。</a></li>";
+    }
+    return $text;
+  }
+  public function finish_message_csv_import_for_user($user_id){
+    $this->UpdateData("guest_csv_upload_log",array("state" => 0)," hotel=0 and user_id = '".$user_id."'");
+  }
+
+  public function get_message_csv_import_for_hotel(){
+    $logs_arr = $this->GetAllRowsByCondition("guest_csv_upload_log"," hotel=1 and state = 1");
+    $text = "";
+    for($i=0;$i<count($logs_arr);++$i){
+      $user_info = $this->GetSingleRow("spssp_user"," id = ".$logs_arr[$i]["user_id"]);
+      $party_day = $this->getMonthAndDate($user_info["party_day"]);
+      $text .= "<li><a href='user_dashboard.php?user_id=".$logs_arr[$i]["user_id"]."' target='_blank'>".$party_day
+        ." ".$user_info["man_lastname"]."・".$user_info["woman_lastname"]
+        ."様の招待客リストデータがアップロードされました。</a></li>";
+    }
+    return $text;
+  }
+  public function finish_message_csv_import_for_hotel($user_id){
+    $this->UpdateData("guest_csv_upload_log",array("state" => 0)," hotel=1 and user_id = '".$user_id."'");
+  }
+
+  public function new_message_csv_import($user_id){
+    $this->InsertData("guest_csv_upload_log",array("user_id" => $user_id,"hotel" => 0));
+    $this->InsertData("guest_csv_upload_log",array("user_id" => $user_id,"hotel" => 1));
+  }
+  
+
+}
 ?>

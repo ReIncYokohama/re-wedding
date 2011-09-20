@@ -29,6 +29,21 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete' )
 
 		$obj->DeleteRow('spssp_plan_details', 'guest_id='.$guest_id);
 	}
+
+include_once("admin/inc/class_message.dbo.php");
+$message_class = new MessageClass();
+
+switch($_SESSION["adminid"]){
+  case 1:
+  case 2:
+    $message_class->finish_message_csv_import_for_hotel($user_id);
+    break;
+  case 0:
+    $message_class->finish_message_csv_import_for_user($user_id);
+    break;
+}
+
+
 include("admin/inc/main_dbcon.inc.php");
 $respects = $obj->GetAllRow(" spssp_respect");
 
@@ -43,6 +58,7 @@ $redirect_url = "my_guests.php";
 //$order = ' last_name asc ';
 $order = ' id asc ';
 $plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
+
 
 if(isset($_GET['option']) && $_GET['option'] != '')
 	{

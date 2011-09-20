@@ -4,6 +4,7 @@ ini_set('auto_detect_line_endings', 1);
 include_once("inc/dbcon.inc.php");
 include_once("inc/class.dbo.php");
 include_once("../inc/gaiji.image.wedding.php");
+include_once("inc/class_message.dbo.php");
 
 $obj = new DBO();
 
@@ -234,7 +235,11 @@ _EOT_;
   confirm_guest_register($printing_company_mail,$title,$body);
 }
 
-
+/*
+csv uploadのログを残す
+*/
+$message_class = new MessageClass();
+$message_class->new_message_csv_import($user_id);
 
 //新郎新婦にメール
 //$user_row = $obj->GetSingleRow("spssp_user"," id='$user_id'");

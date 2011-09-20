@@ -600,6 +600,15 @@ public function stripslashes2($string)
 		return $succ_msg;
 	}
 
+/*
+2011-09-20
+→
+09-20
+*/
+  public function getMonthAndDate($date){
+		$arr=explode("-",$date);
+		return $arr[1]."/".$arr[2];
+  }
 
 		
 	}

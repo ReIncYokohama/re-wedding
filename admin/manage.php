@@ -505,6 +505,9 @@ include("inc/return_dbcon.inc.php");
 				echo $objMsg->get_admin_side_order_print_mail_system_status_msg($row['id']);	// 席次・席札確認 → メッセージ表示
 				echo $objMsg->get_admin_side_daylimit_system_status_msg($row['id']);			// 引出物確認 	　→ メッセージ表示
 			}
+
+			// csv upload 	　→ メッセージ表示
+      echo $objMsg->get_message_csv_import_for_hotel();
 			?>
 
 			<?php
