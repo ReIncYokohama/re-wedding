@@ -16,7 +16,7 @@ $obj = new DBO();
 	//$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
 
 	//$query_string="SELECT * FROM spssp_user_log where user_id=".$user_id." ORDER BY date DESC LIMIT ".((int)($current_page)*$data_per_page).",".((int)$data_per_page).";";
-	$query_string="SELECT * FROM spssp_user_log where user_id=".$user_id." ORDER BY date ASC ";
+	$query_string="SELECT * FROM spssp_user_log where user_id=".$user_id." ORDER BY login_time ASC ";
 	//echo $query_string;
 	$data_rows = $obj->getRowsByQuery($query_string);
 	//echo '<pre>';
@@ -26,6 +26,7 @@ $obj = new DBO();
 	$q1 = "SELECT COUNT(*) FROM spssp_user_log where user_id=".$user_id.""; //全体件数を取得する
 	$rnum1 = mysql_query($q1);
 	list($num) = mysql_fetch_row($rnum1);
+
 // UCHIDA EDIT 11/07/28 ↑
 
 ?>

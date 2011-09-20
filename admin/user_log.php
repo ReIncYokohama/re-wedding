@@ -43,6 +43,7 @@
 	$query_string="SELECT * FROM spssp_user_log where user_id=".$user_id." ORDER BY login_time ASC ";
 	//echo $query_string;
 	$data_rows = $obj->getRowsByQuery($query_string);
+
 	//echo '<pre>';
 	//print_r($data_rows);
 
@@ -50,6 +51,7 @@
 	$q1 = "SELECT COUNT(*) FROM spssp_user_log where user_id=".$user_id.""; //全体件数を取得する
 	$rnum1 = mysql_query($q1);
 	list($num) = mysql_fetch_row($rnum1);
+
 // UCHIDA EDIT 11/08/04 ↑
 ?>
 <div id="topnavi">
