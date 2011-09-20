@@ -129,10 +129,6 @@ $genderStatus = $obj->GetSingleData(" spssp_guest_orderstatus ", "orderstatus", 
 
 ?>
 
-<style>
-
-</style>
-
 <script type="text/javascript">
 
 /* 外字のフォームから外字を削除した際の動作
@@ -254,7 +250,17 @@ $(function(){
 		$("ul#menu li:eq(3)").addClass("active");
 
 		var msg_html=$("#msg_rpt").html();
-
+    
+    //続けて登録する人用に事前に情報を保存。
+    //gidがある場合はもちろん入力されている項目を出力する。
+    <?php
+    if($_GET["gid"]) print "/*";
+    ?>
+    $("#guest_type").val($.cookie('user_guest_type'+"<?=$HOTELID?>"));
+    $("#gift_group").val($.cookie('user_gift_group'+"<?=$HOTELID?>"));
+    <?php
+    if($_GET["gid"]) print "*/";
+    ?>
 		if(msg_html!='')
       {
         $("#msg_rpt").fadeOut(5000);
@@ -358,24 +364,10 @@ function validForm()
         return false;
 			}
 		}
-
-
-  var url = 'ajax/newguest.php?last_name='+last_name+'&first_name='+first_name+'&respect_id='+respect_id+'&guest_type='+guest_type+'&comment1='+comment1+'&comment2='+comment2+'&memo='+memo;
-  //alert(url);
+  //続けて登録する際に選択させるため。1日だけ保存
+  $.cookie('user_guest_type'+'<?=$HOTELID?>', $("#guest_type").val());
+  $.cookie('user_gift_group'+'<?=$HOTELID?>', $("#gift_group").val());
   document.newguest.submit();
-  /*$.get(url, function(data) {window.location='my_guests.php'});
-
-	  $("#first_name").val('');
-	  $("#last_name").val('');
-	  $("#respect_id").val('');
-	  $("#guest_type").val('');
-	  $("#comment1").val('');
-	  $("#comment2").val('');
-	  $("#id").val('');
-	  $("#memo").val('');
-	  $("#newgustform").animate({height: 'hide', opacity: 'hide'}, 'slow');
-	  $("#newgustform").css("display","none");*/
-
 }
 
 function cancelldiv()
@@ -634,7 +626,7 @@ $gaiji_button_comment2 = <<<_EOE_
 					</a>
 _EOE_;
 
-//print_r($guest_row);
+
 if($editable)
   {
     ?>
@@ -984,15 +976,7 @@ if($editable)
 
   <form id="form1" name="form1" method="post" action="">
 
-    <div class="cont_area">
-
-  	<font size="4">新郎 :
-	<?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname.png",$extra=".");?>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新婦 :
-	<?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname.png",$extra=".");?>
-    </font>
-
-<br>
+<div class="cont_area">
 <div align="right">
 	<input type="checkbox" name="sex_sort" <?php if($ordervalue[0]=="sex") { ?> checked <?php } ?> value="sex" id="sexsearch" />新郎新婦側
 	<input type="checkbox" name="guest_type_sort"  <?php if($ordervalue[1]=="guest_type") { ?> checked <?php } ?> value="guest_type" id="guset_typesearch" />区分
@@ -1026,12 +1010,15 @@ foreach($guests as $guest){
 	}
   $guest_type = $obj->GetSingleData(" spssp_guest_type ", "name", " id=".$guest['guest_type']);
   include("admin/inc/return_dbcon.inc.php");
-		$gift_id = $obj->GetSingleData(" spssp_guest_gift ", "group_id", " guest_id=".$guest['id']." and user_id = ".$user_id);
-		$gift_name='';
+	$gift_id = $obj->GetSingleData(" spssp_guest_gift ", "group_id", " guest_id=".$guest['id']." and user_id = ".$user_id);
+    
+	$gift_name='';
 		if((int)$gift_id > 0)
 		{
-			$gift_name = $obj->GetSingleData(" spssp_gift_group ", "name", " id=".$gift_id." and  user_id = ".$user_id);
+			$gift_group = $obj->GetSingleData(" spssp_gift_group ", "name", " id=".$gift_id." and  user_id = ".$user_id);
+      $gift_name = $gift_group["name"];
 		}
+
 		$menu_id = $obj->GetSingleData(" spssp_guest_menu ", "menu_id", " guest_id=".$guest['id']." and user_id = ".$user_id);
 		$menu_name='';
 		if($menu_id > 0)
@@ -1070,10 +1057,13 @@ foreach($guests as $guest){
 				{
 					$tblname = $obj->getSingleData("spssp_tables_name","name","id=".$new_name_row['table_name_id']);
 				}
-				else
+		 else
 				{
 					$tblname = $tbl_row['name'];
 				}
+     if($guest["stage"] == 1){
+       $tblname = "高砂";
+     }
 				?>
         	<td align="center" valign="middle" bgcolor="#FFFFFF"><?=$tblname?></td>
         	<td align="center" valign="middle" bgcolor="#FFFFFF"> <?=$gift_name?> </td>
@@ -1103,7 +1093,9 @@ foreach($guests as $guest){
 				{
 					$tblname = $tbl_row['name'];
 				}
-
+     if($guest["stage"] == 1){
+       $tblname = "高砂";
+     }
 				$genderm = ($guest['sex'] == 'Male')?"checked":"";
 				$genderf = ($guest['sex'] == 'Female')?"checked":"";
 
@@ -1160,7 +1152,9 @@ if($guest["sex"] == "Male"){
 				{
 					$tblname = $tbl_row['name'];
 				}
-
+     if($guest["stage"] == 1){
+       $tblname = "高砂";
+     }
 				$fristname = ($guest['stage_guest']>0)?"<span style='color:red;'>".$guest['first_name']."</span>":$guest['first_name'];
 				$lastname  = ($guest['stage_guest']>0)?"<span style='color:red;'>".$guest['last_name']."</span>":$guest['last_name'];
 
@@ -1249,7 +1243,21 @@ foreach($guests as $guest)
 	}
   $guest_type = $obj->GetSingleData(" spssp_guest_type ", "name", " id=".$guest['guest_type']);
   include("admin/inc/return_dbcon.inc.php");
+$gift_id = $obj->GetSingleData(" spssp_guest_gift ", "group_id", " guest_id=".$guest['id']." and user_id = ".$user_id);
+    
+	$gift_name='';
+		if((int)$gift_id > 0)
+		{
+			$gift_group = $obj->GetSingleData(" spssp_gift_group ", "name", " id=".$gift_id." and  user_id = ".$user_id);
+      $gift_name = $gift_group["name"];
+		}
 
+		$menu_id = $obj->GetSingleData(" spssp_guest_menu ", "menu_id", " guest_id=".$guest['id']." and user_id = ".$user_id);
+		$menu_name='';
+		if($menu_id > 0)
+		{
+			$menu_name = $obj->GetSingleData(" spssp_menu_group ", "name", " id=".$menu_id." and user_id = ".$user_id);
+		}
 	  $comment1 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment1.png",$extra="guest/".$guest['id']."/thumb1");
 		$comment2 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment2.png",$extra="guest/".$guest['id']."/thumb1");
 		if($comment1==false){$comment1 = $guest['comment1'];}
@@ -1285,6 +1293,9 @@ if($guest["sex"] == "Male"){
 				{
 					$tblname = $tbl_row['name'];
 				}
+     if($guest["stage"] == 1){
+       $tblname = "高砂";
+     }
 				?>
         	<td align="center" valign="middle" bgcolor="#FFFFFF" class="table_name"><?=$tblname?></td>
         	<td align="center" valign="middle" bgcolor="#FFFFFF" class="gift"> <?=$gift_name?> </td>
@@ -1322,18 +1333,18 @@ if($guest["sex"] == "Male"){
           	<?php
             	$male_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$_SESSION['userid']." and sex='Male'");
 				      echo $male_guest_num;
-			      ?>
+			      ?>名
           </td>
           <td align="center" width="45">新婦側</td>
           <td  align="center" width="34">
           	<?php
             	$female_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$_SESSION['userid']." and sex='Female'");
 				      echo $female_guest_num;
-			      ?>
+			      ?>名
           </td>
 
           <td align="center" width="45">計</td>
-          <td  align="center" width="34"><?=$total_record?></td>
+          <td  align="center" width="34"><?=$total_record?>名</td>
           <td></td>
           <td width="76" rowspan="3" align="center"><a href="javascript:void(0)" onclick="backtotop();">Top</a></td>
 

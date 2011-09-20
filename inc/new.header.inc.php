@@ -54,7 +54,6 @@ $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
 <script src="js/ui/jquery.ui.draggable.js"></script>
 <script src="js/ui/jquery.ui.position.js"></script>
 <script src="js/ui/jquery.ui.resizable.js"></script>
-
 <script src="js/ui/jquery.effects.core.js"></script>
 <script src="js/ui/jquery.effects.blind.js"></script>
 <script src="js/ui/jquery.effects.fade.js"></script>
@@ -62,6 +61,7 @@ $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
 <script src="js/jquery.effects.shake.js"></script>
 <script src="js/jquery.rollover.js"></script>
 <script src="js/ui/jquery.ui.dialog.js"></script>
+<script src="js/jquery.cookie.js"></script>
 <script type="text/javascript">
 	$(function() {	
 		$("#change_pass").dialog({
