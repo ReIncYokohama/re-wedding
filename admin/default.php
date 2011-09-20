@@ -400,23 +400,10 @@ include("inc/return_dbcon.inc.php");
                         	<td width="10%"><?=$j?></td>
                             <td><?=$row['name']?></td>
                              <td>
-                               <?php
-									if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222")
-									{
-
-									?>
 							  <span class="txt1">
 							  <a href="javascript:void(0);" onClick="orderAction('default.php?action=sort&amp;move=up&amp;id=<?=$row['id']?>');">▲</a>
                               <a href="javascript:void(0);" onClick="orderAction('default.php?action=sort&amp;move=down&amp;id=<?=$row['id']?>');">▼</a>
                              </span>
-							 <?php
-							 }else
-							 {?>
-							 	<span style="color:gray;">▲▼</span>
-							<?php }
-
-							 ?>
-
                            </td>
 							<td>
                             	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>window.location='default.php?id=<?=$row['id']?>&name=<?=$row['name']?>&userid=<?=$_SESSION['user_type']?>&action=edit';<?php }?>" >
@@ -475,7 +462,7 @@ include("inc/return_dbcon.inc.php");
             			<tr align="center">
                         	<td width="10%"><?=$j?></td>
                             <td><?=$row['name']?></td>
-                            <td></td>
+                            <td><font color="gray">▲▼</font></td>
                             <td> <img src="img/common/btn_edit_greyed.gif" width="42" height="17" /> </td>
                             <td> <img src="img/common/btn_deleate_greyed.gif" width="42" height="17" /> </td>
             			</tr>

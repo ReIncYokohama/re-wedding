@@ -16,17 +16,16 @@ if($user_id>0)
 }
 else
 {
-redirect("index.php?msg=3");exit;
+	redirect("index.php?msg=3");exit;
 }
 
 	$printCompany_id = $_SESSION['printid'];
 
-
 	$user_plan_info = $objInfo->get_user_plan_info($user_id);
-
 	//ONECE BROWSE THIS PAGE PRINT COMPANY WILL LOSE 1 TIME OF QUATA 2
-	if($user_plan_info['ul_print_com_times']>0 && $user_plan_info['ul_print_com_times'] < 2)
-	 {
+//	if($user_plan_info['ul_print_com_times']>0 && $user_plan_info['ul_print_com_times'] < 2)
+	if($user_plan_info['admin_to_pcompany']<2)
+	{
 		//ok
 	 }
 	 else
@@ -110,19 +109,22 @@ $row = $objInfo->get_user_info($user_id);
           </tr>
         </table>
 
-
     </div>
      <form action="upload.php?user_id=<?=$_GET['user_id']?>" name="uploaddoc" method="post" enctype="multipart/form-data">
     <div class="top_searchbox1">
       <? if($message)
 	  {
-	    $mes =($message =='1')?"アップロードに成功しました":"アップロードできません。";
+		if($message == 1) 	echo "<script> alert('アップロードに成功しました'); </script>";
+		else 				echo "<script> alert('アップロードできませんでした'); </script>";
+//	    $mes =($message =='1')?"アップロードに成功しました":"アップロードできません。";
 	  ?>
+<!--
 	  <table width="420" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td align="center"><font color="#FF0000"><?=$mes?></td>
         </tr>
       </table>
+ -->
 	<? }?>
 	  <table width="420" border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -137,16 +139,17 @@ $row = $objInfo->get_user_info($user_id);
     <div class="top_searchbox2">
 	<?php
 	 $user_plan_info = $objInfo->get_user_plan_info($user_id);
-	 if($user_plan_info['ul_print_com_times']>0 && $user_plan_info['ul_print_com_times'] < 2)
+//	 if($user_plan_info['ul_print_com_times']>0 && $user_plan_info['ul_print_com_times'] < 2)
+	 if($user_plan_info['admin_to_pcompany']<2)
 	 {	//NEED TO CHECK THE DAY LIMIT
 	 ?>
 	<a href="javascript:void(0);"><img onclick="javascript:document.uploaddoc.submit();" src="img/common/btn_upload.jpg" alt="検索" width="152" height="22" /></a>
 	 <?php }else{?>
-	 <img src="img/common/btn_upload.jpg" alt="検索" width="152" height="22" /> <span style="color:red;">[You have no access here.]</span>
+	 <img src="img/common/btn_upload.jpg" alt="検索" width="152" height="22" /> <span style="color:red;">アップロードが完了しました。</span>
 	  <?php }?>
 
-	　</div>
-    <form>
+	</div>
+    </form>
 	<p>&nbsp;<br /><br /><br /></p>
 
 </div>
