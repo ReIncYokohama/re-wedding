@@ -557,7 +557,7 @@ function uploadFile($path,$file,$filename ,$extension='')
 				             );
 define('SCRIPT_VERSION', '4');
 
-/*
+
 if( isset($_SERVER['HTTPS']) ) {
 	$http = ($_SERVER['HTTPS'])?'https://':'http://';
 } else {
@@ -574,8 +574,10 @@ $reqfile = strrchr($requrl, "/");
 $urilen = strlen($requrl);
 $reqfilelen = strlen($reqfile);
 $current = substr( $requrl, 0, $urilen - $reqfilelen );
-*/
-$current="http://re-dev.sakura.ne.jp/demo/demo2/hotel".(int)$HOTELID;
+//echo $requrl."<br/>".$current;
+
+//$current="http://re-dev.sakura.ne.jp/demo/demo2/hotel".(int)$HOTELID;
+
 define('ADMIN_LINK', $current."/admin/");     //this link is used in email system
 define('MAIN_LINK', $current."/");         //this link is used in email system
 define('PRINT_COMPANY_LINK', $current."/print/");     //this link is used in email system
