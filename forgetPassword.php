@@ -8,14 +8,15 @@
 	{
 		if($_POST['email']=="")
 		{
-			$msg = '<script type="text/javascript"> alert("メールアドレスが未入力です"); </script>';
+			echo '<script type="text/javascript"> alert("メールアドレスが未入力です"); </script>';
 		}
 		else
 		{
 			$dataRow = $obj->GetSingleRow("spssp_user"," 	mail = '".$_POST['email']."'");
-			if($dataRow['mail'] == "")
+			if($dataRow['mail'] == "" || !isset($dataRow['mail']))
 			{
-				$msg = '<script type="text/javascript"> alert("メールアドレスが違います"); </script>';
+				echo '<script type="text/javascript"> alert("メールアドレスが違います"); </script>';
+				$email = $_POST['email'];
 			}
 			else
 			{
@@ -124,6 +125,10 @@ function validForm()
 
 	document.passwordForgetForm.submit();
 }
+function cancelAction()
+{
+	document.passwordForgetForm.email.value="";
+}
 
 </script>
 </head>
@@ -141,17 +146,25 @@ function validForm()
 					<div id="login_midashi">ウエディングプラス</div>
 					<div id="login_IDarea">
 						<form action="forgetPassword.php" method="post" name="passwordForgetForm">
-							<table style="font-size:12px;" width="400" align="center" cellspacing="10" cellpadding="0" border="0">
+							<table style="font-size:12px;" width="500" align="center" cellspacing="10" cellpadding="0" border="0">
 								<tr>
-									<td colspan="2">パスワードを忘れ場合は、下記のフォームにメールアドレスを入力の上、<br />送信ボタンを押下してください<br />登録されているメールアドレスと照合の上、パスワードを送信いたします<br/></td>
+									<td colspan="2">パスワードを忘れ場合は、下記のフォームにメールアドレスを入力の上、<br />送信ボタンを押下してください<br />登録されているメールアドレスと照合の上、パスワードを送信いたします<br/><br/></td>
 								</tr>
 								<tr>
 									<td width="30%">メールアドレス</td>
-									<td width="70%"><input type="text" id="email" size="30px;" name="email" /></td>
+									<td width="70%"><input type="text" id="email" size="30px;" name="email" value =<?=$email?>></input></td>
 								</tr>
+							</table>
+							<table style="font-size:12px;" width="500" align="center" cellspacing="10" cellpadding="0" border="0">
 								<tr>
-									<td>&nbsp;</td>
-									<td><input type="button" name="forgetpass" value="送信"  onclick="validForm();"/></td>
+									<td width="40%">&nbsp;</td>
+									<td width="10%">
+									<a href="javascript:void(0);" onclick="validForm();"><img src="img/btn_send_user.jpg" /></a>
+                                	</td>
+									<td width="10%">
+									<a href="javascript:void(0);" onclick="cancelAction();"><img src="img/btn_cancel_user.jpg" /></a>
+                                	</td>
+									<td width="40%">&nbsp;</td>
 								</tr>
 							</table>
 							<input type="hidden" name="getForm" value="getForm">
@@ -172,4 +185,3 @@ function validForm()
 </body>
 </html>
 
-<?php if($msg!=""){echo $msg;}?>
