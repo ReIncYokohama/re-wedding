@@ -200,30 +200,26 @@ include("inc/return_dbcon.inc.php");
 					{
 						$bgcolor="#FFFFFF";
 					}
-					$guest_name2=$obj->GetSingleData("spssp_guest","last_name"," id='".$row['guest_id']."'");
-					$guest_name=$obj->GetSingleData("spssp_guest","first_name"," id='".$row['guest_id']."'");
+					$guest_name2=$obj->GetSingleData("spssp_guest","first_name"," id='".$row['guest_id']."'");
+					$guest_name=$obj->GetSingleData("spssp_guest","last_name"," id='".$row['guest_id']."'");
 
 					$guest_name.="&nbsp;".$guest_name2;
 //					$stuff_name = $obj->GetSingleData(" spssp_admin ", "username", " id='".$row[admin_id]."'"); // UCHIDA EDIT 11/08/04
 					$stuff_name = $obj->GetSingleData(" spssp_admin ", "name", " id='".$row[admin_id]."'");
 			?>
                     <div  style="background:<?=$bgcolor?>">
-                        <table width="1000px"  border="0" align="center" cellpadding="4" cellspacing=4">
+                        <table width="1000px"  border="0" align="center" cellpadding="4" cellspacing="4">
                             <tr align="left">
                            <td  width="14%">
-                            	&nbsp;<?=$row[date]?>
+                            	&nbsp;<?php echo $obj->date_dashes_convert($row[date]);?>
                             </td>
 							<td  width="15%">
-<!-- UCHIDA EDIT 11/08/04  -->
-<!--                             	<?php if($stuff_name!="") echo $stuff_name; else echo "お客様"; ?> -->
+
 								<?php
 								if($stuff_name == "") {
 									$msg = "お客様";
 								}
 								else {
-// UCHIDA EDIT 11/08/09
-//									if($obj->GetSingleData(" spssp_admin ", "permission", " id='".$row[admin_id]."'") == "111")
-//										$msg = "$stuff_name (SPS Stuff)"; else $msg = "$stuff_name (Hotel Stuff)";
 									$msg = $stuff_name;
 								}
 								echo $msg;

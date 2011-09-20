@@ -86,28 +86,28 @@ width:200px;
                 <td align="left" valign="top" nowrap="nowrap">新郎氏名</td>
                 <td style="text-align:center"><font color="#2052A3"></font>：</td>
                 <td nowrap="nowrap" colspan="3" style="text-align:left">
-                    <?=$user_row['man_firstname']?><?=$user_row['man_lastname']?> 様
+                    <?=$user_row['man_lastname']?><?=$user_row['man_firstname']?> 様
                 </td>
             </tr>
             <tr>
             	<td align="left" valign="top" nowrap="nowrap">ふりがな</td>
                 <td style="text-align:center"><font color="#2052A3"></font>：</td>
            		<td nowrap="nowrap"  colspan="3" style="text-align:left">
-            		<?=$user_row['man_furi_firstname']?><?=$user_row['man_furi_lastname']?>
+            		<?=$user_row['man_furi_lastname']?><?=$user_row['man_furi_firstname']?>
                 </td>
             </tr>
             <tr>
             	<td align="left" valign="top" nowrap="nowrap">新婦氏名</td>
                 <td style="text-align:center"><font color="#2052A3"></font>：</td>
             	<td nowrap="nowrap"  colspan="3" style="text-align:left">
-                	<?=$user_row['woman_firstname']?><?=$user_row['woman_lastname']?> 様
+                	<?=$user_row['woman_lastname']?><?=$user_row['woman_firstname']?> 様
                 </td>
             </tr>
             <tr>
             	<td align="left" valign="top" nowrap="nowrap">ふりがな</td>
                 <td style="text-align:center"><font color="#2052A3"></font>：</td>
             	<td nowrap="nowrap"  colspan="3" style="text-align:left">
-            		<?=$user_row['woman_furi_firstname']?><?=$user_row['woman_furi_lastname']?>
+            		<?=$user_row['woman_furi_lastname']?><?=$user_row['woman_furi_firstname']?>
                 </td>
             </tr>
             <tr>
@@ -264,58 +264,55 @@ width:200px;
 
 					foreach($tblrows as $tblrow)
 					{
-						$ralign = $obj->GetSingleData("spssp_table_layout", "row_align"," row_order=".$tblrow['row_order']." and default_plan_id=".(int)$plan_row['id']." limit 1");
-						if($ralign == 0)
-						{
-							$num_none = $obj->GetSingleData("spssp_table_layout", "count(*) "," display=0 and row_order=".$tblrow['row_order']." and default_plan_id=".(int)$plan_row['id']." limit 1");
 
-							if($num_none > 0)
-							{
-								$width = $row_width - ($num_none*41);
-								$styles = "width:".$width."px;margin: 0 auto;";
+            $ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".(int)$user_id." limit 1");
+            
+            $num_none = $obj->GetSingleData("spssp_table_layout", "count(*) "," display=0 and row_order=".$tblrow['row_order']." and default_plan_id=".(int)$plan_row['id']." limit 1");
+            
+            if($ralign == 'L')
+              {
+                $styles = 'float:left;';
+              }
+            else if($ralign=='R')
+              {
+                $styles = 'float:right;';
+              }
+            else if($num_none>0)
+              {
+                $width = $row_width - ($num_none*41);
+                $styles = "width:".$width."px;margin: 0 auto;";
+                
+              }
+            else
+              {
+                $styles = "";
+              }
 
-							}
-							else
-							{
-								$styles = "";
-							}
-						}
+            echo "<div class='rows' style='width:100%;float; left; clear:both;'><div style='".$styles."'>";
+            $tables = $obj->getRowsByQuery("select * from spssp_table_layout where default_plan_id= ".(int)$plan['id']." and row_order=".$tblrow['row_order']);
 
-						echo "<div class='rows' style='width:100%;float; left; clear:both;'><div style='".$styles."'>";
-						$tables = $obj->getRowsByQuery("select * from spssp_table_layout where default_plan_id= ".(int)$plan['id']." and row_order=".$tblrow['row_order']);
 
 						foreach($tables as $table)
 						{
 							$new_name_row = $obj->GetSingleRow("spssp_user_table", "default_plan_id = ".(int)$plan_row['id']." and default_table_id=".$table['id']);
 
-							if($table['name']!='')
-                            {
-								$tblname = $table['name'];
 
-                            }
-							elseif(isset($new_name_row) && $new_name_row['id'] !='')
-							{
-								$tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-								$tblname = $tblname_row['name'];
-							}
+              if(isset($new_name_row) && $new_name_row['id'] !='')
+                {
+                  $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
+                  $tblname = $tblname_row['name'];
+                }
+              else
+                {
+                  $tblname = $table['name'];
+                }
 
-
-
-							if($table['visibility']==1 && $table['display']==1)
-							{
-
-								$disp = 'display:block;';
-
-							}
-							else if($table['visibility']==0 && $table['display']==1)
-							{
-								$disp = 'visibility:hidden;';
-							}
-							else if($table['display']==0 && $table['visibility']==0)
-							{
-								$disp = 'display:none;';
-							}
-
+              if($table["display"] == 1){
+                $disp = 'display:block;';
+              }else{
+                $disp = "display:none";
+              }
+              
 							echo "<div class='tables' style='".$disp."'><p>".mb_substr ($tblname, 0,1,'UTF-8')."</p></div>";
 						}
 						echo "</div></div>";

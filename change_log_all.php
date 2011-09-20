@@ -7,36 +7,30 @@ include_once("inc/checklogin.inc.php");
 include("inc/new.header.inc.php");
 $obj = new DBO();
 
-	$user_id = (int)$_SESSION['userid'];
-	$table='spssp_change_log';
-	$where = " user_id=".$user_id." and (guest_id in (select id from spssp_guest where user_id=".$user_id.") or type='3')";
+$user_id = (int)$_SESSION['userid'];
+$table='spssp_change_log';
+$where = " user_id=".$user_id." and (guest_id in (select id from spssp_guest where user_id=".$user_id.") or type='3')";
 
 
 
-
-
-	if($_GET['guest_id'])
+if($_GET['guest_id'])
 	{
 		$where.= " and guest_id='".(int)$_GET['guest_id']."'";
 	}
 
-	if($_GET['date'])
+if($_GET['date'])
 	{
 		$where.= " and date like '".$_GET['date']."%'";
 	}
 
-	$data_per_page=10;
-	$current_page=(int)$_GET['page'];
-	$redirect_url = 'change_log.php?guest_id='.$_GET['guest_id'].'&date='.$_GET['date'];
+$data_per_page=10;
+$current_page=(int)$_GET['page'];
+$redirect_url = 'change_log.php?guest_id='.$_GET['guest_id'].'&date='.$_GET['date'];
 
-	//$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
+$order="date ASC";
 
-
-
-	$order="date ASC";
-	//$query_string="SELECT * FROM spssp_guest_log where $where ORDER BY $order LIMIT ".((int)($current_page)*$data_per_page).",".((int)$data_per_page).";";
-	$query_string="SELECT * FROM spssp_change_log where $where ORDER BY $order ;";
-	$data_rows = $obj->getRowsByQuery($query_string);
+$query_string="SELECT * FROM spssp_change_log where $where ORDER BY $order ;";
+$data_rows = $obj->getRowsByQuery($query_string);
 
 
 ?>
@@ -193,30 +187,22 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 					}
 					$guest_name2=$obj->GetSingleData("spssp_guest","last_name"," id='".$row['guest_id']."'");
 					$guest_name=$obj->GetSingleData("spssp_guest","first_name"," id='".$row['guest_id']."'");
+          $guest_name = $guest_name2."&nbsp;".$guest_name;
 
-					$guest_name.="&nbsp;".$guest_name2;
-
-// UCHIDA EDIT 11/08/04
-//					$stuff_name = $obj->GetSingleData(" spssp_admin ", "username", " id='".$row[admin_id]."'");
 					$stuff_name = $obj->GetSingleData(" spssp_admin ", "name", " id='".$row[admin_id]."'");
 			?>
                     <div class="<?=$class?>"> <!-- <div style="background:<?=$bgcolor?>"> -->
                         <table width="875px"  border="0" align="center" cellpadding="1" cellspacing="1">
                             <tr align="left">
                            <td  width="15%">
-                            	&nbsp;<?=$row[date]?>
+                       &nbsp;<?php echo $obj->date_dashes_convert($row[date]);?>
                             </td>
 							<td  width="14%">
-<!-- UCHIDA EDIT 11/08/04  -->
-<!--                             	<?php if($stuff_name!="") echo $stuff_name; else echo "お客様"; ?> -->
 								<?php
 								if($stuff_name == "") {
 									$msg = "お客様";
 								}
 								else {
-// UCHIDA EDIT 11/08/09
-//									if($obj->GetSingleData(" spssp_admin ", "permission", " id='".$row[admin_id]."'") == "111")
-//										$msg = "$stuff_name (SPS Stuff)"; else $msg = "$stuff_name (Hotel Stuff)";
 									$msg = $stuff_name;
 								}
 								echo $msg;
@@ -593,7 +579,6 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 
 									}
 
-
 									$seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_id." order by id asc ");
 
 									$j=1;
@@ -611,7 +596,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 								if($row[current_status])
 								{
 									$table_id=$obj->GetSingleData("spssp_default_plan_seat","table_id"," id=".$row[current_status]." limit 1");
-
+                  
 									$table_details=$obj->getSingleRow("spssp_default_plan_table"," id=".$table_id." limit 1");
 
 									$tbl_row = $obj->getSingleRow("spssp_table_layout"," table_id=".$table_details['id']." and user_id=".(int)$row['user_id']." limit 1");
@@ -627,7 +612,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 
 									}
 
-									$seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_id." order by id asc ");
+									$seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id ='".$table_id."' order by id asc ");
 
 									$j=1;
 									foreach($seats as $seat)

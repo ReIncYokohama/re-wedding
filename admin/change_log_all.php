@@ -1,10 +1,11 @@
 <?php
 @session_start();
 
-require_once("admin/inc/class.dbo.php");
-include_once("admin/inc/dbcon.inc.php");
+require_once("inc/class.dbo.php");
+include_once("inc/dbcon.inc.php");
 include_once("inc/checklogin.inc.php");
 include("inc/new.header.inc.php");
+
 $obj = new DBO();
 
 	$user_id = (int)$_SESSION['userid'];
@@ -90,18 +91,23 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 <script type="text/javascript" language="javascript" src="datepicker/behaviors.js"></script>
 
 
+<div id="topnavi">
+<?php
 
+include("inc/main_dbcon.inc.php");
+$hcode=$HOTELID;
+$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
+
+include("inc/return_dbcon.inc.php");
+
+?>
+<h1><?=$hotel_name?>　管理</h1>
+</div>
 <div id="main_contents">
 
-
-
-<div style="width:100%; text-align:center">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td height="35" bgcolor="#00C6FF" valign="middle" align="left"><span class="title_bar">&nbsp;席次表データログ</span></td>
-  </tr>
-</table>
-
+<div id="container">
+<div id="contents"> 
+<h1>席次表データログ</h1>
 <form action="change_log_all.php" method="get">
            <table  cellpadding="5" cellspacing="5" style="width:600px;" >
 		   <tr>
@@ -137,13 +143,11 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 			</tr>
 		
 		</table>
-		</form>
-<div id="contents"> 
-	
+		</form>	
 		<?php $data_user = $obj->GetSingleRow("spssp_user", "id=".$user_id);?>
 		
         <div class="box_table">
-      		<div><?=$data_user['man_firstname']."-".$data_user['man_lastname']?></div>
+      		<div><?=$data_user['man_lastname']."-".$data_user['man_firstname']?></div>
       		
 			<!--<div style="text-align:right;">< ?=$pageination?></div>-->
             
@@ -188,7 +192,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
                         <table width="100%"  border="0" align="center" cellpadding="1" cellspacing="1">
                             <tr align="center">
                            <td  width="15%">
-                            	<?=$row[date]?>
+                       <?php echo $obj->date_dashes_convert($row["date"]);?>
                             </td>
 							<td  width="15%">
                             	<?php if($stuff_name!="") echo $stuff_name." <font color='red'>(hotel staff)</font>"; else echo "お客様"; ?>
@@ -537,7 +541,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 									}
 									
 									
-									$seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_id." order by id asc ");
+									$seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id ='".$table_id."' order by id asc ");
 									
 									$j=1;
 									foreach($seats as $seat)
@@ -570,7 +574,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 										
 									}
 									
-									$seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_id." order by id asc ");
+									$seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id ='".$table_id."' order by id asc ");
 									
 									$j=1;
 									foreach($seats as $seat)
@@ -644,6 +648,17 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 </div>
 </div>
 </div>
+        </div>
+<?php
+	include_once("inc/left_nav.inc.php");
+?>
+
+
+<?php
+	include_once("inc/new.footer.inc.php");
+?>
+
+
 <?php
 include("inc/new.footer.inc.php");
 ?>

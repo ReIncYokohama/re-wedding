@@ -1425,7 +1425,7 @@ include("inc/return_dbcon.inc.php");
                             }
                           else
                             {
-                              //$tblname = $table['name'];
+                              $tblname = $table['name'];
                             }
 
                           if($table["display"] == 1){
