@@ -45,17 +45,16 @@ $current_view = $post['view'];
 
 $qry="SELECT spssp_user.*, spssp_admin.name FROM spssp_user INNER JOIN spssp_admin ON spssp_user.stuff_id = spssp_admin.id ";
 
-if($date_from != '' || $date_to != '') {
-	$qry .= " where 1=1";
-}
-else {
+$today = date("Y/m/d");
+
 	if($current_view=="before") {
-		$qry .= " where party_day<'".date('Y-m-d')."'";
+		if ($date_from >= $today && $date_from!="") $date_from = $today;
+		if ($date_to >= $today && $date_to!="") $date_to = $today;
 	}
 	else {
-		$qry .= " where party_day>='".date('Y-m-d')."'";
+		if ($date_from < $today && $date_from!="") $date_from = $today;
+		if ($date_to < $today && $date_to!="") $date_to = $today;
 	}
-}
 
 if($date_from != '' && $date_to != '')
 {
@@ -73,7 +72,12 @@ if($date_from == '' && $date_to != '')
 }
 if($date_from == '' && $date_to == '')
 {
-	$qry .= "";
+	if($current_view=="before") {
+		$qry .= " and party_day < '".$today."'";
+	}
+	else {
+		$qry .= " and party_day >= '".$today."'";
+	}
 }
 if($mdate !='')
 {
@@ -96,7 +100,7 @@ else {
 	$qry .=" order by ".$sortOptin;
 }
 
-//echo $qry." : ".$current_view;
+//echo $qry." : ".$current_view." : ".$today;
 $rows = $obj->getRowsByQuery($qry);
 
 $count_rows = count($rows);

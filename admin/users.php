@@ -219,7 +219,7 @@ function validSearch()
 	var date_to;
 	var mname;
 	var wname;
-//	var view = "<?=$current_view?>";
+	var view = "<?=$current_view?>";
 
 	date_from = $j("#date_from").val();
 	date_to = $j("#date_to").val();
@@ -258,7 +258,7 @@ function validSearch()
 			}
 		}
 
-	 	$j.post('ajax/search_user.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname /*,'view':view*/}, function(data){
+	 	$j.post('ajax/search_user.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname ,'view':view}, function(data){
 
 		$j("#passPresent").fadeOut(100);
 		$j("#srch_result").fadeOut(100);
