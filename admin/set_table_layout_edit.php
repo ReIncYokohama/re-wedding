@@ -591,10 +591,11 @@ include("inc/return_dbcon.inc.php");
                 ?>
                     <div class="rows" style="float:left;width:100%;" id="row_<?=$tblrow['row_order']?>">
                     	<div class="row_center" >
+
                         <!--<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>" name="rowcenter_<?=$tblrow['row_order']?>" value="L" <?php if($ralign=='L' || $ralign=='') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'L')" /> 左寄せ &nbsp;-->
                         	<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="C"  <?php if($ralign=='C') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'C')" /> 中央配置 &nbsp;
                             <!--<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"  <?php if($ralign=='R') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'R')" /> 右寄せ-->
-							<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"  <?php if($ralign=='N') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'N')" /> そのまま
+							<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"  <?php if($ralign=='N' || $ralign == "L") { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'N')" /> そのまま
 
 
                     	</div>
