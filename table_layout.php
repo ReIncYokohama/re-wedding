@@ -178,7 +178,7 @@ function user_layout_title_input_show(id)
   <div class="title_bar">
 	<!-- UCHIDA EDIT 11/07/26 -->
     <!-- <div class="title_bar_txt_L">テーブルレイアウトをご覧ください。</div> -->
-    <div class="title_bar_txt_L">披露宴会場のテーブルのレイアウト、卓名をご確認いただけます。</div>
+    <div class="title_bar_txt_L">披露宴会場のテーブルのレイアウト、卓名をご確認いただけます</div>
     <div class="title_bar_txt_R"></div>
 <div class="clear"></div></div>
   <div class="cont_area">

@@ -209,7 +209,7 @@ function editUserMenu()
 
 		<!-- UCHIDA EDIT 11/07/26 -->
 		<!-- <div class="title_bar_txt_L">引出物の登録、料理の登録を行います。</div> -->
-		<div class="title_bar_txt_L">引出物のグループ登録、および、お子様料理をご確認いただけます。</div>
+		<div class="title_bar_txt_L">引出物のグループ登録、および、お子様料理をご確認いただけます</div>
 		<div class="title_bar_txt_R"></div>
 	<div class="clear"></div>
 </div>

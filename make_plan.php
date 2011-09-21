@@ -240,7 +240,7 @@ height:30px;
 
 <div id="contents_right">
   <div class="title_bar">
-    <div class="title_bar_txt_L">席次表を編集し、プレビューで席次表・引出物の確認をします。</div>
+    <div class="title_bar_txt_L">席次表を編集し、プレビューで席次表・引出物の確認をします</div>
     <div class="title_bar_txt_R"></div>
 <div class="clear"></div></div>
 <div class="cont_area"  align="center">
@@ -257,10 +257,10 @@ height:30px;
 	<div align="left">
 	  <table border="0" cellpadding="0" align="center" >
 	    <tr >
-	    <td class="make_plan_bt"><a href="plan_pdf_small.php" target="_blank"><img src="img/make_plan_bt03.jpg" width="154" class="on" /></a></td>
+	    <td class="make_plan_bt"><a href="plan_pdf_small.php" target="_blank"><img src="img/make_plan_bt03.jpg" width="155" height="60" class="on" /></a></td>
 	   	<td width="65" height="60" >&nbsp;</td>
     	<td width="1"></td>
-    	<td class="make_plan_bt"><a href="plan_pdf.php" target="_blank"><img src="img/make_plan_bt04.jpg" width="154" class="on" /></a></td>
+    	<td class="make_plan_bt"><a href="plan_pdf.php" target="_blank"><img src="img/make_plan_bt04.jpg" width="155" height="60" class="on" /></a></td>
  <!--    	<td width="1"></td>
 	    <td class="make_plan_bt"><a href="#"><img src="img/make_plan_bt05.jpg" width="154" class="on" /></a></td> -->
 	    </tr>
