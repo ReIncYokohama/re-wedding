@@ -1720,10 +1720,10 @@ $gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".(int)$_GET['user_id
 							$j=1;
                             foreach($gifts as $gift)
                             {
-                            	echo " <input style='background:#EBEBE4;border:1px solid gray;padding:2px;' type='text' readonly='readonly' value='".$gift['name']."' size='13'> ";
+ //                           	echo " <input style='background:#EBEBE4;border:1px solid gray;padding:2px;' type='text' readonly='readonly' value='".$gift['name']."' size='13'> ";
 								if($j%2==0)
 								{
-									echo "</p><p>";
+//									echo "</p><p>";
 								}
                             }
                       ?>

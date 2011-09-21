@@ -387,10 +387,10 @@ function checkGroupForm(x)
 			return false;
 		}
     }*/
-	if(error!=1)
-	{
+//	if(error!=1)
+//	{
 		document.gift_criteria_form.submit();
-	}
+//	}
 }
 
 </script>

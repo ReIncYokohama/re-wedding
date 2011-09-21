@@ -3,7 +3,8 @@
 	include_once("inc/checklogin.inc.php");
 	include_once("inc/new.header.inc.php");
 	$obj = new DBO();
-	
+
+echo " : ".$post['num_gift_items'];
 	if($_SESSION['user_type'] == 222)
 	{
 		$btn_disp = " display:none";
@@ -14,11 +15,11 @@
 		$btn_disp = "";
 		$ro = "";
 	}
-	
+
 	$get = $obj->protectXSS($_GET);
-	
+
 	$gift_criteria_num = $obj->GetNumRows("spssp_gift_criteria"," 1=1");
-	
+
 	if($_POST['insert']=="insert")
 	{
 		if(trim($_POST['num_gift_groups']) && trim($_POST['num_gift_items']) && trim($_POST['order_deadline']))
@@ -30,26 +31,26 @@
 				unset($post['insert']);
 				//$post['display_order']= time();
 				//$post['creation_date'] = date("Y-m-d H:i:s");
-				
+
 				$lastid = $obj->InsertData('spssp_gift_criteria',$post);
-				
+
 				if($lastid)
 				{
 					mysql_query("TRUNCATE TABLE `spssp_gift_group_default` ");
 					mysql_query("TRUNCATE TABLE `spssp_gift_item_default` ");
 					$max_limt_group=65+$post['num_gift_groups'];
 					for($p = '65'; $p < $max_limt_group; ++$p)
-					{   
+					{
 						$obj->InsertData('spssp_gift_group_default',array("name" =>chr($p)));
 					}
 					$max_limt_item=1+$post['num_gift_items'];
 					for($q = 1; $q < $max_limt_item; $q++)
-					{	
+					{
 						$obj->InsertData('spssp_gift_item_default',array("name"=>"Item".$q));
 					}
 					$msg=1;
 					redirect("gift.php?msg=".$msg);
-					
+
 				}
 				else
 				{
@@ -63,13 +64,13 @@
 		}
 		else
 		{
-			$err=2;	
+			$err=2;
 		}
 	}
-	
+echo " : ".$post['num_gift_items'];
 	if($_POST['update']=="update")
 	{
-		
+
 		if(trim($_POST['num_gift_groups'])<=7 && trim($_POST['num_gift_items'])<=7 && trim($_POST['order_deadline']))
 		{
 			$num=$obj->GetNumRows("spssp_gift_criteria"," 1=1");
@@ -79,26 +80,26 @@
 				unset($post['update']);
 				//$post['display_order']= time();
 				//$post['creation_date'] = date("Y-m-d H:i:s");
-				
+
 				$lastid = $obj->UpdateData('spssp_gift_criteria',$post,"id=".$_POST['id']);
-				
+
 				if($lastid)
 				{
 					mysql_query("TRUNCATE TABLE `spssp_gift_group_default` ");
 					mysql_query("TRUNCATE TABLE `spssp_gift_item_default` ");
 					$max_limt_group=65+$post['num_gift_groups'];
 					for($p = '65'; $p < $max_limt_group; ++$p)
-					{   
+					{
 						$obj->InsertData('spssp_gift_group_default',array("name" =>chr($p)));
 					}
 					$max_limt_item=1+$post['num_gift_items'];
 					for($q = 1; $q < $max_limt_item; $q++)
-					{	
+					{
 						$obj->InsertData('spssp_gift_item_default',array("name"=>"Item".$q));
 					}
 					$msg=2;
 					//redirect("gift.php?msg=".$msg);
-					
+
 				}
 				else
 				{
@@ -112,16 +113,16 @@
 		}
 		else
 		{
-			$err=2;	
+			$err=2;
 		}
 	}
 	if($gift_criteria_num>0)
 	{
 		$gift_criteria_data_row = $obj->GetAllRow("spssp_gift_criteria");
 	}
-	
+
 	$menu_criteria_num = $obj->GetNumRows("spssp_menu_criteria"," 1=1");
-	
+
 	if($_POST['insert2']=="insert")
 	{
 		if(trim($_POST['num_menu_groups'])<=3)
@@ -133,14 +134,14 @@
 				unset($post['insert2']);
 				//$post['display_order']= time();
 				//$post['creation_date'] = date("Y-m-d H:i:s");
-				
+
 				$lastid = $obj->InsertData('spssp_menu_criteria',$post);
-				
+
 				if($lastid)
 				{
 					$msg=1;
 					redirect("gift.php?msg=".$msg);
-					
+
 				}
 				else
 				{
@@ -154,7 +155,7 @@
 		}
 		else
 		{
-			$err=2;	
+			$err=2;
 		}
 	}
 	if($_POST['update2']=="update")
@@ -168,14 +169,14 @@
 				unset($post['update2']);
 				//$post['display_order']= time();
 				//$post['creation_date'] = date("Y-m-d H:i:s");
-				
+
 				$lastid = $obj->UpdateData('spssp_menu_criteria',$post,"id=".$_POST['id']);
-				
+
 				if($lastid)
 				{
 					$msg=2;
 					redirect("gift.php?msg=".$msg);
-					
+
 				}
 				else
 				{
@@ -189,7 +190,7 @@
 		}
 		else
 		{
-			$err=2;	
+			$err=2;
 		}
 	}
 	if($menu_criteria_num>0)
@@ -197,7 +198,7 @@
 		$menu_criteria_data_row = $obj->GetAllRow("spssp_menu_criteria");
 	}
 	//DEFAULT GROUP NAME UPDaTE STart
-	
+
 	if($_POST['editUserGiftGroupsUpdate']=='editUserGiftGroupsUpdate')
 	{
 		unset($_POST['editUserGiftGroupsUpdate']);
@@ -208,31 +209,31 @@
 			$array['name'] = $_POST['name'.$i];
 			echo $obj->UpdateData("spssp_gift_group_default", $array," id=".(int)$_POST['fieldId'.$i]);
 		}
-	
+
 	}
 	//DEFAULT GROUP NAME UPDaTE END
 ?>
 <script type="text/javascript">
 $(document).ready(function(){
-    
-    $('#num_gift_groups').keyup(function(){        
-		var r=isInteger("num_gift_groups");		
+
+    $('#num_gift_groups').keyup(function(){
+		var r=isInteger("num_gift_groups");
     });
-	$('#num_gift_items').keyup(function(){        
-		var r=isInteger("num_gift_items");		
+	$('#num_gift_items').keyup(function(){
+		var r=isInteger("num_gift_items");
     });
-	$('#order_deadline').keyup(function(){        
-		var r=isInteger("order_deadline");		
+	$('#order_deadline').keyup(function(){
+		var r=isInteger("order_deadline");
     });
-	$('#num_menu_groups').keyup(function(){        
-		var r=isInteger("num_menu_groups");		
+	$('#num_menu_groups').keyup(function(){
+		var r=isInteger("num_menu_groups");
     });
 });
 
 function isInteger(id){
  var i;
  var s=$("#"+id).val();
-    for (i = 0; i < s.length; i++){  
+    for (i = 0; i < s.length; i++){
         // Check that current character is number.
         var c = s.charAt(i);
        if(i==0&&c==0)
@@ -256,11 +257,11 @@ function validForm()
 	var num_gift_groups  = document.getElementById('num_gift_groups').value;
 	var num_gift_items  = document.getElementById('num_gift_items').value;
 	var order_deadline  = document.getElementById('order_deadline').value;
-	
+
 	if(!num_gift_groups)
 	{
 		 alert("引出物グループ数を入力してください");
-		 document.getElementById('num_gift_groups').focus();		 
+		 document.getElementById('num_gift_groups').focus();
 		 return false;
 	}
 	else
@@ -268,15 +269,15 @@ function validForm()
 		if(num_gift_groups>7)
 		{
 			 alert("引出物グループ数の上限は７グループまでです");
-			 document.getElementById('num_gift_groups').focus();		 
+			 document.getElementById('num_gift_groups').focus();
 			 return false;
 		}
 	}
-	
+
 	if(!num_gift_items)
 	{
 		 alert("引出物商品数を入力してください");
-		 document.getElementById('num_gift_items').focus();		 
+		 document.getElementById('num_gift_items').focus();
 		 return false;
 	}
 	else
@@ -284,27 +285,27 @@ function validForm()
 		if(num_gift_items>7)
 		{
 			 alert("引出物商品数の上限は7種類までです");
-			 document.getElementById('num_gift_items').focus();		 
+			 document.getElementById('num_gift_items').focus();
 			 return false;
 		}
 	}
 	if(!order_deadline)
 	{
 		 alert("発注締切日を入力してください");
-		 document.getElementById('order_deadline').focus();		 
+		 document.getElementById('order_deadline').focus();
 		 return false;
 	}
-	
+
 	document.gift_criteria_form.submit();
 }
 function validForm2()
 {
-	
+
 	var num_menu_groups  = document.getElementById('num_menu_groups').value;
 	if(!num_menu_groups)
 	{
 		 alert("引出物グループ数を入力してください");
-		 document.getElementById('num_menu_groups').focus();		 
+		 document.getElementById('num_menu_groups').focus();
 		 return false;
 	}
 	else
@@ -312,7 +313,7 @@ function validForm2()
 		if(num_menu_groups>3)
 		{
 			 alert("子供料理設定の上限は3種類までです");
-			 document.getElementById('num_menu_groups').focus();		 
+			 document.getElementById('num_menu_groups').focus();
 			 return false;
 		}
 	}
@@ -321,7 +322,7 @@ function validForm2()
 
 function checkGroupForm(x)
 {	//alert(x);
-	
+
 	for(var y=0;y<x;y++)
 	{
 		if($("#name"+y).val()=="")
@@ -332,7 +333,7 @@ function checkGroupForm(x)
 	}
 	if(error!=1)
 	{
-		document.editUserGiftGroupsForm.submit();	
+		document.editUserGiftGroupsForm.submit();
 	}
 }
 </script>
@@ -346,8 +347,8 @@ $hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel
 <?
 include("inc/return_dbcon.inc.php");
 ?>
- 
-    <div id="top_btn"> 
+
+    <div id="top_btn">
         <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
         <a href="#"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
     </div>
@@ -359,19 +360,19 @@ include("inc/return_dbcon.inc.php");
 			</script>";}?>
 <?php if($_GET['msg']){echo "<script>
 			alert('".$obj->GetSuccessMsgNew($_GET['msg'])."');
-			</script>";}?> 
+			</script>";}?>
 
 
 
 
-<div style="clear:both;"></div>   
-	<div id="contents"> 
-	 <h2>       	
+<div style="clear:both;"></div>
+	<div id="contents">
+	 <h2>
             	<a href="manage.php">TOP</a> &raquo; 引出物・料理
-        </h2>	
-	<h2>引出物・料理</h2>	
+        </h2>
+	<h2>引出物・料理</h2>
 	<div>
- <div style="float:left;">   
+ <div style="float:left;">
 			<form  action="gift.php" method="post" name="gift_criteria_form">
 				<p class="txt3">
 			  <div style="margin:5px;">
@@ -392,7 +393,7 @@ include("inc/return_dbcon.inc.php");
 		<!--    グループ記号：
 		<label for="引出物グループ数"></label>
 		<input name="グループ記号" type="text" id="textfield2" size="20" />-->
-		
+
 		<br />
 		<br />
 		<?php if($gift_criteria_num>0)
@@ -406,7 +407,7 @@ include("inc/return_dbcon.inc.php");
 		<input type="hidden" name="insert" value="insert">
 		<a href="#" onclick="validForm();"><img src="img/common/btn_regist.jpg" alt="登録" width="62" height="22" style=" <?=$btn_disp?>"  /></a>
 		<?php }?>
-		
+
 			</p>
 			</form>
 	</div>
@@ -416,7 +417,7 @@ include("inc/return_dbcon.inc.php");
 			<?php
 				$group_sql ="SELECT * FROM spssp_gift_group_default  ORDER BY id asc ;";
 				$data_rows = $obj->getRowsByQuery($group_sql);
-				
+
 			?>
 			<form action="gift.php" method="post" name="editUserGiftGroupsForm">
 		  <input type="hidden" name="editUserGiftGroupsUpdate" value="editUserGiftGroupsUpdate">
@@ -426,18 +427,18 @@ include("inc/return_dbcon.inc.php");
 			{
 				echo "<div style='float:left;margin-left:15px;margin-bottom:10px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='4' size='6' value='".$row['name']."'>";
 				echo "<input type='hidden' name='fieldId".$xx."' value='".$row['id']."'></div>";
-				
+
 				$xx++;
 			}
-		  
+
 		  ?>
 		   <br /><br /><br />
-		   
+
 		   <input type="button" style=" <?=$btn_disp?>" name="editUserGiftGroupsUpdateButton" value="保存" onclick="checkGroupForm(<?=$xx?>);">
 		   </form>
-			
-		</div>	
-		
+
+		</div>
+
 	</div>
 </div>
 <div style="clear:both;"></div>
@@ -463,13 +464,13 @@ else
 <a href="#" onclick="validForm2();"><img src="img/common/btn_regist.jpg" alt="登録" width="62" height="22" style="<?=$btn_disp?>" /></a>
 <?php }?>
 
-	</p> 
+	</p>
 	</form>
-	</div>             
+	</div>
     </div>
 </div>
 
-<?php	
+<?php
 	include_once("inc/left_nav.inc.php");
 	include_once("inc/new.footer.inc.php");
 ?>
