@@ -292,7 +292,7 @@ function user_layout_title_input_show(id)
 				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax' value='".$name_input."'>";
 			}
 			?>
-			</td>
+			　　　　　</td>
 		</tr>
          <tr>
 		  <?php
