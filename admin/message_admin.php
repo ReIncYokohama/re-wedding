@@ -246,7 +246,7 @@ include("inc/return_dbcon.inc.php");
 
     </div>
 
-	 <h2> <div style="width:400px">
+	 <h4> <div style="width:400px">
 <!--             	 <a href="users.php">お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報</a> &raquo; メッセージ</div> -->
 		<?php
 		if($stuff_id==0) {
@@ -257,7 +257,7 @@ include("inc/return_dbcon.inc.php");
 		}
 		?>
 		</div>
-        </h2>
+        </h4>
 		<div  style="width:800px;"><div class="navi"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi01.jpg" class="on" /></a></div>
         <div class="navi"><img src="img/common/navi02_on.jpg" /></div>
         <div class="navi"><a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank"><img src="img/common/navi03.jpg" class="on" /></a></div>
