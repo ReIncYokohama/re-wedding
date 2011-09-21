@@ -152,7 +152,7 @@ html;
 		$party_date_array=explode("-",$user_info['party_day']);
 		$party_day00=$party_date_array[1]."/".$party_date_array[2];
 
-		$admin_link = ADMIN_LINK ;
+		$admin_link = ADMIN_LINK_FOR_PRINT ;
 
 		if($staff_info['subcription_mail']=="0" && $staff_info['email'] != "")
 		{

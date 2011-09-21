@@ -23,10 +23,8 @@ else
 
 	$user_plan_info = $objInfo->get_user_plan_info($user_id);
 	//ONECE BROWSE THIS PAGE PRINT COMPANY WILL LOSE 1 TIME OF QUATA 2
-//	if($user_plan_info['ul_print_com_times']>0 && $user_plan_info['ul_print_com_times'] < 2)
-	if($user_plan_info['admin_to_pcompany']<2)
+	if($user_plan_info['ul_print_com_times']==1)
 	{
-		//ok
 	 }
 	 else
 	 {
@@ -51,8 +49,6 @@ if(isset($_POST['sub']))
 		{
 			unset($post);
 			$post['ul_print_com_times'] = $user_plan_info['ul_print_com_times'] - 1;
-//			$obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
-
 			$post['p_company_file_up']=$message;
 			$post['admin_to_pcompany']=2;
 			$res = $obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
@@ -99,10 +95,10 @@ $row = $objInfo->get_user_info($user_id);
 <h2>アップロード</h2>
 
 
-    <div class="top_searchbox1">
-      <table width="420" border="0" cellspacing="0" cellpadding="0">
+    <div>
+      <table width="480" border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td>「参照...」ボタンを押して、アップロードするファイルを選択してください。</td>
+          <td>「ファイルを選択」ボタンを押して、アップロードするファイルを選択してください。<br />その後、「アップロード」ボタンを押してください。</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
@@ -114,7 +110,7 @@ $row = $objInfo->get_user_info($user_id);
     <div class="top_searchbox1">
       <? if($message)
 	  {
-		if($message == 1) 	echo "<script> alert('アップロードに成功しました'); </script>";
+		if($message == 1) 	echo "<script> alert('アップロードに成功しました\\nこのアップロードＵＲＬはログアウト後、無効となります'); </script>";
 		else 				echo "<script> alert('アップロードできませんでした'); </script>";
 //	    $mes =($message =='1')?"アップロードに成功しました":"アップロードできません。";
 	  ?>
@@ -139,8 +135,7 @@ $row = $objInfo->get_user_info($user_id);
     <div class="top_searchbox2">
 	<?php
 	 $user_plan_info = $objInfo->get_user_plan_info($user_id);
-//	 if($user_plan_info['ul_print_com_times']>0 && $user_plan_info['ul_print_com_times'] < 2)
-	 if($user_plan_info['admin_to_pcompany']<2)
+	 if($user_plan_info['ul_print_com_times']==1)
 	 {	//NEED TO CHECK THE DAY LIMIT
 	 ?>
 	<a href="javascript:void(0);"><img onclick="javascript:document.uploaddoc.submit();" src="img/common/btn_upload.jpg" alt="検索" width="152" height="22" /></a>
@@ -157,9 +152,15 @@ $row = $objInfo->get_user_info($user_id);
     <div id="sidebar">
     <ul class="nav">
       <li>■ホテル名：
-       <p>横浜ロイヤルパークホテル </p>
+<?php
+include("../admin/inc/main_dbcon.inc.php");
+$hcode=$HOTELID;
+$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
+include("../admin/inc/return_dbcon.inc.php");
+?>
+       <p><?=$hotel_name?></p>
         <a href="download.php"></a>■新郎新婦氏名：
-        <p><?=jp_decode($row['man_firstname'].' '.$row['man_lastname'].' '.$row['woman_firstname'].' '.$row['woman_lastname']) ;?> 様 </p>
+        <p><?=jp_decode($row['man_lastname'].' '.$row['man_firstname'].' 様<br /> '.$row['woman_lastname'].' '.$row['woman_firstname']) ;?> 様 </p>
         <a href="download.php"></a>■披露宴日：
         <p><?=strftime('%Y年%m月%d日',strtotime($row['party_day'])) ;?></p>
 		</li>

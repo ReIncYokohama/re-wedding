@@ -142,11 +142,17 @@ function click_check(url) {
   <div id="sidebar">
     <ul class="nav">
       <li>■ホテル名：
-        <p>横浜ロイヤルパークホテル </p>
+<?php
+include("../admin/inc/main_dbcon.inc.php");
+$hcode=$HOTELID;
+$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
+include("../admin/inc/return_dbcon.inc.php");
+?>
+        <p><?=$hotel_name?></p>
         <a href="download.php"></a>■新郎新婦氏名：
-        <p><?=jp_decode($row['man_firstname'].' '.$row['man_lastname'].' '.$row['woman_firstname'].' '.$row['woman_lastname']) ;?> 様 </p>
+        <p><?=jp_decode($row['man_lastname'].' '.$row['man_firstname'].' 様<br />'.$row['woman_lastname'].' '.$row['woman_firstname']) ;?> 様 </p>
         <a href="download.php"></a>■披露宴日：
-        <p><?=strftime('%Y年%m月%d日（木）',strtotime($row['party_day'])) ;?></p>
+        <p><?=strftime('%Y年%m月%d日',strtotime($row['party_day'])) ;?></p>
       </li>
       <li>      </li>
     </ul>

@@ -49,7 +49,7 @@ h3 {
 table {
 	table-layout:fixed;
 	width:100%;
-} 
+}
 
 a:link {
 	color:#705840;
@@ -213,7 +213,7 @@ span.txtred {color:#ff0000;}
 
 .top_searchbox1{
 	padding: 5px;
-	width: 420px;
+	width: 480px;
 }
 #hotel_searchbox {
 	background-color: #efe7df;
@@ -341,7 +341,7 @@ ul#footer_navigation{
 	padding-left: 20px;
 }
 .box_table {
-	
+
 	margin-top: 10px;
 	margin-bottom: 20px;
 }
