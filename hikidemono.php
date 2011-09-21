@@ -379,7 +379,7 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 				$num_gifts = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift['id']);
 			?></div>
             </td>
-			<td align="center"><input type="text" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" size="5" maxlength="2"  /></td>
+			<td align="center"><input type="text" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" size="5" maxlength="2" style="text-align:right" /></td>
 
             </tr>
 			<?php
