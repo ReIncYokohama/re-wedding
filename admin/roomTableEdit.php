@@ -272,9 +272,6 @@ include("inc/return_dbcon.inc.php");
 
     </div>
 	 <br />
-<div align="center">
-卓名をクリックすると名前を選択変更できます
-</div>
 <br />
 <!-- UCHIDA EDIT 11/08/03
 <div align="center">
