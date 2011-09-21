@@ -404,24 +404,29 @@ include("inc/return_dbcon.inc.php");
 					if($plan_info['dowload_options']==1)
 					{ ?>
 						■席次表印刷部数<br>
-			<input type="text" id="daylimit_1" name="day_limit_1" size="1" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;">
+			<input type="text" id="daylimit_1" name="day_limit_1" size="3" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;"> 
+			数
 					<br><br>
 					<br>
 					<?php }
 					if($plan_info['dowload_options']==2)
 					{ ?>
 						■席札表印刷部数<br>
-		    <input type="text" id="daylimit_2" name="day_limit_2" size="1" maxlength="3" value="<?=$dayLimit_2?>" style="height:30px;font-size:18px;font-weight:bold;">
-		    		<br><br>
+		    <input type="text" id="daylimit_2" name="day_limit_2" size="3" maxlength="3" value="<?=$dayLimit_2?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;"> 
+		    数
+		    		<br>
+		    		<br>
 					<?php }
 					if($plan_info['dowload_options']==3)
 					{ ?>
 						■席次表印刷部数<br>
-			<input type="text" id="daylimit_1" name="day_limit_1" size="1" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;">
+			<input type="text" id="daylimit_1" name="day_limit_1" size="3" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;"> 
+			数
 					<br><br>
 						■席札表印刷部数
 					<br>
-					<input type="text" id="daylimit_2" name="day_limit_2" size="1" maxlength="3" value="<?=$dayLimit_2?>" style="height:30px;font-size:18px;font-weight:bold;">
+					<input type="text" id="daylimit_2" name="day_limit_2" size="3" maxlength="3" value="<?=$dayLimit_2?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
+					数
 					<br><br>
 				<?php	}
 
