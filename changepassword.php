@@ -158,7 +158,7 @@ $(function(){
 <!-- UCHIDA EDIT 11/08/01 -->
 
 			<tr>
-				<td width="200" align="right">現在のパスワード</td>
+				<td width="300" align="right">現在のパスワード</td>
 				<td align="left"><input style="width:250px;" type="password" id="userID" name="userID" /></td>
 			</tr>
 			<tr>
