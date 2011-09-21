@@ -320,11 +320,11 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 
 ■ 商品名をご確認のうえ、グループ登録を行ってください。予備（お持ち帰りなど）の設定もできます。
 <form action="hikidemono.php" method="post" name="gift_form">
- <table width="600" border="0" cellspacing="1" cellpadding="3" bgcolor="#666666" style="float:left;">
+ <table width="800" border="0" cellspacing="1" cellpadding="3" bgcolor="#666666" style="float:left;">
     	<tr>
-        	<td width="117" align="center" bgcolor="#FFFFFF">商品名</td>
-        	<td width="250" align="center" bgcolor="#FFFFFF">グループ登録</td>
-        	<td width="111" align="center" bgcolor="#FFFFFF">予備数</td>
+        	<td width="200" align="center" bgcolor="#FFFFFF">商品名</td>
+        	<td width="500" align="center" bgcolor="#FFFFFF">グループ登録</td>
+        	<td width="100" align="center" bgcolor="#FFFFFF">予備数</td>
 
       	</tr>
 
@@ -401,9 +401,14 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 </table>
 </form>
 </div>
-<div  style="clear:both; padding-bottom:10px;"> </div>
-<div class="guests_area_R1">■ 引出物のグループは次のようになります。この記号でお客様ごとに引出物をお選びください。
-        <table width="243" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999">
+<br /><br />
+
+
+
+
+<div  style="clear:both; padding-bottom:20px;"> </div>
+<div class="cont_area2">■ 引出物のグループは次のようになります。この記号でお客様ごとに引出物をお選びください。
+        <table width="800" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999">
         <?php
 			$group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_id);
             	foreach($group_rows as $grp)
@@ -418,8 +423,8 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 			?>
 
           <tr>
-            <td bgcolor="#FFFFFF">　×</td>
-            <td bgcolor="#FFFFFF">&nbsp;</td>
+            <td width="20" align="center" bgcolor="#FFFFFF">×</td>
+            <td width="780" bgcolor="#FFFFFF">&nbsp;</td>
           </tr>
         </table>
       </div>
@@ -435,14 +440,14 @@ if(count($relation_rows)>0)
 {
 ?>
 
-<table width="500" border="0" cellspacing="1" cellpadding="3">
+<table width="800" border="0" cellspacing="1" cellpadding="3">
 <?php
 $i=0;
 foreach($data_rows as $group)
 {
 ?>
-<tr height="20px" <?php if($i%2==0){?>style="background:#ECF4FB"<?php }else{?>style="background:#FFFFFF"<?php }?>><td width="5%"><b><?=$group['name'];?></b></td>
-<td width='95%'>
+<tr height="20px" <?php if($i%2==0){?>style="background:#ECF4FB"<?php }else{?>style="background:#FFFFFF"<?php }?>><td width="20" align="center"><b><?=$group['name'];?></b></td>
+<td width='780'>
 <?php
 $query_string="SELECT gift_id FROM spssp_gift_group_relation where user_id=".$user_id." and group_id=".$group[id];
 $result_gift= $obj->getRowsByQuery($query_string);
@@ -468,8 +473,8 @@ $i++;
 }
 ?>
 <tr>
-      <td bgcolor="#FFFFFF">　×</td>
-      <td bgcolor="#FFFFFF">&nbsp;</td>
+      <td width="20" align="center" bgcolor="#FFFFFF">×</td>
+      <td width="780" bgcolor="#FFFFFF">&nbsp;</td>
     </tr>
 </table>
 
@@ -477,13 +482,9 @@ $i++;
 }
 ?>
 </div>
-
-
-
-
 <div class="cont_area">■ お子様用の料理は下記の内容となります。
 
-  <table width="587" border="1" cellspacing="1" cellpadding="3">
+  <table width="800" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999">
   	<?php
 
 		//$num_groups = count($menu_groups);
@@ -493,7 +494,7 @@ $i++;
 
 	  ?>
     <tr>
-      <td width="150" bgcolor="#FFFFFF">　<?=$mg['name']?></td>
+      <td width="800" bgcolor="#FFFFFF">　<?=$mg['name']?></td>
 
     </tr>
     <?php

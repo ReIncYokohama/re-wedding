@@ -163,6 +163,13 @@ img{
 	padding: 10px;
 	margin-bottom: 10px;
 }
+.cont_area2 {
+	height: auto;
+	width: 854px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 10px;
+}
 .cont_txt01 {
 }
 #flow {
