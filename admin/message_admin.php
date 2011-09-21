@@ -302,15 +302,14 @@ include("inc/return_dbcon.inc.php");
 						<input type="text" id="file1" name="file1" readonly style="margin-bottom:2px;"/>
 
 						<input id="upfile" type="file" name="upfile" onchange="filename_change();" style="display: none">
-						<a href="javascript:void(0);" name="file2" onclick="button1_onclick();"/><img src="img/common/btn_attach_user.jpg" alt="参照" /></a>
+						<a href="javascript:void(0);" name="file2" onclick="button1_onclick();"/><img src="img/common/btn_attach.jpg" alt="参照" /></a>
 					</td>
 				</tr>
 		<tr>
 					<td>&nbsp;</td>
-					<td>
-						&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" name="insert" onclick="validForm();"/><img src="img/common/btn_send_user.jpg" alt="送信" /></a> &nbsp;
-						&nbsp;&nbsp;<a href="javascript:void(0);" name="reset" onclick="cancel_insert();"/><img src="img/common/btn_cancel_user.jpg" alt="チャンセル" /></a>
-					</td>
+					<td><a href="javascript:void(0);" name="insert" onclick="validForm();"/><img src="img/common/btn_send.jpg" alt="送信" /></a> &nbsp;
+						&nbsp;&nbsp;<a href="javascript:void(0);" name="reset" onclick="cancel_insert();"/><img src="img/common/btn_cancel.jpg" alt="チャンセル" /></a>
+			</td>
 				</tr>
 			</table>
 		</form>
