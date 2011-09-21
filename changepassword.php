@@ -158,7 +158,7 @@ $(function(){
 <!-- UCHIDA EDIT 11/08/01 -->
 
 			<tr>
-				<td width="200" align="right">現在のパスワード</td>
+				<td width="300" align="right">現在のパスワード</td>
 				<td align="left"><input style="width:250px;" type="password" id="userID" name="userID" /></td>
 			</tr>
 			<tr>
@@ -178,7 +178,7 @@ $(function(){
     <script>document.getElementById('userID').focus();</script>
     </div>
     <div class="clear"></div>
-    <div align="center"><a href="user_info.php">&lt;&lt;戻る</a></div> <!-- UCHIDA EDIT 11/07/28 -->
+    <div align="center"><a href="user_info.php">&lt;&lt;戻る</a></div><br /><br /><br /> <!-- UCHIDA EDIT 11/07/28 -->
   <div class="clear"></div>
   </div>
 
