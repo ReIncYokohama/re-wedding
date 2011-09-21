@@ -650,9 +650,9 @@ include("inc/return_dbcon.inc.php");
 
 <div style="clear:both;"></div>
 	<div id="contents">
-	 <h2>
+	 <h4>
             	<div style="width:200px;"> スタッフ</div>
-        </h2>
+        </h4>
 		<h2><div style="width:180px;">スタッフ設定</div></h2>
         	<?php
 			echo "<script>
@@ -740,11 +740,11 @@ include("inc/return_dbcon.inc.php");
 			</table>
 			<br>
 
-            <label for="権限"></label><div style="width:250px; text-align:left;"> <a href="#" onclick="validForm();"><img src="img/common/btn_regist.jpg" alt="登録" width="62" height="22" /></a>&nbsp;&nbsp;&nbsp;
+            <label for="権限"></label><div style="width:250px; text-align:left;"> <a href="#" onclick="validForm();"><img src="img/common/btn_regist_update.jpg" alt="登録" width="82" height="22" /></a>&nbsp;&nbsp;&nbsp;
 			<?php if($_GET[id]=="") { ?>
-			<a  href="#" onclick="clearform();"><img src="img/common/btn_clear.jpg" alt="登録" width="62" height="22" /></a>
+			<a  href="#" onclick="clearform();"><img src="img/common/btn_clear.jpg" alt="登録" width="82" height="22" /></a>
 			<?php } else { ?>
-			<a  href="#" onclick="window.location='staffs.php?page=<?=$_GET[page]?>';"><img src="img/common/btn_clear.jpg" alt="登録" width="62" height="22" /></a>
+			<a  href="#" onclick="window.location='staffs.php?page=<?=$_GET[page]?>';"><img src="img/common/btn_clear.jpg" alt="登録" width="82" height="22" /></a>
 			<?php } ?>
 			</div>
         </p>
@@ -876,7 +876,7 @@ include("inc/return_dbcon.inc.php");
 
 			<br />
                     <br />
-				   <a href="#" onclick="validForm_staff();"><img src="img/common/btn_regist.jpg" alt="登録" width="62" height="22" /></a>
+				   <a href="#" onclick="validForm_staff();"><img src="img/common/btn_update.jpg" alt="登録" width="82" height="22" /></a>
         		</p>
 				</form>
 
