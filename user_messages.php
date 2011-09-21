@@ -251,7 +251,7 @@ function filename_change() {
 </script>
 <div id="main_contents">
   <div class="title_bar">
-    <div class="title_bar_txt_L">お客様とホテルとのメールの送受信を行います。</div>
+    <div class="title_bar_txt_L">お客様とホテルとのメッセージの送受信を行います</div>
     <div class="title_bar_txt_R"></div>
 <div class="clear"></div></div>
   <div class="cont_area">
