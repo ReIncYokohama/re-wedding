@@ -980,7 +980,7 @@ include("inc/return_dbcon.inc.php");
   様
 
     </div>
-        <h2><div style="width:500px; ">
+        <h4><div style="width:500px; ">
 	<!-- UCHIDA EDIT 11/08/02
 	        <a href="users.php">お客様一覧</a> &raquo; お客様挙式情報</div>
 	-->
@@ -993,7 +993,7 @@ include("inc/return_dbcon.inc.php");
 		}
 		?>
 		</div>
-        </h2>
+        </h4>
 		<div style="width:800px;">
         	<div class="navi">
             	<img src="img/common/navi01_on.jpg"/>
@@ -1018,8 +1018,9 @@ include("inc/return_dbcon.inc.php");
 
 <!-- UCHIDA EDIT 11/08/05 左寄せなどその他の修正  -->
 		<h2>
-        	<div style="width:400px;"><font color="#2052A3"><strong>お客様挙式情報</strong>　<font color="red">*</font>の付いた項目は必須です。</font></div>
+        	<div style="width:400px;"><font color="#2052A3"><strong>お客様挙式情報</strong></font></div>
         </h2>
+　 <font color="red">*</font>の付いた項目は必須です。<br /><br />
 		<?php
 		//echo "<pre>";
 		//print_r($user_row);
