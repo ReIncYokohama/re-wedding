@@ -18,14 +18,14 @@ $hotel_sqldatabase_val = "hotel".((int)$hotel_code)."_sqldatabase";
 
 mysql_close();
 $link = mysql_connected($$hotel_sqlhost_val,$$hotel_sqluser_val,$$hotel_sqlpassword_val,$$hotel_sqldatabase_val);
-$hotel_row = $obj->GetSingleRow("spssp_admin","stype=1");
+//$hotel_row = $obj->GetSingleRow("spssp_admin","stype=1");
 mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
 
-if($hotel_row){
-  $password = $hotel_row["password"];
-}else{
+//if($hotel_row){
+// $password = $hotel_row["password"];
+//}else{
   $password = generatePassword();
-}
+//}
 
 $admin_code = $hotel_dbo->getAdminCode($hotel_code);
 
