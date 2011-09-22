@@ -45,9 +45,9 @@ switch($_SESSION["adminid"]){
 
 
 include("admin/inc/main_dbcon.inc.php");
-$respects = $obj->GetAllRow(" spssp_respect");
+$respects = $obj->GetAllRow(" spssp_respect"." order by display_order DESC ");
 
-$guest_types = $obj->GetAllRow(" spssp_guest_type");
+$guest_types = $obj->GetAllRow(" spssp_guest_type"." order by display_order DESC ");
 include("admin/inc/return_dbcon.inc.php");
 $table='spssp_guest';
 $where = " user_id =".(int)$_SESSION['userid'];
@@ -266,7 +266,7 @@ $(function(){
 		$("ul#menu li:eq(3)").addClass("active");
 
 		var msg_html=$("#msg_rpt").html();
-    
+
     //続けて登録する人用に事前に情報を保存。
     //gidがある場合はもちろん入力されている項目を出力する。
     <?php
@@ -275,7 +275,7 @@ $(function(){
     var cookieArray = ["sex","guest_type","gift_group"];
     for(var i=0;i<cookieArray.length;++i){
       var t = cookieArray[i];
-      if($.cookie('user_'+t+"<?=$HOTELID?>")) $("#"+t).val($.cookie('user_'+t+"<?=$HOTELID?>"));      
+      if($.cookie('user_'+t+"<?=$HOTELID?>")) $("#"+t).val($.cookie('user_'+t+"<?=$HOTELID?>"));
     }
     <?php
     if($_GET["gid"]) print "*/";
@@ -333,7 +333,7 @@ function validForm()
 			$("#last_name").focus();
 			return false;
 		}
- 
+
   if(first_name == '')
 		{
 			alert("名を入力してください");
@@ -863,7 +863,7 @@ if($editable)
                             	$gift_groups = $obj->GetAllRowsByCondition(" spssp_gift_group "," user_id=".$user_id);
 								if((int)$_GET['gid'])
 								 $guest_gifts = $obj->GetAllRowsByCondition(" spssp_guest_gift "," user_id=".$user_id." and guest_id='".$_GET['gid']."'");
-                
+
 								$gg_arr = array();
 							    if(is_array($guest_gifts))
 								{
@@ -1249,7 +1249,7 @@ if($guest["sex"] == "Male"){
 </tr></table>
 <div style="height:300px;overflow-y:auto;width:940px;">
 	<table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
-    	
+
 <?php
 
 
@@ -1266,7 +1266,7 @@ foreach($guests as $guest)
   $guest_type = $obj->GetSingleData(" spssp_guest_type ", "name", " id=".$guest['guest_type']);
   include("admin/inc/return_dbcon.inc.php");
 $gift_id = $obj->GetSingleData(" spssp_guest_gift ", "group_id", " guest_id=".$guest['id']." and user_id = ".$user_id);
-    
+
 	$gift_name='';
 		if((int)$gift_id > 0)
 		{
@@ -1377,7 +1377,7 @@ if($guest["sex"] == "Male"){
 		  ?>
         </tr>
         <tr>
-          
+
           </td>
           </tr>
         <tr>
@@ -1420,13 +1420,13 @@ if($guest["sex"] == "Male"){
 					$gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
 					$gift_arr = explode("|",$gift_ids);
 					$groups = array();
-          
+
 					if(in_array($gift['id'],$gift_arr))
 					{
 						array_push($groups,$grp['id']);
 					}
-					
-					
+
+
           $num_gifts_in_group = 0;
 					if(!empty($groups))
 					{
@@ -1439,7 +1439,7 @@ if($guest["sex"] == "Male"){
 						unset($groups);
 					}
           $htm = $num_gifts_in_group;
-          
+
 			?>
             <td width="42" align="center" bgcolor="#FFFFFF"> <?=$htm?> </td>
             <?php
@@ -1465,7 +1465,7 @@ if($guest["sex"] == "Male"){
 					echo "<td align='center' bgcolor='#FFFFFF'> $num_guests_groups </td>";
 				}
 			?>
-           
+
             <td align="center" bgcolor="#FFFFFF">&nbsp;</td>
             <td bgcolor="#FFFFFF" align="center">×</td>
           </tr>

@@ -375,7 +375,7 @@ function validForm2()
 var gReg = /^[Ａ-Ｚａ-ｚ０-９]$/;
 function checkGroupForm(x)
 {	//alert(x);
-  /*
+
 	for(var y=1;y<x;y++)
 	{
 		var gval = $("#name"+y).val();
@@ -386,11 +386,11 @@ function checkGroupForm(x)
 			document.getElementById("name"+y).focus();
 			return false;
 		}
-    }*/
-//	if(error!=1)
-//	{
+    }
+	if(error!=1)
+	{
 		document.gift_criteria_form.submit();
-//	}
+	}
 }
 
 </script>
