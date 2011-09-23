@@ -7,7 +7,7 @@ $obj = new DBO();
 
 $guests = $obj->GetAllRow("spssp_guest");
 include("../admin/inc/main_dbcon.inc.php");
-$respects = $obj->GetAllRow(" spssp_respect");
+$respects = $obj->GetAllRow("spssp_respect");
 include("../admin/inc/return_dbcon.inc.php");
 
 function get_gaiji_ima_arr($gaijis){
