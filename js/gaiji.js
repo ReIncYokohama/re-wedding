@@ -32,3 +32,22 @@ function setDeleteGaiji(gaiji_obj){
       }
    });
 };
+/*
+入力された文字に外字が入っているかどうか判定。
+*/
+function checkGaiji(str,path){
+    var return_str = "";
+    $j.ajax({
+           "url" :path,
+           "success":function(txt){
+               if(txt != ""){
+                   alert("外字の入力は外字検索からお願いします。"+txt);
+               }
+               return_str = txt;
+           },
+           "async":false,
+           "data":{d:str}
+        });
+    if(return_str == "") return true;
+    return false;
+}

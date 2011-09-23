@@ -147,6 +147,27 @@ $genderStatus = $obj->GetSingleData(" spssp_guest_orderstatus ", "orderstatus", 
 
 <script type="text/javascript">
 
+
+/*
+入力された文字に外字が入っているかどうか判定。
+*/
+function checkGaiji(str,path){
+    var return_str = "";
+    $.ajax({
+           "url" :path,
+           "success":function(txt){
+               if(txt != ""){
+                   alert("外字の入力は外字検索からお願いします。"+txt);
+               }
+               return_str = txt;
+           },
+           "async":false,
+           "data":{d:str}
+        });
+    if(return_str == "") return true;
+    return false;
+}
+
 /* 外字のフォームから外字を削除した際の動作
    input_id
    div_image delete for image　外字のイメージを入力しているエレメントid
@@ -183,6 +204,12 @@ function setDeleteGaiji(gaiji_obj){
 
 
 $(document).ready(function(){
+      
+  $(".check_sjs_1").change(function(){
+      checkGaiji($(this).val(),"gaiji_check.php");
+  });
+
+
     setDeleteGaiji({
       input_id:"last_name",
           form_name:"male_last_gaiji_",
@@ -389,6 +416,14 @@ function validForm()
     var t = cookieArray[i];
     $.cookie('user_'+t+'<?=$HOTELID?>', $("#"+t).val());
   }
+
+  
+   //gaiji_check
+   var return_flag = true;
+   $(".check_sjs_1").each(function(){
+       if(return_flag && !checkGaiji($(this).val(),"gaiji_check.php")) return_flag = false;
+   });
+  
   document.newguest.submit();
 }
 
@@ -448,8 +483,6 @@ function m_win(url,windowname,width,height) {
   }
   window.open(url,windowname,features);
 }
-
-
 
 var now_action = null;
 function change_gaiji_link(action)
@@ -701,7 +734,7 @@ if($editable)
 			<td align="right" width="100">姓:</td>
 			<td align="center" width="137">
 
-			  <input type="text" size="20"  style="padding-top:3px; padding-bottom:3px;" name="last_name" id="last_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['last_name']?>" onfocus="change_gaiji_link('last_name');"/>
+			  <input type="text" size="20" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;" name="last_name" id="last_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['last_name']?>" onfocus="change_gaiji_link('last_name');"/>
 				<div id="last_div_id" style="display:none;"></div>
         <div><?=$gaiji_button_last_name?></div>
 			</td>
@@ -730,7 +763,7 @@ if($editable)
 			<tr>
 				<td align="right" width="90">名:</td>
 				<td align="center" width="108" >
-       	<input type="text" name="first_name" size="20" style="padding-top:3px; padding-bottom:3px;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')"/>
+       	<input type="text" name="first_name" class="check_sjs_1" size="20" style="padding-top:3px; padding-bottom:3px;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')"/>
 
 			  <div id="first_div_id" style="display:none;" ></div>
         <div><?=$gaiji_button_first_name?></div>
@@ -821,7 +854,7 @@ if($editable)
 						<td width="100" align="right">肩書 1:</td>
 						<td width="137">
 
-							<input size="20" name="comment1" type="text" id="comment1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')"/>
+							<input size="20" name="comment1" type="text" class="check_sjs_1" id="comment1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')"/>
 							<div id="comment1_div_id" style="display:none;"></div>
               <div><?=$gaiji_button_comment1?></div>
 						</td>
@@ -834,7 +867,7 @@ if($editable)
 			    		<td width="90" align="right">肩書 2:</td>
 			    		<td width="137" align="center">
 
-							<input size="20" name="comment2" type="text" id="comment2" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')"/>
+							<input size="20" name="comment2" type="text" id="comment2" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')"/>
 							<div id="comment2_div_id" style="display:none;"></div>
               <div><?=$gaiji_button_comment2?></div>
 						</td>

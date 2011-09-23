@@ -191,6 +191,19 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 
 <script type="text/javascript">
 $j(document).ready(function(){
+
+
+	var msg_html=$j("#msg_rpt").html();
+
+	if(msg_html!='')
+	{
+		$j("#msg_rpt").fadeOut(5000);
+	}
+  
+  $j(".check_sjs_1").change(function(){
+      checkGaiji($j(this).val(),"../gaiji_check.php");
+  });
+
     setDeleteGaiji({
       input_id:"man_firstname",
           form_name:"male_first_gaiji_",
@@ -376,18 +389,7 @@ if(document.getElementById("marriage_minute").value=='')
 		document.getElementById('party_day').focus();
 		return false;
 	}
-	/*if(document.getElementById("party_day_with_time").value=='')
-	{
-		alert("披露宴時間を正しく入力してください");
-		document.getElementById('party_day_with_time').focus();
-		return false;
-	}
-	if(document.getElementById("party_day").value==''&&document.getElementById("party_year").value==''&&document.getElementById("party_month").value=='')
-	{
-		alert("披露宴日を正しく入力してください");
-		document.getElementById('party_year').focus();
-		return false;
-	}*/
+
 	if(document.getElementById("party_hour").value=='')
 	{
 		alert("披露宴時間を正しく入力してください");
@@ -418,7 +420,12 @@ if(document.getElementById("marriage_minute").value=='')
 	  return false;
    }
 
-
+   //gaiji_check
+   var return_flag = true;
+   $j(".check_sjs_1").each(function(){
+       if(return_flag && !checkGaiji($j(this).val(),"../gaiji_check.php")) return_flag = false;
+   });
+   if(!return_flag) return false;
 
 
 	document.user_form_register.submit();
@@ -433,18 +440,6 @@ function alert_staff_plan()
 	alert("席次表をできません");
 	return false;
 }
-
-$j(function(){
-
-	var msg_html=$j("#msg_rpt").html();
-
-	if(msg_html!='')
-	{
-		$j("#msg_rpt").fadeOut(5000);
-	}
-
-
-});
 
 function load_party_room(id)
 {
@@ -580,8 +575,8 @@ include("inc/return_dbcon.inc.php");
                 <td width="7%" align="right" nowrap="nowrap">新郎氏名：</td>
                 <td width="25%" nowrap="nowrap">
 
-                	<input name="man_lastname" type="text" id="man_lastname"  class="input_text" onclick="change_gaiji_link('man_lastname')"  />
-                    <input name="man_firstname" type="text" id="man_firstname"  class="input_text" onclick="change_gaiji_link('man_firstname')"  />
+                	<input name="man_lastname" type="text" id="man_lastname"  class="input_text check_sjs_1" onclick="change_gaiji_link('man_lastname')"  />
+                    <input name="man_firstname" type="text" id="man_firstname"  class="input_text check_sjs_1" onclick="change_gaiji_link('man_firstname')"  />
 様
 
 					<div id="male_last_div_id" style="display:none;"></div>
@@ -591,8 +586,8 @@ include("inc/return_dbcon.inc.php");
                 <td width="7%" align="right" nowrap="nowrap">新婦氏名：</td>
                 <td width="65%" nowrap="nowrap">
 
-                    <input name="woman_lastname" type="text" id="woman_lastname"  class="input_text"  onclick="change_gaiji_link('woman_lastname')"  />
-                    <input name="woman_firstname" type="text" id="woman_firstname"  class="input_text"  onclick="change_gaiji_link('woman_firstname')" />
+                    <input name="woman_lastname" type="text" id="woman_lastname"  class="input_text check_sjs_1"  onclick="change_gaiji_link('woman_lastname')"  />
+                    <input name="woman_firstname" type="text" id="woman_firstname"  class="input_text check_sjs_1"  onclick="change_gaiji_link('woman_firstname')" />
  様
 
 

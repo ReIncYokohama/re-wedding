@@ -86,41 +86,6 @@
 
 
 	$room_row = $obj->GetSingleRow("spssp_room"," id= ".$user_row['room_id']);
-/*
-	if($_SESSION['user_type'] == 222)
-	{
-		$data = $obj->GetAllRowsByCondition("spssp_user"," stuff_id=".(int)$_SESSION['adminid']);
-		foreach($data as $dt)
-		{
-			$staff_users[] = $dt['id'];
-		}
-
-		if(!empty($staff_users))
-		{
-			if(in_array($user_id,$staff_users))
-			{
-				$registration_onclick = "valid_user(".$user_id.");";
-				$plan_onclick = "valid_plan();";
-			}
-			else
-			{
-				$registration_onclick="alert_staff();";
-				$plan_onclick = "alert_staff();";
-			}
-		}
-		else
-		{
-			$registration_onclick = "alert_staff();";
-			$plan_onclick = "alert_staff();";
-		}
-	}
-	else
-	{
-		$registration_onclick = "valid_user(".$user_id.");";
-		$plan_onclick = "valid_plan();";
-	}
-*/
-
 
 	//USER GIFT GROUP NAME UPDaTE STart
 
@@ -219,7 +184,8 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 <script type="text/javascript" src="../js/jquery.cj-object-scaler.min.js"></script>
 <script type="text/javascript" src="../js/gaiji.js"></script>
 <script type="text/javascript">
-$j(function(){
+
+$j(document).ready(function(){
 
 	var msg_html=$j("#msg_rpt").html();
 
@@ -227,10 +193,6 @@ $j(function(){
 	{
 		$j("#msg_rpt").fadeOut(5000);
 	}
-});
-
-$j(document).ready(function(){
-
     $j('#password').keyup(function(){
 		var r=checkvalidity();
     });
@@ -257,6 +219,12 @@ $j(document).ready(function(){
       input_id:"woman_firstname",
           form_name:"female_first_gaiji_",
           div_image:"female_firstname_img_div_id"});
+  
+  $j(".check_sjs_1").change(function(){
+      checkGaiji($j(this).val(),"../gaiji_check.php");
+  });
+    
+    
 });
 
 
@@ -885,37 +853,15 @@ function valid_user(user_id, noUpdate) // registration_validation.jsから移動
 		alert("メールアドレスが未入力です");
 		document.getElementById('mail').focus();
 	}
-// UCHIDA EDIT 11/08/05 パスワードは入力対象ではなくなったので、チェックを外す
-/*
-var pass = document.getElementById("password").value;
-if(document.getElementById("password").value=='')
-	{
-		alert("パスワードは半角英数字6文字以上で入力ください ");
-		document.getElementById('password').focus();
-		return false;
-	}
-	else
-	{
 
-		var c = document.getElementById("password").value.length;
-		if(c<6)
-		{
-			alert("パスワードは半角英数字6文字以上で入力ください ");
-			document.getElementById('password').focus();
-			return false;
-		}
-	}
+   //gaiji_check
+   var return_flag = true;
+   $j(".check_sjs_1").each(function(){
+       if(return_flag && !checkGaiji($j(this).val(),"../gaiji_check.php")) return_flag = false;
+   });
+   if(!return_flag) return false;
 
-	if(!RE_PASS.exec(pass))
-	 {
-		alert("パスワードは英数字 を入力してください");
-		document.getElementById('password').focus();
-		return false;
-	  }
-*/
-	//checkDuplicateMail();
-	/*matchMail();
-	checkRoomAvailability();*/
+
 	if(document.getElementById("room_id").value==document.getElementById("current_room_id").value)
 	document.user_form_register.submit();
 	else
@@ -1016,16 +962,10 @@ include("inc/return_dbcon.inc.php");
         </div>
         <br />
 
-<!-- UCHIDA EDIT 11/08/05 左寄せなどその他の修正  -->
 		<h2>
         	<div style="width:400px;"><font color="#2052A3"><strong>お客様挙式情報</strong></font></div>
         </h2>
 　 <font color="red">*</font>の付いた項目は必須です。<br /><br />
-		<?php
-		//echo "<pre>";
-		//print_r($user_row);
-
-		?>
 		<div id="div_box_1" style="width:1000px;">
         <form action="insert_user.php?user_id=<?=$user_id;?>" method="post" name="user_form_register">
         <table width="800" border="0" cellspacing="10" cellpadding="0">
@@ -1036,7 +976,7 @@ include("inc/return_dbcon.inc.php");
                 	<input name="party_day" type="text" id="party_day" value="<?=$obj->date_dashes_convert($user_row['party_day'])?>" size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;padding-top:4px; padding-bottom:4px;" class="datepicker"/>
 					<?php
 					if ($user_row['party_day'] < date("Y-m-d")) $noUpdate = true; else $noUpdate = false;
-					//$party_day_array = explode("-",$user_row['party_day']);
+
 					?>
 					<!--<input type="text" style="width:30px;" maxlength="4" name="party_year" id="party_year" value="<?=$party_day_array[0]?>">/
 					<input type="text" style="width:17px;" maxlength="2" name="party_month" id="party_month" value="<?=$party_day_array[1]?>">/
@@ -1063,8 +1003,8 @@ include("inc/return_dbcon.inc.php");
 		   	<div id="male_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($man_lastname_gaijis);?></div>
 	      <div id="male_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($man_firstname_gaijis);?></div>
                    </div>
-                    <input name="man_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="30" onclick="change_gaiji_link('man_lastname')" />
-					<input name="man_firstname" type="text" style="padding-top:4px; padding-bottom:4px;" id="man_firstname" value="<?=$user_row['man_firstname']?>" size="30"  onclick="change_gaiji_link('man_firstname')" />
+                    <input name="man_lastname" class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="30" onclick="change_gaiji_link('man_lastname')" />
+					<input name="man_firstname" type="text" class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;" id="man_firstname" value="<?=$user_row['man_firstname']?>" size="30"  onclick="change_gaiji_link('man_firstname')" />
                 	様　 <a id="man_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,505); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22"alt="外字検索" title="外字検索" /></a>
                 </td>
 
@@ -1087,8 +1027,8 @@ include("inc/return_dbcon.inc.php");
             <div id="female_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($woman_firstname_gaijis);?></div>
 			</div>
 
-            <input name="woman_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_lastname" value="<?=$user_row['woman_lastname']?>" size="30" onclick="change_gaiji_link('woman_lastname')" />
-            <input name="woman_firstname" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_firstname" value="<?=$user_row['woman_firstname']?>" size="30"  onclick="change_gaiji_link('woman_firstname')"/>
+            <input name="woman_lastname" class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_lastname" value="<?=$user_row['woman_lastname']?>" size="30" onclick="change_gaiji_link('woman_lastname')" />
+            <input name="woman_firstname" class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_firstname" value="<?=$user_row['woman_firstname']?>" size="30"  onclick="change_gaiji_link('woman_firstname')"/>
                     様　<a id="woman_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22" alt="外字検索" title="外字検索" /></a>
                 </td>
 
@@ -1141,9 +1081,6 @@ include("inc/return_dbcon.inc.php");
 
 					<input name="marriage_day" type="text" id="marriage_day" value="<?=$obj->date_dashes_convert($user_row['marriage_day'])?>"  size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; padding-top:4px; padding-bottom:4px;" class="datepicker" />
 
-					<?php
-					//$marriage_day_array = explode("-",$user_row['marriage_day']);
-					?>
 					<!--<input type="text" style="width:30px;" maxlength="4" name="marriage_year" id="marriage_year" value="<?=$marriage_day_array[0]?>">/
 					<input type="text" style="width:17px;" maxlength="2" name="marriage_month" id="marriage_month" value="<?=$marriage_day_array[1]?>">/
 					<input type="text" style="width:17px;" maxlength="2" name="marriage_day" id="marriage_day" value="<?=$marriage_day_array[2]?>"> yyyy/mm/dd-->
@@ -1164,9 +1101,7 @@ include("inc/return_dbcon.inc.php");
 
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-                	<select name="religion" style="padding-top:4px; padding-bottom:4px;" id="religion" ><!--onchange="load_party_room(this.value);"-->
-
-<!-- UCHIDA EDIT 11/08/03  <option value=""  <?php if($user_row[religion]=='') {?> selected="selected" <?php } ?>>選択してください</option> -->
+                	<select name="religion" style="padding-top:4px; padding-bottom:4px;" id="religion" >
                         <?php
 							$religions = $obj->GetAllRowsByCondition("spssp_religion", " 1=1 order by display_order asc");
 							foreach($religions as $rel)
