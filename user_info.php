@@ -156,7 +156,6 @@ width:200px;
                 <td align="left" valign="top" nowrap="nowrap">披露宴会場</td>
                 <td style="text-align:center"><font color="#2052A3"></font>：</td>
                 <td nowrap="nowrap" colspan="3" style="text-align:left">
-				<!--<select name="room_id" id="room_id">-->
                     <?php
                         if(is_array($rooms))
                         {
@@ -164,12 +163,10 @@ width:200px;
                             {
 								if($room['id']==$user_row['room_id'])
 								{
-								  // echo $room['name'];
 								   $room_name = $room['name'];
 								   $roomName = $room['name'];
 								}
-								//else
-								// echo "<option value ='".$room['id']."'> ".$room['name']."</option>";
+
 
                             }
                         }
@@ -285,8 +282,8 @@ width:200px;
               {
                 $styles = "";
               }
-
-            echo "<div class='rows' style='width:100%;float; left; clear:both;'><div style='".$styles."'>";
+            
+            echo "<div class='rows' style='width:100%;float: left; clear:both;'><div style='".$styles."'>";
             $tables = $obj->getRowsByQuery("select * from spssp_table_layout where default_plan_id= ".(int)$plan['id']." and row_order=".$tblrow['row_order']);
 
 
@@ -308,7 +305,7 @@ width:200px;
               if($table["display"] == 1){
                 $disp = 'display:block;';
               }else{
-                $disp = "display:none";
+                $disp = "display:none;";
               }
               
 							echo "<div class='tables' style='".$disp."'><p>".mb_substr ($tblname, 0,1,'UTF-8')."</p></div>";
@@ -346,8 +343,6 @@ width:200px;
               $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
               $num_tables = $obj->getSingleData("spssp_plan", "column_number"," user_id= $user_id");
               $rw_width = (int)($num_tables* 51);
-              
-              //$tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
               
               $z=count($tblrows);
               $i=0;
@@ -413,43 +408,7 @@ width:200px;
                         }
                       echo "<div class='tables' style='".$disp."'><p>".mb_substr ($tblname, 0,1,'UTF-8')."</p></div>";
                     }
-                  /*
 
-                  $tables = $obj->getRowsByQuery("select * from spssp_table_layout where user_id= ".$user_id." and row_order=".$tblrow['row_order']);
-                  $tblname='';
-                  foreach($tables as $table)
-                    {
-                      $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".$user_id." and default_table_id=".$table['id']);
-                      
-                      if(isset($new_name_row) && $new_name_row['id'] !='')
-                        {
-                          $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-                          $tblname = $tblname_row['name'];
-                        }
-                      else
-                        {
-                          $tblname = $table['name'];
-                        }
-                      
-                      
-                      if($table['visibility']==1 && $table['display']==1)
-                        {
-                          
-                          $disp = 'display:block;';
-                          
-                        }
-                      else if($table['visibility']==0 && $table['display']==1)
-                        {
-                          $disp = 'visibility:hidden;';
-                        }
-                      else if($table['display']==0 && $table['visibility']==0)
-                        {
-                          $disp = 'display:none;';
-                        }
-                      
-                      echo "<div class='tables' style='".$disp."'><p>".mb_substr ($tblname, 0,1,'UTF-8')."</p></div>";
-                    }
-                  */
                   echo "</div></div>";
                 }
               

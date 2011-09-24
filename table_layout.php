@@ -19,9 +19,8 @@
 		$obj->UpdateData("spssp_plan",$_POST," user_id=".$user_id);
 	}
 
-	if($_POST['ajax']=="ajax")
+if($_POST['ajax']=="ajax")
 	{
-
 		unset($_POST['ajax']);
 		$obj->UpdateData("spssp_plan",$_POST," user_id=".$user_id);
 		exit;
@@ -89,35 +88,27 @@ for(var loop=1;loop<=num;loop++)
  		return false;
 	}
 }
-	for(var loop=1;loop<=num;loop++)
-		{
-			var tId="tableId_"+loop;
-			var table_name=	$("#"+tId).val();
-			var valueid="hiddenid_"+loop;
-			var table_id=	$("#"+valueid).val();
-			table_array[loop]="name_"+loop+"="+table_name+"&id_"+loop+"="+table_id;
-		}
+var sendObject = {};
+for(var loop=1;loop<=num;loop++)
+  {
+    var tId="tableId_"+loop;
+    var table_name=	$("#"+tId).val();
+    var valueid="hiddenid_"+loop;
+    var table_id=	$("#"+valueid).val();
+    sendObject["name_"+loop] = table_name;
+    sendObject["id_"+loop] = table_id;
+  }
 
-	var	table_string=table_array.join("&");
-
-	$.post('table_layout.php',{'layoutname':layoutname_ajax,'ajax':"ajax"}, function(data){
+$.post('table_layout.php',{'layoutname':layoutname_ajax,'ajax':"ajax"}, function(data){
 		if (layoutname_ajax=="" || !isset(layoutname_ajax)) layoutname_ajax = "　　　";
 		$("#user_layoutname").html(layoutname_ajax);
 		$("#default_layout_title").html(layoutname_ajax);
 		$("#img_default_layout_title").val(layoutname_ajax);
-		});
+	});
+sendObject["total_table"] = num;
 
-$.get('ajax/plan_table_name_update_all.php?total_table='+num+"&"+table_string, function(data){
-
-	$("#table_information").html(data);
-
-
-	$("#user_layoutname").html(layoutname_ajax);
-	$("#default_layout_title").html(layoutname_ajax);
-	$("#img_default_layout_title").val(layoutname_ajax);
-
-	alert("更新されました");
-	return true;
+$.post('ajax/plan_table_name_update_all.php',sendObject, function(data){
+    location.href = "";
 	});
 
 
@@ -176,37 +167,22 @@ function user_layout_title_input_show(id)
 
 <div id="contents_right">
   <div class="title_bar">
-	<!-- UCHIDA EDIT 11/07/26 -->
-    <!-- <div class="title_bar_txt_L">テーブルレイアウトをご覧ください。</div> -->
-    <div class="title_bar_txt_L">披露宴会場のテーブルのレイアウト、卓名をご確認いただけます</div>
-    <div class="title_bar_txt_R"></div>
-<div class="clear"></div></div>
+  <div class="title_bar_txt_L">披露宴会場のテーブルのレイアウト、卓名をご確認いただけます</div>
+  <div class="title_bar_txt_R"></div>
+  <div class="clear"></div>
+</div>
   <div class="cont_area">
     <div class="info_box">
-      <div class="info_area_L">
-<!-- UCHIDA EDIT 11/08/03 披露宴会場名の表示　↓ -->
-<!--
-        <table width="410" border="0" cellspacing="0" cellpadding="2">
-          <tr>
-            <td width="12" valign="top" nowrap="nowrap">■</td>
-            <td width="378">テーブルレイアウトは右の形になります。<br />
-			<?
-			$seat_number = $obj->GetSingleData("spssp_plan", "seat_number"," user_id =".$user_id);
-			$roomid = $obj->GetSingleData("spssp_user","room_id"," id= ".$user_id);
-			$max_seats = $obj->GetSingleData("spssp_room","max_seats"," id= ".$roomid);
-			?>
-              一卓の最大人数　<?php if($seat_number){echo $seat_number;}else{echo $max_seats;}?> 名まで。</td>
-          </tr>
-        </table>
- -->
+    <div class="info_area_L">
+
 		<table width="75%" border="0" >
 		  <tr>
-			<td width="100%" nowrap align="left" > ■　テーブルレイアウトは右の形になります。</td>
+			  <td width="100%" nowrap align="left" > ■　テーブルレイアウトは右の形になります。</td>
 		  </tr>
 		</table>
 		<table width="75%" border="0" >
 		  <tr>
-		    <td width="30%" >披露宴会場　　　　：</td>
+		    <td width="30%" >披露宴会場　　　：</td>
 		    <td width="50%" ><?=$roomName;?></td>
 		  </tr>
 		  <tr>
@@ -219,11 +195,10 @@ function user_layout_title_input_show(id)
 		    <td><?php if($seat_number){echo $seat_number;}else{echo $max_seats;}?> 名まで。</td>
 		  </tr>
 		</table>
-<!-- UCHIDA EDIT 11/08/03 披露宴会場名の表示　↑ -->
-
         <br />
        <?php
 		$user_tables = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".$user_id." and display=1");
+    //rename_tableがtrueになる条件は、
 		$permission_table_edit = $obj->GetSingleData("spssp_plan", "rename_table"," user_id =".$user_id);
 		$layoutname = $obj->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
 		$default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
@@ -231,7 +206,7 @@ function user_layout_title_input_show(id)
 	   if($permission_table_edit['rename_table']) {?>
         <table width="410" border="0" cellspacing="0" cellpadding="2">
           <tr>
-            <td width="12" valign="top" nowrap="nowrap">■</td> <!-- UCHIDA EDIT 11/08/03 メッセージ変更 -->
+            <td width="12" valign="top" nowrap="nowrap">■</td>
             <td width="378">テーブル名は任意の名前で変更できます。<br />
               変更する場合は、下記のフォームに入力して保存ボタンを押してください。<br />
               （右のプレビューは先頭文字のみ表示）
@@ -298,13 +273,11 @@ function user_layout_title_input_show(id)
 		  <?php
 		  $k=1;
 
-
 			foreach($user_tables as $user_table_row)
 			{
 
 				if($user_table_row['table_id'])
 				{
-				 	//$default_table_name = $obj->GetSingleData("spssp_default_plan_table", "name"," id=".$user_table_row['table_id']);
 				?>
 
            <td width="14" align="center" valign="middle" nowrap="nowrap"><strong><?=$k?></strong></td>
@@ -383,10 +356,10 @@ function user_layout_title_input_show(id)
 			</div>
         	<div align="center" style="width:<?=$rw_width?>px; margin:10px auto;"  id="table_information">
             	<?php
-
 				$z=count($tblrows);
 				$i=0;
 				$ct=0; // UCHIDA EDIT 11/07/28
+
 				foreach($tblrows as $tblrow)
 				{
 					$i++;
