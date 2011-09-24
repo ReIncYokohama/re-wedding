@@ -90,10 +90,10 @@ include("inc/return_dbcon.inc.php");
  -->
 		<?php
 		if($stuff_id==0) {?>
-            <a href="manage.php">ＴＯＰ</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; お客様画面アクセスログ
+            <a href="manage.php">ＴＯＰ</a> &raquo; <a href="user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; お客様画面アクセスログ
 		<?php }
 		else {?>
-            <a href="users.php">管理者用お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; お客様画面アクセスログ
+            <a href="users.php">管理者用お客様一覧</a> &raquo; <a href="user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; お客様画面アクセスログ
 		<?php }
 		?>
 

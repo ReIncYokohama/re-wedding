@@ -379,9 +379,9 @@ function checkGroupForm(x)
 	for(var y=1;y<x;y++)
 	{
 		var gval = $("#name"+y).val();
-		if(gval.length>1 && gval != "")
+		if(gReg.test(gval) == false && gval != "")
 		{
-			alert("１文字で入力してください");
+			alert("全角１文字で入力してください");
 			var error =1;
 			document.getElementById("name"+y).focus();
 			return false;

@@ -116,10 +116,10 @@ include("inc/return_dbcon.inc.php");
  -->
 		<?php
 		if($stuff_id==0) {?>
-            <a href="manage.php">ＴＯＰ</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; 席次表データ修正ログ
+            <a href="manage.php">ＴＯＰ</a> &raquo; <a href="user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; 席次表データ修正ログ
 		<?php }
 		else {?>
-            <a href="users.php">管理者用お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; 席次表データ修正ログ
+            <a href="users.php">管理者用お客様一覧</a> &raquo; <a href="user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; 席次表データ修正ログ
 		<?php }
 		?>
 
@@ -701,7 +701,7 @@ include("inc/return_dbcon.inc.php");
     <td><div style="height:20px; text-align:right"><a href="#">▲ページ上へ</a></div></td>
   </tr>
   <tr>
-    <td align="center"><a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_back.gif" width="43" height="17" alt="戻る" /></a></td>
+    <td align="center"><a href="user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_back.gif" width="43" height="17" alt="戻る" /></a></td>
   </tr>
 </table></div>
 </div>

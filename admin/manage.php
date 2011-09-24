@@ -582,7 +582,7 @@ include("inc/return_dbcon.inc.php");
 			  </tr>
 			   <tr>
 			   <td>&nbsp; </td>
-			    <td align="left" colspan="3" > <a href="newuser.php"><img src="img/common/new_register.gif" alt="New Register"></a></td>
+			    <td align="left" colspan="3" > <a href="user_info_allentry.php"><img src="img/common/new_register.gif" alt="New Register"></a></td>
 			   </tr>
 			</table>
                 <input type="hidden" name="h_date_from" value="">
@@ -674,7 +674,7 @@ include("inc/return_dbcon.inc.php");
 					   ?>
                         </td>
 
-                    	<td width="60"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif"  /></a></td>
+                    	<td width="60"><a href="user_info_allentry.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif"  /></a></td>
                          <!--<td><?php //echo $obj->japanyDateFormate($row['party_day'] , $row['party_day_with_time'])?></td>-->
 
                         <td width="80"> <?=$staff_name?></td>

@@ -1,30 +1,17 @@
 <?php
 	require_once("inc/include_class_files.php");
 	include_once("inc/checklogin.inc.php");
+	include_once("inc/new.header.inc.php");
 
 	$obj = new DBO();
 	$objInfo = new InformationClass();
 	$objMsg = new MessageClass(); // UCHIDA EDIT 11/08/18 曜日表示のため
 
-	if(isset($_POST['ajax']) && $_POST['ajax'] != '')
-	{
-		$pid = (int)$_POST['pid'];
-		$prooms = $obj->GetAllRowsByCondition("spssp_party_room"," religion_id= $pid order by name asc");
-		if(!empty($prooms))
-		{
-			foreach($prooms as $pr)
-			{
-				echo "<option value ='".$pr['id']."'> ".$pr['name']." </option>";
-			}
-		}
-		exit;
-	}
-
-	include_once("inc/new.header.inc.php");
-
 	$get = $obj->protectXSS($_GET);
 	$user_id = (int)$get['user_id'];
 	$stuff_id = (int)$get['stuff_id'];
+
+if($user_id>0) {
 	$user_row = $obj->GetSingleRow("spssp_user"," id= $user_id");
 
 	$query_string = "SELECT * FROM spssp_gaizi_detail_for_user WHERE gu_id = $user_id";
@@ -70,8 +57,6 @@
 	//$rooms = $obj->GetAllRow("spssp_room");
 	$staff_name = $obj->GetSingleData("spssp_admin", "name"," id=".$user_row['stuff_id']);
 
-// UCHIDA EDIT 11/08/03 内容をスタッフ画面に合わせて調整
-//	$All_staffs = $obj->GetAllRowsByCondition("spssp_admin"," 1=1 ");
 	$All_staffs = $obj->GetAllRowsByCondition("spssp_admin"," `permission` != '111' ORDER BY `permission` DESC");
 
 	$room_name = $obj->GetSingleData("spssp_user", "room_name"," id=".$user_id);
@@ -84,88 +69,13 @@
 	$user_plan_row = $obj->GetSingleRow("spssp_plan"," user_id= $user_id");
 	$user_plan_row_count = $obj->GetRowCount("spssp_plan"," user_id= $user_id");
 
-
 	$room_row = $obj->GetSingleRow("spssp_room"," id= ".$user_row['room_id']);
-/*
-	if($_SESSION['user_type'] == 222)
-	{
-		$data = $obj->GetAllRowsByCondition("spssp_user"," stuff_id=".(int)$_SESSION['adminid']);
-		foreach($data as $dt)
-		{
-			$staff_users[] = $dt['id'];
-		}
-
-		if(!empty($staff_users))
-		{
-			if(in_array($user_id,$staff_users))
-			{
-				$registration_onclick = "valid_user(".$user_id.");";
-				$plan_onclick = "valid_plan();";
-			}
-			else
-			{
-				$registration_onclick="alert_staff();";
-				$plan_onclick = "alert_staff();";
-			}
-		}
-		else
-		{
-			$registration_onclick = "alert_staff();";
-			$plan_onclick = "alert_staff();";
-		}
-	}
-	else
-	{
-		$registration_onclick = "valid_user(".$user_id.");";
-		$plan_onclick = "valid_plan();";
-	}
-*/
-
-
-	//USER GIFT GROUP NAME UPDaTE STart
-
-	if($_POST['editUserGiftGroupsUpdate']=='editUserGiftGroupsUpdate')
-	{
-		unset($_POST['editUserGiftGroupsUpdate']);
-		$number = count($_POST);
-		$number = ($number/2);
-		for($i=1;$i<=$number;$i++)
-		{
-			$array['name'] = $_POST['name'.$i];
-			$obj->UpdateData("spssp_gift_group", $array," user_id=".$user_id." and id=".(int)$_POST['fieldId'.$i]);
-		}
-
-	}
-	//USER GIFT GROUP NAME UPDaTE END
-	//USER GIFT ITEM NAME UPDaTE STart
-	if($_POST['editUserGiftItemsUpdate']=='editUserGiftItemsUpdate')
-	{
-		unset($_POST['editUserGiftItemsUpdate']);
-		$number = count($_POST);
-		$number = ($number/2);
-		for($i=1;$i<=$number;$i++)
-		{
-			$array['name'] = $_POST['name'.$i];
-			$obj->UpdateData("spssp_gift", $array," user_id=".$user_id." and id=".(int)$_POST['fieldId'.$i]);
-		}
-
-	}
-	//USER GIFT ITEM NAME UPDaTE END
-	//USER MENU ITEM NAME UPDaTE STart
-	if($_POST['editUserMenuGroupsUpdate']=='editUserMenuGroupsUpdate')
-	{
-
-		unset($_POST['editUserMenuGroupsUpdate']);
-		$number = count($_POST);
-		$number = ($number/2);
-		for($i=1;$i<=$number;$i++)
-		{
-			$array['name'] = $_POST['menu'.$i];
-			$obj->UpdateData("spssp_menu_group", $array," user_id=".$user_id." and id=".(int)$_POST['menuId'.$i]);
-		}
-
-	}
-	//USER MENU ITEM NAME UPDaTE END
+}
+else {
+	$query_string="SELECT * FROM spssp_room where status=1 ORDER BY display_order ASC ;";
+	$rooms = $obj->getRowsByQuery($query_string);
+	$All_staffs = $obj->GetAllRowsByCondition("spssp_admin"," `permission` != '111' ORDER BY `permission` DESC");
+}
 ?>
 <style>
 .datepickerControl table
@@ -276,41 +186,6 @@ function checkvalidity()
     // All characters are numbers.
     return true;
 }
-function change_plan(planid)
-{
-	if(planid > 0)
-	{
-		$j(".plans").hide();
-		$j("#plan_"+planid).fadeIn(500);
-		$j.post('ajax/plan_preview_user_info.php',{'id':planid},function(data){
-			var plan_arr = data.split(",");
-			$j("#row_number").val(plan_arr[0]);
-			$j("#column_number").val(plan_arr[1]);
-			$j("#seat_number").val(plan_arr[2]);
-
-			$j("#row_number").attr("readonly","readonly");
-			$j("#column_number").attr("readonly","readonly");
-			$j("#seat_number").attr("readonly","readonly");
-
-		});
-
-	}
-	else
-	{
-		$j("#row_number").removeAttr("readonly");
-		$j("#column_number").removeAttr("readonly");
-		$j("#seat_number").removeAttr("readonly");
-
-		$j("#row_number").val("");
-		$j("#column_number").val("");
-		$j("#seat_number").val("");
-
-		$j(".plans").fadeOut(100);
-
-
-	}
-}
-
 
 function valid_plan(noUpdate)
 {
@@ -319,187 +194,40 @@ function valid_plan(noUpdate)
 		alert("披露宴日が過ぎてきるため、登録・更新ができません");
 		return false;
 	}
-
-	// UCHIDA EDIT 11/08/05 入力確認。上書きをカバー
-	var product_name = $j("#product_name").val();
-
-
-// UCHIDA EDIT 11/08/08 選択状態確認方法を変更
-//	var print_type = $("print_type").options[$("print_type").selectedIndex].text;
-	var print_size = $("print_size").selectedIndex;
-	var print_type = $("print_type").selectedIndex;
-	var print_company = $("print_company").selectedIndex;
-	var dowload_options = $("dowload_options").selectedIndex;
-
-/* 未入力を承認
-	if (print_company == 0) {
-		alert("印刷会社名を選択してください");
-		$j("#print_company").focus();
-		return false;
-	}
-	if (product_name == "") {
-		alert("商品名を入力してください");
-		$j("#product_name").focus();
-		return false;
-	}
-
-	if (print_size == 0) {
-		alert("用紙サイズを選択してください");
-		$j("#print_size").focus();
-		return false;
-	}
-	if (print_type == 0) {
-		alert("用紙タイプを選択してください");
-		$j("#print_type").focus();
-		return false;
-	}
-	*/
-	document.user_info_plan.submit();
-/*
-	var row_num = $j("#row_number").val();
-	var col_num = $j("#column_number").val();
-	var seat_num = $j("#seat_number").val();
-	var name = $j("#name").val();
-
-	var max_rows=$j("#max_rows").val();
-	var max_columns=$j("#max_columns").val();
-	var max_seats=$j("#max_seats").val();
-
-	if(row_num == '')
-	{
-		alert("縦が未入力です");
-		$j("#row_number").focus();
-		return false;
-	}
-	if(!parseInt(row_num))
-	{
-		alert("数字のみの入力はできません。");
-		$j("#row_number").focus();
-		return false;
-	}
-	if(parseInt(row_num) > parseInt(max_rows))
-	{
-		alert("卓レイアウトは、披露宴会場設定の数値以下にしてください。 : "+max_rows);
-		$j("#row_number").focus();
-		return false;
-	}
-
-
-	if(col_num == '')
-	{
-		alert("列が未入力です");
-		$j("#column_number").focus();
-		return false;
-	}
-	if(!parseInt(col_num))
-	{
-		alert("数字のみの入力はできません。");
-		$j("#column_number").focus();
-		return false;
-	}
-	if(parseInt(col_num) > parseInt(max_columns))
-	{
-		alert("最大値は列の番号が許可されて: "+max_columns);
-		$j("#column_number").focus();
-		return false;
-	}
-
-
-	if(seat_num == '')
-	{
-		alert("一卓人数を入力してください。");
-		$j("#seat_number").focus();
-		return false;
-	}
-	if(!parseInt(seat_num))
-	{
-		alert("数字のみの入力はできません。");
-		$j("#seat_number").focus();
-		return false;
-	}
-	if(parseInt(seat_num) > parseInt(max_seats))
-	{
-		alert("会場の一卓人数 縦の値を超えています。: "+max_seats);
-		$j("#seat_number").focus();
-		return false;
-	}
-
-
-	if(name =='')
-	{
-		alert("プラン名を入力してください。");
-		$j("#name").focus();
-		return false;
-	}
-	document.user_info_plan.submit();
-*/
+	return true;
+	//document.user_info_plan.submit();
 }
 
-/*function load_party_room(id)
-{
-	$j.post('user_info.php',{'ajax':'ajax','pid':id},function (data){
-		$j("#party_room_id").fadeOut(100);
-		$j("#party_room_id").html(data);
-		$j("#party_room_id").fadeIn(300);
-	});
-}*/
+var gReg = /^[Ａ-Ｚａ-ｚ０-９]$/;
 function checkGroupForm(x, noUpdate)
-{	//alert(x);
+{
 
 	if (noUpdate == true) {
 		alert("披露宴日が過ぎてきるため、登録・更新ができません");
 		return false;
 	}
 
-	var error =1;
 	for(var y=1;y<x;y++)
 	{
-		//alert(y);
-		if($j("#name"+y).val()!="")
+		var gval = $j("#name_group"+y).val()
+		if(gReg.test(gval) == false && gval != "")
 		{
-
-			var error =0;
+			alert("引出物グループ名は全角１文字で入力してください");
+			$j("#name_group"+y).focus();
+			return false;
 		}
 	}
-
-	if(error!=1)
-	{
-		document.editUserGiftGroupsForm.submit();
-	}
-	else
-	{
-		alert("引出物グループ名を入力してください");
-	}
+	return true;
 }
 function checkGiftForm(x, noUpdate)
-{	//alert(x);
+{
 
 	if (noUpdate == true) {
 		alert("披露宴日が過ぎてきるため、登録・更新ができません");
 		return false;
 	}
 
-	// UCHIDA EDIT 11/08/05 引出物商品名は無入力でも許可　上書きのカバー
-	document.editUserGiftItemsForm.submit();
-/*
-	var error =1;
-	for(var y=1;y<x;y++)
-	{
-		if($j("#item"+y).val()!="")
-		{
-
-			var error =0;
-		}
-	}
-	if(error!=1)
-	{
-		document.editUserGiftItemsForm.submit();
-	}
-	else
-	{
-		alert("引出物商品名を入力してください");
-	}
-*/
+	return true;
 }
 function checkMenuGroupForm(x, noUpdate)
 {	//alert(x);
@@ -511,16 +239,14 @@ function checkMenuGroupForm(x, noUpdate)
 
 	for(var y=0;y<x;y++)
 	{
-		if($j("#menu"+y).val()=="")
+		if($j("#menu_child"+y).val()=="")
 		{
-			alert("引出物グループ名を入力してください");
-			var error =1;
+			alert("子供料理名を入力してください");
+			$j("#menu_child"+y).focus();
+			return false;
 		}
 	}
-	if(error!=1)
-	{
-		document.editUserMenuGroupsForm.submit();
-	}
+	return true;
 }
 
 function user_layout_title_input_show(id)
@@ -602,7 +328,7 @@ function change_gaiji_link(action)
 		$j("a#woman_gaiji_link_id").attr("href", "../gaiji/palette.php?from=woman_lastname");
 }
 
-function valid_user(user_id, noUpdate) // registration_validation.jsから移動 11/08/26
+function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // registration_validation.jsから移動 11/08/26
 {
 	if (noUpdate == true) {
 		alert("披露宴日が過ぎてきるため、登録・更新ができません");
@@ -828,12 +554,12 @@ function valid_user(user_id, noUpdate) // registration_validation.jsから移動
 		document.getElementById('party_room_id').focus();
 		return false;
 	}
-	if(document.getElementById("user_id").value=='')
-	{
-		alert("ログインIDを入力してください");
-		document.getElementById('user_id').focus();
-		return false;
-	}
+//	if(document.getElementById("user_id").value=='')
+//	{
+//		alert("ログインIDを入力してください");
+//		document.getElementById('user_id').focus();
+//		return false;
+//	}
 
 	var radio3  = document.user_form_register.subcription_mail;
 
@@ -885,52 +611,31 @@ function valid_user(user_id, noUpdate) // registration_validation.jsから移動
 		alert("メールアドレスが未入力です");
 		document.getElementById('mail').focus();
 	}
-// UCHIDA EDIT 11/08/05 パスワードは入力対象ではなくなったので、チェックを外す
-/*
-var pass = document.getElementById("password").value;
-if(document.getElementById("password").value=='')
-	{
-		alert("パスワードは半角英数字6文字以上で入力ください ");
-		document.getElementById('password').focus();
-		return false;
-	}
-	else
-	{
 
-		var c = document.getElementById("password").value.length;
-		if(c<6)
-		{
-			alert("パスワードは半角英数字6文字以上で入力ください ");
-			document.getElementById('password').focus();
-			return false;
-		}
-	}
+	if (valid_plan(noUpdate) == false) return false;
+	if (checkGiftForm(count_gift, noUpdate) == false) return false;
+	if (checkGroupForm(count_group, noUpdate) == false) return false;
+//	if (checkMenuGroupForm(count_group, noUpdate) == false) return false;
 
-	if(!RE_PASS.exec(pass))
-	 {
-		alert("パスワードは英数字 を入力してください");
-		document.getElementById('password').focus();
-		return false;
-	  }
-*/
-	//checkDuplicateMail();
-	/*matchMail();
-	checkRoomAvailability();*/
-	if(document.getElementById("room_id").value==document.getElementById("current_room_id").value)
-	document.user_form_register.submit();
-	else
-		{
-			if(confirm("披露宴会場を変更すると、現在の設定が削除されます。変更してよろしいですか？"))
+	if(user_id==0) {
+		document.user_form_register.submit();
+	}
+	else if(document.getElementById("room_id").value==document.getElementById("current_room_id").value) {
+		document.user_form_register.submit();
+	}
+	else {
+		if(confirm("披露宴会場を変更すると、現在の設定が削除されます。変更してよろしいですか？")) {
 			document.user_form_register.submit();
 		}
+	}
 }
+
 function email_validate(email) {
    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
    if(reg.test(email) == false) {
        return false;
    }
-   else
-   {
+   else {
    		return true;
    }
 }
@@ -974,10 +679,10 @@ include("inc/return_dbcon.inc.php");
     <div id="contents">
     <div style="font-size:11px; width:250px;">
 
-  <?php  echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1",$height=20);?>
-・
-  <?php  echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20);?>
-  様
+  <?php if($user_id>0) echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1",$height=20)." ・";?>
+
+  <?php if($user_id>0) echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20)."様";?>
+
 
     </div>
         <h4><div style="width:500px; ">
@@ -985,15 +690,21 @@ include("inc/return_dbcon.inc.php");
 	        <a href="users.php">お客様一覧</a> &raquo; お客様挙式情報</div>
 	-->
 		<?php
-		if($stuff_id==0) {
-            echo '<a href="manage.php">ＴＯＰ</a> &raquo; お客様挙式情報 &raquo; お挙式情報・各種設定';
+		if($user_id>0) {
+			if($stuff_id==0) {
+	            echo '<a href="manage.php">ＴＯＰ</a> &raquo; お客様挙式情報 &raquo; お挙式情報・各種設定';
+			}
+			else {
+	            echo '<a href="users.php">管理者用お客様一覧</a> &raquo; お客様挙式情報 &raquo; お挙式情報・各種設定';
+			}
 		}
 		else {
-            echo '<a href="users.php">管理者用お客様一覧</a> &raquo; お客様挙式情報 &raquo; お挙式情報・各種設定';
+	        echo 'お客様新規登録';
 		}
 		?>
 		</div>
         </h4>
+		<?php if($user_id>0) { ?>
 		<div style="width:800px;">
         	<div class="navi">
             	<img src="img/common/navi01_on.jpg"/>
@@ -1015,10 +726,15 @@ include("inc/return_dbcon.inc.php");
         	<div style="clear:both;"></div>
         </div>
         <br />
+        <?php } ?>
 
 <!-- UCHIDA EDIT 11/08/05 左寄せなどその他の修正  -->
 		<h2>
+		<?php if($user_id>0) { ?>
         	<div style="width:400px;"><font color="#2052A3"><strong>お客様挙式情報</strong></font></div>
+        <?php } else {?>
+        	<div style="width:400px;"><font color="#2052A3"><strong>お客様新規登録</strong></font></div>
+        <?php } ?>
         </h2>
 　 <font color="red">*</font>の付いた項目は必須です。<br /><br />
 		<?php
@@ -1027,15 +743,15 @@ include("inc/return_dbcon.inc.php");
 
 		?>
 		<div id="div_box_1" style="width:1000px;">
-        <form action="insert_user.php?user_id=<?=$user_id;?>" method="post" name="user_form_register">
+         <form action="insert_user.php?user_id=<?=$user_id;?>" method="post" name="user_form_register">
         <table width="800" border="0" cellspacing="10" cellpadding="0">
             <tr>
               <td width="192" align="left" valign="middle" nowrap="nowrap">披露宴日<font color="red">*</font>　</td>
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="1" align="left" valign="middle" nowrap="nowrap">
-                	<input name="party_day" type="text" id="party_day" value="<?=$obj->date_dashes_convert($user_row['party_day'])?>" size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;padding-top:4px; padding-bottom:4px;" class="datepicker"/>
+                	<input name="party_day" type="text" id="party_day" value="<?if($user_id>0) echo $obj->date_dashes_convert($user_row['party_day'])?>" size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;padding-top:4px; padding-bottom:4px;" class="datepicker"/>
 					<?php
-					if ($user_row['party_day'] < date("Y-m-d")) $noUpdate = true; else $noUpdate = false;
+					if ($user_row['party_day'] < date("Y-m-d") && $user_id>0) $noUpdate = true; else $noUpdate = false;
 					//$party_day_array = explode("-",$user_row['party_day']);
 					?>
 					<!--<input type="text" style="width:30px;" maxlength="4" name="party_year" id="party_year" value="<?=$party_day_array[0]?>">/
@@ -1057,11 +773,11 @@ include("inc/return_dbcon.inc.php");
               <td width="192" align="left" valign="middle" nowrap="nowrap">新郎氏名<font color="red">*</font></td>
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td width="92%" colspan="3" align="left" valign="middle" nowrap="nowrap">
-		   <div id="form_hidden_value"><? echo getAllGaijisInputEle(array($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis));?></div>
+		   <div id="form_hidden_value"><? if($user_id>0) echo getAllGaijisInputEle(array($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis));?></div>
 		   <div style="height:20px;width:346px;">
 
-		   	<div id="male_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($man_lastname_gaijis);?></div>
-	      <div id="male_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($man_firstname_gaijis);?></div>
+		   	<div id="male_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php if($user_id>0) echo getGaijis($man_lastname_gaijis);?></div>
+	      <div id="male_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php if($user_id>0) echo getGaijis($man_firstname_gaijis);?></div>
                    </div>
                     <input name="man_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="30" onclick="change_gaiji_link('man_lastname')" />
 					<input name="man_firstname" type="text" style="padding-top:4px; padding-bottom:4px;" id="man_firstname" value="<?=$user_row['man_firstname']?>" size="30"  onclick="change_gaiji_link('man_firstname')" />
@@ -1083,8 +799,8 @@ include("inc/return_dbcon.inc.php");
             	<td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
             	<td  colspan="3" align="left" valign="middle" nowrap="nowrap">
 		    	<div style="width:346px;height:20px;">
-		        <div id="female_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($woman_lastname_gaijis);?></div>
-            <div id="female_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php echo getGaijis($woman_firstname_gaijis);?></div>
+		        <div id="female_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php if($user_id>0) echo getGaijis($woman_lastname_gaijis);?></div>
+            <div id="female_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php if($user_id>0) echo getGaijis($woman_firstname_gaijis);?></div>
 			</div>
 
             <input name="woman_lastname" style="padding-top:4px; padding-bottom:4px;" type="text" id="woman_lastname" value="<?=$user_row['woman_lastname']?>" size="30" onclick="change_gaiji_link('woman_lastname')" />
@@ -1139,7 +855,7 @@ include("inc/return_dbcon.inc.php");
                 <td width="10" align="left" valign="middle" nowrap="nowrap" style="text-align:left;" >：</td>
                 <td width="60" align="left" valign="middle" nowrap="nowrap">
 
-					<input name="marriage_day" type="text" id="marriage_day" value="<?=$obj->date_dashes_convert($user_row['marriage_day'])?>"  size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; padding-top:4px; padding-bottom:4px;" class="datepicker" />
+					<input name="marriage_day" type="text" id="marriage_day" value="<?if($user_id>0) echo $obj->date_dashes_convert($user_row['marriage_day'])?>"  size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; padding-top:4px; padding-bottom:4px;" class="datepicker" />
 
 					<?php
 					//$marriage_day_array = explode("-",$user_row['marriage_day']);
@@ -1193,29 +909,8 @@ include("inc/return_dbcon.inc.php");
 
 					?>
 					<input name="party_room_id" style="padding-top:4px; padding-bottom:4px; width:130px;" type="text" id="party_room_id"  class="input_text" value="<?=$party_rooms_name?>" />
-					<!--<select name="party_room_id" id="party_room_id" style="width:106px;">
-
-
-                    < ?php
-						$party_rooms = $obj->GetAllRowsByCondition("spssp_party_room"," id=".$user_row['party_room_id']);
-                        if($party_rooms)
-                        {
-                            foreach($party_rooms as $pr)
-                            {
-                                if($pr['id'] == $user_row['party_room_id'])
-									echo "<option value ='".$pr['id']."' selected> ".$pr['name']." </option>";
-								else
-								 	echo "<option value ='".$pr['id']."'> ".$pr['name']." </option>";
-
-                            }
-                        }
-                    ?>
-                	</select>-->
                 </td>
             </tr>
-
-
-
 
             <tr>
               <td width="192" align="left" valign="middle" nowrap="nowrap">ログインID</td>
@@ -1255,17 +950,14 @@ include("inc/return_dbcon.inc.php");
 			   ?>
 			   <td colspan="3" align="left" valign="middle" nowrap="nowrap"><?=$dateBeforeparty?><?=$weekname?> 披露宴日&nbsp;<?=$user_id_limit?>日後</td>
             </tr>
-<tr>
-  <td width="192" align="left" valign="middle" nowrap="nowrap">メールアドレス</td>
+			<tr>
+  			<td width="192" align="left" valign="middle" nowrap="nowrap">メールアドレス</td>
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap"><input style="padding-top:4px; padding-bottom:4px;" name="mail" type="text" id="mail" size="30" value="<?=$user_row['mail']?>" />
-
 				</td>
             </tr>
-
-
-<tr>
-  <td width="192" align="left" valign="middle" nowrap="nowrap">メールアドレス確認用</td>
+			<tr>
+  			<td width="192" align="left" valign="middle" nowrap="nowrap">メールアドレス確認用</td>
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <!--  UCHIDA EDIT 11/08/05 確認用メールアドレスのペーストを禁止 -->
                 <!--  UCHIDA EDIT 11/08/08 メッセージ変更 -->
@@ -1297,36 +989,31 @@ include("inc/return_dbcon.inc.php");
 				<!--<input name="stuff_id" type="text" id="stuff_id" value="<?=$staff_name?>" size="10" />-->
 				</td>
             </tr>
-            <tr>
+<!--            <tr>
               <td width="192" align="left" valign="middle" nowrap="nowrap">&nbsp;</td>
                 <td width="10" align="left" valign="middle" nowrap="nowrap">&nbsp;</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
-                	<a href="javascript:void(0)" onclick="valid_user('<?=$user_row['id']?>' , '<?=$noUpdate?>');">
+                 	<a href="javascript:void(0)" onclick="valid_user('<?=$user_row['id']?>' , '<?=$noUpdate?>');">
                     	<img src="img/common/btn_regist_update.jpg" border="0" width="82" height="22" /><br /><br />
                     </a>
                 </td>
-            </tr>
-            <tr align="left" valign="middle">
-            	<td colspan="5" nowrap="nowrap"><div style="width:450px;">
-                	<a href="user_log.php?user_id=<?=(int)$_GET['user_id']?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_access.jpg" width="173" height="23" /></a>　
-                    <a href="change_log.php?user_id=<?=(int)$_GET['user_id']?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_data.jpg" width="173" height="23" /></a></div>
-                </td>
-            </tr>
+            </tr> -->
+            <?php if($user_id>0) { ?>
+	            <tr align="left" valign="middle">
+	            	<td colspan="5" nowrap="nowrap"><div style="width:450px;">
+	                 	<a href="user_log.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_access.jpg" width="173" height="23" /></a>　
+	                    <a href="change_log.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_data.jpg" width="173" height="23" /></a></div>
+	                </td>
+	            </tr>
+            <?php } ?>
         </table>
-        </form>
+<!--         </form> -->
 		 </div> <!--end of  id="div_box_1"-->
         <br />
         <h2><div>席次表設定</div></h2>
-        <?php/* エラーメッセージを抑制
-        	if(isset($_GET['err']) && $_GET['err']!='')
-			{
-				echo "<script>
-				alert('".$obj->GetErrorMsgNew((int)$_GET['err'])."');
-				</script>";
-			}*/
-		?>
+
 		<div id="div_box_1" style="1000px;">
-        <form action="insert_user_info_plan.php?user_id=<?=(int)$_GET['user_id']?>" method="post" name="user_info_plan">
+ <!--        <form action="insert_user_info_plan.php?user_id=<?=$user_id?>" method="post" name="user_info_plan"> -->
         <input type="hidden" id="max_rows" value="<?=$room_row['max_rows']?>" />
         <input type="hidden" id="max_columns" value="<?=$room_row['max_columns']?>" />
         <input type="hidden" id="max_seats" value="<?=$room_row['max_seats']?>" />
@@ -1354,94 +1041,7 @@ include("inc/return_dbcon.inc.php");
 
             if(empty($user_plan_row))
             {
-
-				 //print_r($room_plan_rows);
-				 //echo "<br>";
-                foreach($room_plan_rows as $plan)
-                {
-
-                  $plan_row = $plan;
-                  $num_layouts = $obj->GetNumRows("spssp_table_layout"," default_plan_id=".$plan_row['id']);
-                  $layoutname = $obj->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
-
-                  $row_width = $plan_row['column_number'] *45;
-                  echo "<div class='plans' id='plan_".$plan_row['id']."' style='width:".$row_width."px;margin:0 auto;'>";
-                  $default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
-                  if($layoutname!="")
-                    {
-                      echo "<div style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$layoutname."</div>";
-                    }
-                  else if($default_layout_title!="")
-                    {
-                      echo "<div style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$default_layout_title."</div>";
-                    }
-                  else
-                    {
-                      echo "<p style='text-align:center'><img src='img/sakiji_icon/icon_takasago.gif' width='102' height='22' /></p>";
-                    }
-
-
-
-                    $sqltrace = "select distinct row_order from spssp_table_layout where default_plan_id= ".(int)$plan['id'];
-                  $tblrows = $obj->getRowsByQuery($sqltrace);
-
-                  foreach($tblrows as $tblrow)
-                    {
-
-                      $ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".(int)$user_id." limit 1");
-
-                      $num_none = $obj->GetSingleData("spssp_table_layout", "count(*) "," display=0 and row_order=".$tblrow['row_order']." and default_plan_id=".(int)$plan_row['id']." limit 1");
-
-                      if($ralign == 'L')
-                        {
-                          $styles = 'float:left;';
-                        }
-                      else if($ralign=='R')
-                        {
-                          $styles = 'float:right;';
-                        }
-                      else if($num_none>0)
-                        {
-                          $width = $row_width - ($num_none*41);
-                          $styles = "width:".$width."px;margin: 0 auto;";
-
-                        }
-                      else
-                        {
-                          $styles = "";
-                        }
-
-
-                      echo "<div class='rows' style='width:100%;float; left; clear:both;'><div style='".$styles."'>";
-                      $tables = $obj->getRowsByQuery("select * from spssp_table_layout where default_plan_id= ".(int)$plan['id']." and row_order=".$tblrow['row_order']);
-
-                      foreach($tables as $table)
-                        {
-                          $new_name_row = $obj->GetSingleRow("spssp_user_table", "default_plan_id = ".(int)$plan_row['id']." and default_table_id=".$table['id']);
-
-                          if(isset($new_name_row) && $new_name_row['id'] !='')
-                            {
-                              $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-                              $tblname = $tblname_row['name'];
-                            }
-                          else
-                            {
-                              //$tblname = $table['name'];
-                            }
-
-                          if($table["display"] == 1){
-                            $disp = 'display:block;';
-                          }else{
-                            $disp = "display:none";
-                          }
-
-                          echo "<div class='tables' style='".$disp."'><p>".$tblname."</p></div>";
-                        }
-                      echo "</div></div>";
-                    }
-
-                  echo "</div>";
-                }
+				echo "<div align='center'>テーブル配置が表示されます</div>";
             }
             else
               {
@@ -1496,7 +1096,6 @@ include("inc/return_dbcon.inc.php");
                       {
                         $styles = "";
                       }
-
 
                     echo "<div class='rows' style='width:100%;float; left; clear:both;'><div style='".$styles."'>";
                     $tables = $obj->getRowsByQuery("select * from spssp_table_layout where user_id= ".$user_id." and row_order=".$tblrow['row_order']);
@@ -1633,10 +1232,7 @@ include("inc/return_dbcon.inc.php");
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
                 	<?php
-						 //$obj->date_dashes_convert($user_plan_row['confirm_date']);
-						//$confirm_day_num = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
 						$limitation_ranking = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");
-
 
 						$date6 = new DateTime($user_row['party_day']);
 						$dateinterval = "-".$user_row['confirm_day_num']."day";
@@ -1653,13 +1249,12 @@ include("inc/return_dbcon.inc.php");
                 <td align="left" valign="middle" nowrap="nowrap">
 
 				<?php
-
+				if($user_id>0) {
 				$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $limitation_ranking , $flag=2 );
-
-				// UCHIDA EDIT 11/08/17 曜日表示
 				$weekname = $objMsg->get_youbi_name( $dateBeforeparty );
-				?>
-				<?=$dateBeforeparty?><?=$weekname?> 披露宴日&nbsp;<?=$limitation_ranking?>&nbsp;日前</td>
+				echo $dateBeforeparty.$weekname." 披露宴日&nbsp;".$limitation_ranking."&nbsp;日前";
+				} ?>
+				</td>
 
             </tr>
 
@@ -1689,25 +1284,27 @@ include("inc/return_dbcon.inc.php");
 
 
 
-        <br />
-        <p class="txt3">
+<!--  <br />
+      <p class="txt3">
         	<?php
             //if(empty($user_plan_row))
             //{
 			?>
-            <a href="javascript:void(0);" onclick="valid_plan('<?=$noUpdate?>');"> <img src="img/common/btn_regist_update.jpg" border="0" /> </a>
-        	<!--<input type="button" style="width:62px;height:22px;background-image:url(img/common/btn_regist.jpg);" onclick="<?=$plan_onclick;?>"  />-->
+             <a href="javascript:void(0);" onclick="valid_plan('<?=$noUpdate?>');"> <img src="img/common/btn_regist_update.jpg" border="0" /> </a>
 			<?php
 			//}
 			?>
-        </p>
-        </form>
+        </p> -->
+<!--         </form> -->
 		</div> <!--end of  id="div_box_2"-->
         <br />
         <h2><div>引出物設定</div></h2>
             <?php
-            $gift_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".(int)$_GET['user_id']." order by id ASC");
-$gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".(int)$_GET['user_id']." order by id ASC")
+            $gift_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".$user_id." order by id ASC");
+			$gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".$user_id." order by id ASC");
+			$gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
+			$count_gift = (int)$gift_criteria['num_gift_items'];
+			$count_group = (int)$gift_criteria['num_gift_groups'];
 			?>
 
         <div style="width:1000px; float:left;" id="div_box_3">
@@ -1716,43 +1313,31 @@ $gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".(int)$_GET['user_id
                 	<p> 引出物商品： <p>
                 </div>
                 <div style="width:200px;; float:left;">
-
-                	<?php
-							$j=1;
-                            foreach($gifts as $gift)
-                            {
- //                           	echo " <input style='background:#EBEBE4;border:1px solid gray;padding:2px;' type='text' readonly='readonly' value='".$gift['name']."' size='13'> ";
-								if($j%2==0)
-								{
-//									echo "</p><p>";
-								}
-                            }
-                      ?>
-
-               <!--GIFT ITEM BOX START-->
-
-<form action="user_info.php?user_id=<?=$user_id?>" method="post"  name="editUserGiftItemsForm">
-	   <input type="hidden" name="editUserGiftItemsUpdate" value="editUserGiftItemsUpdate">
-	   <table width="100%" border="0" cellspacing="1" cellpadding="0">
-
-
-
+<!-- 			<form action="user_info.php?user_id=<?=$user_id?>" method="post"  name="editUserGiftItemsForm"> -->
+	   		<input type="hidden" name="editUserGiftItemsUpdate" value="editUserGiftItemsUpdate">
+	   		<table width="100%" border="0" cellspacing="1" cellpadding="0">
 	   <?php
-	  	$yy = 1;
-		foreach($gifts as $gift_name)
-		{
-		echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;' name='name".$yy."' value='".$gift_name['name']."' size='13'>&nbsp;&nbsp;&nbsp;";
-
-		echo "<input type='hidden' name='fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
-		$yy++;
-		}
-
+	   if($user_id>0) {
+		  	$yy = 1;
+			foreach($gifts as $gift_name)
+			{
+				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;' name='name_gift".$yy."' value='".$gift_name['name']."' size='13'>&nbsp;&nbsp;&nbsp;";
+				echo "<input type='hidden' name='gift_fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
+				$yy++;
+			}
+	   }
+	   else {
+		   	for ($yy=1; $yy<=$count_gift; $yy++) {
+				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;' name='name_gift".$yy."' value='' size='13'>&nbsp;&nbsp;&nbsp;";
+				echo "<input type='hidden' name='gift_fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
+		   	}
+	   	}
 	  ?>
 	  </table>
 	  <br />
-	  <div>
-	  <input type="button" name="editUserGiftItemsUpdateButton" value="保存" onclick="checkGiftForm('<?=$yy?>', '<?=$noUpdate?>')"></div><br />
-	  </form>
+<!--	  <div>
+ 		  <input type="button" name="editUserGiftItemsUpdateButton" value="保存" onclick="checkGiftForm('<?=$yy?>', '<?=$noUpdate?>')"></div><br /> -->
+<!-- 	  </form> -->
 <!--GIFT ITEM BOX END-->
 
                 </div>
@@ -1765,38 +1350,41 @@ $gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".(int)$_GET['user_id
 	       <div style="width:300px; float:left; ">
 		   <!--GIFT GROUP BOX START-->
 		        <p>
-				<form action="user_info.php?user_id=<?=$user_id?>" method="post" name="editUserGiftGroupsForm">
+<!-- 				<form action="user_info.php?user_id=<?=$user_id?>" method="post" name="editUserGiftGroupsForm"> -->
 				  <input type="hidden" name="editUserGiftGroupsUpdate" value="editUserGiftGroupsUpdate">
 				  <?php
-					$xx = 1;
-					foreach($gift_groups as $row)
-					{
-						echo "<div style='margin-left:15px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='4' size='6' value='".$row['name']."'>";
-						echo "<input type='hidden' name='fieldId".$xx."' value='".$row['id']."'></div>";
-						$xx++;
-					}
+				  if($user_id>0) {
+					  $xx = 1;
+						foreach($gift_groups as $row)
+						{
+							echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value='".$row['name']."'>";
+							echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></div>";
+							$xx++;
+						}
+				  }
+				  else {
+				   	for ($xx=1; $xx<=$gift_criteria['num_gift_groups']; $xx++) {
+						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value=''>";
+						echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></div>";
+				   	}
+				  }
 				  ?>
 				   <br />
-				   <input type="button" style="margin-left:15px;" name="editUserGiftGroupsUpdateButton" value="保存" onclick="checkGroupForm('<?=$xx?>' ,'<?=$noUpdate?>');">
-				 </form>
+<!-- 				   <input type="button" style="margin-left:15px;" name="editUserGiftGroupsUpdateButton" value="保存" onclick="checkGroupForm('<?=$xx?>' ,'<?=$noUpdate?>');"> -->
+<!-- 				 </form> -->
 		         </p>
 			<!--GIFT GROUP BOX END-->
 					<br />
             </div>
 	       <div style="width:300px; float:left; valign:top" >
-			<?php
-			$gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
-			//print_r($gift_criteria);
-			?>
 			<p>
             <?php
-			$gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
 			$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $gift_criteria['order_deadline'] , $flag=2 );
 			?>
 				締切予定日： &nbsp; <input style="background:#EBEBE4;border:1px solid gray;padding:2px;" type="text" id="textfield15" readonly="readonly" value="<?=$obj->japanyDateFormate($dateBeforeparty)?>" size="25" />
             </p>
             <br /><p>
-                締切日設定： &nbsp;<?=$gift_criteria['order_deadline']?> &nbsp;前日
+                締切日設定： &nbsp;<?=$gift_criteria['order_deadline']?> &nbsp;日前
             <br /><br />
             </p>
 		</div>
@@ -1808,45 +1396,48 @@ $gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".(int)$_GET['user_id
         <div>
         	<p><h2>料理設定（子供料理）</h2></p>
             <?php
-            	$menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".(int)$_GET['user_id']);
+            	$menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".$user_id);
 				$num_groups = count($menu_groups);
-			?>
+				$menu_criteria_data_row = $obj->GetAllRow("spssp_menu_criteria");
+				$count_child = (int)$menu_criteria_data_row[0]['num_menu_groups'];
+				?>
         </div>
        <div id="div_box_4" style="width:500px;">
 
-        	<?php
-            	if($num_groups >0)
-				{?>
-				<form action="user_info.php?user_id=<?=$user_id?>" method="post" name="editUserMenuGroupsForm">
+<!-- 				<form action="user_info.php?user_id=<?=$user_id?>" method="post" name="editUserMenuGroupsForm"> -->
 		  			<input type="hidden" name="editUserMenuGroupsUpdate" value="editUserMenuGroupsUpdate">
 					 <table width="100%" border="0" cellspacing="10" cellpadding="0">
-				<?php
+        	<?php if($num_groups >0) {
 					$i=1;
 					echo "<tr>";
 					foreach($menu_groups as $mg)
 					{
-						echo "<td>子供料理 $i :<input type='text' name='menu".$i."' id='item".$i."' value='".$mg['name']."' size='20'></td>";
-
-						echo "<input type='hidden' name='menuId".$i."' value='".$mg['id']."'>";
-
-
-
-						if($i%3==0)
-						{
-							echo "</tr><tr>";
-						}
+						echo "<td>子供料理 $i :<input type='text' name='menu_child".$i."' id='menu_child".$i."' value='".$mg['name']."' size='20'></td>";
+						echo "<input type='hidden' name='menu_child_id".$i."' id='menu_child_id".$i."' value='".$mg['id']."'>";
 						$i++;
 					}
-					echo "<tr>";?>
-					 <tr><td>
+					echo "</tr>";
+				}
+				else {
+					echo "<tr>";
+					for ($i=1; $i<=$count_child; $i++) {
+						echo "<td>子供料理 $i :<input type='text' name='menu_child".$i."' id='menu_child".$i."' value='' size='20'></td>";
+						echo "<input type='hidden' name='menu_child_id".$i."' id='menu_child_id".$i."' value=''>";
+					}
+					echo "</tr>";
+				}
+				?>
+<!-- 					 <tr><td>
 					 <input type="button" style="margin-left:15px;" name="editUserMenuGroupsUpdateButton" value="保存" onclick="checkMenuGroupForm('<?=$i?>' ,'<?=$noUpdate?>');">
-					 </td> </tr>
-					 </table>
-
+					 </td> </tr> -->
+            </table>
+			<br /><br />
+            <div colspan="4" align="left" valign="middle" nowrap="nowrap">
+             <a href="javascript:void(0)" onclick="valid_user('<?=$user_id?>','<?=$noUpdate?>','<?=$count_gift?>','<?=$count_group?>','<?=$count_child?>');">
+                <img src="img/common/btn_regist_update.jpg" border="0" />
+             </a>
+            </div>
 		   </form> <!--end of  id="div_box_3"-->
-
-			<?php	}
-			?>
           </div><!--END OF id="div_box_3" -->
 
         <br />

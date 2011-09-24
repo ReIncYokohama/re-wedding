@@ -268,14 +268,7 @@ function validSearch()
 		});
 	}
 }
-function load_party_room(id)
-{
-	$j.post('user_info.php',{'ajax':'ajax','pid':id},function (data){
-		$j("#party_room_id").fadeOut(100);
-		$j("#party_room_id").html(data);
-		$j("#party_room_id").fadeIn(300);
-	});
-}
+
 function clearForm()
 {
 	$j("#date_from").val('');
@@ -428,7 +421,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 						   echo $woman_name;
 					   ?>
 						</td>
-                    	<td width="60"><a href="user_info.php?user_id=<?=$row['id']?>&stuff_id=<?=$row['stuff_id']?>"><img src="img/common/customer_info.gif" /></a></td>
+                    	<td width="60"><a href="user_info_allentry.php?user_id=<?=$row['id']?>&stuff_id=<?=$row['stuff_id']?>"><img src="img/common/customer_info.gif" /></a></td>
                         <td width="80"> <?=$row['name']?></td>
                         <td width="60"> <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'], $row['stuff_id']);?> </td>
                         <!-- <td></td>-->

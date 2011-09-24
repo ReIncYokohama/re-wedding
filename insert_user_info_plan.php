@@ -13,10 +13,20 @@ $objInfo = new InformationClass(); // UCHIDA EDIT 11/09/02
 
 $post = $obj->protectXSS($_POST);
 
+if($_GET['user_id'])
+{
+  $values['confirm_day_num'] = $_POST['confirm_day_num'];
+  $obj->UpdateData("spssp_user",$values," id=".$_GET['user_id']);
+
+  unset($_POST['confirm_day_num']);
+}
+//echo'<pre>';
+//print_r($_REQUEST);
+//exit;
 $plan_id = (int)$post['plan_id'];
 if($plan_id > 0)
 {
-  $plan_row = $obj->GetSingleRow("spssp_default_plan"," id=".(int)$post['plan_id']);
+	$plan_row = $obj->GetSingleRow("spssp_default_plan"," id=".(int)$post['plan_id']);
   $post['row_number'] = $plan_row['row_number'];
   $post['column_number'] = $plan_row['column_number'];
   $post['seat_number'] = $plan_row['seat_number'];
@@ -27,6 +37,7 @@ if($plan_id > 0)
 }
 else
 {
+
 	$post['user_id'] = (int)$_GET['user_id'];
 	$post['creation_date'] = date("Y-m-d H:i:s");
 }
@@ -50,7 +61,7 @@ if((int)$user_plan['user_id'] > 0 && empty($plan_dt))
 	unset($post['creation_date']);
 	if($post['row_number'] != $user_plan['row_number'] || $post['column_number'] != $user_plan['column_number']  )
 	{
-/*
+
 		$plan_row = $user_plan;
 
 		$room_rows = (int)$post['row_number'];
@@ -105,7 +116,7 @@ if((int)$user_plan['user_id'] > 0 && empty($plan_dt))
 			}
 
 		}
-*/	}
+	}
 	$party_day_for_confirm=$post['party_day_for_confirm'];
 	$party_date_array=explode("-",$party_day_for_confirm);
 	$day = $party_date_array[2];
@@ -117,9 +128,10 @@ if((int)$user_plan['user_id'] > 0 && empty($plan_dt))
 	unset($post['party_day_for_confirm']);
 
 	$post['confirm_date'] = date("Y-m-d", $confirm_date);
+	unset($post['confirm_day_num']);
 	$obj->UpdateData("spssp_plan",$post," user_id=".$user_plan['user_id']);
 
-	redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']);
+	//redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']);
 }
 else if((int)$user_plan['user_id'] <= 0 && empty($plan_dt))
 {
@@ -134,13 +146,10 @@ else if((int)$user_plan['user_id'] <= 0 && empty($plan_dt))
 	unset($post['party_day_for_confirm']);
 
 	$post['confirm_date'] = date("Y-m-d", $confirm_date);
-
-	$query_string="SELECT * FROM spssp_room where (status=1 and id=".$roomid.");";
-	$rooms = $obj->getRowsByQuery($query_string);
-	$post['row_number'] = (int)$rooms[0]['max_rows'];
-	$post['column_number'] = (int)$rooms[0]['max_columns'];
-	$post['seat_number'] = (int)$rooms[0]['max_seats'];
+	unset($post['confirm_day_num']);
+print_r($post);
 	$id = $obj->InsertData("spssp_plan",$post);
+
 
 	if($id >0)
 	{
@@ -197,12 +206,14 @@ else if((int)$user_plan['user_id'] <= 0 && empty($plan_dt))
 				$arr['table_name_id']=$tr['name']; // name=id
 				$obj->InsertData("spssp_user_table", $arr);
 			}
+
 		}
 	}
-	redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']);
+	//redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']);
 }
 else if((int)$user_plan['user_id'] > 0 && !empty($plan_dt))
 {
+
 	$arr['name'] = $post['name'];
 
 	$party_day_for_confirm=$post['party_day_for_confirm'];
@@ -211,7 +222,8 @@ else if((int)$user_plan['user_id'] > 0 && !empty($plan_dt))
 	$month = $party_date_array[1];
 	$year = $party_date_array[0];
 
-	$confirm_date= mktime(0, 0, 0, $month, $day-$post['final_proof'], $year);
+
+	 $confirm_date= mktime(0, 0, 0, $month, $day-$post['final_proof'], $year);
 
 	$arr['confirm_date'] = date("Y-m-d", $confirm_date);
 
@@ -219,6 +231,7 @@ else if((int)$user_plan['user_id'] > 0 && !empty($plan_dt))
 	$arr['dowload_options'] = $post['dowload_options'];
 	$arr['print_size']=$post['print_size'];
 	$arr['final_proof'] = $post['final_proof'];
+
 	$obj->UpdateData("spssp_plan",$arr," user_id=".$user_plan['user_id']);
 	//redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']."&err=4");
 }

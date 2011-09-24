@@ -239,7 +239,7 @@ else
 						   echo $woman_name;
 					    ?>
 						</td>
-                    	<td width="60"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" /></a></td>
+                    	<td width="60"><a href="user_info_allentry.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" /></a></td>
 
                         <td width="80"> <?=$row['name']?></td>
                         <td width="60"> <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id']);?> </td>

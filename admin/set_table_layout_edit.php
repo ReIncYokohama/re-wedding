@@ -521,10 +521,10 @@ include("inc/return_dbcon.inc.php");
 -->
 		<?php
 		if($stuff_id==0) {?>
-            <a href="manage.php">ＴＯＰ</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; 卓レイアウト
+            <a href="manage.php">ＴＯＰ</a> &raquo; <a href="user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; 卓レイアウト
 		<?php }
 		else {?>
-            <a href="users.php">管理者用お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; 卓レイアウト</h4>
+            <a href="users.php">管理者用お客様一覧</a> &raquo; <a href="user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; 卓レイアウト</h4>
 		<?php }
 		?>
 		</h4></div>
@@ -716,10 +716,10 @@ include("inc/return_dbcon.inc.php");
                     <div style="width:100%; text-align:left;">
                 		<!--<input type="submit" value="Update" name="submit" />
                			 &nbsp;<input type="button" value="保存" onClick="javascript:history.go(-1)" />-->
-          <img src="img/common/btn_save.jpg" onclick="javascript:window.location='user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'">
+          <img src="img/common/btn_save.jpg" onclick="javascript:window.location='user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'">
           <!--					<input type="button" value="保存" onclick="javascript:window.location='user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'"/>-->
                     &nbsp;&nbsp;
-          <img src="img/common/btn_cancel.jpg" onclick="javascript:window.location='user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'">
+          <img src="img/common/btn_cancel.jpg" onclick="javascript:window.location='user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'">
          <!--<input type="button" value="戻る" onClick="javascript:history.go(-1)" />-->
                     </div>
             </div>
