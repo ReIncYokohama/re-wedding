@@ -1,6 +1,7 @@
 <?php
 include_once("inc/dbcon.inc.php");
-
+//session_regenerate_id();
+//echo session_id();
 $id=$_GET['adminid']; // UCHIDA EDIT 11/08/17 ＩＤを再表示
 $adminid = $_POST["adminid"];
 $adminpass = $_POST["adminpass"];

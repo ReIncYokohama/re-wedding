@@ -758,7 +758,68 @@ html;
 
 	}
 
+	function process_mail_user_newentry($user_id, $print_company_id, $plan_product_name, $dowload_options, $print_size, $print_type, $hotel_name)
+	{
+		/*	
+			３システムから印刷会社へ　　sytem　→　printing company
+			３-１　挙式情報登録のお知らせ
+			ADMIN => PRINT COMPANY
+		*/
 
+
+		$print_company_info = $this :: get_printing_company_info($print_company_id);
+		$user_info = $this :: get_user_info($user_id);
+
+		$staff_info = $this :: get_user_staff_info($user_info['stuff_id']);
+
+		if($print_size==1){$print_size="A3";}elseif($print_size==2){$print_size="B4";}
+		if($print_type==1){$print_type="横";}elseif($print_type==2){$print_type="縦";}
+		if($dowload_options==1){$dowload_options="席次表";}elseif($dowload_options==2){$dowload_options="席札";}elseif($dowload_options==3){$dowload_options="席次表・席札";}
+		$party_day_with_time = explode(":", $user_info['party_day_with_time']);
+		$party_day= $this :: japanyDateFormate_for_mail($user_info['party_day']);
+
+		$subject="［ウエディングプラス］{$hotel_name}へ挙式情報が登録されました";
+
+		$user_suborder_mail_body =<<<html
+{$print_company_info['company_name']}　様
+
+いつもお世話になっております。
+
+{$hotel_name}へ{$print_company_info['company_name']} 様向け挙式情報が登録されました。
+登録情報をお知らせいたしますので、内容のご確認をお願いいたします。
+
+発注書
+ホテル名：{$hotel_name}
+新郎名：{$user_info['man_lastname']} {$user_info['man_firstname']} 様
+新婦名：{$user_info['woman_lastname']} {$user_info['woman_firstname']} 様
+披露宴日時：{$party_day} {$party_day_with_time[0]}:{$party_day_with_time[1]}
+商品区分：{$dowload_options}
+商品名：{$plan_product_name}
+サイズ：{$print_size}
+配置：{$print_type}
+担当者名：{$staff_info['name']} 様
+
+▼ このメールは、システムによる自動配信メールとなっております。
+心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
+株式会社サンプリンティングシステム weddingplus@sunpri.com
+
+▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
+-----------------------------------------------------------
+ウエディングプラス
+(株式会社サンプリンティングシステム)
+E-mail：weddingplus@sunpri.com
+
+html;
+		if($print_company_info['email']!="" && $print_company_info['email']!="0")
+		{
+				$res = $this :: mail_to($to = $print_company_info['email'], $subject , $mailbody = $user_suborder_mail_body)	;
+				if($res==1){ return  $mes = 6;/*success*/ }else{ return  $err = 28;/*error*/}
+		}
+		else
+		{
+			return $err = 30;exit;
+		}
+	}
 
 }//END OF CLASS_MAIL
 ?>

@@ -1,8 +1,7 @@
 <?php
-
+require_once("inc/include_class_files.php");
 include_once("inc/dbcon.inc.php");
 include_once("inc/checklogin.inc.php");
-require_once("inc/class.dbo.php");
 require_once("inc/imageclass.inc.php");
 include_once("../inc/gaiji.image.wedding.php");
 
@@ -257,8 +256,15 @@ else
       }
     else
       {
-        redirect("newuser.php?err=1");
+        //redirect("newuser.php?err=1");
       }
+      // 印刷会社へメール送信
+      include("inc/main_dbcon.inc.php");
+	  $hcode=$HOTELID;
+	  $hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
+	  include("inc/return_dbcon.inc.php");
+      $objMail = new MailClass();
+      $r=$objMail->process_mail_user_newentry($user_id, $plan_print_company, $plan_product_name, $plan_dowload_options, $plan_print_size, $plan_print_type, $hotel_name);
   }
 
 

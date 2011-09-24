@@ -9,7 +9,7 @@
 	$objMail = new MailClass();
 	$user_id = $_GET['user_id'];
 	$stuff_id = $_GET['stuff_id'];
-
+	
 	$user_row1 = $obj->GetSingleRow("spssp_user"," id= ".$user_id);
 	$user_row = $user_row1;
 	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".$user_id);
