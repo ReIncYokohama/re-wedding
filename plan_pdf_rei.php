@@ -160,8 +160,6 @@ width:100%;
 <br>
 EOT;
 
-
-
 $seat_table_html = "";
 for($i=0;$i<count($table_info["lines"]);++$i){
   $line = $table_info["lines"][$i];
@@ -186,7 +184,8 @@ for($i=0;$i<count($table_info["lines"]);++$i){
     }
     
     if($rows[$j]["display"] == 2){
-      $seat_table_html.="<table><tr><td width='25%'></td><td width='50%' class=\"group_title\" align=\"center\">".$rows[$j]["table_name"]."</td><td></td></tr></table>";
+      //$seat_table_html.="<table><tr><td width='25%'></td><td width='50%' class=\"group_title\" align=\"center\">".$rows[$j]["table_name"]."</td><td></td></tr></table>";
+      $seat_table_html .="<div>".$rows[$j]["table_name"]."</div>";
     }else{
       $seat_table_html.="<table><tr><td></td></tr></table>";
     }
