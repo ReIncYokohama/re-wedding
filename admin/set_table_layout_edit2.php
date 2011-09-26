@@ -435,8 +435,6 @@ include("inc/return_dbcon.inc.php");
 								{
 									$tblname = $table_row['name'];
 								}
-                //テーブル名を1文字に
-                $tblname = mb_substr($tblname,0,1,"UTF-8");
 
 								if($table_row['display']==1)
 								{
