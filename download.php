@@ -1,4 +1,4 @@
-<<?php
+<?php
 	include_once("admin/inc/dbcon.inc.php");
 	include_once("admin/inc/class.dbo.php");
 	include_once("inc/checklogin.inc.php");
@@ -217,7 +217,7 @@ height:45px;
       </td>
       </tr>
      <tr>
-      <td valign="middle"><br /><br /><br /><br /><br /><a href="csvdownload.php">ダウンロード CSV</a></td>
+      <!--<td valign="middle"><br /><br /><br /><br /><br /><a href="csvdownload.php">ダウンロード CSV</a></td>-->
       </tr>
 
   </table>
