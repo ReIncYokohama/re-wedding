@@ -100,6 +100,8 @@ $( "#table_edit_name" ).dialog({
 				$.post('ajax/edit_table_name.php', {'tnid': tnid,'id':id,'user_id':user_id}, function(data) {
             if(data && data!=""){
               alert("卓名が重複しています。保存されていません。");
+            }else{
+              $(".table_saved").show();
             }
 				});
 
@@ -365,6 +367,7 @@ include("inc/return_dbcon.inc.php");
         <div style="width:1000px; float:left; text-align:center; font-size: 12px;">
         	<form action="set_table_layout_edit.php" method="post">
             <div style="width:<?=$row_width?>px; margin:0 auto;" id="toptstaa">
+          <div style="display:none;" class="announcement table_saved">テーブル名を保存しました。</div>
                 <?php
                     foreach($tblrows as $tblrow)
                     {

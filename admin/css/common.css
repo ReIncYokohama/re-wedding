@@ -12,12 +12,13 @@ img {
 	vertical-align: bottom;
 }
 
+/*font-family 文字化けしてたたけ削除*/
 body {
 	background: #FFF;
 	margin: 0;
 	padding: 0;
 	color: #4C4C4C;
-	font-family: "���C���I", Meiryo, Osaka, "�l�r �o�S�V�b�N", "MS PGothic", sans-serif;
+
 	font-size: 11px;
 	line-height: 1.4;
 }
@@ -558,4 +559,7 @@ ul.ul3 li {
 	color: #3681CB;
 	padding-right: 20px;
 	font-weight: bold;
+}
+.announcement{
+  color:#2252A3;
 }

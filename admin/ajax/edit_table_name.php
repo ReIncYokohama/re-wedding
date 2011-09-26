@@ -16,6 +16,15 @@ $arr['table_name_id'] = $tnid;
 
 $newid = $obj->GetSingleData("spssp_user_table","id", " user_id=".(int)$post['user_id']." and default_table_id = $id");
 
+$num = $obj->GetNumRows("spssp_user_table"," user_id=".$post["user_id"]." and table_name_id = ".$post["tnid"]);
+
+if($num){
+  print_r($num);
+  print "num>1";
+  exit();
+}
+
+
 if(isset($newid) && $newid > 0)
 {
 $lid =$obj->UpdateData("spssp_user_table", $arr, " id = $newid");
@@ -26,6 +35,3 @@ else
 $lid =$obj->InsertData("spssp_user_table",$arr);
 echo $lid;
 }
-
-?>
-
