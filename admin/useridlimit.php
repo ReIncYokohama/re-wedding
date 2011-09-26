@@ -65,23 +65,67 @@ width:100px;
 
 <script src="../js/noConflict.js" type="text/javascript"></script>
 <script type="text/javascript">
-var crnt = <?=$user_id_limit?>;
 function valid_user()
 {
+var con_int = <?=$confirm_day_num?>;
+var rng_int = <?=$limitation_ranking?>;
+var ord_int = <?=$order_deadline?>;
+var lim_int = <?=$user_id_limit?>;
+
+var con = document.getElementById("confirm_day_num").value;
+var rng = document.getElementById("limitation_ranking").value;
+var ord = document.getElementById("order_deadline").value;
 var lim = document.getElementById("user_id_limit").value;
+
+	if(document.getElementById("confirm_day_num").value=='')
+	{
+		alert("席次表本発注締切日を正しく入力してください");
+		document.getElementById('confirm_day_num').focus();
+		return false;
+	}
+	if (con.match( /[^0-9\s]+/ ) ) {
+		alert("席次表本発注締切日には半角数字で入力してください");
+		document.getElementById('confirm_day_num').focus();
+		document.user_form_register.confirm_day_num.value = con_int;
+		return false;
+	}
+
+	if(document.getElementById("limitation_ranking").value=='')
+	{
+		alert("席次表編集利用制限日を正しく入力してください");
+		document.getElementById('limitation_ranking').focus();
+		return false;
+	}
+	if (rng.match( /[^0-9\s]+/ ) ) {
+		alert("席次表編集利用制限日には半角数字で入力してください");
+		document.getElementById('limitation_ranking').focus();
+		document.user_form_register.limitation_ranking.value = rng_int;
+		return false;
+	}
+
+	if(document.getElementById("order_deadline").value=='')
+	{
+		alert("引出物本発注締切日を正しく入力してください");
+		document.getElementById('order_deadline').focus();
+		return false;
+	}
+	if (ord.match( /[^0-9\s]+/ ) ) {
+		alert("引出物本発注締切日には半角数字で入力してください");
+		document.getElementById('order_deadline').focus();
+		document.user_form_register.order_deadline.value = ord_int;
+		return false;
+	}
+
 	if(document.getElementById("user_id_limit").value=='')
 	{
 		alert("お客様ID利用期限日を正しく入力してください");
 		document.getElementById('user_id_limit').focus();
 		return false;
 	}
-
-// UCHIDA EDIT 11/08/01
 	if (lim.match( /[^0-9\s]+/ ) ) {
 		alert("お客様ID利用期限日には半角数字で入力してください");
 		document.getElementById('user_id_limit').focus();
-		document.user_form_register.user_id_limit.value = crnt;
-//		$('#useridlimit').val(crnt);
+		document.user_form_register.user_id_limit.value = lim_int;
 		return false;
 	}
 	document.user_form_register.submit();
@@ -171,7 +215,7 @@ include("inc/return_dbcon.inc.php");
                 <td width="10" align="left" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
                 	 披露宴日<?php if($_SESSION['user_type']==333){?>
-                     <input name="order_deadline" <?=$ro?> type="text" style="text-align:right" onlyNumeric="i" id="order_deadline" size="5" value="<?=$order_deadline?>" />
+                     <input name="order_deadline" <?=$ro?> type="text" style="text-align:right" onlyNumeric="i" maxlength="3"  id="order_deadline" size="5" value="<?=$order_deadline?>" />
 			&nbsp;日前
                 <?
 				}else{

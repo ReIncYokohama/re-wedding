@@ -16,20 +16,22 @@ $objInfo = new InformationClass();
 //$last_log_date = $obj->GetSingleData("spssp_user_log", "max(login_time) lt ","user_id=".$usert_id);*/
 
 	$query_string = "SELECT * from spssp_user_log WHERE user_id= '".$usert_id."' and admin_id='0' order by id desc limit 0,2";
-	
+
 	$resultl = mysql_query( $query_string );
 	$row1 = mysql_fetch_array($resultl);
 	$row1 = mysql_fetch_array($resultl);
 	$_SESSION['lastlogintime'] =$row1['login_time'];
 
-           
-			
+
+
 $last_log_date = str_replace("-", "/",$_SESSION['lastlogintime']);
+
+if ($_SESSION['userid_admin']) $messege_url="admin_messages.php"; else $messege_url="user_messages.php";
 ?>
 
 <?php
 $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
-		
+
 ?>
 
 
@@ -63,7 +65,7 @@ $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
 <script src="js/ui/jquery.ui.dialog.js"></script>
 <script src="js/jquery.cookie.js"></script>
 <script type="text/javascript">
-	$(function() {	
+	$(function() {
 		$("#change_pass").dialog({
 			autoOpen: false,
 			height: 200,
@@ -77,7 +79,7 @@ $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
 						var cur_pass = $("#cur_password").val();
 						var password = $("#password").val();
 						var conf_pass = $("#conf_password").val();
-						
+
 						if(!cur_pass || !password || !conf_pass)
 						{
 							alert("Please Fill All Fields");
@@ -99,33 +101,33 @@ $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
 							}
 							else
 							{
-								$.post('ajax/change_password.php', {'cur_pass': cur_pass,'password':password,'action':'change_pass'}, 						
+								$.post('ajax/change_password.php', {'cur_pass': cur_pass,'password':password,'action':'change_pass'},
 								function(data) {
 									abc.dialog( "close");
 									//inform_user();
-										//alert("Password changed successfully");	
-									
-																	
-									
-								});	
+										//alert("Password changed successfully");
+
+
+
+								});
 							}
-																															  
-						});				
-					
+
+						});
+
 				},
 				キャンセル: function() {
-	
+
 					$( this ).dialog( "close" );
 				},
 				閉じる:function() {
-			
+
 					$( this ).dialog( "close" );
 				}
 			}
 		});
-		
+
 	});
-	
+
 	function change_password()
 	{
 		$("#cur_password").val("");
@@ -133,7 +135,7 @@ $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
 		$("#conf_password").val("");
 		$("#change_pass").dialog("open");
 	}
-	
+
 </script>
 <script type="text/javascript">
 function MM_openBrWindow(theURL,winName,features) { //v2.0
@@ -178,7 +180,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
                       ダウンロード</a></li>
                     <!--<li><a href="dummy.php">About Me</a></li>-->
                     <li><a href="user_info.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>お客様情報</a></li>
-                    <li><a href="admin_messages.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>メッセージ</a></li>
+                    <li><a href="<?=$messege_url?>" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>メッセージ</a></li>
                   </ul>
     		  </div>
   				<div class="clr"></div>

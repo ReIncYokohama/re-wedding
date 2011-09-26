@@ -9,7 +9,7 @@
 	$objMail = new MailClass();
 	$user_id = $_GET['user_id'];
 	$stuff_id = $_GET['stuff_id'];
-	
+
 	$user_row1 = $obj->GetSingleRow("spssp_user"," id= ".$user_id);
 	$user_row = $user_row1;
 	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".$user_id);
@@ -94,7 +94,8 @@
 	if($get['action']=="print_request")
 	{
 
-		if($obj->GetRowCount("spssp_plan"," `order` = 2 and user_id=".$user_id) >0 )
+//		if($obj->GetRowCount("spssp_plan"," `order` = 2 and user_id=".$user_id) >0 )
+		if($obj->GetRowCount("spssp_plan"," `order` = 1 and user_id=".$user_id) >0 )
 		{
 			if($plan_info['print_company']>0)
 			{
@@ -404,7 +405,7 @@ include("inc/return_dbcon.inc.php");
 					if($plan_info['dowload_options']==1)
 					{ ?>
 						■席次表印刷部数<br>
-			<input type="text" id="daylimit_1" name="day_limit_1" size="3" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;"> 
+			<input type="text" id="daylimit_1" name="day_limit_1" size="3" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
 			数
 					<br><br>
 					<br>
@@ -412,7 +413,7 @@ include("inc/return_dbcon.inc.php");
 					if($plan_info['dowload_options']==2)
 					{ ?>
 						■席札表印刷部数<br>
-		    <input type="text" id="daylimit_2" name="day_limit_2" size="3" maxlength="3" value="<?=$dayLimit_2?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;"> 
+		    <input type="text" id="daylimit_2" name="day_limit_2" size="3" maxlength="3" value="<?=$dayLimit_2?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
 		    数
 		    		<br>
 		    		<br>
@@ -420,7 +421,7 @@ include("inc/return_dbcon.inc.php");
 					if($plan_info['dowload_options']==3)
 					{ ?>
 						■席次表印刷部数<br>
-			<input type="text" id="daylimit_1" name="day_limit_1" size="3" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;"> 
+			<input type="text" id="daylimit_1" name="day_limit_1" size="3" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
 			数
 					<br><br>
 						■席札表印刷部数
@@ -461,7 +462,7 @@ include("inc/return_dbcon.inc.php");
 				<td width="210" valign="middle"></td>
 
 			  	<td width="617" valign="middle">
-			  	<?php if ($plan_info['admin_to_pcompany']==1) { // アップロードされるまで ?>
+			  	<?php if ($plan_info['admin_to_pcompany']==1 || $plan_info['admin_to_pcompany']==3) { // アップロードされるまで ?>
 			  		<img src="img/common/order/seat_order_release_greyed.gif" /></a>
 			  	<?php }else { ?>
 					<a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=reset&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>','依頼解除を行います。宜しいですか？')"><img src="img/common/order/seat_order_release.gif" /></a>
