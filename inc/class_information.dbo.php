@@ -410,5 +410,72 @@ function get_user_name_image_or_src_from_user_side_make_plan( $user_id ,$hotel_i
 
 		$this->UpdateData('spssp_clicktime',$post,"user_id=".$user_id);
 	}
+
+/**__**
+*title
+giftの配列と、giftグループの配列を返す。
+*arguments
+user_id userのid
+*return
+
+*memo
+
+*/
+  function get_($user_id){
+    
+    foreach($gift_rows as $gift){
+      
+    }
+  }
+
+/*
+*title
+引き出物の表示に使う際のArrayを返す
+*arguments
+user_id userのid
+*return
+"商品名",gift1_name,gift2_name .. ,"予備","合計"
+name,gift1_num,gift2_name .. ,reserve,sum
+グループ数,....,
+*memo
+*/
+  function get_gift_row($user_id){
+    $group_rows = $this->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_id);
+    $gift_rows = $this->GetAllRowsByCondition("spssp_gift"," user_id=".$user_id);
+    
+    $returnArray = array();
+    
+    $returnArray[0] = array("商品名");
+    
+    //group_memu_object
+    $group_menu_object = array();
+    
+    //商品名を順番に呼び出す
+    foreach($group_rows as $grp)
+      {
+        array_push($returnArray[0],$grp['name']);
+        $group_menu_object[$grp['name']]=0;
+      }
+    array_push($returnArray[0],"予備","合計");
+    
+    
+    $i = 1;
+    foreach($gift_rows as $gift){      
+      $returnArray[$i] = array($gift["name"]);
+
+      foreach($group_rows as $group){
+        $id = $group["id"];
+        $gift_id = $obj->GetSingleData("spss_gift_group_relation","gift_id","user_id= $user_id and group_id = $id");
+        $gift_id_arr = explode("|",$gift_id);
+        foreach($gift_id_arr as $gift_id){
+          if($gift_id == $gift["id"]){
+            $num_guests_group = $this->GetNumRows();
+          }
+        }
+      }
+    }
+  }
+
+
 }//END OF CLASS_InformationClass
 ?>

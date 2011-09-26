@@ -425,5 +425,98 @@ function get_user_name_image_or_src_from_user_side_make_plan( $user_id ,$hotel_i
 		return $row['id'];
 	}
 
+
+/*
+*title
+招待客のテーブル情報を表示する際に利用する
+*arguments
+user_id userのid
+*return
+json
+["lines"][0]["rows"][0]["guest_id_arr"][]  {1,"","","",3,""} ->guest_idの配列
+                       ["table_name"] {テーブル名}
+                       ["display"] {0,1,2} 0 none 1 visibility 2 block 表示
+            ["align"]  {N,L,C}
+            ["row_num"]     display:nonwのテーブルを含まない
+            ["max_row_num"] display:noneのテーブルも含む
+["takasago"] {1,""} ->guest_idの配列
+*memo
+
+*/
+  function get_table_info($user_id){
+    $tblrows = $this->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
+    $num_tables = $this->getSingleData("spssp_plan", "column_number"," user_id= $user_id");
+
+    $plan_id = $this->GetSingleData("spssp_plan", "id","user_id=".$user_id);
+    $plan_row = $this->GetSingleRow("spssp_plan", " id =".$plan_id);
+    $seats_num = $plan_row["seat_number"];
+
+    $i=0;
+    $returnArray = array("lines"=>array(),"takasago" => array());
+    foreach($tblrows as $tblrow)
+      {
+        $lineObject = array("align" => "","rows" => array());
+        $i++;
+        
+        $ralign = $this->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".(int)$user_id." limit 1");
+        $lineObject["align"] = $ralign;
+        $num_hidden_table = $this->GetNumRows("spssp_table_layout","user_id = $user_id and display = 0 and row_order=".$tblrow['row_order']);
+
+        $num_first = $this->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order limit 1");
+        $num_last = $this->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
+        $num_max = $this->GetSingleData("spssp_table_layout", "column_order "," user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
+        $num_none = $num_max-$num_last+$num_first-1;
+        
+        $lineObject["max_row_num"] = $num_max;
+        $lineObject["row_num"] = $num_max - $num_none;
+        
+        $table_rows = $this->getRowsByQuery("select * from spssp_table_layout where user_id = ".(int)$user_id." and row_order=".$tblrow['row_order']." order by  column_order asc");
+        foreach($table_rows as $table_row)
+          {
+            $rowObject = array("guest_id_arr" => array(),"display" => "", "table_name" => "");
+            $new_name_row = $this->GetSingleRow("spssp_user_table", " user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
+            
+            $tblname='';
+            if($table_row['name']!='')
+              {
+                $tblname = $table_row['name'];
+              }
+            elseif(is_array($new_name_row) && $new_name_row['id'] !='')
+              {
+                
+                $tblname_row = $this->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
+                $tblname = $tblname_row['name'];
+              }
+            $rowObject["table_name"] = $tblname;
+            
+            if($table_row["display"] == 1){
+              $rowObject["display"] = 2;
+            }else if(($num_first <= $table_row["column_order"] && $table_row["column_order"]<=$num_last) || $ralign == "N" ){
+              $rowObject["display"] = 1;
+            }else{
+              $rowObject["display"] = 0;
+            }
+            
+            $seats = $this->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$seats_num");
+
+            foreach($seats as $seat)
+              {
+
+                $guest_id = $this->GetSingleData("spssp_plan_details","guest_id"," seat_id=".$seat["id"]." and plan_id =".$plan_id);                
+                if($guest_id){
+                  array_push($rowObject["guest_id_arr"],$guest_id);
+                }else{
+                  array_push($rowObject["guest_id_arr"],"");
+                }
+              }
+            array_push($lineObject["rows"],$rowObject);
+          }
+        array_push($returnArray["lines"],$lineObject);
+      }
+    return $returnArray;
+  }
+
+
+
 }//END OF CLASS_InformationClass
 ?>

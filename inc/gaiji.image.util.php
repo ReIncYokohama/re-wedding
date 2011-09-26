@@ -123,7 +123,7 @@ function gaiji_imagettftext_tategaki($image,$fontsize,$angle,$left,$top,$color,$
 
     //高さの調整のために2px足している
     //横幅調整のために1px足した。
-      
+    
     imagecopyresampled($image,$gaiji_image,$left,$leftTop-1,0,0,
                        $gaiji_image_i1nsert_width,$height+1,
                        $gaiji_image_width,$gaiji_image_height);

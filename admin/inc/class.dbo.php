@@ -211,10 +211,11 @@ include_once('dbcon.inc.php');
 		
 		public function GetAllRow($tablename)
 		{
-			$fetchedRows = "";
+			$fetchedRows = array();
 			$query = "select * from $tablename ";
 			//echo $query;exit;
 			$result = mysql_query($query );
+      if(!$result) return $fetchedRows;
 			$num = mysql_num_rows($result);
 			if($num>0)
 			{

@@ -104,7 +104,16 @@ list($year,$month,$day) = explode("-",$party_date);
 //会場名
 $roomName = $obj->GetSingleData("spssp_room","name"," id = ".$user["room_id"]);
 
-print_r($user);
+$woman_lastname=$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_lastname_respect.png",$extra="thumb1");
+$man_lastname=$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_lastname_respect.png",$extra="thumb1");
+
+/*
+
+
+
+*/
+
+$table_info = $objInfo->get_table_info($user_id);
 
 $html = <<<EOT
 
@@ -112,7 +121,7 @@ $html = <<<EOT
   .group_title{
   display:inline;
   border:1px solid black;
-padding:10px;
+  padding:10px;
 }
   .tate_gaki{
     writing-mode: tb-rl;
@@ -120,22 +129,26 @@ padding:10px;
   .f18{
     font-size:50px;
   }
+  .space1{
+height:1px;
+width:100%;
+   }
 </style>
 
 <table width="100%">
   <tr width="100%">
     <td width="40%" height="100" class="f18">新郎家<br>新婦家<br>御結婚披露宴出席者御席次</td>
-    <td width="10%" align="center" rowspan="2" class="tate_gaki">新郎</td>
-    <td width="10%" align="center" rowspan="2">新婦</td>
-    <td width="40%" align="right" rowspan="2">$year年$month月$day日　於: $roomName</td>
+  <td width="10%" align="center" rowspan="2" class="tate_gaki">新郎<br><br>{$man_lastname}</td>
+  <td width="10%" align="center" rowspan="2">新婦<br><br>{$woman_lastname}</td>
+    <td width="40%" align="right" rowspan="2">{$year}年{$month}月{$day}日 於:{$roomName}</td>
   </tr>
-  <tr height="10">
-    <td height="10">
-      <table cellpadding="2">
+  <tr height="10" width="100%">
+    <td height="10" width="100%">
+      <table cellpadding="2" width="100%">
         <tbody>
         <tr>
-          <td width="20"></td>
-          <td width="50" class="group_title" align="center" >高砂席</td>
+          <td width="25%"></td>
+          <td width="50%" class="group_title" align="center" >高砂席</td>
           <td></td>
         </tr>
       </tbody>
@@ -144,10 +157,61 @@ padding:10px;
   </tr>
 </table>
 
-
+<br>
 EOT;
 
 
+
+$seat_table_html = "";
+for($i=0;$i<count($table_info["lines"]);++$i){
+  $line = $table_info["lines"][$i];
+  $row_percent = floor(100/$line["row_num"]);
+  if($line["align"] == "C" && $line["max_row_num"] != 0){
+    $seat_table_html.="<div>";
+    $percent = floor(($line["row_num"]/$line["max_row_num"])*100);
+    $seat_table_html.="<table width=\"".$percent."%\">";
+  }else{
+    $seat_table_html.="<div>";
+    $seat_table_html.="<table>";
+  }
+
+  $seat_table_html.="<tr>";
+  $rows = $line["rows"];
+  $row_num = count($rows);
+  for($j=0;$j<count($rows);++$j){
+    if($rows[$j]["display"]>=1){
+      $seat_table_html.="<td width=\"{$row_percent}%\">";
+    }else{
+      continue;
+    }
+    
+    if($rows[$j]["display"] == 2){
+      $seat_table_html.="<table><tr><td width='25%'></td><td width='50%' class=\"group_title\" align=\"center\">".$rows[$j]["table_name"]."</td><td></td></tr></table>";
+    }else{
+      $seat_table_html.="<table><tr><td></td></tr></table>";
+    }
+    
+    $seat_table_html.="<div height=\"10\"></div><table>";
+    $guest_id_arr = $rows[$j]["guest_id_arr"];
+    for($k=0;$k<count($guest_id_arr);++$k){
+      $guest_id = $guest_id_arr[$k];
+      if($k%2==0) $seat_table_html .="<tr>";
+      if($guest_id){
+        $guest_image = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard.png",$extra="guest/".$guest_id."/");
+      }else{
+        $guest_image = "";
+      }
+      $seat_table_html.="<td>".$guest_image."</td>";
+      if($k%2==1) $seat_table_html .="</tr>";
+    }
+    $seat_table_html.="</table></td>";
+  }
+  $seat_table_html.="</tr>";
+  $seat_table_html.="</table></div>";
+}
+
+
+$html .= $seat_table_html;
 
 $samplefile="sam_".$plan_id."_".rand()."_".time().".txt";
  
@@ -168,5 +232,8 @@ $pdf->writeHTML($utf8text, true, false, true, false, '');
 
 // Close and output PDF document
 // This method has several options, check the source code documentation for more information.
-//$pdf->Output('example_001.pdf', 'I');
+$pdf->Output('example_001.pdf', 'I');
+//print $html;
+
+
 ?>

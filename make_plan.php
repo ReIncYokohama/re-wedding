@@ -479,13 +479,13 @@ height:30px;
 
   <div id="make_plan_area">
   	<form action="insert_default_plan.php?user_id=<?=(int)$user_id?>&plan_id=<?=$plan_id?>" method="post" id="insert_plan" name="insert_plan">
-  			 <!--<div align="left">
+  			 <div align="right">
 
                   <input type="button"  id="button" value="保存" onclick="checkConfirm()" />
-                  <!--<input type="button"  id="button2" value="リセット" onClick="resetFormItems()" />
+                  <input type="button"  id="button2" value="リセット" onClick="resetFormItems()" />
                   <input type="button"  id="button3" value="戻る"  onClick="javascript:history.go(-1);" />
 
-            </div>-->
+            </div>
 			<?php
 			$main_guest=array();
 			$guests_bride = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest!='0' and stage_guest!='' order by display_order DESC");

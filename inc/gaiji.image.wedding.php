@@ -83,10 +83,6 @@ function get_user_tategaki($comment,$name,$gaiji_arr=array(),$angle=0,$color = a
       $nameLeft = 1;
     }
     if($num==7){
-      $maxfontsize = 13;
-      $nameLeft = 2;
-    }
-    if($num==7){
       $maxfontsize = 10;
       $nameLeft = 3;
     }
@@ -113,7 +109,6 @@ function get_user_tategaki($comment,$name,$gaiji_arr=array(),$angle=0,$color = a
     $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+3,$col_t,$font,mb_substr($name,1,1));
     $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+3,$col_t,$font,mb_substr($name,2,1));
     $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+3,$col_t,$font,mb_substr($name,3,1));
-
   }
   
 
