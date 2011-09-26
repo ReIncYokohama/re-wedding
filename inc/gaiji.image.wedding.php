@@ -258,7 +258,7 @@ function make_user_images($user_id,$man_last_name,$man_first_name,$woman_last_na
   make_text_save($woman_last_name."様",$woman_lastname_gaiji_pathArray,$user_folder."thumb2/woman_lastname_respect.png",9,100);
   make_text_save($woman_last_name." ".$woman_first_name." 様",$woman_fullname_gaiji_pathArray,$user_folder."thumb2/woman_fullname.png",9,100);
 
-  $guest_page_gaiji_pathArray = array_merge($woman_lastname_gaiji_pathArray,$woman_lastname_gaiji_pathArray);
+  $guest_page_gaiji_pathArray = array_merge($man_lastname_gaiji_pathArray,$woman_lastname_gaiji_pathArray);
 
   make_text_save($man_last_name."・".$woman_last_name."様専用ページ",$guest_page_gaiji_pathArray,$user_folder."guest_page.png",13,250);
 }
