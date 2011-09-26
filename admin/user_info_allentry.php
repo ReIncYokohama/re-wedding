@@ -969,8 +969,8 @@ include("inc/return_dbcon.inc.php");
 				 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
 				<td colspan="3" align="left" valign="middle" nowrap="nowrap">
 
-			<input type="radio" name="subcription_mail" value="0" <?php if($user_row['subcription_mail']=='0'){echo "checked='checked'";}else{echo "checked='checked'";}?> /> 受信する
-			<input type="radio" name="subcription_mail" value="1" <?php if($user_row['subcription_mail']=='1'){echo "checked='checked'";}?>/>  受信しない
+			<input type="radio" name="subcription_mail" value="0" <?php if($user_row['subcription_mail']=='0'){echo "checked='checked'";}?> /> 受信する
+			<input type="radio" name="subcription_mail" value="1" <?php if($user_row['subcription_mail']=='1' || !isset($user_row['subcription_mail'])) {echo "checked='checked'";}?>/>  受信しない
 				</td>
 			</tr>
             <tr>

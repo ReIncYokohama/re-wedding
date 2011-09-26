@@ -701,7 +701,7 @@ include("inc/return_dbcon.inc.php");
 				<td width="240">
 					メールを受信する：　
 				<input type="radio" name="subcription_mail" value="0" <?php echo ($edit_data_rows['subcription_mail']=='0' && $edit_data_rows['email'] !='')?"checked":"";?> /> 受信する
-				<input type="radio" name="subcription_mail" value="1" <?php echo($edit_data_rows['subcription_mail']=='1')?"checked":"";?>/>  受信しない
+				<input type="radio" name="subcription_mail" value="1" <?php if ($edit_data_rows['subcription_mail']=='1' || !isset($edit_data_rows['subcription_mail'])) echo "checked";?>/>  受信しない
 				</td>
 				<td align="left" width="100">メールアドレス：
 				</td>

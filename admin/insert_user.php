@@ -24,7 +24,7 @@ $user_id = (int)$get['user_id'];
 	for($i=1;$i<=7;$i++) $gift_post[$i] = $post['name_gift'.$i];
 	for($i=1;$i<=7;$i++) $group_post[$i] = $post['name_group'.$i];
 	for($i=1;$i<=3;$i++) $menu_post[$i] = $post['menu_child'.$i];
-	
+
 	for($i=1;$i<=7;$i++) $gift_post_id[$i] = $post['gift_fieldId'.$i];
 	for($i=1;$i<=7;$i++) $group_post_id[$i] = $post['group_fieldId'.$i];
 	for($i=1;$i<=3;$i++) $menu_post_id[$i] = $post['menu_child_id'.$i];
@@ -121,7 +121,7 @@ if(isset($user_id) && $user_id > 0)
     unset($post['marriage_minute']);
     unset($post['party_hour']);
     unset($post['party_minute']);
-    
+
 	unset($post['current_room_id']);
     unset($post['con_mail']);
     unset($post['layoutname']);
@@ -170,7 +170,7 @@ if(isset($user_id) && $user_id > 0)
 		$array['name'] = $menu_post[$i];
 		$obj->UpdateData("spssp_menu_group", $array," user_id=".$user_id." and id=".(int)$menu_post_id[$i].";");
 	}
-    
+
     //redirect("user_info_allentry.php?user_id=".$user_id");
   }
 else
@@ -211,7 +211,7 @@ else
     $post['password'] = rand();
 
     if((int)$post['confirm_day_num']==0) $post['confirm_day_num'] = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
-	$post['subcription_mail'] = 1; // UCHIDA EDIT 11/08/08 受信しないをデフォルト
+//	$post['subcription_mail'] = 1; // UCHIDA EDIT 11/08/08 受信しないをデフォルト
 
 	$last_id = $obj->InsertData("spssp_user",$post);
     $user_id = $last_id;
