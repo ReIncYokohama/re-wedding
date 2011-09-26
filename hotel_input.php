@@ -50,7 +50,7 @@ if($_POST['hotel_name'])
       //CREAT ARRAY
       $data['username'] =  $_POST['adminid'];
       $data['password'] =  $_POST['password'];
-      $data['email'] =  $_POST['email'];
+//      $data['email'] =  $_POST['email'];
       $data['name'] =  $_POST['adminstrator'];
       $data['permission'] =  "333";
       $data['display_order'] =  time();
