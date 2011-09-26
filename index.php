@@ -48,7 +48,9 @@
 		@session_destroy();
 	}
 ?>
-
+<html>
+<head>
+<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
 <script type="text/javascript">
 var reg = /^[A-Za-z0-9]{1,32}$/; // UCHIDA EDIT 11/07/26
 function login_admin()
@@ -149,7 +151,7 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 }
 </style>
 <title>ログイン - ウエディングプラス</title>
-
+</head>
   <div align="center">
     <div id="login_BOX">
       	<div><img src="../img/bar_pri.jpg" /></div>
