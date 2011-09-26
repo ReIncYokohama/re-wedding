@@ -96,17 +96,11 @@ $( "#table_edit_name" ).dialog({
 				$("#table_"+id+ " a").html(name+"<span id = 'tnameid' style= 'display:none'>"+tnid+"</span>");
 
 				var user_id = $("#user_id").val();
-
+        
 				$.post('ajax/edit_table_name.php', {'tnid': tnid,'id':id,'user_id':user_id}, function(data) {
-
-					//alert(data);
-					/*if(parseInt(data) > 0)
-					{
-						$("#table_"+id+ " a").removeAttr('onclick');
-						$("#table_"+id+ " a").click(function(){
-							edit_table_name(id,name);
-						});
-					}*/
+            if(data && data!=""){
+              alert("卓名が重複しています。保存されていません。");
+            }
 				});
 
 				$( this ).dialog( "close" );
@@ -114,7 +108,6 @@ $( "#table_edit_name" ).dialog({
 
 		},
 		"キャンセル": function() {
-
 			$( this ).dialog( "close" );
 		},
 		"閉じる":function() {
