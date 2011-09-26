@@ -212,9 +212,8 @@ foreach($group_rows as $grp)
 	
 	}
 
-$group_menu_array[x]=0;        
-$html.='<td  style="text-align:center;border:1px solid black;"  width="20">×</td>
-	<td  style="text-align:center;border:1px solid black;"  width="20">予備</td>
+$group_menu_array[x]=0;
+$html.='<td  style="text-align:center;border:1px solid black;"  width="20">予備</td>
 	<td  style="text-align:center;border:1px solid black;"  width="20">合計</td>
   	</tr>';
           
@@ -227,17 +226,20 @@ foreach($gift_rows as $gift)
 		$num_gifts = 0;
 		foreach($group_rows as $grp)
       {
-        $gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);	
+        $gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
+        $guest_gift_num = $obj->GetNumRows("spssp_guest_gift","user_id=".$user_id." and group_id=".$grp["id"]);
+        
         $gift_arr = explode("|",$gift_ids);
         $groups = array();
         if(in_array($gift['id'],$gift_arr))
           {
-            $htm = "<table cellpadding=\"1\"><tr><td><img  src=\"./admin/img/tick.jpg\" border=\"0\" width=\"5\"/></td></tr></table>";
+            //$htm = "<table cellpadding=\"1\"><tr><td><img  src=\"./admin/img/tick.jpg\" border=\"0\" width=\"5\"/></td></tr></table>";
+            $htm = $guest_gift_num;
             array_push($groups,$grp['id']);
           }
         else
           {
-            $htm = '&nbsp;';
+            $htm = '-';
 				
           }
 			
@@ -253,8 +255,7 @@ foreach($gift_rows as $gift)
 			
         $html.='<td   style="text-align:center;border:1px solid black;"  width="20">'.$htm.'</td>';
       }
-    $html.='<td  style="text-align:center;border:1px solid black;"  width="20">&nbsp;</td>
-            <td   style="text-align:center;border:1px solid black;"  width="20">&nbsp;</td>
+    $html.='<td   style="text-align:center;border:1px solid black;"  width="20">&nbsp;</td>
             <td style="text-align:center;border:1px solid black;"  width="20">'.$num_gifts.'</td>
           </tr>';
 	}	  
@@ -270,16 +271,8 @@ foreach($group_rows as $grp)
     $html.="<td style=\"text-align:center;border:1px solid black;\"> $num_guests_groups </td>";
   }
 			
-$html.='<td style="text-align:center;border:1px solid black;"  width="20">';
-				
-$num_guests = $obj->GetNumRows(" spssp_guest "," user_id = $user_id ");
-$not_gifted = $num_guests - $total;
-$html.=$not_gifted;
-					 
-			
-$html.='</td>
-            <td  style="text-align:center;border:1px solid black;"  width="20">&nbsp;</td>
-            <td  style="text-align:center;border:1px solid black;"  width="20">'.$num_guests.'</td>
+$html.='<td  style="text-align:center;border:1px solid black;"  width="20">&nbsp;</td>
+            <td  style="text-align:center;border:1px solid black;"  width="20">'.$total.'</td>
           </tr>';
 	
 $html.='</table></td></tr>';
@@ -303,14 +296,18 @@ $year = $party_date_array[0];
 $confirm_date= mktime(0, 0, 0, $month, $day-7, $year);
 $confirm_date_main=date("Y-m-d", $confirm_date);
 
-$html.='<td><table style="border:1px solid black; padding:10px;"><tr><td align="center"  valign="middle" style="text-align:center;">新郎<br/>'.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_lastname_respect.png",$extra="thumb1").'</td><td align="center"  valign="middle" style="text-align:center;">新婦<br/>'.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_lastname_respect.png",$extra="thumb1").' </td></tr></table><br/>
+$html.='<td><table style="border:1px solid black; padding:10px;"><tr><td align="center"  valign="middle" style="text-align:center;">新郎<br/>'.
+$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_lastname_respect.png",$extra="thumb1").
+'</td><td align="center"  valign="middle" style="text-align:center;">新婦<br/>'
+.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_lastname_respect.png",$extra="thumb1").' </td></tr></table><br/>
 
 			<table>
 				<tr>
 					<td align="left"  valign="middle" style="text-align:center;">
-					新郎様側: '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_lastname_respect.png",$extra="thumb1").'&nbsp;&nbsp;&nbsp;&nbsp;列席者数 :'.$male_guest_num.'名様 
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					新婦様側: '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_lastname_respect.png",$extra="thumb1").'&nbsp;&nbsp;&nbsp;&nbsp;列席者数:'.$female_guest_num.'名様 
+					新郎様側: './/$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_lastname_respect.png",$extra="thumb1").
+'&nbsp;&nbsp;&nbsp;&nbsp;列席者数 :'.$male_guest_num.'名様 &nbsp;&nbsp;&nbsp;					新婦様側: '.
+  //$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_lastname_respect.png",$extra="thumb1").
+'&nbsp;&nbsp;&nbsp;&nbsp;列席者数:'.$female_guest_num.'名様 
 					</td>
 				</tr>
 				<tr>
