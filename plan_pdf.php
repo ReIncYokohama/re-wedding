@@ -272,7 +272,7 @@ foreach($group_rows as $grp)
   }
 			
 $html.='<td  style="text-align:center;border:1px solid black;"  width="20">&nbsp;</td>
-            <td  style="text-align:center;border:1px solid black;"  width="20">'.$total.'</td>
+            <td  style="text-align:center;border:1px solid black;"  width="20">×</td>
           </tr>';
 	
 $html.='</table></td></tr>';
