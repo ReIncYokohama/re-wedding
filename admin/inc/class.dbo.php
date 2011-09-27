@@ -584,11 +584,19 @@ public function stripslashes2($string)
 			$err_msg.="</div>";
 			print $err_msg;
 		}
+/*
+*title
+エラーをテキストのまま返す。
+*arguments
+error_code dbcon.inc.phpで定義している。
+*return
+*memo
+*/
 	public function GetErrorMsgNew($err)
 		{
 			GLOBAL $error_array;
 			
-			$err_msg.=$error_array[$err];
+			$err_msg =$error_array[$err];
 			
 			return $err_msg;
 		}
@@ -600,6 +608,29 @@ public function stripslashes2($string)
 	
 		return $succ_msg;
 	}
+/*
+*title
+エラーをjavascriptのAlertで表示するhtmlを返す。
+*arguments
+error_code dbcon.inc.phpで定義している。
+*return
+*memo
+*/
+  public function GetErrorMsgAlert($error_code){
+    $message = $this->GetErrorMsgNew($error_code);
+    return $this->GetAlertHtml($message);
+  }
+  public function GetSuccessMsgAlert($error_code){
+    $message = $this->GetSuccessMsgNew($error_code);
+    return $this->GetAlertHtml($message);
+  }
+  public function GetAlertHtml($str){
+    if($str){
+      return "<script>alert(\"".$str."\");</script>";
+    }else{
+      return "";
+    }
+  }
 
 /*
 2011-09-20

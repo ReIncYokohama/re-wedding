@@ -284,8 +284,6 @@ function validForm()
 		var c = document.getElementById("password").value.length;
 		if(c<6)
 		{
-//			UCHIDA EDIT 11/07/26
-//			alert("「パスワードは英数字6文字以上にしてください」 ");
 			alert("パスワードは英数字6文字以上にしてください");
 			document.getElementById('password').focus();
 			return false;
@@ -455,7 +453,6 @@ function validForm_staff()
 	{
 		if(email=='')
 		{
-//			alert("正しいメールアドレスではありません"); UCHIDA EDIT 11/07/25
 			alert("メールを受信する場合は、メールアドレスは必須です");
 			document.getElementById('email').focus();
 			return false;
@@ -464,7 +461,6 @@ function validForm_staff()
 		{
 			if(email_validate(email)==false)
 			{
-//				alert("無効なメールアドレスを入力します。");//Enter a valid email address. UCHIDA EDIT 11/07/25
 				alert("正しいメールアドレスではありません");//Enter a valid email address.
 				document.getElementById('email').focus();
 				return false;
@@ -476,7 +472,6 @@ function validForm_staff()
 			document.getElementById('email').focus();
 			return false;
 		}
-// UCHIDA EDIT 11/07/25 ↓
 		if(com_email=='')
 		  {
 			alert("メールアドレス確認用を正しく入力してください");
@@ -487,18 +482,15 @@ function validForm_staff()
 		 {
 			if(document.getElementById('conf_email').value != email)
 			{
-//				alert("正しいメールアドレスではありません。");//Enter a valid email address. UCHIDA EDIT 11/07/25
 				alert("メールアドレスが一致しません。再度入力してください");
 				document.getElementById('conf_email').focus();
 					return false;
 			}
 		}
-// UCHIDA EDIT 11/07/25 ↑
 	}
 	else {
 		if(document.getElementById('conf_email').value != email)
 		{
-//			alert("正しいメールアドレスではありません。");//Enter a valid email address. UCHIDA EDIT 11/07/25
 			alert("メールアドレスが一致しません。再度入力してください");
 			document.getElementById('conf_email').focus();
 				return false;
@@ -516,8 +508,6 @@ function validForm_staff()
 		var c = document.getElementById("password").value.length;
 		if(c<6)
 		{
-//			UCHIDA EDIT 11/07/26
-//			alert("「パスワードは英数字6文字以上にしてください」 ");
 			alert("パスワードは英数字6文字以上にしてください");
 			document.getElementById('password').focus();
 			return false;
@@ -897,24 +887,13 @@ include("inc/return_dbcon.inc.php");
 ?>
 
 <?php
-
-			if($get['msg'] ==130)
-			{
-			echo'<script>alert("新しいスタッフが登録されました");</script>';
-			}
-			if($get['err']){$err=$get['err'];}
-			if($get['msg']){$msg=$get['msg'];}
-			echo $err;
-			///ERROR MESSAGE
-			if($err){
-			echo "<script>
-			alert('".$obj->GetErrorMsgNew($err)."');
-			</script>";
-			}
-			if($msg && $get['msg'] !='130')
-			echo "<script>
-			alert('".$obj->GetSuccessMsgNew($msg)."');
-			</script>";
+if($get['msg'] ==130)
+{
+	echo'<script>alert("新しいスタッフが登録されました");</script>';
+}else{
+  echo $obj->GetErrorMsgAlert($get["err"]);
+}
+echo $obj->GetSuccessMsgAlert($get["msg"]);
 ?>
 
 <script>
