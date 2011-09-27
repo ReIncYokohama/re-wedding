@@ -16,96 +16,34 @@
 	}
 
 	$get = $obj->protectXSS($_GET);
+	$post = $obj->protectXSS($_POST);
 
 	$gift_criteria_num = $obj->GetNumRows("spssp_gift_criteria"," 1=1");
 
-	if($_POST['insert']=="insert")
+	if($post['update']=="update" || $post['insert']=="insert")
 	{
-//		if(trim($_POST['num_gift_groups']) && trim($_POST['num_gift_items']) && trim($_POST['order_deadline']))
-		if(trim($_POST['num_gift_groups']) && trim($_POST['num_gift_items']))
-		{
-			$num=$obj->GetNumRows("spssp_gift_criteria"," 1=1");
-			if(!$num)
-			{
-				$post = $obj->protectXSS($_POST);
-				unset($post['insert']);
-				//$post['display_order']= time();
-				//$post['creation_date'] = date("Y-m-d H:i:s");
-
-				$spssp_gift_criteria_post[num_gift_items]=$post[num_gift_items];
-				$spssp_gift_criteria_post[num_gift_groups]=$post[num_gift_groups];
-//				$spssp_gift_criteria_post[order_deadline]=$post[order_deadline];
-
-				$lastid = $obj->InsertData('spssp_gift_criteria',$spssp_gift_criteria_post);
-
-				if($lastid)
-				{
-					mysql_query("TRUNCATE TABLE `spssp_gift_group_default` ");
-					mysql_query("TRUNCATE TABLE `spssp_gift_item_default` ");
-					$max_limt_group=65+$post['num_gift_groups'];
-					for($p = '65'; $p < $max_limt_group; ++$p)
-					{
-						$obj->InsertData('spssp_gift_group_default',array("name" =>chr($p)));
-					}
-					$max_limt_item=1+$post['num_gift_items'];
-					for($q = 1; $q < $max_limt_item; $q++)
-					{
-						$obj->InsertData('spssp_gift_item_default',array("name"=>"'".GIFT_ITEM_NAME." ".$q."'"));
-					}
-//					$msg=1;
-//					redirect("gift.php?msg=".$msg);
-
-				}
-				else
-				{
-					//$err=1;
-				}
-			}
-			else
-			{
-				//$err=3;
-			}
-		}
-		else
-		{
-			//$err=2;
-		}
-	}
-
-	if($_POST['update']=="update")
-	{
-//		if(trim($_POST['num_gift_groups'])<=7 && trim($_POST['num_gift_items'])<=7 && trim($_POST['order_deadline']))
-		if(trim($_POST['num_gift_groups']) && trim($_POST['num_gift_items']))
+		if(trim($post['num_gift_groups']) && trim($post['num_gift_items']))
 		{
 			$num=$obj->GetNumRows("spssp_gift_criteria"," 1=1");
 			if($num==1)
 			{
-				$post = $obj->protectXSS($_POST);
-				unset($post['update']);
-				//$post['display_order']= time();
-				//$post['creation_date'] = date("Y-m-d H:i:s");
-
 				$spssp_gift_criteria_post[num_gift_items]=$post[num_gift_items];
 				$spssp_gift_criteria_post[num_gift_groups]=$post[num_gift_groups];
-//				$spssp_gift_criteria_post[order_deadline]=$post[order_deadline];
-				$lastid = $obj->UpdateData('spssp_gift_criteria',$spssp_gift_criteria_post,"id=".$_POST['id']);
+				$lastid = $obj->UpdateData('spssp_gift_criteria',$spssp_gift_criteria_post,"id=".$post['id']);
 
 					mysql_query("TRUNCATE TABLE `spssp_gift_group_default` ");
 					mysql_query("TRUNCATE TABLE `spssp_gift_item_default` ");
-					$max_limt_group=65+$post['num_gift_groups'];
-					for($p = '65'; $p < $max_limt_group; ++$p)
+					$max_limt_group=$post['num_gift_groups'];
+					for($p = 1; $p < $max_limt_group+1; ++$p)
 					{
-						$obj->InsertData('spssp_gift_group_default',array("name" =>chr($p)));
+						$arr['name'] = $post['name'.$p];
+						$obj->InsertData('spssp_gift_group_default',$arr);
 					}
-					$max_limt_item=1+$post['num_gift_items'];
-					for($q = 1; $q < $max_limt_item; $q++)
+					$max_limt_item=$post['num_gift_items'];
+					for($q = 1; $q < $max_limt_item+1; $q++)
 					{
 						$obj->InsertData('spssp_gift_item_default',array("name"=>GIFT_ITEM_NAME." ".$q));
 					}
-//					$_SESSION['msg']=2;
-					//redirect("gift.php?msg=".$msg);
-
-
 			}
 			else
 			{
@@ -123,71 +61,14 @@
 	}
 
 	$menu_criteria_num = $obj->GetNumRows("spssp_menu_criteria"," 1=1");
-
-	if($_POST['insert2']=="insert")
+	if($post['insert2']=="insert" || $post['update2']=="update")
 	{
-		if(trim($_POST['num_menu_groups'])<=3)
+		if(trim($post['num_menu_groups'])<=3)
 		{
-			$num=$obj->GetNumRows("spssp_menu_criteria"," 1=1");
-			if(!$num)
-			{
-				$post = $obj->protectXSS($_POST);
-				unset($post['insert2']);
-				//$post['display_order']= time();
-				//$post['creation_date'] = date("Y-m-d H:i:s");
-
-				$lastid = $obj->InsertData('spssp_menu_criteria',$post);
-
-				if($lastid)
-				{
-//					$msg=1;
-//					redirect("gift.php?msg=".$msg);
-
-				}
-				else
-				{
-					//$err=1;
-				}
-			}
-			else
-			{
-				//$err=3;
-			}
-		}
-		else
-		{
-			//$err=2;
-		}
-	}
-	if($_POST['update2']=="update")
-	{
-		if(trim($_POST['num_menu_groups'])<=3)
-		{
-			$num=$obj->GetNumRows("spssp_menu_criteria"," 1=1");
-			if($num==1)
-			{
-				$post = $obj->protectXSS($_POST);
-				unset($post['update2']);
-				//$post['display_order']= time();
-				//$post['creation_date'] = date("Y-m-d H:i:s");
-
-				$lastid = $obj->UpdateData('spssp_menu_criteria',$post,"id=".$_POST['id']);
-
-				if($lastid)
-				{
-//					$msg=2;
-//					redirect("gift.php?msg=".$msg);
-
-				}
-				else
-				{
-					//$err=1;
-				}
-			}
-			else
-			{
-				//$err=3;
-			}
+				mysql_query("TRUNCATE TABLE `spssp_menu_criteria` ");
+				unset($arr);
+				$arr['num_menu_groups'] = $post['num_menu_groups'];
+				$lastid = $obj->InsertData('spssp_menu_criteria',$arr);
 		}
 		else
 		{
@@ -198,21 +79,6 @@
 	{
 		$menu_criteria_data_row = $obj->GetAllRow("spssp_menu_criteria");
 	}
-	//DEFAULT GROUP NAME UPDaTE STart
-
-	if($_POST['editUserGiftGroupsUpdate']=='editUserGiftGroupsUpdate')
-	{
-		unset($_POST['editUserGiftGroupsUpdate']);
-		$number = count($_POST);
-		$number = ($number/2);
-		for($i=1;$i<=$number;$i++)
-		{
-			$array['name'] = $_POST['name'.$i];
-			$obj->UpdateData("spssp_gift_group_default", $array," id=".(int)$_POST['fieldId'.$i]);
-		}
-
-	}
-	//DEFAULT GROUP NAME UPDaTE END
 ?>
 <script type="text/javascript">
 var numgiftitems='<?=$gift_criteria_data_row[0]['num_gift_items']?>';
@@ -368,7 +234,8 @@ function validForm2()
 			 return false;
 		}
 	}
-	document.menu_criteria_form.submit();
+//	document.menu_criteria_form.submit();
+	document.gift_criteria_form.submit();
 }
 // UCHIDA EDIT 11/08/09 半角英数字１文字のみ有効に設定
 //var gReg = /^[A-Za-z0-9]$/;
@@ -389,8 +256,9 @@ function checkGroupForm(x)
     }
 	if(error!=1)
 	{
-		document.gift_criteria_form.submit();
+//		document.gift_criteria_form.submit();
 	}
+	validForm2();
 }
 
 </script>
@@ -424,9 +292,6 @@ alert('変更されました');
 unset($_SESSION['msg']);
 }?>
 
-
-
-
 <div style="clear:both;"></div>
 	<div id="contents">
 	 <h4>  <div style="width:300px;">
@@ -434,13 +299,12 @@ unset($_SESSION['msg']);
 </div>
         </h4>
 	<div style="width:1035px;"><h2>引出物設定</h2></div>
-	<div>
 			<?php
 				$group_sql ="SELECT * FROM spssp_gift_group_default  ORDER BY id asc ;";
 				$data_rows = $obj->getRowsByQuery($group_sql);
 
 			?>
- <div style="float:left; width:800px;">
+ 		<div style="float:left; width:800px;">
 			<form  action="gift.php" method="post" name="gift_criteria_form">
 			 <input type="hidden" name="editUserGiftGroupsUpdate" value="editUserGiftGroupsUpdate">
 			<table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -448,7 +312,7 @@ unset($_SESSION['msg']);
 				<td width="100">引出物商品数　　：</td>
 				<td>
 
-                <?php if(($_SESSION['user_type']==111)||(($_SESSION['user_type']==333))){?>
+                <?php if($_SESSION['user_type']==333){?>
                 <input name="num_gift_items" <?=$ro?> type="text" onlyNumeric="i" id="num_gift_items" size="10" maxlength='1' value="<?=$gift_criteria_data_row[0]['num_gift_items']?>" /> &nbsp;種類（最大7種類まで）
                 <?
 				}else{
@@ -462,9 +326,9 @@ unset($_SESSION['msg']);
 			  <tr>
 				<td>引出物グループ数：</td>
 				<td>
-                <?php if(($_SESSION['user_type']==111)||(($_SESSION['user_type']==333))){?>
+                <?php if($_SESSION['user_type']==333){?>
                 <input name="num_gift_groups" <?=$ro?> type="text"  onlyNumeric="i" id="num_gift_groups" size="10" maxlength='1' value="<?=$gift_criteria_data_row[0]['num_gift_groups']?>"  />
-		&nbsp;グループ（最大7グループまで）
+					&nbsp;グループ（最大7グループまで）
                 <?
 				}else{
 					?>
@@ -472,8 +336,6 @@ unset($_SESSION['msg']);
 					<?
 					}
 				?>
-
-
         </td>
 			  </tr>
 			  <tr>
@@ -481,129 +343,42 @@ unset($_SESSION['msg']);
 				<td>
 				<?
 				$xx = 1;
-				$cont=1;
 			foreach($data_rows as $row)
 			{
-
-				if($cont == 4)
-				{
-                if(($_SESSION['user_type']==111)||(($_SESSION['user_type']==333))){
+                if($_SESSION['user_type']==333){
 				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='1' size='6' value='".$row['name']."'>";
 				}else{
 					echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'>".$row['name']."";
-					}
-
-				echo "<input type='hidden' name='fieldId".$xx."' value='".$row['id']."'></div>";
-					echo '<div style="clear:both;"> </div>';
-				   $cont=0;
 				}
-				else
-				{
-
-                if(($_SESSION['user_type']==111)||(($_SESSION['user_type']==333))){
-
-				echo "<div style='float:left;margin-right:10px;margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='1' size='6' value='".$row['name']."'>";
-				}else{
-				echo "<div style='float:left;margin-right:10px;margin-bottom:4px;'>".$row['name']."";
-					}
-
-
 				echo "<input type='hidden' name='fieldId".$xx."' value='".$row['id']."'></div>";
-				}
-
 				$xx++;
-//				$cont++; 　UCHIDA EDIT 11/08/01 行換えを抑制
 			}
-
+			for (; $xx <=7; $xx++) {
+                if($_SESSION['user_type']==333){
+				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='1' size='6' value=''>";
+				}else{
+					echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'>";
+				}
+				echo "<input type='hidden' name='fieldId".$xx."' value=''></div>";
+			}
 		  ?>
 				</td>
 			  </tr>
-			  <!-- <tr>
-				<td>発注締切日　　　：</td>
-				<td>
-                <?php if(($_SESSION['user_type']==111)||(($_SESSION['user_type']==333))){?>
-                <input name="order_deadline" <?=$ro?> type="text"  onlyNumeric="i" id="order_deadline" size="10" value="<?=$gift_criteria_data_row[0]['order_deadline']?>" />
-			&nbsp;(日前)
-                <?
-				}else{
-					?>
-					<?=$gift_criteria_data_row[0]['order_deadline']?>&nbsp;(日前)
-					<?
-					}
-				?>
-            </td>
-			  </tr> -->
-			  <tr>
-				<td colspan="2">
-				<div style="margin:5px;float:left; padding-left:95px; clear:both;">
-					<?php if($gift_criteria_num>0)
-					{?>
-<!--
-					<input type="button" onclick="validForm(<?=$xx?>;" name="id" value="保存" style=" <?=$btn_disp?>" />
--->
-					<input type="hidden" name="update" value="update" />
-					<input type="hidden" name="id" value="<?=$gift_criteria_data_row[0]['id']?>" />
-					<a href="#" onclick="validForm(<?=$xx?>);"><img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22" style=" <?=$btn_disp?>"  /></a>
-
-					<?php }
-					else
-					{?>
-					<input type="hidden" name="insert" value="insert">
-					<a href="#" onclick="validForm(<?=$xx?>);"><img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22" style=" <?=$btn_disp?>"  /></a>
-					<?php }?>
-					</div>
-				</td>
-			  </tr>
-
 			</table>
 
 
-			</form>
-	</div>
-	<!--<div style="float:left;border:1px solid gray;">
-		<h2>編集　引出物グループ名</h2>
-		<div style="padding-left:10px;padding-bottom:10px;padding-right:10px;">
-			<?php
-				$group_sql ="SELECT * FROM spssp_gift_group_default  ORDER BY id asc ;";
-				$data_rows = $obj->getRowsByQuery($group_sql);
-
-			?>
-			<form action="gift.php" method="post" name="editUserGiftGroupsForm">
-		  <input type="hidden" name="editUserGiftGroupsUpdate" value="editUserGiftGroupsUpdate">
-		  <?php
-			$xx = 1;
-			foreach($data_rows as $row)
-			{
-				echo "<div style='float:left;margin-left:15px;margin-bottom:10px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='2' size='6' value='".$row['name']."'>";
-				echo "<input type='hidden' name='fieldId".$xx."' value='".$row['id']."'></div>";
-
-				$xx++;
-			}
-
-		  ?>
-		   <br />
-           &nbsp;&nbsp;&nbsp;&nbsp;<font color="red">※半角2文字以内、全角1文字で入力してください</font>
-           <br />
-
-		   <input type="button" style=" <?=$btn_disp?>" name="editUserGiftGroupsUpdateButton" value="保存" onclick="checkGroupForm(<?=$xx?>);">
-		   </form>
-
-		</div>
-
-	</div>-->
-</div>
+<!-- 			</form> -->
 <div style="clear:both;"></div>
 	<br />
 <br />
-<div style="width:1035px;">
      <h2>料理設定
 </h2>
-	<form  action="gift.php" method="post" name="menu_criteria_form" onsubmit="return false;">
+<!-- 	<form  action="gift.php" method="post" name="menu_criteria_form" onsubmit="return false;"> -->
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr>
     <td width="100">子供料理　　　　：</td>
     <td>
-    <?php if(($_SESSION['user_type']==111)||(($_SESSION['user_type']==333))){?>
+    <?php if ($_SESSION['user_type']==333){?>
     <input name="num_menu_groups" type="text" id="num_menu_groups" onkeydown="if (event.keyCode == 13) { validForm2(); }" size="10" <?=$ro?> value="<?=$menu_criteria_data_row[0]['num_menu_groups']?>" />
       種類(最大3種類まで)
       <?
@@ -616,23 +391,35 @@ unset($_SESSION['msg']);
   <tr>
     <td colspan="2">
 	<div style="padding-left:100px; margin-top:3px;">
-<?php if($menu_criteria_num>0)
-{?>
+	<?php if($menu_criteria_num>0)
+	{?>
 
-<input type="hidden" name="update2" value="update" />
-<input type="hidden" name="id" value="<?=$menu_criteria_data_row[0]['id']?>" />
-<a href="#" onclick="validForm2();"><img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22" style="<?=$btn_disp?>" /></a>
-<?php }
-else
-{?>
-<input type="hidden" name="insert2" value="insert">
-<a href="#" onclick="validForm2();"><img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22" style="<?=$btn_disp?>" /></a>
-<?php }?>
-</div>
+	<input type="hidden" name="update2" value="update" />
+	<input type="hidden" name="id" value="<?=$menu_criteria_data_row[0]['id']?>" />
+	<?php }
+	else
+	{?>
+	<input type="hidden" name="insert2" value="insert">
+	<?php }?>
+	</div>
 
 	</td>
   </tr>
 </table>
+<br />
+<br />
+	<?php if($gift_criteria_num>0)
+	{?>
+	<input type="hidden" name="update" value="update" />
+	<input type="hidden" name="id" value="<?=$gift_criteria_data_row[0]['id']?>" />
+	<a href="#" onclick="validForm(<?=$xx?>);"><img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22" style=" <?=$btn_disp?>"  /></a>
+
+	<?php }
+	else
+	{?>
+	<input type="hidden" name="insert" value="insert">
+	<a href="#" onclick="validForm(<?=$xx?>);"><img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22" style=" <?=$btn_disp?>"  /></a>
+	<?php }?>
 
 	</form>
 	</div>
