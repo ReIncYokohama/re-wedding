@@ -47,7 +47,7 @@ function text_imagettftext($image,$insert_height,$angle,$left,$bottom,$color,$fo
   $width = $image_arr[2] - $image_arr[0];
   
   //半角スペースが最後のとき、通常の倍の長さを取得している。
-  if(mb_substr($text,mb_strlen($text)-1) == " ") $width-=10;
+  if(mb_substr($text,mb_strlen($text,"UTF-8")-1,1,"UTF-8") == " ") $width-=10;
   $insert_width = $width*$insert_height/$height;
   $im = imagecreatetruecolor($width,$height);
   imagealphablending($im, false); 

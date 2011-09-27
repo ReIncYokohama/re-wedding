@@ -19,7 +19,7 @@ function get_gaiji_code($str){
   
   $gaiji_arr = array();
   for($i=0;$i<$len;++$i){
-    print mb_substr($str,$i,1);
+    print mb_substr($str,$i,1,"UTF-8");
     $charcode = (int)hexdec(bin2hex(mb_substr($str,$i,1)));
     //$charcode = bin2hex(mb_substr($str,$i,1));
     //print $charcode;
@@ -27,7 +27,7 @@ function get_gaiji_code($str){
     //   ($charcode >= F3B08080 and $charcode <= F3BFBFBE)){
     print ",".",".hexdec(EDBFBF).",".hexdec(EFA3BF).",";
     if ($charcode >= hexdec(EDBFBF) and $charcode <= hexdec(EFA3BF)){
-      array_push($gaiji_arr,mb_substr($str,$i,1));
+      array_push($gaiji_arr,mb_substr($str,$i,1,"UTF-8"));
     }
   }
 

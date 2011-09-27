@@ -1121,7 +1121,7 @@ include("inc/return_dbcon.inc.php");
                         }else{
                           $disp = "display:none";
                         }
-                        echo "<div class='tables' style='".$disp."'><p>".mb_substr ($tblname, 0,1,'UTF-8')."</p></div>";//mb_substr ($tblname, 0,1,'UTF-8')
+                        echo "<div class='tables' style='".$disp."'><p>".mb_substr ($tblname, 0,1,'UTF-8')."</p></div>";
                       }
                     echo "</div></div>";
                   }

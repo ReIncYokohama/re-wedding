@@ -66,21 +66,6 @@ function redirect($url)
 			echo '<meta http-equiv="refresh" content="0;url='.$url.'" />';
 	}
 
-	function mysubstr($string, $limit, $break=".", $pad="")
-{
-  // return with no change if string is shorter than $limit
-  if(mb_strlen($string,"EUC-JP") <= $limit) return $string;
-
-  // is $break present between $limit and the end of the string?
-  if(false !== ($breakpoint = mb_strpos($string, $break, $limit,"EUC-JP"))) {
-    if($breakpoint < mb_strlen($string,"EUC-JP") - 1) {
-      ///$string = substr($string, 0,$limit, $breakpoint) . $pad;
-	  $string =  mb_substr($string,0,$breakpoint,"EUC-JP" ). $pad;
-    }
-  }
-
-  return $string;
-}
 
 function restoreTags($input)
 {

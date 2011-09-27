@@ -491,8 +491,8 @@ foreach($tblrows as $tblrow)
 							
                     $full_name=$item_info['first_name']." ".$item_info['last_name']." ".$rspct;
 							
-                    $chr_in_comment1=mb_strlen($comment1);
-                    $chr_in_comment2=mb_strlen($comment2);
+                    $chr_in_comment1=mb_strlen($comment1,"utf-8");
+                    $chr_in_comment2=mb_strlen($comment2,"utf-8");
 							
                     if($chr_in_comment1>=$chr_in_comment2)
                       $chr_in_comment=$chr_in_comment1;
@@ -501,11 +501,11 @@ foreach($tblrows as $tblrow)
 							
 							
 							
-                    $chr_in_fullname=mb_strlen($full_name);
+                    $chr_in_fullname=mb_strlen($full_name,"utf-8");
 							
-                    $chr_in_menu_name=mb_strlen($menu_name);
+                    $chr_in_menu_name=mb_strlen($menu_name,"utf-8");
 							
-                    $chr_in_memo=mb_strlen($memo);
+                    $chr_in_memo=mb_strlen($memo,"utf-8");
 							
 							
                     if($chr_in_fullname)
@@ -641,25 +641,6 @@ foreach($tblrows as $tblrow)
             if($seats_nums==1)
               $html2.="<td></td></tr>";
 			
-            if($disp!='1')
-              {
-                /*$html.="<tr><td colspan=\"2\" align=\"center\"><table><tr>";
-                  foreach($group_menu_array as $key=>$value)
-                  {
-                  $keyvalue=mb_substr($key, 0, 1,'UTF-8');
-				
-                  $html.="<td style=\" border:1px solid black;\">".$keyvalue."</td>";	
-                  }
-                  $html.="</tr><tr>";
-                  foreach($group_menu_array as $key=>$value)
-                  {
-                  $html.="<td style=\" border:1px solid black;\">".$value."</td>";	
-                  }
-                  $html.="</tr></table></td></tr>";*/
-			
-              }
-			
-            //$html.='<tr><td colspan="2" align="center">'.$tblname .$guest_num.'</td></tr>';
             //テーブルの文字の調整のために空白を代入
             $html.='<tr><td colspan="2" align="center">'.$tblname .'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>';
             $html.=$html2;

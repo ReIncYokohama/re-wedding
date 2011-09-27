@@ -372,9 +372,9 @@ height:30px;
 							}
 							$gname = $guest['first_name']."sada ".$guest['last_name']." ".$rsp;
 							$guest_comment=$guest['comment1']."&nbsp;".$guest['comment2'];
-							$name_length = mb_strlen($gname);
+							$name_length = mb_strlen($gname,"utf-8");
 
-							$name_length2 = mb_strlen($guest_comment);
+							$name_length2 = mb_strlen($guest_comment,"utf-8");
 
 
 
@@ -668,8 +668,8 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
 
 													if($gname)
 													{
-														$name_length = mb_strlen($gname);
-														$name_length2 = mb_strlen($guest_comment);
+														$name_length = mb_strlen($gname,"utf-8");
+														$name_length2 = mb_strlen($guest_comment,"utf-8");
 
 
 

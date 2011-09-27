@@ -623,15 +623,15 @@ $i=1;
 							$memo=$item_info['memo'];
 							
 							$full_name=$item_info['first_name']." ".$item_info['last_name']." ".$rspct;
-							$chr_in_comment=mb_strlen($comment);
+							$chr_in_comment=mb_strlen($comment,"utf-8");
 							
 							
 							
-							$chr_in_fullname=mb_strlen($full_name);
+							$chr_in_fullname=mb_strlen($full_name,"utf-8");
 							
-							$chr_in_menu_name=mb_strlen($menu_name);
+							$chr_in_menu_name=mb_strlen($menu_name,"utf-8");
 							
-							$chr_in_memo=mb_strlen($memo);
+							$chr_in_memo=mb_strlen($memo,"utf-8");
 							
 							
 								if($chr_in_fullname)

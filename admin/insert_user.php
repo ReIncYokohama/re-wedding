@@ -138,7 +138,7 @@ if(isset($user_id) && $user_id > 0)
     $guest_array2['last_name']=$post['woman_lastname'];
 
     $obj->UpdateData("spssp_guest",$guest_array2," user_id=".$user_id." and sex='Female' and self=1");
-
+    
     set_user_gaiji_position($user_id,$post["man_firstname"],0,$_POST["male_first_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["man_lastname"],1,$_POST["male_last_gaiji_img"],$_POST["male_last_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["woman_firstname"],2,$_POST["female_first_gaiji_img"],$_POST["female_first_gaiji_gsid"]);
@@ -211,7 +211,6 @@ else
     $post['password'] = rand();
 
     if((int)$post['confirm_day_num']==0) $post['confirm_day_num'] = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
-//	$post['subcription_mail'] = 1; // UCHIDA EDIT 11/08/08 受信しないをデフォルト
 
 	$last_id = $obj->InsertData("spssp_user",$post);
     $user_id = $last_id;
@@ -374,228 +373,6 @@ function userMenuGroup($user_id, $menu_post)
 */
 }
 
-//////////////////////////////////////////////
-//create image from text.Function's
-//////////////////////////////////////////////
-function make_name_png($prefix,$user_id,$user_name,$hotel_id,$male_first_gaiji_img = false,$male_first_gaiji_gid = false,$male_first_gaiji_gsid = false){
-  ///////////////////////////////
-  //debug comment.
-  ///////////////////////////////
-  // font size = small
-  //font size [small = 4,midium = 5,large=6]
-  //
-  if(stripos($user_name, "＊")!==false && !is_array($male_first_gaiji_img))
-    {
-      return false;
-    }
-
-  if($prefix == "man_firstname.png")
-    $target_type = 0;
-  else if($prefix == "man_lastname.png")
-    $target_type = 1;
-  else if($prefix == "woman_firstname.png")
-    $target_type = 2;
-  else if($prefix == "woman_lastname.png")
-    $target_type = 3;
-
-  $size_trgt     = get_font_size(4,$hotel_id);
-
-  $base_line_top = (int)($size_trgt / 1.3);
-  $font_size     = (int)($base_line_top / 1.2);
-  $font_size_array = array(); 			// Mr tsugisawa san
-
-  $font = "../fonts/msmincho.ttc";
-  $file = sprintf("%s/user_name/%d/%s",get_image_db_directory($hotel_id),$user_id,$prefix);
-
-  $thumb1 = sprintf("%s/user_name/%d/thumb1/%s",get_image_db_directory($hotel_id),$user_id,$prefix);
-  $thumb2 = sprintf("%s/user_name/%d/thumb2/%s",get_image_db_directory($hotel_id),$user_id,$prefix);
-
-  $dir  = sprintf("%s/user_name/%d",get_image_db_directory($hotel_id),$user_id);
-  $dir1 = sprintf("%s/user_name/%d/thumb1",get_image_db_directory($hotel_id),$user_id);
-  $dir2 = sprintf("%s/user_name/%d/thumb2",get_image_db_directory($hotel_id),$user_id);
-
-  mkdir($dir);
-  mkdir($dir1);
-  mkdir($dir2);
-
-
-  $info = gd_info();
-  if($info['JIS-mapped Japanese Font Support']){
-    $str = $user_name;
-  }else{
-    $str = mb_convert_encoding($user_name,"utf-8");
-  }
-  $len = mb_strlen($str,'utf-8');
-
-  //caluclate total width.			// Mr tsugisawa san
-  $total_width = 0;
-  for($i=0; $i<strlen($text); $i++){
-    //$text_to_write=urldecode(substr($text,$i,1)."%0D_");
-    $dimensions = imagettfbbox($font_size, 0, $font, mb_substr($str,$i,1));
-    $total_width+=($dimensions[2]); 			// Mr tsugisawa san
-    $font_size_array[] = (int)($dimensions[2]);
-  }
-
-
-  if ($len > 0){
-    $image = imagecreatetruecolor((int)($len * $size_trgt),(int)$size_trgt) or die("Cannot Initialize new GD image stream");
-    $col_g = imagecolorallocate($image, 255, 255, 255);//imagecolorallocate($image,0xff,0xff,0xff);
-    $col_t = imagecolorallocate($image,000,000,000);
-    $col_b = imagecolorallocate($image,255, 255, 255);
-
-    //imagecolortransparent($image, $col_g);
-    imagefill($image,0,0,$col_g);
-
-    //imagerectangle($image,2,2,$len * $size_trgt - 2,$size_trgt - 2,$col_g);
-
-    error_log(sprintf("imagettftext=%s\n",$str), 3, './gaizi.log');
-    $i=0;
-    $n = 0;
-    $draw_start_left = 0;// Mr tsugisawa san
-
-    for($n = 0;$n < $len;$n++){
-      $charcode = (int)hexdec(bin2hex(mb_substr($str,$n,1)));
-      error_log(sprintf("for debug charsetcoe=(%d)%s[%d]\n",$n,$str,$charcode), 3, './gaizi.log');
-      if ($charcode >= 0xEE8080 and $charcode <= 0xEFA3BF){
-        //////////////////////////////////////
-        //TODO:comment
-        //gaizi id =gaizi file
-
-        error_log(sprintf("is gaizi char =(%d)%s\n",$n,mb_substr($str,$n,1)), 3, './gaizi.log');
-        imagettftext($image,$font_size,0,$n * $size_trgt,$base_line_top,$col_t,$font,"??");
-      }
-      else if(mb_substr($str,$n,1)=="＊" && is_array($male_first_gaiji_img))
-        {
-          //echo "../gaiji/upload/img_ans/".$male_first_gaiji_img[$i];
-
-          //and insert
-          $gaizi_detail_sql = "insert into spssp_gaizi_detail_for_user(gu_id,gu_trgt_type,gu_char_position,gu_char_img,gu_char_setcode) values(" .$user_id. "," .$target_type. "," .$n. ",'".$male_first_gaiji_img[$i]."'," .$charcode. ");";
-          mysql_query($gaizi_detail_sql);
-
-
-          $image_bottom_info = getimagesize("../gaiji/upload/img_ans/".$male_first_gaiji_img[$i]);
-
-          $image_bottom_type = $image_bottom_info[2];
-          $image_bottom_width = $image_bottom_info[0];
-          $image_bottom_height = $image_bottom_info[1];
-
-
-          if($image_bottom_type==IMAGETYPE_PNG)
-            {
-              $bottom= imagecreatefrompng("../gaiji/upload/img_ans/".$male_first_gaiji_img[$i]);
-
-              $thumb = imagecreate(25, 25);
-
-
-              imagecopyresized($thumb, $bottom, 0, 0, 0, 0, 25, 25, $image_bottom_width, $image_bottom_height);
-
-
-              imagecopy($image, $thumb, $n * $size_trgt, 3,0, 0, 25, 25);
-            }
-          $i++;
-        }
-      else{
-        imagettftext($image,$font_size,0,$n * $size_trgt,$base_line_top,$col_t,$font,mb_substr($str,$n,1));
-        error_log(sprintf("is normal char=(%d)%s\n",$n,mb_substr($str,$n,1)), 3, './gaizi.log');
-      }
-      $draw_start_left += $font_size_array[$n];
-
-    }
-
-    // imagecolordeallocate($image,$col_g);
-    //imagecolordeallocate($image,$col_g);
-    imagepng($image,$file);
-    imagedestroy($image);
-
-    if($prefix=="woman_lastname_respect.png" || $prefix=="man_lastname_respect.png" || $prefix=="man_lastname.png" ||
-       $prefix=="woman_lastname.png")
-      {
-        $width1 = $len*12;
-        $width2 = $len*10;
-
-
-        $image = new Image($file);
-        $image->scale($width1, 15,array('force' => true));
-        $image->output($thumb1);
-
-        $image2 = new Image($file);
-        $image->scale($width2, 15,array('force' => true));
-        //$image2->width=70;
-        $image2->output($thumb2);
-      }
-  }
-}
-
-function make_fullname_png($prefix,$firstname,$lastname,$repect,$user_id,$hotel_id=1)
-{
-  $file = sprintf("%s/user_name/%d/%s",get_image_db_directory($hotel_id),$user_id,$prefix);
-
-  $thumb1 = sprintf("%s/user_name/%d/thumb1/%s",get_image_db_directory($hotel_id),$user_id,$prefix);
-
-  $thumb2 = sprintf("%s/user_name/%d/thumb2/%s",get_image_db_directory($hotel_id),$user_id,$prefix);
-
-  $dir1 = sprintf("%s/user_name/%d/thumb1",get_image_db_directory($hotel_id),$user_id);
-
-  $dir2 = sprintf("%s/user_name/%d/thumb2",get_image_db_directory($hotel_id),$user_id);
-  $dir  = sprintf("%s/user_name/%d",get_image_db_directory($hotel_id),$user_id);
-  mkdir($dir);
-  mkdir($dir1);
-  mkdir($dir2);
-
-
-
-  $image_bottom_info1 = getimagesize($dir."/".$firstname.".png");
-  $image_bottom_info2 = getimagesize($dir."/".$lastname.".png");
-  $image_bottom_info3 = getimagesize($dir."/".$repect.".png");
-
-  $image_bottom_type1 = $image_bottom_info1[2];
-  $image_bottom_width1 = $image_bottom_info1[0];
-  $image_bottom_height1 = $image_bottom_info1[1];
-
-  $image_bottom_type2 = $image_bottom_info2[2];
-  $image_bottom_width2 = $image_bottom_info2[0];
-  $image_bottom_height2 = $image_bottom_info2[1];
-
-  $image_bottom_type3 = $image_bottom_info3[2];
-  $image_bottom_width3 = $image_bottom_info3[0];
-  $image_bottom_height3 = $image_bottom_info3[1];
-
-
-
-  $info = gd_info();
-  $image = imagecreatetruecolor((int)($image_bottom_width1+$image_bottom_width2+$image_bottom_width3+10),$image_bottom_height1) or die("Cannot Initialize new GD image stream");
-  $col_g = imagecolorallocate($image,0xff,0xff,0xff);
-  $col_t = imagecolorallocate($image,0x00,0x00,0x00);
-  imagefill($image,0,0,$col_g);
-
-
-  $bottom1= imagecreatefrompng($dir."/".$firstname.".png");
-  $bottom2= imagecreatefrompng($dir."/".$lastname.".png");
-  $bottom3= imagecreatefrompng($dir."/".$repect.".png");
-
-
-  imagecopy($image, $bottom1, 0, 0,0, 0, $image_bottom_width1, $image_bottom_height1);
-  imagecopy($image, $bottom2, $image_bottom_width1+4, 0,0, 0, $image_bottom_width2, $image_bottom_height1);
-  imagecopy($image, $bottom3, $image_bottom_width1+4+$image_bottom_width2+4, 0,0, 0, $image_bottom_width3, $image_bottom_height1);
-
-  imagecolordeallocate($image,$col_g);
-  imagecolordeallocate($image,$col_t);
-  imagepng($image,$file);
-  imagedestroy($image);
-
-  $image = new Image($file);
-  //$image->width=100;
-  $image->scale(100, 17,array('force' => true));
-  $image->output($thumb1);;
-
-  $image2 = new Image($file);
-  //$image2->width=70;
-  $image->scale(79, 15,array('force' => true));
-  $image2->output($thumb2);
-
-}
-
-
 function get_font_size($font_type,$hotel_id){
   $result_font_size = 0;
 
@@ -628,7 +405,7 @@ function get_font_size($font_type,$hotel_id){
  </form>
  </div>
 <?php
-echo "　　";
+  echo "　　";
 	echo "<script type='text/javascript'>";
 	echo "document.user_info_plan.submit();";
 	echo "</script>";

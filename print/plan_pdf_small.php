@@ -519,8 +519,8 @@ $i=1;
 							
 							$full_name=$item_info['first_name']." ".$item_info['last_name']." ".$rspct;
 							
-							$chr_in_comment1=mb_strlen($comment1);
-							$chr_in_comment2=mb_strlen($comment2);
+							$chr_in_comment1=mb_strlen($comment1,"utf-8");
+							$chr_in_comment2=mb_strlen($comment2,"utf-8");
 							
 							if($chr_in_comment1>=$chr_in_comment2)
 							$chr_in_comment=$chr_in_comment1;
@@ -529,11 +529,11 @@ $i=1;
 							
 							
 							
-							$chr_in_fullname=mb_strlen($full_name);
+							$chr_in_fullname=mb_strlen($full_name,"utf-8");
 							
-							$chr_in_menu_name=mb_strlen($menu_name);
+							$chr_in_menu_name=mb_strlen($menu_name,"utf-8");
 							
-							$chr_in_memo=mb_strlen($memo);
+							$chr_in_memo=mb_strlen($memo,"utf-8");
 							
 							
 								if($chr_in_fullname)

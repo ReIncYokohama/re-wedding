@@ -69,13 +69,13 @@ function get_user_tategaki($comment,$name,$gaiji_arr=array(),$angle=0,$color = a
   $col_t = imagecolorallocate($image,0x00,0x00,0x00);
   imagefill($image,0,0,$col_g);
   $top=0;
-  $num = mb_strlen($comment);
+  $num = mb_strlen($comment,"utf-8");
   for($i=0;$i<$num;++$i){
-    $str = mb_substr($comment,$i,1);
+    $str = mb_substr($comment,$i,1,"UTF-8");
     $top = gaiji_imagettftext_tategaki($image,$commentfontsize,$angle,$commentLeft,$top,$col_t,$font,$str);
   }
   
-  $num = mb_strlen($name);
+  $num = mb_strlen($name,"UTF-8");
 
   if($num>4){
     if($num==6){
@@ -91,24 +91,24 @@ function get_user_tategaki($comment,$name,$gaiji_arr=array(),$angle=0,$color = a
       $nameLeft = 4;
     }
     for($i=0;$i<$num;++$i){
-      $str = mb_substr($name,$i,1);
+      $str = mb_substr($name,$i,1,"UTF-8");
       $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top,$col_t,$font,$str);
     }
     //およそ１文字25
   }else if($num==1){
-    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+30,$col_t,$font,mb_substr($name,0,1));
+    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+30,$col_t,$font,mb_substr($name,0,1,"utf-8"));
   }else if($num==2){
-    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+5,$col_t,$font,mb_substr($name,0,1));
-    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+20,$col_t,$font,mb_substr($name,1,1));
+    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+5,$col_t,$font,mb_substr($name,0,1,"utf-8"));
+    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+20,$col_t,$font,mb_substr($name,1,1,"utf-8"));
   }else if($num==3){
-    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+5,$col_t,$font,mb_substr($name,0,1));
-    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+10,$col_t,$font,mb_substr($name,1,1));
-    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+10,$col_t,$font,mb_substr($name,2,1));
+    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+5,$col_t,$font,mb_substr($name,0,1,"utf-8"));
+    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+10,$col_t,$font,mb_substr($name,1,1,"utf-8"));
+    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+10,$col_t,$font,mb_substr($name,2,1,"utf-8"));
   }else if($num==4){
-    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+5,$col_t,$font,mb_substr($name,0,1));
-    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+3,$col_t,$font,mb_substr($name,1,1));
-    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+3,$col_t,$font,mb_substr($name,2,1));
-    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+3,$col_t,$font,mb_substr($name,3,1));
+    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+5,$col_t,$font,mb_substr($name,0,1,"utf-8"));
+    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+3,$col_t,$font,mb_substr($name,1,1,"utf-8"));
+    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+3,$col_t,$font,mb_substr($name,2,1,"utf-8"));
+    $top = gaiji_imagettftext_tategaki($image,$maxfontsize,$angle,$nameLeft,$top+3,$col_t,$font,mb_substr($name,3,1,"utf-8"));
   }
   
 
@@ -152,9 +152,9 @@ function get_image_name_plate($last_name,$first_name,$comment1="",$comment2="",
   
   $nowLeft = gaiji_imagettftext($image,$name_fontsize,0,0,45,$col_t,$font,$name,$gaiji_name_arr);
 
-  if(mb_strlen($respect) <= 3){
+  if(mb_strlen($respect,"utf-8") <= 3){
     gaiji_imagettftext($image,$name_fontsize,0,$nowLeft,45,$col_t,$font,$respect,array());
-  }else if(mb_strlen($respect)>4){
+  }else if(mb_strlen($respect,"utf-8")>4){
     gaiji_imagettftext($image,$name_fontsize,0,$nowLeft,45,$col_t,$font,$respect,array(),50);
   }
   
@@ -190,12 +190,12 @@ function set_guest_gaiji_position($user_id,$guest_id,$str,$target_type,$gaiji_fi
   if($len==0) return;
   $k = 0;
   for($i=0;$i<$len;++$i){
-    $charcode = (int)hexdec(bin2hex(mb_substr($str,$i,1)));
+    $charcode = (int)hexdec(bin2hex(mb_substr($str,$i,1,"utf-8")));
     if(mb_substr($str,$i,1)==$gaiji_str){
       if(!$gaiji_code_arr[$k]) continue;
-      $gaiji_detail_sql = "insert into spssp_gaizi_detail_for_guest(gu_id,guest_id,gu_trgt_type,gu_char_position,gu_char_img,gu_char_setcode,gu_sjis_code)  values(" .$user_id. "," .$guest_id.  "," .$target_type. "," .$i. ",'".$gaiji_file_name_arr[$k] ."','" .$gaiji_code_arr[$k]."'," .$gaiji_sjis_code_arr[$k]. ");";
-          $test = mysql_query($gaiji_detail_sql);
-          ++$k;
+        $gaiji_detail_sql = "insert into spssp_gaizi_detail_for_guest(gu_id,guest_id,gu_trgt_type,gu_char_position,gu_char_img,gu_char_setcode,gu_sjis_code)  values(" .$user_id. "," .$guest_id.  "," .$target_type. "," .$i. ",'".$gaiji_file_name_arr[$k] ."','" .$gaiji_code_arr[$k]."'," .$gaiji_sjis_code_arr[$k]. ");";
+        $test = mysql_query($gaiji_detail_sql);
+        ++$k;
     }
   }
 }
@@ -205,8 +205,8 @@ function set_user_gaiji_position($user_id,$str,$target_type,$gaiji_file_name_arr
   if($len==0) return;
   $k = 0;
   for($i=0;$i<$len;++$i){
-    $charcode = (int)hexdec(bin2hex(mb_substr($str,$i,1)));
-    if(mb_substr($str,$i,1)==$gaiji_str){
+    $charcode = (int)hexdec(bin2hex(mb_substr($str,$i,1,"utf-8")));
+    if(mb_substr($str,$i,1,"utf-8")==$gaiji_str){
       $gaiji_detail_sql = "insert into spssp_gaizi_detail_for_user(gu_id,gu_trgt_type,gu_char_position,gu_char_img,gu_char_setcode)  values(" .$user_id. "," .$target_type. "," .$i. ",'".$gaiji_file_name_arr[$k]."','" .$gaiji_code_arr[$k]. "');";
           $test = mysql_query($gaiji_detail_sql);
           ++$k;

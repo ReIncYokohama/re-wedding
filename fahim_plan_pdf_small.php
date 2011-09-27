@@ -679,25 +679,6 @@ $i=1;
 				
 				if($seats_nums==1)
 				$html2.="<td></td></tr>";
-			
-			if($disp!='1')
-			{
-				/*$html.="<tr><td colspan=\"2\" align=\"center\"><table><tr>";
-				foreach($group_menu_array as $key=>$value)
-				{
-					$keyvalue=mb_substr($key, 0, 1,'UTF-8');
-				
-					$html.="<td style=\" border:1px solid black;\">".$keyvalue."</td>";	
-				}
-				$html.="</tr><tr>";
-				foreach($group_menu_array as $key=>$value)
-				{
-					$html.="<td style=\" border:1px solid black;\">".$value."</td>";	
-				}
-				$html.="</tr></table></td></tr>";*/
-			
-			}
-			
 				
 			$html.='<tr><td colspan="2" align="center">'.$tblname .$guest_num.'</td></tr>';
 			$html.=$html2;	
