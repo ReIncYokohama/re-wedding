@@ -203,6 +203,18 @@ font-weight:normal;
 
 </style>
 <script type="text/javascript">
+
+window.onbeforeunload = function(event) {
+//	alert("Before Unload");
+//return true;
+}
+window.onunload = function(event) {
+//	var ref = event.target.referrer;
+//	var ref=location.href;
+//	alert("Unload : "+ref);
+//return true;
+}
+
 var user_a_id;
 $j(function(){
 

@@ -1,14 +1,16 @@
 <?php
-	require_once("inc/include_class_files.php");
-	include_once("inc/checklogin.inc.php");
-	$obj = new DBO();
-	$objMsg = new MessageClass();
-    $objinfo = new InformationClass();
-	$post = $obj->protectXSS($_POST);
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
 
-	if(isset($_POST['ajax']) && $_POST['ajax'] != '' && $_POST['id'] != '')
+$obj = new DBO();
+$objMsg = new MessageClass();
+$objinfo = new InformationClass();
+$post = $obj->protectXSS($_POST);
+$get = $obj->protectXSS($_GET);
+
+	if(isset($post['ajax']) && $post['ajax'] != '' && $post['id'] != '')
 	{
-		$super_msg_row = $obj->GetSingleRow("spssp_super_message", "id=".(int)$_POST['id']);
+		$super_msg_row = $obj->GetSingleRow("spssp_super_message", "id=".(int)$post['id']);
 		$des = str_replace('<br />','',$super_msg_row['description']);
 		echo $super_msg_row['title'].','.$des;
 		exit;
@@ -16,9 +18,12 @@
 
 	include_once("inc/new.header.inc.php");
 
-	if($_SESSION['user_type'] == 222)
+	$stuff_id = (int)$_SESSION['adminid'];
+	if($_SESSION['user_type'] == 222 || $_SESSION['user_type'] == 333)
 	{
 		$stuff_users = $obj->GetAllRowsByCondition("spssp_user", "stuff_id=".(int)$_SESSION['adminid']);
+
+    if(!$stuff_users) $stuff_users = array();
 
 		foreach($stuff_users as $su)
 		{
@@ -44,6 +49,8 @@
 				$var = 0;
 			}
 		}
+	//    $umsg_where = " 1=1";
+	$umsg_where = " admin_viewed=0 order by id DESC";
 	}
 	else
 	{
@@ -74,72 +81,52 @@
 
 	}
 
-	if(isset($_GET['action']) && $_GET['action'] == 'delete' && (int)$_GET['smsg_id'] > 0 )
+	if(isset($get['action']) && $get['action'] == 'delete' && (int)$get['smsg_id'] > 0 )
 	{
-		$obj->DeleteRow("spssp_super_message"," id =".(int)$_GET['smsg_id']);
+		$obj->DeleteRow("spssp_super_message"," id =".(int)$get['smsg_id']);
 	}
 
 	$usermsgs = $obj->GetAllRowsByCondition("spssp_message",$umsg_where);
-
+  if(!$usermsgs) $usermsgs = array();
 	$adminmsgs = $obj->GetAllRowsByCondition("spssp_admin_messages"," $amsg_where order by display_order desc ");
-	if($_GET['action']=='delete_user' && (int)$_GET['id'] > 0)
+  if($adminmsgs) $adminmsgs = array();
+
+	if($get['action']=='delete' && (int)$get['id'] > 0)
 	{
-		$sql = "delete from spssp_user where id=".(int)$_GET['id'];
+		$sql = "delete from spssp_user where id=".(int)$get['id'];
 		mysql_query($sql);
-
+		$sql = "delete from spssp_plan where user_id=".(int)$get['id'];
+		mysql_query($sql);
+		$post['date_from']=$get['date_from'];
+		$post['date_to']=$get['date_to'];
+		$post['mname']=$get['mname'];
+		$post['wname']=$get['wname'];
 	}
-
 ?>
 
 		   <!--User view respect to admin start-->
 <?php
-	$table_users='spssp_user';
-	$where_users = " stuff_id = ".$_SESSION['adminid'];
-	$data_per_page_users=10;
-	$current_page_users=(int)$_GET['page'];
+	$table_users ="spssp_user";
+	$where_users = " stuff_id = ".$_SESSION['adminid']." and  party_day >= '".date("Y-m-d")."'";
 
-	$redirect_url_users= 'manage.php';
-	if(isset($_GET['order_by']) && $_GET['order_by'] != '')
-	{
-		$orderby = mysql_real_escape_string($_GET['order_by']);
-		$dir = mysql_real_escape_string($_GET['asc']);
-
-		if($orderby=='mdate')
-		{
-			$order=" marriage_day ";
-
-		}
-
-		else if($orderby=='man_furi_firstname')
-		{
-			$order=" man_furi_firstname ";
-		}
-
-		else if($orderby=='woman_furi_firstname')
-		{
-			$order=" woman_furi_firstname ";
-		}
-		if($dir == 'true')
-		{
-			$order.=' asc';
-		}
-		else
-		{
-			$order.=' desc';
-		}
-
+	$sortOptin = $get['sortOptin'];
+	if ($sortOptin==NULL) 	$order =" order by party_day asc , party_day_with_time asc ";
+	else {
+		$sortOptin = str_replace(":", ",", $get['sortOptin']); // +を,変換(,はPOST中に消滅する)
+		$order =" order by ".$sortOptin;
 	}
-	else
-	{
-		$order="party_day ASC";
-	}
-	$pageination_users = $obj->pagination($table_users, $where_users, $data_per_page_users,$current_page_users,$redirect_url_users);
-
-	//$query_string="SELECT * FROM $table_users where $where_users ORDER BY $order LIMIT ".((int)($current_page_users)*$data_per_page_users).",".((int)$data_per_page_users).";";
-	$query_string="SELECT * FROM $table_users where $where_users ORDER BY $order ;";
-	//echo $query_string;
+	$query_string="SELECT * FROM $table_users where $where_users $order ;";
 	$data_rows = $obj->getRowsByQuery($query_string);
+/*
+	$table_users='spssp_user';
+	$where_users = " stuff_id = ".$_SESSION['adminid']." and  party_day >= '".date("Y-m-d")."'";
+	$data_per_page_users=10;
+	$current_page_users=(int)$get['page'];
 
+	$order="party_day ASC , party_day_with_time asc ";
+	$query_string="SELECT * FROM $table_users where $where_users ORDER BY $order ;";
+	$data_rows = $obj->getRowsByQuery($query_string);
+*/
 ?>
 
 
@@ -181,6 +168,7 @@ width:200px;
 .input_text
 {
 width:120px;
+border-style :inset;
 }
 .datepicker
 {
@@ -209,12 +197,20 @@ padding:5px;
 {
 padding:5px 5px 5px 160px;;
 display:none;
-color:#999999;
+color:#000000;
 font-weight:normal;
 }
 
 </style>
 <script type="text/javascript">
+
+window.onbeforeunload = function() {
+//		obl_WshShell = new ActiveXObject("WScript.Shell");
+//		obl_WshShell.SendKeys ("{ESC}");
+	alert("Before Unload");
+//return true;
+}
+
 var user_a_id;
 $j(function(){
 
@@ -248,7 +244,7 @@ function add_supper_message()
 }
 function save_super_message()
 {
-	var title = $j("#super_title").val()
+	var title = $j("#super_title").val();
 	var desc = $j("#super_description").val();
 	if(title == '')
 	{
@@ -273,7 +269,7 @@ function cancel_super_message()
 
 function view_dsc_super(id)
 {
-	$j("#super_desc_"+id).toggle("slow");
+	$j("#super_desc_"+id).toggle();
 
 }
 function edit_super_msg(id)
@@ -290,8 +286,6 @@ function edit_super_msg(id)
 		$j("#super_desc_"+id).fadeOut(100);
 		$j(".new_super_message").fadeIn(500);
 	});
-
-
 }
 
 function viewMsg(id)
@@ -305,48 +299,6 @@ function viewMsg(id)
 	$j("#desc_"+id).dialog("open");
 
 }
-
-/*function change_enable(cid,tid)
-{
-
-
-	if($j("#"+cid).attr('checked') == true)
-	{
-
-		if(tid == 'date_from')
-		{
-			$j("#date_to").removeAttr('disabled');
-			$j("#date_from").removeAttr('disabled');
-			$j("#date_to").val(curr_year+'-'+curr_month+'-'+curr_date);
-			$j("#date_from").val(curr_year+'-'+curr_month+'-'+curr_date);
-
-
-		}
-		else
-		{
-			$j("#"+tid).removeAttr('disabled');
-		}
-
-	}
-	else
-	{
-
-		if(tid == 'date_from')
-		{
-			$j("#date_to").val('');
-			$j("#date_from").val('');
-
-			$j("#date_to").attr('disabled','disabled');
-			$j("#date_from").attr('disabled','disabled');
-		}
-		else
-		{
-			$j("#"+tid).val('');
-			$j("#"+tid).attr('disabled','disabled');
-		}
-	}
-}
-*/
 
 // UCHIDA EDIT 11/08/02 日付フォームの確認
 /****************************************************************
@@ -377,20 +329,74 @@ function ckDate(datestr) {
 	}
 }
 
+function confirmDeleteUser(user_id) {
+	var date_from;
+	var date_to;
+	var mname;
+	var wname;
+	var sortOptin = document.condition.h_sortOption.value;
+	var delete_user;
+
+	if(confirm("削除しても宜しいですか？") == false) return false;
+
+	date_from = $j("#date_from").val();
+	date_to = $j("#date_to").val();
+	mname= $j("#man_lastname").val();
+	wname = $j("#woman_lastname").val();
+
+	window.location = "manage.php?action=delete&id="+user_id+"&date_from="+date_from+"&date_to="+date_to+"&mname="+mname+"&wname="+wname+"&sortOptin="+sortOptin;
+/*
+	delete_user = "delete_user";
+
+	$j.post('ajax/search_user2.php',{'action':delete_user, 'user_id':user_id,'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname,'sortOptin':sortOptin}, function(data){
+
+	$j("#srch_result").fadeOut(100);
+	$j("#srch_result").html(data);
+	$j("#srch_result").fadeIn(700);
+	$j("#box_table").fadeOut(100);
+	});
+*/
+}
+
+function sortAction(sortOptin)
+{
+	var date_from;
+	var date_to;
+	var mname;
+	var wname;
+
+	date_from = document.condition.h_date_from.value;
+	date_to = document.condition.h_date_to.value;
+	mname= document.condition.h_man_lastname.value;
+	wname = document.condition.h_woman_lastname.value;
+
+	document.condition.h_sortOption.value = sortOptin;
+
+	$j.post('ajax/search_user2.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname,'sortOptin':sortOptin}, function(data){
+
+	$j("#srch_result").fadeOut(100);
+	$j("#srch_result").html(data);
+	$j("#srch_result").fadeIn(700);
+	$j("#box_table").fadeOut(100);
+	});
+}
+
 function validSearch()
 {
 	var date_from;
 	var date_to;
-	var mdate;
 	var mname;
 	var wname;
 
-		date_from = $j("#date_from").val();
-		date_to = $j("#date_to").val();
-		mdate = $j("#marriage_day").val();
-		mname= $j("#man_lastname").val();
-		wname = $j("#woman_lastname").val();
+	date_from = $j("#date_from").val();
+	date_to = $j("#date_to").val();
+	mname= $j("#man_lastname").val();
+	wname = $j("#woman_lastname").val();
 
+	document.condition.h_date_from.value = date_from;
+	document.condition.h_date_to.value = date_to;
+	document.condition.h_man_lastname.value = mname;
+	document.condition.h_woman_lastname.value = wname;
 
 	if(date_from == '' && date_to == '' && mname == '' && wname == '')
 	{
@@ -399,11 +405,24 @@ function validSearch()
 	}else
 	{
 // UCHIDA EDIT 11/08/02 日付チェックを追加
+
+	date = new Date();
+	y = date.getFullYear();
+	m = date.getMonth() + 1;
+	d = date.getDate();
+	if (m < 10) { m = "0" + m; }
+	if (d < 10) { d = "0" + d; }
+	var today = y + "/" + m + "/" + d;
+
 		if (date_from != "") {
 			if (ckDate(date_from) == false) {
 				alert("披露宴開始日の日付指定が間違っています。\nカレンダーアイコンから選択するか、正しく入力してください");
 				return false;
 			}
+		}
+		if (date_from < today) {
+			alert("披露宴開始日が過去になっています");
+			return false;
 		}
 		if (date_to != "") {
 			if (ckDate(date_to) == false) {
@@ -411,26 +430,31 @@ function validSearch()
 				return false;
 			}
 		}
+
+		if (date_to < today) {
+			alert("披露宴終了日が過去になっています");
+			return false;
+		}
 		if (date_from != "" && date_to != "") {
 			if (date_from > date_to) {
-				alert("披露宴開始日より終了日が後の日付になっています。\n披露宴日の検索範囲を正しく指定してください");
+				alert("検索開始日より検索終了日が先になっています。\n検索範囲を正しく指定してください");
 				return false;
 			}
 		}
 
-		$j.post('ajax/search_user2.php',{'date_from':date_from,'date_to':date_to,'mdate':mdate,'mname':mname,'wname':wname}, function(data){
+		$j.post('ajax/search_user2.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname}, function(data){
 
-		$j("#srch_result").fadeOut(100)
+		$j("#srch_result").fadeOut(100);
 		$j("#srch_result").html(data);
 		$j("#srch_result").fadeIn(700);
 		$j("#box_table").fadeOut(100);
-	});
+		});
 	}
 }
 function todays_user()
 {
 	$j.post('ajax/search_user.php',{'today':'today'}, function(data){
-		$j("#srch_result").fadeOut(100)
+		$j("#srch_result").fadeOut(100);
 		$j("#srch_result").html(data);
 		$j("#srch_result").fadeIn(700);
 		$j("#box_table").fadeOut(100);
@@ -464,16 +488,13 @@ function hide_this(id)
 
 
 <div id="topnavi">
-    <?php
-
+<?php
 include("inc/main_dbcon.inc.php");
 $hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-
+$hotel_name = $obj->GetSingleData("super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
 include("inc/return_dbcon.inc.php");
-
 ?>
-<h1><?=$hotel_name?>　管理</h1>
+<h1><?=$hotel_name?></h1>
 
     <div id="top_btn">
         <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
@@ -493,33 +514,37 @@ include("inc/return_dbcon.inc.php");
 				echo $objMsg->get_admin_side_order_print_mail_system_status_msg($row['id']);	// 席次・席札確認 → メッセージ表示
 				echo $objMsg->get_admin_side_daylimit_system_status_msg($row['id']);			// 引出物確認 	　→ メッセージ表示
 			}
+
+			// csv upload 	　→ メッセージ表示
+      echo $objMsg->get_message_csv_import_for_hotel();
 			?>
 
 			<?php
 				$user_id_array=array();
-            	foreach($usermsgs as $umsg)
+        foreach($usermsgs as $umsg)
 				{
 					if(in_array($umsg['user_id'],$user_id_array))
 					continue;
 
 					$user_id_array[]=$umsg['user_id'];
 
-					$man_firstname = $obj->GetSingleData("spssp_user", "man_firstname"," id=".$umsg['user_id']);
+					$userWhere = "id=".$umsg['user_id']." and party_day >= '".date("Y-m-d")."'";
+					$nm = $obj->GetRowCount("spssp_user",$userWhere);
+					if ($nm >0) {
+						$man_firstname = $obj->GetSingleData("spssp_user", "man_firstname"," id=".$umsg['user_id']);
+						$woman_firstname = $obj->GetSingleData("spssp_user", "woman_firstname"," id=".$umsg['user_id']);
+						$party_day = $obj->GetSingleData("spssp_user", "party_day"," id=".$umsg['user_id']);
 
-					$woman_firstname = $obj->GetSingleData("spssp_user", "woman_firstname"," id=".$umsg['user_id']);
-					$party_day = $obj->GetSingleData("spssp_user", "party_day"," id=".$umsg['user_id']);
+						$party_date_array=explode("-",$party_day);
 
-					$party_date_array=explode("-",$party_day);
+						$party_day=$party_date_array[1]."/".$party_date_array[2];
 
-					$party_day=$party_date_array[1]."/".$party_date_array[2];
+						$man_name = $objinfo->get_user_name_image_or_src($umsg['user_id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
+			    		$woman_name = $objinfo->get_user_name_image_or_src($umsg['user_id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
+			    		$user_name = $man_name."・".$woman_name;
 
-				  $man_name = $objinfo->get_user_name_image_or_src($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb2");
-          $woman_name = $objinfo->get_user_name_image_or_src($row['id'],$hotel_id=1 , $name="woman_fullname.png",$extra="thumb2");
-          $user_name = $man_name." ".$woman_name;
-
-					echo "<li><a href='message_user.php?user_id=".$umsg['user_id']."' >".$party_day." ".$user_name." 様よりの未読メッセージがあります。</a></li>";
-					//echo "<li><span class='date1'>".strftime('%Y/%m/%d',strtotime($umsg['creation_date']))."</span> ".$umsg['title']."&nbsp; <a href='javascript:void(0)' onclick='viewMsg(".$umsg['id'].")' id='view_user_".$umsg['id']."'> <img src='img/common/icon_customerview.gif' alt='お客様画面'  /></a></li>";
-					//echo "<div class='msg_desc' id='desc_".$umsg['id']."' title='お知らせ'><span style='color:#4C4C4C'>".$umsg['description']."</span><input type='hidden' value='view_user_".$umsg['id']."' /></div>";
+						echo "<li><a href='message_user.php?stuff_id=0&user_id=".$umsg['user_id']."' >".$party_day." ".$user_name." 様よりの未読メッセージがあります。</a></li>";
+					}
 				}
 			?>
         </ul>
@@ -533,28 +558,29 @@ include("inc/return_dbcon.inc.php");
             </div>-->
             <div id="top_search_view">
 
-                <form action="" method="post">
+                <form action="" method="post" name="condition">
 				<table width="720" border="0" cellpadding="0" cellspacing="0">
 
 			  <tr style="height:30px;">
 				<td width="80">披露宴日：</td>
-				<td width="169"><input name="date_from" type="text" id="date_from"    style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
+				<td width="169"><input name="date_from" type="text" id="date_from" value="<?=$post['date_from']?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
 
 				<!-- UCHIDA EDIT 11/07/26 -->
 			    <!-- <td width="62" >～</td> -->
 			    <td width="80" >～</td>
 
-				<td width="389"><input name="date_to" type="text" id="date_to"   style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>
+				<td width="389"><input name="date_to" type="text" id="date_to" value="<?=$post['date_to']?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>
 			  </tr>
 			  <tr style="height:30px;">
 				<td>新郎姓：</td>
-				<td><input name="man_lastname" type="text" id="man_lastname"  class="input_text" /></td>
+				<td><input name="man_lastname" type="text" id="man_lastname"  class="input_text"  value="<?=$post['mname']?>" /></td>
 			    <td>新婦姓：</td>
-				<td><input name="woman_lastname" type="text" id="woman_lastname" class="input_text" /></td>
+				<td><input name="woman_lastname" type="text" id="woman_lastname" class="input_text" value="<?=$post['wname']?>" /></td>
+			  </tr>
 			  </table>
 
 			  <table width="720" border="0" cellpadding="0" cellspacing="8">
-			  </tr>
+			  <tr>
 			  	<td width="30" >&nbsp;</td>
 				<td width="50" align="left" valign="bottom" >
 					<a href="javascript:void(0);" onclick="validSearch();"><img src="img/common/btn_search1.jpg" alt="search" /></a></td>
@@ -563,70 +589,53 @@ include("inc/return_dbcon.inc.php");
 			 	<td width="50" align="left" valign="bottom" >
 			 		<a href="manage.php"><img src="img/common/new_userlist.gif"/></a></td> <!-- UCHIDA EDIT 11/07/26 -->
 			  </tr>
-			  <tr>
-			  </tr>
-			  <tr>
-			  	<td>&nbsp;<br />
-			    <td align="left" colspan="3" > <a href="newuser.php"><img src="img/common/new_register.gif" alt="New Register"></a></td>
-
-			    </tr>
+			   <tr>
+			   <td>&nbsp; </td>
+			    <td align="left" colspan="3" > <a href="user_info_allentry.php"><img src="img/common/new_register.gif" alt="New Register"></a></td>
+			   </tr>
 			</table>
+                <input type="hidden" name="h_date_from" value="">
+                <input type="hidden" name="h_date_to" value="">
+                <input type="hidden" name="h_man_lastname" value="">
+                <input type="hidden" name="h_woman_lastname" value="">
+                <input type="hidden" name="h_sortOption" value="">
 			</form>
 
-
             </div>
-
-
-
 
        		<p></p>
-            <div style="width:100%; display:none;" id="srch_result">
-
-            </div>
+            <div style="width:100%; display:none;" id="srch_result"></div>
             <p></p>
 
-
-
-
-
-
-
-		   <div class="box_table" id="box_table">
+		    <div class="box_table" id="box_table" style="height:360px; overflow-y:auto;">
             <p>&nbsp;</p>
-            <!--<div class="page_next"><?=$pageination_users?></div>-->
 
             <div class="box4" style="width:1000px;">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
                     <tr align="center">
-                    	<td width="68">詳細</td>
-                        <td width="113">披露宴日<span class="txt1"><a href="manage.php?order_by=mdate&asc=true">▲</a> <a href="manage.php?order_by=mdate&asc=false">▼</a></span></td>
-                        <td width="147"> 新郎氏名<span class="txt1"><a href="manage.php?order_by=man_furi_firstname&asc=true">▲</a>
-                        	<a href="manage.php?order_by=man_furi_firstname&asc=false">▼</a></span>
-                         </td>
-                        <td width="147">新婦氏名<span class="txt1"><a href="manage.php?order_by=woman_furi_firstname&asc=true">▲</a>
-                        	<a href="manage.php?order_by=woman_furi_firstname&asc=false">▼</a></span>
+                        <td width="70">披露宴日<span class="txt1">
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day asc : party_day_with_time asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('party_day desc : party_day_with_time desc');">▼</a></span>
                         </td>
-                        <td width="80">&nbsp;</td>
-                        <td width="88" >スタッフ</td>
-                        <td width="71">メッセージ</td>
-                        <td width="90">最終アクセス</td>
-
-                        <td width="50">席次表</td>
-                        <td width="50">引出物</td>
- <?php
-	//if($_SESSION['user_type'] == 111  || $_SESSION['user_type'] == 333)
-	//{
-?>
-                        <td  width="62">削除</td>
-<?php
-	//}
-?>
+                        <td width="150" > 新郎氏名<span class="txt1">
+                        	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname desc');">▼</a></span>
+                        </td>
+                        <td width="150" align="center" >新婦氏名<span class="txt1">
+                        	<a href="javascript:void(0);" onclick="sortAction('woman_furi_lastname asc');">▲</a>
+                        	<a href="javascript:void(0);" onclick="sortAction('woman_furi_lastname desc');">▼</a></span>
+                        </td>
+                    	<td width="60" >詳細</td>
+                        <td width="80" >スタッフ</td>
+                        <td width="60" >メッセージ</td>
+                        <td width="80" >最終アクセス</td>
+                        <td width="60" >&nbsp;</td>
+                        <td width="40" >席次表</td>
+                        <td width="40" >引出物</td>
+                        <td  width="40">削除</td>
                     </tr>
                 </table>
             </div>
-
-
-
 
             <?php
 			$i=0;
@@ -640,7 +649,7 @@ include("inc/return_dbcon.inc.php");
 				include("inc/return_dbcon.inc.php");
 
 				$staff_name = $obj->GetSingleData("spssp_admin","name"," id=".$row['stuff_id']);
-
+        $staff_id = $row["stuff_id"];
 				if($i%2==0)
 				{
 					$class = 'box5';
@@ -649,102 +658,37 @@ include("inc/return_dbcon.inc.php");
 				{
 					$class = 'box6';
 				}
-				//$last_login = $obj->GetSingleData("spssp_user_log","max(login_time)"," id=".$row['id']);
 
 				$last_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$row['id']." and admin_id='0' ORDER BY login_time DESC");
 
-
-
-				$plan_row = $obj->GetSingleRow("spssp_plan", " user_id=".$row['id']);
-
-				if(!empty($plan_row) && $plan_row['id'] > 0)
-				{
-					$conf_plan_row = $obj->GetSingleRow("spssp_plan_details", " plan_id=".$plan_row['id']);
-					$user_guests = $obj->GetSingleRow("spssp_guest"," user_id=".$row['id']);
-					if(!empty($conf_plan_row))
-					{
-						//$plan_link = "<a href='make_plan.php?plan_id=".$plan_row['id']."&user_id=".$row['id']."'><img src='img/common/btn_syori.gif'  border='0' /></a>";
-
-						$plan_link = "<img src='img/common/btn_syori.gif'  border='0' />";
-					}
-					else
-					{
-						if(!empty($user_guests))
-						{
-							//$plan_link = "<a href='make_plan.php?plan_id=".$plan_row['id']."&user_id=".$row['id']."'><img src='img/common/btn_syori.gif' border='0' /></a>";
-
-							$plan_link = "<img src='img/common/btn_syori.gif'  border='0' />";
-
-						}
-						else
-						{
-							//$plan_link = "<a href='javascript:void(0);' onclick='guestCheck();'><img src='img/common/btn_kousei.gif' border='0' /></a>";
-							$plan_link = "<img src='img/common/btn_kousei.gif' border='0' />";
-						}
-					}
-
-					$layout_link = "<a href='set_table_layout.php?plan_id=".$plan_row['id']."&user_id=".(int)$row['id']."'><img src='img/common/btn_taku_edit.gif' boredr='0' > </a>";
-				}
-				else
-				{
-					$plan_link = "";
-					$layout_link = "";
-				}
-
-				if($_SESSION['user_type'] == 222)
-				{
-					if(!empty($staff_users))
-					{
-						if(in_array($row['id'],$staff_users))
-						{
-							$delete_onclick = "confirmDelete('manage.php?action=delete_user&page=".(int)$_GET['page']."&id=".$row['id']."');";
-						}
-						else
-						{
-							$delete_onclick = "alert_staff();";
-						}
-					}
-					else
-					{
-						$delete_onclick = "alert_staff();";
-					}
-				}
-				else
-				{
-					$delete_onclick = "confirmDelete('manage.php?action=delete_user&page=".(int)$_GET['page']."&id=".$row['id']."');";
-				}
-
 			?>
-              <div class="<?=$class?>" style="width:1000px;">
+	            <div class="<?=$class?>" style="width:1000px; ">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-                    	<td width="68"><a href="user_info.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif"  /></a></td>
-                         <!--<td><?php //echo $obj->japanyDateFormate($row['party_day'] , $row['party_day_with_time'])?></td>-->
-						 <td  width="93"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
+						<td  width="70"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
 
-                        <td width="147">
-                        <?php
-
-                          $man_name = $objinfo->get_user_name_image_or_src($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
-						  if($man_name==false){$man_name = $row['man_firstname']." ".$row['man_lastname'].' 様';}
-						  echo $man_name;
+                        <td width="150" align="left">
+                 <?php
+                 $man_name = $objinfo->get_user_name_image_or_src($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
+        if($man_name==false){$man_name = $row['man_firstname']." ".$row['man_lastname'].' 様';}
+        echo $man_name;
 					   ?>
-
                         </td>
-                        <td width="146">
+
+                        <td width="150" align="left">
                         <?php
                            $woman_name = $objinfo->get_user_name_image_or_src($row['id'],$hotel_id=1 , $name="woman_fullname.png",$extra="thumb1");
 						   if($woman_name==false){$woman_name = $row['woman_firstname']." ".$row['woman_lastname'].' 様';}
 						   echo $woman_name;
 					   ?>
                         </td>
-                        <td class="txt1" width="68">
-                        	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
-                        </td>
-                        <td class="txt1" width="20">&nbsp;</td>
-                        <td width="83"> <?=$staff_name?></td>
-                        <td width="71"> <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id']);?> </td>
-                        <td  width="90">
+
+                    	<td width="60"><a href="user_info_allentry.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif"  /></a></td>
+                         <!--<td><?php //echo $obj->japanyDateFormate($row['party_day'] , $row['party_day_with_time'])?></td>-->
+
+                        <td width="80"> <?=$staff_name?></td>
+                            <td width="60" > <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'],$staff_id);?> </td>
+                        <td  width="80">
 						<?php
 // UCHIDA EDIT 11/08/03 'ログイン中' → ログイン時間
 						if($last_login['login_time'] > "0000-00-00 00:00:00") {
@@ -756,31 +700,26 @@ include("inc/return_dbcon.inc.php");
 								echo "<font color='#888888'>$dMsg</font>";
 							}
 					   	}
-/*
-						if($last_login['login_time'] > "0000-00-00 00:00:00")
-					   	{
-							if($last_login['logout_time'] > "0000-00-00 00:00:00"){
-							echo $obj->japanyDateFormateShort($last_login['login_time']);
-							}else{
-							echo 'ログイン中';
-							}
-						}
-*/
 						?>
-						<? //date("Y-m-d", mktime($last_login));?>
                         </td>
-                        <td width="50">
+                        <td class="txt1" width="60" >
+                        	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
+                        </td>
+
+                        <td width="40">
                         	<?php
-                            	echo $objMsg->admin_side_user_list_new_status_notification_image_link_system($row['id']); // 席次・席札確認 → アイコン表示
+                        	echo $objMsg->admin_side_user_list_new_status_notification_image_link_system($row['id']); // 席次・席札確認 → アイコン表示
 							?>
                         </td>
-                        <td width="50">
+
+
+                        <td width="40">
 						<?php echo $objMsg->admin_side_user_list_gift_day_limit_notification_image_link_system($row['id']); // 引出物確認     → アイコン表示
 						?>
 						</td>
 
-                        <td width="57">
-                        	<a href="javascript:void(0);" onclick="<?=$delete_onclick;?>" >
+                        <td width="40">
+                        	<a href="javascript:void(0);" onclick="confirmDeleteUser(<?=$row['id']?>);" >
                         		<img src="img/common/btn_deleate.gif"  />
                             </a>
                         </td>
@@ -832,9 +771,8 @@ include("inc/return_dbcon.inc.php");
 							<ul class="ul3" id="message_BOX" style="height:200px; overflow:auto;">
 
                             	<?php
-                                //<a href='message_admin.php?id=".$msg['id']."'> ".$msg['title']."</a>
 								include("inc/main_dbcon.inc.php");
-								$super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," 1 = 1 order by id desc");
+								$super_messeges = $obj->GetAllRowsByCondition("super_admin_message "," 1 = 1 order by id desc");
 								include("inc/return_dbcon.inc.php");
                                 foreach($super_messeges as $msg)
                                 {
@@ -858,15 +796,8 @@ include("inc/return_dbcon.inc.php");
                             <ul class="ul3">
 
                             <?php
-                                //<a href='message_admin.php?id=".$msg['id']."'> ".$msg['title']."</a>
-                                /*foreach($adminmsgs as $msg)
-                                {
-                                    echo "<li><span class='date2'>".strftime('%Y/%m/%d',strtotime($msg['creation_date']))."</span><a href='javascript:void(0);' onclick='view_dsc(".$msg['id'].")'> ".$msg['title']."</a><br />
-                                    <p class='admin_desc' id='admin_desc_".$msg['id']."'><b>".$msg['description']."</b><br /></p></li>";
-
-                                }*/
 	include("inc/main_dbcon.inc.php");
- 	$super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," 1 = 1 order by id desc");
+ 	$super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," show_it=1 order by id desc");
 
  include("inc/return_dbcon.inc.php");
  foreach($super_messeges as $msg)
@@ -875,7 +806,7 @@ include("inc/return_dbcon.inc.php");
 									<a href='javascript:void(0);' onclick='view_dsc_super(".$msg['id'].")' id='super_title_".$msg['id']."'> ".$msg['title']."</a><br />
                                     <p class='super_desc' id='super_desc_".$msg['id']."'><span>".$msg['description']."</span> </p></li>";
 
-                                }                            ?>
+                                }?>
                             </ul>
                         </div>
                  <?php
