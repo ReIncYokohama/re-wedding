@@ -199,7 +199,8 @@ URL $BASE_URL
 
 -----------------------------------------------------------
   ウエディングプラス(株式会社サンプリンティングシステム)
-E-mail：weddingplus@sunpri.comment2URL： （ホテルスタッフログイン画面）
+E-mail：weddingplus@sunpri.com
+URL： （ホテルスタッフログイン画面）
 
 _EOT_;
 
@@ -228,7 +229,8 @@ URL $BASE_URL
 
 -----------------------------------------------------------
   ウエディングプラス(株式会社サンプリンティングシステム)
-E-mail：weddingplus@sunpri.comment2URL： （ホテルスタッフログイン画面）
+E-mail：weddingplus@sunpri.com
+URL： （ホテルスタッフログイン画面）
 
 _EOT_;
 
@@ -241,41 +243,8 @@ csv uploadのログを残す
 $message_class = new MessageClass();
 $message_class->new_message_csv_import($user_id);
 
-//新郎新婦にメール
-//$user_row = $obj->GetSingleRow("spssp_user"," id='$user_id'");
-//$user_email = $user_row["mail"];
-//$user_name = "";
-
-/*
-$title = "［ウエディングプラス］仮発注依頼がありました";
-
-if($user_row["subcription_mail"] === '0' && $user_email){
-
-$body = < <<_EOT_
-（スタッフ名）様
-
-いつもお世話になっております。
-mm/dd ○○･○○様から仮発注依頼がありました。
-仮発注処理をお願いいたします。
-URL（ホテルスタッフログイン画面）
-
-▼ このメールは、システムによる自動配信メールとなっております。
-心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplus@sunpri.comment2
-▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
-
------------------------------------------------------------
-  ウエディングプラス(株式会社サンプリンティングシステム)
-E-mail：weddingplus@sunpri.comment2URL： （ホテルスタッフログイン画面）
-
-_EOT_;
-
-  confirm_guest_register($user_email,$title,$body);
-}
-*/
-
 function confirm_guest_register($to,$subject,$mailbody){
-	$from='r.kubonaga@resonanceinc.com';
+	$from='weddinplus@sunpri.com';
   $header='From:'.$from." \r\n";
   $header.='Content-Type:text/plain; charset=utf-8'."\r\n";
   //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
