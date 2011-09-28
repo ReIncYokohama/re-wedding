@@ -76,6 +76,7 @@ else {
 	$rooms = $obj->getRowsByQuery($query_string);
 	$All_staffs = $obj->GetAllRowsByCondition("spssp_admin"," `permission` != '111' ORDER BY `permission` DESC");
 }
+
 ?>
 <style>
 .datepickerControl table
