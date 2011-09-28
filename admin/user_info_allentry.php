@@ -999,14 +999,6 @@ include("inc/return_dbcon.inc.php");
                     </a>
                 </td>
             </tr> -->
-            <?php if($user_id>0) { ?>
-	            <tr align="left" valign="middle">
-	            	<td colspan="5" nowrap="nowrap"><div style="width:450px;">
-	                 	<a href="user_log.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_access.jpg" width="173" height="23" /></a>　
-	                    <a href="change_log.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_data.jpg" width="173" height="23" /></a></div>
-	                </td>
-	            </tr>
-            <?php } ?>
         </table>
 <!--         </form> -->
 		 </div> <!--end of  id="div_box_1"-->
@@ -1437,7 +1429,13 @@ include("inc/return_dbcon.inc.php");
              <a href="javascript:void(0)" onclick="valid_user('<?=$user_id?>','<?=$noUpdate?>','<?=$count_gift?>','<?=$count_group?>','<?=$count_child?>');">
                 <img src="img/common/btn_regist_update.jpg" border="0" />
              </a>
-            </div>
+            <?php if($user_id>0) { ?>
+            		<br />
+            		<br />
+                 	<a href="user_log.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_access.jpg" width="173" height="23" /></a>　
+                    <a href="change_log.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_data.jpg" width="173" height="23" /></a></div>
+            <?php } ?>
+           </div>
 		   </form> <!--end of  id="div_box_3"-->
           </div><!--END OF id="div_box_3" -->
 
