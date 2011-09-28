@@ -5,6 +5,7 @@
 		redirect("hotel.php");
 	}
 
+
 	$id=$_GET['adminid']; // UCHIDA EDIT 11/08/17 ＩＤを再表示
 
 	if($_GET['action']=='failed')
