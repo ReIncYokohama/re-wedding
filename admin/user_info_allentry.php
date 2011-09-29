@@ -208,10 +208,10 @@ function checkGroupForm(x, noUpdate)
 		return false;
 	}
 
-	for(var y=1;y<x;y++)
+	for(var y=1;y<=x;y++)
 	{
 		var gval = $j("#name_group"+y).val()
-		if(gReg.test(gval) == false && gval != "")
+		if(gReg.test(gval) == false && gval)
 		{
 			alert("引出物グループ名は全角１文字で入力してください");
 			$j("#name_group"+y).focus();
@@ -943,13 +943,12 @@ include("inc/return_dbcon.inc.php");
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                <?php $user_id_limit = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='user_id_limit'");
 
-
 				$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $user_id_limit , $flag=1 );
 
 				// UCHIDA EDIT 11/08/17 曜日表示
 				$weekname = $objMsg->get_youbi_name( $dateBeforeparty );
 			   ?>
-			   <td colspan="3" align="left" valign="middle" nowrap="nowrap"><?=$dateBeforeparty?><?=$weekname?> 披露宴日&nbsp;<?=$user_id_limit?>日後</td>
+			   <?php if ($user_id>0) { ?><td colspan="3" align="left" valign="middle" nowrap="nowrap"><?=$dateBeforeparty?><?=$weekname?> 披露宴日&nbsp;<?=$user_id_limit?>日後</td> <?php } ?>
             </tr>
 			<tr>
   			<td width="192" align="left" valign="middle" nowrap="nowrap">メールアドレス</td>
@@ -1225,13 +1224,13 @@ include("inc/return_dbcon.inc.php");
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
                 	<?php
-						$limitation_ranking = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");
-
-						$date6 = new DateTime($user_row['party_day']);
-						$dateinterval = "-".$user_row['confirm_day_num']."day";
-			            $date6->modify($dateinterval);
-						echo $date6->format("Y/m/d");
-
+                		if($user_id>0) {
+							$limitation_ranking = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");
+							$date6 = new DateTime($user_row['party_day']);
+							$dateinterval = "-".$user_row['confirm_day_num']."day";
+				            $date6->modify($dateinterval);
+							echo $date6->format("Y/m/d");
+                		}
 					?>
 					<input type="text" name="confirm_day_num" id="confirm_day_num" style="width:15px; padding:3px" maxlength="2" value="<?=$user_row['confirm_day_num']?>" /> 日前
 			  <input type="hidden" value="<?=$user_row['party_day']?>" name="party_day_for_confirm" />	</td>
@@ -1354,12 +1353,14 @@ include("inc/return_dbcon.inc.php");
 							echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></div>";
 							$xx++;
 						}
+						$count_gift=$xx-1;
 				  }
 				  else {
 				   	for ($xx=1; $xx<=$gift_criteria['num_gift_groups']; $xx++) {
 						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value=''>";
 						echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></div>";
 				   	}
+				   	$count_gift=$xx;
 				  }
 				  ?>
 				   <br />
@@ -1374,10 +1375,10 @@ include("inc/return_dbcon.inc.php");
             <?php
 			$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $gift_criteria['order_deadline'] , $flag=2 );
 			?>
-				締切予定日： &nbsp; <input style="background:#EBEBE4;border:1px solid gray;padding:2px;" type="text" id="textfield15" readonly="readonly" value="<?=$obj->japanyDateFormate($dateBeforeparty)?>" size="25" />
+				締切予定日： <?php if($user_id>0) { ?> &nbsp; <input style="background:#EBEBE4;border:1px solid gray;padding:2px;" type="text" id="textfield15" readonly="readonly" value="<?=$obj->japanyDateFormate($dateBeforeparty)?>" size="25" /> <?php } ?>
             </p>
             <br /><p>
-                締切日設定： &nbsp;<?=$gift_criteria['order_deadline']?> &nbsp;日前
+                締切日設定： <?php if($user_id>0) { ?> &nbsp;<?=$gift_criteria['order_deadline']?> &nbsp;日前 <?php } ?>
             <br /><br />
             </p>
 		</div>
