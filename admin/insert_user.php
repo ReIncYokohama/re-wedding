@@ -193,7 +193,7 @@ else
     mysql_query($sql);
     $post['party_room_id']= mysql_insert_id();
     $post['creation_date'] = date("Y-m-d");
-    $post['stuff_id'] = (int)$_SESSION['adminid'];
+    $post['stuff_id'] = (int)$post['stuff_id'];
 
     $post['marriage_day_with_time'] =  $post['marriage_hour'].":".$post['marriage_minute'];
     $post['party_day_with_time'] = $post['party_hour'].":".$post['party_minute'];
