@@ -215,7 +215,7 @@ include("inc/return_dbcon.inc.php");
                 <td width="10" align="left" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
                 	 披露宴日<?php if($_SESSION['user_type']==333){?>
-                     <input name="order_deadline" <?=$ro?> type="text" style="text-align:right" onlyNumeric="i" maxlength="3"  id="order_deadline" size="5" value="<?=$order_deadline?>" />
+                     <input name="order_deadline" <?=$ro?> type="text" style="text-align:right" onlyNumeric="i" maxlength="2"  id="order_deadline" size="5" value="<?=$order_deadline?>" />
 			&nbsp;日前
                 <?
 				}else{

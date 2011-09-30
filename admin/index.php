@@ -230,9 +230,4 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
 
 
-
-
-<?php
-	include_once("inc/new.indexfooter.inc.php");
-?>
 </div>
