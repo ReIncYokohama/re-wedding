@@ -44,11 +44,10 @@
 				$guest_arr = explode("_",$val);
 				$guest_id = $guest_arr[1];
 				
-				
 				$plan_id = $plan_id;
 				
 				$guest_row = $obj->GetSingleRow("spssp_plan_details"," guest_id=".$guest_id." and plan_id=".$plan_id);
-	
+        
 				if($guest_row['seat_id']!=$seat_id)
 				{
 					$update_array['plan_id']=$plan_id;
@@ -62,9 +61,7 @@
 					
 					$lastids = $obj->InsertData("spssp_change_log", $update_array);
 				}
-				
 			}
-			
 		}
 		
 		$obj->DeleteRow("spssp_plan_details"," plan_id=".$plan_id);
@@ -83,22 +80,23 @@
 
 			if($val != '')
 			{
+        
 				$seat_arr = explode("_",$key);
-				$plan_arr['seat_id'] = $seat_arr[0];
-		
-				
+        $seat_id = $seat_arr[0];
+        
+				$plan_arr['seat_id'] = $seat_id;
 				$guest_arr = explode("_",$val);
 				$plan_arr['guest_id'] = $guest_arr[1];
 				
 				$plan_arr['plan_id'] = $plan_id;
 				
-				$guest_row = $obj->GetSingleRow("spssp_guest"," id=".$plan_arr['guest_id']);
-	
-
 				$lastids = $obj->InsertData("spssp_plan_details", $plan_arr);
+        
+        
 			}
 			
 		}
+    unset($_SESSION["cart"]);
 		if($lastids > 0)
 		{
 			//echo "here";

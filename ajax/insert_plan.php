@@ -4,6 +4,10 @@
 	include_once("../inc/checklogin.inc.php");	
 	
 	include_once("../admin/inc/class.dbo.php");
+
+
+print "Insert plan call rei";
+exit();
 	
 	$obj = new DBO();
 	$user_id = (int)$_SESSION['userid'];
@@ -11,7 +15,7 @@
 	$plan_id = $plan_row['id'];
 		
 	$num_rowws = $obj->GetNumRows("spssp_plan_details"," plan_id=".$plan_id);
-	
+
 	
 	////checking update for log
 	

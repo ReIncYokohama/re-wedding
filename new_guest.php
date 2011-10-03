@@ -4,18 +4,15 @@ include_once("admin/inc/class.dbo.php");
 require_once("admin/inc/imageclass.inc.php");
 include_once("inc/checklogin.inc.php");
 include_once("inc/gaiji.image.wedding.php");
+include_once("admin/inc/class_data.dbo.php");
 
 $obj = new DBO();
-
 $post = $obj->protectXSS($_POST);
 $user_id = (int)$_SESSION['userid'];
 $guest_id = (int)$_POST['id'];
 
-/*
-print_r($_POST);
-print_r($post);
-exit();
-*/
+$data_obj = new DataClass;
+
 $orderst = $obj->GetSingleRow(" spssp_guest_orderstatus ", " user_id =".(int)$user_id);
 if($orderst)
   {
@@ -45,22 +42,7 @@ unset($post['comment2_gaiji_img']);
 unset($post['comment2_gaiji_gid']);
 unset($post['comment2_gaiji_gsid']);
 
-//ダブルクリック回避
-
-
-include("admin/inc/main_dbcon.inc.php");
-$respects = $obj->GetAllRow(" spssp_respect");
-
-include("admin/inc/return_dbcon.inc.php");
-foreach($respects as $respect)
-      {
-        if($post['respect_id'] == $respect['id'])
-          {
-            $guest_respect = $respect['title'];
-          }
-      }
-
-//$hotel_id = $HOTELID;
+$guest_respect = $data_obj->get_respect($post["respect_id"]);
 
 $hotel_id=1;
 $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
@@ -72,56 +54,13 @@ if($guest_id >0)
     //    $obj->DeleteRow("spssp_gaizi_detail_for_guest","");
     $gaizi_detail_sql = "delete from spssp_gaizi_detail_for_guest where guest_id=".(int)$guest_id.";";  
     mysql_query($gaizi_detail_sql);
-    
     unset($post['id']);
-   
-    
-    $obj->UpdateData("spssp_guest",$post," id=".(int)$guest_id);
-    unset($post['gender_status']);
-    $guest_row = $obj->GetSingleRow(" spssp_guest ", " id=".(int)$guest_id);
-    
-    
-    $chagne_log=false;
-    foreach($post as $key=>$value)
-      {
-        if($value==0 && $guest_row[$key]=="")
-          {
-            $guest_row[$key]=0;
-          }
-        if($value=="" && $guest_row[$key]==0)
-          {
-            $guest_row[$key]="";
-          }
-    
-        if($value!=$guest_row[$key])
-          {
-            $chagne_log=true;
-      
-          }
-        $change_string[$key]=$guest_row[$key];
-      }
-  
-    if($chagne_log)
-      {
-        $before=implode("|",$change_string);
-        $after=implode("|",$post);
-  
-        $update_array['date']=date("Y-m-d H:i:s");
-        $update_array['guest_id']=$_POST['id'];
-        $update_array['user_id']=$user_id;
-        $update_array['previous_status']=$before;
-        $update_array['current_status']=$after;
-        $update_array['admin_id']=$_SESSION['adminid'];
-        $update_array['type']=2;
-        $lastids = $obj->InsertData("spssp_change_log", $update_array);
-    
-      }
+    $data_obj->set_guest_data_update($post,$user_id,$guest_id,$_SESSION["adminid"]);
   }
 else
   { 
-    //mark
     $post['user_id']=$user_id;
-    $guest_id=$obj->InsertData("spssp_guest",$post);
+    $data_obj->set_guest_data_insert($post,$user_id,$_SESSION["adminid"]);
   }
 
   //gidにはshiftjisのcodeを代入している。
@@ -153,12 +92,6 @@ if(isset($menu_grp) && $menu_grp != '')
     mysql_query($query_string);
   }
 
-$update_array['date']=date("Y-m-d H:i:s");
-$update_array['guest_id']=$guest_id;
-$update_array['user_id']=$user_id;
-$update_array['admin_id']=$_SESSION['adminid'];
-$update_array['type']=4;
-$lastids = $obj->InsertData("spssp_change_log", $update_array); 
   
 redirect("my_guests.php?page=".$_GET['guest_id']);
 
