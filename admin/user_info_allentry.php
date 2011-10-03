@@ -1358,8 +1358,12 @@ include("inc/return_dbcon.inc.php");
 				  else {
 				   	for ($xx=1; $xx<=$gift_criteria['num_gift_groups']; $xx++) {
 						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value=''>";
-						echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></div>";
+						echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
 				   	}
+				  	for (; $xx <=7; $xx++) {
+						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value=''>";
+						echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
+					}
 				   	$count_gift=$xx;
 				  }
 				  ?>
