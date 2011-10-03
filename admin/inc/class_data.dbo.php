@@ -11,7 +11,7 @@ class DataClass extends DBO{
   //acccess_time,login_name,screen_name,target_user,kind,target_category,before_data,after_data
   public function get_all_log($user_id)
   {
-    $data_rows = $this->getRowsByQuery("select * from spssp_change_log where user_id = $user_id order by date ASC");
+    $data_rows = $this->getRowsByQuery("select * from spssp_change_log where user_id = $user_id order by date desc");
     //削除したユーザのログが見えないようにするために、現在いるゲストのデータのみ受け取る。
     //もしくは削除(type=3)のデータをうけとる。
     //$data_rows = $this->getRowsByQuery("select * from spssp_change_log where user_id = $user_id and( guest_id in (select id from spssp_guest where user_id = $user_id)) or type= 3 order by date ASC");
