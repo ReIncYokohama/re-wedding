@@ -560,6 +560,15 @@ public function date_dashes_convert($date)
 	else{echo "----/--/--";}
 }
 
+public function get_date_dashes_convert($date)
+{	
+	if($date!="" && $date!="0000-00-00")
+	{
+		return strftime('%Y/%m/%d',strtotime($date));
+	}
+	return "----/--/--";
+}
+
 public function stripslashes2($string) 
 {
 	$string = str_replace("\\\"", "\"", $string);
