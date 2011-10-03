@@ -1,9 +1,64 @@
 <?php
-include_once('dbcon.inc.php');
-include_once("class.dbo.php");
+include_once(dirname(__file__).'/dbcon.inc.php');
+include_once(dirname(__file__)."/class.dbo.php");
 class DataClass extends DBO{
   public function DataClass()
   {
+  }
+  
+  public function set_guest_data_update($set_obj,$user_id,$guest_id,$admin_id){
+    $guest_row = $this->GetSingleRow(" spssp_guest ", " id=".(int)$guest_id);
+    
+    $before_data = array();
+    $after_data = array();
+    $chagne_log = false;
+    foreach($set_obj as $key => $value){
+      if($guest_row[$key] != $value and !($guest_row[$key] == 0 and $value == "") ){
+        $before_data[$key] = $guest_row[$key];
+        $after_data[$key] = $value;
+        $chagne_log = true;
+      }
+    }
+    
+    if($chagne_log)
+      {
+        
+        $before=json_encode($before_data);
+        $after=json_encode($after_data);
+        
+        $update_array['date']=date("Y-m-d H:i:s");
+        $update_array['guest_id']=$guest_id;
+        $update_array['user_id']=$user_id;
+        $update_array['previous_status']=$before;
+        $update_array['current_status']=$after;
+        $update_array['admin_id']=$admin_id;
+        $update_array['type']=2;
+        $lastids = $this->InsertData("spssp_change_log", $update_array);
+      }
+    $this->UpdateData("spssp_guest",$set_obj," id=".(int)$guest_id);
+  }
+  
+  public function set_guest_data_insert($set_obj,$user_id,$admin_id){
+    $guest_id=$this->InsertData("spssp_guest",$set_obj);
+    
+    $update_array['date']=date("Y-m-d H:i:s");
+    $update_array['guest_id']=$guest_id;
+    $update_array['user_id']=$user_id;
+    $update_array['admin_id']=$admin_id;
+    $update_array['type']=4;
+    $this->InsertData("spssp_change_log", $update_array);
+
+    return $guest_id;
+  }
+  
+  public function set_log_guest_delete($user_id,$guest_id,$admin_id){
+		$update_array['date']=date("Y-m-d H:i:s");
+		$update_array['guest_id']=$guest_id;
+		$update_array['user_id']=$user_id;
+		$update_array['guest_name']=$this->get_guest_name($guest_id);
+		$update_array['admin_id']=$admin_id;
+		$update_array['type']=3;
+	  $this->InsertData("spssp_change_log", $update_array);
   }
   
   //席次表のログ情報を取得する。
@@ -38,7 +93,7 @@ class DataClass extends DBO{
       case 1:
         return "席次表情報";
       default:
-        return "招待者リストの作成";
+        return "招待者リスト";
     }
   }
   
@@ -49,7 +104,7 @@ class DataClass extends DBO{
       $guest_name = $this->get_guest_name($guest_id);
       return $guest_name;
     }
-    return $row["guest_name"];
+    return $guest_name;
   }
   
   //ログの修正種類の取得
@@ -71,8 +126,14 @@ class DataClass extends DBO{
   //return target_category_arr,before_data_arr,after_data_arr
   public function get_log_change_contents($type_id,$before_data,$after_data,$user_id){
     if($type_id >= 2){
-      $now_before_data_arr = explode("|",$before_data);
-      $now_after_data_arr = explode("|",$after_data);
+      $now_before_data_arr = json_decode($before_data,true);
+      $now_after_data_arr = json_decode($after_data,true);
+      
+      //デコードに失敗した場合は、NULLなので、連想配列に統一する。
+      //古いコードの場合、表示されない。
+      if(!$now_before_data_arr) $now_before_data_arr = array();
+      if(!$now_after_data_arr) $now_after_data_arr = array();
+      
       list($target_category_arr,$before_data_arr,$after_data_arr)
         = $this->get_log_guest_profile($now_before_data_arr,$now_after_data_arr,$user_id);
       return array(implode("<br>",$target_category_arr),
@@ -125,78 +186,78 @@ class DataClass extends DBO{
     $return_after_data_arr = array();
     $return_category_data_arr = array();
     
-    foreach($before_data_arr as $key => $value)
+    foreach($before_data_arr as $key => $b_val)
     {
       if($b_val != $after_data_arr[$key])
       {
         $a_val = $after_data_arr[$key];
         switch($key){
-        case 0:
+        case "sex":
           array_push($return_before_data_arr,get_host_area($b_val));
           array_push($return_after_data_arr,get_host_area($a_val));
           array_push($return_category_data_arr,"新郎新婦側");
           break;
-        case 1:
+        case "last_name":
           array_push($return_before_data_arr,$b_val);
           array_push($return_after_data_arr,$a_val);
           array_push($return_category_data_arr,"姓");
           break;
-        case 2:
+        case "furigana_last":
           array_push($return_before_data_arr,$b_val);
           array_push($return_after_data_arr,$a_val);
           array_push($return_category_data_arr,"ふりがな姓");
           break;
-        case 3:
+        case "first_name":
           array_push($return_before_data_arr,$b_val);
           array_push($return_after_data_arr,$a_val);
           array_push($return_category_data_arr,"名");
           break;
-        case 4:
+        case "furigana_first":
           array_push($return_before_data_arr,$b_val);
           array_push($return_after_data_arr,$a_val);
           array_push($return_category_data_arr,"ふりがな名");
           break;
-        case 5:
+        case "respect_id":
           array_push($return_before_data_arr,$this->get_respect($b_val));
           array_push($return_after_data_arr,$this->get_respect($a_val));
           array_push($return_category_data_arr,"敬称");
           break;
-        case 6:
+        case "guest_type":
           array_push($return_before_data_arr,$this->get_guest_type($b_val));
           array_push($return_after_data_arr,$this->get_guest_type($a_val));
           array_push($return_category_data_arr,"区分");
           break;
-        case 7:
+        case "comment1":
           array_push($return_before_data_arr,$b_val);
           array_push($return_after_data_arr,$a_val);
           array_push($return_category_data_arr,"肩書1");
           break;
-        case 8:
+        case "comment2":
           array_push($return_before_data_arr,$b_val);
           array_push($return_after_data_arr,$a_val);
           array_push($return_category_data_arr,"肩書2");
           break;
-        case 9:
+        case "memo":
           array_push($return_before_data_arr,$b_val);
           array_push($return_after_data_arr,$a_val);
           array_push($return_category_data_arr,"特記");
           break;
-        case 10:
-          array_push($return_before_data_arr,$this->get_gift_group($b_val));
-          array_push($return_after_data_arr,$this->get_gift_group($a_val));
+        case "gift_group_id":
+          array_push($return_before_data_arr,$this->get_gift_group($b_val,$user_id));
+          array_push($return_after_data_arr,$this->get_gift_group($a_val,$user_id));
           array_push($return_category_data_arr,"引出物");
           break;
-        case 11:
-          array_push($return_before_data_arr,$this->get_menu_group($b_val));
-          array_push($return_after_data_arr,$this->get_menu_group($a_val));
+        case "menu_grp":
+          array_push($return_before_data_arr,$this->get_menu_group($b_val,$user_id));
+          array_push($return_after_data_arr,$this->get_menu_group($a_val,$user_id));
           array_push($return_category_data_arr,"料理");
           break;
-        case 12:
+        case "stage":
           array_push($return_before_data_arr,$this->get_seat_type($b_val));
           array_push($return_after_data_arr,$this->get_seat_type($a_val));
           array_push($return_category_data_arr,"席種別");
           break;
-        case 13:
+        case "stage_guest":
           array_push($return_before_data_arr,$this->get_takasago_seat_name($b_val));
           array_push($return_after_data_arr,$this->get_takasago_seat_name($a_val));
           array_push($return_category_data_arr,"高砂席名");
@@ -210,9 +271,8 @@ class DataClass extends DBO{
   
   public function get_guest_name($guest_id)
   {
-    $guest_name2=$this->GetSingleData("spssp_guest","last_name"," id='".$guest_id."'");
-    $guest_name=$this->GetSingleData("spssp_guest","first_name"," id='".$guest_id."'");
-    $guest_name = $guest_name2."&nbsp;".$guest_name;
+    $guest_row_name = $this->GetSingleRow(" spssp_guest ", " id=".$guest_id);
+    $guest_name = $guest_row_name["last_name"]."&nbsp;".$guest_row_name["first_name"];
     return $guest_name;
   }
   
@@ -229,16 +289,17 @@ class DataClass extends DBO{
   }
   //敬称をテキストで返す。
   public function get_respect($respect_id){
-    include("admin/inc/main_dbcon.inc.php");
+    include(dirname(__file__)."/main_dbcon.inc.php");
     $respect = $this->GetSingleData(" spssp_respect ", "title", " id='".$respect_id."'");
-    include("admin/inc/return_dbcon.inc.php");
+    include(dirname(__file__)."/return_dbcon.inc.php");
+    
     return $respect;
   }
   //区分をテキストで返す。
   public function get_guest_type($guest_type_id){
-    include("admin/inc/main_dbcon.inc.php");
+    include(dirname(__file__)."/main_dbcon.inc.php");
     $guest_type = $this->GetSingleData(" spssp_guest_type ", "name", " id='".$guest_type_id."'");
-    include("admin/inc/return_dbcon.inc.php");
+    include(dirname(__file__)."/return_dbcon.inc.php");
     return $guest_type;
   }
   //ギフトグループのデータをテキストで返す。
@@ -248,7 +309,7 @@ class DataClass extends DBO{
   }
   //メニューグループのデータをテキストで返す。
   public function get_menu_group($menu_group_id,$user_id){
-    $menu_name = $obj->GetSingleData(" spssp_menu_group ", "name", " id='".$menu_group_id."' and user_id = ".$user_id);
+    $menu_name = $this->GetSingleData(" spssp_menu_group ", "name", " id='".$menu_group_id."' and user_id = ".$user_id);
     return $menu_name;
   }
   //座席の種類をテキストで返す。

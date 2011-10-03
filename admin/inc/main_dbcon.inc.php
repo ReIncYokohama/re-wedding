@@ -1,5 +1,5 @@
 <?php
-include_once(dirname(__FILE__)."/../../conf/conf.php");
+include(dirname(__FILE__)."/../../conf/conf.php");
 
 $sqlhost=$main_sqlhost;
 $sqluser=$main_sqluser;

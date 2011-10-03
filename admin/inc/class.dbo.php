@@ -138,7 +138,7 @@ include_once('dbcon.inc.php');
 				$filedval = mysql_fetch_row($result);
 				$filedval = $filedval[0];
 			}
-			return jp_decode($filedval);
+			return $filedval;
 		}
 		
 		public function GetFields($tablename, $fieldnames,$where)
@@ -178,7 +178,9 @@ include_once('dbcon.inc.php');
 				{
 					foreach($row as $key=>$value)
 					{
-						$row[$key]=jp_decode(stripslashes($value));
+            //jsonの処理時にスラッシュを消去するので。mysql_escepeを使用するようにする。
+						//$row[$key]=jp_decode(stripslashes($value));
+            $row[$key] = $value;
 					}
 					$fetch_rows[] = $row;
 				}
@@ -265,14 +267,16 @@ include_once('dbcon.inc.php');
 					$val = $filedVal;
 					//$val = "'".$val."'"					
 					//$fieldname = array_search($filedVal,$filedValArray);
-					$vals .= "'".jp_encode(addslashes($val))."',";	
-					$key = $key.",";			
+					//$vals .= "'".jp_encode(addslashes($val))."',";
+          $vals .= "'".mysql_real_escape_string($val)."',";
+					$key = $key.",";
 					$keys .= $key;
 				}
 				$vals = substr($vals, 0, -1);
 				$keys = substr($keys, 0, -1);
 				
 				$qry = "insert into $tablename($keys) values ($vals)";
+        //print $qry;
 				//echo $qry;exit;
 				$result = mysql_query($qry);
 				if($result)

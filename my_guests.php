@@ -10,23 +10,14 @@ include_once("inc/new.header.inc.php");
 
 if(isset($_GET['action']) && $_GET['action'] == 'delete' )
 	{
-		$id = (int)$_GET['guest_id'];
+		$guest_id = (int)$_GET['guest_id'];
+    
+    //ゲストの削除をログに
+    include_once("admin/inc/class_data.dbo.php");
+    $data_obj = new DataClass;
+    $data_obj->set_log_guest_delete($user_id,$guest_id,$_SESSION["adminid"]);
 
-		$guest_row_name = $obj->GetSingleRow(" spssp_guest ", " id=".(int)$id);
-
-		$update_array['date']=date("Y-m-d H:i:s");
-		$update_array['guest_id']=$_POST['id'];
-		$update_array['user_id']=$user_id;
-
-		$update_array['guest_name']=$guest_row_name['first_name']." ".$guest_row_name['last_name'];
-
-		$update_array['admin_id']=$_SESSION['adminid'];
-		$update_array['type']=3;
-
-		$lastids = $obj->InsertData("spssp_change_log", $update_array);
-
-		$obj->DeleteRow('spssp_guest', 'id='.$id);
-
+		$obj->DeleteRow('spssp_guest', 'id='.$guest_id);
 		$obj->DeleteRow('spssp_plan_details', 'guest_id='.$guest_id);
 	}
 
