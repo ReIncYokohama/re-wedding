@@ -374,7 +374,7 @@ function validForm()
       //			if( str.match( /[^ぁ-ん\s]+/ ) ) {
       //				alert("新郎の姓のふりがなを正しく入力してください");
 			if( str.match( /[^ぁ-ん\sー]+/ ) ) {
-				alert("姓のふりがなを正しく入力してください");
+				alert("姓のふりがなを正しく平仮名で入力してください");
 				document.getElementById('furigana_last').focus();
 				return false;
 			}
@@ -396,7 +396,7 @@ function validForm()
       //			if( str2.match( /[^ぁ-ん\sー]+/ ) ) {
       //				alert("新郎の姓のふりがなを正しく入力してください");
 			if( str2.match( /[^ぁ-ん\sー]+/ ) ) {
-        alert("名のふりがなを正しく入力してください");
+        alert("名のふりがなを正しく平仮名で入力してください");
         document.getElementById('furigana_first').focus();
         return false;
 			}
