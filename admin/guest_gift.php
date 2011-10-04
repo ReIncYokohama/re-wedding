@@ -406,7 +406,7 @@ include("inc/return_dbcon.inc.php");
 					{ ?>
 						■席次表印刷部数<br>
 			<input type="text" id="daylimit_1" name="day_limit_1" size="3" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
-			数
+			部
 					<br><br>
 					<br>
 					<?php }
@@ -414,7 +414,7 @@ include("inc/return_dbcon.inc.php");
 					{ ?>
 						■席札表印刷部数<br>
 		    <input type="text" id="daylimit_2" name="day_limit_2" size="3" maxlength="3" value="<?=$dayLimit_2?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
-		    数
+		    部
 		    		<br>
 		    		<br>
 					<?php }
@@ -422,12 +422,12 @@ include("inc/return_dbcon.inc.php");
 					{ ?>
 						■席次表印刷部数<br>
 			<input type="text" id="daylimit_1" name="day_limit_1" size="3" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
-			数
+			部
 					<br><br>
 						■席札表印刷部数
 					<br>
 					<input type="text" id="daylimit_2" name="day_limit_2" size="3" maxlength="3" value="<?=$dayLimit_2?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
-					数
+					部
 					<br><br>
 				<?php	}
 
