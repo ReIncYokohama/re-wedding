@@ -843,7 +843,7 @@ if($editable)
 				<table width="237" border="0" cellspacing="2" cellpadding="2">
 			  		<tr>
 						<td width="100" align="right">肩書１行目:</td>
-						<td width="137">
+						<td width="137" align="center">
 
 							<input size="20" name="comment1" type="text" class="check_sjs_1" id="comment1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')"/>
 							<div id="comment1_div_id" style="display:none;"></div>
