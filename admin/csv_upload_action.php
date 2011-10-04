@@ -194,12 +194,12 @@ URL $BASE_URL
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplus@sunpri.comment2
+株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
 -----------------------------------------------------------
   ウエディングプラス(株式会社サンプリンティングシステム)
-E-mail：weddingplus@sunpri.com
+E-mail：wedding-plus@wedding-plus.net
 URL： （ホテルスタッフログイン画面）
 
 _EOT_;
@@ -224,12 +224,12 @@ URL $BASE_URL
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplus@sunpri.comment2
+株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
 -----------------------------------------------------------
   ウエディングプラス(株式会社サンプリンティングシステム)
-E-mail：weddingplus@sunpri.com
+E-mail：wedding-plus@wedding-plus.net
 URL： （ホテルスタッフログイン画面）
 
 _EOT_;
@@ -244,7 +244,7 @@ $message_class = new MessageClass();
 $message_class->new_message_csv_import($user_id);
 
 function confirm_guest_register($to,$subject,$mailbody){
-	$from='weddinplus@sunpri.com';
+	$from='info@wedding-plus.net';
   $header='From:'.$from." \r\n";
   $header.='Content-Type:text/plain; charset=utf-8'."\r\n";
   //$header1.= "Cc: k.okubo@re-inc.jp\r\n";

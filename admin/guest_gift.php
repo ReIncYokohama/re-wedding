@@ -95,7 +95,7 @@
 	{
 
 //		if($obj->GetRowCount("spssp_plan"," `order` = 2 and user_id=".$user_id) >0 )
-		if($obj->GetRowCount("spssp_plan"," `order` = 1 and user_id=".$user_id) >0 )
+		if($obj->GetRowCount("spssp_plan"," `order` >= 1 and user_id=".$user_id) >0 )
 		{
 			if($plan_info['print_company']>0)
 			{

@@ -41,7 +41,7 @@ class MessageClass extends InformationClass
 		{
 			$msg_opt = "<img src='img/common/msg/up.gif' border = '0'>";
 		}
-		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 3 and `order` = 2 and user_id=".$user_id) )
+		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 3 and `order` >= 1 and user_id=".$user_id) )
 		{
 			$msg_opt = "<img src='img/common/msg/processed.gif' border = '0' alt='processed'>";
 		}
