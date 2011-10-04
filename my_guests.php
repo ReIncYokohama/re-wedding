@@ -678,7 +678,7 @@ if($editable)
     ?>
 
     <div id="newgustform" style="width:873px; margin:auto; min-height:100px; padding-top:5px; display:block">
-    ■ 招待者名を入力のうえ、各項目の情報を入力してください。
+    ■ 招待者名を入力のうえ、各項目の情報を入力してください。<font color="red">*</font>の付いた項目は必須です。
       <form id="newguest" name="newguest" method="post" action="new_guest.php?page="<?=$_GET['page']?>">
 	 <input type="hidden" name="id" id="id" value="<?=$_GET['gid']?>" />
    <?php if($firstname_gaijis || $lastname_gaijis || $comment1_gaijis || $comment2_gaijis) echo getAllGaijisInputEle(array($firstname_gaijis,$lastname_gaijis,$comment1_gaijis,$comment2_gaijis))?>
@@ -702,7 +702,7 @@ if($editable)
 		  <tr>
 			<td width="96" align="right"><table width="96" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-			    <td width="88">新郎新婦側:</td>
+			    <td width="88">新郎新婦側<font color="red">*</font>:</td>
 		      </tr>
 			  <tr>
 			    <td>&nbsp;</td>
@@ -722,7 +722,7 @@ if($editable)
 			<td colspan="2">
 			<table  width="237" border="0" cellspacing="2" cellpadding="2">
 			<tr>
-			<td align="right" width="100">姓:</td>
+			<td align="right" width="100">姓<font color="red">*</font>:</td>
 			<td align="center" width="137">
 
 			  <input type="text" size="20" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;" name="last_name" id="last_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['last_name']?>" onfocus="change_gaiji_link('last_name');"/>
@@ -731,7 +731,7 @@ if($editable)
 			</td>
 			</tr>
 			<tr>
-			<td align="right" width="100" >ふりがな姓:</td>
+			<td align="right" width="100" >ふりがな姓<font color="red">*</font>:</td>
       <?php
 				if($guest_row['self']==1)
 				{
@@ -752,7 +752,7 @@ if($editable)
 			<td width="198">
 			<table  width="227" border="0" cellspacing="2" cellpadding="2">
 			<tr>
-				<td align="right" width="90">名:</td>
+				<td align="right" width="90">名<font color="red">*</font>:</td>
 				<td align="center" width="108" >
        	<input type="text" name="first_name" class="check_sjs_1" size="20" style="padding-top:3px; padding-bottom:3px;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')"/>
 
@@ -761,7 +761,7 @@ if($editable)
 				</td>
 			</tr>
 			<tr>
-				<td align="right" width="90">ふりがな名:</td>
+				<td align="right" width="90">ふりがな名<font color="red">*</font>:</td>
       <?php
 			if($guest_row['self']==1)
 			{
@@ -782,7 +782,7 @@ if($editable)
 
 			<td width="169" colspan="2" align="right" valign="top" ><table width="315" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-			    <td width="78" align="right">敬称:</td>
+			    <td width="78" align="right">敬称<font color="red">*</font>:</td>
 			    <td width="123"><select id="respect_id" name="respect_id" style="width:70px; padding-top:3px; padding-bottom:3px;"  <?php if($guest_row['self']==1){echo "disabled";}?>>)
 			      <?php
 					foreach($respects as $respect)
@@ -842,7 +842,7 @@ if($editable)
 			<td colspan="2">
 				<table width="237" border="0" cellspacing="2" cellpadding="2">
 			  		<tr>
-						<td width="100" align="right">肩書 1:</td>
+						<td width="100" align="right">肩書１行目:</td>
 						<td width="137">
 
 							<input size="20" name="comment1" type="text" class="check_sjs_1" id="comment1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')"/>
@@ -855,7 +855,7 @@ if($editable)
 			<td>
 				<table width="227" border="0" cellspacing="2" cellpadding="2">
 					<tr>
-			    		<td width="90" align="right">肩書 2:</td>
+			    		<td width="90" align="right">肩書２行目:</td>
 			    		<td width="137" align="center">
 
 							<input size="20" name="comment2" type="text" id="comment2" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')"/>
@@ -878,7 +878,7 @@ if($editable)
 		<tr>
 		<td width="96" align="right" valign="top"> <table width="96" border="0" cellspacing="2" cellpadding="2">
 		  <tr>
-		    <td align="right">引出物:</td>
+		    <td align="right">引出物<font color="red">*</font>:</td>
 		    </tr>
 		  </table></td>
           <td width="90" align="center" valign="top"> <table width="90" border="0" cellspacing="2" cellpadding="2">
@@ -914,7 +914,7 @@ if($editable)
 
           <td colspan="2" valign="top"> <table width="190" border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td width="100" align="right">料理:</td>
+              <td width="100" align="right">料理<font color="red">*</font>:</td>
               <td width="76"><?php
                             	$menus = $obj->GetAllRowsByCondition(" spssp_menu_group "," user_id=".$user_id);
 								if((int)$_GET['gid'])
