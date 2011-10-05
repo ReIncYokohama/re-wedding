@@ -27,6 +27,10 @@ $objInfo = new InformationClass();
 $last_log_date = str_replace("-", "/",$_SESSION['lastlogintime']);
 
 if ($_SESSION['userid_admin']) $messege_url="admin_messages.php"; else $messege_url="user_messages.php";
+
+$__plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
+$__editable=$objInfo->get_editable_condition($__plan_info);
+
 ?>
 
 <?php
@@ -152,10 +156,14 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 		<div class="header">
 			<div class="header_resize" style="display:relative;vertical-align:middle;">
             	<div id="inform_user" style="text-align:center; font-size:15px; font-weight:bold; color:#006600;"></div>
-                <div class="logo"> <div><img src="img/logo.jpg" width="200" height="57" border="0" /></div>
-                    <div style="font-size:11px;height:12px;vertical-align:top;">
-    <?php  echo $objInfo->get_user_name_image_or_src_from_user_side($usert_id ,$hotel_id=1, $name="guest_page.png",$extra=".");?>
-</div>
+                <div class="logo"> 
+                <div><img src="img/logo.jpg" width="200" height="57" border="0" />
+                <font style="font-size:20px; color:#0099ff;"> <?php if (!$__editable) echo "「印刷イメージ依頼中です。編集できません」"; ?></font>
+                </div>
+
+                <div style="font-size:11px;height:12px;vertical-align:top;">
+    			<?php  echo $objInfo->get_user_name_image_or_src_from_user_side($usert_id ,$hotel_id=1, $name="guest_page.png",$extra=".");?>
+				</div>
                 </div>
                 <div id="head_right">
                   <div id="login_date">前回のログイン　<?=$last_log_date?></div>
