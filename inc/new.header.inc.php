@@ -30,7 +30,8 @@ if ($_SESSION['userid_admin']) $messege_url="admin_messages.php"; else $messege_
 
 $__plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
 $__editable=$objInfo->get_editable_condition($__plan_info);
-
+$__jobend=false;
+if ($__plan_info['admin_to_pcompany']==3) $__jobend=true;
 ?>
 
 <?php
@@ -157,7 +158,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
             	<div id="inform_user" style="text-align:center; font-size:15px; font-weight:bold; color:#006600;"></div>
                 <div class="logo"> 
                 <div><img src="img/logo.jpg" width="200" height="57" border="0" />
-                <font style="font-size:20px; color:#0099ff;"> <?php if (!$__editable) echo "「印刷イメージ依頼中です。編集できません」"; ?></font>
+                <font style="font-size:20px; color:#0099ff;"> <?php if (!$__editable && $__jobend==false) echo "「印刷イメージ依頼中です。編集できません」"; else if (!$__editable && $__jobend==true) echo "「印刷依頼済みです。編集できません」"; ?></font>
                 </div>
 
                 <div style="font-size:11px;height:12px;vertical-align:top;">
