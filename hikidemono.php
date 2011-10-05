@@ -324,16 +324,11 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
         	<td width="200" align="center" bgcolor="#FFFFFF">商品名</td>
         	<td width="500" align="center" bgcolor="#FFFFFF">グループ登録</td>
         	<td width="100" align="center" bgcolor="#FFFFFF">予備数</td>
-
       	</tr>
-
 		<tr>
 		<?php
 
-
 		$i=0;
-
-
 
 		foreach($gift_rows as $gift)
 				{
@@ -356,10 +351,17 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 					array_push($groups,$row['id']);
 				}
 
-
+				if (!$editable) {
+					$_disable=" disabled='disabled' ";
+					$_readonly="readonly='readonly' style='border: #ffffff; ";
+				}
+				else {
+					$_disable="";
+					$_readonly="";
+				}
 
 			?>
-            <div style="width:50px; float:left; text-align:left; padding:2px;"><b> <?=$row['name']?> </b> <input type="checkbox" value="<?=$gift['id']?>" id="group_<?=$j?>" <?php if(in_array($gift['id'],$gift_arr)) { ?> checked="checked" <?php } ?> name="group_<?=$row['id']?>[]"/></div>
+            <div style="width:50px; float:left; text-align:left; padding:2px;"><b> <?=$row['name']?> </b> <input type="checkbox" <?=$_disable?> value="<?=$gift['id']?>" id="group_<?=$j?>" <?php if(in_array($gift['id'],$gift_arr)) { ?> checked="checked" <?php } ?> name="group_<?=$row['id']?>[]"/></div>
             <?php
 				$j++;
                 }
@@ -376,9 +378,13 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 				}
 
 				$num_gifts = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift['id']);
+				if (!$editable) {
+					if ($i%2==0)	$_readonly.=" background-color: #ffffff; text-align:right; '";
+					else 			$_readonly.=" background-color: #ebf4fb; text-align:right; '";
+				}
 			?></div>
             </td>
-			<td align="center"><input type="text" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" size="5" maxlength="2" style="text-align:right" /></td>
+			<td align="center"><input type="text" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right" /></td>
 
             </tr>
 			<?php

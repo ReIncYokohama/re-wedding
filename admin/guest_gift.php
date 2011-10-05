@@ -95,7 +95,8 @@
 	{
 
 //		if($obj->GetRowCount("spssp_plan"," `order` = 2 and user_id=".$user_id) >0 )
-		if($obj->GetRowCount("spssp_plan"," `order` >= 1 and user_id=".$user_id) >0 )
+//		if($obj->GetRowCount("spssp_plan"," `order` >= 1 and user_id=".$user_id) >0 )
+		if($obj->GetRowCount("spssp_plan"," `order` >= 0 and user_id=".$user_id) >0 )
 		{
 			if($plan_info['print_company']>0)
 			{
@@ -103,6 +104,12 @@
 				if($res==6)
 				{
 					$post['admin_to_pcompany']=3;
+					$post['gift_daylimit']=3;
+
+					$post['order']=2;
+					$post['dl_print_com_times']=0;
+					$post['ul_print_com_times']=1;
+					$post['gift_daylimit']=3;
 					$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 
 					/*unset($post);
