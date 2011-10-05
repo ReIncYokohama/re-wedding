@@ -702,7 +702,7 @@ if($editable)
 		  <tr>
 			<td width="96" align="right"><table width="96" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-			    <td width="88">新郎新婦側<font color="red">*</font>:</td>
+			    <td align="right" width="88">新郎新婦側<font color="red">*</font>:</td>
 		      </tr>
 			  <tr>
 			    <td>&nbsp;</td>
@@ -879,8 +879,8 @@ if($editable)
 		<td width="96" align="right" valign="top"> <table width="96" border="0" cellspacing="2" cellpadding="2">
 		  <tr>
 		    <td align="right">引出物<font color="red">*</font>:</td>
-		    </tr>
-		  </table></td>
+            </tr>
+          </table></td>
           <td width="90" align="center" valign="top"> <table width="90" border="0" cellspacing="2" cellpadding="2">
             <tr>
               <td><?php
