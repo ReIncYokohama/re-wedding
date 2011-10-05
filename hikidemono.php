@@ -418,14 +418,14 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 					$gift_ids = implode(',',$gift_arr);
 					$item_names = $obj->GetSingleData("spssp_gift" , "group_concat(name separator ' ・ ') as names" , " id in ( $gift_ids )");
 
-					echo "<tr><td bgcolor='#FFFFFF' width='30' align='center'>".$grp['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".$item_names."</td></tr>";
+					if ($grp['name']!="" && $grp['name']!="×") echo "<tr><td bgcolor='#FFFFFF' width='30' align='center'>".$grp['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".$item_names."</td></tr>";
 				}
 			?>
 
-          <tr>
+<!--           <tr>
             <td width="20" align="center" bgcolor="#FFFFFF">×</td>
             <td width="780" bgcolor="#FFFFFF">&nbsp;</td>
-          </tr>
+          </tr> -->
         </table>
       </div>
 <div class="clear">
@@ -491,20 +491,19 @@ $i++;
 		foreach($menu_groups as $mg)
 		{
 			//$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']);
-
 	  ?>
-    <tr>
-      <td width="800" bgcolor="#FFFFFF">　<?=$mg['name']?></td>
-
-    </tr>
+	  <?php if ($mg['name']!="") {
+	      echo "<tr>";
+	      echo "<td width='800' bgcolor='#FFFFFF'>".$mg['name']."</td>";
+	      echo "</tr>";
+      } ?>
     <?php
-    	}
+    }
 	?>
 
   </table>
 </div>
 </div>
-<div style="clear:both;"></div>
 </div>
 
 <?php
