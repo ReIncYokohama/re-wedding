@@ -702,7 +702,7 @@ if($editable)
 		  <tr>
 			<td width="96" align="right"><table width="96" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-			    <td align="right" width="88">新郎新婦側<font color="red">*</font>:</td>
+			    <td align="right" width="88"> 新郎新婦側<font color="red">*</font>:</td>
 		      </tr>
 			  <tr>
 			    <td>&nbsp;</td>
