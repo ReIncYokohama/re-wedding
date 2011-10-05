@@ -19,7 +19,6 @@
 	 	mysql_query($sql);
 
 
-
 		foreach($data_rows as $value)
 		{
 			$postvalue="group_".$value[id];
@@ -418,7 +417,7 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 					$gift_ids = implode(',',$gift_arr);
 					$item_names = $obj->GetSingleData("spssp_gift" , "group_concat(name separator ' ・ ') as names" , " id in ( $gift_ids )");
 
-					if ($grp['name']!="" && $grp['name']!="×") echo "<tr><td bgcolor='#FFFFFF' width='30' align='center'>".$grp['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".$item_names."</td></tr>";
+					if ($grp['name']!="") echo "<tr><td bgcolor='#FFFFFF' width='30' align='center'>".$grp['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".$item_names."</td></tr>";
 				}
 			?>
 

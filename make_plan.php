@@ -27,8 +27,6 @@
 
 	include_once("inc/new.header.inc.php");
 
-
-
 	$plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
 
 	$plan_row = $obj->GetSingleRow("spssp_plan", " id =".$plan_id);
@@ -104,6 +102,9 @@
 	$respects = $obj->GetAllRow(" spssp_respect");
 	include("admin/inc/return_dbcon.inc.php");
 ?>
+<script>
+var edited_Flag=0;
+</script>
 <script src="js/jquery.ui.droppable.js" type="text/javascript"></script>
 
 
@@ -156,7 +157,7 @@ function make_plan_check()
 {
 var button_enable="<?=$button_enable?>";
 	if(button_enable==true) {
-		if(confirm("席次表を保存しますか？"))
+		if(confirm("席次表を保存しますか？"+" : "+edited_Flag))
 		{
 			$.post('ajax/insert_plan.php',{'make_plan':'true'}, function (data){
 				return true;

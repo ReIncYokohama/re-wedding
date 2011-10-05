@@ -149,7 +149,6 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 
 <link href="css/main.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 <div id="layout">
 	<div class="main">
