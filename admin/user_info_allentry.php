@@ -199,7 +199,7 @@ function valid_plan(noUpdate)
 	//document.user_info_plan.submit();
 }
 
-var gReg = /^[Ａ-Ｚａ-ｚ０-９]$/;
+var gReg = /^[Ａ-Ｚａ-ｚ０-９×]$/;
 function checkGroupForm(x, noUpdate)
 {
 
