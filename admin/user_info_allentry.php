@@ -199,7 +199,7 @@ function valid_plan(noUpdate)
 	//document.user_info_plan.submit();
 }
 
-var gReg = /^[Ａ-Ｚａ-ｚ０-９×]$/;
+var gReg = /[!-~A-Za-z0-9ｦ-ﾝ]$/;
 function checkGroupForm(x, noUpdate)
 {
 
@@ -211,8 +211,14 @@ function checkGroupForm(x, noUpdate)
 	for(var y=1;y<=x;y++)
 	{
 		var gval = $j("#name_group"+y).val()
-		if(gReg.test(gval) == false && gval)
+		if(gReg.test(gval) == true && gval)
 		{
+			alert("引出物グループ名は全角１文字で入力してください");
+			$j("#name_group"+y).focus();
+			return false;
+		}
+
+		else if (gval=="¥" && gval != "") {
 			alert("引出物グループ名は全角１文字で入力してください");
 			$j("#name_group"+y).focus();
 			return false;

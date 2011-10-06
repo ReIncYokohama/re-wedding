@@ -239,15 +239,22 @@ function validForm2()
 }
 // UCHIDA EDIT 11/08/09 半角英数字１文字のみ有効に設定
 //var gReg = /^[A-Za-z0-9]$/;
-var gReg = /^[Ａ-Ｚａ-ｚ０-９]$/;
+var gReg = /[!-~A-Za-z0-9ｦ-ﾝ]$/;
 function checkGroupForm(x)
 {	//alert(x);
 
 	for(var y=1;y<x;y++)
 	{
 		var gval = $("#name"+y).val();
-		if(gReg.test(gval) == false && gval != "")
+		if(gReg.test(gval) == true && gval != "")
 		{
+			alert("全角１文字で入力してください");
+			var error =1;
+			document.getElementById("name"+y).focus();
+			return false;
+		}
+
+		else if (gval=="¥" && gval != "") {
 			alert("全角１文字で入力してください");
 			var error =1;
 			document.getElementById("name"+y).focus();
