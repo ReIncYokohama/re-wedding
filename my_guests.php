@@ -7,7 +7,6 @@ $get = $obj->protectXSS($_GET);
 $user_id = (int)$_SESSION['userid'];
 include_once("inc/new.header.inc.php");
 
-
 if(isset($_GET['action']) && $_GET['action'] == 'delete' )
 	{
 		$guest_id = (int)$_GET['guest_id'];
@@ -19,6 +18,11 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete' )
 
 		$obj->DeleteRow('spssp_guest', 'id='.$guest_id);
 		$obj->DeleteRow('spssp_plan_details', 'guest_id='.$guest_id);
+		
+		$obj->DeleteRow('spssp_guest_gift', 'guest_id='.$guest_id); // 関連テーブルの削除
+		$obj->DeleteRow('spssp_guest_menu', 'guest_id='.$guest_id); // 関連テーブルの削除
+		$obj->DeleteRow('spssp_guest_gift', 'guest_id=0'); // バグでguest_id=0ができるので、一時的に削除
+		$obj->DeleteRow('spssp_guest_menu', 'guest_id=0'); // バグでguest_id=0ができるので、一時的に削除
 	}
 
 include_once("admin/inc/class_message.dbo.php");
@@ -374,7 +378,7 @@ function validForm()
       //			if( str.match( /[^ぁ-ん\s]+/ ) ) {
       //				alert("新郎の姓のふりがなを正しく入力してください");
 			if( str.match( /[^ぁ-ん\sー]+/ ) ) {
-				alert("姓のふりがなを正しく平仮名で入力してください");
+				alert("姓のふりがなを正しく入力してください");
 				document.getElementById('furigana_last').focus();
 				return false;
 			}
@@ -396,7 +400,7 @@ function validForm()
       //			if( str2.match( /[^ぁ-ん\sー]+/ ) ) {
       //				alert("新郎の姓のふりがなを正しく入力してください");
 			if( str2.match( /[^ぁ-ん\sー]+/ ) ) {
-        alert("名のふりがなを正しく平仮名で入力してください");
+        alert("名のふりがなを正しく入力してください");
         document.getElementById('furigana_first').focus();
         return false;
 			}
@@ -678,7 +682,9 @@ if($editable)
     ?>
 
     <div id="newgustform" style="width:873px; margin:auto; min-height:100px; padding-top:5px; display:block">
-    ■ 招待者名を入力のうえ、各項目の情報を入力してください。<font color="red">*</font>の付いた項目は必須です。
+    ■ 招待者名を入力のうえ、各項目の情報を入力してください。<br />
+    　<font color="red">*</font>の付いた項目は必須です。
+    
       <form id="newguest" name="newguest" method="post" action="new_guest.php?page="<?=$_GET['page']?>">
 	 <input type="hidden" name="id" id="id" value="<?=$_GET['gid']?>" />
    <?php if($firstname_gaijis || $lastname_gaijis || $comment1_gaijis || $comment2_gaijis) echo getAllGaijisInputEle(array($firstname_gaijis,$lastname_gaijis,$comment1_gaijis,$comment2_gaijis))?>
@@ -702,7 +708,7 @@ if($editable)
 		  <tr>
 			<td width="96" align="right"><table width="96" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-			    <td align="right" width="88">新郎新婦側<font color="red">*</font>:</td>
+			    <td width="88">新郎新婦側:</td>
 		      </tr>
 			  <tr>
 			    <td>&nbsp;</td>
@@ -724,7 +730,6 @@ if($editable)
 			<tr>
 			<td align="right" width="100">姓<font color="red">*</font>:</td>
 			<td align="center" width="137">
-
 			  <input type="text" size="20" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;" name="last_name" id="last_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['last_name']?>" onfocus="change_gaiji_link('last_name');"/>
 				<div id="last_div_id" style="display:none;"></div>
         <div><?=$gaiji_button_last_name?></div>
@@ -750,18 +755,17 @@ if($editable)
 			</table>
 			</td>
 			<td width="198">
-			<table  width="227" border="0" cellspacing="2" cellpadding="2">
+			<table  width="237" border="0" cellspacing="2" cellpadding="2">
 			<tr>
-				<td align="right" width="90">名<font color="red">*</font>:</td>
-				<td align="center" width="108" >
+				<td align="right" width="100">名<font color="red">*</font>:</td>
+				<td align="center" width="137" >
        	<input type="text" name="first_name" class="check_sjs_1" size="20" style="padding-top:3px; padding-bottom:3px;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')"/>
-
 			  <div id="first_div_id" style="display:none;" ></div>
         <div><?=$gaiji_button_first_name?></div>
 				</td>
 			</tr>
 			<tr>
-				<td align="right" width="90">ふりがな名<font color="red">*</font>:</td>
+				<td align="right" width="100">ふりがな名<font color="red">*</font>:</td>
       <?php
 			if($guest_row['self']==1)
 			{
@@ -775,15 +779,15 @@ if($editable)
 				$furigana_first_name=$guest_row['furigana_first'];
 			}
 			?>
-			<td align="center" width="108"><input type="text" name="furigana_first" size="20"  style="padding-top:3px; padding-bottom:3px;" id="furigana_first" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_first_name?>" /></td>
+			<td align="center" width="137"><input type="text" name="furigana_first" size="20"  style="padding-top:3px; padding-bottom:3px;" id="furigana_first" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_first_name?>" /></td>
 			</tr>
 			</table>
 			</td>
 
 			<td width="169" colspan="2" align="right" valign="top" ><table width="315" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-			    <td width="78" align="right">敬称<font color="red">*</font>:</td>
-			    <td width="123"><select id="respect_id" name="respect_id" style="width:70px; padding-top:3px; padding-bottom:3px;"  <?php if($guest_row['self']==1){echo "disabled";}?>>)
+			    <td width="78" align="right">敬称:</td>
+			    <td width="123"><select id="respect_id" name="respect_id" style="width:70px; padding-top:3px; padding-bottom:3px;"  <?php if($guest_row['self']==1){echo "disabled";}?>)
 			      <?php
 					foreach($respects as $respect)
 					{
@@ -842,8 +846,8 @@ if($editable)
 			<td colspan="2">
 				<table width="237" border="0" cellspacing="2" cellpadding="2">
 			  		<tr>
-						<td width="100" align="right">肩書１行目:</td>
-						<td width="137" align="center">
+						<td width="100" align="right">肩書 1:</td>
+						<td width="137">
 
 							<input size="20" name="comment1" type="text" class="check_sjs_1" id="comment1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')"/>
 							<div id="comment1_div_id" style="display:none;"></div>
@@ -853,9 +857,9 @@ if($editable)
 				</table>
  		    </td>
 			<td>
-				<table width="227" border="0" cellspacing="2" cellpadding="2">
+				<table width="237" border="0" cellspacing="2" cellpadding="2">
 					<tr>
-			    		<td width="90" align="right">肩書２行目:</td>
+			    		<td width="100" align="right">肩書 2:</td>
 			    		<td width="137" align="center">
 
 							<input size="20" name="comment2" type="text" id="comment2" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')"/>
@@ -878,9 +882,9 @@ if($editable)
 		<tr>
 		<td width="96" align="right" valign="top"> <table width="96" border="0" cellspacing="2" cellpadding="2">
 		  <tr>
-		    <td align="right">引出物<font color="red">*</font>:</td>
-            </tr>
-          </table></td>
+		    <td align="right">引出物:</td>
+		    </tr>
+		  </table></td>
           <td width="90" align="center" valign="top"> <table width="90" border="0" cellspacing="2" cellpadding="2">
             <tr>
               <td><?php
@@ -914,7 +918,7 @@ if($editable)
 
           <td colspan="2" valign="top"> <table width="190" border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td width="100" align="right">料理<font color="red">*</font>:</td>
+              <td width="100" align="right">料理:</td>
               <td width="76"><?php
                             	$menus = $obj->GetAllRowsByCondition(" spssp_menu_group "," user_id=".$user_id);
 								if((int)$_GET['gid'])
@@ -1411,33 +1415,48 @@ if($guest["sex"] == "Male"){
     </div>
     <div class="cont_area">
       <div class="guests_area_L">■ 引出物 商品数
-        <table width="500" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999">
+      <?php 
+        $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_id);
+		$gift_rows = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".$user_id);
+      ?>
+        <table width="510" border="0" cellspacing="1" cellpadding="0" bgcolor="#999999">
           <tr>
-            <td width="114" align="center" bgcolor="#FFFFFF">商品名</td>
+            <td colspan="2" width="105" align="right" bgcolor="#FFFFFF">グループ</td>
             <?php
-            	$group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_id);
-				$gift_rows = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".$user_id);
 				foreach($group_rows as $grp)
 				{
-
 			?>
-            <td width="42" align="center" bgcolor="#FFFFFF"><?=$grp['name']?></td>
+            <td width="45" align="center" bgcolor="#FFFFFF"><?=$grp['name']?></td>
             <?php
             	}
 			?>
-
-
-            <td width="60" align="center" bgcolor="#FFFFFF">予備</td>
-            <td width="59" align="center" bgcolor="#FFFFFF">合計</td>
+            <td width="45" align="center" bgcolor="#FFFFFF">予備</td>
+            <td width="45" align="center" bgcolor="#FFFFFF">合計</td>
           </tr>
-          <?php
-		  	foreach($gift_rows as $gift)
-			{
-		  ?>
+        
           <tr>
-            <td bgcolor="#FFFFFF" width="116"><?=$gift['name']?></td>
+            <td colspan="2" align="right" bgcolor="#FFFFFF">グループ数</td>
             <?php
+				$total = 0;
+            	foreach($group_rows as $grp)
+				{
+					$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']." and guest_id<>0");
+					$total += $num_guests_groups;
+					echo "<td align='center' bgcolor='#FFFFFF'> $num_guests_groups </td>";
+				}
+			?>
 
+            <td align="center" bgcolor="#FFFFFF"> - </td>
+            <td bgcolor="#FFFFFF" align="center"><?=$total?></td>
+          </tr>     
+
+          <?php
+          echo "<tr>";
+          echo "<td bgcolor='#FFFFFF' align='center' width='45' rowspan='7'>商品名</td>";
+          foreach($gift_rows as $gift)
+			{
+		    if ($gift['name']!="") {
+            echo "<td bgcolor='#FFFFFF' width='60' align='right'>".$gift['name']."</td>";
 				$num_gifts = 0;
             	foreach($group_rows as $grp)
 				{
@@ -1450,50 +1469,30 @@ if($guest["sex"] == "Male"){
 						array_push($groups,$grp['id']);
 					}
 
-
-          $num_gifts_in_group = 0;
+          			$num_gifts_in_group = 0;
 					if(!empty($groups))
 					{
 						foreach($groups as $grp)
 						{
-							$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp);
+							$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp." and guest_id<>0");
 							$num_gifts += $num_guests_groups;
-              $num_gifts_in_group += $num_guests_groups;
+              				$num_gifts_in_group += $num_guests_groups;
 						}
 						unset($groups);
 					}
-          $htm = $num_gifts_in_group;
-
-			?>
-            <td width="42" align="center" bgcolor="#FFFFFF"> <?=$htm?> </td>
-            <?php
+          			$htm = $num_gifts_in_group;
+            		echo "<td width='45' align='center' bgcolor='#FFFFFF'>".$htm."</td>";
             	}
-          $num_reserve = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift["id"]);
-          $num_gifts += $num_reserve;
-			?>
-
-            <td width="60" align="center" bgcolor="#FFFFFF"><?=$num_reserve?></td>
-            <td width="59" align="center" bgcolor="#FFFFFF"><?=$num_gifts?></td>
-          </tr>
-          <?php
-          	}
-		  ?>
-          <tr>
-            <td align="center" bgcolor="#FFFFFF">グループ数</td>
-            <?php
-				$total = 0;
-            	foreach($group_rows as $grp)
-				{
-					$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']);
-					$total += $num_guests_groups;
-					echo "<td align='center' bgcolor='#FFFFFF'> $num_guests_groups </td>";
-				}
-			?>
-
-            <td align="center" bgcolor="#FFFFFF">&nbsp;</td>
-            <td bgcolor="#FFFFFF" align="center">×</td>
-          </tr>
+         	$num_reserve = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift["id"]);
+          	$num_gifts += $num_reserve;
+            echo "<td width='45' align='center' bgcolor='#FFFFFF'>".$num_reserve."</td>";
+            echo "<td width='45' align='center' bgcolor='#FFFFFF'>".$num_gifts."</td>";
+            echo "</tr>";
+		  }
+        }
+		?>
         </table>
+
       </div>
       <div class="guests_area_R">■ 引出物　グループ内容
         <table width="243" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999">
@@ -1526,46 +1525,26 @@ if($guest["sex"] == "Male"){
 
 	foreach($menu_groups as $mg)
 	{
-		$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']);
+		$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']." and guest_id<>0");
 
 		$totalsum +=$num_menu_guest;
 	}
 	echo'<tr><td   bgcolor="#FFFFFF" align="center" >大人</td><td  bgcolor="#FFFFFF" align="center" >'.($Noofguest-$totalsum).'</td></tr>';
 	foreach($menu_groups as $mg)
 	{
-		$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']);
+		$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']." and guest_id<>0");
 
-
-  ?>
-    <tr>
-      <td width="120" align="center" bgcolor="#FFFFFF"><?=$mg['name']?></td>
-
-      <td width="60" align="center" bgcolor="#FFFFFF"><?=$num_menu_guest?></td>
-    </tr>
-   <?php
+		if ($mg['name']!="") {
+	  ?>
+	     <tr>
+	      <td width="120" align="center" bgcolor="#FFFFFF"><?=$mg['name']?></td>
+	      <td width="60" align="center" bgcolor="#FFFFFF"><?=$num_menu_guest?></td>
+	    </tr>
+	   <?php
+		}
    	}
 	echo'<tr><td   bgcolor="#FFFFFF" align="center" >合計</td><td  bgcolor="#FFFFFF" align="center" >'.$Noofguest.'</td></tr>';
    ?>
-<!--    <tr>
-      <td bgcolor="#FFFFFF" >子供1</td>
-      <td align="center" bgcolor="#FFFFFF">5,000円</td>
-      <td align="center" bgcolor="#FFFFFF">3</td>
-    </tr>
-    <tr>
-      <td bgcolor="#FFFFFF">子供2</td>
-      <td align="center" bgcolor="#FFFFFF">3,000円</td>
-      <td align="center" bgcolor="#FFFFFF">2</td>
-    </tr>
-    <tr>
-      <td bgcolor="#FFFFFF">料理なし</td>
-      <td align="center" bgcolor="#FFFFFF">&nbsp;</td>
-      <td align="center" bgcolor="#FFFFFF">1</td>
-    </tr>
-    <tr>
-      <td align="center" bgcolor="#FFFFFF">計</td>
-      <td align="center" bgcolor="#FFFFFF">&nbsp;</td>
-      <td align="center" bgcolor="#FFFFFF">71</td>
-    </tr>-->
   </table>
 
 </div>
