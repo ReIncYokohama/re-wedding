@@ -17,21 +17,23 @@ else if($_SESSION['printid'] =='')
    redirect("index.php");exit;
 }
 
+	$user_info = $objInfo->get_user_info($user_id);
+	$mailDate=$user_info['state'];
+	$limitDate=date("Y/m/d",strtotime("-5 day")); //今から５日前の日付
+	$downloadOK=false;
+	if ($mailDate > $limitDate) $downloadOK=true;
 
-	$user_plan_info = $objInfo->get_user_plan_info($user_id);
-
-	//ONECE BROWSE THIS PAGE PRINT COMPANY WILL LOSE 1 TIME OF QUATA 2
-	if($user_plan_info['dl_print_com_times']>0 && $user_plan_info['dl_print_com_times'] < 2 )
+	if($downloadOK==true)
 	 {
 		unset($post);
+		$user_plan_info = $objInfo->get_user_plan_info($user_id);
 		$post['dl_print_com_times'] = $user_plan_info['dl_print_com_times'] - 1;
 		$obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
-
-
 	 }
 	 else
 	 {
-	 	redirect("index.php?msg=3");exit;
+	 	echo "<script> alert('ダウンロード期限の５日を過ぎております'); </script>";
+	 	redirect("index.php?msg=3");
 	 }
 
      $row = $objInfo->get_user_info($user_id);
@@ -95,7 +97,7 @@ function click_check(url) {
      <div class="top_selectbox2">
 	 <?php
 
-	 if($user_plan_info['dl_print_com_times']>0 && $user_plan_info['dl_print_com_times'] < 2)
+	 if($downloadOK==true)
 	 {
 	 //plan_pdf_small.php?user_id=<?=$_GET['user_id']&file=pdf
 	 //NEED TO CHECK THE DAY LIMIT
@@ -128,7 +130,7 @@ function click_check(url) {
         <!--<div class="top_selectbox2"> <a href="downloadhelper.php?id=<?=$_GET['id']?>&file=csv" ><img src="img/common/btn_download_csv.jpg" alt="検索" width="152" height="22" /></a>　</div>-->
 		<div class="top_selectbox2">
 		 <?php
-		 if($user_plan_info['dl_print_com_times']>0 && $user_plan_info['dl_print_com_times'] < 2)
+		 if($downloadOK==true)
 		 {	//NEED TO CHECK THE DAY LIMIT
 		 ?>
 		<a href="javascript:void(0);" onclick="click_check('csvdownload.php?user_id=<?=$_GET['user_id']?>&file=csv');" ><img src="img/common/btn_download_csv.jpg" alt="検索" width="152" height="22" /></a>
