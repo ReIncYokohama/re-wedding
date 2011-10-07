@@ -333,7 +333,14 @@ html;
 		{
 				$res = $this :: mail_to($to = $print_company_info['email'], $subject , $mailbody = $user_suborder_mail_body)	;
 
-				if($res==1){ return  $mes = 6;/*success*/ }else{ return  $err = 28;/*error*/}
+				if($res==1) { 
+					// 送信日付を記録
+					$sql = "update spssp_user set state=".date("Y-m-d H:i:s")." where id='".$user_id."';";
+					mysql_query($sql);
+					return  $mes = 6;/*success*/ 
+				}else{ 
+					return  $err = 28;/*error*/
+				}
 
 		}
 		else
