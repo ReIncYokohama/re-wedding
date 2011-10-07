@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>gaiji_palette</title>
+  <title>招待者リストcsv一括アップロード</title>
   <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
   <!--[if IE]>
       <style type="text/css" media="all">.borderitem {border-style: solid;}</style>
