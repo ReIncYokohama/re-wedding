@@ -31,6 +31,9 @@
 	
 	if($num_rowws > 0)
 	{
+    $guest_seat_arr = $obj->GetRowsByQuery("select * from spssp_plan_details where plan_id = ".$plan_id);
+    //print_r($guest_seat_arr);
+    print_r($_SESSION["cart"]);
 		foreach($_SESSION['cart'] as $key=>$val)
 		{
 
@@ -60,17 +63,13 @@
 					$update_array['type']=1;
 					
 					$lastids = $obj->InsertData("spssp_change_log", $update_array);
+          //print_r($update_array);
 				}
 			}
 		}
-		
+		exit();
 		$obj->DeleteRow("spssp_plan_details"," plan_id=".$plan_id);
 	}
-	
-
-	
-	
-
 	
 	if(isset($itemids))
 	{
@@ -96,7 +95,13 @@
 			}
 			
 		}
-    unset($_SESSION["cart"]);
+    
+    $_SESSION["cart"] = null;
+    
+    if($_GET["ajax"]){
+      exit();
+    }
+
 		if($lastids > 0)
 		{
 			//echo "here";

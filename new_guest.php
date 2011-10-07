@@ -92,7 +92,6 @@ if(isset($menu_grp) && $menu_grp != '')
     mysql_query($query_string);
   }
 
-  
 redirect("my_guests.php?page=".$_GET['guest_id']);
 
 

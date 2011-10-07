@@ -37,6 +37,118 @@ class DataClass extends DBO{
       }
     $this->UpdateData("spssp_guest",$set_obj," id=".(int)$guest_id);
   }
+  //招待客情報なし
+  /*
+    layoutname
+    plan_id
+    seat_num
+    rows 0 columns 0 name,table_id
+           ralign,num_first,num_last,num_none,display_rate,display_num
+  */
+  public function get_table_data($user_id){
+    $returnArray = array("layoutname" => "","rows"=>array());
+    //テーブル情報の配列
+    $table_arr = $this->getRowsByQuery("select * from spssp_table_layout where user_id=".$user_id);
+    //plan_info column_number,row_number
+    $plan_info = $this->GetSingleRow("spssp_plan"," user_id = ".$user_id);
+    $returnArray["plan_id"] = $plan_info["id"];
+    $returnArray["seat_num"] = $plan_info["seat_number"];
+    //行の最大数を取得
+    $table_rows_num = $this->get_table_max_row($table_arr);
+    //列の最大数を取得
+    $table_columns_num = $plan_info["column_number"];
+    
+    for($i=1;$i<=$table_rows_num;++$i){
+      $row = array("columns"=>array());
+      //一列目に必要なテーブルを順番に取得
+      $row["columns"] = $this->get_table_rows_by_row_number($table_arr,$i);
+      list($row["ralign"],$row["num_first"],$row["num_last"],$row["num_none"],$row["columns"]) = $this->get_columns_param($row["columns"]);
+      $row['display_num'] = count($row["columns"])-$row["num_none"];
+      $row["display_rate"] = $row["display_num"]/count($row["columns"]);
+      array_push($returnArray["rows"],$row);
+    }
+    return $returnArray;
+  }
+  
+  //招待客情報あり
+  //以下を追加
+  //rows 0 columns 0 seats 0 guest_id,table_id
+  //guests
+  public function get_table_data_detail($user_id){
+    $table_data = $this->get_table_data($user_id);
+    $guest_rows = $this->getRowsByQuery("select * from spssp_guest where user_id = ".$user_id." and self!=1 and stage_guest=0");
+    for($i=0;$i<count($table_data["rows"]);++$i){
+      $row = $table_data["rows"][$i];
+      for($j=0;$j<count($row["columns"]);++$j){
+        $colum = $row["columns"][$j];
+        if(!$colum) continue;
+        $seats = $this->getRowsByQuery("select * from spssp_default_plan_seat where table_id = ".$colum["table_id"]." order by id asc");
+        for($k=0;$k<count($seats);++$k){
+          $seat_detail = $this->GetSingleRow("spssp_plan_details"," seat_id=".$seats[$k]["id"]);
+          for($l=0;$l<count($guest_rows);++$l){
+            if($guest_rows[$l]["id"] == $seat_detail["guest_id"]){
+              $guest_detail = $this->GetSingleRow("spssp_guest"," id=".$seat_detail["guest_id"]." and self!=1 and stage_guest=0 and user_id=".$user_id);
+              $seats[$k]["guest_id"] = $seat_detail["guest_id"];
+              $seats[$k]["guest_detail"] = $guest_detail;
+              $guest_rows[$l]["unset"] = true;
+            }
+          }
+        }
+        $table_data["rows"][$i]["columns"][$j]["seats"] = $seats;
+      }
+    }
+    $table_data["guests"] = $guest_rows;
+    return $table_data;
+  }
+  
+  public function get_table_max_row($table_arr){
+    $max = 0;
+    for($i=0;$i<count($table_arr);++$i){
+      if($max < $table_arr[$i]["row_order"]){
+        $max = $table_arr[$i]["row_order"];
+      }
+    }
+    return $max;
+  }
+  //rows,num_first,num_last,align,columns
+  //columns で並び替えして返す
+  public function get_table_rows_by_row_number($table_arr,$row_number){
+    $align = "";
+    $columns = array();
+    for($i=0;$i<count($table_arr);++$i){
+      if($table_arr[$i]["row_order"] == $row_number){
+        $insert = false;
+        for($j=0;$j<count($columns);++$j){
+          if($columns[$j]["colum_order"]>$table_arr[$i]["colum_order"]){
+            array_splice($columns,$j,0,$table_arr[$i]);
+            $insert = true;
+            break;
+          }
+        }
+        if(!$insert) array_push($columns,$table_arr[$i]);
+      }
+    }
+    return $columns;
+  }
+  //columnsに含まれるvisibilityは使ってない。visibleを利用する。
+  public function get_columns_param($columns){
+    $first = false;
+    $last = 0;
+    for($i=0;$i<count($columns);++$i){
+      if($columns[$i]["display"] == 1){
+        if($first===false) $first = $i+1;
+        $last = $i+1;
+      }
+    }
+    for($i=0;$i<count($columns);++$i){
+      if(($columns[$i]["align"] == "C" && $first-1<=$i && $last>$i && $columns[$i]["display"]!=1)||
+         ($columns[$i]["align"] == "N" && $columns[$i]["display"]!=1)
+         ){
+        $columns[$i]["visible"] = true;
+      }
+    }
+    return array($columns[0]["align"],$first,$last,count($columns)-$last+$first-1,$columns);
+  }
   
   public function set_guest_data_insert($set_obj,$user_id,$admin_id){
     $guest_id=$this->InsertData("spssp_guest",$set_obj);

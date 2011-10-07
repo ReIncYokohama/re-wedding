@@ -221,7 +221,7 @@ else if((int)$user_plan['user_id'] > 0 && !empty($plan_dt))
 	$arr['print_size']=$post['print_size'];
 	$arr['final_proof'] = $post['final_proof'];
 	$obj->UpdateData("spssp_plan",$arr," user_id=".$user_plan['user_id']);
-	//redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']."&err=4");
+	redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']."&err=4");
 }
 
 ?>
