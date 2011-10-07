@@ -443,5 +443,63 @@ class DataClass extends DBO{
       $stage_guest="お子様";
     return $stage_guest;
   }
+  public function check_user_data($user_obj,$line_num){
+    $messageArray = array();
+    $top_message = "";
+    if($line_num || $line_num === 0){
+      //通常0行目からだから。
+      $top_message = ($line_num+1)."行目 ".$user_obj["last_name"]." ".$user_obj["first_name"]."様:";
+    }
+    if(!$this->haveString($user_obj["last_name"])){
+      array_push($messageArray,$top_message."姓を入力してください。[".$user_obj["last_name"]."]");
+    }
+    if(!$this->haveString($user_obj["first_name"])){
+      array_push($messageArray,$top_message."名を入力してください。[".$user_obj["first_name"]."]");
+    }
+    if(!$this->haveFurigana($user_obj["furigana_last"])){
+      array_push($messageArray,$top_message."姓のふりがなをふりがなで入力してください。[".$user_obj["furigana_last"]."]");
+    }
+    if(!$this->haveFurigana($user_obj["furigana_first"])){
+      array_push($messageArray,$top_message."名のふりがなをふりがなで入力してください。[".$user_obj["furigana_first"]."]");
+    }
+    if(!$this->haveString($user_obj["respect"]) && !$this->haveRespect($user_obj["respect"])){
+      array_push($messageArray,$top_message."正しい敬称を入力してください。[".$user_obj["respect"]."]");
+    }
+    if(!$this->haveSex($user_obj["sex"])){
+      array_push($messageArray,$top_message."新郎新婦側は新郎もしくは新婦で入力してください。[".$user_obj["sex"]."]");
+    }
+    return $messageArray;
+  }
+  //入力チェック
+  public function haveString($str){
+    if(!$str){
+      return false;
+    }
+    return true;
+  }
+  public function haveFurigana($str){
+    mb_regex_encoding("UTF-8");
+    if ($str == "" || preg_match("/^[ぁ-ん]+$/u", $str)) {
+      return true;
+    }
+    return false;
+  }
+  public function haveRespect($respect_text){
+    include(dirname(__file__)."/main_dbcon.inc.php");
+    $respect = $this->GetSingleData(" spssp_respect ", "id", " title='".$respect_text."'");
+    include(dirname(__file__)."/return_dbcon.inc.php");
+    if($respect){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  public function haveSex($sex_text){
+    if($sex_text == "新郎" || $sex_text == "新婦"){
+      return true;
+    }else{
+      return false;
+    }
+  }
   
 }

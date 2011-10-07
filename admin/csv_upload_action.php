@@ -5,8 +5,9 @@ include_once("inc/dbcon.inc.php");
 include_once("inc/class.dbo.php");
 include_once("../inc/gaiji.image.wedding.php");
 include_once("inc/class_message.dbo.php");
+include_once("inc/class_data.dbo.php");
 
-$obj = new DBO();
+$obj = new DataClass();
 
 include("inc/main_dbcon.inc.php");
 
@@ -26,7 +27,6 @@ $post = $obj->protectXSS($_POST);
 if($_GET["force"]){
   $user_id = $_SESSION["csv_user_id"];
   $csv = $_SESSION["csv"];
-
   $force = true;
 }
 $user_id = $_POST["user_id"]?$_POST["user_id"]:$user_id;
@@ -39,8 +39,34 @@ $user_row = $obj->GetSingleRow("spssp_user"," id='$user_id'");
 $user_plan_row = $obj->GetSingleRow("spssp_plan"," user_id=$user_id");
 
 if(!$force){
-  //姓名が同じ人がいれば確認alertを出す。
+  //正規表現
+  $error = false;
+  $messageArray = array();
+  //印刷会社が選択されていない。
   if(!$user_plan_row["print_company"]){
+    array_push($messageArray,"印刷会社が選択されていません。");
+    $error = true;
+  }
+  //spssp_userのデータチェック
+  for($i=0;$i<count($csv);++$i){
+    if(!$csv[$i] || implode("",$csv[$i])=="") continue;
+    $thisMessageArray = $obj->check_user_data(
+      array("last_name"=>$csv[$i][1],"first_name"=>$csv[$i][3],"furigana_last"=>$csv[$i][2],
+      "furigana_first"=>$csv[$i][4],"respect"=>$csv[$i][5],"sex"=>$csv[$i][0]),$i);
+    $messageArray = array_merge($messageArray,$thisMessageArray);
+  }
+  if(count($messageArray)>0) $error = true;
+  for($i=0;$i<count($messageArray);++$i){
+    $messageArray[$i] = "<p>".$messageArray[$i]."</p>";
+  }
+  $messageText = implode("",$messageArray);
+
+  //テスト用のチェック
+  //print_r($messageArray);
+  //exit();
+
+  //ユーザが印刷会社を選択していない場合アラート。
+  if($error){
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -58,23 +84,21 @@ if(!$force){
 
 <h2>招待者リストcsv一括アップロード</h2>
     <div class="top_box1">
-    <script>
-      alert('先に印刷会社を選択してください。');
-    //window close
-    window.close();
-   </script>
+    <div id="message"><?=$messageText?>
+    </div>
+    <button onclick="window.close();">ウィンドウを閉じる</button>
 </div>
 
 </body>
 </html>
-
       
       <?php
 
       exit();
     
   }
-
+  
+  $same_user = false;
   for($i=0;$i<count($csv);++$i){
     $csv[$i] = $obj->protectXSS($csv[$i]);
     $data = array();
@@ -85,6 +109,12 @@ if(!$force){
     if($user_row){
       $_SESSION["csv"] = $csv;
       $_SESSION["csv_user_id"] = $user_id;
+      $same_user = true;
+      break;
+    }
+  }
+  
+  if($same_user){
       ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -112,14 +142,13 @@ if(!$force){
    </script>
 </div>
 
+
 </body>
 </html>
 
       
-      <?php
-
-      exit();
-    }
+      <?php    
+    exit();
   }
 }
 
