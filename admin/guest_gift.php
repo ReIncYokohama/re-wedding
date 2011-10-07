@@ -68,6 +68,10 @@
 					$post['order']=1;
 					$post['admin_to_pcompany']=1;
 					$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
+					
+					unset($post);
+					$post['state']=date("Y-m-d H:i:s");
+					$obj->UpdateData('spssp_user',$post,"id=".$user_id);
 
 					/*unset($post);
 					$post['msg_type']=0;
