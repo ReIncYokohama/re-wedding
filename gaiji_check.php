@@ -11,12 +11,27 @@ $enc    使用しているエンコード
 return    ""：OK、以外:NG文字たち
 */
 
-function check_sjis_1($target, $enc='utf-8'){
+function check_sjis_1($target, $check_line,$enc='utf-8'){
   $rtn = "";
   // UTF-8にしてから処理する。
   $target2 = mb_convert_encoding($target, 'utf-8', $enc);
   for($idx = 0; $idx < mb_strlen($target2, 'utf-8'); $idx++){
     $str0 = mb_substr($target2, $idx, 1, 'utf-8');
+
+    // 1文字をUTF-16にする。
+    $utf_16 = mb_convert_encoding($str0,"utf-16", 'utf-8');
+    $change = false;
+    for($i=0;$i<count($check_line);++$i){
+      //改行が含まれるので削除
+      $check_line[$i] = preg_replace("/\r|\n/","",$check_line[$i]);
+      $check_line[$i] = strtolower($check_line[$i]);
+      if($check_line[$i] == bin2hex($utf_16)){
+        $rtn .= $str0."(MS異形文字)";
+        $change = true;
+        break;
+      }
+    }
+    if($change) continue;
     // 1文字をSJISにする。
     $str = mb_convert_encoding($str0, "sjis-win", 'utf-8');
     if ((strlen(bin2hex($str)) / 2) == 1) { // 1バイト文字                
@@ -32,7 +47,7 @@ function check_sjis_1($target, $enc='utf-8'){
           // ||(($c3 >= 0xE040) && ($c3 <= 0xEAFF))//  第二水準
           ) { 
       } else {
-        $rtn .= mb_convert_encoding($str, $enc, "sjis-win");
+        $rtn .= $str0."(外字)";
       }
     }
   }
@@ -41,5 +56,7 @@ function check_sjis_1($target, $enc='utf-8'){
 
 
 $char = $_GET["d"];
+$file = file(dirname(__file__)."/ms_gaiji_sjis1.csv");
+$sjis2 = check_sjis_1($char,$file);
 
-print check_sjis_1($char);
+print $sjis2.$ms_sjis;
