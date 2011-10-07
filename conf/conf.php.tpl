@@ -38,10 +38,10 @@ $hotel4_sqlpassword = "wph4_123456";
 $hotel4_sqldatabase = "wplus_hotel4";
 
 //hotel5
-$hotel4_sqlhost = "localhost";
-$hotel4_sqluser = "wplus_hotel5";
-$hotel4_sqlpassword = "re123456";
-$hotel4_sqldatabase = "wplus_hotel5";
+$hotel5_sqlhost = "localhost";
+$hotel5_sqluser = "wplus_hotel5";
+$hotel5_sqlpassword = "re123456";
+$hotel5_sqldatabase = "wplus_hotel5";
 
 //hotel6
 $hotel6_sqlhost = "localhost";
