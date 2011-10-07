@@ -256,15 +256,19 @@ function user_layout_title_input_show(id)
 			<td colspan="4" align="center">
 			高砂卓名： <!-- UCHIDA EDIT 11/08/04  -->
 			<?php
+			$_readonly="";
+			if (!$editable) {
+				$_readonly=" readonly='readonly'";
+			}
 			if($layoutname!="")
 			{
 				$name_input=$layoutname;
-				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax' value='".$name_input."'>";
+				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'".$_readonly." value='".$name_input."'>";
 			}
 			else
 			{
 				$name_input=$default_layout_title;
-				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax' value='".$name_input."'>";
+				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'".$_readonly." value='".$name_input."'>";
 			}
 			?>
 			　　　　　</td>
@@ -282,7 +286,7 @@ function user_layout_title_input_show(id)
 
            <td width="14" align="center" valign="middle" nowrap="nowrap"><strong><?=$k?></strong></td>
            <td width="104" nowrap="nowrap">
-		   <input name="tableName_<?=$k?>" type="text" id="tableId_<?=$k?>" value="<?=$user_table_row['name']?>" size="15" />
+		   <input name="tableName_<?=$k?>" type="text" id="tableId_<?=$k?>" value="<?=$user_table_row['name']?>" size="15" <?=$_readonly?> />
 		   <input name="hiddenid_<?=$k?>" type="hidden" id="hiddenid_<?=$k?>" value="<?=$user_table_row['id']?>" size="15" />
 		   </td>
           <?php

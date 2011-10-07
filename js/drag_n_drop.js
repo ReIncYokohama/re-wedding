@@ -27,7 +27,8 @@
 			activeClass: "ui-state-highlight",
 			over: function (event, ui){
 				divid = "#"+this.id;
-			
+
+				edited_Flag=1;
 				
 			},
 			drop: function( event, ui ) {
@@ -44,7 +45,7 @@
 					
 					draggedDivId = "#"+$item.parent("div").attr("id");
 					
-					
+					edited_Flag=1;
 					
 					var draggedDivKey = draggedDivId.replace("#","");
 					
@@ -494,7 +495,7 @@
 				$("#tablename_"+itemid).html("");
 				
 				
-				
+				edited_Flag=1;
 				
 				var spanhtml = $( "div", div_id).html();				
 				
@@ -533,7 +534,7 @@
 							
 							var thisLiId = this.id;
 							
-							
+							edited_Flag=1;
 							
 							var itemArray = thisLiId.split("_");
 							var item_id = itemArray[1];

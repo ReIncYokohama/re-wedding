@@ -13,7 +13,7 @@ function mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase){
   if(mysql_ping()) mysql_close();
   $link = mysql_connect($sqlhost, $sqluser,$sqlpassword)
     	or die("COULD NOT CONNECT : " . mysql_error());
-  mysql_select_db($sqldatabase) or die("sqldatabase die");
+  mysql_select_db($sqldatabase) or die("test");
   mysql_query("SET CHARACTER SET 'utf8'");
   mysql_query("SET NAMES 'utf8'");
   return $link;
@@ -217,7 +217,7 @@ function forgetPassword_mail($to,$mailbody)
 		//$header='From:'.$to_admin." \r\n";
 		//$header.='Content-Type:text/plain; charset=shift_jis'."\r\n";
 
-		$header1='From:'."weddingplus@sunpri.com"." \r\n";
+		$header1='From:'."info@wedding-plus.net"." \r\n";
 		$header1.='Content-Type:text/plain; charset=utf-8'. "\r\n";
         //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
 

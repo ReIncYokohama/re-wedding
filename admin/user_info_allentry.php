@@ -199,7 +199,7 @@ function valid_plan(noUpdate)
 	//document.user_info_plan.submit();
 }
 
-var gReg = /^[Ａ-Ｚａ-ｚ０-９]$/;
+var gReg = /[!-~A-Za-z0-9ｦ-ﾝ]$/;
 function checkGroupForm(x, noUpdate)
 {
 
@@ -211,8 +211,14 @@ function checkGroupForm(x, noUpdate)
 	for(var y=1;y<=x;y++)
 	{
 		var gval = $j("#name_group"+y).val()
-		if(gReg.test(gval) == false && gval)
+		if(gReg.test(gval) == true && gval)
 		{
+			alert("引出物グループ名は全角１文字で入力してください");
+			$j("#name_group"+y).focus();
+			return false;
+		}
+
+		else if (gval=="¥" && gval != "") {
 			alert("引出物グループ名は全角１文字で入力してください");
 			$j("#name_group"+y).focus();
 			return false;
@@ -979,11 +985,17 @@ include("inc/return_dbcon.inc.php");
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
 				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;">
 				<?php
+				if ($user_id>0) {
+					foreach($All_staffs as $staf_rows) {
+				?>
+					<option value="<?=$staf_rows['id']?>" <?php if($staf_rows['id']==$user_row['stuff_id']){echo "selected='selected'";}?> ><?=$staf_rows['name']?></option>
+				<?php } 
+				} else {
 					foreach($All_staffs as $staf_rows){
 				?>
-				<option value="<?=$staf_rows['id']?>" <?php if($staf_rows['id']==$user_row['stuff_id']){echo "selected='selected'";}?> ><?=$staf_rows['name']?></option>
-
-				<?php }?>
+					<option value="<?=$staf_rows['id']?>" <?php if($staf_rows['id']==$_SESSION['adminid'] && $_SESSION["super_user"] == false){echo "selected='selected'";}?> ><?=$staf_rows['name']?></option>
+				<?php } 
+				} ?>
 				</select>
 
 				<!--<input name="stuff_id" type="text" id="stuff_id" value="<?=$staff_name?>" size="10" />-->
@@ -1232,7 +1244,13 @@ include("inc/return_dbcon.inc.php");
 							echo $date6->format("Y/m/d");
                 		}
 					?>
-					<input type="text" name="confirm_day_num" id="confirm_day_num" style="width:15px; padding:3px" maxlength="2" value="<?=$user_row['confirm_day_num']?>" /> 日前
+					<?php if ($user_id>0) { ?>
+						<input type="text" name="confirm_day_num" id="confirm_day_num" style="width:15px; padding:3px" maxlength="2" value="<?=$user_row['confirm_day_num']?>" /> 日前
+					<?php } else {
+						$confirm_day_num    = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
+					?>
+						<input type="text" name="confirm_day_num" id="confirm_day_num" style="width:15px; padding:3px" maxlength="2" value="<?=$confirm_day_num?>" /> 日前
+					<?php } ?>
 			  <input type="hidden" value="<?=$user_row['party_day']?>" name="party_day_for_confirm" />	</td>
             </tr>
             <tr>
@@ -1293,7 +1311,7 @@ include("inc/return_dbcon.inc.php");
         <h2><div>引出物設定</div></h2>
             <?php
             $gift_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".$user_id." order by id ASC");
-			$gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".$user_id." order by id ASC");
+            $gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".$user_id." order by id ASC");
 			$gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
 			$count_gift = (int)$gift_criteria['num_gift_items'];
 			$count_group = (int)$gift_criteria['num_gift_groups'];
@@ -1347,24 +1365,28 @@ include("inc/return_dbcon.inc.php");
 				  <?php
 				  if($user_id>0) {
 					  $xx = 1;
-						foreach($gift_groups as $row)
-						{
+					  foreach($gift_groups as $row)
+					  {
+						  echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value='".$row['name']."'>";
+						  echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></div>";
+						  $xx++;
+					  }
+					  $count_gift=$xx-1;
+				    }
+				    else {
+					  	$group_sql ="SELECT * FROM spssp_gift_group_default  ORDER BY id asc ;";
+					  	$data_rows = $obj->getRowsByQuery($group_sql);
+						$xx = 1;
+						foreach($data_rows as $row) {
 							echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value='".$row['name']."'>";
-							echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></div>";
+							echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
 							$xx++;
 						}
-						$count_gift=$xx-1;
-				  }
-				  else {
-				   	for ($xx=1; $xx<=$gift_criteria['num_gift_groups']; $xx++) {
-						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value=''>";
-						echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
-				   	}
-				  	for (; $xx <=7; $xx++) {
-						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value=''>";
-						echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
-					}
-				   	$count_gift=$xx;
+						for (; $xx <=7; $xx++) {
+							echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value=''>";
+							echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
+						}
+					   	$count_gift=$xx-1;
 				  }
 				  ?>
 				   <br />
@@ -1382,7 +1404,7 @@ include("inc/return_dbcon.inc.php");
 				締切予定日： <?php if($user_id>0) { ?> &nbsp; <input style="background:#EBEBE4;border:1px solid gray;padding:2px;" type="text" id="textfield15" readonly="readonly" value="<?=$obj->japanyDateFormate($dateBeforeparty)?>" size="25" /> <?php } ?>
             </p>
             <br /><p>
-                締切日設定： <?php if($user_id>0) { ?> &nbsp;<?=$gift_criteria['order_deadline']?> &nbsp;日前 <?php } ?>
+                締切日設定： &nbsp;<?=$gift_criteria['order_deadline']?> &nbsp;日前
             <br /><br />
             </p>
 		</div>

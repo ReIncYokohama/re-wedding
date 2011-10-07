@@ -12,6 +12,10 @@ class InformationClass extends DBO
 	{
 		return $admin_info = $this->GetSingleRow("spssp_admin"," id=".$admin_id);
 	}
+	function get_room_info($room_id)
+	{
+		return $room_info = $this->GetSingleRow("spssp_room"," id=".$room_id);
+	}
 	function get_printing_company_info($print_company_id)
 	{
 		return $print_company_info = $this->GetSingleRow("spssp_printing_comapny"," id=".$print_company_id);

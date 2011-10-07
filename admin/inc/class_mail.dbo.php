@@ -41,7 +41,7 @@ class MailClass extends MessageClass
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplus@sunpri.com
+株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
 
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
@@ -49,7 +49,7 @@ class MailClass extends MessageClass
 
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：weddingplass@sunpri.com
+E-mail：wedding-plus@wedding-plus.net
 URL：{$admin_link}
 
 
@@ -103,7 +103,7 @@ html;
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplus@sunpri.com
+株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
 
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
@@ -111,7 +111,7 @@ html;
 
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：weddingplass@sunpri.com
+E-mail：wedding-plus@wedding-plus.net
 URL：{$admin_link}
 
 html;
@@ -171,14 +171,14 @@ html;
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplass@sunpri.com
+株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
 
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
 --------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：weddingplass@sunpri.com
+E-mail：wedding-plus@wedding-plus.net
 {$admin_link}
 
 html;
@@ -230,14 +230,14 @@ html;
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplus@sunpri.com
+株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
 
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
 --------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：weddingplass@sunpri.com
+E-mail：wedding-plus@wedding-plus.net
 URL：{$user_link}
 
 html;
@@ -316,7 +316,7 @@ html;
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplass@sunpri.com
+株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
 
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
@@ -324,7 +324,7 @@ html;
 
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：weddingplass@sunpri.com
+E-mail：wedding-plus@wedding-plus.net
 
 html;
 
@@ -402,7 +402,7 @@ html;
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplus@sunpri.com
+株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
 
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
@@ -410,7 +410,7 @@ html;
 
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：weddingplus@sunpri.com
+E-mail：wedding-plus@wedding-plus.net
 
 html;
 
@@ -461,14 +461,14 @@ html;
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplus@sunpri.com
+株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
 
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
 --------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：weddingplus@sunpri.com
+E-mail：wedding-plus@wedding-plus.net
 URL：{$admin_link}
 
 html;
@@ -524,14 +524,14 @@ html;
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplus@sunpri.com
+株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
 
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
 --------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：weddingplus@sunpri.com
+E-mail：wedding-plus@wedding-plus.net
 URL：{$admin_link}
 
 html;
@@ -581,14 +581,14 @@ html;
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplus@sunpri.com
+株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
 
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
 --------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：weddingplus@sunpri.com
+E-mail：wedding-plus@wedding-plus.net
 URL：{$user_link}
 
 html;
@@ -641,14 +641,14 @@ html;
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplus@sunpri.com
+株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
 
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
 --------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：weddingplus@sunpri.com
+E-mail：wedding-plus@wedding-plus.net
 URL：{$admin_link}
 
 html;
@@ -698,14 +698,14 @@ html;
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplus@sunpri.com
+株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
 
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
 --------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：weddingplus@sunpri.com
+E-mail：wedding-plus@wedding-plus.net
 URL：{$user_link}
 
 html;
@@ -734,7 +734,7 @@ html;
 		echo "<br><br>";*/
 
 
-		$header='From:'."weddingplus@sunpri.com"." \r\n";
+		$header='From:'."info@wedding-plus.net"." \r\n";
 		$header.='Content-Type:text/plain; charset=utf-8'."\r\n";
 		//$header1.= "Cc: k.okubo@re-inc.jp\r\n";
 
@@ -758,7 +758,7 @@ html;
 
 	}
 
-	function process_mail_user_newentry($user_id, $print_company_id, $plan_product_name, $dowload_options, $print_size, $print_type, $hotel_name)
+	function process_mail_user_newentry($user_id, $print_company_id, $plan_product_name, $dowload_options, $print_size, $print_type, $hotel_name, $room_id)
 	{
 		/*	
 			３システムから印刷会社へ　　sytem　→　printing company
@@ -768,6 +768,7 @@ html;
 
 
 		$print_company_info = $this :: get_printing_company_info($print_company_id);
+		$room_info = $this :: get_room_info($room_id);
 		$user_info = $this :: get_user_info($user_id);
 
 		$staff_info = $this :: get_user_staff_info($user_info['stuff_id']);
@@ -793,6 +794,8 @@ html;
 新郎名：{$user_info['man_lastname']} {$user_info['man_firstname']} 様
 新婦名：{$user_info['woman_lastname']} {$user_info['woman_firstname']} 様
 披露宴日時：{$party_day} {$party_day_with_time[0]}:{$party_day_with_time[1]}
+最大卓数：横 {$room_info['max_rows']} 列×縦 {$room_info['max_columns']} 段
+一卓人数：{$room_info['max_seats']} 名まで
 商品区分：{$dowload_options}
 商品名：{$plan_product_name}
 サイズ：{$print_size}
@@ -801,13 +804,13 @@ html;
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム weddingplus@sunpri.com
+株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
 
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 -----------------------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：weddingplus@sunpri.com
+E-mail：wedding-plus@wedding-plus.net
 
 html;
 		if($print_company_info['email']!="" && $print_company_info['email']!="0")
@@ -820,6 +823,5 @@ html;
 			return $err = 30;exit;
 		}
 	}
-
 }//END OF CLASS_MAIL
 ?>

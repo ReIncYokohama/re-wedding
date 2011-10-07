@@ -197,7 +197,7 @@ $.get('ajax/front_admin_msg.php', function(data) {
       </div>
       <div class="step_box">
         <div class="step"><a href="make_plan.php"><img src="img/step_bt04.jpg" width="199" height="79" border="0" class="on" /></a></div>
-        <div class="step_txt_2">席辞表をドラッグ＆ドロップで簡単に編集ができます。<br>
+        <div class="step_txt_2">席次表をドラッグ＆ドロップで簡単に編集ができます。<br>
 			プレビューで席次表、引出物の確認ができます。</div>
         <div class="clear"></div>
       </div>

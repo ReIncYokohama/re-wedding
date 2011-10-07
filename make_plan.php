@@ -27,8 +27,6 @@
 
 	include_once("inc/new.header.inc.php");
 
-
-
 	$plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
 
 	$plan_row = $obj->GetSingleRow("spssp_plan", " id =".$plan_id);
@@ -105,6 +103,9 @@
 	$respects = $obj->GetAllRow(" spssp_respect");
 	include("admin/inc/return_dbcon.inc.php");
 ?>
+<script>
+var edited_Flag=0;
+</script>
 <script src="js/jquery.ui.droppable.js" type="text/javascript"></script>
 
 
@@ -163,18 +164,19 @@ var button_enable="<?=$button_enable?>";
 			$.post('insert_default_plan.php',{'make_plan':'true','ajax':'true'}, function (data){
 				return true;
       });
+
+    }else
+			{
+				$.post('ajax/unset_plan.php',{'make_plan':'true'}, function (data){
+					return true;
+				});
+			}
 		}
-		else
-		{
+		else {
 			$.post('ajax/unset_plan.php',{'make_plan':'true'}, function (data){
 				return true;
 			});
 		}
-	}
-	else {
-		$.post('ajax/unset_plan.php',{'make_plan':'true'}, function (data){
-			return true;
-		});
 	}
 }
 </script>

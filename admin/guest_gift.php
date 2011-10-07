@@ -95,7 +95,8 @@
 	{
 
 //		if($obj->GetRowCount("spssp_plan"," `order` = 2 and user_id=".$user_id) >0 )
-		if($obj->GetRowCount("spssp_plan"," `order` = 1 and user_id=".$user_id) >0 )
+//		if($obj->GetRowCount("spssp_plan"," `order` >= 1 and user_id=".$user_id) >0 )
+		if($obj->GetRowCount("spssp_plan"," `order` >= 0 and user_id=".$user_id) >0 )
 		{
 			if($plan_info['print_company']>0)
 			{
@@ -103,6 +104,12 @@
 				if($res==6)
 				{
 					$post['admin_to_pcompany']=3;
+					$post['gift_daylimit']=3;
+
+					$post['order']=2;
+					$post['dl_print_com_times']=0;
+					$post['ul_print_com_times']=1;
+					$post['gift_daylimit']=3;
 					$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 
 					/*unset($post);
@@ -406,7 +413,7 @@ include("inc/return_dbcon.inc.php");
 					{ ?>
 						■席次表印刷部数<br>
 			<input type="text" id="daylimit_1" name="day_limit_1" size="3" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
-			数
+			部
 					<br><br>
 					<br>
 					<?php }
@@ -414,7 +421,7 @@ include("inc/return_dbcon.inc.php");
 					{ ?>
 						■席札表印刷部数<br>
 		    <input type="text" id="daylimit_2" name="day_limit_2" size="3" maxlength="3" value="<?=$dayLimit_2?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
-		    数
+		    部
 		    		<br>
 		    		<br>
 					<?php }
@@ -422,12 +429,12 @@ include("inc/return_dbcon.inc.php");
 					{ ?>
 						■席次表印刷部数<br>
 			<input type="text" id="daylimit_1" name="day_limit_1" size="3" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
-			数
+			部
 					<br><br>
 						■席札表印刷部数
 					<br>
 					<input type="text" id="daylimit_2" name="day_limit_2" size="3" maxlength="3" value="<?=$dayLimit_2?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
-					数
+					部
 					<br><br>
 				<?php	}
 
