@@ -708,7 +708,7 @@ if($editable)
 		  <tr>
 			<td width="96" align="right"><table width="96" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-			    <td width="88">新郎新婦側:</td>
+			    <td align="right" width="88">新郎新婦側<font color="red">*</font>:</td>
 		      </tr>
 			  <tr>
 			    <td>&nbsp;</td>
@@ -736,7 +736,7 @@ if($editable)
 			</td>
 			</tr>
 			<tr>
-			<td align="right" width="100" >ふりがな姓<font color="red">*</font>:</td>
+			<td align="right" width="100" >ふりがな姓:</td>
       <?php
 				if($guest_row['self']==1)
 				{
@@ -765,7 +765,7 @@ if($editable)
 				</td>
 			</tr>
 			<tr>
-				<td align="right" width="100">ふりがな名<font color="red">*</font>:</td>
+				<td align="right" width="100">ふりがな名:</td>
       <?php
 			if($guest_row['self']==1)
 			{
@@ -846,7 +846,7 @@ if($editable)
 			<td colspan="2">
 				<table width="237" border="0" cellspacing="2" cellpadding="2">
 			  		<tr>
-						<td width="100" align="right">肩書 1:</td>
+						<td width="100" align="right">肩書 １行目:</td>
 						<td width="137">
 
 							<input size="20" name="comment1" type="text" class="check_sjs_1" id="comment1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')"/>
@@ -859,7 +859,7 @@ if($editable)
 			<td>
 				<table width="237" border="0" cellspacing="2" cellpadding="2">
 					<tr>
-			    		<td width="100" align="right">肩書 2:</td>
+			    		<td width="100" align="right">肩書 ２行目:</td>
 			    		<td width="137" align="center">
 
 							<input size="20" name="comment2" type="text" id="comment2" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')"/>
@@ -882,7 +882,7 @@ if($editable)
 		<tr>
 		<td width="96" align="right" valign="top"> <table width="96" border="0" cellspacing="2" cellpadding="2">
 		  <tr>
-		    <td align="right">引出物:</td>
+		    <td align="right">引出物<font color="red">*</font>:</td>
 		    </tr>
 		  </table></td>
           <td width="90" align="center" valign="top"> <table width="90" border="0" cellspacing="2" cellpadding="2">
@@ -918,7 +918,7 @@ if($editable)
 
           <td colspan="2" valign="top"> <table width="190" border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td width="100" align="right">料理:</td>
+              <td width="100" align="right">料理<font color="red">*</font>:</td>
               <td width="76"><?php
                             	$menus = $obj->GetAllRowsByCondition(" spssp_menu_group "," user_id=".$user_id);
 								if((int)$_GET['gid'])
@@ -968,22 +968,22 @@ if($editable)
 							$stage_guest_5 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=5");
 							if(!$stage_guest_1 || $guest_row['stage_guest']=="1"){
 							?>
-                              <option value="1" <?php if($guest_row['stage_guest']=="1"){ echo "Selected='Selected'"; }?> >媒酌人1</option>
+                              <option value="1" <?php if($guest_row['stage_guest']=="1"){ echo "Selected='Selected'"; }?> >媒妁人1</option>
                               <?php
 							}
 							if(!$stage_guest_2 || $guest_row['stage_guest']=="2"){
 							?>
-                              <option value="2" <?php if($guest_row['stage_guest']=="2"){ echo "Selected='Selected'"; }?> >媒酌人2</option>
+                              <option value="2" <?php if($guest_row['stage_guest']=="2"){ echo "Selected='Selected'"; }?> >媒妁人2</option>
                               <?php
 							}
 							if(!$stage_guest_3 || $guest_row['stage_guest']=="3"){
 							?>
-                              <option value="3" <?php if($guest_row['stage_guest']=="3"){ echo "Selected='Selected'"; }?> >媒酌人3</option>
+                              <option value="3" <?php if($guest_row['stage_guest']=="3"){ echo "Selected='Selected'"; }?> >媒妁人3</option>
                               <?php
 							}
 							if(!$stage_guest_4 || $guest_row['stage_guest']=="4"){
 							?>
-                              <option value="4" <?php if($guest_row['stage_guest']=="4"){ echo "Selected='Selected'"; }?> >媒酌人4</option>
+                              <option value="4" <?php if($guest_row['stage_guest']=="4"){ echo "Selected='Selected'"; }?> >媒妁人4</option>
                               <?php
 							}
 							if(!$stage_guest_5 || $guest_row['stage_guest']=="5"){
