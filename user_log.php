@@ -95,7 +95,8 @@ $(function(){
 					}
 // UCHIDA EDIT 11/07/28
 //					$stuff_name = $obj->GetSingleData(" spssp_admin ", "username", " id='".$row[admin_id]."'");
-					$stuff_name = $obj->GetSingleData(" spssp_admin ", "name", " id='".$row[admin_id]."'");
+					if ($row[admin_id]>10000)  $stuff_name="印刷会社";
+					else $stuff_name = $obj->GetSingleData(" spssp_admin ", "name", " id='".$row[admin_id]."'");
 				?>
                     <div class="<?=$class?>">
                         <table width="875"  border="0" align="center" cellpadding="1" cellspacing="1">
