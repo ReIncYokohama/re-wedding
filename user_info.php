@@ -86,7 +86,7 @@ width:200px;
                 <td align="left" valign="top" nowrap="nowrap">新郎氏名</td>
                 <td style="text-align:center"><font color="#2052A3"></font>：</td>
                 <td nowrap="nowrap" colspan="3" style="text-align:left">
-		              <?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname.png",$extra="thumb2");?>
+		              <?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");?>
                 </td>
             </tr>
             <tr>
@@ -100,7 +100,7 @@ width:200px;
             	<td align="left" valign="top" nowrap="nowrap">新婦氏名</td>
                 <td style="text-align:center"><font color="#2052A3"></font>：</td>
             	<td nowrap="nowrap"  colspan="3" style="text-align:left">
-		             <?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname.png",$extra="thumb2");?>
+		             <?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname.png",$extra="thumb1");?>
               </td>
             </tr>
             <tr>
