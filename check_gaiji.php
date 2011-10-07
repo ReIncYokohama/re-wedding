@@ -25,7 +25,7 @@ function get_gaiji_code($str){
     //print $charcode;
     //if (($charcode >= EE8080 and $charcode <= EFA3BF)|
     //   ($charcode >= F3B08080 and $charcode <= F3BFBFBE)){
-    print ",".",".hexdec(EDBFBF).",".hexdec(EFA3BF).",";
+    //print ",".",".hexdec(EDBFBF).",".hexdec(EFA3BF).",";
     if ($charcode >= hexdec(EDBFBF) and $charcode <= hexdec(EFA3BF)){
       array_push($gaiji_arr,mb_substr($str,$i,1,"UTF-8"));
     }

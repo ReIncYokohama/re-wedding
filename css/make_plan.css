@@ -1,0 +1,103 @@
+body{
+  background:none;
+}
+
+.clearfix {
+zoom:100%;
+ }
+#header{
+  display:block;
+  position:relative;
+  text-align:center;
+  overflow:auto;
+  height:30px;
+}
+
+#header div{
+  background-color:#00c6ff;
+  float:left;
+  margin-left:15px;
+}
+#header .page_name{
+  width:100px;
+}
+#header .view_change_box{
+  width:100px;
+}
+#header .cancel_box{
+  width:100px;
+}
+#header .save_box{
+  width:100px;
+}
+#guest_table thead tr{
+  background-color:#666666;
+  color:white;
+}
+
+#guest_view_tbody{
+overflow: scroll;
+overflow-x: hidden;
+height: 400px;
+display:block;
+}
+#guest_table thead{
+display:block;
+}
+#guest_table tbody .even td{
+  background-color:#F5F8E5;
+}
+#guest_table tbody .odd td{
+  background-color:#EEEEEE;
+}
+#guest_table tbody .highlight td{
+color:white;
+  background-color:red;
+}
+#guest_table td.name{
+width:100px;
+}
+#guest_table td.sex{
+width:25px;
+}
+#guest_table td.type{
+width:45px;
+}
+#guest_table tbody,#guest_table thead{
+width:100%;
+}
+
+#contents{
+  margin-left:10px;
+}
+#guest_list{
+height:300px;
+width:200px;
+  float:left;
+}
+#table_view{
+  float:left;
+width:500px;
+}
+.guest_table td{
+  background-color:#F5F8E5;
+  border:#A2A78C 1px solid;
+  width:77px;
+  height:20px;
+}
+
+#move_icon{
+z-index:10000;
+position:absolue;
+}
+
+.mode{
+  display:inline;
+  padding:2px;
+  background:#f9bbbb;
+  cursor:pointer;
+}
+.mode.selected{
+  background:red;
+  color:white;
+}

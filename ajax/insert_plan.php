@@ -6,8 +6,8 @@
 	include_once("../admin/inc/class.dbo.php");
 
 
-print "Insert plan call rei";
-exit();
+//print "Insert plan call rei";
+//exit();
 	
 	$obj = new DBO();
 	$user_id = (int)$_SESSION['userid'];
@@ -55,6 +55,7 @@ exit();
 	
 				if($guest_row['seat_id']!=$seat_id)
 				{
+          
 					$update_array['plan_id']=$plan_id;
 					$update_array['date']=date("Y-m-d H:i:s");
 					$update_array['guest_id']=$guest_id;

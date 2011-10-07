@@ -171,7 +171,6 @@ include_once('dbcon.inc.php');
         exit();
 			}
       $num = mysql_num_rows($result);
-      
 			if($num>0)
 				{
 				while($row = mysql_fetch_assoc($result))

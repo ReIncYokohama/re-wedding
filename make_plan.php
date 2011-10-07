@@ -62,6 +62,7 @@
 	$num_rowws = $obj->GetNumRows("spssp_plan_details"," plan_id=".$plan_id);
 
 	$plan_details_row = $obj->GetAllRowsByCondition("spssp_plan_details"," plan_id=".$plan_id);
+
 	if(isset($_SESSION['cart']))
 	{
 
@@ -157,14 +158,14 @@ function make_plan_check()
 {
 var button_enable="<?=$button_enable?>";
 	if(button_enable==true) {
-		if (edited_Flag==1) { // 変更したか
-			if(confirm("席次表を保存しますか？"))
-			{
-				$.post('ajax/insert_plan.php',{'make_plan':'true'}, function (data){
-					return true;
-				});
-			}
-			else
+		if(confirm("席次表を保存しますか？"))
+		{
+      
+			$.post('insert_default_plan.php',{'make_plan':'true','ajax':'true'}, function (data){
+				return true;
+      });
+
+    }else
 			{
 				$.post('ajax/unset_plan.php',{'make_plan':'true'}, function (data){
 					return true;
@@ -629,6 +630,8 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
 
                                 $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
 
+
+                
 								$rowspan=ceil(count($seats)/4);
 								$j=1;
 								$jor=0;
