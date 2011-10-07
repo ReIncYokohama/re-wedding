@@ -18,17 +18,23 @@ else
 {
 	redirect("index.php?msg=3");exit;
 }
-
 	$printCompany_id = $_SESSION['printid'];
 
-	$user_plan_info = $objInfo->get_user_plan_info($user_id);
-	//ONECE BROWSE THIS PAGE PRINT COMPANY WILL LOSE 1 TIME OF QUATA 2
-	if($user_plan_info['ul_print_com_times']==1)
-	{
+	$user_info = $objInfo->get_user_info($user_id);
+	$mailDate=$user_info['state'];
+	$limitDate=date("Y/m/d",strtotime("-10 day")); //今から１０日前の日付
+	$uploadOK=false;
+	if ($mailDate > $limitDate) $uploadOK=true;
+	
+	if($uploadOK==true) {
+		unset($post);
+		$post['ul_print_com_times'] = 1;
+		$res = $obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 	 }
 	 else
 	 {
-	 	//redirect("list.php");exit;
+	 	echo "<script> alert('アップロード期限の１０日を過ぎております'); </script>";
+	 	redirect("index.php?msg=3");exit;
 	 }
 
 if(isset($_POST['sub']))
@@ -110,7 +116,7 @@ $row = $objInfo->get_user_info($user_id);
     <div class="top_searchbox1">
       <? if($message)
 	  {
-		if($message == 1) 	echo "<script> alert('アップロードに成功しました\\nこのアップロードＵＲＬはログアウト後、無効となります'); </script>";
+		if($message == 1) 	echo "<script> alert('アップロードに成功しました'); </script>";
 		else 				echo "<script> alert('アップロードできませんでした'); </script>";
 //	    $mes =($message =='1')?"アップロードに成功しました":"アップロードできません。";
 	  ?>
@@ -140,7 +146,7 @@ $row = $objInfo->get_user_info($user_id);
 	 ?>
 	<a href="javascript:void(0);"><img onclick="javascript:document.uploaddoc.submit();" src="img/common/btn_upload.jpg" alt="検索" width="152" height="22" /></a>
 	 <?php }else{?>
-	 <img src="img/common/btn_upload.jpg" alt="検索" width="152" height="22" /> <span style="color:red;">アップロードが完了しました。</span>
+	 <img src="img/common/btn_upload.jpg" alt="検索" width="152" height="22" />
 	  <?php }?>
 
 	</div>
