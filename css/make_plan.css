@@ -18,6 +18,9 @@ zoom:100%;
   float:left;
   margin-left:15px;
 }
+#header div:hover{
+  background-color:#0072ff;
+}
 #header .page_name{
   width:100px;
 }
@@ -30,7 +33,7 @@ zoom:100%;
 #header .save_box{
   width:100px;
 }
-#guest_table thead tr{
+#guest_table thead th{
   background-color:#666666;
   color:white;
 }
@@ -54,13 +57,13 @@ display:block;
 color:white;
   background-color:red;
 }
-#guest_table td.name{
+#guest_table .name{
 width:100px;
 }
-#guest_table td.sex{
+#guest_table .sex{
 width:25px;
 }
-#guest_table td.type{
+#guest_table .type{
 width:45px;
 }
 #guest_table tbody,#guest_table thead{
@@ -97,7 +100,34 @@ position:absolue;
   background:#f9bbbb;
   cursor:pointer;
 }
+.mode:hover{
+  background:#fc555b;
+}
 .mode.selected{
   background:red;
   color:white;
+}
+#move_card{
+  display:none;
+  position:absolute;
+  width:77px;
+  height:25px;
+  background-color: #F5F8E5;
+  border: #A2A78C 1px solid;
+  cursor:url(../images/cursor_drag_hand.png), pointer;
+}
+.seat{
+  cursor:pointer;
+}
+.seat.highlight{
+  border-color:red;
+}
+.drag{
+  cursor:url(../images/cursor_hand.png), pointer;
+}
+.dragging{
+  cursor:url(../images/cursor_drag_hand.png), pointer;
+}
+.seat.nopointer{
+  cursor:auto;
 }
