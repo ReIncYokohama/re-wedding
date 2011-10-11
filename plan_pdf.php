@@ -4,8 +4,9 @@ require_once('tcpdf/config/lang/eng.php');
 require_once('tcpdf/tcpdf.php');
 include_once("admin/inc/class.dbo.php");
 include_once("admin/inc/class_information.dbo.php");
+include_once("admin/inc/class_data.dbo.php");
 
-$obj = new DBO();	
+$obj = new DataClass();	
 $objInfo = new InformationClass();
 $user_id = (int)$_SESSION['userid'];
 
@@ -14,7 +15,7 @@ if($user_id=="")
 
 $plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
 
-$plan_row = $obj->GetSingleRow("spssp_plan"," id =".$plan_id);	
+$plan_row = $obj->GetSingleRow("spssp_plan"," id =".$plan_id);
 
 $PDF_PAGE_FORMAT_USER=PDF_PAGE_FORMAT;
 $PDF_PAGE_ORIENTATION_USER=PDF_PAGE_ORIENTATION;
@@ -404,59 +405,32 @@ if($layoutname=="")
 
 $html.='<table style="font-size:'.$main_font_size_top.';">';
 
-
 $html.='<tr><td>&nbsp;</td><td>&nbsp;</td><td><table style="border:1px solid black;padding:10px;"><tr><td align="center"  valign="middle" style="text-align:center;">'.$layoutname.'</td></tr></table></td><td>&nbsp;</td><td>&nbsp;</td></tr></table><br/>';
-
-
-
 
 $html.='<table cellspacing="4" cellspadding="4" width="100%" style="font-size:'.$main_font_size.';">';
 
-
-
+$table_data = $obj->get_table_data_detail($user_id);
+$tblrows = $table_data["rows"];
 
 $i=1;
 foreach($tblrows as $tblrow)
   {
-		$ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".$user_id." limit 1");					
+    $ralign = $tblrow["ralign"];
 		if($ralign == 'C')
       {
-			
-			
+			  $table_width=((count($tblrow["columns"]) - $tblrow["num_none"])/count($tblrow["columns"]))*100;
         $pos = 'center';
-      }
-		else if($ralign=='R')
-      {
-			
-			
-        $pos = 'right';
-			
+        $num_of_table_in_row = $tblrow["display_num"];
       }
 		else
       {
-			
+			  $num_of_table_in_row = count($tblrow["columns"]);
         $pos = 'left';
-		
-			
+        $table_width = 100;
+        $num_of_table_in_row = count($tblrow["columns"]);
       }
-		
-		$table_rows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".(int)$user_id." and row_order=".$tblrow['row_order']." order by  column_order asc");
-		
-		$table_rows_hidden = $obj->getRowsByQuery("select count(id) as countvalue from spssp_table_layout where user_id = ".(int)$user_id." and row_order=".$tblrow['row_order']." and display='0' order by  column_order asc");
-		
-		if($pos!="right" && $pos!="left")
-      {
-        $num_of_table_in_row=count($table_rows)-$table_rows_hidden[0][countvalue];
-      }
-		else
-      {
-        $num_of_table_in_row=count($table_rows);
-      }
-		
-		
-    $table_width=($num_of_table_in_row/count($table_rows))*100;
-		
-		if($table_width!=100) 
+
+		if($table_width!=100)
       $hidden_table_width=((100-$table_width)/2);
 		
 		
@@ -467,59 +441,22 @@ foreach($tblrows as $tblrow)
       {
         $html.="<td  width=\"".$hidden_table_width."%\" style=\"\">&nbsp;</td>";
       }
-		$html.="<td width=\"".$table_width."%\" ><table align='".$pos."'  width=\"100%\"><tr>";
-		
-		
-		
-		if($table_rows_hidden[0][countvalue]>0 && $pos=='right')
-      for($i=0;$i<$table_rows_hidden[0][countvalue];$i++)
-        {
-          $html.='<td><table  cellspacing="4" cellspadding="4" ><tr><td colspan="2"></td></tr><tr><td width="'.$td_width.'" >&nbsp;</td><td width="'.$td_width.'" >&nbsp;</td></tr></table></td>';
-        }
-
-
-
+    
+    if($table_width != 100)
+		  $html.="<td width=\"".$table_width."%\" ><table align='".$pos."'  width=\"100%\"><tr>";
+    else 
+      $html.="<td width=\"".$table_width."%\" colspan=\"3\"><table align='".$pos."'  width=\"100%\"><tr>";
 
     $number=0;
-		foreach($table_rows as $table_row)
+		foreach($tblrow["columns"] as $table_row)
       {
         $number++;
         $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
-	
-        if(isset($new_name_row) && $new_name_row['id'] !='')
-          {
-            $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-            $tblname = $tblname_row['name'];
-				
-          }
-        else
-          {
-            $tblname = $table_row['name'];
-          }
-        /*
-        if($table_row['visibility']==1 && $table_row['display']==1)
-          {
+        $tblname = $table_row["name"];
 
-            $disp = '2';
-			
-
-          }
-        else if($table_row['visibility']==0 && $table_row['display']==1)
+        if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
-            $disp = '1';
-				 
-          }
-        else if($table_row['display']==0 && $table_row['visibility']==0)
-          {
-            $disp = '0';
-				
-          }
-        */
-			
-			
-        if($disp!='0')
-          {                   
-            $html.="<td ><table  cellspacing=\"4\" cellspadding=\"4\">";
+            $html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table  cellspacing=\"4\" cellspadding=\"4\" width=\"100%\">";
 				
 				
 				
@@ -740,14 +677,6 @@ foreach($tblrows as $tblrow)
 								
                         $middle_string="";
                         $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/");
-                        //$middle_string.="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td  style=\"padding:0; margin:0;text-align:center;\"  height=\"25\"><span style=\"font-size:".$font_size_comment."%;padding:0; margin:0;\" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment1.png",$extra="guest/".$item_info['id']."/thumb2")."</span></td></tr><tr><td  style=\"padding:0; margin:0;\"  height=\"25\"><span style=\"font-size:".$font_size_comment."%;padding:0; margin:0;text-align:center;\" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment2.png",$extra="guest/".$item_info['id']."/thumb2")."</span></td></tr><tr><td  style=\"padding:0; margin:0; text-align:center;\"  height=\"25\">";
-								
-                        //$middle_string.="<b style=\"font-size:".$font_size_fullname."%;padding:0; margin:0;\" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$item_info['id']."/thumb2")."</b></td></tr></table>";
-								
-                        //$middle_string.="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td  style=\"padding:0; margin:0;\"><span style=\"font-size:".$font_size_comment."%;padding:0; margin:0;\" >".$item_info['comment1']."</span></td></tr><tr><td  style=\"padding:0; margin:0;\"><span style=\"font-size:".$font_size_comment."%;padding:0; margin:0;\" >".$item_info['comment2']."</span></td></tr><tr><td style=\"padding:0; margin:0;\">";
-								
-                        //$middle_string.="<b style=\"font-size:".$font_size_fullname."%;padding:0; margin:0;\" >".$item_info['first_name']." ".$item_info['last_name']." ".$rspct."</b></td></tr></table>";
-								
 						
                         //47.37
                         $html2.="<td  width=\"50%\">".$middle_string."
@@ -782,11 +711,12 @@ foreach($tblrows as $tblrow)
               }
 				
 				
-            if($disp=='1')
+            if($disp=='1' || $table_row['display'] == 0){
               $guest_num="&nbsp;";
-            else
+              $tblname = "";
+          }else
               $guest_num ='【 '.$guest_num.'名 】';
-				
+            
             if($seats_nums==1)
               $html2.="<td></td></tr>";
 			
@@ -795,8 +725,9 @@ foreach($tblrows as $tblrow)
 				
             $html.='<tr><td  align="center" width="50%">'.$tblname .$guest_num.'</td>';
 			
-            if($disp!='1')
+            if($disp!='1' and $table_row['display'] != 0)
               {
+                
                 $html.="<td  align=\"center\"  width=\"50%\"><table style=\"font-size:".$main_font_size_count.";\"><tr>";
                 foreach($group_menu_array as $key=>$value)
                   {
@@ -824,17 +755,11 @@ foreach($tblrows as $tblrow)
 			
 			
       }
-	
-	
-    if($table_rows_hidden[0][countvalue]>0 && $pos=='left')
-      for($i=0;$i<$table_rows_hidden[0][countvalue];$i++)
-        {
-		
-          $html.='<td><table  cellspacing="4" cellspadding="4" ><tr><td colspan="2" align="center"></td></tr><tr><td width="'.$td_width.'" >&nbsp;</td><td width="'.$td_width.'" >&nbsp;</td></tr></table></td>';
-        }	
-		
-    $html.="</tr></table></td></tr>";
-		
+
+    if($pos == "center" && $table_width != 100)
+		  $html.="</tr></table></td><td width=\"".((100-$table_width)/2)."%\" ></td></tr>";
+    else
+      $html.="</tr></table></td></tr>";
 	}
 
 

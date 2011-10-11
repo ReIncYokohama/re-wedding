@@ -72,7 +72,7 @@ class DataClass extends DBO{
   
   //招待客情報あり
   //以下を追加
-  //rows 0 columns 0 seats 0 guest_id,table_id
+  //rows 0 columns 0 seats 0 guest_id,table_id,guest_detail
   //                 name
   //guests
   public function get_table_data_detail($user_id){
@@ -104,6 +104,38 @@ class DataClass extends DBO{
     $guest_rows = $this->set_guest_property_values($guest_rows);
     $table_data["guests"] = $guest_rows;
     return $table_data;
+  }
+  
+  //ゲスト情報に加えて引出物情報を追加。
+  //columns 0 gifts key,num
+  //          seats 0 gift,menu
+  public function get_table_data_complete($user_id){
+    $table_data_detail = $this->get_table_data($user_id);
+    
+    for($i=0;$i<count($table_data["rows"]);++$i){
+      $row = $table_data["rows"][$i];
+      for($j=0;$j<count($row["columns"]);++$j){
+        $colum = $row["columns"][$j];
+        if(!$colum) continue;
+        
+        for($k=0;$k<count($colum["seats"]);++$k){
+          
+        }
+
+          $seat_detail = $this->GetSingleRow("spssp_plan_details"," seat_id=".$seats[$k]["id"]." and plan_id = ".$table_data["plan_id"]);
+          for($l=0;$l<count($guest_rows);++$l){
+            if($guest_rows[$l]["id"] == $seat_detail["guest_id"]){
+              $guest_detail = $this->GetSingleRow("spssp_guest"," id=".$seat_detail["guest_id"]." and self!=1 and stage_guest=0 and user_id=".$user_id);
+              $seats[$k]["guest_id"] = $seat_detail["guest_id"];
+              //グループの具体的なバリューを代入して受け渡す。
+              $guest_detail = $this->set_guest_property_value($guest_detail);
+              $seats[$k]["guest_detail"] = $guest_detail;
+              $guest_rows[$l]["unset"] = true;
+            }
+          }
+        }
+        $table_data["rows"][$i]["columns"][$j]["seats"] = $seats;
+      }
   }
   
   public function set_guest_property_values($guest_rows){
@@ -466,6 +498,11 @@ class DataClass extends DBO{
   public function get_gift_group($gift_group_id,$user_id){
     $gift_name = $this->GetSingleData(" spssp_gift_group ", "name", " id='".$gift_group_id."' and  user_id = ".$user_id);
     return $gift_name;
+  }
+  //ギフトグループのデータをすべて取得
+  public function get_gift_groups($user_id){
+    $gift_group_arr = $this->getRowsByQuery("select * from spssp_gift_group where user_id=".$user_id);
+    return $gift_group_arr;
   }
   //メニューグループのデータをテキストで返す。
   public function get_menu_group($menu_group_id,$user_id){
