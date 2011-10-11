@@ -444,9 +444,9 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 		return false;
 	}
 
-	if(document.getElementById("marriage_hour").value >23)
+	if(document.getElementById("marriage_hour").value > 22 || document.getElementById("marriage_hour").value < 7)
 	{
-		alert("24時間以内で入力してください");
+		alert("7:00〜22:00の間で入力してください");
 		document.getElementById('marriage_hour').focus();
 		return false;
 	}
@@ -470,6 +470,12 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
    if(document.getElementById("marriage_minute").value >59)
 	{
 		alert("59分以上は入力できません");
+		document.getElementById('marriage_minute').focus();
+		return false;
+	}
+   if(document.getElementById("marriage_hour").value == 22 && document.getElementById("marriage_minute").value > 00)
+	{
+	   alert("7:00〜22:00の間で入力してください");
 		document.getElementById('marriage_minute').focus();
 		return false;
 	}
@@ -512,9 +518,9 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 		return false;
 	}
 
-	if(document.getElementById("party_hour").value >23)
+	if(document.getElementById("party_hour").value > 22 || document.getElementById("party_hour").value < 7)
 	{
-		alert("24時間以内で入力してください");
+		alert("7:00〜22:00の間で入力してください");
 		document.getElementById('party_hour').focus();
 		return false;
 	}
@@ -539,6 +545,12 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	if(document.getElementById("party_minute").value >59)
 	{
 		alert("59分以上は入力できません");
+		document.getElementById('party_minute').focus();
+		return false;
+	}
+	if(document.getElementById("party_hour").value == 22 && document.getElementById("party_minute").value > 00)
+	{
+		alert("7:00〜22:00の間で入力してください");
 		document.getElementById('party_minute').focus();
 		return false;
 	}
