@@ -431,8 +431,8 @@ include("inc/return_dbcon.inc.php");
 								{
 									$tblname = $table_row['name'];
 								}
-                //テーブル名を1文字に
-                $tblname = mb_substr($tblname,0,1,"UTF-8");
+				                //テーブル名を1文字に
+				                $tblname = mb_substr($tblname,0,1,"UTF-8");
 
 								if($table_row['display']==1)
 								{
@@ -472,14 +472,13 @@ include("inc/return_dbcon.inc.php");
                                                 <p align="center" style="text-align:center;font-size:120%;" id="table_<?=$table_row['id']?>">
 
                                                     <a href="#" onClick="edit_table_name(<?=$table_row['id']?>);"  class="drag_false" > <b>
-                <?php
-                if($tblname && $tblname != ""){
-                  echo $tblname;
-                }else{
-                  echo "&nbsl;&nbsl;";
-                }
-
-                ?>
+									                <?php
+									                if($tblname && $tblname != "" && $tblname != " "){
+									                  echo $tblname;
+									                }else{
+									                  echo "空";
+									                }
+									                ?>
                                                    </b> </a> &nbsp;
 
                                                 </p>
