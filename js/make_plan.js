@@ -33,7 +33,7 @@ _Data.prototype = {
           if(dataClass.mode=="add")
             dataClass.next_guest(true);
           break;
-        case 99://c
+        case 100://d
           if(dataClass.mode=="add")
             dataClass.next_guest(false);
           break;
