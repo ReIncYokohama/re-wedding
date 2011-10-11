@@ -271,7 +271,7 @@ function get_image_text($text,$gaiji_arr = array(),$fontsize=15,$max_width=150,$
 /* 
    
  */
-function set_guest_gaiji_position($user_id,$guest_id,$str,$target_type,$gaiji_file_name_arr=array(),$gaiji_code_arr=array(),$gaiji_sjis_code_arr=array(),$gaiji_str="＊"){
+function set_guest_gaiji_position($user_id,$guest_id,$str,$target_type,$gaiji_file_name_arr=array(),$gaiji_code_arr=array(),$gaiji_str="＊"){
   $len = mb_strlen($str,'utf-8');
   if($len==0) return;
   $k = 0;
