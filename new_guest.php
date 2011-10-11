@@ -69,13 +69,9 @@ set_guest_gaiji_position($user_id,$guest_id,$post["first_name"],0,$_POST["male_f
 set_guest_gaiji_position($user_id,$guest_id,$post["comment1"],2,$_POST["comment1_gaiji_img"],$_POST["comment1_gaiji_gsid"],$_POST["comment1_gaiji_gid"]);
 set_guest_gaiji_position($user_id,$guest_id,$post["comment2"],3,$_POST["comment2_gaiji_img"],$_POST["comment2_gaiji_gsid"],$_POST["comment2_gaiji_gid"]);
 
-//外字の画像を生成する。
-make_guest_images($user_id,$guest_id,$post["last_name"],$post["first_name"],$post["comment1"],$post["comment2"],$guest_respect,
-                  $_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],$_POST["comment1_gaiji_img"],$_POST["comment2_gaiji_img"]);
-
 $gift_group = $_POST['gift_group_id'];
 $menu_grp = $_POST['menu_grp'];
-    
+
 if(isset($gift_group) && $gift_group != '')
   {
     $query_string="delete from spssp_guest_gift where guest_id = '".$guest_id."' and user_id = '".$user_id."'";
@@ -91,6 +87,11 @@ if(isset($menu_grp) && $menu_grp != '')
     $query_string="INSERT INTO spssp_guest_menu (guest_id,menu_id,user_id) VALUES ('".$guest_id."','".$menu_grp."','".$user_id."');";
     mysql_query($query_string);
   }
+
+//外字の画像を生成する。
+//引き出物のデータも利用するため、最後に生成
+make_guest_images($user_id,$guest_id,$post["last_name"],$post["first_name"],$post["comment1"],$post["comment2"],$guest_respect,
+                  $_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],$_POST["comment1_gaiji_img"],$_POST["comment2_gaiji_img"]);
 
 redirect("my_guests.php?page=".$_GET['guest_id']);
 

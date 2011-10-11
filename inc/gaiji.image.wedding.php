@@ -1,5 +1,6 @@
 <?php
 include_once(dirname(__FILE__)."/gaiji.image.util.php");
+include_once(dirname(__FILE__)."/../admin/inc/class_data.dbo.php");
 
 /*name_plate
 ########################
@@ -13,6 +14,7 @@ function make_name_plate_save($last_name,$first_name,$comment1="",$comment2="",
                               $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$file="file.png",$color = array(0x00,0x00,0x00),$respect = ""){
   $image = get_image_name_plate($last_name,$first_name,$comment1,$comment2,
                                 $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
+
   imagefilter($image, IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
   imagepng($image,$file);
   imagedestroy($image);
@@ -28,6 +30,36 @@ function make_name_plate_view($last_name,$first_name,$comment1="",$comment2="",
   imagepng($image);
   imagedestroy($image);
 }
+
+/*name_plate
+########################
+comment1             memo1
+comment2             memo2
+last_name first_name memo3
+########################
+*/
+function make_name_plate_full_save($last_name,$first_name,$comment1="",$comment2="",$memo1,$memo2,$memo3,
+                         $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
+                              $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$file="file.png",$color = array(0x00,0x00,0x00),$respect = ""){
+  $image = get_image_name_plate_full($last_name,$first_name,$comment1,$comment2,$memo1,$memo2,$memo3,
+                                $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
+  imagefilter($image, IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
+  imagepng($image,$file);
+  imagedestroy($image);
+}
+
+function make_name_plate_full_view($last_name,$first_name,$comment1="",$comment2="",$memo1,$memo2,$memo3,
+                         $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
+                              $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect = ""){
+  $image = get_image_name_plate_full($last_name,$first_name,$comment1,$comment2,$memo1,$memo2,$memo3,
+                                $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
+  imagefilter($image, IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
+  header("Content-Type: image/png");
+  imagepng($image);
+  imagedestroy($image);
+}
+
+
 /*name_plate
 ########################
 last_name first_name様
@@ -130,6 +162,23 @@ function get_image_name_plate($last_name,$first_name,$comment1="",$comment2="",
   $col_t = imagecolorallocate($image,0x00,0x00,0x00);
   imagefill($image,0,0,$col_g);
   
+
+  get_image_name_plate_data($image,$width_px,
+                            $last_name,$first_name,$comment1,$comment2,
+                         $gaiji_last_name_arr,$gaiji_first_name_arr,
+                              $gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
+  return $image;
+}
+
+function get_image_name_plate_data($image,$width_px,
+                                   $last_name,$first_name,$comment1="",$comment2="",
+                         $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
+                                   $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect=""){
+  $comment_max_fontsize = "8";
+  $name_max_fontsize = "12";
+
+  $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
+  
   $name = $last_name." ".$first_name." ";
   
   if(!$comment1 || $comment1 == "") $comment1 = " ";
@@ -158,6 +207,43 @@ function get_image_name_plate($last_name,$first_name,$comment1="",$comment2="",
     gaiji_imagettftext($image,$name_fontsize,0,$nowLeft,45,$col_t,$font,$respect,array(),50);
   }
   
+  
+}
+
+function get_image_name_plate_full($last_name,$first_name,$comment1="",$comment2="",$memo1="",$memo2="",$memo3="",
+                         $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
+                              $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect=""){
+
+  $comment_max_fontsize = "8";
+  $name_max_fontsize = "12";
+
+  $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
+  $width_px = "150";
+  $memo_px = "50";
+
+  $image = imagecreatetruecolor($width_px+$memo_px,45) or die("Cannot Initialize new GD image stream");
+  $col_g = imagecolorallocate($image,0xff,0xff,0xff);
+  $col_t = imagecolorallocate($image,0x00,0x00,0x00);
+  imagefill($image,0,0,$col_g);
+  
+  get_image_name_plate_data($image,$width_px,
+                            $last_name,$first_name,$comment1,$comment2,
+                         $gaiji_last_name_arr,$gaiji_first_name_arr,
+                              $gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
+  
+  $memo1_fontsize = get_image_font_size($comment_max_fontsize,$memo1,$font,$memo_px,
+                                        array());
+  gaiji_imagettftext($image,$memo1_fontsize,0,150,12,$col_t,$font,$memo1,array());  
+  
+  $memo2_fontsize = get_image_font_size($comment_max_fontsize,$memo2,$font,$memo_px,
+                                        array());
+  gaiji_imagettftext($image,$memo2_fontsize,0,150,26,$col_t,$font,$memo2,array());
+  
+  $memo3_fontsize = get_image_font_size($comment_max_fontsize,$memo3,$font,$memo_px,
+                                        array());
+  gaiji_imagettftext($image,$memo3_fontsize,0,150,45,$col_t,$font,$memo3,array());  
+
+
   return $image;
 }
 
@@ -308,6 +394,18 @@ function make_guest_images($user_id,$guest_id,$last_name,$first_name,$comment1,$
   //pdf用の画像を生成。
   $savefile = sprintf("%s/user_name/%d/%s/%d/%s",get_image_db_directory($hotel_id),$user_id,"guest",$guest_id,"namecard.png");
   make_name_plate_save($last_name,$first_name,$comment1,$comment2,
+                       $lastname_gaiji_pathArray,$firstname_gaiji_pathArrays,
+                       $comment1_gaiji_pathArray,$comment2_gaiji_pathArray,$savefile,$colorArray,$respect);
+
+  //引き出物を含んだ画像を作成
+  $dataClass = new DataClass();
+  $gift_name = $dataClass->get_gift_name($user_id,$guest_id);
+  $menu_name = $dataClass->get_menu_name($user_id,$guest_id);
+  $guest_detail = $dataClass->get_guest_detail($user_id,$guest_id);
+  $memo = $guest_detail["memo"];
+  $savefile = sprintf("%s/user_name/%d/%s/%d/%s",get_image_db_directory($hotel_id),$user_id,"guest",$guest_id,"namecard_memo.png");
+
+  make_name_plate_full_save($last_name,$first_name,$comment1,$comment2,$gift_name,$menu_name,$memo,
                        $lastname_gaiji_pathArray,$firstname_gaiji_pathArrays,
                        $comment1_gaiji_pathArray,$comment2_gaiji_pathArray,$savefile,$colorArray,$respect);
 
