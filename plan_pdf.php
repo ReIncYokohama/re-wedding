@@ -103,8 +103,7 @@ $pdf->AddPage();
 	
 //include_once("inc/header.inc.php");
 	
-	
-	
+
 
 $get = $obj->protectXSS($_GET);
 	
@@ -387,7 +386,7 @@ foreach($guests_bride as $witness_bride)
 					
       }
 				
-    $main_guest[$witness_bride[stage_guest]]=$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$witness_bride['id']."/thumb1")."<br/>".$witness_bride['memo']."<br/>".$menu_name."<br/>".$group_name;;
+    $main_guest[$witness_bride[stage_guest]]=$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$witness_bride['id']);
 				
     //$main_guest[$witness_bride[stage_guest]]=$witness_bride['first_name']." ".$witness_bride['last_name']."<br/>".$witness_bride['memo']."<br/>".$menu_name."<br/>".$group_name;
 			
@@ -414,8 +413,6 @@ $html.='<tr><td>&nbsp;</td><td>&nbsp;</td><td><table style="border:1px solid bla
 $html.='<table cellspacing="4" cellspadding="4" width="100%" style="font-size:'.$main_font_size.';">';
 
 
-	
-			
 
 
 $i=1;
@@ -480,6 +477,9 @@ foreach($tblrows as $tblrow)
           $html.='<td><table  cellspacing="4" cellspadding="4" ><tr><td colspan="2"></td></tr><tr><td width="'.$td_width.'" >&nbsp;</td><td width="'.$td_width.'" >&nbsp;</td></tr></table></td>';
         }
 
+
+
+
     $number=0;
 		foreach($table_rows as $table_row)
       {
@@ -496,7 +496,7 @@ foreach($tblrows as $tblrow)
           {
             $tblname = $table_row['name'];
           }
-			
+        /*
         if($table_row['visibility']==1 && $table_row['display']==1)
           {
 
@@ -513,10 +513,8 @@ foreach($tblrows as $tblrow)
           {
             $disp = '0';
 				
-				
-			
           }
-			
+        */
 			
 			
         if($disp!='0')
@@ -729,51 +727,19 @@ foreach($tblrows as $tblrow)
 							
                     if($seats_nums==0)
                       {
-                        $left_string="";
                         $middle_string="";
 								
-                        //$left_string.="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td height=\"8\">";
-                        $left_string.="<span style=\"font-size:20px;padding:0px; \">".$memo."</span><br>";
-                        //$left_string.="</td></tr><tr height=\"8\"><td height=\"8\">";
-								
-                        $left_string.="<span style=\"font-size:20px;padding:0px;\">".$menu_name."</span><br>";
-                        //$left_string.="</td></tr><tr height=\"8\"><td height=\"8\">";
-                        $left_string.="<span style=\"font-size:20px;padding:0px;\">".$gift_groups."</span>";
-                        //$left_string.="</td></tr></table>";
-
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard.png",$extra="guest/".$item_info['id']."/");
-                        //$middle_string.="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td  style=\"padding:0; margin:0;text-align:center;\"  height=\"25\"><span style=\"font-size:".$font_size_comment."%;padding:0; margin:0;\" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment1.png",$extra="guest/".$item_info['id']."/thumb2")."</span></td></tr><tr><td  style=\"padding:0; margin:0;\"  height=\"25\"><span style=\"font-size:".$font_size_comment."%;padding:0; margin:0;text-align:center;\" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment2.png",$extra="guest/".$item_info['id']."/thumb2")."</span></td></tr><tr><td  style=\"padding:0; margin:0; text-align:center;\"  height=\"25\">";
-								
-                        //$middle_string.="<b style=\"font-size:".$font_size_fullname."%;padding:0; margin:0; \" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$item_info['id']."/thumb2")."</b></td></tr></table>";
-								
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/");
+                
                         //52.63
-                        $html2.="<td width=\"50%\" >
-								<table   cellspacing=\"0\" cellpadding=\"0\" ><tr>
-								
-								<td valign=\"T\" style=\"width:27.5%; text-align:center; \">".$left_string."</td><td style=\" width:63.5%;text-align:left; \">".$middle_string."</td><td style=\"width:10%;\">&nbsp;</td>
-								</tr>
-								</table>
+                        $html2.="<td width=\"50%\" >".$middle_string."
 								</td>";
                       }
                     else
                       {
 								
-								
-                        $right_string="";
                         $middle_string="";
-
-                        //$right_string.="<table cellspacing=\"0px\" cellpadding=\"0px\"><tr height=\"8\"><td height=\"10\">";
-                        $right_string.="<span style=\"font-size:20px;\">".$memo."</span>";
-                        $right_string .="<br>";
-                        //$right_string.="</td></tr><tr height=\"8\"><td height=\"10\">";
-								
-                        $right_string.="<span style=\"font-size:20px;\">".$menu_name."</span>";
-                        $right_string .="<br>";
-                        //$right_string.="</td></tr><tr height=\"8\"><td height=\"10\">";
-                        $right_string.="<span style=\"font-size:20px;\">".$gift_groups."</span>";
-                        //$right_string.="</td></tr></table>";
-                        
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard.png",$extra="guest/".$item_info['id']."/");
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/");
                         //$middle_string.="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td  style=\"padding:0; margin:0;text-align:center;\"  height=\"25\"><span style=\"font-size:".$font_size_comment."%;padding:0; margin:0;\" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment1.png",$extra="guest/".$item_info['id']."/thumb2")."</span></td></tr><tr><td  style=\"padding:0; margin:0;\"  height=\"25\"><span style=\"font-size:".$font_size_comment."%;padding:0; margin:0;text-align:center;\" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment2.png",$extra="guest/".$item_info['id']."/thumb2")."</span></td></tr><tr><td  style=\"padding:0; margin:0; text-align:center;\"  height=\"25\">";
 								
                         //$middle_string.="<b style=\"font-size:".$font_size_fullname."%;padding:0; margin:0;\" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$item_info['id']."/thumb2")."</b></td></tr></table>";
@@ -784,11 +750,7 @@ foreach($tblrows as $tblrow)
 								
 						
                         //47.37
-                        $html2.="<td  width=\"50%\">
-								<table   cellspacing=\"0\" cellpadding=\"0\" ><tr>
-								<td  style=\"width:69.44%;text-align:left;\">".$middle_string."</td><td  valign=\"T\" style=\"width:31.56%;text-align:center;\">".$right_string."</td>
-								</tr>
-								</table>
+                        $html2.="<td  width=\"50%\">".$middle_string."
 								</td>";
                       }
 						
@@ -909,4 +871,5 @@ $pdf->writeHTML($utf8text, true, false, true, false, '');
 // Close and output PDF document
 // This method has several options, check the source code documentation for more information.
 $pdf->Output('example_001.pdf', 'I');
+//print $html;
 ?> 
