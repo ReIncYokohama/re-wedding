@@ -273,7 +273,7 @@ $message_class = new MessageClass();
 $message_class->new_message_csv_import($user_id);
 
 function confirm_guest_register($to,$subject,$mailbody){
-	$from='info@wedding-plus.net';
+	$from='Ｗｅｄｄｉｎｇ-ｐｌｕｓ';
   $header='From:'.$from." \r\n";
   $header.='Content-Type:text/plain; charset=utf-8'."\r\n";
   //$header1.= "Cc: k.okubo@re-inc.jp\r\n";

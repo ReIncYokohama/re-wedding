@@ -138,8 +138,9 @@ include("inc/return_dbcon.inc.php");
 						$class = 'box6';
 					}
 //					$stuff_name = $obj->GetSingleData(" spssp_admin ", "username", " id='".$row[admin_id]."'"); // UCHIDA EDIT 11/08/04
-					$stuff_name = $obj->GetSingleData(" spssp_admin ", "name", " id='".$row[admin_id]."'");
-								?>
+					if ($row[admin_id]>10000)  $stuff_name="印刷会社";
+					else $stuff_name = $obj->GetSingleData(" spssp_admin ", "name", " id='".$row[admin_id]."'");
+					?>
                     <div>
                         <table width="100%"  border="0" align="center" cellpadding="0" cellspacing="1">
                             <tr align="center">

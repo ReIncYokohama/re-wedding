@@ -38,6 +38,7 @@
 	$user_log['login_time'] = date("Y-m-d H:i:s");
 	$user_log['date'] = date("Y-m-d");
 	$user_log['admin_id'] = $_SESSION['adminid'];
+	if ($_SESSION["super_user"]==true) $user_log['admin_id']="10000".$user_log['admin_id'];
 	$id = $obj->InsertData("spssp_user_log", $user_log);
 	$_SESSION['user_log_id'] = $id;
 	

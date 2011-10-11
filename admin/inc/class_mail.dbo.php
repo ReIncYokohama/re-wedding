@@ -741,7 +741,7 @@ html;
 		echo "<br><br>";*/
 
 
-		$header='From:'."info@wedding-plus.net"." \r\n";
+		$header='From:'."Ｗｅｄｄｉｎｇ-ｐｌｕｓ"." \r\n";
 		$header.='Content-Type:text/plain; charset=utf-8'."\r\n";
 		//$header1.= "Cc: k.okubo@re-inc.jp\r\n";
 

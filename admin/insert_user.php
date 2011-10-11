@@ -36,7 +36,7 @@ $user_id = (int)$get['user_id'];
 	for($i=1;$i<=7;$i++) unset($post['gift_fieldId'.$i]);
 	for($i=1;$i<=7;$i++) unset($post['group_fieldId'.$i]);
 	for($i=1;$i<=3;$i++) unset($post['menu_child_id'.$i]);
-
+	
 	$plan_column_number = $post['column_number'];
 	$plan_row_number = $post['row_number'];
 	$plan_seat_number = $post['seat_number'];
@@ -104,6 +104,10 @@ if(isset($user_id) && $user_id > 0)
             $post['party_room_id']= mysql_insert_id();
           }
       }
+    if($post['ampm_1']=="PM") $post['party_hour']=(int)$post['party_hour']+12;
+    if($post['ampm_2']=="PM") $post['marriage_hour']=(int)$post['marriage_hour']+12;
+    unset($post['ampm_1']);
+    unset($post['ampm_2']);
 
     $post['marriage_day_with_time'] =  $post['marriage_hour'].":".$post['marriage_minute'];
     $post['party_day_with_time'] = $post['party_hour'].":".$post['party_minute'];

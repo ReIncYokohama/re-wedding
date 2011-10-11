@@ -350,6 +350,9 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	var email = document.getElementById('mail').value;
 	var com_email = document.getElementById('con_mail').value;
 
+	var hTime = document.getElementById("ampm_1").value;
+	var kTime = document.getElementById("ampm_2").value;
+	
 	var reg = /^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/;
 
 	if(document.getElementById("man_lastname").value=='')
@@ -393,7 +396,6 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	  document.getElementById('man_furi_lastname').focus();
 	  return false;
    }
-
 
 	if(document.getElementById("woman_lastname").value=='')
 	{
@@ -444,38 +446,44 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 		return false;
 	}
 
-	if(document.getElementById("marriage_hour").value >23)
+    var str4 = document.getElementById("marriage_hour").value;
+    if (str4 == "") {
+      alert("挙式時間を入力ください");
+	  document.getElementById('marriage_hour').focus();
+	  return false;
+    }
+    if( str4.match( /[^0-9\s]+/ ) ) {
+      alert("挙式時間は半角数字で入力してください");
+	  document.getElementById('marriage_hour').focus();
+	  return false;
+    }
+    if( str4.indexOf(" ")>=0 || str4.indexOf("　")>=0 ) {
+      alert("挙式時間は半角数字で入力してください");
+	  document.getElementById('marriage_hour').focus();
+	  return false;
+    }
+	if(str4 > 11)
 	{
-		alert("24時間以内で入力してください");
+	      alert("挙式時間は0から11の間で入力してください");
+		  document.getElementById('marriage_hour').focus();
+		  return false;
+	}
+
+	if((str4 > 10 && kTime=="PM") || (str4 < 7 && kTime=="AM"))
+	{
+		alert("AM7:00〜PM10:00の間で入力してください");
 		document.getElementById('marriage_hour').focus();
 		return false;
 	}
 
-   var str4 = document.getElementById("marriage_hour").value;
-   if (str4 == "") {
-      alert("挙式時間を入力ください");
-	  document.getElementById('marriage_hour').focus();
-	  return false;
-   }
-   if( str4.match( /[^0-9\s]+/ ) ) {
-      alert("挙式時間は半角数字で入力してください");
-	  document.getElementById('marriage_hour').focus();
-	  return false;
-   }
-   if( str4.indexOf(" ")>=0 || str4.indexOf("　")>=0 ) {
-      alert("挙式時間は半角数字で入力してください");
-	  document.getElementById('marriage_hour').focus();
-	  return false;
-   }
-   if(document.getElementById("marriage_minute").value >59)
+	var str5 = document.getElementById("marriage_minute").value;
+	if(str5 > 59)
 	{
 		alert("59分以上は入力できません");
 		document.getElementById('marriage_minute').focus();
 		return false;
 	}
-
-   var str5 = document.getElementById("marriage_minute").value;
-   if (str5 == "") {
+  if (str5 == "") {
       alert("挙式時間を入力ください");
 	  document.getElementById('marriage_minute').focus();
 	  return false;
@@ -490,6 +498,12 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	  document.getElementById('marriage_minute').focus();
 	  return false;
    }
+   if((str4 == 10 && kTime=="PM") && str5 > 00)
+	{
+	   alert("AM7:00～PM10:00の間で入力してください");
+		document.getElementById('marriage_minute').focus();
+		return false;
+	}
 
 	if(document.getElementById("room_id").value=='')
 	{
@@ -512,60 +526,65 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 		return false;
 	}
 
-	if(document.getElementById("party_hour").value >23)
-	{
-		alert("24時間以内で入力してください");
-		document.getElementById('party_hour').focus();
-		return false;
-	}
+	   var str6 = document.getElementById("party_hour").value;
+	   if (str6 == "") {
+	      alert("披露宴時間を入力ください");
+		  document.getElementById('party_hour').focus();
+		  return false;
+		}
+	   if( str6.match( /[^0-9\s]+/ ) ) {
+	      alert("披露宴時間は半角数字で入力ください");
+		  document.getElementById('party_hour').focus();
+		  return false;
+	   }
+	   if( str6.indexOf(" ")>=0 || str6.indexOf("　")>=0 ) {
+	      alert("披露宴時間は半角数字で入力ください");
+		  document.getElementById('party_hour').focus();
+		  return false;
+	   }
+		if(str6 > 11)
+		{
+		      alert("披露宴時間は0から11の間で入力してください");
+			  document.getElementById('party_hour').focus();
+			  return false;
+		}
 
-   var str6 = document.getElementById("party_hour").value;
-   if (str6 == "") {
-      alert("披露宴時間を入力ください");
-	  document.getElementById('party_hour').focus();
-	  return false;
-	}
-   if( str6.match( /[^0-9\s]+/ ) ) {
-      alert("披露宴時間は半角数字で入力ください");
-	  document.getElementById('party_hour').focus();
-	  return false;
-   }
-   if( str6.indexOf(" ")>=0 || str6.indexOf("　")>=0 ) {
-      alert("披露宴時間は半角数字で入力ください");
-	  document.getElementById('party_hour').focus();
-	  return false;
-   }
+		if((str6 > 10 && hTime=="PM") || (str6 < 7 && kTime=="AM"))
+		{
+			alert("披露宴時間はAM7:00〜PM10:00の間で入力してください");
+			document.getElementById('party_hour').focus();
+			return false;
+		}
 
-	if(document.getElementById("party_minute").value >59)
-	{
-		alert("59分以上は入力できません");
-		document.getElementById('party_minute').focus();
-		return false;
-	}
+		var str7 = document.getElementById("party_minute").value;
+		if(str7 >59)
+		{
+			alert("59分以上は入力できません");
+			document.getElementById('party_minute').focus();
+			return false;
+		}
+	   if (str7 == "") {
+	      alert("披露宴時間を入力ください");
+		  document.getElementById('party_minute').focus();
+		  return false;
+		}
+	   if( str7.match( /[^0-9\s]+/ ) ) {
+	      alert("披露宴時間は半角数字で入力ください");
+		  document.getElementById('party_minute').focus();
+		  return false;
+	   }
+	   if( str7.indexOf(" ")>=0 || str7.indexOf("　")>=0 ) {
+	      alert("披露宴時間は半角数字で入力ください");
+		  document.getElementById('party_minute').focus();
+		  return false;
+	   }
+		if((str6 > 10 && hTime=="PM") && str7 > 00)
+		{
+			alert("披露宴時間はAM7:00～PM10:00の間で入力してください");
+			document.getElementById('party_minute').focus();
+			return false;
+		}
 
-   var str7 = document.getElementById("party_minute").value;
-   if (str7 == "") {
-      alert("披露宴時間を入力ください");
-	  document.getElementById('party_minute').focus();
-	  return false;
-	}
-   if( str7.match( /[^0-9\s]+/ ) ) {
-      alert("披露宴時間は半角数字で入力ください");
-	  document.getElementById('party_minute').focus();
-	  return false;
-   }
-   if( str7.indexOf(" ")>=0 || str7.indexOf("　")>=0 ) {
-      alert("披露宴時間は半角数字で入力ください");
-	  document.getElementById('party_minute').focus();
-	  return false;
-   }
-
-	if(document.getElementById("party_room_id").value=='')
-	{
-		alert("挙式会場名を入力してください");
-		document.getElementById('party_room_id').focus();
-		return false;
-	}
 //	if(document.getElementById("user_id").value=='')
 //	{
 //		alert("ログインIDを入力してください");
@@ -780,12 +799,22 @@ include("inc/return_dbcon.inc.php");
 					<input type="text" style="width:17px;" maxlength="2" name="party_day" id="party_day" value="<?=$party_day_array[2]?>"> yyyy/mm/dd-->
                 <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day').value='';">クリア </a>-->
                 </td>
-                <td colspan="2" align="left" valign="middle" nowrap="nowrap">　　&nbsp;披露宴時間<font color="red">*</font>：<!--<input name="party_day_with_time" type="text" id="party_day_with_time" value="<?=date("H:i", strtotime($user_row['party_day_with_time']))?>" size="10" readonly="readonly" style="width:86px;background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>-->
+				<td colspan="2" align="left" valign="middle" nowrap="nowrap">　　&nbsp;披露宴時間<font color="red">*</font>：<!--<input name="party_day_with_time" type="text" id="party_day_with_time" value="<?=date("H:i", strtotime($user_row['party_day_with_time']))?>" size="10" readonly="readonly" style="width:86px;background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>-->
 				<?php
-					$party_time_array = explode(":",$user_row['party_day_with_time']);
-					?>
+				$party_time_array = explode(":",$user_row['party_day_with_time']);
+				$pm_select="";
+				if ((int)$party_time_array[0] >= 12) {
+					$party_time_array[0] = (int)$party_time_array[0]-12;
+					$pm_select="selected";
+				}
+				?> 
+            	<select name="ampm_1" id="ampm_1" style="width:50px;">
+				<option value ='AM'>AM</option>
+				<option value ='PM' <?=$pm_select?>>PM</option>
+				</select>
+				&nbsp;
 				<input type="text" style="padding-top:4px; padding-bottom:4px;width:17px;" maxlength="2" name="party_hour" id="party_hour" value="<?=$party_time_array[0]?>"> :
-				<input type="text" style="padding-top:4px; padding-bottom:4px;width:17px;" maxlength="2" name="party_minute" id="party_minute" value="<?=$party_time_array[1]?>"> (24時間表記)
+				<input type="text" style="padding-top:4px; padding-bottom:4px;width:17px;" maxlength="2" name="party_minute" id="party_minute" value="<?=$party_time_array[1]?>">
                 <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day_with_time').value='';">クリア </a>-->
                 </td>
             </tr>
@@ -846,15 +875,13 @@ include("inc/return_dbcon.inc.php");
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
 				<input type="hidden" name="current_room_id" id="current_room_id" value="<?=$user_row['room_id']?>"  />
-                	<select name="room_id" id="room_id" style="padding-top:4px; padding-bottom:4px;">
+                	<select name="room_id" id="room_id" style="padding-top:4px; padding-bottom:4px; width:80px;">
 
                     <?php
                         if($rooms)
                         {
                             foreach($rooms as $room)
                             {
-
-
 								if($room['id']==$user_row['room_id'])
 								echo "<option value ='".$room['id']."' selected> ".$room_name."</option>";
 								else
@@ -887,12 +914,21 @@ include("inc/return_dbcon.inc.php");
                 	<!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('marriage_day').value='';">クリア </a>-->
                 </td>
                 <td width="200" colspan="2" align="left" valign="middle" nowrap="nowrap">　　&nbsp;挙式時間&nbsp;　：
-                <!--<input name="marriage_day_with_time" type="text" id="marriage_day_with_time" value="<?=date("H:i",strtotime($user_row['marriage_day_with_time']))?>" size="10" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>-->
 				<?php
-					$marriage_time_array = explode(":",$user_row['marriage_day_with_time']);
-					?>
+				$marriage_time_array = explode(":",$user_row['marriage_day_with_time']);
+				$pm_select="";
+				if ((int)$marriage_time_array[0] >= 12) {
+					$marriage_time_array[0] = (int)$marriage_time_array[0]-12;
+					$pm_select="selected";
+				}
+				?>
+            	<select name="ampm_2" id="ampm_2" style="width:50px;">
+				<option value ='AM'>AM</option>
+				<option value ='PM' <?=$pm_select?>>PM</option>
+				</select>
+				&nbsp; 
 				<input type="text" style="width:17px;padding-top:4px; padding-bottom:4px;" maxlength="2" name="marriage_hour" id="marriage_hour" value="<?=$marriage_time_array[0]?>"> :
-				<input type="text" style="width:17px;padding-top:4px; padding-bottom:4px;" maxlength="2" name="marriage_minute" id="marriage_minute" value="<?=$marriage_time_array[1]?>"> (24時間表記)
+				<input type="text" style="width:17px;padding-top:4px; padding-bottom:4px;" maxlength="2" name="marriage_minute" id="marriage_minute" value="<?=$marriage_time_array[1]?>">
                 <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('marriage_day_with_time').value='';">クリア </a>-->
                 </td>
             </tr>
@@ -997,7 +1033,7 @@ include("inc/return_dbcon.inc.php");
               <td width="192" align="left" valign="middle" nowrap="nowrap">担当</td>
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
-				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;">
+				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px; width:80px;">
 				<?php
 				if ($user_id>0) {
 					foreach($All_staffs as $staf_rows) {

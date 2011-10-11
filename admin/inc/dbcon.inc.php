@@ -217,7 +217,7 @@ function forgetPassword_mail($to,$mailbody)
 		//$header='From:'.$to_admin." \r\n";
 		//$header.='Content-Type:text/plain; charset=shift_jis'."\r\n";
 
-		$header1='From:'."info@wedding-plus.net"." \r\n";
+		$header1='From:'."Ｗｅｄｄｉｎｇ-ｐｌｕｓ"." \r\n";
 		$header1.='Content-Type:text/plain; charset=utf-8'. "\r\n";
         //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
 

@@ -106,17 +106,19 @@ $get = $obj->protectXSS($_GET);
 
 		   <!--User view respect to admin start-->
 <?php
-	$table_users ="spssp_user";
-	$where_users = " stuff_id = ".$_SESSION['adminid']." and  party_day >= '".date("Y-m-d")."'";
-
-	$sortOptin = $get['sortOptin'];
-	if ($sortOptin==NULL) 	$order =" order by party_day asc , party_day_with_time asc ";
-	else {
-		$sortOptin = str_replace(":", ",", $get['sortOptin']); // +を,変換(,はPOST中に消滅する)
-		$order =" order by ".$sortOptin;
+	if($_SESSION["super_user"] == false) {
+		$table_users ="spssp_user";
+		$where_users = " stuff_id = ".$_SESSION['adminid']." and  party_day >= '".date("Y-m-d")."'";
+	
+		$sortOptin = $get['sortOptin'];
+		if ($sortOptin==NULL) 	$order =" order by party_day asc , party_day_with_time asc ";
+		else {
+			$sortOptin = str_replace(":", ",", $get['sortOptin']); // +を,変換(,はPOST中に消滅する)
+			$order =" order by ".$sortOptin;
+		}
+		$query_string="SELECT * FROM $table_users where $where_users $order ;";
+		$data_rows = $obj->getRowsByQuery($query_string);
 	}
-	$query_string="SELECT * FROM $table_users where $where_users $order ;";
-	$data_rows = $obj->getRowsByQuery($query_string);
 /*
 	$table_users='spssp_user';
 	$where_users = " stuff_id = ".$_SESSION['adminid']." and  party_day >= '".date("Y-m-d")."'";

@@ -158,14 +158,14 @@ function make_plan_check()
 {
 var button_enable="<?=$button_enable?>";
 	if(button_enable==true) {
-		if(confirm("席次表を保存しますか？"))
-		{
-      
-			$.post('insert_default_plan.php',{'make_plan':'true','ajax':'true'}, function (data){
-				return true;
-      });
-
-    }else
+		if (edited_Flag==1) { // 変更したか
+			if(confirm("席次表を保存しますか？"))
+			{
+				$.post('ajax/insert_plan.php',{'make_plan':'true'}, function (data){
+					return true;
+				});
+			}
+			else
 			{
 				$.post('ajax/unset_plan.php',{'make_plan':'true'}, function (data){
 					return true;
