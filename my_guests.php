@@ -1459,8 +1459,8 @@ if($guest["sex"] == "Male"){
           echo "<td bgcolor='#FFFFFF' align='center' width='45' rowspan='7'>商品名</td>";
           foreach($gift_rows as $gift)
 			{
-		    if ($gift['name']!="") {
-            	echo "<td bgcolor='#FFFFFF' width='60' align='right'>".$gift['name']."</td>";
+			if ($gift['name']!="") {
+				echo "<td bgcolor='#FFFFFF' width='60' align='right'>".$gift['name']."</td>";
 				$num_gifts = 0;
             	foreach($group_rows as $grp)
 				{
@@ -1493,9 +1493,9 @@ if($guest["sex"] == "Male"){
           	$num_gifts += $num_reserve;
             echo "<td width='45' align='center' bgcolor='#FFFFFF'>".$num_reserve."</td>";
             echo "<td width='45' align='center' bgcolor='#FFFFFF'>".$num_gifts."</td>";
-            echo "</tr>";
-		  }
-        }
+        	echo "</tr>";
+			}
+		}
 		?>
         </table>
 

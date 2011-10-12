@@ -16,7 +16,7 @@ $stuff_id= (int)$get['stuff_id'];
 $user_id = (int)$get['user_id'];
 
 if($_GET['action']=="save") {
-	print_r($_POST);
+//print_r($_POST);
 	for ($i=1;$i<=9; $i++) {
 		$align = $_POST['rowcenter_'.$i];
 		if (isset($align)) {
@@ -402,7 +402,7 @@ include("inc/return_dbcon.inc.php");
 											        $query_string="SELECT * FROM spssp_tables_name  ORDER BY display_order asc ;";
 													$name_rows = $obj->getRowsByQuery($query_string);
 													?>
-							                        <select id="table_name_<?=$ii?>" name="table_name_<?=$ii?>" style="width: 60px; onChange="Multicheck();">
+							                        <select id="table_name_<?=$ii?>" name="table_name_<?=$ii?>" onChange="Multicheck();" style="width:60px;">
 						                            <?php
 						                            	echo '<option value=""></option>';
 						                                foreach($name_rows as $row)
