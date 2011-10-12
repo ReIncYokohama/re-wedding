@@ -968,7 +968,7 @@ if($editable)
 							$stage_guest_5 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=5");
 							if(!$stage_guest_1 || $guest_row['stage_guest']=="1"){
 							?>
-                              <option value="1" <?php if($guest_row['stage_guest']=="1"){ echo "Selected='Selected'"; }?> >媒妁人1　</option>
+                              <option value="1" <?php if($guest_row['stage_guest']=="1"){ echo "Selected='Selected'"; }?> >媒妁人1</option>
                               <?php
 							}
 							if(!$stage_guest_2 || $guest_row['stage_guest']=="2"){
