@@ -1425,9 +1425,11 @@ if($guest["sex"] == "Male"){
             <?php
 				foreach($group_rows as $grp)
 				{
-			?>
-            <td width="45" align="center" bgcolor="#FFFFFF"><?=$grp['name']?></td>
-            <?php
+					if ($grp['name']!="") {
+					?>
+			            <td width="45" align="center" bgcolor="#FFFFFF"><?=$grp['name']?></td>
+		            <?php
+					}
             	}
 			?>
             <td width="45" align="center" bgcolor="#FFFFFF">予備</td>
@@ -1440,9 +1442,11 @@ if($guest["sex"] == "Male"){
 				$total = 0;
             	foreach($group_rows as $grp)
 				{
-					$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']." and guest_id<>0");
-					$total += $num_guests_groups;
-					echo "<td align='center' bgcolor='#FFFFFF'> $num_guests_groups </td>";
+					if ($grp['name']!="") {
+						$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']);
+						$total += $num_guests_groups;
+						echo "<td align='center' bgcolor='#FFFFFF'> $num_guests_groups </td>";
+					}
 				}
 			?>
 
@@ -1456,33 +1460,35 @@ if($guest["sex"] == "Male"){
           foreach($gift_rows as $gift)
 			{
 		    if ($gift['name']!="") {
-            echo "<td bgcolor='#FFFFFF' width='60' align='right'>".$gift['name']."</td>";
+            	echo "<td bgcolor='#FFFFFF' width='60' align='right'>".$gift['name']."</td>";
 				$num_gifts = 0;
             	foreach($group_rows as $grp)
 				{
-					$gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
-					$gift_arr = explode("|",$gift_ids);
-					$groups = array();
-
-					if(in_array($gift['id'],$gift_arr))
-					{
-						array_push($groups,$grp['id']);
-					}
-
-          			$num_gifts_in_group = 0;
-					if(!empty($groups))
-					{
-						foreach($groups as $grp)
+					if ($grp['name']!="") {
+						$gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
+						$gift_arr = explode("|",$gift_ids);
+						$groups = array();
+	
+						if(in_array($gift['id'],$gift_arr))
 						{
-							$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp." and guest_id<>0");
-							$num_gifts += $num_guests_groups;
-              				$num_gifts_in_group += $num_guests_groups;
+							array_push($groups,$grp['id']);
 						}
-						unset($groups);
-					}
-          			$htm = $num_gifts_in_group;
-            		echo "<td width='45' align='center' bgcolor='#FFFFFF'>".$htm."</td>";
-            	}
+	
+	          			$num_gifts_in_group = 0;
+						if(!empty($groups))
+						{
+							foreach($groups as $gp)
+							{
+								$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$gp);
+								$num_gifts += $num_guests_groups;
+	              				$num_gifts_in_group += $num_guests_groups;
+							}
+							unset($groups);
+						}
+	          			$htm = $num_gifts_in_group;
+	          			echo "<td width='45' align='center' bgcolor='#FFFFFF'>".$htm."</td>";
+	            	}
+				}
          	$num_reserve = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift["id"]);
           	$num_gifts += $num_reserve;
             echo "<td width='45' align='center' bgcolor='#FFFFFF'>".$num_reserve."</td>";
