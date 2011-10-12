@@ -183,6 +183,12 @@ function check_name()
 		document.getElementById('email').focus();
 		return false;
 	}
+		if(number == '')
+	{
+		alert("電話番号を入力してください");
+		$("#number").focus();
+		return false;
+	}
 	if (postcode.length != 0) {
 		if( postcode.match( /[^0-9\s-]+/ ) ) {
 				alert("郵便番号は半角数字と'-'だけで入力してください");
