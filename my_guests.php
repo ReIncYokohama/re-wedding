@@ -968,22 +968,22 @@ if($editable)
 							$stage_guest_5 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=5");
 							if(!$stage_guest_1 || $guest_row['stage_guest']=="1"){
 							?>
-                              <option value="1" <?php if($guest_row['stage_guest']=="1"){ echo "Selected='Selected'"; }?> >媒酌人1</option>
+                              <option value="1" <?php if($guest_row['stage_guest']=="1"){ echo "Selected='Selected'"; }?> >媒妁人1</option>
                               <?php
 							}
 							if(!$stage_guest_2 || $guest_row['stage_guest']=="2"){
 							?>
-                              <option value="2" <?php if($guest_row['stage_guest']=="2"){ echo "Selected='Selected'"; }?> >媒酌人2</option>
+                              <option value="2" <?php if($guest_row['stage_guest']=="2"){ echo "Selected='Selected'"; }?> >媒妁人2</option>
                               <?php
 							}
 							if(!$stage_guest_3 || $guest_row['stage_guest']=="3"){
 							?>
-                              <option value="3" <?php if($guest_row['stage_guest']=="3"){ echo "Selected='Selected'"; }?> >媒酌人3</option>
+                              <option value="3" <?php if($guest_row['stage_guest']=="3"){ echo "Selected='Selected'"; }?> >媒妁人3</option>
                               <?php
 							}
 							if(!$stage_guest_4 || $guest_row['stage_guest']=="4"){
 							?>
-                              <option value="4" <?php if($guest_row['stage_guest']=="4"){ echo "Selected='Selected'"; }?> >媒酌人4</option>
+                              <option value="4" <?php if($guest_row['stage_guest']=="4"){ echo "Selected='Selected'"; }?> >媒妁人4</option>
                               <?php
 							}
 							if(!$stage_guest_5 || $guest_row['stage_guest']=="5"){
