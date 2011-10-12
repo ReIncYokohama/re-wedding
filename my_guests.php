@@ -786,7 +786,7 @@ if($editable)
 
 			<td width="169" colspan="2" align="right" valign="top" ><table width="315" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-			    <td width="78" align="right">敬称:</td>
+			    <td width="78" align="right">敬称<font color="red">*</font>:</td>
 			    <td width="123"><select id="respect_id" name="respect_id" style="width:70px; padding-top:3px; padding-bottom:3px;"  <?php if($guest_row['self']==1){echo "disabled";}?>)
 			      <?php
 					foreach($respects as $respect)
@@ -948,7 +948,7 @@ if($editable)
           </table>               </td>
           <td valign="top"> <table width="180" border="0" cellspacing="2" cellpadding="2">
                           <tr>
-                            <td width="90" align="right">席種別:</td>
+                            <td width="90" align="right">席種別<font color="red">*</font>:</td>
                             <td width="76" align="center"><select id="stage" name="stage" style="width:96px;padding-top:3px; padding-bottom:3px;"  <?php if($guest_row['self']==1){echo "disabled";}?> onchange="stage_enebeled();">
                               <option value="0" <?php if($guest_row['stage']=="0"){ echo "Selected='Selected'"; }?> >招待席</option>
                               <option value="1" <?php if($guest_row['stage']=="1"){ echo "Selected='Selected'"; }?> >高砂席</option>
@@ -968,22 +968,22 @@ if($editable)
 							$stage_guest_5 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=5");
 							if(!$stage_guest_1 || $guest_row['stage_guest']=="1"){
 							?>
-                              <option value="1" <?php if($guest_row['stage_guest']=="1"){ echo "Selected='Selected'"; }?> >媒妁人1</option>
+                              <option value="1" <?php if($guest_row['stage_guest']=="1"){ echo "Selected='Selected'"; }?> >媒酌人1</option>
                               <?php
 							}
 							if(!$stage_guest_2 || $guest_row['stage_guest']=="2"){
 							?>
-                              <option value="2" <?php if($guest_row['stage_guest']=="2"){ echo "Selected='Selected'"; }?> >媒妁人2</option>
+                              <option value="2" <?php if($guest_row['stage_guest']=="2"){ echo "Selected='Selected'"; }?> >媒酌人2</option>
                               <?php
 							}
 							if(!$stage_guest_3 || $guest_row['stage_guest']=="3"){
 							?>
-                              <option value="3" <?php if($guest_row['stage_guest']=="3"){ echo "Selected='Selected'"; }?> >媒妁人3</option>
+                              <option value="3" <?php if($guest_row['stage_guest']=="3"){ echo "Selected='Selected'"; }?> >媒酌人3</option>
                               <?php
 							}
 							if(!$stage_guest_4 || $guest_row['stage_guest']=="4"){
 							?>
-                              <option value="4" <?php if($guest_row['stage_guest']=="4"){ echo "Selected='Selected'"; }?> >媒妁人4</option>
+                              <option value="4" <?php if($guest_row['stage_guest']=="4"){ echo "Selected='Selected'"; }?> >媒酌人4</option>
                               <?php
 							}
 							if(!$stage_guest_5 || $guest_row['stage_guest']=="5"){
@@ -1425,9 +1425,11 @@ if($guest["sex"] == "Male"){
             <?php
 				foreach($group_rows as $grp)
 				{
-			?>
-            <td width="45" align="center" bgcolor="#FFFFFF"><?=$grp['name']?></td>
-            <?php
+					if ($grp['name']!="") {
+					?>
+			            <td width="45" align="center" bgcolor="#FFFFFF"><?=$grp['name']?></td>
+		            <?php
+					}
             	}
 			?>
             <td width="45" align="center" bgcolor="#FFFFFF">予備</td>
@@ -1440,9 +1442,11 @@ if($guest["sex"] == "Male"){
 				$total = 0;
             	foreach($group_rows as $grp)
 				{
-					$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']." and guest_id<>0");
-					$total += $num_guests_groups;
-					echo "<td align='center' bgcolor='#FFFFFF'> $num_guests_groups </td>";
+					if ($grp['name']!="") {
+						$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']);
+						$total += $num_guests_groups;
+						echo "<td align='center' bgcolor='#FFFFFF'> $num_guests_groups </td>";
+					}
 				}
 			?>
 
@@ -1456,33 +1460,35 @@ if($guest["sex"] == "Male"){
           foreach($gift_rows as $gift)
 			{
 		    if ($gift['name']!="") {
-            echo "<td bgcolor='#FFFFFF' width='60' align='right'>".$gift['name']."</td>";
+            	echo "<td bgcolor='#FFFFFF' width='60' align='right'>".$gift['name']."</td>";
 				$num_gifts = 0;
             	foreach($group_rows as $grp)
 				{
-					$gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
-					$gift_arr = explode("|",$gift_ids);
-					$groups = array();
-
-					if(in_array($gift['id'],$gift_arr))
-					{
-						array_push($groups,$grp['id']);
-					}
-
-          			$num_gifts_in_group = 0;
-					if(!empty($groups))
-					{
-						foreach($groups as $grp)
+					if ($grp['name']!="") {
+						$gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
+						$gift_arr = explode("|",$gift_ids);
+						$groups = array();
+	
+						if(in_array($gift['id'],$gift_arr))
 						{
-							$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp." and guest_id<>0");
-							$num_gifts += $num_guests_groups;
-              				$num_gifts_in_group += $num_guests_groups;
+							array_push($groups,$grp['id']);
 						}
-						unset($groups);
-					}
-          			$htm = $num_gifts_in_group;
-            		echo "<td width='45' align='center' bgcolor='#FFFFFF'>".$htm."</td>";
-            	}
+	
+	          			$num_gifts_in_group = 0;
+						if(!empty($groups))
+						{
+							foreach($groups as $gp)
+							{
+								$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$gp);
+								$num_gifts += $num_guests_groups;
+	              				$num_gifts_in_group += $num_guests_groups;
+							}
+							unset($groups);
+						}
+	          			$htm = $num_gifts_in_group;
+	          			echo "<td width='45' align='center' bgcolor='#FFFFFF'>".$htm."</td>";
+	            	}
+				}
          	$num_reserve = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift["id"]);
           	$num_gifts += $num_reserve;
             echo "<td width='45' align='center' bgcolor='#FFFFFF'>".$num_reserve."</td>";
