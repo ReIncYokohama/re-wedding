@@ -402,7 +402,7 @@ include("inc/return_dbcon.inc.php");
 											        $query_string="SELECT * FROM spssp_tables_name  ORDER BY display_order asc ;";
 													$name_rows = $obj->getRowsByQuery($query_string);
 													?>
-							                        <select id="table_name_<?=$ii?>" name="table_name_<?=$ii?>" onChange="Multicheck();">
+							                        <select id="table_name_<?=$ii?>" name="table_name_<?=$ii?>" style="width: 60px; onChange="Multicheck();">
 						                            <?php
 						                            	echo '<option value=""></option>';
 						                                foreach($name_rows as $row)
