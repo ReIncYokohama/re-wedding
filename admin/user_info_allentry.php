@@ -349,9 +349,6 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 
 	var email = document.getElementById('mail').value;
 	var com_email = document.getElementById('con_mail').value;
-
-	var hTime = document.getElementById("ampm_1").value;
-	var kTime = document.getElementById("ampm_2").value;
 	
 	var reg = /^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/;
 
@@ -462,16 +459,16 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	  document.getElementById('marriage_hour').focus();
 	  return false;
     }
-	if(str4 > 11)
+	if(str4 > 23)
 	{
-	      alert("挙式時間は0から11の間で入力してください");
+	      alert("挙式時間は0から22の間で入力してください");
 		  document.getElementById('marriage_hour').focus();
 		  return false;
 	}
 
-	if((str4 > 10 && kTime=="PM") || (str4 < 7 && kTime=="AM"))
+	if(str4 > 22 || str4 < 7)
 	{
-		alert("AM7:00〜PM10:00の間で入力してください");
+		alert("挙式時間は7:00〜22:00の間で入力してください");
 		document.getElementById('marriage_hour').focus();
 		return false;
 	}
@@ -498,9 +495,9 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	  document.getElementById('marriage_minute').focus();
 	  return false;
    }
-   if((str4 == 10 && kTime=="PM") && str5 > 00)
+   if(str4 == 22 && str5 > 00)
 	{
-	   alert("AM7:00～PM10:00の間で入力してください");
+	   alert("挙式時間は7:00～22:00の間で入力してください");
 		document.getElementById('marriage_minute').focus();
 		return false;
 	}
@@ -542,16 +539,16 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 		  document.getElementById('party_hour').focus();
 		  return false;
 	   }
-		if(str6 > 11)
+		if(str6 > 23)
 		{
-		      alert("披露宴時間は0から11の間で入力してください");
+		      alert("披露宴時間は0から23の間で入力してください");
 			  document.getElementById('party_hour').focus();
 			  return false;
 		}
 
-		if((str6 > 10 && hTime=="PM") || (str6 < 7 && kTime=="AM"))
+		if(str6 > 22 || str6 < 7)
 		{
-			alert("披露宴時間はAM7:00〜PM10:00の間で入力してください");
+			alert("披露宴時間は7:00〜22:00の間で入力してください");
 			document.getElementById('party_hour').focus();
 			return false;
 		}
@@ -578,9 +575,9 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 		  document.getElementById('party_minute').focus();
 		  return false;
 	   }
-		if((str6 > 10 && hTime=="PM") && str7 > 00)
+		if(str6 == 22 && str7 > 00)
 		{
-			alert("披露宴時間はAM7:00～PM10:00の間で入力してください");
+			alert("披露宴時間は7:00～22:00の間で入力してください");
 			document.getElementById('party_minute').focus();
 			return false;
 		}
@@ -802,19 +799,10 @@ include("inc/return_dbcon.inc.php");
 				<td colspan="2" align="left" valign="middle" nowrap="nowrap">　　&nbsp;披露宴時間<font color="red">*</font>：<!--<input name="party_day_with_time" type="text" id="party_day_with_time" value="<?=date("H:i", strtotime($user_row['party_day_with_time']))?>" size="10" readonly="readonly" style="width:86px;background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>-->
 				<?php
 				$party_time_array = explode(":",$user_row['party_day_with_time']);
-				$pm_select="";
-				if ((int)$party_time_array[0] >= 12) {
-					$party_time_array[0] = (int)$party_time_array[0]-12;
-					$pm_select="selected";
-				}
 				?> 
-            	<select name="ampm_1" id="ampm_1" style="width:50px;">
-				<option value ='AM'>AM</option>
-				<option value ='PM' <?=$pm_select?>>PM</option>
-				</select>
 				&nbsp;
 				<input type="text" style="padding-top:4px; padding-bottom:4px;width:17px;" maxlength="2" name="party_hour" id="party_hour" value="<?=$party_time_array[0]?>"> :
-				<input type="text" style="padding-top:4px; padding-bottom:4px;width:17px;" maxlength="2" name="party_minute" id="party_minute" value="<?=$party_time_array[1]?>">
+				<input type="text" style="padding-top:4px; padding-bottom:4px;width:17px;" maxlength="2" name="party_minute" id="party_minute" value="<?=$party_time_array[1]?>"> (24時間表記)
                 <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day_with_time').value='';">クリア </a>-->
                 </td>
             </tr>
@@ -916,19 +904,10 @@ include("inc/return_dbcon.inc.php");
                 <td width="200" colspan="2" align="left" valign="middle" nowrap="nowrap">　　&nbsp;挙式時間&nbsp;　：
 				<?php
 				$marriage_time_array = explode(":",$user_row['marriage_day_with_time']);
-				$pm_select="";
-				if ((int)$marriage_time_array[0] >= 12) {
-					$marriage_time_array[0] = (int)$marriage_time_array[0]-12;
-					$pm_select="selected";
-				}
 				?>
-            	<select name="ampm_2" id="ampm_2" style="width:50px;">
-				<option value ='AM'>AM</option>
-				<option value ='PM' <?=$pm_select?>>PM</option>
-				</select>
 				&nbsp; 
 				<input type="text" style="width:17px;padding-top:4px; padding-bottom:4px;" maxlength="2" name="marriage_hour" id="marriage_hour" value="<?=$marriage_time_array[0]?>"> :
-				<input type="text" style="width:17px;padding-top:4px; padding-bottom:4px;" maxlength="2" name="marriage_minute" id="marriage_minute" value="<?=$marriage_time_array[1]?>">
+				<input type="text" style="width:17px;padding-top:4px; padding-bottom:4px;" maxlength="2" name="marriage_minute" id="marriage_minute" value="<?=$marriage_time_array[1]?>"> (24時間表記)
                 <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('marriage_day_with_time').value='';">クリア </a>-->
                 </td>
             </tr>

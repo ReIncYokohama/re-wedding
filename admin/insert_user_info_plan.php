@@ -108,6 +108,9 @@ else if((int)$user_plan['user_id'] <= 0 && empty($plan_dt))
 		$column_ord = 1;
 		$i = 1;
 		$j = 1;
+		
+		$sql = "delete from spssp_user_table where user_id= ".(int)$_GET['user_id'].";";
+		mysql_query($sql);
 		for($i = 1; $i<= (int)$room_rows; $i++)
 		{
 
