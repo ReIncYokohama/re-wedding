@@ -52,22 +52,24 @@ $redirect_url = "my_guests.php";
 
 //$order = ' last_name asc ';
 $order = ' id asc ';
+
 $plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
 
 
 if(isset($_GET['option']) && $_GET['option'] != '')
 	{
-    $ordervalue = explode(",",$_GET['option']);
+		$optionValue = $_GET['option'];
+
+		$ordervalue = explode(",",$_GET['option']);
 
     for($i=0;$i<(count($ordervalue)-1);$i++)
       {
         if($ordervalue[$i]!="guest_type")
-					$orderarray[] =  $ordervalue[$i].' desc';
+					$orderarray[] =  $ordervalue[$i].' asc';
         else
 					{
 						include("admin/inc/main_dbcon.inc.php");
 						$query_string="SELECT * FROM spssp_guest_type  ORDER BY id asc ;";
-
 
 						$data_type = $obj->getRowsByQuery($query_string);
 
@@ -259,7 +261,9 @@ $(function(){
 
 function edit_guest(gid)
 {
-  window.location = "my_guests.php?gid="+gid;
+	var op = "<?=$optionValue?>";
+	if (op!="") op = "&option="+op;
+	window.location = "my_guests.php?gid="+gid+op;
 }
 
 function toggle_new()
@@ -281,7 +285,9 @@ function confirmDelete(urls,id)
   }
   if(confirm(msg))
 		{
-			window.location = urls;
+			var op = "<?=$optionValue?>";
+			if (op!="") op = "&option="+op;
+	  		window.location = urls+op;
 		}
 }
 
@@ -635,8 +641,10 @@ if($editable)
     <div id="newgustform" style="width:873px; margin:auto; min-height:100px; padding-top:5px; display:block">
     ■ 招待者名を入力のうえ、各項目の情報を入力してください。<br />
     　<font color="red">*</font>の付いた項目は必須です。
-    
-      <form id="newguest" name="newguest" method="post" action="new_guest.php?page="<?=$_GET['page']?>">
+    <?php 
+    if ($optionValue!="") $op = "&option=".$optionValue;
+    ?>
+      <form id="newguest" name="newguest" method="post" action="new_guest.php?page=<?=$_GET['page']?><?=$op?>">
 	 <input type="hidden" name="id" id="id" value="<?=$_GET['gid']?>" />
    <?php if($firstname_gaijis || $lastname_gaijis || $comment1_gaijis || $comment2_gaijis) echo getAllGaijisInputEle(array($firstname_gaijis,$lastname_gaijis,$comment1_gaijis,$comment2_gaijis))?>
 	   <table width="100%" border="0" cellspacing="1" cellpadding="1">
@@ -738,7 +746,8 @@ if($editable)
 			<td width="169" colspan="2" align="right" valign="top" ><table width="315" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
 			    <td width="78" align="right">敬称<font color="red">*</font>:</td>
-			    <td width="123"><select id="respect_id" name="respect_id" style="width:70px; padding-top:3px; padding-bottom:3px;"  <?php if($guest_row['self']==1){echo "disabled";}?>)
+			    <td width="123">
+			    <select id="respect_id" name="respect_id" style="width:70px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1){echo "disabled";}?>>
 			      <?php
 					foreach($respects as $respect)
 					{
@@ -778,7 +787,7 @@ if($editable)
 
 			<td align="right" width="96">区分:</td>
 			<td align="center" width="90" >
-			  <select id="guest_type" name="guest_type" style="width:80px; padding-top:3px; padding-bottom:3px;"  <?php if($guest_row['self']==1){echo "disabled";}?>>
+			  <select id="guest_type" name="guest_type" style="width:80px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1){echo "disabled";}?>>
 					<?php
 						foreach($guest_types as $guest_type)
 						{
@@ -979,9 +988,9 @@ if($editable)
 
 <div class="cont_area">
 <div align="right">
-	<input type="checkbox" name="sex_sort" <?php if($ordervalue[0]=="sex") { ?> checked <?php } ?> value="sex" id="sexsearch" />新郎新婦側
-	<input type="checkbox" name="guest_type_sort"  <?php if($ordervalue[1]=="guest_type") { ?> checked <?php } ?> value="guest_type" id="guset_typesearch" />区分
-  <input type="checkbox"  name="furigana_first_search"  <?php if($ordervalue[2]=="furigana_first") { ?> checked <?php } ?> value="furigana_first" id="last_namesearch" />姓
+	<input type="checkbox" name="sex_sort" <?php if(strstr($optionValue, 'sex')!="") { ?> checked <?php } ?> value="sex" id="sexsearch" />新郎新婦側
+	<input type="checkbox" name="guest_type_sort"  <?php if(strstr($optionValue, 'guest_type')!="") { ?> checked <?php } ?> value="guest_type" id="guset_typesearch" />区分
+  <input type="checkbox"  name="furigana_first_search"  <?php if(strstr($optionValue, 'furigana_last')!="") { ?> checked <?php } ?> value="furigana_last" id="last_namesearch" />姓
 	<a href="#"><img border="0" alt="ｸﾘｱ" src="img/btn_sort_user.jpg" onclick="gsearch();"></a>
 	<a href="my_guests.php"><img border="0" alt="ｸﾘｱ" src="img/btn_sort_free_user.jpg"></a>
 </div>
