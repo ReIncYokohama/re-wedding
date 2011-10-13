@@ -339,8 +339,12 @@ $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name
 		
 
 </td><td width="20%">
- 
- <table ><tr><td colspan="2" style="text-align:center;border:1px solid black;"><b>料理数</b></td></tr>';
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<table ><tr><td colspan="2" style="text-align:center;border:1px solid black;" width="200"><b>料理数</b></td></tr>';
  		  
 $menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".(int)$user_id);
 $num_groups = count($menu_groups);
@@ -352,7 +356,7 @@ foreach($menu_groups as $mg)
 	$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']." and guest_id<>0");
 	$totalsum +=$num_menu_guest;
 }
-$html.='<tr><td style="text-align:center;border:1px solid black;" >大人</td><td style="text-align:center;border:1px solid black;" >'.($Noofguest-$totalsum).'</td></tr>';
+$html.='<tr><td style="text-align:center;border:1px solid black;" width="100">大人</td><td style="text-align:center;border:1px solid black;" width="100">'.($Noofguest-$totalsum).'</td></tr>';
 
 $guest_without_menu=$total_guest;
 $group_menu_array['子']=0;
@@ -362,8 +366,8 @@ foreach($menu_groups as $mg)
 		$guest_without_menu=$guest_without_menu-$num_menu_guest;
 		if ($mg['name']!="") {
 		    $html.='<tr>
-		      <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" >'.$mg['name'].'</td>
-		      <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" >'.$num_menu_guest.'</td>
+		      <td  align="center" style="text-align:center;border:1px solid black;" >'.$mg['name'].'</td>
+		      <td  align="center" style="text-align:center;border:1px solid black;" >'.$num_menu_guest.'</td>
 		    </tr>';	
 		}
 	}
