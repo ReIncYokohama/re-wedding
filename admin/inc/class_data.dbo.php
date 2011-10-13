@@ -86,7 +86,7 @@ class DataClass extends DBO{
         $row["columns"][$j]["name"] = $this->get_table_name($row["columns"][$j]["table_id"],$user_id);
         $seats = $this->getRowsByQuery("select * from spssp_default_plan_seat where table_id = ".$colum["table_id"]." order by id asc");
         for($k=0;$k<count($seats);++$k){
-          $seat_detail = $this->GetSingleRow("spssp_plan_details"," seat_id=".$seats[$k]["id"]." and plan_id = ".$table_data["plan_id"]);
+          $seat_detail = $this->get_seat_detail($seats[$k]["id"],$table_data["plan_id"]);
           for($l=0;$l<count($guest_rows);++$l){
             if($guest_rows[$l]["id"] == $seat_detail["guest_id"]){
               $guest_detail = $this->GetSingleRow("spssp_guest"," id=".$seat_detail["guest_id"]." and self!=1 and stage_guest=0 and user_id=".$user_id);
@@ -106,23 +106,25 @@ class DataClass extends DBO{
     return $table_data;
   }
   
+  public function get_seat_detail($seat_id,$plan_id){
+    return $this->GetSingleRow("spssp_plan_details"," seat_id=".$seat_id." and plan_id = ".$plan_id);
+  }
+  public function get_table_id_by_seat_id($seat_id){
+    $plan_detail = $this->GetSingleRow("spssp_default_plan_seat"," id=".$seat_id);
+    return $plan_detail["table_id"];
+  }
+  
   //ゲスト情報に加えて引出物情報を追加。
   //columns 0 gifts key,num
   //          seats 0 gift,menu
   public function get_table_data_complete($user_id){
-    $table_data_detail = $this->get_table_data($user_id);
-    
+    $table_data = $this->get_table_data($user_id);
     for($i=0;$i<count($table_data["rows"]);++$i){
       $row = $table_data["rows"][$i];
       for($j=0;$j<count($row["columns"]);++$j){
         $colum = $row["columns"][$j];
         if(!$colum) continue;
-        
-        for($k=0;$k<count($colum["seats"]);++$k){
-          
-        }
-
-          $seat_detail = $this->GetSingleRow("spssp_plan_details"," seat_id=".$seats[$k]["id"]." and plan_id = ".$table_data["plan_id"]);
+          $seat_detail = $this->get_seat_detail($seats[$k]["id"],$table_data["plan_id"]);
           for($l=0;$l<count($guest_rows);++$l){
             if($guest_rows[$l]["id"] == $seat_detail["guest_id"]){
               $guest_detail = $this->GetSingleRow("spssp_guest"," id=".$seat_detail["guest_id"]." and self!=1 and stage_guest=0 and user_id=".$user_id);
@@ -232,6 +234,7 @@ class DataClass extends DBO{
 	  $this->InsertData("spssp_change_log", $update_array);
   }
   
+  
   //席次表のログ情報を取得する。
   //アクセス日時、ログイン名、アクセス画面名、修正対象者、修正種別、変更項目名、変更前情報、変更後情報
   //acccess_time,login_name,screen_name,target_user,kind,target_category,before_data,after_data
@@ -250,7 +253,7 @@ class DataClass extends DBO{
       $line["login_name"] = $this->get_access_user_name($row["admin_id"]);
       $line["screen_name"] = $this->get_screen_name_by_log_type($row["type"]);
       $line["target_user"] = $this->get_target_user_by_log_type($row["type"],$row["guest_id"],$row["guest_name"]);
-      $line["kind"] = $this->get_kind_by_log_type($row["type"],$row["previous_status"]);
+      $line["kind"] = $this->get_kind_by_log_type($row["type"],$row["previous_status"],$row["current_status"]);
       list($line["target_category"],$line["previous_status"],$line["current_status"])
         = $this->get_log_change_contents($row["type"],$row["previous_status"],$row["current_status"],$row["user_id"]);
       array_push($returnArray,$line);
@@ -270,17 +273,37 @@ class DataClass extends DBO{
   //席次表の更新を行う。
   public function set_guest_seats($upd){
     $state = $upd["state"];
+    $guest_id = $upd["guest_id"];
+    $seat_id = $upd["seat_id"];
+    $plan_id = $upd["plan_id"];
+    $update_array = array();
+    $update_array['date']=date("Y-m-d H:i:s");
+    $update_array['guest_id']=$upd["guest_id"];
+    $update_array['user_id']=$_SESSION["userid"];
+    $update_array['guest_name']=$this->get_guest_name($guest_id);
+    $update_array['admin_id']=$_SESSION["adminid"];
+    $update_array['type']=1;
+    $update_array['plan_id']=$plan_id;
     switch($state){
       case "insert":
         $this->InsertData("spssp_plan_details",
-          array("plan_id"=>$upd["plan_id"],"guest_id"=>$upd["guest_id"],"seat_id"=>$upd["seat_id"]));
+          array("plan_id"=>$plan_id,"guest_id"=>$guest_id,"seat_id"=>$seat_id));
+        $update_array["current_status"]=$seat_id;
+        $this->InsertData("spssp_change_log", $update_array);
         break;
       case "move":
+        $oldData = $this->GetSingleRow("spssp_plan_details"," plan_id=".$plan_id." and guest_id=".$guest_id);
         $this->UpdateData("spssp_plan_details",
-          array("seat_id"=>$upd["seat_id"])," plan_id=".$upd["plan_id"]." and guest_id=".$upd["guest_id"]);
+          array("seat_id"=>$upd["seat_id"])," plan_id=".$plan_id." and guest_id=".$guest_id);
+        $update_array["current_status"]=$seat_id;
+        $update_array["previous_status"]=$oldData["seat_id"];
+        $this->InsertData("spssp_change_log", $update_array);
         break;
       case "delete":
-        $this->deleteRow("spssp_plan_details"," plan_id=".$upd["plan_id"]." and guest_id=".$upd["guest_id"]);
+        $oldData = $this->GetSingleRow("spssp_plan_details"," plan_id=".$plan_id." and guest_id=".$guest_id);
+        $update_array["previous_status"]=$oldData["seat_id"];
+        $this->deleteRow("spssp_plan_details"," plan_id=".$plan_id." and guest_id=".$guest_id);
+        $this->InsertData("spssp_change_log", $update_array);
         break;
     }
   }
@@ -296,10 +319,11 @@ class DataClass extends DBO{
   }
   
   //ログの修正種類の取得
-  public function get_kind_by_log_type($type_id,$table_prev){
+  public function get_kind_by_log_type($type_id,$table_prev,$table_next){
     switch($type_id){
     case 1:
       if($table_prev == "") return "新規";
+      if($table_next == "") return "削除";
       return "移動";
     case 2:
       return "変更";
@@ -312,6 +336,7 @@ class DataClass extends DBO{
   
   //編集内容および編集箇所のデータの取得
   //return target_category_arr,before_data_arr,after_data_arr
+  //席次表の移動は、テーブル
   public function get_log_change_contents($type_id,$before_data,$after_data,$user_id){
     if($type_id >= 2){
       $now_before_data_arr = json_decode($before_data,true);
@@ -340,9 +365,8 @@ class DataClass extends DBO{
     $table_id=$this->GetSingleData("spssp_default_plan_seat","table_id"," id=".$seat_id." limit 1");
     if(!$table_id) return "";
     $tblname = $this->get_table_name($table_id,$user_id);
-    
     $seats = $this->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_id." order by id asc ");
-
+    
     $j=1;
     foreach($seats as $seat)
       {
