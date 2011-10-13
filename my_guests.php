@@ -363,6 +363,7 @@ function validForm()
 			return false;
 		}
   var str = document.getElementById("furigana_last").value;
+  /*
   if(str=="")
 		{
       // UCHIDA EDIT 11/07/27
@@ -372,6 +373,7 @@ function validForm()
       return false;
 
 		}
+*/
   if(str!="")
 		{
       // UCHIDA EDIT 11/07/27
@@ -383,8 +385,8 @@ function validForm()
 				return false;
 			}
 		}
-
   var str2 = document.getElementById("furigana_first").value;
+ /*
   if(str2=="")
 		{
       // UCHIDA EDIT 11/07/27
@@ -394,6 +396,7 @@ function validForm()
       return false;
 
 		}
+*/
   if(str2!="")
 		{
       // UCHIDA EDIT 11/07/27
