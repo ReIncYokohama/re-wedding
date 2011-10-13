@@ -756,7 +756,7 @@ include("inc/return_dbcon.inc.php");
             </div>
         	<div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
 <?php if($_SESSION["super_user"]){　?>
-          <div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',500,200); return false;">
+          <div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',900,200); return false;">
             <img src="img/common/navi05.jpg" class="on" />
           </a></div>
 <?php } ?>

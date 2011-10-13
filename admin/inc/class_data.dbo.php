@@ -477,7 +477,9 @@ class DataClass extends DBO{
   }
   //新郎新婦側をテキストで返す。
   public function get_host_area($guest_sex){
-    return ($guest_sex=="Male")?"新郎側":"新婦側";
+    if($guest_sex=="Male")  return "新郎側";
+    if($guest_sex=="Female")  return "新婦側";
+    return "";
   }
   //敬称をテキストで返す。
   public function get_respect($respect_id){
@@ -563,10 +565,10 @@ class DataClass extends DBO{
       array_push($messageArray,$top_message."名を入力してください。[".$user_obj["first_name"]."]");
     }
     if(!$this->haveFurigana($user_obj["furigana_last"])){
-      array_push($messageArray,$top_message."姓のふりがなをふりがなで入力してください。[".$user_obj["furigana_last"]."]");
+      array_push($messageArray,$top_message."姓のふりがなは平仮名で入力してください[".$user_obj["furigana_last"]."]");
     }
     if(!$this->haveFurigana($user_obj["furigana_first"])){
-      array_push($messageArray,$top_message."名のふりがなをふりがなで入力してください。[".$user_obj["furigana_first"]."]");
+      array_push($messageArray,$top_message."名のふりがなは平仮名で入力してください[".$user_obj["furigana_first"]."]");
     }
     if(!$this->haveString($user_obj["respect"]) && !$this->haveRespect($user_obj["respect"])){
       array_push($messageArray,$top_message."正しい敬称を入力してください。[".$user_obj["respect"]."]");
@@ -585,7 +587,7 @@ class DataClass extends DBO{
   }
   public function haveFurigana($str){
     mb_regex_encoding("UTF-8");
-    if ($str == "" || preg_match("/^[ぁ-ん]+$/u", $str)) {
+    if ($str == "" || preg_match("/^[ぁ-ん]*$/u", $str)) {
       return true;
     }
     return false;
@@ -601,7 +603,7 @@ class DataClass extends DBO{
     }
   }
   public function haveSex($sex_text){
-    if($sex_text == "新郎" || $sex_text == "新婦"){
+    if($sex_text == "新郎" || $sex_text == "新婦" || $sex_text == ""){
       return true;
     }else{
       return false;
