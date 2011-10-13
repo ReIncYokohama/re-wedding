@@ -514,6 +514,7 @@ include("inc/return_dbcon.inc.php");
         <ul class="ul2">
 
             <?php
+  if(!$data_rows) $data_rows = array();
 			foreach($data_rows as $row)
 			{
 				echo $objMsg->get_admin_side_order_print_mail_system_status_msg($row['id']);	// 席次・席札確認 → メッセージ表示
