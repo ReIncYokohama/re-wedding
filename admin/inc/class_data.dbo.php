@@ -266,6 +266,8 @@ class DataClass extends DBO{
     switch($type_id){
       case 1:
         return "席次表情報";
+      case 5:
+        return "招待者リストの作成";
       default:
         return "招待者リスト";
     }
@@ -308,9 +310,20 @@ class DataClass extends DBO{
     }
   }
   
+  public function set_log_csv_guest(){
+    $update_array = array();
+    $update_array['date']=date("Y-m-d H:i:s");
+    $update_array['user_id']=$_SESSION["userid"];
+    $update_array['admin_id']=$_SESSION["adminid"];
+    $update_array['type']=5;
+    $update_array['plan_id']=$plan_id;
+    $this->InsertData("spssp_change_log", $update_array);
+  }
+  
   //ログの対象ユーザの取得
   public function get_target_user_by_log_type($type_id,$guest_id,$guest_name = "")
   {
+    if($type_id==5) return "リストアップロード";
     if($type_id!=3){
       $guest_name = $this->get_guest_name($guest_id);
       return $guest_name;
@@ -330,6 +343,8 @@ class DataClass extends DBO{
     case 3:
       return "削除";
     case 4:
+      return "新規";
+    case 5:
       return "新規";
     }
   }
