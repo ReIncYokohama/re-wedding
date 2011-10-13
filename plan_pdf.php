@@ -198,84 +198,94 @@ include("admin/inc/return_dbcon.inc.php");
 
 $html.='<table style="font-size:'.$main_font_size_top.';"><tr>';
 
+/* 引出物　商品数　開始 */
+$html.='<td><table><tr><td><table><tr><td style="text-align:right;border:1px solid black;" colspan="2" height="14"  width="80" >グループ</td>';
 
-$html.='<td><table><tr><td colspan="2"><table><tr><td style="border:1px solid black;"  height="6"  width="50" >商品名</td>';
- 
-           
 $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_id);
 $gift_rows = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".$user_id);
 foreach($group_rows as $grp)
 	{
 	
 		$group_menu_array[$grp['name']]=0;
-		$html.='<td  style="text-align:center;border:1px solid black;"  width="20">'.$grp['name'].'</td>';
-	
+		if ($grp['name']!="") 
+			$html.='<td  style="text-align:center;border:1px solid black;"  width="30">'.$grp['name'].'</td>';
 	}
 
 $group_menu_array[x]=0;
-$html.='<td  style="text-align:center;border:1px solid black;"  width="20">予備</td>
-	<td  style="text-align:center;border:1px solid black;"  width="20">合計</td>
+$html.='<td  style="text-align:center;border:1px solid black;"  width="30">予備</td>
+	<td  style="text-align:center;border:1px solid black;"  width="30">合計</td>
   	</tr>';
           
-foreach($gift_rows as $gift)
-	{
-  
-    $html.='<tr><td  style="border:1px solid black;" height="6" width="50">'.$gift['name'].'</td>';
-            
-				
-		$num_gifts = 0;
-		foreach($group_rows as $grp)
-      {
-        $gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
-        $guest_gift_num = $obj->GetNumRows("spssp_guest_gift","user_id=".$user_id." and group_id=".$grp["id"]);
-        
-        $gift_arr = explode("|",$gift_ids);
-        $groups = array();
-        if(in_array($gift['id'],$gift_arr))
-          {
-            //$htm = "<table cellpadding=\"1\"><tr><td><img  src=\"./admin/img/tick.jpg\" border=\"0\" width=\"5\"/></td></tr></table>";
-            $htm = $guest_gift_num;
-            array_push($groups,$grp['id']);
-          }
-        else
-          {
-            $htm = '-';
-				
-          }
-			
-        if(!empty($groups))
-          {
-            foreach($groups as $grp)
-              {
-                $num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp);
-                $num_gifts += $num_guests_groups;
-              }
-            unset($groups);
-          }
-			
-        $html.='<td   style="text-align:center;border:1px solid black;"  width="20">'.$htm.'</td>';
-      }
-    $html.='<td   style="text-align:center;border:1px solid black;"  width="20">&nbsp;</td>
-            <td style="text-align:center;border:1px solid black;"  width="20">'.$num_gifts.'</td>
-          </tr>';
-	}	  
-		  
 $html.='<tr>
-            <td  style="text-align:center;border:1px solid black;"  height="6"  width="50">グループ数</td>';
+            <td colspan="2" style="text-align:right;border:1px solid black;"  height="14"  width="80">グループ数</td>';
            
 $total = 0;
 foreach($group_rows as $grp)
   {
-    $num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']);
-    $total += $num_guests_groups;
-    $html.="<td style=\"text-align:center;border:1px solid black;\"> $num_guests_groups </td>";
+  	if ($grp['name']!="") {
+	    $num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']);
+	    $total += $num_guests_groups;
+	    $html.='<td style="text-align:center;border:1px solid black;" width="30">'.$num_guests_groups.'</td>';
+  	}
   }
 			
-$html.='<td  style="text-align:center;border:1px solid black;"  width="20">&nbsp;</td>
-            <td  style="text-align:center;border:1px solid black;"  width="20">×</td>
+$html.='<td  style="text-align:center;border:1px solid black;"  width="30">-</td>
+            <td style="text-align:center;border:1px solid black;" width="30">'.$total.'</td>
           </tr>';
 	
 $html.='</table></td></tr>';
+
+$html.='<tr>';
+$html.='<td style="text-align:center; border:1px solid black;" width="16" rowspan="7">商品名</td>';
+$start=0;
+foreach($gift_rows as $gift)
+	{
+	if ($gift['name']!="") {
+		if($start!=0) $html.='<tr>';
+		$start=1;
+	    $html.='<td style="text-align:right;border:1px solid black;" height="14" width="64">'.$gift['name'].'</td>';
+	
+			$num_gifts = 0;
+			foreach($group_rows as $grp)
+	        {
+	      	if ($grp['name']!="") {
+		        $gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
+		        $guest_gift_num = $obj->GetNumRows("spssp_guest_gift","user_id=".$user_id." and group_id=".$grp["id"]);
+		        
+		        $gift_arr = explode("|",$gift_ids);
+		        $groups = array();
+		        if(in_array($gift['id'],$gift_arr))
+		          {
+		            $htm = $guest_gift_num;
+		            array_push($groups,$grp['id']);
+		          }
+		        else
+		          {
+		            $htm = '0';
+		          }
+		        $num_gifts_in_group = 0;
+		        if(!empty($groups))
+		          {
+		            foreach($groups as $grp)
+		              {
+		                $num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp);
+		                $num_gifts += $num_guests_groups;
+		              }
+		            unset($groups);
+		          }
+					
+		        $html.='<td style="text-align:center;border:1px solid black;" width="30">'.$htm.'</td>';
+	      	}
+	      }
+	      $num_reserve = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift["id"]);
+	      $num_gifts += $num_reserve;
+	      $html.='<td style="text-align:center;border:1px solid black;" width="30">'.$num_reserve.'</td>';
+	      $html.='<td style="text-align:center;border:1px solid black;" width="30">'.$num_gifts.'</td>';
+	      $html.='</tr>';
+		}
+	}
+	//$html.='</tr>';
+	/* 引出物　商品数　終了 */
 	
 $male_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male'");
 $female_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female'");
@@ -334,35 +344,40 @@ $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name
  		  
 $menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".(int)$user_id);
 $num_groups = count($menu_groups);
+
+$totalsum='';
+$Noofguest = $obj->GetNumRows("spssp_guest","user_id=".(int)$_SESSION['userid']);
+foreach($menu_groups as $mg)
+{
+	$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']." and guest_id<>0");
+	$totalsum +=$num_menu_guest;
+}
+$html.='<tr><td style="text-align:center;border:1px solid black;" >大人</td><td style="text-align:center;border:1px solid black;" >'.($Noofguest-$totalsum).'</td></tr>';
+
 $guest_without_menu=$total_guest;
 $group_menu_array['子']=0;
 foreach($menu_groups as $mg)
 	{
-		
-		
 		$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']);
-		
 		$guest_without_menu=$guest_without_menu-$num_menu_guest;
-    $html.='<tr>
-      <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" >'.$mg['name'].'</td>
-      
-      <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" >'.$num_menu_guest.'</td>
-    </tr>';	
+		if ($mg['name']!="") {
+		    $html.='<tr>
+		      <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" >'.$mg['name'].'</td>
+		      <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" >'.$num_menu_guest.'</td>
+		    </tr>';	
+		}
 	}
-$html.='<tr>
-      <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" >×</td>
-      
-      <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" >'.$guest_without_menu.'</td>
-    </tr>';	
+//$html.='<tr>
+//     <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" >×</td>      
+//      <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" >'.$guest_without_menu.'</td>
+//    </tr>';	
 	
 $html.='<tr>
       <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" >合計</td>
-      
       <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" >'.$total_guest.'</td>
     </tr>';	
 	
 $html.='</table></td>';
-
 $html.='</tr></table> <br/>';
 			
 $guests_bride = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest!='0' and stage_guest!='' order by display_order DESC");

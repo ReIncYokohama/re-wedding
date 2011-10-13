@@ -183,6 +183,12 @@ function check_name()
 		document.getElementById('email').focus();
 		return false;
 	}
+		if(number == '')
+	{
+		alert("電話番号を入力してください");
+		$("#number").focus();
+		return false;
+	}
 	if (postcode.length != 0) {
 		if( postcode.match( /[^0-9\s-]+/ ) ) {
 				alert("郵便番号は半角数字と'-'だけで入力してください");
@@ -407,7 +413,7 @@ include("inc/return_dbcon.inc.php");
 						<td onpaste="alert('メールアドレス確認用は貼り付けできません');return false;"><input type="text" name="conf_email" id="conf_email" size="30" value="<?=$comp[conf_email]?>"  /></td>
 					</tr>
 					<tr>
-						<td>電話番号 :</td>
+						<td>電話番号<span style="color:red;">*</span> :</td>
 						<td><input type="text" name="number" id="number" onblur="isInteger('number')" value="<?=$comp[number]?>"  size="20"/>（例　0451111111)</td>
 					</tr>
 					<tr>

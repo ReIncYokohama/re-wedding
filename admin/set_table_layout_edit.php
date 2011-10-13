@@ -13,26 +13,58 @@ $user_row = $obj->GetSingleRow("spssp_user"," id= ".(int)$get['user_id']);
 $default_plan_id = (int)$get['default_plan'];
 $plan_id = (int)$get['plan_id'];
 $stuff_id= (int)$get['stuff_id'];
+$user_id = (int)$get['user_id'];
+
+if($_GET['action']=="save") {
+//print_r($_POST);
+	for ($i=1;$i<=9; $i++) {
+		$align = $_POST['rowcenter_'.$i];
+		if (isset($align)) {
+			if ($align=="R") $align="N";
+			$query = "update spssp_table_layout set align='".$align."' where row_order=".$i." and user_id=".$user_id;
+			mysql_query($query);
+		}
+	}
+	
+	for ($i=1;$i<=81; $i++) {
+		$def = $_POST['default_'.$i];
+		if (isset($def)) {
+			$s1 = split("/", $def);
+			$def_id = $s1[0];
+			$tname = $_POST['table_name_'.$s1[1]];
+			$tid = $objInfo->get_table_id($tname);
+			$query = "update spssp_user_table set table_name_id=".$tid." where default_table_id=".$def_id." and user_id=".$user_id;
+			mysql_query($query);
+		}
+	}
+	for ($i=1;$i<=81; $i++) {
+		$def = $_POST['default_'.$i];
+		if (isset($def)) {
+			$s1 = split("/", $def);
+			$def_id = $s1[0];
+			$disp = $_POST['display_'.$def_id];
+			if (isset($disp))	$set_disp = 1;
+			else 				$set_disp = 0;
+			$query = "update spssp_table_layout set display=".$set_disp." where id=".$def_id." and user_id=".$user_id;
+			mysql_query($query);
+		}
+	}
+	redirect("user_info_allentry.php?user_id=".$user_id."&stuff_id=".$stuff_id);
+}
 
 if($default_plan_id > 0)
 {
 	$plan_row = $obj->GetSingleRow("spssp_default_plan", " id=".(int)$default_plan_id);
-
 }
 else if($plan_id > 0)
 {
 	$plan_row = $obj->GetSingleRow("spssp_plan", " id=".(int)$plan_id);
-	$user_id = (int)$get['user_id'];
 }
-
 
 if(!isset($plan_row['id']))
 {
 	echo "<script type='text/javascript'>alert('Please Define Plan Criteria First'); window.location='users.php';</script>";
 }
-
-
-
 
 $room_rows = $plan_row['row_number'];
 //
@@ -74,123 +106,13 @@ else if($plan_id > 0)
 <link rel="stylesheet" href="../css/demos.css" type="text/css">
 
 <script>
-var dragged_id;
-var is_guest_exist = 0;
+
 $(function(){
-
-
-$( "#table_edit_name" ).dialog({
-	autoOpen: false,
-	height: 200,
-	width: 420,
-	//show: "blind",
-	//hide: "explode",
-	modal: true,
-	buttons: {
-		"保存": function() {
-				var tnid = $("#table_name").val();
-				var name = $("#table_name :selected").text();
-				var id = $("#table_id").val();
-
-
-				$("#table_"+id+ " a").html(name+"<span id = 'tnameid' style= 'display:none'>"+tnid+"</span>");
-
-				var user_id = $("#user_id").val();
-        
-				$.post('ajax/edit_table_name.php', {'tnid': tnid,'id':id,'user_id':user_id}, function(data) {
-            if(data && data!=""){
-              alert("卓名が重複しています。保存されていません。");
-            }else{
-              $(".table_saved").show();
-            }
-				});
-
-				$( this ).dialog( "close" );
-
-
-		},
-		"キャンセル": function() {
-			$( this ).dialog( "close" );
-		},
-		"閉じる":function() {
-
-			$( this ).dialog( "close" );
-		}
-	},
-	close: function() {
-
-	}
-});
-
-
-var flag = false;
 
 $(".rows").filter(":first").css("border-top","1px solid #666666");
 
-
 });
 
-
-function edit_table_name(id)
-{
-
-	$("#table_id").val(id);
-	var newname_id = $("#table_"+id+ " a span").html();
-
-	if(newname_id > 0)
-	{
-
-		$("#table_edit option").each(function (){
-			if(parseInt($(this).val()) == parseInt(newname_id))
-			{
-				$(this).attr('selected','selected');
-			}
-		});
-
-
-	}
-	$("#table_edit_name").dialog("open");
-
-}
-function viewTable(id)
-{
-	var tableid = 'tbl_'+id;
-	$("#"+tableid).fadeIn(1000);
-	$("#"+tableid).next().hide();
-	$("#"+tableid+" .remove_option").show();
-	$("#"+tableid).parent().css("border","0");
-	$("#"+tableid+" .remove_option").html("<a href = '#' onclick='removeTable("+id+")'> 削除</a>");
-
-	$.post('ajax/table_layout_visibility.php', {'id':id, 'visibility':1}, function(data) {
-
-	});
-
-}
-function removeTable(id,dtid)
-{
-	var user_id = $("#user_id").val();
-
-	$.post('ajax/check_plan_guest.php',{'tid':dtid,'user_id':user_id}, function(data){
-
-		if(parseInt(data) > 0)
-		{
-			alert("全て卓の招待者を削除してください");
-			$("#display_"+tid).attr("checked","checked");
-		}
-		else
-		{
-		var tableid = 'tbl_'+id;
-			$("#"+tableid).fadeOut(1000, function(){
-				$("#"+tableid).parent().css("background-image","url(img/circle_big1.jpg)");
-				$("#"+tableid).next().html("<a href = '#' onclick='viewTable("+id+")'> 表示</a>");
-				$("#"+tableid).next().show();
-			});
-			$.post('ajax/table_layout_visibility.php', {'id':id, 'visibility':0}, function(data) {
-
-			});
-		}
-	});
-}
 function deleteTable(tid,dtid,ralign)
 {
 	var table_div = "#drop_"+tid;
@@ -209,36 +131,48 @@ function deleteTable(tid,dtid,ralign)
 			{
 				$(table_div).css('visibility','visible');
 				$(table_div).fadeIn(500,function(){});
-				$.post('ajax/table_layout_visibility.php', {'id':tid, 'display':1,'ralign':ralign}, function(data) {
-
-				});
 			}
 			else
 			{
 				$(table_div).fadeOut(500,function(){});
-				$.post('ajax/table_layout_visibility.php', {'display':0,'id':tid,'ralign':ralign},function (data){
-
-				});
 			}
 		}
 
 	});
 
-
-
-
-
 }
-function change_align(order,default_plan_id,user_id,align)
-{
 
+function submit_table() {
+	if (Multicheck() == true) document.table_form_register.submit();
+}
 
-		$.post('ajax/row_align.php', {'row_order':order, 'align':align,'default_plan_id':default_plan_id,'user_id':user_id}, function(data) {
-
-
-		});
-
-
+function Multicheck() {
+	for(var loop=1;loop<=81;loop++)
+	{
+		var tId="table_name_"+loop;
+		var table_name=	$("#"+tId).val();
+		if(table_name != "" && typeof(table_name) != "undefined") {
+			for(var loop2 = loop+1; loop2<=81; loop2++) {
+				var tId2="table_name_"+loop2;
+				var table_name2 =$("#"+tId2).val();
+				var nm = "default_"+loop2;
+				var disp=0;
+				var ds = $("#"+nm).val();
+				if (typeof(ds) != "undefined") {
+					var dn = ds.split("/");
+					if($("#display_"+dn[0]).is(':checked') == true) disp=1;
+				}
+				if(table_name2 != "" && typeof(table_name2) != "undefined" && disp==1) {
+					if (table_name == table_name2) {
+						alert("卓名 ["+table_name+"] が重複しています");
+						document.getElementById(tId2).focus();
+				 		return false;
+					}
+				}
+			}
+		}
+	}
+	return true;
 }
 </script>
 <style>
@@ -349,7 +283,6 @@ include("inc/return_dbcon.inc.php");
 
 			?>
 
-
                 <p class="txt2">会場名：<?=$roomName;?>　　最大卓数：横<?=$room_tables?>列 × 縦<?=$room_rows?>段　　一卓人数：<?=$room_seats?>名まで</p>
         	</div>
 
@@ -362,13 +295,12 @@ include("inc/return_dbcon.inc.php");
             </p>
         </div>
 
-
-
         <div style="width:1000px; float:left; text-align:center; font-size: 12px;">
-        	<form action="set_table_layout_edit.php" method="post">
+        	<form action="set_table_layout_edit.php?action=save&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>&plan_id=<?=$plan_id?>" method="post"  name="table_form_register">
             <div style="width:<?=$row_width?>px; margin:0 auto;" id="toptstaa">
           <div style="display:none;" class="announcement table_saved">テーブル名を保存しました。</div>
                 <?php
+                	$ii=1;
                     foreach($tblrows as $tblrow)
                     {
                         if($default_plan_id > 0)
@@ -391,11 +323,11 @@ include("inc/return_dbcon.inc.php");
                     <div class="rows" style="float:left;width:100%;" id="row_<?=$tblrow['row_order']?>">
                     	<div class="row_center" >
 
-                        <!--<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>" name="rowcenter_<?=$tblrow['row_order']?>" value="L" <?php if($ralign=='L' || $ralign=='') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'L')" /> 左寄せ &nbsp;-->
-                        	<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="C"  <?php if($ralign=='C') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'C')" /> 中央配置 &nbsp;
-                            <!--<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"  <?php if($ralign=='R') { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'R')" /> 右寄せ-->
-							<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"  <?php if($ralign=='N' || $ralign == "L") { ?> checked="checked" <?php } ?>  onchange="change_align(<?=$tblrow['row_order']?>,<?=(int)$default_plan_id?>,<?=$user_id?>,'N')" /> そのまま
-
+                        	<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="C"  
+                        	<?php if($ralign=='C') { ?> checked="checked" <?php } ?> /> 中央配置 &nbsp;
+                        	
+							<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"  
+							<?php if($ralign=='N' || $ralign == "L") { ?> checked="checked" <?php } ?>  /> そのまま
 
                     	</div>
 
@@ -429,8 +361,8 @@ include("inc/return_dbcon.inc.php");
 								}
 								else
 								{
-									$tblname = $table_row['name'];
-								}
+									$tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
+																	}
 				                //テーブル名を1文字に
 				                $tblname = mb_substr($tblname,0,1,"UTF-8");
 
@@ -456,57 +388,43 @@ include("inc/return_dbcon.inc.php");
                                 ?>
                                 <div class="abc" style="float:left;">
                                     <div id="checkcontainer_<?=$table_row['id']?>" class="display_chk">
-                                        <input type="checkbox" id= "display_<?=$table_row['id']?>" value="<?=$table_row['column_order']?>" <?=$chk?> onclick="deleteTable(<?=$table_row['id']?>,<?=$table_row['table_id']?>,'<?=$ralign?>')" />
+                                        <input type="checkbox" id= "display_<?=$table_row['id']?>" name= "display_<?=$table_row['id']?>" value="<?=$table_row['column_order']?>" <?=$chk?> onclick="deleteTable(<?=$table_row['id']?>,<?=$table_row['table_id']?>,'<?=$ralign?>')" />
                                     </div>
-                                    <input type="hidden" id="row_<?=$table_row['id']?>" value="<?=$table_row['row_order']?>" />
-                                    <input type="hidden" id="column_<?=$table_row['id']?>" value="<?=$table_row['column_order']?>" />
-
-
+                                    <input type="hidden" id="default_<?=$ii?>" name="default_<?=$ii?>" value="<?=$table_row['id']?>/<?=$ii?>" />
+ <!--                                    <input type="hidden" id="row_<?=$table_row['id']?>" name="row_<?=$table_row['id']?>" value="<?=$table_row['row_order']?>" />
+                                    <input type="hidden" id="column_<?=$table_row['id']?>" name="column_<?=$table_row['id']?>" value="<?=$table_row['column_order']?>" /> -->
 
                                     <div id="tablecontainer_<?=$table_row['id']?>" style="float:left;">
-
                                         <div class="table_droppable" style="<?=$disp1?>" id="drop_<?=$table_row['id']?>">
-
                                             <div class="tables" id="tbl_<?=$table_row['id']?>" style="float:left;">
-
                                                 <p align="center" style="text-align:center;font-size:120%;" id="table_<?=$table_row['id']?>">
-
-                                                    <a href="#" onClick="edit_table_name(<?=$table_row['id']?>);"  class="drag_false" > <b>
 									                <?php
-									                if($tblname && $tblname != "" && $tblname != " "){
-									                  echo $tblname;
-									                }else{
-									                  echo "空";
-									                }
-									                ?>
-                                                   </b> </a> &nbsp;
-
+											        $query_string="SELECT * FROM spssp_tables_name  ORDER BY display_order asc ;";
+													$name_rows = $obj->getRowsByQuery($query_string);
+													?>
+							                        <select id="table_name_<?=$ii?>" name="table_name_<?=$ii?>" onChange="Multicheck();" style="width:60px;">
+						                            <?php
+						                            	echo '<option value=""></option>';
+						                                foreach($name_rows as $row)
+						                                {
+						                                	$select_name="";
+						                                	if ($tblname_row['name'] == $row['name']) $select_name="selected";
+						                                    echo "<option value='".$row['name']."' $select_name >".$row['name']."</option>";
+						                                }
+						                            ?>
+						                        	</select>
                                                 </p>
 
-
                                                 <div class="remove_option"  style="position:relative;top:-4px;left:10px;">
-                                                <?php
-                                                    /*if($table_row['visibility']==1)
-                                                    {
-                                                        echo "<a href='#' onclick = 'removeTable(".$table_row['id'].",".$table_row['table_id'].")' class='drag_false'> 削除</a>";
-                                                    }*/
-                                                ?>
                                                 </div>
                                              </div>
                                              <div class = "view_option"  style="position:relative;top:-75px;">
-                                             <?php
-                                                   /* if(($table_row['visibility']== 0))
-                                                    {
-                                                        echo "<a href='javascript:void()' onclick = 'viewTable(".$table_row['id'].")'  class='drag_false'> 表示</a>";
-                                                    }*/
-
-                                                ?>
                                              </div>
                                         </div>
                                     </div>
                                 </div>
                           <?php
-
+                            $ii++;
                             }
                           ?>
                     </div>
@@ -514,62 +432,18 @@ include("inc/return_dbcon.inc.php");
                     }
                     ?>
                     <div style="width:100%; text-align:left;">
-                		<!--<input type="submit" value="Update" name="submit" />
-               			 &nbsp;<input type="button" value="保存" onClick="javascript:history.go(-1)" />-->
-          <img src="img/common/btn_save.jpg" onclick="javascript:window.location='user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'">
-          <!--					<input type="button" value="保存" onclick="javascript:window.location='user_info.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'"/>-->
-                    &nbsp;&nbsp;
-          <img src="img/common/btn_cancel.jpg" onclick="javascript:window.location='user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'">
-         <!--<input type="button" value="戻る" onClick="javascript:history.go(-1)" />-->
+				          <img src="img/common/btn_save.jpg" onclick="submit_table();">
+                    		&nbsp;&nbsp;
+				          <img src="img/common/btn_cancel.jpg" onclick="javascript:window.location='user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'">
                     </div>
             </div>
             </form>
-
-
-
         </div>
-		<input type="hidden" id="user_id" value="<?=$user_id?>" />
-
 
      </div>
  </div>
 <?php
 	include_once('inc/left_nav.inc.php');
-
 	include_once("inc/new.footer.inc.php");
 ?>
-<?php
-//            $name_rows = $obj->GetAllRow("spssp_tables_name ORDER BY display_order asc ;");
-          $query_string="SELECT * FROM spssp_tables_name  ORDER BY display_order asc ;";
-		  $name_rows = $obj->getRowsByQuery($query_string);
-?>
 
-        <div id="table_edit_name" title="卓編集" style="font-size: 12px;">
-            <form action="" method="post" id="table_edit_form" name="table_edit_form">
-            <fieldset style="height:100px;">
-
-                <input type="hidden" name="table_id" value="" id="table_id" />
-
-                <table align="center" border="0">
-
-                    <tr>
-                        <td> 卓名: </td>
-                        <td>
-                        <select id="table_name">
-                            <?php
-                            	echo '<option value="-"> </option>';
-                                foreach($name_rows as $row)
-                                {
-                                    echo "<option value='".$row['id']."'>".$row['name']."</option>";
-                                }
-                            ?>
-                        </select>
-
-
-                        <!--<input type="text" id="table_name" name="table_name" />--></td>
-                    </tr>
-
-                </table>
-            </fieldset>
-            </form>
-        </div>
