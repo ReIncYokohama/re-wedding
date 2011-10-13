@@ -648,5 +648,13 @@ class DataClass extends DBO{
       return false;
     }
   }
-  
+  //受発注後は保存できないように。
+  public function get_table_editable($user_id){
+    $permission_table_edit = $this->GetSingleData("spssp_plan", "rename_table"," user_id =".$user_id);
+    $plan_info = $this->GetSingleRow("spssp_plan"," user_id=".$user_id);
+    include_once(dirname(__file__)."/class_information.dbo.php");
+    $infoobj = new InformationClass();
+    $editable=$infoobj->get_editable_condition($plan_info);
+    if($permission_table_edit==1 && $editable) return true; else return false;
+  }
 }
