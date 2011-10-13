@@ -636,17 +636,16 @@ $editable=$objInfo->get_editable_condition($plan_info);
       function getGaijisInputEle($gaiji_objs){
         $html = "";
         for($i=0;$i<count($gaiji_objs);++$i){
-          $html .= getHiddenValue( $gaiji_objs[$i]["gu_trgt_type"],$gaiji_objs[$i]["gu_char_img"],$gaiji_objs[$i]["gu_char_setcode"],$gaiji_objs[$i]["gu_sjis_code"]);
+          $html .= getHiddenValue( $gaiji_objs[$i]["gu_trgt_type"],$gaiji_objs[$i]["gu_char_img"],$gaiji_objs[$i]["gu_char_setcode"]);
         }
         return $html;
       }
-      function getHiddenValue($type,$img,$gid,$gsid){
+      function getHiddenValue($type,$img,$gid){
         $typeArray = array("male_first","male_last","comment1","comment2");
         $value = $typeArray[$type];
         $html = "";
         $html .= "<input type='hidden' name='".$value."_gaiji_img[]' value='".$img."'>";
         $html .= "<input type='hidden' name='".$value."_gaiji_gid[]' value='".$gid."'>";
-        $html .= "<input type='hidden' name='".$value."_gaiji_gsid[]' value='".$gsid."'>";
         return $html;
       }
       function getAllGaijisInputEle($gaijis){

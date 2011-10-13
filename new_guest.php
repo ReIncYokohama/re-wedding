@@ -64,10 +64,10 @@ else
   }
 
   //gidにはshiftjisのcodeを代入している。
-set_guest_gaiji_position($user_id,$guest_id,$post["last_name"],1,$_POST["male_last_gaiji_img"],$_POST["male_last_gaiji_gsid"]);
-set_guest_gaiji_position($user_id,$guest_id,$post["first_name"],0,$_POST["male_first_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
-set_guest_gaiji_position($user_id,$guest_id,$post["comment1"],2,$_POST["comment1_gaiji_img"],$_POST["comment1_gaiji_gsid"]);
-set_guest_gaiji_position($user_id,$guest_id,$post["comment2"],3,$_POST["comment2_gaiji_img"],$_POST["comment2_gaiji_gsid"]);
+set_guest_gaiji_position($user_id,$guest_id,$post["last_name"],1,$_POST["male_last_gaiji_img"],$_POST["male_last_gaiji_gid"]);
+set_guest_gaiji_position($user_id,$guest_id,$post["first_name"],0,$_POST["male_first_gaiji_img"],$_POST["male_first_gaiji_gid"]);
+set_guest_gaiji_position($user_id,$guest_id,$post["comment1"],2,$_POST["comment1_gaiji_img"],$_POST["comment1_gaiji_gid"]);
+set_guest_gaiji_position($user_id,$guest_id,$post["comment2"],3,$_POST["comment2_gaiji_img"],$_POST["comment2_gaiji_gid"]);
 
 $gift_group = $_POST['gift_group_id'];
 $menu_grp = $_POST['menu_grp'];
