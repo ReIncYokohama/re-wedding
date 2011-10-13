@@ -237,7 +237,7 @@ _Data.prototype = {
     $(".guest_sort").click(change_guest_sort_handler);
     
     var cancel_click_handler = function(){
-      if(confirm("キャンセルしますか？")){
+      if(confirm("元に戻しますか？")){
         location.reload();
       }
     };

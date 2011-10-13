@@ -202,6 +202,9 @@ for($i=0;$i<count($csv);++$i){
                   array(),array(),array(),array());
 }
 
+//csvアップロード時のログを記録
+$obj->set_log_csv_guest();
+
 $man_last_name = $user_row["man_lastname"];
 $woman_last_name = $user_row["woman_lastname"];
 $party_date = $obj->japanyDateFormate_for_mail($user_row['party_day']);

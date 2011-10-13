@@ -50,8 +50,14 @@ $(function(){
 <div id="header" class="clearfix">
 <div class="tab page_name">top Page</div>
 <div class="tab view_change_box">View</div>
-<div id="save_button" class="tab save_box">Save</div>
-<div id="cancel_button" class="tab cancel_box">Cancel</div>
+<?php
+  if($data_class->get_table_editable($user_id)){
+?>
+<div id="save_button" class="tab save_box">保存</div>
+<div id="cancel_button" class="tab cancel_box">元に戻す</div>
+<?php
+  }
+?>
 </div>
 <div style="text-align:center;color:navy;font-size:16px;">座席表編集モード</div>
 <div id="contents">
