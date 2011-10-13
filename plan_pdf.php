@@ -65,6 +65,10 @@ $pdf->SetTitle('TCPDF Example 006');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
+//headerとfooterを非表示
+$pdf->setPrintHeader(false);
+$pdf->setPrintFooter(false);
+
 // set default header data
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING);
 

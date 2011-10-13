@@ -7,6 +7,8 @@ $user_id = $_SESSION["userid"];
 
 $table_data = $data_class->get_table_data_detail($user_id);
 
+print_r($table_data);
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -63,6 +63,16 @@ _Data.prototype = {
     guest_index = desc?guest_index-1:guest_index+1;
     this.select_guest(this.first_higtlight(guest_index,desc));
   },
+  adjust_guest_name: function(ele,f8,c){
+    var f8 = f8?f8:7;
+    var c = c?c:9;
+    var name = String($(ele).text());
+    if(name.length>c){
+      $(ele).css("font-size","8px").text(name.substring(0,c));
+    }else if(name.length>f8){
+      $(ele).css("font-size","8px");
+    }
+  },
   //copy_ele contains (class number,sex,type,name,table_name)
   guest_view:function(){
     this.sort_guests();
@@ -85,9 +95,11 @@ _Data.prototype = {
       if(guests[i]["unset"]) continue;
       var trObject = copy_ele.clone().removeAttr("id").attr("guest_id",guests[i]["id"]);
       trObject.attr("id","guest"+guests[i]["id"]);
+      var name = guests[i].last_name+" "+guests[i].first_name;
       this.change_name(
-          {sex:(guests[i]["sex"]=="Male"?"新郎":"新婦"),name:guests[i].last_name+" "+guests[i].first_name,type:guests[i]["guest_type_value"]}
+          {sex:(guests[i]["sex"]=="Male"?"新郎":"新婦"),name:name,type:guests[i]["guest_type_value"]}
           ,trObject);
+      this.adjust_guest_name($(trObject).children(".name"));
       insert_ele.append(trObject);
       trObject.click(guest_name_click_handler);
       if(this.mode == "add" && this.is_highlight(guests[i]["id"])){
@@ -127,6 +139,7 @@ _Data.prototype = {
             .html(seats[k]["guest_detail"]["last_name"]+" "+seats[k]["guest_detail"]["first_name"])
             .attr("guest_id",seats[k]["guest_id"])
             .attr("title","<image src='"+seats[k]["guest_detail"]["name_plate"]+"'/>");
+            this.adjust_guest_name(jquery_obj,5,7);
           if(this.mode == "replace"){
             jquery_obj.removeClass("nopointer");
             jquery_obj.addClass("drag");
@@ -275,6 +288,7 @@ _Data.prototype = {
       if(!guest_id) return;
       var guest_data = dataClass.get_guest_data(guest_id);
       $("#move_card").show().css({"top":event.pageY-15+"px","left":event.pageX-30}).text(guest_data["last_name"]+" "+guest_data["first_name"]);
+      dataClass.adjust_guest_name($("#move_card"),5,7);
       $(this).text("");
       var mouse_move_handler = function(){
         $("#move_card").css({"top":event.pageY-15+"px","left":event.pageX-30});
