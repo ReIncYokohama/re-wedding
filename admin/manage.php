@@ -209,6 +209,8 @@ font-weight:normal;
 window.onbeforeunload = function(event) {
 //	alert("Before Unload");
 //return true;
+//	alert("Before onunload");
+//	if(self.closed) alert("CLOSE");
 }
 window.onunload = function(event) {
 //	var ref = event.target.referrer;
@@ -389,15 +391,15 @@ function sortAction(sortOptin)
 
 function validSearch()
 {
-	var date_from;
-	var date_to;
-	var mname;
-	var wname;
+	var date_from="";
+	var date_to="";
+	var mname="";
+	var wname="";
 
-	date_from = $j("#date_from").val();
-	date_to = $j("#date_to").val();
-	mname= $j("#man_lastname").val();
-	wname = $j("#woman_lastname").val();
+	date_from = document.condition.date_from.value;
+	date_to = document.condition.date_to.value;
+	mname= document.condition.man_lastname.value
+	wname = document.condition.woman_lastname.value;
 
 	document.condition.h_date_from.value = date_from;
 	document.condition.h_date_to.value = date_to;
@@ -425,20 +427,21 @@ function validSearch()
 				alert("披露宴開始日の日付指定が間違っています。\nカレンダーアイコンから選択するか、正しく入力してください");
 				return false;
 			}
+			if (date_from < today) {
+				alert("披露宴開始日が過去になっています");
+				return false;
+			}
 		}
-		if (date_from < today) {
-			alert("披露宴開始日が過去になっています");
-			return false;
-		}
+
 		if (date_to != "") {
 			if (ckDate(date_to) == false) {
 				alert("披露宴終了日の日付指定が間違っています。\nカレンダーアイコンから選択するか、正しく入力してください");
 				return false;
 			}
-		}
-		if (date_to < today) {
-			alert("披露宴終了日が過去になっています");
-			return false;
+			if (date_to < today) {
+				alert("披露宴終了日が過去になっています");
+				return false;
+			}
 		}
 		if (date_from != "" && date_to != "") {
 			if (date_from > date_to) {

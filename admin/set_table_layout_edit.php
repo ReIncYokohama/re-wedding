@@ -32,7 +32,8 @@ if($_GET['action']=="save") {
 			$s1 = split("/", $def);
 			$def_id = $s1[0];
 			$tname = $_POST['table_name_'.$s1[1]];
-			$tid = $objInfo->get_table_id($tname);
+			if ($tname!="") 	$tid = $objInfo->get_table_id($tname);
+			else 				$tid = 0;
 			$query = "update spssp_user_table set table_name_id=".$tid." where default_table_id=".$def_id." and user_id=".$user_id;
 			mysql_query($query);
 		}
