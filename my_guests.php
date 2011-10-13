@@ -139,69 +139,18 @@ $genderStatus = $obj->GetSingleData(" spssp_guest_orderstatus ", "orderstatus", 
 
 
 ?>
-
 <script type="text/javascript">
-
-
-/*
-入力された文字に外字が入っているかどうか判定。
-*/
-function checkGaiji(str,path){
-    var return_str = "";
-    $.ajax({
-           "url" :path,
-           "success":function(txt){
-               if(txt != ""){
-                   alert("外字の入力は外字検索からお願いします。"+txt);
-               }
-               return_str = txt;
-           },
-           "async":false,
-           "data":{d:str}
-        });
-    if(return_str == "") return true;
-    return false;
-}
-
-/* 外字のフォームから外字を削除した際の動作
-   input_id
-   div_image delete for image　外字のイメージを入力しているエレメントid
-   form_name delete for input　外字のデータを格納しているフォーム名 img[]等はの除く
- */
-function setDeleteGaiji(gaiji_obj){
-  var text = "";
-  var gaiji = 0;
-  var getGaijiNum = function(text){
-    return text.split("＊").length-1;
-  }
-  var id = "#"+gaiji_obj["input_id"];
-  $(id).keydown(function(event){
-      text = $(this).val();
-      gaiji = getGaijiNum(text);
-    });
-  $(id).keyup(function(event) {
-      var nowtext = $(this).val();
-      var nowgaiji = getGaijiNum(nowtext);
-      if(event.keyCode == 8){
-        if(nowgaiji < gaiji){
-          var inputs = $('input[name='+gaiji_obj["form_name"]+'img[]]');
-          $(inputs[inputs.length-1]).remove();
-          var inputs = $('input[name='+gaiji_obj["form_name"]+'gid[]]');
-          $(inputs[inputs.length-1]).remove();
-          var inputs = $('input[name='+gaiji_obj["form_name"]+'gsid[]]');
-          $(inputs[inputs.length-1]).remove();
-          var images = $("#"+gaiji_obj["div_image"]+" > img");
-          $(images[images.length-1]).remove();
-        }
-      }
-   });
-};
-
+//jqueryの変数を統一するため。
+$j = $;
+</script>
+<script src="js/gaiji.js"></script>
+<script type="text/javascript">
+$j = $;
 
 $(document).ready(function(){
       
   $(".check_sjs_1").change(function(){
-      checkGaiji($(this).val(),"gaiji_check.php");
+      checkGaiji($(this).val(),"gaiji_check.php",this);
   });
 
 
@@ -416,7 +365,7 @@ function validForm()
    //gaiji_check
    var return_flag = true;
    $(".check_sjs_1").each(function(){
-       if(return_flag && !checkGaiji($(this).val(),"gaiji_check.php")) return_flag = false;
+       if(return_flag && !checkGaiji($(this).val(),"gaiji_check.php",this)) return_flag = false;
    });
   
   document.newguest.submit();

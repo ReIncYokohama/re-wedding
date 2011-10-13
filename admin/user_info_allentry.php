@@ -170,7 +170,7 @@ $j(document).ready(function(){
           div_image:"female_firstname_img_div_id"});
 
   $j(".check_sjs_1").change(function(){
-      checkGaiji($j(this).val(),"../gaiji_check.php");
+      checkGaiji($j(this).val(),"../gaiji_check.php",this);
   });
 
 });
@@ -649,7 +649,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
    //gaiji_check
    var return_flag = true;
    $j(".check_sjs_1").each(function(){
-       if(return_flag && !checkGaiji($j(this).val(),"../gaiji_check.php")) return_flag = false;
+       if(return_flag && !checkGaiji($j(this).val(),"../gaiji_check.php",this)) return_flag = false;
    });
    if(!return_flag) return false;
 

@@ -35,13 +35,16 @@ function setDeleteGaiji(gaiji_obj){
 /*
 入力された文字に外字が入っているかどうか判定。
 */
-function checkGaiji(str,path){
+function checkGaiji(str,path,ele){
     var return_str = "";
     $j.ajax({
            "url" :path,
            "success":function(txt){
                if(txt != ""){
                    alert("外字の入力は外字検索からお願いします。"+txt);
+                   for(var i=0;i<txt.length;++i){
+                     $j(ele).val(String($j(ele).val()).replace(txt[i],"●"));
+                   }
                }
                return_str = txt;
            },

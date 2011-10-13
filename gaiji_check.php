@@ -26,7 +26,7 @@ function check_sjis_1($target, $check_line,$enc='utf-8'){
       $check_line[$i] = preg_replace("/\r|\n/","",$check_line[$i]);
       $check_line[$i] = strtolower($check_line[$i]);
       if($check_line[$i] == bin2hex($utf_16)){
-        $rtn .= $str0."(MS異形文字)";
+        $rtn .= $str0;
         $change = true;
         break;
       }
@@ -47,7 +47,7 @@ function check_sjis_1($target, $check_line,$enc='utf-8'){
           // ||(($c3 >= 0xE040) && ($c3 <= 0xEAFF))//  第二水準
           ) { 
       } else {
-        $rtn .= $str0."(外字)";
+        $rtn .= $str0;
       }
     }
   }
