@@ -102,6 +102,12 @@
 
 
 ?>
+<style>
+.guests_area_L2 {
+	float: left;
+	width: 600px;
+}
+</style>
 <script type="text/javascript">
 
  var title=$("title");
@@ -214,7 +220,7 @@ function editUserMenu()
 </div>
 
 <div class="cont_area">
-<div class="guests_area_L">
+<div class="guests_area_L2">
 <?php
 $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_id);
 		$gift_rows = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".$user_id);
@@ -331,7 +337,8 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 		$i=0;
 
 		foreach($gift_rows as $gift)
-				{
+		{
+			if($gift['name']!="") {
 			?>
             <tr height="20px" <?php if($i%2==0){?>style="background:#FFFFFF"<?php }else{?>style="background:#ECF4FB"<?php }?>>
 			<td align="center" style="text-align:center"><b><?=$gift['name'];?></b></td>
@@ -341,7 +348,7 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 			$gift_arr = array();
 			$groups = array();
             foreach($group_rows as $row)
-				{
+			{
 				$gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$row['id']);
 
 				$gift_arr = explode("|",$gift_ids);
@@ -359,10 +366,12 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 					$_disable="";
 					$_readonly="";
 				}
-
+			if ($row['name']!="") {
 			?>
-            <div style="width:50px; float:left; text-align:left; padding:2px;"><b> <?=$row['name']?> </b> <input type="checkbox" <?=$_disable?> value="<?=$gift['id']?>" id="group_<?=$j?>" <?php if(in_array($gift['id'],$gift_arr)) { ?> checked="checked" <?php } ?> name="group_<?=$row['id']?>[]"/></div>
+	            <div style="width:50px; float:left; text-align:left; padding:2px;"><b> <?=$row['name']?> </b> 
+	            <input type="checkbox" <?=$_disable?> value="<?=$gift['id']?>" id="group_<?=$j?>" <?php if(in_array($gift['id'],$gift_arr)) { ?> checked="checked" <?php } ?> name="group_<?=$row['id']?>[]"/></div>
             <?php
+			}
 				$j++;
                 }
 
@@ -389,21 +398,25 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
             </tr>
 			<?php
 			$i++;
-				}
+			}
+		}
 			?>
-          <tr>
-		     <td colspan="3">
-            <input type="hidden" value="OK" name="submitok">
-				<?php
-				if($editable)
-				  {?>
-            		<input type="button" onclick="validForm();" value="保存" name="sub">
-				<?php
-				}
-				?>
-			</td>
-		  </tr>
 </table>
+        <input type="hidden" value="OK" name="submitok">
+		<?php
+		if($editable)
+		{?>
+			&nbsp;<br />
+			<a href="javascript:void(0)" onclick="validForm();" name="sub">
+        	<img src="img/btn_save_user.jpg" border="0" />
+        	</a>
+			&nbsp;
+			<a href="hikidemono.php" name="cancel">
+        	<img src="img/btn_rollback_user.jpg" border="0" />
+        	</a>
+        	<?php
+		}
+		?>
 </form>
 </div>
 <br /><br />
