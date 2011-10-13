@@ -26,7 +26,7 @@
     	<img src="img/common/nav_stuffname.gif" alt="TOP" width="148" height="30" />
          <?php
    if($_SESSION["super_user"]){
-   	  if ((int)$_SESSION['adminid']==1)	$staff_name = "アプリ管理者";
+   	  if ((int)$_SESSION['adminid']==1)	$staff_name = "印刷会社"; //"アプリ管理者";
    	  else 								$staff_name = "印刷会社";
    }else{
      $staff_name=$obj->GetSingleData("spssp_admin", "name"," id=".(int)$_SESSION['adminid']);
