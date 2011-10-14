@@ -426,9 +426,9 @@ if($layoutname=="")
   $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
 
 
-$html.='<table style="font-size:'.$main_font_size_top.';">';
+//$html.='<table style="font-size:'.$main_font_size_top.';">';
 
-$html.='<tr><td>&nbsp;</td><td>&nbsp;</td><td><table style="border:1px solid black;padding:10px;"><tr><td align="center"  valign="middle" style="text-align:center;">'.$layoutname.'</td></tr></table></td><td>&nbsp;</td><td>&nbsp;</td></tr></table><br/>';
+//$html.='<tr><td>&nbsp;</td><td>&nbsp;</td><td><table style="border:1px solid black;padding:10px;"><tr><td align="center"  valign="middle" style="text-align:center;">'.$layoutname.'</td></tr></table></td><td>&nbsp;</td><td>&nbsp;</td></tr></table><br/>';
 
 $html.='<table cellspacing="4" cellspadding="4" width="100%" style="font-size:'.$main_font_size.';">';
 

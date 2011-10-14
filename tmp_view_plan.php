@@ -7,7 +7,7 @@ $user_id = $_SESSION["userid"];
 
 $table_data = $data_class->get_table_data_detail($user_id);
 
-print_r($table_data);
+//print_r($table_data);
 
 ?>
 
