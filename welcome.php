@@ -93,11 +93,15 @@ function confirmDelete(urls)
 					</div>
 					<div>
 						<a href="javascript:void(0);" onClick="confirmDelete('welcome.php?code=1');">
-						<img height="150" style="border:1px solid;" border="0" width="150" src="img/welcome_2.png"></a>
+                        
+                        
+						<img height="150" style="border:0px solid;" border="0" width="150" src="img/welcome_2.png"
+onmouseover="this.src='img/welcome_2_on.png';" onmouseout="this.src='img/welcome_2.png'" /></a>
 					</div>
 					<div >
 						<a href="javascript:void(0);"  onClick="confirmDelete('welcome.php?code=2');">
-						<img height="150" style="border:1px solid;margin-top:20px;" border="0" width="150" src="img/welcome_3.png"></a>
+						<img height="150" style="border:0px solid;margin-top:20px;" border="0" width="150" src="img/welcome_3.png"
+onmouseover="this.src='img/welcome_3_on.png';" onmouseout="this.src='img/welcome_3.png'" /> </a>
 					</div>
 				</div>
 
