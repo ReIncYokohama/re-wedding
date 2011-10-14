@@ -70,7 +70,7 @@
 					$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 					
 					unset($post);
-					$post['state']=date("Y-m-d H:i:s");
+					$post['state']=date("Y/m/d");
 					$obj->UpdateData('spssp_user',$post,"id=".$user_id);
 
 					/*unset($post);
