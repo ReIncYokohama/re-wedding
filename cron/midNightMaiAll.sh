@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd $(cd `dirname $0`; pwd)
+
 num=1
 while [ $num -le 10 ]
 do
