@@ -352,170 +352,6 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	
 	var reg = /^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/;
 
-	if(document.getElementById("man_lastname").value=='')
-	{
-		alert("新郎の姓を正しく入力してください"); // UCHIDA EDIT 11/08/05 メッセージを変更
-		document.getElementById('man_lastname').focus();
-		return false;
-	}
-	if(document.getElementById("man_firstname").value=='')
-	{
-		alert("新郎の名を正しく入力してください");
-		document.getElementById('man_firstname').focus();
-		return false;
-	}
-
-	if(document.getElementById("man_furi_firstname").value=='')
-	{
-		alert("新郎の名のふりがなを正しく入力してください");
-		document.getElementById('man_furi_firstname').focus();
-		return false;
-	}
-
-   var str = document.getElementById("man_furi_firstname").value;
-   if( str.match( /[^ぁ-ん\sー]+/ ) ) {
-      alert("新郎の名のふりがなを正しく入力してください");
-	  document.getElementById('man_furi_firstname').focus();
-	  return false;
-   }
-
-
-	if(document.getElementById("man_furi_lastname").value=='')
-	{
-		alert("新郎の姓のふりがなを正しく入力してください");
-		document.getElementById('man_furi_lastname').focus();
-		return false;
-	}
-
-   var str1 = document.getElementById("man_furi_lastname").value;
-   if( str1.match( /[^ぁ-ん\sー]+/ ) ) {
-      alert("新郎の名のふりがなを正しく入力してください");
-	  document.getElementById('man_furi_lastname').focus();
-	  return false;
-   }
-
-	if(document.getElementById("woman_lastname").value=='')
-	{
-		alert("新婦の姓を正しく入力してください");
-		document.getElementById('woman_lastname').focus();
-		return false;
-	}
-
-	if(document.getElementById("woman_firstname").value=='')
-	{
-		alert("新婦の名を正しく入力してください");
-		document.getElementById('woman_firstname').focus();
-		return false;
-	}
-
-	if(document.getElementById("woman_furi_firstname").value=='')
-	{
-		alert("新婦の名のふりがなを正しく入力してください");
-		document.getElementById('woman_furi_firstname').focus();
-		return false;
-	}
-
-    var str2 = document.getElementById("woman_furi_firstname").value;
-   if( str2.match( /[^ぁ-ん\sー]+/ ) ) {
-      alert("新婦の名のふりがなを正しく入力してください");
-	  document.getElementById('woman_furi_firstname').focus();
-	  return false;
-   }
-
-	if(document.getElementById("woman_furi_lastname").value=='')
-	{
-		alert("新婦の姓のふりがなを正しく入力してください");
-		document.getElementById('woman_furi_lastname').focus();
-		return false;
-	}
-
-    var str3 = document.getElementById("woman_furi_lastname").value;
-   if( str3.match( /[^ぁ-ん\sー]+/ ) ) {
-      alert("新婦の姓のふりがなを正しく入力してください");
-	  document.getElementById('woman_furi_lastname').focus();
-	  return false;
-   }
-
-	if(document.getElementById("marriage_day").value=='')
-	{
-		alert("挙式日を正しく入力してください");
-		document.getElementById('marriage_day').focus();
-		return false;
-	}
-
-    var str4 = document.getElementById("marriage_hour").value;
-    if (str4 == "") {
-      alert("挙式時間を入力ください");
-	  document.getElementById('marriage_hour').focus();
-	  return false;
-    }
-    if( str4.match( /[^0-9\s]+/ ) ) {
-      alert("挙式時間は半角数字で入力してください");
-	  document.getElementById('marriage_hour').focus();
-	  return false;
-    }
-    if( str4.indexOf(" ")>=0 || str4.indexOf("　")>=0 ) {
-      alert("挙式時間は半角数字で入力してください");
-	  document.getElementById('marriage_hour').focus();
-	  return false;
-    }
-	if(str4 > 23)
-	{
-	      alert("挙式時間は0から22の間で入力してください");
-		  document.getElementById('marriage_hour').focus();
-		  return false;
-	}
-
-	if(str4 > 22 || str4 < 7)
-	{
-		alert("挙式時間は7:00〜22:00の間で入力してください");
-		document.getElementById('marriage_hour').focus();
-		return false;
-	}
-
-	var str5 = document.getElementById("marriage_minute").value;
-	if(str5 > 59)
-	{
-		alert("59分以上は入力できません");
-		document.getElementById('marriage_minute').focus();
-		return false;
-	}
-  if (str5 == "") {
-      alert("挙式時間を入力ください");
-	  document.getElementById('marriage_minute').focus();
-	  return false;
-	}
-   if( str5.match( /[^0-9\s]+/ ) ) {
-      alert("挙式時間は半角数字で入力してください");
-	  document.getElementById('marriage_minute').focus();
-	  return false;
-   }
-   if( str5.indexOf(" ")>=0 || str5.indexOf("　")>=0 ) {
-      alert("挙式時間は半角数字で入力してください");
-	  document.getElementById('marriage_minute').focus();
-	  return false;
-   }
-   if(str4 == 22 && str5 > 00)
-	{
-	   alert("挙式時間は7:00～22:00の間で入力してください");
-		document.getElementById('marriage_minute').focus();
-		return false;
-	}
-
-	if(document.getElementById("room_id").value=='')
-	{
-		alert("必須項目は必ず入力してください。");
-		document.getElementById('room_id').focus();
-		return false;
-	}
-
-	if(document.getElementById("religion").value=='')
-	{
-		alert("挙式種類を選択してください");
-		document.getElementById('religion').focus();
-		return false;
-	}
-
 	if(document.getElementById("party_day").value=='')
 	{
 		alert("披露宴日を正しく入力してください");
@@ -581,6 +417,169 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 			document.getElementById('party_minute').focus();
 			return false;
 		}
+
+	if(document.getElementById("man_lastname").value=='')
+	{
+		alert("新郎の姓を正しく入力してください"); // UCHIDA EDIT 11/08/05 メッセージを変更
+		document.getElementById('man_lastname').focus();
+		return false;
+	}
+	if(document.getElementById("man_firstname").value=='')
+	{
+		alert("新郎の名を正しく入力してください");
+		document.getElementById('man_firstname').focus();
+		return false;
+	}
+
+	if(document.getElementById("man_furi_lastname").value=='')
+	{
+		alert("新郎の姓のふりがなを正しく入力してください");
+		document.getElementById('man_furi_lastname').focus();
+		return false;
+	}
+
+   var str1 = document.getElementById("man_furi_lastname").value;
+   if( str1.match( /[^ぁ-ん\sー]+/ ) ) {
+      alert("新郎の名のふりがなを正しく入力してください");
+	  document.getElementById('man_furi_lastname').focus();
+	  return false;
+   }
+
+   if(document.getElementById("man_furi_firstname").value=='')
+	{
+		alert("新郎の名のふりがなを正しく入力してください");
+		document.getElementById('man_furi_firstname').focus();
+		return false;
+	}
+
+   var str = document.getElementById("man_furi_firstname").value;
+   if( str.match( /[^ぁ-ん\sー]+/ ) ) {
+      alert("新郎の名のふりがなを正しく入力してください");
+	  document.getElementById('man_furi_firstname').focus();
+	  return false;
+   }
+
+	if(document.getElementById("woman_lastname").value=='')
+	{
+		alert("新婦の姓を正しく入力してください");
+		document.getElementById('woman_lastname').focus();
+		return false;
+	}
+
+	if(document.getElementById("woman_firstname").value=='')
+	{
+		alert("新婦の名を正しく入力してください");
+		document.getElementById('woman_firstname').focus();
+		return false;
+	}
+
+	if(document.getElementById("woman_furi_lastname").value=='')
+	{
+		alert("新婦の姓のふりがなを正しく入力してください");
+		document.getElementById('woman_furi_lastname').focus();
+		return false;
+	}
+
+    var str3 = document.getElementById("woman_furi_lastname").value;
+   if( str3.match( /[^ぁ-ん\sー]+/ ) ) {
+      alert("新婦の姓のふりがなを正しく入力してください");
+	  document.getElementById('woman_furi_lastname').focus();
+	  return false;
+   }
+
+   if(document.getElementById("woman_furi_firstname").value=='')
+	{
+		alert("新婦の名のふりがなを正しく入力してください");
+		document.getElementById('woman_furi_firstname').focus();
+		return false;
+	}
+
+    var str2 = document.getElementById("woman_furi_firstname").value;
+   if( str2.match( /[^ぁ-ん\sー]+/ ) ) {
+      alert("新婦の名のふりがなを正しく入力してください");
+	  document.getElementById('woman_furi_firstname').focus();
+	  return false;
+   }
+
+	if(document.getElementById("marriage_day").value=='')
+	{
+//		alert("挙式日を正しく入力してください");
+//		document.getElementById('marriage_day').focus();
+//		return false;
+	}
+    var str4 = document.getElementById("marriage_hour").value;
+    if (str4 == "") {
+//      alert("挙式時間を入力ください");
+//	  document.getElementById('marriage_hour').focus();
+//	  return false;
+    }
+    if( str4.match( /[^0-9\s]+/ ) ) {
+      alert("挙式時間は半角数字で入力してください");
+	  document.getElementById('marriage_hour').focus();
+	  return false;
+    }
+    if( str4.indexOf(" ")>=0 || str4.indexOf("　")>=0 ) {
+      alert("挙式時間は半角数字で入力してください");
+	  document.getElementById('marriage_hour').focus();
+	  return false;
+    }
+	if(str4 > 23)
+	{
+	      alert("挙式時間は0から22の間で入力してください");
+		  document.getElementById('marriage_hour').focus();
+		  return false;
+	}
+
+	if(str4!="" && (str4 > 22 || str4 < 7))
+	{
+		alert("挙式時間は7:00〜22:00の間で入力してください");
+		document.getElementById('marriage_hour').focus();
+		return false;
+	}
+
+	var str5 = document.getElementById("marriage_minute").value;
+	if(str5 > 59)
+	{
+		alert("59分以上は入力できません");
+		document.getElementById('marriage_minute').focus();
+		return false;
+	}
+  if (str5 == "") {
+//      alert("挙式時間を入力ください");
+//	  document.getElementById('marriage_minute').focus();
+//	  return false;
+	}
+   if( str5.match( /[^0-9\s]+/ ) ) {
+      alert("挙式時間は半角数字で入力してください");
+	  document.getElementById('marriage_minute').focus();
+	  return false;
+   }
+   if( str5.indexOf(" ")>=0 || str5.indexOf("　")>=0 ) {
+      alert("挙式時間は半角数字で入力してください");
+	  document.getElementById('marriage_minute').focus();
+	  return false;
+   }
+   if(str4!="" && (str4 == 22 && str5 > 00))
+	{
+	   alert("挙式時間は7:00～22:00の間で入力してください");
+		document.getElementById('marriage_minute').focus();
+		return false;
+	}
+
+	if(document.getElementById("room_id").value=='')
+	{
+//		alert("必須項目は必ず入力してください。");
+//		document.getElementById('room_id').focus();
+//		return false;
+	}
+
+	if(document.getElementById("religion").value=='')
+	{
+//		alert("挙式種類を選択してください");
+//		document.getElementById('religion').focus();
+//		return false;
+	}
+
 
 //	if(document.getElementById("user_id").value=='')
 //	{
