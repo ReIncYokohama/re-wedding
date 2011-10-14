@@ -125,11 +125,13 @@ function user_layout_title_input_show(id)
 
 	.tables
 	{
-		height:31px;
-		width: 31px;
+		height:50px;
+		width: 50px;
 		float:left;
 
 		background-image:url(img/circle_small.jpg);
+		background-repeat: no-repeat;
+		background-position: center center;
 
 	}
 
@@ -327,7 +329,7 @@ function user_layout_title_input_show(id)
        		<?php
       $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
       $num_tables = $obj->getSingleData("spssp_plan", "column_number"," user_id= $user_id");
-      $rw_width = (int)($num_tables* 51);
+      $rw_width = (int)($num_tables* 71);
 			?>
 			<div>
 	<?php
@@ -386,7 +388,7 @@ function user_layout_title_input_show(id)
 						}
 						else
 						{
-							$wd = $rw_width - ($num_none*51);
+							$wd = $rw_width - ($num_none*71);
 							$pos = 'margin:0 auto; width:'.$wd.'px';
 						}
 
@@ -407,15 +409,12 @@ function user_layout_title_input_show(id)
                       if($table_row['name']!='')
                         {
                           $tblname = $table_row['name'];
-
-
-                            }
-                            elseif(is_array($new_name_row) && $new_name_row['id'] !='')
-                            {
-
-                              $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-                              $tblname = $tblname_row['name'];
-                            }
+                        }
+                        elseif(is_array($new_name_row) && $new_name_row['id'] !='')
+                        {
+                            $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
+                            $tblname = $tblname_row['name'];
+                        }
 
                         if($table_row["display"] == 1){
                           $disp = 'display:block;';
@@ -425,11 +424,12 @@ function user_layout_title_input_show(id)
                         }else{
                           $disp = "display:none";
                         }
+                        if ($tblname=="") $tblname="　";
                     ?>
                     <div class="tables" style="<?=$disp?>">
-                        <p align="left" style="text-align:center;" id="table_<?=$table_row['id']?>">
-                        	<font style='font-size:60%' color="#ff0000"><?echo $ct?></font> <!-- UCHIDA EDIT 11/07/28 -->
-                            <b> <?=mb_substr ($tblname, 0,1,'UTF-8');?></b>
+                        <p id="table_<?=$table_row['id']?>">
+                        	<font style='font-size:75%' color="#ff0000"><?echo $ct?></font>
+                            <font style='font-size:120%'><b  style="text-align:center; width:100%; height:40px; line-height:40px;"> <?=mb_substr ($tblname, 0,1,'UTF-8');?></b></font>
                         </p>
                     </div>
 				<?php
