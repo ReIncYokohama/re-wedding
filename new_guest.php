@@ -93,6 +93,6 @@ if(isset($menu_grp) && $menu_grp != '')
 make_guest_images($user_id,$guest_id,$post["last_name"],$post["first_name"],$post["comment1"],$post["comment2"],$guest_respect,
                   $_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],$_POST["comment1_gaiji_img"],$_POST["comment2_gaiji_img"]);
 
-redirect("my_guests.php?page=".$_GET['guest_id']);
+redirect("my_guests.php?page=".$_GET['guest_id']."&option=".$_GET['option']);
 
 
