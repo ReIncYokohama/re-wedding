@@ -125,10 +125,11 @@ function user_layout_title_input_show(id)
 
 	.tables
 	{
-		height:50px;
-		width: 50px;
+		height:40px;
+		width: 40px;
 		float:left;
-
+		
+		text-align:left; 
 		background-image:url(img/circle_small.jpg);
 		background-repeat: no-repeat;
 		background-position: center center;
@@ -138,7 +139,7 @@ function user_layout_title_input_show(id)
 	.tables
 	{
 
-		margin:5px 10px;
+		margin:5px 5px;
 
 	}
 	.tables p
@@ -329,7 +330,7 @@ function user_layout_title_input_show(id)
        		<?php
       $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
       $num_tables = $obj->getSingleData("spssp_plan", "column_number"," user_id= $user_id");
-      $rw_width = (int)($num_tables* 71);
+      $rw_width = (int)($num_tables* 51);
 			?>
 			<div>
 	<?php
@@ -388,7 +389,7 @@ function user_layout_title_input_show(id)
 						}
 						else
 						{
-							$wd = $rw_width - ($num_none*71);
+							$wd = $rw_width - ($num_none*51);
 							$pos = 'margin:0 auto; width:'.$wd.'px';
 						}
 
@@ -429,7 +430,7 @@ function user_layout_title_input_show(id)
                     <div class="tables" style="<?=$disp?>">
                         <p id="table_<?=$table_row['id']?>">
                         	<font style='font-size:75%' color="#ff0000"><?echo $ct?></font>
-                            <font style='font-size:120%'><b  style="text-align:center; width:100%; height:40px; line-height:40px;"> <?=mb_substr ($tblname, 0,1,'UTF-8');?></b></font>
+                            <font style='font-size:100%'><b  style="height:30px; line-height:30px;"> <?=mb_substr ($tblname, 0,1,'UTF-8');?></b></font>
                         </p>
                     </div>
 				<?php
