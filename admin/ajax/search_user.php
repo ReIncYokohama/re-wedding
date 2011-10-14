@@ -10,8 +10,29 @@ $post = $obj->protectXSS($_POST);
 //	echo $post['action']." : ".$post['user_id']." : ".$post['sortOptin']." : ".$post['date_from']." : ".$post['date_to']." : ".$post['mname']." : ".$post['wname']." : ".$post['view'];
 	if($post['action']=='delete_user' && $post['user_id'] > 0)
 	{
-		$sql = "delete from spssp_user where id=".$post['user_id'];
-		mysql_query($sql);
+		$uid=(int)$post['user_id'];
+		$_plan = $obj->GetSingleRow("spssp_plan", "user_id=".$uid);
+		$sql = "delete from spssp_plan_details where plan_id=".(int)$_plan['id'];	mysql_query($sql);
+	
+		$sql = "delete from guest_csv_upload_log where user_id=".$uid;				mysql_query($sql);
+		$sql = "delete from spssp_admin_messages where user_id=".$uid; 				mysql_query($sql);
+		$sql = "delete from spssp_change_log where user_id=".$uid; 					mysql_query($sql);
+		$sql = "delete from spssp_clicktime where user_id=".$uid; 					mysql_query($sql);
+		$sql = "delete from spssp_gift where user_id=".$uid; 						mysql_query($sql);
+		$sql = "delete from spssp_gift_group where user_id=".$uid; 					mysql_query($sql);
+		$sql = "delete from spssp_gift_group_relation where user_id=".$uid; 		mysql_query($sql);
+		$sql = "delete from spssp_guest where user_id=".$uid; 						mysql_query($sql);
+		$sql = "delete from spssp_guest_gift where user_id=".$uid; 					mysql_query($sql);
+		$sql = "delete from spssp_guest_menu where user_id=".$uid; 					mysql_query($sql);
+		$sql = "delete from spssp_guest_orderstatus where user_id=".$uid; 			mysql_query($sql);
+		$sql = "delete from spssp_menu_group where user_id=".$uid; 					mysql_query($sql);
+		$sql = "delete from spssp_message where user_id=".$uid; 					mysql_query($sql);
+		$sql = "delete from spssp_plan where user_id=".$uid; 						mysql_query($sql);
+		$sql = "delete from spssp_table_layout where user_id=".$uid; 				mysql_query($sql);
+		$sql = "delete from spssp_user_log where user_id=".$uid; 					mysql_query($sql);
+		$sql = "delete from spssp_user_table where user_id=".$uid; 					mysql_query($sql);
+	
+		$sql = "delete from spssp_user where id=".$uid;								mysql_query($sql);	
 	}
 
 if($post['date_from'] != '')
