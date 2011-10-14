@@ -203,7 +203,8 @@ class DataClass extends DBO{
     }
     for($i=0;$i<count($columns);++$i){
       if(($columns[$i]["align"] == "C" && $first-1<=$i && $last>$i && $columns[$i]["display"]!=1)||
-         ($columns[$i]["align"] == "N" && $columns[$i]["display"]!=1)
+         ($columns[$i]["align"] != "C" && $columns[$i]["display"]!=1)
+         
          ){
         $columns[$i]["visible"] = true;
       }
