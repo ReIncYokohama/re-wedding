@@ -86,7 +86,7 @@ if(!$force){
     <div class="top_box1">
     <div id="message"><?=$messageText?>
     </div>
-    <button onclick="window.close();">ウィンドウを閉じる</button>
+    <button onclick="window.close();">閉じる</button>
 </div>
 
 </body>

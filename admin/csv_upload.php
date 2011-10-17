@@ -17,15 +17,15 @@
    
    
     <div class="top_box1">
-      <table width="420" border="0" cellspacing="0" cellpadding="0">
+      <table width="600" border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td>「参照...」ボタンを押して、アップロードするファイルを選択してください</td>
+          <td>「参照...」ボタンを押して、アップロードするファイルを選択してください。</td>
         </tr>
         <tr>
-          <td>　　※アップロードは時間がかかります</td>
+          <td>　※アップロードは時間がかかります。完了メッセージが出るまで画面を閉じないでください。</td>
         </tr>
                 <tr>
-          <td> 　　　完了メッセージが出るまで画面を閉じないでください</td>
+          <td> 　</td>
         </tr>
       </table>
 
@@ -37,17 +37,17 @@
            {
              $mes =($message =='1')?"アップロードに成功しました":"アップロードできませんでした。";
            ?>
-        <table width="420" border="0" cellspacing="0" cellpadding="0">
+        <table width="600" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td align="center"><font color="#FF0000"><?=$mes?></td>
         </tr>
       </table>
         <? }?>
-          <table width="420" border="0" cellspacing="0" cellpadding="0">
+          <table width="500" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td>
             <form method="post" enctype="multipart/form-data" action="csv_upload_action.php" name="uploaddoc">            
-              <input type=file name="csv" size="50">
+              <input type=file name="csv" size="80">
               <input type="hidden" name="user_id" value="<?=$_GET["user_id"]?>" />
             </form>
           </td>
@@ -55,7 +55,7 @@
       </table>
 
     </div>
-    <br />
+
     <div class="top_box2">
       <a href="javascript:void(0);"><img onclick="javascript:document.uploaddoc.submit();" src="img/btn_upload_list.jpg" alt="アップロード" width="82" height="22" /></a>
       <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_cancel.jpg" alt="アップロード" width="82" height="22" /></a>
