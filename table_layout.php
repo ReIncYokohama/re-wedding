@@ -313,7 +313,17 @@ function user_layout_title_input_show(id)
 				if($permission_table_edit==1 && $editable)
 				  {?>
 				  <tr>
-				  <td colspan="4"><input type="button" name="edit" value="保存" onclick="validForm(<?=$k-1?>);"></td>
+				  <td colspan="4">
+
+					&nbsp;<br />
+					<a href="javascript:void(0)" onclick="validForm(<?=$k-1?>);" name="edit">
+		        	<img src="img/btn_save_user.jpg" border="0" />
+		        	</a>
+					&nbsp;
+					<a href="table_layout.php" name="cancel">
+		        	<img src="img/btn_rollback_user.jpg" border="0" />
+		        	</a>
+					</td>
 				  </tr>
 
 				  <?php
@@ -420,6 +430,8 @@ function user_layout_title_input_show(id)
                         if($table_row["display"] == 1){
                           $disp = 'display:block;';
                           $ct++;
+                          $ctm=$ct;
+                          if ($ct<10) $ctm="&nbsp;&nbsp;".$ct; 
                         }else if(($num_first <= $table_row["column_order"] && $table_row["column_order"]<=$num_last) || $ralign == "N" ){
                           $disp = "visibility:hidden";
                         }else{
@@ -429,7 +441,7 @@ function user_layout_title_input_show(id)
                     ?>
                     <div class="tables" style="<?=$disp?>">
                         <p id="table_<?=$table_row['id']?>">
-                        	<font style='font-size:75%' color="#ff0000"><?echo $ct?></font>
+                        	<font style='font-size:75%' color="#ff0000"><?echo $ctm?></font>
                             <font style='font-size:100%'><b  style="height:30px; line-height:30px;"> <?=mb_substr ($tblname, 0,1,'UTF-8');?></b></font>
                         </p>
                     </div>
