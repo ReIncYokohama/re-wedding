@@ -709,7 +709,7 @@ if($editable)
 					$furigana_lastname=$guest_row['furigana_last'];
 				}
 				?>
-				<td align="center" width="137" ><input type="text" size="20" tabindex=4 style="padding-top:3px; padding-bottom:3px;" name="furigana_last" id="furigana_last" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_lastname?>" /></td>
+				<td align="center" width="137" ><input type="text" size="20" tabindex=3 style="padding-top:3px; padding-bottom:3px;" name="furigana_last" id="furigana_last" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_lastname?>" /></td>
 			</tr>
 			</table>
 			</td>
@@ -718,7 +718,7 @@ if($editable)
 			<tr>
 				<td align="right" width="100">名<font color="red">*</font>:</td>
 				<td align="center" width="137" >
-       	<input type="text" name="first_name" class="check_sjs_1" size="20" tabindex=3 style="padding-top:3px; padding-bottom:3px;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')"/>
+       	<input type="text" name="first_name" class="check_sjs_1" size="20" tabindex=4 style="padding-top:3px; padding-bottom:3px;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')"/>
 			  <div id="first_div_id" style="display:none;" ></div>
         <div><?=$gaiji_button_first_name?></div>
 				</td>
