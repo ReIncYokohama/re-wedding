@@ -60,8 +60,8 @@ function to_downloadfile(url) {
     <div class="title_bar_txt_R"></div>
 <div class="clear"></div></div>
   <div class="cont_area">
-    <div class="message_bt"><a href="javascript:void(0);" onclick="to_user_message('user_messages.php?page=<?=(int)$_GET['page']?>')"><img src="img/message_bt01.jpg" width="59" height="30" class="on" /></a></div>
-    <div class="message_bt"><img src="img/message_bt02.jpg" width="59" height="30"  /></div>
+    <div class="message_bt"><a href="javascript:void(0);" onclick="to_user_message('user_messages.php?page=<?=(int)$_GET['page']?>')"><img src="img/soushin_img.jpg" width="71" height="22" class="on" /></a></div>
+    <div class="message_bt"><img src="img/jushin_img_on.jpg" width="71" height="22" /></div>
 
 <!--	<div class="page_next">< ?php #echo $pageination;?></div>-->
 	<div class="message_area">

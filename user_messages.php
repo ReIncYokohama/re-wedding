@@ -255,8 +255,8 @@ function filename_change() {
     <div class="title_bar_txt_R"></div>
 <div class="clear"></div></div>
   <div class="cont_area">
-    <div class="message_bt"><img src="img/message_bt04.jpg" width="59" height="30"  /></div>
-    <div class="message_bt"><a href="admin_messages.php?page=<?=(int)$_GET['page']?>"><img src="img/message_bt05.jpg" width="59" height="30" class="on" /></a></div>
+    
+        
 	<div class="clear"></div>
 	<br />
     <div><!--<a href="#" onclick="view_user_msg_count(<?=$user_id?>);"><img src="img/btn_message_user.jpg" width="112" height="22" /></a>--></div>
@@ -328,7 +328,12 @@ function filename_change() {
 	<?php if($err){$obj->GetErrorMsg($err);}?>
 <?php if($_GET['msg']){$obj->GetSuccessMsg($_GET['msg']);}?>
 	<!--<div class="page_next">< ?php echo $pageination;?></div>-->
+
 	<div class="message_area">
+    
+    <div class="message_bt"><img src="img/soushin_img_on.jpg" width="71" height="22" /></div>
+    <div class="message_bt"><a href="admin_messages.php?page=<?=(int)$_GET['page']?>"><img src="img/jushin_img.jpg" width="71" height="22" class="on" /></a></div>
+    
       <table width="854" border="0" cellspacing="1" cellpadding="3" bgcolor="#CCCCCC">
         <tr>
 <!--           <td width="28" align="center" nowrap="nowrap" bgcolor="#FFFFFF">No.</td> -->
