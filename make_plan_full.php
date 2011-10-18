@@ -194,8 +194,12 @@
 
 	});
 
+var edited_Flag=0;
+var timerlength="<?=TIMEOUTLENGTH?>";
+var timerId;
+
 clearInterval(timerId);
-var timerId = setInterval('user_timeout()', "<?=TIMEOUTLENGTH?>");
+timerId = setInterval('user_timeout()', timerlength);
 
 function user_timeout() {
 	clearInterval(timerId);
@@ -222,9 +226,6 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 </head>
 <body>
 
-<script>
-var edited_Flag=0;
-</script>
 <script src="js/jquery.ui.droppable.js" type="text/javascript"></script>
 
 
@@ -280,6 +281,10 @@ function checkConfirm()
 	}
 
 }
+function back_to_make_plan() {
+	window.location = "make_plan.php";
+}
+
 function make_plan_check()
 {
 var button_enable="<?=$button_enable?>";
@@ -586,7 +591,7 @@ if($objInfo->get_editable_condition($plan_row))
 	{
 ?>
                   <input type="button"  id="button" value="保存" onclick="checkConfirm()" />
-                  <input type="button"  id="button3" value="戻る"  onClick="javascript:history.go(-1);" />
+                  <input type="button"  id="button3" value="戻る"  onClick="back_to_make_plan()" />
 <?php
   }
 ?>
