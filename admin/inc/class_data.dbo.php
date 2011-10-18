@@ -251,7 +251,7 @@ class DataClass extends DBO{
     foreach($data_rows as $row)
     {
       $line = array();
-      $line["access_time"] = $this->get_date_dashes_convert($row["date"]);
+      $line["access_time"] = $this->get_time_convert($row["date"]);
       $line["login_name"] = $this->get_access_user_name($row["admin_id"]);
       $line["screen_name"] = $this->get_screen_name_by_log_type($row["type"]);
       $line["target_user"] = $this->get_target_user_by_log_type($row["type"],$row["guest_id"],$row["guest_name"]);
@@ -414,7 +414,7 @@ class DataClass extends DBO{
   }
 
   //編項目と変更データの配列の取得
-  public function get_log_guest_profile($before_data_arr,$after_data_arr){
+  public function get_log_guest_profile($before_data_arr,$after_data_arr,$user_id){
     $return_before_data_arr = array();
     $return_after_data_arr = array();
     $return_category_data_arr = array();
@@ -560,17 +560,19 @@ class DataClass extends DBO{
   //高砂席の種類を返す。
   public function get_takasago_seat_name($takasago_seat_type_id){
     $stage_guest = "";
-    if($value=="1")
-      $stage_guest="媒酌人1";
-    if($value=="2")
-      $stage_guest="媒酌人2";
-    if($value=="3")
-      $stage_guest="媒酌人3";
-    if($value=="4")
-      $stage_guest="媒酌人4";
-    if($value=="5")
-      $stage_guest="お子様";
-    return $stage_guest;
+    switch($takasago_seat_type_id){
+    case "1":
+      return "媒酌人1";
+    case "2":
+      return "媒酌人2";
+    case "3":
+      return "媒酌人3";
+    case "4":
+      return "媒酌人4";
+    case "5":
+      return "お子様";
+    }
+    return "";
   }
   //guest_idからギフト名を返す
   public function get_gift_name($user_id,$guest_id){

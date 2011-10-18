@@ -1000,6 +1000,7 @@ if($editable)
 <tr>
             <td class="sex" align="center" bgcolor="#FFFFFF">席</td>
            <td class="name" align="center" bgcolor="#FFFFFF">出席者名</td>
+           <td class="respect" align="center" bgcolor="#FFFFFF">敬称</td>
             <td class="group" align="center" bgcolor="#FFFFFF">区分</td>
             <td class="comment" align="center" bgcolor="#FFFFFF">肩書</td>
             <td class="table_name" align="center" bgcolor="#FFFFFF">卓名</td>
@@ -1016,7 +1017,7 @@ foreach($guests as $guest){
   $respect = $obj->GetSingleData(" spssp_respect ", "title", " id=".$guest['respect_id']);
   if($respect == '')
 	 {
-		$respect ='×';
+		$respect ='様';
 	}
   $guest_type = $obj->GetSingleData(" spssp_guest_type ", "name", " id=".$guest['guest_type']);
   include("admin/inc/return_dbcon.inc.php");
@@ -1051,7 +1052,7 @@ foreach($guests as $guest){
 ?>
      </td>
      <td align="left" valign="middle" bgcolor="#FFFFFF">
-		 <?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname.png",$extra="thumb1");?>
+		 <?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname_only.png",$extra="thumb1");?>
 		 </td>
      <td align="center" valign="middle" bgcolor="#FFFFFF"> <?=$respect?> </td>
      <td align="center" valign="middle" bgcolor="#FFFFFF"> <?=$guest_type?> </td>
@@ -1126,7 +1127,8 @@ if($guest["sex"] == "Male"){
 }
 ?>
             </td>
-             <td align="left" valign="middle" bgcolor="#FFFFFF"> '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1").' </td>
+             <td align="left" valign="middle" bgcolor="#FFFFFF"> '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname_only.png",$extra="thumb1").' </td>
+     <td align="center" valign="middle" bgcolor="#FFFFFF"> '.$respect.'</td>
         	<td align="center" valign="middle" bgcolor="#FFFFFF"> '.$guest_type.' </td>
         	<td align="left" valign="middle" bgcolor="#FFFFFF"> '.$comment1.'<br>'.$comment2.' </td>
 
@@ -1170,11 +1172,11 @@ if($guest["sex"] == "Male"){
 
 		if($guest['sex'] == 'Female')
 		{
-			$username = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname.png",$extra="thumb1");
+			$username = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname_only.png",$extra="thumb1");
 		}
 		else
 		{
-			$username = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
+			$username = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname_only.png",$extra="thumb1");
 		}
 
 		$comment1 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment1.png",$extra="thumb1");
@@ -1193,6 +1195,7 @@ if($guest["sex"] == "Male"){
               '.$gender.'
             </td>
              <td align="left" valign="middle" bgcolor="#FFFFFF">'.$username.' </td>
+        	<td align="center" valign="middle" bgcolor="#FFFFFF">'.$respect.'  </td>
         	<td align="center" valign="middle" bgcolor="#FFFFFF">  </td>
         	<td align="left" valign="middle" bgcolor="#FFFFFF"> '.$gender.' </td>
 
@@ -1226,6 +1229,7 @@ if($guest["sex"] == "Male"){
     	<tr>
             <td class="sex" align="center" bgcolor="#FFFFFF">席</td>
            <td class="name" align="center" bgcolor="#FFFFFF">出席者名</td>
+            <td class="respect" align="center" bgcolor="#FFFFFF">敬称</td>
             <td class="group" align="center" bgcolor="#FFFFFF">区分</td>
             <td class="comment" align="center" bgcolor="#FFFFFF">肩書</td>
             <td class="table_name" align="center" bgcolor="#FFFFFF">卓名</td>
@@ -1285,7 +1289,8 @@ if($guest["sex"] == "Male"){
             </td>
              <td align="left" valign="middle" bgcolor="#FFFFFF" class="name">
 
-			 <?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$guest['id']."/thumb1");?> </td>
+			 <?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_fullname_only.png",$extra="guest/".$guest['id']."/thumb1");?> </td>
+        	<td align="center" valign="middle" bgcolor="#FFFFFF" class="respect"> <?=$respect?> </td>
         	<td align="center" valign="middle" bgcolor="#FFFFFF" class="group"> <?=$guest_type?> </td>
         	<td align="left" valign="middle" bgcolor="#FFFFFF" class="comment"> <?=$comment1?><br><?=$comment2?> </td>
 			<?php

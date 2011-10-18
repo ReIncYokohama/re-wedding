@@ -653,7 +653,10 @@ error_code dbcon.inc.phpで定義している。
 		$arr=explode("-",$date);
 		return $arr[1]."/".$arr[2];
   }
-
+  public function get_time_convert($time){
+    $time = str_replace('-','/',$time);
+    return $time;
+  }
 		
 	}
 ?>
