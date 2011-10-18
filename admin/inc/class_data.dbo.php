@@ -30,7 +30,8 @@ class DataClass extends DBO{
         $update_array['user_id']=$user_id;
         $update_array['previous_status']=$before;
         $update_array['current_status']=$after;
-        $update_array['admin_id']=$admin_id;
+        
+        $update_array['admin_id']=$_SESSION["super_user"]?10000:$admin_id;
         $update_array['type']=2;
         $lastids = $this->InsertData("spssp_change_log", $update_array);
       }
@@ -218,7 +219,7 @@ class DataClass extends DBO{
     $update_array['date']=date("Y-m-d H:i:s");
     $update_array['guest_id']=$guest_id;
     $update_array['user_id']=$user_id;
-    $update_array['admin_id']=$admin_id;
+    $update_array['admin_id']=$_SESSION["super_user"]?10000:$admin_id;
     $update_array['type']=4;
     $this->InsertData("spssp_change_log", $update_array);
 
@@ -230,7 +231,7 @@ class DataClass extends DBO{
 		$update_array['guest_id']=$guest_id;
 		$update_array['user_id']=$user_id;
 		$update_array['guest_name']=$this->get_guest_name($guest_id);
-		$update_array['admin_id']=$admin_id;
+		$update_array['admin_id']=$_SESSION["super_user"]?10000:$admin_id;
 		$update_array['type']=3;
 	  $this->InsertData("spssp_change_log", $update_array);
   }
@@ -238,7 +239,7 @@ class DataClass extends DBO{
   
   //席次表のログ情報を取得する。
   //アクセス日時、ログイン名、アクセス画面名、修正対象者、修正種別、変更項目名、変更前情報、変更後情報
-  //acccess_time,login_name,screen_name,target_user,kind,target_category,before_data,after_data
+  //acccess_time,login_name,screen_name,target_user,kind,targe_category,before_data,after_data
   public function get_all_log($user_id)
   {
     $data_rows = $this->getRowsByQuery("select * from spssp_change_log where user_id = $user_id order by date desc");
@@ -315,7 +316,7 @@ class DataClass extends DBO{
     $update_array = array();
     $update_array['date']=date("Y-m-d H:i:s");
     $update_array['user_id']=$_SESSION["userid"];
-    $update_array['admin_id']=$_SESSION["adminid"];
+    $update_array['admin_id']=$_SESSION["super_user"]?10000:$_SESSION["adminid"];
     $update_array['type']=5;
     $update_array['plan_id']=$plan_id;
     $this->InsertData("spssp_change_log", $update_array);
@@ -511,6 +512,7 @@ class DataClass extends DBO{
   //admin_idから管理者名を取得する。
   public function get_access_user_name($admin_id)
   {
+    if($admin_id==10000) return "印刷会社";
     $stuff_name = $this->GetSingleData("spssp_admin ","name"," id='".$admin_id ."'");
     if($stuff_name == "") $stuff_name = "お客様";
     return $stuff_name;
