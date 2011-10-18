@@ -8,40 +8,13 @@
       <style type="text/css" media="all">.borderitem {border-style: solid;}</style>
       <![endif]-->
   <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
-  <style>
-label.filebutton {
-  width:120px;
-  height:40px;
-  overflow:hidden;
-  position:relative;
-  background-color:#ccc;
-}
-
-label span input {
-  z-index: 999;
-  line-height: 0;
-  font-size: 50px;
-  position: absolute;
-  top: -2px;
-  left: -700px;
-  opacity: 0;
-  filter: alpha(opacity = 0);
-  -ms-filter: "alpha(opacity=0)";
-  cursor: pointer;
-  _cursor: hand;
-  margin: 0;
-  padding:0;
-  display:hidden;  
-}            
-   
-  </style>
   <script>
   $(document).ready(function(){
     $("#myfile").change(function(){
         var filename = $(this).val();
         var filenameArray = filename.split("\\");
         filename = filenameArray[filenameArray.length-1];
-        $("#csv_text").html(filename);
+        $("#csv_text").val(filename);
     });
   });
   </script>
@@ -84,10 +57,10 @@ label span input {
         <tr>
           <td>
             <form method="post" enctype="multipart/form-data" action="csv_upload_action.php" name="uploaddoc">
-              <label class="filebutton">
-                <image src="../img/btn_attach.jpg"><span id="csv_text"></span>
-                <span><input type="file" id="myfile" name="csv"></span>
-              </label>
+              
+              <image src="../img/btn_attach.jpg"  onclick="document.uploaddoc.csv.click();">
+              <input type="text" id="csv_text" onclick="document.uploaddoc.csv.click();" size="40">
+              <input type="file" id="myfile" name="csv" style="visibility:hidden; width:1px;" >
               <input type="hidden" name="user_id" value="<?=$_GET["user_id"]?>" />
             </form>
           </td>
