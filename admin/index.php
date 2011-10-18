@@ -61,6 +61,9 @@ else
 
 //	include_once("inc/new.header.inc.php");
 ?>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script src="../js/jquery-1.4.2.js"></script>
 <script language="javascript" type="text/javascript">
 //var reg = /^[A-Za-z0-9]{1,16}$/;
@@ -156,7 +159,8 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 </style>
 
 <title>ログイン - ウエディングプラス</title>
-
+</head>
+<body>
 <div align="center">
 <div id="login_BOX">
    	<div><img src="../img/bar_wm.jpg" /></div>
@@ -231,3 +235,5 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 
 
 </div>
+</body>
+</html>
