@@ -91,7 +91,7 @@ $row = $objInfo->get_user_info($user_id);
 
 <body>
 <div id="wrapper">
-  <div id="header"><a href="manage.html"><img src="img/common/logo.jpg" alt="席次表システム" width="246" height="43" /></a> </div>
+  <div id="header"><img src="img/common/logo.jpg" alt="席次表システム" width="246" height="43" /></div>
   <div id="topnavi">
 <h1>印刷会社向け画面</h1>
 <div id="top_btn"> <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a></div>
