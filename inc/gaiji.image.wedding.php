@@ -322,29 +322,34 @@ function make_user_images($user_id,$man_last_name,$man_first_name,$woman_last_na
   make_text_save($man_first_name,$man_firstname_gaiji_pathArray,$user_folder."man_firstname.png");
   $man_fullname_gaiji_pathArray = array_merge($man_lastname_gaiji_pathArray,$man_firstname_gaiji_pathArray);
   make_text_save($man_last_name." ".$man_first_name." 様",$man_fullname_gaiji_pathArray,$user_folder."man_fullname.png");
+  make_text_save($man_last_name." ".$man_first_name,$man_fullname_gaiji_pathArray,$user_folder."man_fullname_only.png");
   
   make_text_save($man_last_name,$man_lastname_gaiji_pathArray,$user_folder."thumb1/man_lastname.png",11);
   make_text_save($man_last_name."様",$man_lastname_gaiji_pathArray,$user_folder."thumb1/man_lastname_respect.png",11);
   make_text_save($man_last_name." ".$man_first_name." 様",$man_fullname_gaiji_pathArray,$user_folder."thumb1/man_fullname.png",11);
+  make_text_save($man_last_name." ".$man_first_name,$man_fullname_gaiji_pathArray,$user_folder."thumb1/man_fullname_only.png",11);
 
   make_text_save($man_last_name,$man_lastname_gaiji_pathArray,$user_folder."thumb2/man_lastname.png",9,100);
   make_text_save($man_last_name."様",$man_lastname_gaiji_pathArray,$user_folder."thumb2/man_lastname_respect.png",9,100);
   make_text_save($man_last_name." ".$man_first_name." 様",$man_fullname_gaiji_pathArray,$user_folder."thumb2/man_fullname.png",9,100);
+  make_text_save($man_last_name." ".$man_first_name,$man_fullname_gaiji_pathArray,$user_folder."thumb2/man_fullname_only.png",9,100);
 
   make_text_save($woman_last_name,$woman_lastname_gaiji_pathArray,$user_folder."woman_lastname.png");
   make_text_save($woman_last_name."様",$woman_lastname_gaiji_pathArray,$user_folder."woman_lastname_respect.png");
   make_text_save($woman_first_name,$woman_firstname_gaiji_pathArray,$user_folder."woman_firstname.png");
   $woman_fullname_gaiji_pathArray = array_merge($woman_lastname_gaiji_pathArray,$woman_firstname_gaiji_pathArray);
-
   make_text_save($woman_last_name." ".$woman_first_name." 様",$woman_fullname_gaiji_pathArray,$user_folder."woman_fullname.png");
+  make_text_save($woman_last_name." ".$woman_first_name,$woman_fullname_gaiji_pathArray,$user_folder."woman_fullname_only.png");
 
   make_text_save($woman_last_name,$woman_lastname_gaiji_pathArray,$user_folder."thumb1/woman_lastname.png",11);
   make_text_save($woman_last_name."様",$woman_lastname_gaiji_pathArray,$user_folder."thumb1/woman_lastname_respect.png",11);
   make_text_save($woman_last_name." ".$woman_first_name." 様",$woman_fullname_gaiji_pathArray,$user_folder."thumb1/woman_fullname.png",11);
+  make_text_save($woman_last_name." ".$woman_first_name,$woman_fullname_gaiji_pathArray,$user_folder."thumb1/woman_fullname_only.png",11);
 
   make_text_save($woman_last_name,$woman_lastname_gaiji_pathArray,$user_folder."thumb2/woman_lastname.png",9,100);
   make_text_save($woman_last_name."様",$woman_lastname_gaiji_pathArray,$user_folder."thumb2/woman_lastname_respect.png",9,100);
   make_text_save($woman_last_name." ".$woman_first_name." 様",$woman_fullname_gaiji_pathArray,$user_folder."thumb2/woman_fullname.png",9,100);
+  make_text_save($woman_last_name." ".$woman_first_name,$woman_fullname_gaiji_pathArray,$user_folder."thumb2/woman_fullname_only.png",9,100);
 
   $guest_page_gaiji_pathArray = array_merge($man_lastname_gaiji_pathArray,$woman_lastname_gaiji_pathArray);
 
@@ -379,18 +384,21 @@ function make_guest_images($user_id,$guest_id,$last_name,$first_name,$comment1,$
   make_text_save($comment1.$comment2,$comment_gaiji_pathArray,$user_folder."full_comment.png",15,150,$colorArray);
   make_text_save($last_name." ".$first_name." ".$respect,$comment_gaiji_pathArray,$user_folder."guest_fullname.png",15,150,$colorArray);
   make_text_save($respect,array(),$user_folder."guest_respect.png",15,150,$colorArray);
+  make_text_save($last_name." ".$first_name,$comment_gaiji_pathArray,$user_folder."guest_fullname_only.png",15,150,$colorArray);
 
   make_text_save($last_name.$respect,$lastname_gaiji_pathArray,$user_folder."thumb1/last_name_respect.png",11,150,$colorArray);  
   make_text_save($comment1,$comment1_gaiji_pathArray,$user_folder."thumb1/comment1.png",11,150,$colorArray);
   make_text_save($comment2,$comment2_gaiji_pathArray,$user_folder."thumb1/comment2.png",11,150,$colorArray);
   make_text_save($comment1.$comment2,$comment_gaiji_pathArray,$user_folder."thumb1/full_comment.png",11,150,$colorArray);
   make_text_save($last_name." ".$first_name." ".$respect,$fullname_gaiji_pathArray,$user_folder."thumb1/guest_fullname.png",11,150,$colorArray);
+  make_text_save($last_name." ".$first_name,$fullname_gaiji_pathArray,$user_folder."thumb1/guest_fullname_only.png",11,150,$colorArray);
   
   make_text_save($last_name.$respect,$lastname_gaiji_pathArray,$user_folder."thumb2/last_name_respect.png",9,100,$colorArray);  
   make_text_save($comment1,$comment1_gaiji_pathArray,$user_folder."thumb2/comment1.png",9,100,$colorArray);
   make_text_save($comment2,$comment2_gaiji_pathArray,$user_folder."thumb2/comment2.png",9,100,$colorArray);
   make_text_save($comment1.$comment2,$comment_gaiji_pathArray,$user_folder."thumb2/full_comment.png",9,100,$colorArray);
   make_text_save($last_name." ".$first_name." ".$respect,$fullname_gaiji_pathArray,$user_folder."thumb2/guest_fullname.png",9,100,$colorArray);
+  make_text_save($last_name." ".$first_name,$fullname_gaiji_pathArray,$user_folder."thumb2/guest_fullname_only.png",9,100,$colorArray);
   
   //pdf用の画像を生成。
   $savefile = sprintf("%s/user_name/%d/%s/%d/%s",get_image_db_directory($hotel_id),$user_id,"guest",$guest_id,"namecard.png");
