@@ -24,7 +24,7 @@ if($row['id']){
 		{
 			$_SESSION['username'] = $row['user_id'];
 			$_SESSION['userid'] = $row['id'];
-      $_SESSION['adminid'] = 0;
+      		$_SESSION['adminid'] = 0;
 
 			include_once("admin/inc/class.dbo.php");
 			$obj = new DBO();
