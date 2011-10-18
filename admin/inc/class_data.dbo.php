@@ -608,10 +608,14 @@ class DataClass extends DBO{
     if(!$this->haveString($user_obj["first_name"])){
       array_push($messageArray,$top_message."名を入力してください。[".$user_obj["first_name"]."]");
     }
-    if(!$this->haveFurigana($user_obj["furigana_last"])){
+    if($this->haveKana($user_obj["furigana_last"])){
+      array_push($messageArray,$top_message."姓のふりがなはカタカナでなはく、平仮名で入力してください[".$user_obj["furigana_last"]."]");
+    }else if(!$this->haveFurigana($user_obj["furigana_last"])){
       array_push($messageArray,$top_message."姓のふりがなは平仮名で入力してください[".$user_obj["furigana_last"]."]");
     }
-    if(!$this->haveFurigana($user_obj["furigana_first"])){
+    if($this->haveKana($user_obj["furigana_first"])){
+      array_push($messageArray,$top_message."名のふりがなはカタカナではなく、平仮名で入力してください[".$user_obj["furigana_first"]."]");
+    }else if(!$this->haveFurigana($user_obj["furigana_first"])){
       array_push($messageArray,$top_message."名のふりがなは平仮名で入力してください[".$user_obj["furigana_first"]."]");
     }
     if(!$this->haveString($user_obj["respect"]) && !$this->haveRespect($user_obj["respect"])){
@@ -631,7 +635,14 @@ class DataClass extends DBO{
   }
   public function haveFurigana($str){
     mb_regex_encoding("UTF-8");
-    if ($str == "" || preg_match("/^[ぁ-ん]*$/u", $str)) {
+    if ($str == "" || preg_match("/^[ぁ-んー]*$/u", $str)) {
+      return true;
+    }
+    return false;
+  }
+  public function haveKana($str){
+    mb_regex_encoding("UTF-8");
+    if ($str == "" || preg_match("/^[ァ-ンー]*$/u", $str)) {
       return true;
     }
     return false;
@@ -647,6 +658,9 @@ class DataClass extends DBO{
     }
   }
   public function haveSex($sex_text){
+    //全角および半角の空白の場合は許可する。
+    $sex_text = str_replace(" ","",$sex_text);
+    $sex_text = str_replace("　","",$sex_text);
     if($sex_text == "新郎" || $sex_text == "新婦" || $sex_text == ""){
       return true;
     }else{
