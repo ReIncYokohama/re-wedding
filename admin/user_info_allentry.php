@@ -818,7 +818,7 @@ include("inc/return_dbcon.inc.php");
                    </div>
                     <input name="man_lastname" class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="30" onclick="change_gaiji_link('man_lastname')" />
 					<input name="man_firstname"  class="check_sjs_1" type="text" style="padding-top:4px; padding-bottom:4px;" id="man_firstname" value="<?=$user_row['man_firstname']?>" size="30"  onclick="change_gaiji_link('man_firstname')" />
-                	様　 <a id="man_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22"alt="外字検索" title="外字検索" /></a>
+                	様　<a id="man_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22"alt="外字検索" title="外字検索" /></a>
                 </td>
 
             </tr>
