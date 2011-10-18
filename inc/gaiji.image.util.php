@@ -18,9 +18,13 @@ function get_image_text_width($fontsize,$str,$fontfile,$gaiji_image_url_arr = ar
   $image_arr = imagettfbbox($fontsize,$angle,$fontfile,"あ".$str_not_gaiji);
   $height = $image_arr[1]-$image_arr[5];
   //大きさが合わないので一時的に文字数を増やすことで対応。
-  $image_arr = imagettfbbox($fontsize,$angle,$fontfile,"あああ".$str_not_gaiji);
+  if(mb_strlen($str,"UTF-8")>8){
+    $image_arr = imagettfbbox($fontsize,$angle,$fontfile,"あああ".$str_not_gaiji);
+  }else{
+    $image_arr = imagettfbbox($fontsize,$angle,$fontfile,$str_not_gaiji); 
+  }
+  
   $width = $image_arr[2]-$image_arr[0];
-
   $width_sum = $width;
   //イメージがないときにエラー処理を入れたい。
   for($i=0;$i<$gaiji_num;++$i){
@@ -28,8 +32,9 @@ function get_image_text_width($fontsize,$str,$fontfile,$gaiji_image_url_arr = ar
     list($gaiji_image_width,$gaiji_image_height) = getimagesize($gaiji_image_url_arr[$i]);
     $width_sum += $gaiji_image_width*$height/$gaiji_image_height;
   }
+  
   //文字が切れないように余裕を持って作成
-  return $width_sum+10;
+  return $width_sum;
 }
 
 function get_image_text_height($fontsize,$font,$text,$angle=0){

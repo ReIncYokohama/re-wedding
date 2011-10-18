@@ -253,11 +253,12 @@ function get_image_text($text,$gaiji_arr = array(),$fontsize=15,$max_width=150,$
   $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
   $height = get_image_text_height($fontsize,$font,$text);
   $width = get_image_text_width($fontsize,$text,$font,$gaiji_arr);
-  
+
   if($width>$max_width){
     $fontsize = get_image_font_size($fontsize,$text,$font,$max_width,$gaiji_arr);
     $width = $max_width;
   }
+
   //一時的に微調整
   $image = imagecreatetruecolor($width+2,$height) or die("Cannot Initialize new GD image stream");
   $col_g = imagecolorallocate($image,0xff,0xff,0xff);
