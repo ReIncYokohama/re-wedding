@@ -12,6 +12,10 @@ class DataClass extends DBO{
     $before_data = array();
     $after_data = array();
     $chagne_log = false;
+    //高砂席が招待者席に変わったときに高砂席の卓名も削除する。
+    if($guest_row["stage"]!=0 && $set_obj["stage"]==0){
+      $set_obj["stage_guest"] = 0;
+    }
     foreach($set_obj as $key => $value){
       if($guest_row[$key] != $value and !($guest_row[$key] == 0 and $value == "") ){
         $before_data[$key] = $guest_row[$key];
