@@ -96,8 +96,6 @@
 
 	}
 
-
-
 	include("admin/inc/main_dbcon.inc.php");
 	$respects = $obj->GetAllRow(" spssp_respect");
 	include("admin/inc/return_dbcon.inc.php");
@@ -195,6 +193,15 @@
 		});
 
 	});
+
+clearInterval(timerId);
+var timerId = setInterval('user_timeout()', "<?=TIMEOUTLENGTH?>");
+
+function user_timeout() {
+	clearInterval(timerId);
+	alert("タイムアウトしました");
+	window.location = "logout.php";	
+}
 
 	function change_password()
 	{

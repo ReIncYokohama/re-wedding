@@ -133,13 +133,21 @@ $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
 
 	});
 
-	function change_password()
-	{
-		$("#cur_password").val("");
-		$("#password").val("");
-		$("#conf_password").val("");
-		$("#change_pass").dialog("open");
-	}
+var timerId = setInterval('user_timeout()', "<?=TIMEOUTLENGTH?>");
+
+function user_timeout() {
+	clearInterval(timerId);
+	alert("タイムアウトしました");
+	window.location = "logout.php";	
+}
+
+function change_password()
+{
+	$("#cur_password").val("");
+	$("#password").val("");
+	$("#conf_password").val("");
+	$("#change_pass").dialog("open");
+}
 
 </script>
 <script type="text/javascript">
