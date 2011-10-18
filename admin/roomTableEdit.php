@@ -233,7 +233,7 @@ include("inc/return_dbcon.inc.php");
 								 $TABLEID=array_shift($tID);
 								//echo "<td>ahad</td>";
 								echo "<td align='center' valign='middle'>";
-								echo '<select id="table_name_'.$TABLEID.'" name="table_name_'.$TABLEID.'" onChange="Multicheck();">';
+								echo '<select id="table_name_'.$TABLEID.'" name="table_name_'.$TABLEID.'" onChange="Multicheck();" style="width:60px;">';
 								$table_id[$_ii] = $TABLEID; $_ii++;
 // UCHIDA EDIT 11/08/02
 //								echo '<option value="-">-</option>';
