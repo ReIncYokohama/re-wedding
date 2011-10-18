@@ -70,7 +70,7 @@
 					$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 					
 					unset($post);
-					$post['state']=date("Y/m/d");
+					$post['state']=date("Y-m-d H:i:s");
 					$obj->UpdateData('spssp_user',$post,"id=".$user_id);
 
 					/*unset($post);
@@ -347,7 +347,7 @@ include("inc/return_dbcon.inc.php");
       <div class="navi"><img src="img/common/navi04_on.jpg" /></div>
       <!--<div class="navi"><a href="customers_date_dl.php?user_id=<?=$user_id?>"><img src="img/common/navi05.jpg" width="116" height="22" class="on" /></a></div>-->
 <?php if($_SESSION["super_user"]){ ?>
-          <div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',500,200); return false;">
+          <div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',700,200); return false;">
             <img src="img/common/navi05.jpg" class="on" />
           </a></div>
 <?php } ?>      <div style="clear:both;"></div>

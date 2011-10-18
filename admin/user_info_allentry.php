@@ -755,7 +755,7 @@ include("inc/return_dbcon.inc.php");
             </div>
         	<div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
 <?php if($_SESSION["super_user"]){　?>
-          <div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',900,200); return false;">
+          <div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',700,200); return false;">
             <img src="img/common/navi05.jpg" class="on" />
           </a></div>
 <?php } ?>
@@ -818,7 +818,7 @@ include("inc/return_dbcon.inc.php");
                    </div>
                     <input name="man_lastname" class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;" type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="30" onclick="change_gaiji_link('man_lastname')" />
 					<input name="man_firstname"  class="check_sjs_1" type="text" style="padding-top:4px; padding-bottom:4px;" id="man_firstname" value="<?=$user_row['man_firstname']?>" size="30"  onclick="change_gaiji_link('man_firstname')" />
-                	様　 <a id="man_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,505); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22"alt="外字検索" title="外字検索" /></a>
+                	様　 <a id="man_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22"alt="外字検索" title="外字検索" /></a>
                 </td>
 
             </tr>
@@ -862,7 +862,7 @@ include("inc/return_dbcon.inc.php");
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
 				<input type="hidden" name="current_room_id" id="current_room_id" value="<?=$user_row['room_id']?>"  />
-                	<select name="room_id" id="room_id" style="padding-top:4px; padding-bottom:4px; width:80px;">
+                	<select name="room_id" id="room_id" style="padding-top:4px; padding-bottom:4px;">
 
                     <?php
                         if($rooms)
@@ -1011,7 +1011,7 @@ include("inc/return_dbcon.inc.php");
               <td width="192" align="left" valign="middle" nowrap="nowrap">担当</td>
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
-				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px; width:80px;">
+				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;">
 				<?php
 				if ($user_id>0) {
 					foreach($All_staffs as $staf_rows) {
