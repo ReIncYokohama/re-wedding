@@ -148,11 +148,11 @@ function cancelAction()
 						<form action="forgetPassword.php" method="post" name="passwordForgetForm">
 							<table style="font-size:12px;" width="500" align="center" cellspacing="10" cellpadding="0" border="0">
 								<tr>
-									<td colspan="2">パスワードを忘れ場合は、下記のフォームにメールアドレスを入力の上、<br />送信ボタンを押下してください<br />登録されているメールアドレスと照合の上、パスワードを送信いたします<br/><br/></td>
+									<td colspan="2" align="left">パスワードを忘れ場合は、下記のフォームにメールアドレスを入力の上、<br />送信ボタンを押下してください<br />登録されているメールアドレスと照合の上、パスワードを送信いたします<br/><br/></td>
 								</tr>
 								<tr>
-									<td width="30%">メールアドレス</td>
-									<td width="70%"><input type="text" id="email" size="30px;" name="email" value =<?=$email?>></input></td>
+									<td width="30%" align="left">メールアドレス</td>
+									<td width="70%" align="left"><input type="text" id="email" size="30px;" name="email" value =<?=$email?>></input></td>
 								</tr>
 							</table>
 							<table style="font-size:12px;" width="500" align="center" cellspacing="10" cellpadding="0" border="0">
