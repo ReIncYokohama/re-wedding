@@ -787,7 +787,7 @@ if($editable)
 
 			<td align="right" width="96">区分:</td>
 			<td align="center" width="90" >
-			  <select id="guest_type" name="guest_type" style="width:80px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1){echo "disabled";}?>>
+			  <select id="guest_type" name="guest_type" tabindex=7 style="width:80px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1){echo "disabled";}?>>
 					<?php
 						foreach($guest_types as $guest_type)
 						{
@@ -809,7 +809,7 @@ if($editable)
 						<td width="100" align="right">肩書 １行目:</td>
 						<td width="137" align="center">
 
-							<input size="20" name="comment1" type="text" class="check_sjs_1" id="comment1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')"/>
+							<input size="20" name="comment1" tabindex=8 type="text" class="check_sjs_1" id="comment1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')"/>
 							<div id="comment1_div_id" style="display:none;"></div>
               <div><?=$gaiji_button_comment1?></div>
 						</td>
@@ -822,7 +822,7 @@ if($editable)
 			    		<td width="100" align="right">肩書 ２行目:</td>
 			    		<td width="137" align="center">
 
-							<input size="20" name="comment2" type="text" id="comment2" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')"/>
+							<input size="20" name="comment2" tabindex=9 type="text" id="comment2" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')"/>
 							<div id="comment2_div_id" style="display:none;"></div>
               <div><?=$gaiji_button_comment2?></div>
 						</td>
@@ -832,7 +832,7 @@ if($editable)
 			<td width="196" colspan="2" align="right" valign="top" ><table width="313" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
 			    <td width="76" align="right">　特記:</td>
-			    <td width="123"><input type="text" style="padding-top:3px; padding-bottom:3px; width:114px;"   name="memo" id="memo" maxlength="40" value="<?=$guest_row['memo']?>" /></td>
+			    <td width="123"><input type="text" tabindex=10 style="padding-top:3px; padding-bottom:3px; width:114px;"   name="memo" id="memo" maxlength="40" value="<?=$guest_row['memo']?>" /></td>
 		      </tr>
 		    </table></td>
 		  </tr>
@@ -864,7 +864,7 @@ if($editable)
 
 
 								 if($guest_row['self']==1){$access= "disabled";}
-								echo "<select id='gift_group'  name='gift_group_id' style='width:80px; padding-top:3px; padding-bottom:3px;' >";
+								echo "<select id='gift_group' tabindex=11 name='gift_group_id' style='width:80px; padding-top:3px; padding-bottom:3px;' >";
 
 								foreach($gift_groups as $gg)
 								{
@@ -893,7 +893,7 @@ if($editable)
 										$gm_arr[] = $gm['menu_id'];
 									}
 								}
-								echo "<select id='menu_grp' name='menu_grp' style='width:96px; padding-top:3px; padding-bottom:3px;'> ";
+								echo "<select id='menu_grp' tabindex=12 name='menu_grp' style='width:96px; padding-top:3px; padding-bottom:3px;'> ";
 								echo "<option value='' >大人</option>";
 
 								foreach($menus as $m)
@@ -909,7 +909,7 @@ if($editable)
           <td valign="top"> <table width="180" border="0" cellspacing="2" cellpadding="2">
                           <tr>
                             <td width="90" align="right">席種別<font color="red">*</font>:</td>
-                            <td width="76" align="center"><select id="stage" name="stage" style="width:96px;padding-top:3px; padding-bottom:3px;"  <?php if($guest_row['self']==1){echo "disabled";}?> onchange="stage_enebeled();">
+                            <td width="76" align="center"><select id="stage" tabindex=13 name="stage" style="width:96px;padding-top:3px; padding-bottom:3px;"  <?php if($guest_row['self']==1){echo "disabled";}?> onchange="stage_enebeled();">
                               <option value="0" <?php if($guest_row['stage']=="0"){ echo "Selected='Selected'"; }?> >招待席</option>
                               <option value="1" <?php if($guest_row['stage']=="1"){ echo "Selected='Selected'"; }?> >高砂席</option>
                             </select></td>
@@ -918,7 +918,7 @@ if($editable)
                         <td width="283" colspan="2" align="right" valign="top" ><table width="313" border="0" cellspacing="2" cellpadding="2">
                           <tr>
                             <td width="76" align="right">高砂席名: <input type="hidden" id="stage_guest_current" value="<?=$guest_row[stage_guest]?>" ></td>
-                            <td width="123"><select id="stage_guest" name="stage_guest" style="width:120px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1 || $guest_row['stage']!="1"){echo "disabled";}?>>
+                            <td width="123"><select id="stage_guest" tabindex=14 name="stage_guest" style="width:120px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1 || $guest_row['stage']!="1"){echo "disabled";}?>>
                               <option value="">選択してください</option>
                               <?php
 							$stage_guest_1 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=1");
@@ -965,11 +965,11 @@ if($editable)
 		  <tr>
 			<td valign="middle" height="30" >&nbsp;</td>
 			<td valign="middle" height="30" colspan="2"  >
-			<a href="javascript:void(0)" onclick="validForm()" >
+			<a href="javascript:void(0)" onclick="validForm()" tabindex=15 >
 			<img border="0" src="img/btn_regist_update_user.jpg" alt="登録">
 			</a>
 			&nbsp;&nbsp;
-			<a href="javascript:void(0)" <?php if($_GET['gid']=="") {?>onclick="resetButton()" <?php } else  { ?> onclick="window.location='my_guests.php?page=<?=$_GET['page']?>'" <?php } ?> >
+			<a href="javascript:void(0)" tabindex=16 <?php if($_GET['gid']=="") {?>onclick="resetButton()" <?php } else  { ?> onclick="window.location='my_guests.php?page=<?=$_GET['page']?>'" <?php } ?> >
 			<img border="0" src="img/btn_clear_user.jpg" alt="ｸﾘｱ">
 			</a>
 			</td>
@@ -988,11 +988,11 @@ if($editable)
 
 <div class="cont_area">
 <div align="right">
-	<input type="checkbox" name="sex_sort" <?php if(strstr($optionValue, 'sex')!="") { ?> checked <?php } ?> value="sex" id="sexsearch" />新郎新婦側
-	<input type="checkbox" name="guest_type_sort"  <?php if(strstr($optionValue, 'guest_type')!="") { ?> checked <?php } ?> value="guest_type" id="guset_typesearch" />区分
-  <input type="checkbox"  name="furigana_first_search"  <?php if(strstr($optionValue, 'furigana_last')!="") { ?> checked <?php } ?> value="furigana_last" id="last_namesearch" />姓
-	<a href="#"><img border="0" alt="ｸﾘｱ" src="img/btn_sort_user.jpg" onclick="gsearch();"></a>
-	<a href="my_guests.php"><img border="0" alt="ｸﾘｱ" src="img/btn_sort_free_user.jpg"></a>
+	<input type="checkbox" tabindex=17 name="sex_sort" <?php if(strstr($optionValue, 'sex')!="") { ?> checked <?php } ?> value="sex" id="sexsearch" />新郎新婦側
+	<input type="checkbox" tabindex=18 name="guest_type_sort"  <?php if(strstr($optionValue, 'guest_type')!="") { ?> checked <?php } ?> value="guest_type" id="guset_typesearch" />区分
+  <input type="checkbox"  tabindex=19 name="furigana_first_search"  <?php if(strstr($optionValue, 'furigana_last')!="") { ?> checked <?php } ?> value="furigana_last" id="last_namesearch" />姓
+	<a href="#" tabindex=20><img border="0" alt="ｸﾘｱ" src="img/btn_sort_user.jpg" onclick="gsearch();"></a>
+	<a href="my_guests.php" tabindex=21><img border="0" alt="ｸﾘｱ" src="img/btn_sort_free_user.jpg"></a>
 </div>
 
 	<div class="guests_area_L">
@@ -1081,7 +1081,7 @@ foreach($guests as $guest){
 
         	<td align="left" valign="middle" bgcolor="#FFFFFF"><?=$guest['memo']?> </td>
         	<td valign="middle" bgcolor="#FFFFFF">
-            	<input type="button" name="button" id="button" value="編集" onclick="edit_guest(<?=$guest['id']?>)" />
+            	<input type="button" name="button" tabindex=22 id="button" value="編集" onclick="edit_guest(<?=$guest['id']?>)" />
 
 
 
@@ -1140,7 +1140,7 @@ if($guest["sex"] == "Male"){
 			if($editable)
 				{
 
-            	$boyRows.='<input type="button" name="button" id="button" value="編集" onclick="edit_guest('.$guest['id'].')" /> ';
+            	$boyRows.='<input type="button" tabindex=23 name="button" id="button" value="編集" onclick="edit_guest('.$guest['id'].')" /> ';
 				}
            $boyRows.=' </td>
         </tr>';
@@ -1205,7 +1205,7 @@ if($guest["sex"] == "Male"){
 			if($editable)
 				{
 
-            	$boyRows.='<input type="button" name="button" id="button" value="編集" onclick="edit_guest('.$guest['id'].')" />';
+            	$boyRows.='<input type="button" tabindex=24 name="button" id="button" value="編集" onclick="edit_guest('.$guest['id'].')" />';
 				}
            $boyRows.='</td>
         	</tr>';
@@ -1317,9 +1317,9 @@ if($guest["sex"] == "Male"){
 			if($editable)
 				{
 			?>
-            	<input type="button" name="button" id="button" value="編集" onclick="edit_guest(<?=$guest['id']?>)" />
+            	<input type="button" name="button" tabindex=25 id="button" value="編集" onclick="edit_guest(<?=$guest['id']?>)" />
 
-				<input name="button" type="button" value="削除" onclick="confirmDelete('my_guests.php?guest_id=<?=$guest['id']?>&action=delete&page=<?=(int)$_GET['page']?>',<?=$guest["id"]?>)" />
+				<input name="button" type="button" tabindex=25 value="削除" onclick="confirmDelete('my_guests.php?guest_id=<?=$guest['id']?>&action=delete&page=<?=(int)$_GET['page']?>',<?=$guest["id"]?>)" />
 				<?php
 					}
 				?>
