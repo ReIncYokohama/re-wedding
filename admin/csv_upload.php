@@ -38,7 +38,10 @@ label span input {
   <script>
   $(document).ready(function(){
     $("#myfile").change(function(){
-      $("#csv_text").html($(this).val());
+        var filename = $(this).val();
+        var filenameArray = filename.split("\\");
+        filename = filenameArray[filenameArray.length-1];
+        $("#csv_text").html(filename);
     });
   });
   </script>
