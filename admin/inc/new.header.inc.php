@@ -10,6 +10,7 @@
 <title><?=$pagetitle?></title>
 <link href="css/common.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="../js/util.js"></script>
 <!--<script type="text/javascript" src="js/jquery.rollover.js"></script>-->
 <script type="text/javascript">
 function confirmDelete(urls)
