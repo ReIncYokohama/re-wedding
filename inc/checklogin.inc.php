@@ -1,5 +1,5 @@
 <?php
-define('TIMEOUTLENGTH', '300000'); // タイムアウト時間を５分(単位：ミリセカンド)
+define('TIMEOUTLENGTH', '1200000'); // タイムアウト時間を５分(単位：ミリセカンド)
 @session_start();
 //echo $_SESSION['adminid'];exit;
 	if(trim($_SESSION['userid'])=='')
