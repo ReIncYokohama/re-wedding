@@ -1386,23 +1386,23 @@ if($guest["sex"] == "Male"){
       ?>
         <table width="510" border="0" cellspacing="1" cellpadding="0" bgcolor="#999999">
           <tr>
-            <td colspan="2" width="105" align="right" bgcolor="#FFFFFF">グループ</td>
+            <td colspan="2" width="105" align="right" bgcolor="#afeeee">グループ</td>
             <?php
 				foreach($group_rows as $grp)
 				{
 					if ($grp['name']!="") {
 					?>
-			            <td width="45" align="center" bgcolor="#FFFFFF"><?=$grp['name']?></td>
+			            <td width="45" align="center" bgcolor="#e0ffff"><?=$grp['name']?></td>
 		            <?php
 					}
             	}
 			?>
-            <td width="45" align="center" bgcolor="#FFFFFF">予備</td>
-            <td width="45" align="center" bgcolor="#FFFFFF">合計</td>
+            <td width="45" align="center" bgcolor="#e0ffff">予備</td>
+            <td width="45" align="center" bgcolor="#e0ffff">合計</td>
           </tr>
         
-          <tr>
-            <td colspan="2" align="right" bgcolor="#FFFFFF">グループ数</td>
+          <tr >
+            <td colspan="2" align="right" bgcolor="#afeeee">グループ数</td>
             <?php
 				$total = 0;
             	foreach($group_rows as $grp)
@@ -1410,18 +1410,18 @@ if($guest["sex"] == "Male"){
 					if ($grp['name']!="") {
 						$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']);
 						$total += $num_guests_groups;
-						echo "<td align='center' bgcolor='#FFFFFF'> $num_guests_groups </td>";
+						echo "<td align='center' bgcolor='#e0ffff'> $num_guests_groups </td>";
 					}
 				}
 			?>
 
-            <td align="center" bgcolor="#FFFFFF"> - </td>
-            <td bgcolor="#FFFFFF" align="center"><?=$total?></td>
+            <td align="center" bgcolor="#e0ffff"> - </td>
+            <td bgcolor="#e0ffff" align="center"><?=$total?></td>
           </tr>     
 
           <?php
           echo "<tr>";
-          echo "<td bgcolor='#FFFFFF' align='center' width='45' rowspan='7'>商品名</td>";
+          echo "<td bgcolor='#afeeee' align='center' width='45' rowspan='7'>商品名</td>";
           foreach($gift_rows as $gift)
 			{
 			if ($gift['name']!="") {
@@ -1477,7 +1477,7 @@ if($guest["sex"] == "Male"){
           if(count($item_name_arr) == 0) continue;
           $item_names = implode("<br>",$item_name_arr);
 
-					echo "<tr><td bgcolor='#FFFFFF' width='30' align='center'>".$grp['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".$item_names."</td></tr>";
+					echo "<tr><td bgcolor='#afeeee' width='30' align='center'>".$grp['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".$item_names."</td></tr>";
 				}
 			?>
         </table>
@@ -1500,7 +1500,7 @@ if($guest["sex"] == "Male"){
 
 		$totalsum +=$num_menu_guest;
 	}
-	echo'<tr><td   bgcolor="#FFFFFF" align="center" >大人</td><td  bgcolor="#FFFFFF" align="center" >'.($Noofguest-$totalsum).'</td></tr>';
+	echo'<tr><td   bgcolor="#afeeee" align="center" >大人</td><td  bgcolor="#FFFFFF" align="center" >'.($Noofguest-$totalsum).'</td></tr>';
 	foreach($menu_groups as $mg)
 	{
 		$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']." and guest_id<>0");
@@ -1508,13 +1508,13 @@ if($guest["sex"] == "Male"){
 		if ($mg['name']!="") {
 	  ?>
 	     <tr>
-	      <td width="120" align="center" bgcolor="#FFFFFF"><?=$mg['name']?></td>
+	      <td width="120" align="center" bgcolor="#afeeee"><?=$mg['name']?></td>
 	      <td width="60" align="center" bgcolor="#FFFFFF"><?=$num_menu_guest?></td>
 	    </tr>
 	   <?php
 		}
    	}
-	echo'<tr><td   bgcolor="#FFFFFF" align="center" >合計</td><td  bgcolor="#FFFFFF" align="center" >'.$Noofguest.'</td></tr>';
+	echo'<tr><td   bgcolor="#afeeee" align="center" >合計</td><td  bgcolor="#FFFFFF" align="center" >'.$Noofguest.'</td></tr>';
    ?>
   </table>
 
