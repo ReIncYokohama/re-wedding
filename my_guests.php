@@ -998,17 +998,17 @@ if($editable)
 	<div class="guests_area_L">
 	<table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
 <tr>
-            <td class="sex" align="center" bgcolor="#FFFFFF">席</td>
-           <td class="name" align="center" bgcolor="#FFFFFF">出席者名</td>
-           <td class="respect" align="center" bgcolor="#FFFFFF">敬称</td>
-            <td class="group" align="center" bgcolor="#FFFFFF">区分</td>
-            <td class="comment" align="center" bgcolor="#FFFFFF">肩書</td>
-            <td class="table_name" align="center" bgcolor="#FFFFFF">卓名</td>
-            <td class="gift" align="center" bgcolor="#FFFFFF">引出物</td>
-        <td class="food" align="center" bgcolor="#FFFFFF">料理</td>
-      <td class="memo" align="center" bgcolor="#FFFFFF">特記</td>
+            <td class="sex" align="center" bgcolor="#afeeee">席</td>
+           <td class="name" align="center" bgcolor="#afeeee">出席者名</td>
+           <td class="respect" align="center" bgcolor="#afeeee">敬称</td>
+            <td class="group" align="center" bgcolor="#afeeee">区分</td>
+            <td class="comment" align="center" bgcolor="#afeeee">肩書</td>
+            <td class="table_name" align="center" bgcolor="#afeeee">卓名</td>
+            <td class="gift" align="center" bgcolor="#afeeee">引出物</td>
+        <td class="food" align="center" bgcolor="#afeeee">料理</td>
+      <td class="memo" align="center" bgcolor="#afeeee">特記</td>
 
-			<td class="action" align="center" bgcolor="#FFFFFF">&nbsp;</td>
+			<td class="action" align="center" bgcolor="#afeeee">&nbsp;</td>
 </tr>
 <?php
 foreach($guests as $guest){
@@ -1227,17 +1227,17 @@ if($guest["sex"] == "Male"){
 <br>
 <table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
     	<tr>
-            <td class="sex" align="center" bgcolor="#FFFFFF">席</td>
-           <td class="name" align="center" bgcolor="#FFFFFF">出席者名</td>
-            <td class="respect" align="center" bgcolor="#FFFFFF">敬称</td>
-            <td class="group" align="center" bgcolor="#FFFFFF">区分</td>
-            <td class="comment" align="center" bgcolor="#FFFFFF">肩書</td>
-            <td class="table_name" align="center" bgcolor="#FFFFFF">卓名</td>
-            <td class="gift" align="center" bgcolor="#FFFFFF">引出物</td>
-            <td class="food" align="center" bgcolor="#FFFFFF">料理</td>
-            <td class="memo" align="center" bgcolor="#FFFFFF">特記</td>
+            <td class="sex" align="center" bgcolor="#afeeee">席</td>
+           <td class="name" align="center" bgcolor="#afeeee">出席者名</td>
+            <td class="respect" align="center" bgcolor="#afeeee">敬称</td>
+            <td class="group" align="center" bgcolor="#afeeee">区分</td>
+            <td class="comment" align="center" bgcolor="#afeeee">肩書</td>
+            <td class="table_name" align="center" bgcolor="#afeeee">卓名</td>
+            <td class="gift" align="center" bgcolor="#afeeee">引出物</td>
+            <td class="food" align="center" bgcolor="#afeeee">料理</td>
+            <td class="memo" align="center" bgcolor="#afeeee">特記</td>
 
-			<td class="action" align="center" bgcolor="#FFFFFF">&nbsp;</td>
+			<td class="action" align="center" bgcolor="#afeeee">&nbsp;</td>
 </tr></table>
 <div style="height:300px;overflow-y:auto;width:940px;">
 	<table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
