@@ -221,6 +221,11 @@ else
     set_user_gaiji_position($user_id,$post["woman_lastname"],3,$_POST["female_last_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
 
     make_user_images($user_id,$post["man_lastname"],$post["man_firstname"],$post["woman_lastname"],$post["woman_firstname"],$_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],$_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"]);
+    
+    //ゲストとして新郎を登録
+    make_guest_images($user_id,$guest_id,$post["man_lastname"],$post["man_firstname"],"","","様",
+                      $_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],array(),array());
+    //ゲストとして新婦を登録
 
     //insert USER AS GUEST
     $guest_array['first_name']=$post['man_firstname'];

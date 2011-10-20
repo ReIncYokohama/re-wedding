@@ -243,8 +243,10 @@ class DataClass extends DBO{
       $guestArray[$i]["table_name"] = $this->get_host_table_name($guestArray[$i]["sex"],$mukoyoshi);
       if($guestArray[$i]["sex"]=="Male"){
         $guestArray[$i]["name_image"] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname_only.png",$extra="thumb1");
+        $guestArray[$i]["namecard_memo"] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$guestArray[$i]["id"]."/");
       }else{
         $guestArray[$i]["name_image"] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname_only.png",$extra="thumb1");
+        $guestArray[$i]["namecard_memo"] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$guestArray[$i]["id"]."/");
       }
     }
     return $guestArray;
