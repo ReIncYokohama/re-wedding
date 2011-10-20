@@ -504,8 +504,8 @@ function get_gaiji_value(from,img,gid,gsid)
 </script>
 <style>
 .guest_list_table{
-width:918px;
-padding-top:1px
+  width:918px;
+  padding-top:1px;
   }
 .guest_list_table .sex{
 width:36px;
@@ -513,6 +513,10 @@ width:36px;
 .guest_list_table .name{
 width:150px;
  }
+.guest_list_table .respect{
+width:52px;
+ }
+
 .guest_list_table .group{
 width:36px;
  }
@@ -529,7 +533,7 @@ width:36px;
 width:145px;
  }
 .guest_list_table .memo{
-width:160px;
+width:100px;
  }
 .guest_list_table .action{
 width:85px;
