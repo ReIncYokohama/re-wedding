@@ -628,7 +628,7 @@ class DataClass extends DBO{
   //料理名を返す
   public function get_menu_name($user_id,$guest_id){
     $menu_id = $this->GetSingleData(" spssp_guest_menu ", "menu_id", " guest_id=".$guest_id." and user_id = ".$user_id);
-		$menu_name='';
+		$menu_name='大人';
 		if($menu_id > 0)
 		{
 			$menu_name = $this->GetSingleData(" spssp_menu_group ", "name", " id=".$menu_id." and user_id = ".$user_id);

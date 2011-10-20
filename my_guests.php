@@ -1,10 +1,13 @@
 <?php
 include_once("admin/inc/class_information.dbo.php");
+include_once("admin/inc/class_data.dbo.php");
 include_once("inc/checklogin.inc.php");
-$obj = new DBO();
+$obj = new DataClass();
+$obj_data = new DataClass();
 $objInfo = new InformationClass();
 $get = $obj->protectXSS($_GET);
 $user_id = (int)$_SESSION['userid'];
+
 include_once("inc/new.header.inc.php");
 
 if(isset($_GET['action']) && $_GET['action'] == 'delete' )
@@ -12,9 +15,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete' )
 		$guest_id = (int)$_GET['guest_id'];
     
     //ゲストの削除をログに
-    include_once("admin/inc/class_data.dbo.php");
-    $data_obj = new DataClass;
-    $data_obj->set_log_guest_delete($user_id,$guest_id,$_SESSION["adminid"]);
+    $obj->set_log_guest_delete($user_id,$guest_id,$_SESSION["adminid"]);
 
 		$obj->DeleteRow('spssp_guest', 'id='.$guest_id);
 		$obj->DeleteRow('spssp_plan_details', 'guest_id='.$guest_id);
@@ -195,8 +196,7 @@ function stage_enebeled()
       document.getElementById('stage_guest').disabled=true;
 
     }
-	changeAction = true;
-	resetTimeOut();
+
 }
 var title=$("title");
 $(title).html("招待者リストの作成 - ウエディングプラス");
@@ -307,10 +307,6 @@ function validForm()
 
   if(last_name == '')
 		{
-			if (timeOutNow==true) {
-				alert("姓が未入力なので、保存できませんでした"); // cronでログアウトされた場合の対応が必要
-				location.href = "logout.php";
-			}
 			alert("姓を入力してください");
 			$("#last_name").focus();
 			return false;
@@ -318,66 +314,34 @@ function validForm()
 
   if(first_name == '')
 		{
-			if (timeOutNow==true) {
-				alert("名が未入力なので、保存できませんでした"); // cronでログアウトされた場合の対応が必要
-				location.href = "logout.php";
-			}
 			alert("名を入力してください");
 			$("#first_name").focus();
 			return false;
 		}
   var str = document.getElementById("furigana_last").value;
-  /*
-  if(str=="")
-		{
-      // UCHIDA EDIT 11/07/27
-      //			alert("姓のふりがなを正しく入力してください");
-			alert("姓のふりがなを入力してください");
-      document.getElementById('furigana_last').focus();
-      return false;
-
-		}
-*/
+  
   if(str!="")
 		{
       // UCHIDA EDIT 11/07/27
       //			if( str.match( /[^ぁ-ん\s]+/ ) ) {
       //				alert("新郎の姓のふりがなを正しく入力してください");
 			if( str.match( /[^ぁ-ん\sー]+/ ) ) {
-				if (timeOutNow==true) {
-					alert("姓のふりがなが正しくないので、保存できませんでした"); // cronでログアウトされた場合の対応が必要
-					location.href = "logout.php";
-				}
 				alert("姓のふりがなを平仮名で正しく入力してください");
 				document.getElementById('furigana_last').focus();
 				return false;
 			}
 		}
   var str2 = document.getElementById("furigana_first").value;
- /*
-  if(str2=="")
-		{
-      // UCHIDA EDIT 11/07/27
-      //			alert("姓のふりがなを正しく入力してください");
-			alert("名のふりがなを入力してください");
-      document.getElementById('furigana_first').focus();
-      return false;
-
-		}
-*/
+ 
   if(str2!="")
 		{
       // UCHIDA EDIT 11/07/27
       //			if( str2.match( /[^ぁ-ん\sー]+/ ) ) {
       //				alert("新郎の姓のふりがなを正しく入力してください");
 			if( str2.match( /[^ぁ-ん\sー]+/ ) ) {
-				if (timeOutNow==true) {
-					alert("名のふりがなが正しくないので、保存できませんでした"); // cronでログアウトされた場合の対応が必要
-					location.href = "logout.php";
-				}
-		        alert("名のふりがなを平仮名で正しく入力してください");
-		        document.getElementById('furigana_first').focus();
-		        return false;
+        alert("名のふりがなを平仮名で正しく入力してください");
+        document.getElementById('furigana_first').focus();
+        return false;
 			}
 		}
   //続けて登録する際に選択させるため。1日だけ保存
@@ -393,7 +357,7 @@ function validForm()
    $(".check_sjs_1").each(function(){
        if(return_flag && !checkGaiji($(this).val(),"gaiji_check.php",this)) return_flag = false;
    });
-  
+ 
   document.newguest.submit();
 }
 
@@ -479,7 +443,7 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#first_div_id").append("<input type='hidden' name='male_first_gaiji_gid[]' value='"+gid+"'>");
       $("#first_div_id").append("<input type='hidden' name='male_first_gaiji_gsid[]' value='"+gsid+"'>");
 
-      $("#firstname_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+      $("#firstname_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
       $("#first_name").attr("value", firstname+"＊");
     }
 	if(from=="last_name")
@@ -489,7 +453,7 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#last_div_id").append("<input type='hidden' name='male_last_gaiji_gid[]' value='"+gid+"'>");
       $("#last_div_id").append("<input type='hidden' name='male_last_gaiji_gsid[]' value='"+gsid+"'>");
 
-      $("#lastname_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+      $("#lastname_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
       $("#last_name").attr("value", lastname+"＊");
     }
 	if(from=="comment1")
@@ -499,7 +463,7 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#comment1_div_id").append("<input type='hidden' name='comment1_gaiji_gid[]' value='"+gid+"'>");
       $("#comment1_div_id").append("<input type='hidden' name='comment1_gaiji_gsid[]' value='"+gsid+"'>");
 
-      $("#comment1_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+      $("#comment1_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
       $("#comment1").attr("value", comment1+"＊");
     }
 	if(from=="comment2")
@@ -509,37 +473,20 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#comment2_div_id").append("<input type='hidden' name='comment2_gaiji_gid[]' value='"+gid+"'>");
       $("#comment2_div_id").append("<input type='hidden' name='comment2_gaiji_gsid[]' value='"+gsid+"'>");
 
-      $("#comment2_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+      $("#comment2_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
       $("#comment2").attr("value", comment2+"＊");
     }
 
 
 }
 
-function user_timeout() {
-	clearInterval(timerId);
-	if (changeAction==true) {
-		timeOutNow=true;
-		var agree = confirm("タイムアウトしました。\n保存しますか？");
-	    if(agree==true) {
-	    	$("#timeout").val("timeout");
-	    	validForm();
-	    }
-	    else {
-	    	window.location = "logout.php";	
-	    }
-	}
-	else {
-		alert("タイムアウトしました");
-		window.location = "logout.php";	
-	}
-}
+
 
 </script>
 <style>
 .guest_list_table{
-width:918px;
-padding-top:1px
+  width:918px;
+  padding-top:1px;
   }
 .guest_list_table .sex{
 width:36px;
@@ -547,6 +494,10 @@ width:36px;
 .guest_list_table .name{
 width:150px;
  }
+.guest_list_table .respect{
+width:52px;
+ }
+
 .guest_list_table .group{
 width:36px;
  }
@@ -563,7 +514,7 @@ width:36px;
 width:145px;
  }
 .guest_list_table .memo{
-width:160px;
+width:100px;
  }
 .guest_list_table .action{
 width:85px;
@@ -590,7 +541,7 @@ width:85px;
 $editable=$objInfo->get_editable_condition($plan_info);
 ?>
 <link href="css/main.css" rel="stylesheet" type="text/css" />
-  <div id="contents_wrapper" class="displayBox">
+  <div id="contents_wrapper">
   <div id="nav_left">
   <div class="step_bt"><a href="table_layout.php"><img src="img/step_head_bt01.jpg" width="150" height="60" border="0" class="on" /></a></div>
   <div class="step_bt"><a href="hikidemono.php"><img src="img/step_head_bt02.jpg" width="150" height="60" border="0" class="on" /></a></div>
@@ -618,7 +569,7 @@ $editable=$objInfo->get_editable_condition($plan_info);
       function getGaijis($gaiji_objs){
         $returnImage = "";
         for($i=0;$i<count($gaiji_objs);++$i){
-          $returnImage .= "<image src='gaiji/upload/img_ans/".$gaiji_objs[$i]["gu_char_img"]."' width='20' height='20'>";
+          $returnImage .= "<image src='../gaiji-image/img_ans/".$gaiji_objs[$i]["gu_char_img"]."' width='20' height='20'>";
         }
         return $returnImage;
       }
@@ -709,7 +660,7 @@ if($editable)
 		    </table>			  </td>
 			<td width="90" align="center"><table width="90" border="0" cellspacing="2" cellpadding="2">
   <tr>
-    <td><select id="sex" name="sex" style="width:80px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1){echo "disabled";}?> tabindex=1 onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
+    <td><select id="sex" name="sex" style="width:80px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1){echo "disabled";}?> tabindex=1>
       <option value="Male" <?php if($guest_row['sex']=="Male"){ echo "Selected='Selected'"; }?> >新郎側</option>
       <option value="Female" <?php if($guest_row['sex']=="Female"){ echo "Selected='Selected'"; }?> >新婦側</option>
     </select></td>
@@ -723,7 +674,7 @@ if($editable)
 			<tr>
 			<td align="right" width="100">姓<font color="red">*</font>:</td>
 			<td align="center" width="137">
-			  <input type="text" size="20" class="check_sjs_1" tabindex=2 style="padding-top:3px; padding-bottom:3px;" name="last_name" id="last_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['last_name']?>" onfocus="change_gaiji_link('last_name');" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
+			  <input type="text" size="20" class="check_sjs_1" tabindex=2 style="padding-top:3px; padding-bottom:3px;" name="last_name" id="last_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['last_name']?>" onfocus="change_gaiji_link('last_name');"/>
 				<div id="last_div_id" style="display:none;"></div>
         <div><?=$gaiji_button_last_name?></div>
 			</td>
@@ -743,7 +694,7 @@ if($editable)
 					$furigana_lastname=$guest_row['furigana_last'];
 				}
 				?>
-				<td align="center" width="137" ><input type="text" tabindex=5 size="20" style="padding-top:3px; padding-bottom:3px;" name="furigana_last" id="furigana_last" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_lastname?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+				<td align="center" width="137" ><input type="text" tabindex=5 size="20" style="padding-top:3px; padding-bottom:3px;" name="furigana_last" id="furigana_last" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_lastname?>" /></td>
 			</tr>
 			</table>
 			</td>
@@ -752,7 +703,7 @@ if($editable)
 			<tr>
 				<td align="right" width="100">名<font color="red">*</font>:</td>
 				<td align="center" width="137" >
-       			<input type="text" name="first_name" class="check_sjs_1" size="20" tabindex=3 style="padding-top:3px; padding-bottom:3px;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
+       			<input type="text" name="first_name" class="check_sjs_1" size="20" tabindex=3 style="padding-top:3px; padding-bottom:3px;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')"/>
 			  <div id="first_div_id" style="display:none;" ></div>
         <div><?=$gaiji_button_first_name?></div>
 				</td>
@@ -772,7 +723,7 @@ if($editable)
 				$furigana_first_name=$guest_row['furigana_first'];
 			}
 			?>
-			<td align="center" width="137"><input type="text" name="furigana_first" tabindex=6 size="20"  style="padding-top:3px; padding-bottom:3px;" id="furigana_first" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_first_name?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+			<td align="center" width="137"><input type="text" name="furigana_first" tabindex=6 size="20"  style="padding-top:3px; padding-bottom:3px;" id="furigana_first" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_first_name?>" /></td>
 			</tr>
 			</table>
 			</td>
@@ -781,7 +732,7 @@ if($editable)
 			  <tr>
 			    <td width="78" align="right">敬称<font color="red">*</font>:</td>
 			    <td width="123">
-			    <select id="respect_id" name="respect_id" tabindex=4 style="width:70px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
+			    <select id="respect_id" name="respect_id" tabindex=4 style="width:70px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1){echo "disabled";}?>>
 			      <?php
 					foreach($respects as $respect)
 					{
@@ -821,7 +772,7 @@ if($editable)
 
 			<td align="right" width="96">区分:</td>
 			<td align="center" width="90" >
-			  <select id="guest_type" name="guest_type" tabindex=7 style="width:80px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
+			  <select id="guest_type" name="guest_type" tabindex=7 style="width:80px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1){echo "disabled";}?>>
 					<?php
 						foreach($guest_types as $guest_type)
 						{
@@ -843,7 +794,7 @@ if($editable)
 						<td width="100" align="right">肩書 １行目:</td>
 						<td width="137" align="center">
 
-							<input size="20" name="comment1" tabindex=8 type="text" class="check_sjs_1" id="comment1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
+							<input size="20" name="comment1" tabindex=8 type="text" class="check_sjs_1" id="comment1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')"/>
 							<div id="comment1_div_id" style="display:none;"></div>
               <div><?=$gaiji_button_comment1?></div>
 						</td>
@@ -856,7 +807,7 @@ if($editable)
 			    		<td width="100" align="right">肩書 ２行目:</td>
 			    		<td width="137" align="center">
 
-							<input size="20" name="comment2" tabindex=9 type="text" id="comment2" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
+							<input size="20" name="comment2" tabindex=9 type="text" id="comment2" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')"/>
 							<div id="comment2_div_id" style="display:none;"></div>
               <div><?=$gaiji_button_comment2?></div>
 						</td>
@@ -866,7 +817,7 @@ if($editable)
 			<td width="196" colspan="2" align="right" valign="top" ><table width="313" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
 			    <td width="76" align="right">　特記:</td>
-			    <td width="123"><input type="text" tabindex=10 style="padding-top:3px; padding-bottom:3px; width:114px;"   name="memo" id="memo" maxlength="40" value="<?=$guest_row['memo']?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+			    <td width="123"><input type="text" tabindex=10 style="padding-top:3px; padding-bottom:3px; width:114px;"   name="memo" id="memo" maxlength="40" value="<?=$guest_row['memo']?>" /></td>
 		      </tr>
 		    </table></td>
 		  </tr>
@@ -898,7 +849,7 @@ if($editable)
 
 
 								 if($guest_row['self']==1){$access= "disabled";}
-								echo "<select id='gift_group' tabindex=11 name='gift_group_id' style='width:80px; padding-top:3px; padding-bottom:3px;' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
+								echo "<select id='gift_group' tabindex=11 name='gift_group_id' style='width:80px; padding-top:3px; padding-bottom:3px;' >";
 
 								foreach($gift_groups as $gg)
 								{
@@ -927,7 +878,7 @@ if($editable)
 										$gm_arr[] = $gm['menu_id'];
 									}
 								}
-								echo "<select id='menu_grp' tabindex=12 name='menu_grp' style='width:96px; padding-top:3px; padding-bottom:3px;' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
+								echo "<select id='menu_grp' tabindex=12 name='menu_grp' style='width:96px; padding-top:3px; padding-bottom:3px;'> ";
 								echo "<option value='' >大人</option>";
 
 								foreach($menus as $m)
@@ -943,7 +894,7 @@ if($editable)
           <td valign="top"> <table width="180" border="0" cellspacing="2" cellpadding="2">
                           <tr>
                             <td width="90" align="right">席種別<font color="red">*</font>:</td>
-                            <td width="76" align="center"><select id="stage" tabindex=13 name="stage" style="width:96px;padding-top:3px; padding-bottom:3px;"  <?php if($guest_row['self']==1){echo "disabled";}?> onchange="stage_enebeled();" onkeydown="keyDwonAction(event)" onClick="clickAction()">
+                            <td width="76" align="center"><select id="stage" tabindex=13 name="stage" style="width:96px;padding-top:3px; padding-bottom:3px;"  <?php if($guest_row['self']==1){echo "disabled";}?> onchange="stage_enebeled();">
                               <option value="0" <?php if($guest_row['stage']=="0"){ echo "Selected='Selected'"; }?> >招待席</option>
                               <option value="1" <?php if($guest_row['stage']=="1"){ echo "Selected='Selected'"; }?> >高砂席</option>
                             </select></td>
@@ -952,7 +903,7 @@ if($editable)
                         <td width="283" colspan="2" align="right" valign="top" ><table width="313" border="0" cellspacing="2" cellpadding="2">
                           <tr>
                             <td width="76" align="right">高砂席名: <input type="hidden" id="stage_guest_current" value="<?=$guest_row[stage_guest]?>" ></td>
-                            <td width="123"><select id="stage_guest" tabindex=14 name="stage_guest" style="width:120px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1 || $guest_row['stage']!="1"){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
+                            <td width="123"><select id="stage_guest" tabindex=14 name="stage_guest" style="width:120px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1 || $guest_row['stage']!="1"){echo "disabled";}?>>
                               <option value="">選択してください</option>
                               <?php
 							$stage_guest_1 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=1");
@@ -1003,7 +954,7 @@ if($editable)
 			<img border="0" src="img/btn_regist_update_user.jpg" alt="登録">
 			</a>
 			&nbsp;&nbsp;
-			<a href="javascript:void(0)" tabindex=16 <?php if($_GET['gid']=="") {?>onclick="resetButton()" <?php } else  { ?> onclick="window.location='my_guests.php?page=<?=$_GET['page']?>'" <?php } ?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
+			<a href="javascript:void(0)" tabindex=16 <?php if($_GET['gid']=="") {?>onclick="resetButton()" <?php } else  { ?> onclick="window.location='my_guests.php?page=<?=$_GET['page']?>'" <?php } ?> >
 			<img border="0" src="img/btn_clear_user.jpg" alt="ｸﾘｱ">
 			</a>
 			</td>
@@ -1011,7 +962,7 @@ if($editable)
             <!--<a href="my_guests_takasago.html" onclick="m_win(this.href,'mywindow7',520,270); return false;"> 高砂席位置について</a>--></td>
           </tr>
 		</table>
-		<input type="hidden" id="timeout" name="timeout" value="" />
+
 	 </form>
 	</div>
 	<?php
@@ -1022,9 +973,9 @@ if($editable)
 
 <div class="cont_area">
 <div align="right">
-	<input type="checkbox" tabindex=17 name="sex_sort" <?php if(strstr($optionValue, 'sex')!="") { ?> checked <?php } ?> value="sex" id="sexsearch"  onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>新郎新婦側
-	<input type="checkbox" tabindex=18 name="guest_type_sort"  <?php if(strstr($optionValue, 'guest_type')!="") { ?> checked <?php } ?> value="guest_type" id="guset_typesearch"  onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>区分
-  <input type="checkbox"  tabindex=19 name="furigana_first_search"  <?php if(strstr($optionValue, 'furigana_last')!="") { ?> checked <?php } ?> value="furigana_last" id="last_namesearch"  onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>姓
+	<input type="checkbox" tabindex=17 name="sex_sort" <?php if(strstr($optionValue, 'sex')!="") { ?> checked <?php } ?> value="sex" id="sexsearch" />新郎新婦側
+	<input type="checkbox" tabindex=18 name="guest_type_sort"  <?php if(strstr($optionValue, 'guest_type')!="") { ?> checked <?php } ?> value="guest_type" id="guset_typesearch" />区分
+  <input type="checkbox"  tabindex=19 name="furigana_first_search"  <?php if(strstr($optionValue, 'furigana_last')!="") { ?> checked <?php } ?> value="furigana_last" id="last_namesearch" />姓
 	<a href="#" tabindex=20><img border="0" alt="ｸﾘｱ" src="img/btn_sort_user.jpg" onclick="gsearch();"></a>
 	<a href="my_guests.php" tabindex=21><img border="0" alt="ｸﾘｱ" src="img/btn_sort_free_user.jpg"></a>
 </div>
@@ -1032,229 +983,39 @@ if($editable)
 	<div class="guests_area_L">
 	<table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
 <tr>
-            <td class="sex" align="center" bgcolor="#afeeee">席</td>
-           <td class="name" align="center" bgcolor="#afeeee">出席者名</td>
-           <td class="respect" align="center" bgcolor="#afeeee">敬称</td>
-            <td class="group" align="center" bgcolor="#afeeee">区分</td>
-            <td class="comment" align="center" bgcolor="#afeeee">肩書</td>
-            <td class="table_name" align="center" bgcolor="#afeeee">卓名</td>
-            <td class="gift" align="center" bgcolor="#afeeee">引出物</td>
-        <td class="food" align="center" bgcolor="#afeeee">料理</td>
-      <td class="memo" align="center" bgcolor="#afeeee">特記</td>
-
-			<td class="action" align="center" bgcolor="#afeeee">&nbsp;</td>
+  <td class="sex" align="center" bgcolor="#afeeee">席</td>
+  <td class="name" align="center" bgcolor="#afeeee">出席者名</td>
+  <td class="respect" align="center" bgcolor="#afeeee">敬称</td>
+  <td class="group" align="center" bgcolor="#afeeee">区分</td>
+  <td class="comment" align="center" bgcolor="#afeeee">肩書</td>
+  <td class="table_name" align="center" bgcolor="#afeeee">卓名</td>
+  <td class="gift" align="center" bgcolor="#afeeee">引出物</td>
+  <td class="food" align="center" bgcolor="#afeeee">料理</td>
+  <td class="memo" align="center" bgcolor="#afeeee">特記</td>
+  <td class="action" align="center" bgcolor="#afeeee">&nbsp;</td>
 </tr>
 <?php
-foreach($guests as $guest){
-  $boyRows='';
-  include("admin/inc/main_dbcon.inc.php");
-  $respect = $obj->GetSingleData(" spssp_respect ", "title", " id=".$guest['respect_id']);
-  if($respect == '')
-	 {
-		$respect ='様';
-	}
-  $guest_type = $obj->GetSingleData(" spssp_guest_type ", "name", " id=".$guest['guest_type']);
-  include("admin/inc/return_dbcon.inc.php");
-	$gift_id = $obj->GetSingleData(" spssp_guest_gift ", "group_id", " guest_id=".$guest['id']." and user_id = ".$user_id);
-
-	$gift_name='';
-		if((int)$gift_id > 0)
-		{
-			$gift_group = $obj->GetSingleData(" spssp_gift_group ", "name", " id=".$gift_id);
-      $gift_name = $gift_group;
-		}
-
-		$menu_id = $obj->GetSingleData(" spssp_guest_menu ", "menu_id", " guest_id=".$guest['id']." and user_id = ".$user_id);
-		$menu_name='';
-		if($menu_id > 0)
-		{
-			$menu_name = $obj->GetSingleData(" spssp_menu_group ", "name", " id=".$menu_id." and user_id = ".$user_id);
-		}
-    if($guest['self'] =='1') {
-	    if($guest['sex'] == 'Female' && $genderStatus=='2')
-		  {
+//新郎新婦の情報を取得
+$userArray = $obj_data->get_userdata($user_id);
+for($i=0;$i<count($userArray);++$i){
+  $userData = $userArray[$i];
 ?>
-	  <tr>
-      		<td bgcolor="#FFFFFF">
-<?php
+<tr>
+  <td class="sex" align="center" bgcolor="#fff"><?=$userData["sex_text"]?></td>
+  <td class="name" align="center" bgcolor="#fff"><?=$userData["name_image"];?></td>
+  <td class="respect" align="center" bgcolor="#fff">様</td>
+  <td class="group" align="center" bgcolor="#fff"><?=$userData["sex_text"]?></td>
+  <td class="comment" align="center" bgcolor="#fff"></td>
+  <td class="table_name" align="center" bgcolor="#fff"><?=$userData["table_name"]?></td>
+  <td class="gift" align="center" bgcolor="#fff"><?=$userData["gift_group_text"]?></td>
+  <td class="food" align="center" bgcolor="#fff"><?=$userData["menu_text"]?></td>
+  <td class="memo" align="center" bgcolor="#fff"><?=$userData["memo"]?></td>
+  <td class="action" align="center" bgcolor="#fff">
+	<input type="button" name="button" tabindex=25 id="button" value="編集" onclick="edit_guest(<?=$userData['id']?>)"/>
+</tr>
 
-    if($guest["sex"] == "Male"){
-      echo "新郎";
-    }else if($guest["sex"] == "Female"){
-      echo "新婦";
-    }
-?>
-     </td>
-     <td align="left" valign="middle" bgcolor="#FFFFFF">
-		 <?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname_only.png",$extra="thumb1");?>
-		 </td>
-     <td align="center" valign="middle" bgcolor="#FFFFFF"> <?=$respect?> </td>
-     <td align="center" valign="middle" bgcolor="#FFFFFF"> <?=$guest_type?> </td>
-     <td align="left" valign="middle" bgcolor="#FFFFFF"> <?=$guest['comment1']?><br><?=$guest['comment2']?> </td>
-<?php
-		 $plan_details=$obj->getSingleRow("spssp_plan_details"," guest_id=".$guest['id']." limit 1");
-		 $seat_details=$obj->getSingleRow("spssp_default_plan_seat"," id=".$plan_details['seat_id']." limit 1");
-		 $table_details=$obj->getSingleRow("spssp_default_plan_table"," id=".$seat_details['table_id']." limit 1");
-
-		 $tbl_row = $obj->getSingleRow("spssp_table_layout"," table_id=".$table_details['id']." and user_id=".(int)$user_id." limit 1");
-		 $new_name_row = $obj->getSingleRow("spssp_user_table"," default_table_id=".$tbl_row['id']." and user_id=".(int)$user_id." limit 1");
-		 if(!empty($new_name_row))
-				{
-					$tblname = $obj->getSingleData("spssp_tables_name","name","id=".$new_name_row['table_name_id']);
-				}
-		 else
-				{
-					$tblname = $tbl_row['name'];
-				}
-     if($guest["stage"] == 1){
-       $tblname = "高砂";
-     }
-				?>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"><?=$tblname?></td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"> <?=$gift_name?> </td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"> <?=$menu_name?>  </td>
-
-        	<td align="left" valign="middle" bgcolor="#FFFFFF"><?=$guest['memo']?> </td>
-        	<td valign="middle" bgcolor="#FFFFFF">
-            	<input type="button" name="button" tabindex=22 id="button" value="編集" onclick="edit_guest(<?=$guest['id']?>)"  onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
-
-
-
-            </td>
-        </tr>
-		<?=($genderStatus=='2')?$boyRows:"";?>
-		<? }else if($genderStatus=='2') {
-		    $plan_details=$obj->getSingleRow("spssp_plan_details"," guest_id=".$guest['id']." limit 1");
-				$seat_details=$obj->getSingleRow("spssp_default_plan_seat"," id=".$plan_details['seat_id']." limit 1");
-				$table_details=$obj->getSingleRow("spssp_default_plan_table"," id=".$seat_details['table_id']." limit 1");
-
-				$tbl_row = $obj->getSingleRow("spssp_table_layout"," table_id=".$table_details['id']." and user_id=".(int)$user_id." limit 1");
-				$new_name_row = $obj->getSingleRow("spssp_user_table"," default_table_id=".$tbl_row['id']." and user_id=".(int)$user_id." limit 1");
-				if(!empty($new_name_row))
-				{
-					$tblname = $obj->getSingleData("spssp_tables_name","name","id=".$new_name_row['table_name_id']);
-				}
-				else
-				{
-					$tblname = $tbl_row['name'];
-				}
-     if($guest["stage"] == 1){
-       $tblname = "高砂";
-     }
-				$genderm = ($guest['sex'] == 'Male')?"checked":"";
-				$genderf = ($guest['sex'] == 'Female')?"checked":"";
-
-				$fristname = ($guest['stage_guest']>0)?"<span style='color:red;'>".$guest['first_name']."</span>":$guest['first_name'];
-				$lastname  = ($guest['stage_guest']>0)?"<span style='color:red;'>".$guest['last_name']."</span>":$guest['last_name'];
-				$comment1 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment1.png",$extra="thumb1");
-				$comment2 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment2.png",$extra="thumb1");
-				if($comment1==false){$comment1 = $guest['comment1'];}
-				if($comment2==false){$comment2 = $guest['comment2'];}
-
-		$boyRows='<tr>
-      		<td bgcolor="#FFFFFF">
-<?php
-if($guest["sex"] == "Male"){
-  echo "新郎";
-}else if($guest["sex"] == "Female"){
-  echo "新婦";
+<?php  
 }
-?>
-            </td>
-             <td align="left" valign="middle" bgcolor="#FFFFFF"> '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname_only.png",$extra="thumb1").' </td>
-     <td align="center" valign="middle" bgcolor="#FFFFFF"> '.$respect.'</td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"> '.$guest_type.' </td>
-        	<td align="left" valign="middle" bgcolor="#FFFFFF"> '.$comment1.'<br>'.$comment2.' </td>
-
-        	<td align="center" valign="middle" bgcolor="#FFFFFF">'.$tblname.'</td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"> '.$gift_name.' </td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"> '.$menu_name.' </td>
-
-        	<td align="left" valign="middle" bgcolor="#FFFFFF">'.$guest['memo'].' </td>
-        	<td valign="middle" bgcolor="#FFFFFF">';
-
-			if($editable)
-				{
-
-            	$boyRows.='<input type="button" tabindex=23 name="button" id="button" value="編集" onclick="edit_guest('.$guest['id'].')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/> ';
-				}
-           $boyRows.=' </td>
-        </tr>';
-
-		 }
-		 else
-		 {
-		 	$plan_details=$obj->getSingleRow("spssp_plan_details"," guest_id=".$guest['id']." limit 1");
-				$seat_details=$obj->getSingleRow("spssp_default_plan_seat"," id=".$plan_details['seat_id']." limit 1");
-				$table_details=$obj->getSingleRow("spssp_default_plan_table"," id=".$seat_details['table_id']." limit 1");
-
-				$tbl_row = $obj->getSingleRow("spssp_table_layout"," table_id=".$table_details['id']." and user_id=".(int)$user_id." limit 1");
-				$new_name_row = $obj->getSingleRow("spssp_user_table"," default_table_id=".$tbl_row['id']." and user_id=".(int)$user_id." limit 1");
-				if(!empty($new_name_row))
-				{
-					$tblname = $obj->getSingleData("spssp_tables_name","name","id=".$new_name_row['table_name_id']);
-				}
-				else
-				{
-					$tblname = $tbl_row['name'];
-				}
-     if($guest["stage"] == 1){
-       $tblname = "高砂";
-     }
-				$fristname = ($guest['stage_guest']>0)?"<span style='color:red;'>".$guest['first_name']."</span>":$guest['first_name'];
-				$lastname  = ($guest['stage_guest']>0)?"<span style='color:red;'>".$guest['last_name']."</span>":$guest['last_name'];
-
-		if($guest['sex'] == 'Female')
-		{
-			$username = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname_only.png",$extra="thumb1");
-		}
-		else
-		{
-			$username = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname_only.png",$extra="thumb1");
-		}
-
-		$comment1 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment1.png",$extra="thumb1");
-		$comment2 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment2.png",$extra="thumb1");
-		if($comment1==false){$comment1 = $guest['comment1'];}
-		if($comment2==false){$comment2 = $guest['comment2'];}
-
-$gender = "";
-if($guest["sex"] == "Male"){
-  $gender = "新郎";
-}else if($guest["sex"] == "Female"){
-  $gender = "新婦";
-}
-		$boyRows='<tr>
-      		<td bgcolor="#FFFFFF">
-              '.$gender.'
-            </td>
-             <td align="left" valign="middle" bgcolor="#FFFFFF">'.$username.' </td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF">'.$respect.'  </td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF">  </td>
-        	<td align="left" valign="middle" bgcolor="#FFFFFF"> '.$gender.' </td>
-
-        	<td align="center" valign="middle" bgcolor="#FFFFFF">高砂</td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"> '.$gift_name.' </td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"> '.$menu_name.' </td>
-
-        	<td align="left" valign="middle" bgcolor="#FFFFFF">'.$guest['memo'].' </td>
-        	<td valign="middle" bgcolor="#FFFFFF">';
-			if($editable)
-				{
-
-            	$boyRows.='<input type="button" tabindex=24 name="button" id="button" value="編集" onclick="edit_guest('.$guest['id'].')"  onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>';
-				}
-           $boyRows.='</td>
-        	</tr>';
-			echo $boyRows;
-		 }
-		 ?>
-            </td>
-        </tr>
-        <?php
-        }
-}
-
 ?>
 
 </table>
@@ -1356,9 +1117,9 @@ if($guest["sex"] == "Male"){
 			if($editable)
 				{
 			?>
-            	<input type="button" name="button" tabindex=25 id="button" value="編集" onclick="edit_guest(<?=$guest['id']?>)"  onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
+            	<input type="button" name="button" tabindex=25 id="button" value="編集" onclick="edit_guest(<?=$guest['id']?>)" />
 
-				<input name="button" type="button" tabindex=25 value="削除" onclick="confirmDelete('my_guests.php?guest_id=<?=$guest['id']?>&action=delete&page=<?=(int)$_GET['page']?>',<?=$guest["id"]?>)"  onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
+				<input name="button" type="button" tabindex=25 value="削除" onclick="confirmDelete('my_guests.php?guest_id=<?=$guest['id']?>&action=delete&page=<?=(int)$_GET['page']?>',<?=$guest["id"]?>)" />
 				<?php
 					}
 				?>
@@ -1554,9 +1315,7 @@ if($guest["sex"] == "Male"){
 
 </div>
   </form>
-</div>
-</div>
-<?php
+ <?php
 include("inc/new.footer.inc.php");
 ?>
 
