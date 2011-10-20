@@ -319,17 +319,7 @@ function validForm()
 			return false;
 		}
   var str = document.getElementById("furigana_last").value;
-  /*
-  if(str=="")
-		{
-      // UCHIDA EDIT 11/07/27
-      //			alert("姓のふりがなを正しく入力してください");
-			alert("姓のふりがなを入力してください");
-      document.getElementById('furigana_last').focus();
-      return false;
-
-		}
-*/
+  
   if(str!="")
 		{
       // UCHIDA EDIT 11/07/27
@@ -342,17 +332,7 @@ function validForm()
 			}
 		}
   var str2 = document.getElementById("furigana_first").value;
- /*
-  if(str2=="")
-		{
-      // UCHIDA EDIT 11/07/27
-      //			alert("姓のふりがなを正しく入力してください");
-			alert("名のふりがなを入力してください");
-      document.getElementById('furigana_first').focus();
-      return false;
-
-		}
-*/
+ 
   if(str2!="")
 		{
       // UCHIDA EDIT 11/07/27
@@ -377,7 +357,7 @@ function validForm()
    $(".check_sjs_1").each(function(){
        if(return_flag && !checkGaiji($(this).val(),"gaiji_check.php",this)) return_flag = false;
    });
-  
+ 
   document.newguest.submit();
 }
 
