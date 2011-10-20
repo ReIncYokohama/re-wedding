@@ -216,6 +216,7 @@ function user_timeout() {
 	}
 
 </script>
+
 <script type="text/javascript">
 function MM_openBrWindow(theURL,winName,features) { //v2.0
   window.open(theURL,winName,features);
@@ -245,12 +246,30 @@ if($objInfo->get_editable_condition($plan_row))
 	}
 ?>
 <script src="js/rp.js" type="text/javascript"></script>
+
 <style>
+.make_plan_main_contents{
+  width:980px;
+}
+.make_plan_main_title{
+  width:980px;
+}
+.make_plan_main_left{
+  width:270px;
+  float:left;
+}
+.make_plan_main_right{
+  width:710px;
+  float:left;
+}
 body{
   background:none;
 }
 #make_plan_table{
-width: 790px;
+width: 1000px;
+}
+.title_bar.main_plan{
+ width:980px;
 }
 </style>
 
@@ -362,12 +381,19 @@ width:auto;
 width:80px;
 height:30px;
 }
+.vertical {
+width: 430px;
+height: 180px;
+  writing-mode: tb-rl;
+  -webkit-writing-mode : vertical-rl ; 
+direction: ltr;
+ }
 </style>
 
 <div id="contents_wrapper">
 
 <div id="contents_right">
-  <div class="title_bar">
+  <div class="title_bar main_plan">
     <div class="title_bar_txt_L">席次表を編集し、プレビューで席次表・引出物の確認をします</div>
     <div class="title_bar_txt_R"></div>
 <div class="clear"></div></div>
@@ -383,20 +409,16 @@ height:30px;
   ?>
 </div>
 
-
-<div class="cont_area" id="con_area_ie">
+<div class="make_plan_main_contents" id="con_area_ie">
   <div id="side_area">
-
-
-  <div  id="guests_conatiner" style="float:left; height:400px; width:100%; overflow-x:auto;overflow-y:visible;" >
-
-
+  <div align="right"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
+  <div  id="guests_conatiner" style="float:left; height:600px; width:100%; overflow-x:auto;overflow-y:visible;" >
 				<table width="98%">
 				<?php
 				$guest_type_sort=($_GET['guest_type_sort']=='desc' || $_GET['guest_type_sort']=='' )?"asc":"desc";
 				$guest_sex_sort=($_GET['guest_sex_sort']=='desc' || $_GET['guest_sex_sort']=='' )?"asc":"desc";
 				?>
-					<tr bgcolor="#666666" style="color:#FFFFFF"><th>No</th><th nowrap="nowrap"><a href="make_plan.php?sortby=sex&guest_sex_sort=<?=$guest_sex_sort?>">郎婦↓</a></th><th nowrap="nowrap"><a href="make_plan.php?sortby=guest_type&guest_type_sort=<?=$guest_type_sort?>">区分↓</a></th><th align="center">&nbsp;&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;</th><th align="left">卓名</th></tr>
+					<tr bgcolor="#666666" style="color:#FFFFFF"><th>No</th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=sex&guest_sex_sort=<?=$guest_sex_sort?>">郎婦↓</a></th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=guest_type&guest_type_sort=<?=$guest_type_sort?>">区分↓</a></th><th align="center">&nbsp;&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;</th><th align="left">卓名</th></tr>
 					<?php
 					$types_guest=array();
 					include("admin/inc/main_dbcon.inc.php");
@@ -583,15 +605,17 @@ height:30px;
 
   </div>
 
-  <div id="make_plan_area">
+  <div class="make_plan_main_right">
   	<form action="insert_default_plan.php?user_id=<?=(int)$user_id?>&plan_id=<?=$plan_id?>" method="post" id="insert_plan" name="insert_plan">
   			 <div align="right">
 <?php
 if($objInfo->get_editable_condition($plan_row))
 	{
 ?>
-                  <input type="button"  id="button" value="保存" onclick="checkConfirm()" />
-                  <input type="button"  id="button3" value="戻る"  onClick="back_to_make_plan()" />
+<image src="img/btn_save.jpg" id="button" onclick="checkConfirm()"/>
+<image src="img/btn_rollback.jpg" id="button" onclick="back_to_make_plan()"/>
+<image src="img/btn_close.jpg" id="button" onclick="window.close()"/>
+
 <?php
   }
 ?>
@@ -605,9 +629,10 @@ if($objInfo->get_editable_condition($plan_row))
 				$main_guest[$witness_bride[stage_guest]]=$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$witness_bride['id']."/thumb1");
 
 			}
+$takasago1 = ($user_info["mukoyoshi"])?"woman":"man";
+$takasago2 = ($user_info["mukoyoshi"])?"man":"woman";
 
-
-			$html.='<table style="width:100%; " cellspacing="2"><tr><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;">'.$main_guest[3].'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black;padding:7px; ">'.$main_guest[1].'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black;padding:7px; ">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1").'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;">'.$main_guest[5].'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="woman_fullname.png",$extra="thumb1").'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;">'.$main_guest[2].'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black;padding:7px; ">'.$main_guest[4].'</td></tr></table>';
+			$html.='<table style="width:100%; " cellspacing="2"><tr><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;">'.$main_guest[3].'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black;padding:7px; ">'.$main_guest[1].'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black;padding:7px; ">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago1}_fullname.png",$extra="thumb1").'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;">'.$main_guest[5].'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago2}_fullname.png",$extra="thumb1").'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;">'.$main_guest[2].'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black;padding:7px; ">'.$main_guest[4].'</td></tr></table>';
 
 $layoutname = $obj->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
 if($layoutname=="")
@@ -624,7 +649,7 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
 
 
 
-  			<div id="room" style="float:left; width:<?=$room_width?>; ">
+  			<div id="room" tyle="float:left; width:<?=$room_width?>; ">
 			<div align="center" style="width:600px;text-align:center; margin:0 auto; font-size:13px; font-size:13px">
 				<?=$html?>
 			</div><br/>
@@ -681,7 +706,7 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
 
 							foreach($table_rows as $table_row)
 							{
-                $tblname = mb_substr($table_row["name"],0,1,'UTF-8');
+                $tblname = $table_row["name"];
                 /*spssp_user_tableの役割が分からないため一度コメントアウト。
 								$new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
                 
@@ -872,10 +897,10 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
                                 <?php
 									if($jor%2==0)
 									{
-										if($j==$rowspan)
+										if($j==1) 
 										{
 											?>
-											<div style='float:left;text-align:center; width:25px; height:30px'>
+											<div  class="vertical" rowspan="<?php echo count($seats)/2;?>" style='float:left;text-align:center; width:25px; height:30px;white-space:nowrap;'>
 											  <p align="center" style="text-align:center;width:15px;" id="table_<?=$table_row['id']?>">
 
                                     				<b><a href="javascript:void(0)" style="cursor:default; text-decoration:none"><span><?=$tblname?></span></a></b>
@@ -922,18 +947,7 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
     </div>
 	  </form>
   </div>
-  <div class="clear" style="float:left; clear:both; height:10px;"></div></div>
-  <div id="makeplanbox_foot">
-			<div id="makeplanbox_foot_submit">
-			<?php
-			if($button_enable==true) {?>
-			<div align="right">
-			<input id="button" type="button" value="保存" onclick="checkConfirm()">
-			</div>
-			<?php } ?>
-			</div>
-			<div style="clear:both;"></div>
-	</div>
+  <div class="clear" style="float:left; clear:both; height:10px;"></div></div></div>
 
 <?php
 include("inc/new.footer.inc.php");
