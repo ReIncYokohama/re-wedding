@@ -74,52 +74,72 @@ function checkGuest(tid,cid)
 //FAHIM EDIT 11/07/30 FULL NEW FUNCTION
 function validForm(num)
 {
-var layoutname_ajax  = $("#layoutname_ajax").val();
-var table_array=new Array();
-//卓名空白は非許可
-for(var loop=1;loop<=num;loop++)
-{
-	var tId="tableId_"+loop;
-	var table_name=	$("#"+tId).val();
-
-	if(table_name=="") {
-		alert("卓名を入力してください");
- 		document.getElementById(tId).focus();
- 		return false;
+	var layoutname_ajax  = $("#layoutname_ajax").val();
+	var table_array=new Array();
+	//卓名空白は非許可
+	for(var loop=1;loop<=num;loop++)
+	{
+		var tId="tableId_"+loop;
+		var table_name=	$("#"+tId).val();
+	
+		if(table_name=="") {
+			if (timeOutNow==true) {
+				alert("卓名が未入力なので、保存できませんでした"); // cronでログアウトされた場合の対応が必要
+				location.href = "logout.php";
+			}
+			alert("卓名を入力してください");
+	 		document.getElementById(tId).focus();
+	 		return false;
+		}
 	}
-}
-var sendObject = {};
-for(var loop=1;loop<=num;loop++)
-  {
-    var tId="tableId_"+loop;
-    var table_name=	$("#"+tId).val();
-    var valueid="hiddenid_"+loop;
-    var table_id=	$("#"+valueid).val();
-    sendObject["name_"+loop] = table_name;
-    sendObject["id_"+loop] = table_id;
-  }
-
-$.post('table_layout.php',{'layoutname':layoutname_ajax,'ajax':"ajax"}, function(data){
-		if (layoutname_ajax=="" || !isset(layoutname_ajax)) layoutname_ajax = "　　　";
-		$("#user_layoutname").html(layoutname_ajax);
-		$("#default_layout_title").html(layoutname_ajax);
-		$("#img_default_layout_title").val(layoutname_ajax);
-	});
-sendObject["total_table"] = num;
-
-$.post('ajax/plan_table_name_update_all.php',sendObject, function(data){
-    location.href = "";
-	});
-
-
+	var sendObject = {};
+	for(var loop=1;loop<=num;loop++)
+	  {
+	    var tId="tableId_"+loop;
+	    var table_name=	$("#"+tId).val();
+	    var valueid="hiddenid_"+loop;
+	    var table_id=	$("#"+valueid).val();
+	    sendObject["name_"+loop] = table_name;
+	    sendObject["id_"+loop] = table_id;
+	  }
+	
+	$.post('table_layout.php',{'layoutname':layoutname_ajax,'ajax':"ajax"}, function(data){
+			if (layoutname_ajax=="" || !isset(layoutname_ajax)) layoutname_ajax = "　　　";
+			$("#user_layoutname").html(layoutname_ajax);
+			$("#default_layout_title").html(layoutname_ajax);
+			$("#img_default_layout_title").val(layoutname_ajax);
+		});
+	sendObject["total_table"] = num;
+	
+	$.post('ajax/plan_table_name_update_all.php',sendObject, function(data){
+	    if (timeOutNow==true) location.href = "logout.php";
+		});
 }
 
 function user_layout_title_input_show(id)
-	{
-		$("#"+id).fadeOut();
-		$("#input_user_layoutname").fadeIn(500);
+{
+	$("#"+id).fadeOut();
+	$("#input_user_layoutname").fadeIn(500);
 
+}
+
+var table_count=0;
+function user_timeout() {
+	clearInterval(timerId);
+	if (changeAction==true) {
+		timeOutNow=true;
+		var agree = confirm("タイムアウトしました。\n保存しますか？");
+	    if(agree==true) {
+		    validForm(table_count);
+	    }
 	}
+	else {
+		alert("タイムアウトしました");
+	}
+
+	window.location = "logout.php";	
+}
+
 </script>
 <style>
 
@@ -158,7 +178,7 @@ function user_layout_title_input_show(id)
 	}
 </style>
 
-<div id="contents_wrapper">
+<div id="contents_wrapper" class="displayBox">
 <div id="nav_left">
     <div class="step_bt"><img src="img/step_head_bt01_on.jpg" width="150" height="60" border="0"/></div>
     <div class="step_bt"><a href="hikidemono.php"><img src="img/step_head_bt02.jpg" width="150" height="60" border="0" class="on" /></a></div>
@@ -266,12 +286,12 @@ function user_layout_title_input_show(id)
 			if($layoutname!="")
 			{
 				$name_input=$layoutname;
-				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'".$_readonly." value='".$name_input."'>";
+				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'".$_readonly." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
 			}
 			else
 			{
 				$name_input=$default_layout_title;
-				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'".$_readonly." value='".$name_input."'>";
+				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'".$_readonly." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
 			}
 			?>
 			　　　　　</td>
@@ -289,13 +309,10 @@ function user_layout_title_input_show(id)
 
            <td width="14" align="center" valign="middle" nowrap="nowrap"><strong><?=$k?></strong></td>
            <td width="104" nowrap="nowrap">
-		   <input name="tableName_<?=$k?>" type="text" id="tableId_<?=$k?>" value="<?=$user_table_row['name']?>" size="15" <?=$_readonly?> />
+		   <input name="tableName_<?=$k?>" type="text" id="tableId_<?=$k?>" value="<?=$user_table_row['name']?>" size="15" <?=$_readonly?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
 		   <input name="hiddenid_<?=$k?>" type="hidden" id="hiddenid_<?=$k?>" value="<?=$user_table_row['id']?>" size="15" />
 		   </td>
           <?php
-
-
-
 
 		  	if($k%2==0)
 			{
@@ -308,8 +325,8 @@ function user_layout_title_input_show(id)
          <?php $k++;}} ?>
         </tr>
 
-
 		<?php
+				echo "<script> table_count=$k-1;</script>";
 				if($permission_table_edit==1 && $editable)
 				  {?>
 				  <tr>

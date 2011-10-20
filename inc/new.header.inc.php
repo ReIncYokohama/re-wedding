@@ -70,6 +70,15 @@ $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
 <script src="js/ui/jquery.ui.dialog.js"></script>
 <script src="js/jquery.cookie.js"></script>
 <script src="js/util.js"></script>
+
+<script>
+var timeOutLength = "<?=TIMEOUTLENGTH?>";
+var timerId = setInterval('user_timeout()', timeOutLength);
+var changeAction = false;
+var timeOutNow=false;
+</script>
+<script src="js/timeout_action.js"></script>
+
 <script type="text/javascript">
 	$(function() {
 		$("#change_pass").dialog({
@@ -134,15 +143,7 @@ $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
 
 	});
 
-var timerId = setInterval('user_timeout()', "<?=TIMEOUTLENGTH?>");
-
-function user_timeout() {
-	clearInterval(timerId);
-	alert("タイムアウトしました");
-	window.location = "logout.php";	
-}
-
-function change_password()
+	function change_password()
 {
 	$("#cur_password").val("");
 	$("#password").val("");
