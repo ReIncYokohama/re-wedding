@@ -40,11 +40,19 @@ last_name first_name memo3
 */
 function make_name_plate_full_save($last_name,$first_name,$comment1="",$comment2="",$memo1,$memo2,$memo3,
                          $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
-                              $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$file="file.png",$color = array(0x00,0x00,0x00),$respect = ""){
+                                   $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$file="file.png",$file2="file.png",$color = array(0x00,0x00,0x00),$respect = ""){
+  //右側にコメント
   $image = get_image_name_plate_full($last_name,$first_name,$comment1,$comment2,$memo1,$memo2,$memo3,
                                 $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
   imagefilter($image, IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
   imagepng($image,$file);
+  imagedestroy($image);
+
+  //左側にコメント
+  $image = get_image_name_plate_full2($last_name,$first_name,$comment1,$comment2,$memo1,$memo2,$memo3,
+                                $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
+  imagefilter($image, IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
+  imagepng($image,$file2);
   imagedestroy($image);
 }
 
@@ -163,14 +171,14 @@ function get_image_name_plate($last_name,$first_name,$comment1="",$comment2="",
   imagefill($image,0,0,$col_g);
   
 
-  get_image_name_plate_data($image,$width_px,
+  get_image_name_plate_data($image,$width_px,$first_left,
                             $last_name,$first_name,$comment1,$comment2,
                          $gaiji_last_name_arr,$gaiji_first_name_arr,
                               $gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
   return $image;
 }
 
-function get_image_name_plate_data($image,$width_px,
+function get_image_name_plate_data($image,$width_px,$first_left,
                                    $last_name,$first_name,$comment1="",$comment2="",
                          $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
                                    $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect=""){
@@ -185,21 +193,21 @@ function get_image_name_plate_data($image,$width_px,
   if($comment2 != ""){
     $comment1_fontsize = get_image_font_size($comment_max_fontsize,$comment1,$font,$width_px,
                                            $gaiji_comment1_arr);
-    gaiji_imagettftext($image,$comment1_fontsize,0,0,12,$col_t,$font,$comment1,$gaiji_comment1_arr);
+    gaiji_imagettftext($image,$comment1_fontsize,0,$first_left,12,$col_t,$font,$comment1,$gaiji_comment1_arr);
   }else{  
     $comment2 = $comment1;
   }
   $comment2_fontsize = get_image_font_size($comment_max_fontsize,$comment2,$font,$width_px,
                                            $gaiji_comment2_arr);
   
-  gaiji_imagettftext($image,$comment2_fontsize,0,0,26,$col_t,$font,$comment2,$gaiji_comment2_arr);
+  gaiji_imagettftext($image,$comment2_fontsize,0,$first_left,26,$col_t,$font,$comment2,$gaiji_comment2_arr);
 
   $gaiji_name_arr = array_merge((array)$gaiji_last_name_arr, (array)$gaiji_first_name_arr);
   $name_for_fontsize = $name.$respect;
   $name_fontsize = get_image_font_size($name_max_fontsize,$name,$font,$width_px,
                                        $gaiji_name_arr);
   
-  $nowLeft = gaiji_imagettftext($image,$name_fontsize,0,0,45,$col_t,$font,$name,$gaiji_name_arr);
+  $nowLeft = gaiji_imagettftext($image,$name_fontsize,0,$first_left,45,$col_t,$font,$name,$gaiji_name_arr);
 
   if(mb_strlen($respect,"utf-8") <= 3){
     gaiji_imagettftext($image,$name_fontsize,0,$nowLeft,45,$col_t,$font,$respect,array());
@@ -226,7 +234,8 @@ function get_image_name_plate_full($last_name,$first_name,$comment1="",$comment2
   $col_t = imagecolorallocate($image,0x00,0x00,0x00);
   imagefill($image,0,0,$col_g);
   
-  get_image_name_plate_data($image,$width_px,
+  $first_left = 0;
+  get_image_name_plate_data($image,$width_px,$first_left,
                             $last_name,$first_name,$comment1,$comment2,
                          $gaiji_last_name_arr,$gaiji_first_name_arr,
                               $gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
@@ -241,9 +250,46 @@ function get_image_name_plate_full($last_name,$first_name,$comment1="",$comment2
   
   $memo3_fontsize = get_image_font_size($comment_max_fontsize,$memo3,$font,$memo_px,
                                         array());
-  gaiji_imagettftext($image,$memo3_fontsize,0,150,45,$col_t,$font,$memo3,array());  
+  gaiji_imagettftext($image,$memo3_fontsize,0,150,45,$col_t,$font,$memo3,array());
+
+  return $image;
+}
+
+function get_image_name_plate_full2($last_name,$first_name,$comment1="",$comment2="",$memo1="",$memo2="",$memo3="",
+                         $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
+                              $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect=""){
+
+  $comment_max_fontsize = "8";
+  $name_max_fontsize = "12";
+
+  $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
+  $width_px = "150";
+  $memo_px = "50";
+
+  $image = imagecreatetruecolor($width_px+$memo_px,45) or die("Cannot Initialize new GD image stream");
+  $col_g = imagecolorallocate($image,0xff,0xff,0xff);
+  $col_t = imagecolorallocate($image,0x00,0x00,0x00);
+  imagefill($image,0,0,$col_g);
+  
+  $memo1_fontsize = get_image_font_size($comment_max_fontsize,$memo1,$font,$memo_px,
+                                        array());
+  gaiji_imagettftext($image,$memo1_fontsize,0,0,12,$col_t,$font,$memo1,array());  
+  
+  $memo2_fontsize = get_image_font_size($comment_max_fontsize,$memo2,$font,$memo_px,
+                                        array());
+  gaiji_imagettftext($image,$memo2_fontsize,0,0,26,$col_t,$font,$memo2,array());
+  
+  $memo3_fontsize = get_image_font_size($comment_max_fontsize,$memo3,$font,$memo_px,
+                                        array());
+  gaiji_imagettftext($image,$memo3_fontsize,0,0,45,$col_t,$font,$memo3,array());
 
 
+  $first_left = $memo_px;
+  get_image_name_plate_data($image,$width_px,$first_left,
+                            $last_name,$first_name,$comment1,$comment2,
+                         $gaiji_last_name_arr,$gaiji_first_name_arr,
+                              $gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
+  
   return $image;
 }
 
@@ -413,11 +459,11 @@ function make_guest_images($user_id,$guest_id,$last_name,$first_name,$comment1,$
   $guest_detail = $dataClass->get_guest_detail($user_id,$guest_id);
   $memo = $guest_detail["memo"];
   $savefile = sprintf("%s/user_name/%d/%s/%d/%s",get_image_db_directory($hotel_id),$user_id,"guest",$guest_id,"namecard_memo.png");
+  $savefile2 = sprintf("%s/user_name/%d/%s/%d/%s",get_image_db_directory($hotel_id),$user_id,"guest",$guest_id,"namecard_memo2.png");
 
   make_name_plate_full_save($last_name,$first_name,$comment1,$comment2,$gift_name,$menu_name,$memo,
                        $lastname_gaiji_pathArray,$firstname_gaiji_pathArrays,
-                       $comment1_gaiji_pathArray,$comment2_gaiji_pathArray,$savefile,$colorArray,$respect);
-
+                            $comment1_gaiji_pathArray,$comment2_gaiji_pathArray,$savefile,$savefile2,$colorArray,$respect);
 }
 
 function get_image_db_directory($hotel_id){
