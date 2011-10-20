@@ -203,7 +203,7 @@ include("admin/inc/return_dbcon.inc.php");
 $html.='<table style="font-size:'.$main_font_size_top.';"><tr>';
 
 /* 引出物　商品数　開始 */
-$html.='<td><table><tr><td><table><tr><td style="text-align:right;border:1px solid black;" colspan="2" height="14"  width="80" >グループ</td>';
+$html.='<td><table><tr><td><table><tr><td style="text-align:right;border:1px solid black;" colspan="2" height="14"  width="120" >グループ</td>';
 
 $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_id);
 $gift_rows = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".$user_id);
@@ -212,16 +212,16 @@ foreach($group_rows as $grp)
 	
 		$group_menu_array[$grp['name']]=0;
 		if ($grp['name']!="") 
-			$html.='<td  style="text-align:center;border:1px solid black;"  width="30">'.$grp['name'].'</td>';
+			$html.='<td  style="text-align:center;border:1px solid black;"  width="20">'.$grp['name'].'</td>';
 	}
 
 $group_menu_array[x]=0;
-$html.='<td  style="text-align:center;border:1px solid black;"  width="30">予備</td>
-	<td  style="text-align:center;border:1px solid black;"  width="30">合計</td>
+$html.='<td  style="text-align:center;border:1px solid black;"  width="20">予備</td>
+	<td  style="text-align:center;border:1px solid black;"  width="20">合計</td>
   	</tr>';
           
 $html.='<tr>
-            <td colspan="2" style="text-align:right;border:1px solid black;"  height="14"  width="80">グループ数</td>';
+            <td colspan="2" style="text-align:right;border:1px solid black;"  height="14"  width="120">グループ数</td>';
            
 $total = 0;
 foreach($group_rows as $grp)
@@ -229,12 +229,12 @@ foreach($group_rows as $grp)
   	if ($grp['name']!="") {
 	    $num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']);
 	    $total += $num_guests_groups;
-	    $html.='<td style="text-align:center;border:1px solid black;" width="30">'.$num_guests_groups.'</td>';
+	    $html.='<td style="text-align:center;border:1px solid black;" width="20">'.$num_guests_groups.'</td>';
   	}
   }
 			
-$html.='<td  style="text-align:center;border:1px solid black;"  width="30">-</td>
-            <td style="text-align:center;border:1px solid black;" width="30">'.$total.'</td>
+$html.='<td  style="text-align:center;border:1px solid black;"  width="20">-</td>
+            <td style="text-align:center;border:1px solid black;" width="20">'.$total.'</td>
           </tr>';
 	
 $html.='</table></td></tr>';
@@ -247,7 +247,7 @@ foreach($gift_rows as $gift)
 	if ($gift['name']!="") {
 		if($start!=0) $html.='<tr>';
 		$start=1;
-	    $html.='<td style="text-align:right;border:1px solid black;" height="14" width="64">'.$gift['name'].'</td>';
+	    $html.='<td style="text-align:right;border:1px solid black;" height="14" width="104">'.$gift['name'].'</td>';
 	
 			$num_gifts = 0;
 			foreach($group_rows as $grp)
@@ -278,13 +278,13 @@ foreach($gift_rows as $gift)
 		            unset($groups);
 		          }
 					
-		        $html.='<td style="text-align:center;border:1px solid black;" width="30">'.$htm.'</td>';
+		        $html.='<td style="text-align:center;border:1px solid black;" width="20">'.$htm.'</td>';
 	      	}
 	      }
 	      $num_reserve = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift["id"]);
 	      $num_gifts += $num_reserve;
-	      $html.='<td style="text-align:center;border:1px solid black;" width="30">'.$num_reserve.'</td>';
-	      $html.='<td style="text-align:center;border:1px solid black;" width="30">'.$num_gifts.'</td>';
+	      $html.='<td style="text-align:center;border:1px solid black;" width="20">'.$num_reserve.'</td>';
+	      $html.='<td style="text-align:center;border:1px solid black;" width="20">'.$num_gifts.'</td>';
 	      $html.='</tr>';
 		}
 	}
@@ -430,7 +430,7 @@ if($layoutname=="")
 
 //$html.='<tr><td>&nbsp;</td><td>&nbsp;</td><td><table style="border:1px solid black;padding:10px;"><tr><td align="center"  valign="middle" style="text-align:center;">'.$layoutname.'</td></tr></table></td><td>&nbsp;</td><td>&nbsp;</td></tr></table><br/>';
 
-$html.='<table cellspacing="4" cellspadding="4" width="100%" style="font-size:'.$main_font_size.';">';
+$html.='<table width="100%" style="font-size:'.$main_font_size.';">';
 
 $table_data = $obj->get_table_data_detail($user_id);
 $tblrows = $table_data["rows"];
@@ -479,7 +479,7 @@ foreach($tblrows as $tblrow)
 
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
-            $html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table  cellspacing=\"4\" cellspadding=\"4\" width=\"100%\">";
+            $html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
 				
 				
 				

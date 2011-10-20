@@ -23,7 +23,7 @@ if($user_id>0) {
 	function getGaijis($gaiji_objs){
 		 $returnImage = "";
 		 for($i=0;$i<count($gaiji_objs);++$i){
-			$returnImage .= "<image src='../gaiji/upload/img_ans/".$gaiji_objs[$i]["gu_char_img"]."' width='20' height='20'>";
+			$returnImage .= "<image src='../../gaiji-image/img_ans/".$gaiji_objs[$i]["gu_char_img"]."' width='20' height='20'>";
 		 }
 		 return $returnImage;
 	}
@@ -291,7 +291,7 @@ function get_gaiji_value(from,img,gid,gsid)
 	{
 		var man_firstname = $j("#man_firstname").val();
 		appendHiddenValue(0,img,gid,gsid);
-		$j("#male_firstname_img_div_id").append("<img src='../gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+		$j("#male_firstname_img_div_id").append("<img src='../../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
 
 		$j("#man_firstname").attr("value", man_firstname+"＊");
 	}
@@ -301,7 +301,7 @@ function get_gaiji_value(from,img,gid,gsid)
 
 		appendHiddenValue(1,img,gid,gsid);
 
-		$j("#male_lastname_img_div_id").append("<img src='../gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+		$j("#male_lastname_img_div_id").append("<img src='../../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
 
 		$j("#man_lastname").attr("value", man_lastname+"＊");
 	}
@@ -311,7 +311,7 @@ function get_gaiji_value(from,img,gid,gsid)
 
 		appendHiddenValue(2,img,gid,gsid);
 
-		$j("#female_firstname_img_div_id").append("<img src='../gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+		$j("#female_firstname_img_div_id").append("<img src='../../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
 
 		$j("#woman_firstname").attr("value", woman_firstname+"＊");
 	}
@@ -321,7 +321,7 @@ function get_gaiji_value(from,img,gid,gsid)
 
 		appendHiddenValue(3,img,gid,gsid);
 
-		$j("#female_lastname_img_div_id").append("<img src='../gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+		$j("#female_lastname_img_div_id").append("<img src='../../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
 
 		$j("#woman_lastname").attr("value", woman_lastname+"＊");
 
@@ -950,16 +950,29 @@ include("inc/return_dbcon.inc.php");
 					<input name="party_room_id" style="padding-top:4px; padding-bottom:4px; width:130px;" type="text" id="party_room_id"  class="input_text" value="<?=$party_rooms_name?>" />
                 </td>
             </tr>
+            <tr>
+              <td width="192" align="left" valign="middle" nowrap="nowrap">新郎新婦高砂席位置</td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td colspan="3" align="left" valign="middle" nowrap="nowrap">
+                              <input type="radio" name="mukoyoshi" value="0" 
+<?php 
 
+if($user_row['mukoyoshi']=='0'){
+  echo "checked='checked'";
+}
+?> /> 通常
+<input type="radio" name="mukoyoshi" value="1" 
+<?php
+if($user_row['mukoyoshi']=='1'){
+  echo "checked='checked'";
+}
+?> />高砂席入れ替え
+                </td>
+            </tr>
             <tr>
               <td width="192" align="left" valign="middle" nowrap="nowrap">ログインID</td>
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
-
-                <!--
-                Kumar
-                <input name="user_id" style="padding-top:4px; padding-bottom:4px;" type="text" id="user_id" value="<?=$user_row['user_id']?>" size="30" />-->
-
                <input name="user_id" style="padding-top:4px; padding-bottom:4px;" type="hidden" id="user_id" value="<?=$user_row['user_id']?>" size="30" />
                 <?=$user_row['user_id']?>
 

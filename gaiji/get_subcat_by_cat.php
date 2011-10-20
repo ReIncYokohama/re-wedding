@@ -41,7 +41,7 @@ include('gaijidmin/inc/dbcon.inc.php');
 										
 				<?php echo  '<td width="52" valign="middle" height="52" bgcolor="#FFFFFF" align="center">'; ?>
 						<a href="javascript:void(0);" onclick="showImageBox(<?=$row['id']?>);">
-						<img width="50" height="50" border="1" id="search_ans" name="検索結果" alt="検索結果" src="upload/img_ans/<?=$row['g_image_name']?>">
+						<img width="50" height="50" border="1" id="search_ans" name="検索結果" alt="検索結果" src="../../gaiji-image/img_ans/<?=$row['g_image_name']?>">
 						</a>
 			    <?php echo "</td>"; ?>
 				

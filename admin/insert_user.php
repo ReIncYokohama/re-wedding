@@ -229,7 +229,6 @@ else
     $guest_array['self']=1;
     $guest_array['stage']=1;
     $guest_array['user_id']=$last_id;
-
     $obj->InsertData("spssp_guest",$guest_array);
 
     $guest_array2['first_name']=$post['woman_firstname'];

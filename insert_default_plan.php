@@ -33,15 +33,14 @@
 	{
     $guest_seat_arr = $obj->GetRowsByQuery("select * from spssp_plan_details where plan_id = ".$plan_id);
     //print_r($guest_seat_arr);
-    print_r($_SESSION["cart"]);
+    
 		foreach($_SESSION['cart'] as $key=>$val)
 		{
 
 			if($val != '')
 			{
 				$seat_arr = explode("_",$key);
-				$seat_id= $seat_arr[0];
-		
+				$seat_id= $seat_arr[0];		
 				
 				
 				$guest_arr = explode("_",$val);
@@ -67,7 +66,7 @@
 				}
 			}
 		}
-		exit();
+
 		$obj->DeleteRow("spssp_plan_details"," plan_id=".$plan_id);
 	}
 	
