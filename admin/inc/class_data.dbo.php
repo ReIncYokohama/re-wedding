@@ -229,6 +229,26 @@ class DataClass extends DBO{
 
     return $guest_id;
   }
+  //array of man and woman data
+  // first_name,last_name,menu_grp,gift_group_id.menu_text,gift_group_text,sex_text,table_name
+  public function get_userdata($user_id){
+    $guestArray = $this->getRowsByQuery("select * from spssp_guest where user_id = $user_id and self = 1 order by sex desc");
+    $mukoyoshi = $this->GetSingleData("spssp_user","mukoyoshi"," id = ".$user_id);
+    include_once(dirname(__file__)."/class_information.dbo.php");
+    $infoobj = new InformationClass();
+    for($i=0;$i<count($guestArray);++$i){
+      $guestArray[$i]["menu_text"] = $this->get_menu_group($guestArray[$i]["menu_grp"],$user_id);
+      $guestArray[$i]["gift_group_text"] = $this->get_gift_group($guestArray[$i]["gift_group_id"],$user_id);
+      $guestArray[$i]["sex_text"] = $this->get_host_sex_name($guestArray[$i]["sex"]);
+      $guestArray[$i]["table_name"] = $this->get_host_table_name($guestArray[$i]["sex"],$mukoyoshi);
+      if($guestArray[$i]["sex"]=="Male"){
+        $guestArray[$i]["name_image"] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname_only.png",$extra="thumb1");
+      }else{
+        $guestArray[$i]["name_image"] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname_only.png",$extra="thumb1");
+      }
+    }
+    return $guestArray;
+  }
   
   public function set_log_guest_delete($user_id,$guest_id,$admin_id){
 		$update_array['date']=date("Y-m-d H:i:s");
@@ -525,6 +545,20 @@ class DataClass extends DBO{
   public function get_host_area($guest_sex){
     if($guest_sex=="Male")  return "新郎側";
     if($guest_sex=="Female")  return "新婦側";
+    return "";
+  }
+  //新郎新婦側をテキストで返す。
+  public function get_host_sex_name($guest_sex){
+    if($guest_sex=="Male")  return "新郎";
+    if($guest_sex=="Female")  return "新婦";
+    return "";
+  }
+  //新郎新婦側をテキストで返す。
+  public function get_host_table_name($guest_sex,$mukoyoshi){
+    if(($guest_sex=="Male" && $mukoyoshi == 0) || 
+       ($guest_sex=="Female" && $mukoyoshi == 1))  return "高砂1";
+    if(($guest_sex=="Male" && $mukoyoshi == 1) || 
+       ($guest_sex=="Female" && $mukoyoshi == 0))  return "高砂2";
     return "";
   }
   //敬称をテキストで返す。

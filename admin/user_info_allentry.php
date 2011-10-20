@@ -946,16 +946,29 @@ include("inc/return_dbcon.inc.php");
 					<input name="party_room_id" style="padding-top:4px; padding-bottom:4px; width:130px;" type="text" id="party_room_id"  class="input_text" value="<?=$party_rooms_name?>" />
                 </td>
             </tr>
+            <tr>
+              <td width="192" align="left" valign="middle" nowrap="nowrap">新郎新婦高砂席位置</td>
+                <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+                <td colspan="3" align="left" valign="middle" nowrap="nowrap">
+                              <input type="radio" name="mukoyoshi" value="0" 
+<?php 
 
+if($user_row['mukoyoshi']=='0'){
+  echo "checked='checked'";
+}
+?> /> 通常
+<input type="radio" name="mukoyoshi" value="1" 
+<?php
+if($user_row['mukoyoshi']=='1'){
+  echo "checked='checked'";
+}
+?> />高砂席入れ替え
+                </td>
+            </tr>
             <tr>
               <td width="192" align="left" valign="middle" nowrap="nowrap">ログインID</td>
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
-
-                <!--
-                Kumar
-                <input name="user_id" style="padding-top:4px; padding-bottom:4px;" type="text" id="user_id" value="<?=$user_row['user_id']?>" size="30" />-->
-
                <input name="user_id" style="padding-top:4px; padding-bottom:4px;" type="hidden" id="user_id" value="<?=$user_row['user_id']?>" size="30" />
                 <?=$user_row['user_id']?>
 
