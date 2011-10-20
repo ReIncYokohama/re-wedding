@@ -4,7 +4,7 @@ include_once("inc/checklogin.inc.php");
     
 	$fileName = $_GET['pagename'];
 	$tableName='gaiji_'.$_GET['t'];
-	$basepath='../upload/'.$fileName.'/';
+	$basepath='../../gaiji-image/'.$fileName.'/';
   
 	
 	if($_GET['t'] !='')
