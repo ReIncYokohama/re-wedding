@@ -741,24 +741,28 @@ include("inc/return_dbcon.inc.php");
 		</div>
         </h4>
 		<?php if($user_id>0) { ?>
-		<div style="width:800px;">
+		<div style="width:1035px;">
         	<div class="navi">
             	<img src="img/common/navi01_on.jpg"/>
             </div>
         	<div class="navi">
             	<a href="message_user.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi02.jpg" class="on" /></a>
             </div>
+        	
+            
+            <div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
+            <div class="navi">　　　　　</div>
         	<div class="navi">
             	<a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank">
             		<img src="img/common/navi03.jpg" class="on" />
                 </a>
-            </div>
-        	<div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi04.jpg" class="on" /></a></div>
+            </div><div class="navi2">
+            
 <?php if($_SESSION["super_user"]){　?>
           <div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',700,200); return false;">
             <img src="img/common/navi05.jpg" class="on" />
           </a></div>
-<?php } ?>
+<?php } ?></div>
         	<div style="clear:both;"></div>
         </div>
         <br />

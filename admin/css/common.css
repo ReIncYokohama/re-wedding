@@ -95,7 +95,13 @@ p {
 }
 
 
-
+hr.style1 {
+   border:solid #000;
+   border-width:1px 0 0 0;
+   border-color: #097fbd;
+   height:1px;/* for IE6 */
+   clear:both;/* for IE6 */
+} 
 
 #wrapper{
 	text-align: left;
@@ -343,8 +349,8 @@ ul#footer_navigation{
 	border-bottom-style: solid;
 	border-bottom-color: #CCC;
 }
-.box5 :hover{background-color: #ECF8FB;font-size:12x;}
-.box6 :hover{background-color: #ECF8FB;font-size:12x;}
+.box5 :hover{background-color: #ECF8FB;font-size:15x;}
+.box6 :hover{background-color: #ECF8FB;font-size:15x;}
 .box_table {
 	
 	margin-top: 10px;
@@ -483,7 +489,7 @@ ul.ul3 li {
 	padding-left: 20px;
 }
 .sekiji_table2 {
-	width: 600px;
+	width: 350px;
 	margin-right: auto;
 	margin-left: auto;
 	border: 1px solid #3681CB;
@@ -517,6 +523,10 @@ ul.ul3 li {
 }
 .navi {
 	float: left;
+}
+.navi2 {
+	border-bottom: 2px solid #bdc1c4;
+	padding-bottom: 36px;
 }
 #message_BOX {
 	border: 1px solid #315CA1;
