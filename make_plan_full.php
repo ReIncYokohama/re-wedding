@@ -384,8 +384,9 @@ height:30px;
 .vertical {
 width: 430px;
 height: 180px;
-  writing-mode: tb-rl;
-  -webkit-writing-mode : vertical-rl ; 
+writing-mode: tb-rl;
+-webkit-writing-mode : vertical-rl ; 
+-moz-writing-mode: vertical-rl;
 direction: ltr;
  }
 </style>
