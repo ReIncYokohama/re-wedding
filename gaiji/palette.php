@@ -167,7 +167,7 @@ $from = $_GET['from'];
         $("#gr_sjis_id").attr("value",sjis_id);
         $("#gr_fname_id").attr("value", img);
         $("#gr_gaizi_group_code").attr("value", gsid_group);
-        $("#select_sss").attr("src", "upload/img_select/"+img);
+        $("#select_sss").attr("src", "../../gaiji-image/img_select/"+img);
     }
     function final_call_parent(from)
     {
@@ -235,7 +235,7 @@ if(is_array($results2))
 	<div class="clearFloat"></div>
 	<img src="img/sber_l.gif" id="sber_l" alt="" />
 	<div id="colwrap2"><a href="#"  onclick="select_busho_sub('<?=$from?>','<?=$rows2['gr_fname']?>',<?=$rows2['gr_chrcode']?>,<?=$rows2['gr_managed_code']?>,<?=$rows2['gr_gaizi_group_code']?>);">
-	<img src="upload/img_ans/<?=$rows2['gr_fname']?>" id="sblock2" alt="" /></a>
+	<img src="../../gaiji-image/img_ans/<?=$rows2['gr_fname']?>" id="sblock2" alt="" /></a>
 	<img src="img/sber_u.gif" id="sber_u" alt="" />
 	</div>
 	<img src="img/sber_r.gif" id="sber_r" alt="" />
@@ -291,7 +291,7 @@ if(is_array($results))
 				<div class="clearFloat"></div>
 			<img src="img/ber_l.gif" id="ber_l" alt="" />
 		<div id="colwrap1">
-		  <img src="upload/img_bushu/<?=$rows['buso_image_name']?>" id="sblock" alt="" />
+		  <img src="../../gaiji-image/img_bushu/<?=$rows['buso_image_name']?>" id="sblock" alt="" />
 						<img src="img/ber_u.gif" id="ber_u" alt="" />
 		</div>
 			<img src="img/ber_r.gif" id="ber_r" alt="" />

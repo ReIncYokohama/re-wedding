@@ -463,7 +463,7 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#first_div_id").append("<input type='hidden' name='male_first_gaiji_gid[]' value='"+gid+"'>");
       $("#first_div_id").append("<input type='hidden' name='male_first_gaiji_gsid[]' value='"+gsid+"'>");
 
-      $("#firstname_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+      $("#firstname_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
       $("#first_name").attr("value", firstname+"＊");
     }
 	if(from=="last_name")
@@ -473,7 +473,7 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#last_div_id").append("<input type='hidden' name='male_last_gaiji_gid[]' value='"+gid+"'>");
       $("#last_div_id").append("<input type='hidden' name='male_last_gaiji_gsid[]' value='"+gsid+"'>");
 
-      $("#lastname_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+      $("#lastname_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
       $("#last_name").attr("value", lastname+"＊");
     }
 	if(from=="comment1")
@@ -483,7 +483,7 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#comment1_div_id").append("<input type='hidden' name='comment1_gaiji_gid[]' value='"+gid+"'>");
       $("#comment1_div_id").append("<input type='hidden' name='comment1_gaiji_gsid[]' value='"+gsid+"'>");
 
-      $("#comment1_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+      $("#comment1_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
       $("#comment1").attr("value", comment1+"＊");
     }
 	if(from=="comment2")
@@ -493,7 +493,7 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#comment2_div_id").append("<input type='hidden' name='comment2_gaiji_gid[]' value='"+gid+"'>");
       $("#comment2_div_id").append("<input type='hidden' name='comment2_gaiji_gsid[]' value='"+gsid+"'>");
 
-      $("#comment2_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+      $("#comment2_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
       $("#comment2").attr("value", comment2+"＊");
     }
 
@@ -589,7 +589,7 @@ $editable=$objInfo->get_editable_condition($plan_info);
       function getGaijis($gaiji_objs){
         $returnImage = "";
         for($i=0;$i<count($gaiji_objs);++$i){
-          $returnImage .= "<image src='gaiji/upload/img_ans/".$gaiji_objs[$i]["gu_char_img"]."' width='20' height='20'>";
+          $returnImage .= "<image src='../gaiji-image/img_ans/".$gaiji_objs[$i]["gu_char_img"]."' width='20' height='20'>";
         }
         return $returnImage;
       }

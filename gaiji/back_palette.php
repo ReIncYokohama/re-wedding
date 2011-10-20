@@ -90,7 +90,7 @@ function getbusho_form_submit()
 function select_busho_sub(img)
 {
 	
-	$("#select_sss").attr("src", "upload/img_select/"+img);
+	$("#select_sss").attr("src", "../../gaiji-image/img_select/"+img);
 }
 </script>
 </head>
@@ -120,7 +120,7 @@ foreach($results2 as $rows2)
 <div class="clearFloat"></div>
 <img src="img/sber_l.gif" id="sber_l" alt="" />
 <div id="colwrap2">
-<img src="upload/img_ans/<?=$rows2['gr_fname']?>" id="sblock2" alt="" />
+<img src="../../gaiji-image/img_ans/<?=$rows2['gr_fname']?>" id="sblock2" alt="" />
 <img src="img/sber_u.gif" id="sber_u" alt="" />
 </div>
 <img src="img/sber_r.gif" id="sber_r" alt="" />
@@ -157,7 +157,7 @@ foreach($results as $rows)
 				<div class="clearFloat"></div>
 			<img src="img/ber_l.gif" id="ber_l" alt="" />
 		<div id="colwrap1">
-		  <img src="upload/img_bushu/<?=$rows['buso_image_name']?>" id="sblock" alt="" />
+		  <img src="../../gaiji-image/img_bushu/<?=$rows['buso_image_name']?>" id="sblock" alt="" />
 						<img src="img/ber_u.gif" id="ber_u" alt="" />
 		</div>
 			<img src="img/ber_r.gif" id="ber_r" alt="" />
@@ -179,7 +179,7 @@ foreach($results as $rows)
 
 
 <div id="Div6">
-<img src="upload/img_ans/F7C7.png" id="select_sss" alt="選択漢字" />
+<img src="../../gaiji-image/img_ans/F7C7.png" id="select_sss" alt="選択漢字" />
 
 <a href="#">
 <img src="img/seach2_off.jpg" id="seach2" alt="似た漢字を検索" />

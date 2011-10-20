@@ -3,9 +3,7 @@ include_once("inc/dbcon.inc.php");
 include_once("inc/checklogin.inc.php");
 include_once("inc/header.inc.php");
 
-$basepath='../upload/';
-@mkdir($basepath);
-$basepath='../upload/img_bushu/';
+$basepath='../../gaiji-image/img_bushu/';
 @mkdir($basepath);
 
 	if(isset($_POST['save']))

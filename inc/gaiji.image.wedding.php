@@ -440,7 +440,7 @@ function get_image_db_directory($hotel_id){
 function getGaijiPathArray($gaiji_img){
   $pathArray = array();
   for($i=0;$i<count($gaiji_img);++$i){
-    array_push($pathArray,dirname(__FILE__)."/../gaiji/upload/img_ans/".$gaiji_img[$i]);
+    array_push($pathArray,dirname(__FILE__)."/../../gaiji-image/img_ans/".$gaiji_img[$i]);
   }
   return $pathArray;
 }

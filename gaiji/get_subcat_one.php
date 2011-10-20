@@ -14,4 +14,4 @@ include('gaijidmin/inc/dbcon.inc.php');
 
 
 
-	<img src="upload/img_select/<?=$row['g_image_name']?>" id="select" alt="選択漢字" />
+	<img src="../../gaiji-image/img_select/<?=$row['g_image_name']?>" id="select" alt="選択漢字" />

@@ -23,7 +23,7 @@ if($user_id>0) {
 	function getGaijis($gaiji_objs){
 		 $returnImage = "";
 		 for($i=0;$i<count($gaiji_objs);++$i){
-			$returnImage .= "<image src='../gaiji/upload/img_ans/".$gaiji_objs[$i]["gu_char_img"]."' width='20' height='20'>";
+			$returnImage .= "<image src='../../gaiji-image/img_ans/".$gaiji_objs[$i]["gu_char_img"]."' width='20' height='20'>";
 		 }
 		 return $returnImage;
 	}
@@ -291,7 +291,7 @@ function get_gaiji_value(from,img,gid,gsid)
 	{
 		var man_firstname = $j("#man_firstname").val();
 		appendHiddenValue(0,img,gid,gsid);
-		$j("#male_firstname_img_div_id").append("<img src='../gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+		$j("#male_firstname_img_div_id").append("<img src='../../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
 
 		$j("#man_firstname").attr("value", man_firstname+"＊");
 	}
@@ -301,7 +301,7 @@ function get_gaiji_value(from,img,gid,gsid)
 
 		appendHiddenValue(1,img,gid,gsid);
 
-		$j("#male_lastname_img_div_id").append("<img src='../gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+		$j("#male_lastname_img_div_id").append("<img src='../../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
 
 		$j("#man_lastname").attr("value", man_lastname+"＊");
 	}
@@ -311,7 +311,7 @@ function get_gaiji_value(from,img,gid,gsid)
 
 		appendHiddenValue(2,img,gid,gsid);
 
-		$j("#female_firstname_img_div_id").append("<img src='../gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+		$j("#female_firstname_img_div_id").append("<img src='../../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
 
 		$j("#woman_firstname").attr("value", woman_firstname+"＊");
 	}
@@ -321,7 +321,7 @@ function get_gaiji_value(from,img,gid,gsid)
 
 		appendHiddenValue(3,img,gid,gsid);
 
-		$j("#female_lastname_img_div_id").append("<img src='../gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+		$j("#female_lastname_img_div_id").append("<img src='../../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
 
 		$j("#woman_lastname").attr("value", woman_lastname+"＊");
 
