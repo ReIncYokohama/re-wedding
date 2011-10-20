@@ -47,8 +47,8 @@
 			$obj->InsertData("spssp_item_value",$value_string);
 
 		}
-
-	redirect("hikidemono.php");exit;
+	if ($post['timeout']=="timeout")	redirect("logout.php");
+	else								redirect("hikidemono.php");exit;
 	}
 	if(isset($_POST['subgroup']))
 	{
@@ -120,19 +120,20 @@
 
 function validForm()
 {
-
-
 	for(var i=0;i<7;i++)
 	{
 		if (!isCheckedById("group_"+i))
 		{
+			if (timeOutNow==true) {
+				alert("商品のグループは最低１つ選択が必要なので、保存できませんでした"); // cronでログアウトされた場合の対応が必要
+				location.href = "logout.php";
+			}
 			alert ("商品のグループ登録を最低１つは選択してください");
 			return false;
 		}
 	}
 	document.gift_form.submit();
 }
-
 
   function isCheckedById(id)
     {
@@ -200,7 +201,27 @@ function editUserMenu()
 	$("#editUserGiftGroups").hide("slow");
 }
 
-</script><div id="contents_wrapper">
+function user_timeout() {
+	clearInterval(timerId);
+	if (changeAction==true) {
+		timeOutNow=true;
+		var agree = confirm("タイムアウトしました。\n保存しますか？");
+	    if(agree==true) {
+	    	$("#timeout").val("timeout");
+	    	validForm();
+	    }
+	    else {
+	    	window.location = "logout.php";	
+	    }
+	}
+	else {
+		alert("タイムアウトしました");
+		window.location = "logout.php";	
+	}
+}
+
+</script>
+<div id="contents_wrapper" class="displayBox">
   <div id="nav_left">
     <div class="step_bt"><a href="table_layout.php"><img src="img/step_head_bt01.jpg" width="150" height="60" border="0" class="on" /></a></div>
     <div class="step_bt"><img src="img/step_head_bt02_on.jpg" width="150" height="60" border="0"/></div>
@@ -369,7 +390,7 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 			if ($row['name']!="") {
 			?>
 	            <div style="width:50px; float:left; text-align:left; padding:2px;"><b> <?=$row['name']?> </b> 
-	            <input type="checkbox" <?=$_disable?> value="<?=$gift['id']?>" id="group_<?=$j?>" <?php if(in_array($gift['id'],$gift_arr)) { ?> checked="checked" <?php } ?> name="group_<?=$row['id']?>[]"/></div>
+	            <input type="checkbox" <?=$_disable?> value="<?=$gift['id']?>" id="group_<?=$j?>" <?php if(in_array($gift['id'],$gift_arr)) { ?> checked="checked" <?php } ?> name="group_<?=$row['id']?>[]" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></div>
             <?php
 			}
 				$j++;
@@ -393,7 +414,7 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 				}
 			?></div>
             </td>
-			<td align="center"><input type="text" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right" /></td>
+			<td align="center"><input type="text" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
 
             </tr>
 			<?php
@@ -417,6 +438,7 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
         	<?php
 		}
 		?>
+		<input type="hidden" id="timeout" name="timeout" value="" />
 </form>
 </div>
 <br /><br />
