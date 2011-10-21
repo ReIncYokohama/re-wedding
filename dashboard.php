@@ -65,7 +65,7 @@ function japanyDateFormateForDashboard($rawTime, $time_24h=0) {
 ?>
 
 
-<div id="main_contents">
+<div id="main_contents" class="displayBox">
 
         <div id="bridal_info">
             <table width="344" border="0" cellspacing="1" cellpadding="0">

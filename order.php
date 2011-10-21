@@ -139,7 +139,7 @@ function confirmAction(urls , msg)
 	}
 }
 
-</script><div id="contents_wrapper">
+</script><div id="contents_wrapper" class="displayBox">
 <div id="nav_left">
   <div class="step_bt"><a href="table_layout.php"><img src="img/step_head_bt01.jpg" width="150" height="60" border="0" class="on" /></a></div>
   <div class="step_bt"><a href="hikidemono.php"><img src="img/step_head_bt02.jpg" width="150" height="60" border="0" class="on"/></a></div>

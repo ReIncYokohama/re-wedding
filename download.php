@@ -172,7 +172,7 @@ height:45px;
   <div class="clear"></div>
 </div>-->
 
-<div id="main_contents">
+<div id="main_contents" class="displayBox">
 <div class="title_bar">
     <div class="title_bar_txt_L">招待者リストのダウンロード</div>
     <div class="title_bar_txt_R"></div>
@@ -222,6 +222,7 @@ height:45px;
 
   </table>
 
+</div>
 </div>
 <?php
 include("inc/new.footer.inc.php");

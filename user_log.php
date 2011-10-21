@@ -42,7 +42,7 @@ $(function(){
 	});
 </script>
 
-<div id="main_contents">
+<div id="main_contents" class="displayBox">
  <div class="title_bar">
     <div class="title_bar_txt_L">お客様画面アクセスログ</div>
     <div class="title_bar_txt_R"></div>
@@ -163,6 +163,7 @@ $(function(){
 </div>
 
 </div><br /><br />
+</div>
 <?php
 include("inc/new.footer.inc.php");
 ?>

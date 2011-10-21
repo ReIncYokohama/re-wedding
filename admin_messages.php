@@ -54,7 +54,7 @@ function to_downloadfile(url) {
 	 var title=$("title");
  $(title).html("メッセージ受信 - ウエディングプラス");
 </script>
-<div id="main_contents">
+<div id="main_contents" class="displayBox">
   <div class="title_bar">
     <div class="title_bar_txt_L">お客様とホテルとのメッセージの送受信を行います</div>
     <div class="title_bar_txt_R"></div>
@@ -123,6 +123,7 @@ function to_downloadfile(url) {
     </div>
 
 <div class="clear"></div>
+  </div>
   </div>
 <?php
 include("inc/new.footer.inc.php");

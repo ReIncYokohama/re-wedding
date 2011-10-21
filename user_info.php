@@ -53,7 +53,7 @@ width:200px;
 	}
 
 </style>
-<div id="main_contents">
+<div id="main_contents" class="displayBox">
 <div class="title_bar">
     <div class="title_bar_txt_L">お客様情報</div>
     <div class="title_bar_txt_R"></div>

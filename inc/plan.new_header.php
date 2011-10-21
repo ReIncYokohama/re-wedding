@@ -51,5 +51,10 @@
   		<div class="clr"></div>
 	</div>
 </div>
+</div>
+<!-- 
 <div class="content">
 	<div class="content_resize"> 
+ -->
+</body>
+</html>
