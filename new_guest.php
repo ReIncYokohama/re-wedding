@@ -71,7 +71,7 @@ if($guest_id >0 )
 else
   { 
     $post['user_id']=$user_id;
-    $data_obj->set_guest_data_insert($post,$user_id,$_SESSION["adminid"]);
+    $guest_id = $data_obj->set_guest_data_insert($post,$user_id,$_SESSION["adminid"]);
     $self = false;
   }
 
