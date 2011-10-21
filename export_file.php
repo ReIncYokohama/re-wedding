@@ -1,9 +1,9 @@
 <?php
 @session_start();
-include_once("admin/inc/class.dbo.php");
+include_once("admin/inc/class_data.dbo.php");
 include_once("inc/checklogin.inc.php");
 
-$obj = new DBO();
+$obj = new DataClass();
 $get = $obj->protectXSS($_GET);
 $user_id = (int)$_SESSION['userid'];
 
@@ -331,8 +331,10 @@ $script_version="0".SCRIPT_VERSION;
 $this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$script_version;
 */
 
-	$today = date("Ymd_His"); 			// YYYYMMDD_HHMMSS の形式で現在日付時間を取得する
-	$this_name= "Guest_list_$today";	// 最終形式に整形する
+// YYYYMMDD_HHMMSS の形式で現在日付時間を取得する
+	$today = date("Ymd");
+$num = $obj->get_download_num($user_id,$_SESSION["adminid"]);
+$this_name= "招待者リスト_".$today."_".$num;	// 最終形式に整形する
 
 // UCHIDA EDIT 11/07/28 ↑
 

@@ -716,4 +716,18 @@ class DataClass extends DBO{
     $editable=$infoobj->get_editable_condition($plan_info);
     if($permission_table_edit==1 && $editable) return true; else return false;
   }
+  public function get_download_num($user_id,$admin_id){
+    $data = $this->GetSingleRow("download_num"," user_id = '".(int)$user_id."' and admin_id = '".(int)$admin_id."'");
+    if(!$data){
+      $this->InsertData("download_num",array("num"=>1,"user_id" => (int)$user_id,"admin_id"=>(int)$admin_id));
+      return $this->get_num_in_digit(1,4);
+    }else{
+      $num = $data["num"]+1; 
+      $this->UpdateData("download_num",array("num"=>$num)," id=".$data["id"]);
+      return $this->get_num_in_digit($num,4);
+    }
+  }
+  public function get_num_in_digit($num,$digit){
+    return sprintf("%0".$digit."d", $num);
+  }
 }
