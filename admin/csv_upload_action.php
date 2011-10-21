@@ -175,9 +175,9 @@ for($i=0;$i<count($csv);++$i){
   }else{
     $data["sex"] = "Male";
   } 
-  $data["last_name"] = $csv[$i][1];
+  $data["last_name"] = check_sjis($csv[$i][1]);
   $data["furigana_last"] = $csv[$i][2];
-  $data["first_name"] = $csv[$i][3];
+  $data["first_name"] = check_sjis($csv[$i][3]);
   $data["furigana_first"] = $csv[$i][4];
   $data["respect_id"] = $respects[0]["id"];
   $respect_title = $respects[0]["title"];
@@ -188,11 +188,11 @@ for($i=0;$i<count($csv);++$i){
       break;
     }
   }
-
-  $data["comment1"] = $csv[$i][6];
-  $data["comment2"] = $csv[$i][7];
+  
+  $data["comment1"] = check_sjis($csv[$i][6]);
+  $data["comment2"] = check_sjis($csv[$i][7]);
   $data["user_id"] = $user_id;
-
+  
   $guest_id = $obj->InsertData("spssp_guest",$data);
   @mkdir($user_folder_base."/guest/".$guest_id);
   @mkdir($user_folder_base."/guest/".$guest_id."/thumb1");
