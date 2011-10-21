@@ -540,24 +540,26 @@ function user_timeout() {
 </script>
 <style>
 .guest_list_table{
-width:918px;
-padding-top:1px
-  }
+  width:918px;
+  padding-top:1px;
+margin:0px;
+
+}
 .guest_list_table .sex{
-width:36px;
+width:24px;
  }
 .guest_list_table .name{
-width:150px;
+  width:160px;
  }
 .guest_list_table .respect{
-width:52px;
- }
+  width:52px;
+}
 
 .guest_list_table .group{
 width:36px;
  }
 .guest_list_table .comment{
-width:165px;
+width:170px;
  }
 .guest_list_table .table_name{
 width:36px;
@@ -1067,7 +1069,9 @@ for($i=0;$i<count($userArray);++$i){
   <td class="food" align="center" bgcolor="#fff"><?=$userData["menu_text"]?></td>
   <td class="memo" align="center" bgcolor="#fff"><?=$userData["memo"]?></td>
   <td class="action" align="center" bgcolor="#fff">
-  <input type="button" name="button" tabindex=25 id="button" value="編集" onclick="edit_guest(<?=$userData['id']?>)"/>
+  <?php if($editable){ ?>
+    <input type="button" name="button" tabindex=25 id="button" value="編集" onclick="edit_guest(<?=$userData['id']?>)"/>
+  <?php }?>
 </tr>
 <?
 }
