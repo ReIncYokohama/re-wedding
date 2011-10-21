@@ -131,77 +131,6 @@
 <script src="js/ui/jquery.ui.dialog.js"></script>
 <script src="js/jquery.cookie.js"></script>
 <script type="text/javascript">
-	$(function() {
-		$("#change_pass").dialog({
-			autoOpen: false,
-			height: 200,
-			width: 420,
-			show: "shake",
-			hide: "explode",
-			modal: true,
-			buttons: {
-				"送信": function() {
-
-						var cur_pass = $("#cur_password").val();
-						var password = $("#password").val();
-						var conf_pass = $("#conf_password").val();
-
-						if(!cur_pass || !password || !conf_pass)
-						{
-							alert("Please Fill All Fields");
-							return false;
-						}
-						if(password != conf_pass)
-						{
-							alert("New password does not matched");
-							return false;
-						}
-						var flag = 0;
-						var abc = $( this );
-						$.post('ajax/change_password.php',{'cur_pass':cur_pass,'action':'check_user'}, function (data){
-							if(parseInt(data) == 0)
-							{
-								flag = 1;
-								alert('Plese enter correct current password');
-								return false;
-							}
-							else
-							{
-								$.post('ajax/change_password.php', {'cur_pass': cur_pass,'password':password,'action':'change_pass'},
-								function(data) {
-									abc.dialog( "close");
-									//inform_user();
-										//alert("Password changed successfully");
-
-
-
-								});
-							}
-
-						});
-
-				},
-				キャンセル: function() {
-
-					$( this ).dialog( "close" );
-				},
-				閉じる:function() {
-
-					$( this ).dialog( "close" );
-				}
-			}
-		});
-
-	});
-
-	function change_password()
-	{
-		$("#cur_password").val("");
-		$("#password").val("");
-		$("#conf_password").val("");
-		$("#change_pass").dialog("open");
-	}
-
 	var edited_Flag=0;
 	var timerlength="<?=TIMEOUTLENGTH?>";
 	var timerId;
@@ -232,9 +161,21 @@
 </script>
 
 <script type="text/javascript">
+var moveCount=0;
 function MM_openBrWindow(theURL,winName,features) { //v2.0
   window.open(theURL,winName,features);
 }
+$(function() {
+    $(".displayBox").mousemove(function(){
+        if (moveCount>100) {
+			clearInterval(timerId);
+			timerId = setInterval('user_timeout()', timerlength);
+			moveCount=0;
+	        return false;
+        }
+        moveCount++;
+   });
+});
 </script>
 
 <link href="css/main.css" rel="stylesheet" type="text/css" />
