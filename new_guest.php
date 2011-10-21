@@ -53,7 +53,7 @@ $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$use
 //新郎新婦かどうかのフラグ
 $self = true;
 
-if($guest_id >0 && $post["self"]!=1)
+if($guest_id >0 )
   { 
     $guest_info = $data_obj->get_guest_detail($user_id,$guest_id);
     //新郎新婦は情報が少ないため省く
@@ -62,10 +62,11 @@ if($guest_id >0 && $post["self"]!=1)
       //    $obj->DeleteRow("spssp_gaizi_detail_for_guest","");
       $gaizi_detail_sql = "delete from spssp_gaizi_detail_for_guest where guest_id=".(int)$guest_id.";";  
       mysql_query($gaizi_detail_sql);
-      unset($post['id']);
-      $data_obj->set_guest_data_update($post,$user_id,$guest_id,$_SESSION["adminid"]);
       $self = false;
     }
+    unset($post['id']);
+    $data_obj->set_guest_data_update($post,$user_id,$guest_id,$_SESSION["adminid"]);
+     
   }
 else
   { 
@@ -73,13 +74,14 @@ else
     $data_obj->set_guest_data_insert($post,$user_id,$_SESSION["adminid"]);
     $self = false;
   }
+
 //新郎新婦は情報が少ないため省く
 if(!$self){
   //gidにはshiftjisのcodeを代入している。
-　　set_guest_gaiji_position($user_id,$guest_id,$post["last_name"],1,$_POST["male_last_gaiji_img"],$_POST["male_last_gaiji_gid"]);
-　　set_guest_gaiji_position($user_id,$guest_id,$post["first_name"],0,$_POST["male_first_gaiji_img"],$_POST["male_first_gaiji_gid"]);
-　　set_guest_gaiji_position($user_id,$guest_id,$post["comment1"],2,$_POST["comment1_gaiji_img"],$_POST["comment1_gaiji_gid"]);
-　　set_guest_gaiji_position($user_id,$guest_id,$post["comment2"],3,$_POST["comment2_gaiji_img"],$_POST["comment2_gaiji_gid"]);
+  set_guest_gaiji_position($user_id,$guest_id,$post["last_name"],1,set_arr($_POST["male_last_gaiji_img"]),set_arr($_POST["male_last_gaiji_gid"]));
+  set_guest_gaiji_position($user_id,$guest_id,$post["first_name"],0,$_POST["male_first_gaiji_img"],$_POST["male_first_gaiji_gid"]);
+  set_guest_gaiji_position($user_id,$guest_id,$post["comment1"],2,$_POST["comment1_gaiji_img"],$_POST["comment1_gaiji_gid"]);
+  set_guest_gaiji_position($user_id,$guest_id,$post["comment2"],3,$_POST["comment2_gaiji_img"],$_POST["comment2_gaiji_gid"]);
 }
 
 

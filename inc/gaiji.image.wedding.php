@@ -555,3 +555,8 @@ function check_sjis($str){
   }
   return $str;
 }
+function set_arr($arr)
+{
+  if(is_array($arr)) return $arr;
+  return array();
+}
