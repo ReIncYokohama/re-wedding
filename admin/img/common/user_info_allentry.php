@@ -746,16 +746,12 @@ include("inc/return_dbcon.inc.php");
             	<img src="img/common/nnavi01_on.jpg"/>
             </div>
         	<div class="navi">
-            	<a href="message_user.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">
-                <img src="img/common/nnavi02.jpg" onMouseOver="this.src='img/common/nnavi02_over.jpg'"onMouseOut="this.src='img/common/nnavi02.jpg'"onclick="this.src='img/common/nnavi02_click.jpg'">
-                </a>
+            	<a href="message_user.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/nnavi02.jpg" class="on" /></a>
             </div>
         	
             
-            <div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">
-            <img src="img/common/nnavi04.jpg" onMouseOver="this.src='img/common/nnavi04_over.jpg'"onMouseOut="this.src='img/common/nnavi04.jpg'"onclick="this.src='img/common/nnavi04_click.jpg'">
-            </a></div>
-            <div class="navi">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/nnavi04.jpg" class="on" /></a></div>
+            <div class="navi">　　　　　</div>
         	<div class="navi">
             	<a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank">
 <img src="img/common/nnavi03.jpg" onMouseOver="this.src='img/common/nnavi03_on.jpg'"onMouseOut="this.src='img/common/nnavi03.jpg'"onclick="this.src='img/common/nnavi03_click.jpg'">
