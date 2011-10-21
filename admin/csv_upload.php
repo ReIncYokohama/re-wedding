@@ -17,7 +17,44 @@
         $("#csv_text").val(filename);
     });
   });
+function fileOpen(){
+  $("#myfile").click();
+}
+
+
   </script>
+<style>
+input.file.hidden {
+  position: relative;
+  text-align: left;
+  -moz-opacity: 0;
+  filter: alpha(opacity: 0);
+  opacity: 0;
+  z-index: 999;
+width:400px;
+height:30px;
+}
+div.fakefile {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 350px;
+  padding: 0;
+  margin: 0;
+  z-index: 1;
+}
+div.fileinputs {
+position: relative;
+height: 30px;
+width: 300px;
+}
+input.file {
+width: 300px;
+margin: 0;
+}
+</style>
+
+
 </head>
 <body>
 
@@ -57,10 +94,12 @@
         <tr>
           <td>
             <form method="post" enctype="multipart/form-data" action="csv_upload_action.php" name="uploaddoc">
-              
-              <image src="../img/btn_attach.jpg"  onclick="document.uploaddoc.csv.click();">
-              <input type="text" id="csv_text" onclick="document.uploaddoc.csv.click();" size="40">
-              <input type="file" id="myfile" name="csv" style="visibility:hidden; width:1px;" >
+  <div class="fileinputs">
+              <input type="file" size="50" id="myfile" name="csv" class="file hidden" >
+              <div class="fakefile">
+                <image src="../img/btn_attach.jpg"/>
+                <input type="text" id="csv_text" size="40"/>
+              </div></div>
               <input type="hidden" name="user_id" value="<?=$_GET["user_id"]?>" />
             </form>
           </td>
