@@ -194,19 +194,6 @@
 
 	});
 
-var edited_Flag=0;
-var timerlength="<?=TIMEOUTLENGTH?>";
-var timerId;
-
-clearInterval(timerId);
-timerId = setInterval('user_timeout()', timerlength);
-
-function user_timeout() {
-	clearInterval(timerId);
-	alert("タイムアウトしました");
-	window.location = "logout.php";	
-}
-
 	function change_password()
 	{
 		$("#cur_password").val("");
@@ -216,6 +203,15 @@ function user_timeout() {
 	}
 
 </script>
+
+<script>
+var edited_Flag=0;
+var timeOutLength = "<?=TIMEOUTLENGTH?>";
+var timerId = setInterval('user_timeout()', timeOutLength);
+var changeAction = false;
+var timeOutNow=false;
+</script>
+<script src="js/timeout_action.js"></script>
 
 <script type="text/javascript">
 function MM_openBrWindow(theURL,winName,features) { //v2.0
@@ -293,12 +289,14 @@ var msg_html=$("#msg_rpt").html();
 function checkConfirm()
 {
 	var conf;
+	if (timeOutNow==true) {
+		document.insert_plan.submit();
+	}
 	conf = confirm('修正内容を保存しても宜しいですか？');
 	if(conf)
 	{
 		document.insert_plan.submit();
 	}
-
 }
 function back_to_make_plan() {
 	window.location = "make_plan.php";
@@ -329,6 +327,27 @@ var button_enable="<?=$button_enable?>";
 		}
 	}
 }
+
+function user_timeout() {
+var button_enable="<?=$button_enable?>";
+	clearInterval(timerId);
+	if (button_enable==true && edited_Flag==1) {
+		timeOutNow=true;
+		var agree = confirm("タイムアウトしました。\n保存しますか？");
+	    if(agree==true) {
+	    	$("#timeout").val("timeout");
+	    	checkConfirm();
+	    }
+	    else {
+	    	window.location = "logout.php";	
+	    }
+	}
+	else {
+		alert("タイムアウトしました");
+		window.location = "logout.php";	
+	}
+}
+
 </script>
 <style>
 .rows
@@ -391,7 +410,7 @@ direction: ltr;
  }
 </style>
 
-<div id="contents_wrapper">
+<div id="contents_wrapper" class="displayBox">
 
 <div id="contents_right">
   <div class="title_bar main_plan">
@@ -615,7 +634,7 @@ if($objInfo->get_editable_condition($plan_row))
 ?>
 <image src="img/btn_save.jpg" id="button" onclick="checkConfirm()"/>
 <image src="img/btn_rollback.jpg" id="button" onclick="back_to_make_plan()"/>
-<image src="img/btn_close.jpg" id="button" onclick="window.close()"/>
+<image src="img/btn_close.jpg" id="button" onclick="back_to_make_plan()"/>
 
 <?php
   }
@@ -946,9 +965,11 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
          	</div>-->
 			<div class="clear" style="float:left; clear:both; height:10px;">&nbsp;</div>
     </div>
-	  </form>
+    <input type="hidden" id="timeout" name="timeout" value="" />
+	</form>
   </div>
   <div class="clear" style="float:left; clear:both; height:10px;"></div></div></div>
+  </div>
 
 <?php
 include("inc/new.footer.inc.php");

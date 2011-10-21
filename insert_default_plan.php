@@ -12,7 +12,9 @@
 		
 	$num_rowws = $obj->GetNumRows("spssp_plan_details"," plan_id=".$plan_id);
 	
-	
+	$timeoutCheck = $_POST['timeout'];
+	unset($post['timeout']);
+
 	////checking update for log
 	
 	if(isset($_SESSION['cart']))
@@ -69,7 +71,10 @@
 
 		$obj->DeleteRow("spssp_plan_details"," plan_id=".$plan_id);
 	}
-	
+
+	if ($timeoutCheck=="timeout") 	$php_file="logout.php";
+	else 							$php_file="make_plan.php";
+
 	if(isset($itemids))
 	{
 		
@@ -90,7 +95,6 @@
 				
 				$lastids = $obj->InsertData("spssp_plan_details", $plan_arr);
         
-        
 			}
 			
 		}
@@ -104,17 +108,17 @@
 		if($lastids > 0)
 		{
 			//echo "here";
-			redirect("make_plan.php?msg=4");
+			redirect($php_file."?msg=4");
 		}
 		else
 		{
 			//echo "aaaaaaaa";
-			redirect("make_plan.php?err=11");
+			redirect($php_file."?err=11");
 		}
 	}
 	else
 	{
 		//echo "Not Itemids";
-		redirect("make_plan.php?err=12");
+		redirect($php_file."?err=12");
 	}
 ?>
