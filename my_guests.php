@@ -1,7 +1,11 @@
 <?php
 include_once("admin/inc/class_information.dbo.php");
+include_once("admin/inc/class_data.dbo.php");
 include_once("inc/checklogin.inc.php");
-$obj = new DBO();
+
+$obj = new DataClass();
+$obj_data = new DataClass();
+
 $objInfo = new InformationClass();
 $get = $obj->protectXSS($_GET);
 $user_id = (int)$_SESSION['userid'];
@@ -12,9 +16,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete' )
 		$guest_id = (int)$_GET['guest_id'];
     
     //ゲストの削除をログに
-    include_once("admin/inc/class_data.dbo.php");
-    $data_obj = new DataClass;
-    $data_obj->set_log_guest_delete($user_id,$guest_id,$_SESSION["adminid"]);
+    $obj->set_log_guest_delete($user_id,$guest_id,$_SESSION["adminid"]);
 
 		$obj->DeleteRow('spssp_guest', 'id='.$guest_id);
 		$obj->DeleteRow('spssp_plan_details', 'guest_id='.$guest_id);
@@ -479,7 +481,7 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#first_div_id").append("<input type='hidden' name='male_first_gaiji_gid[]' value='"+gid+"'>");
       $("#first_div_id").append("<input type='hidden' name='male_first_gaiji_gsid[]' value='"+gsid+"'>");
 
-      $("#firstname_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+      $("#firstname_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
       $("#first_name").attr("value", firstname+"＊");
     }
 	if(from=="last_name")
@@ -489,7 +491,7 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#last_div_id").append("<input type='hidden' name='male_last_gaiji_gid[]' value='"+gid+"'>");
       $("#last_div_id").append("<input type='hidden' name='male_last_gaiji_gsid[]' value='"+gsid+"'>");
 
-      $("#lastname_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+      $("#lastname_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
       $("#last_name").attr("value", lastname+"＊");
     }
 	if(from=="comment1")
@@ -499,7 +501,7 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#comment1_div_id").append("<input type='hidden' name='comment1_gaiji_gid[]' value='"+gid+"'>");
       $("#comment1_div_id").append("<input type='hidden' name='comment1_gaiji_gsid[]' value='"+gsid+"'>");
 
-      $("#comment1_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+      $("#comment1_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
       $("#comment1").attr("value", comment1+"＊");
     }
 	if(from=="comment2")
@@ -509,7 +511,7 @@ function get_gaiji_value(from,img,gid,gsid)
       $("#comment2_div_id").append("<input type='hidden' name='comment2_gaiji_gid[]' value='"+gid+"'>");
       $("#comment2_div_id").append("<input type='hidden' name='comment2_gaiji_gsid[]' value='"+gsid+"'>");
 
-      $("#comment2_img_div_id").append("<img src='gaiji/upload/img_ans/"+img+"' wight='20' height='20'>");
+      $("#comment2_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
       $("#comment2").attr("value", comment2+"＊");
     }
 
@@ -547,6 +549,10 @@ width:36px;
 .guest_list_table .name{
 width:150px;
  }
+.guest_list_table .respect{
+width:52px;
+ }
+
 .guest_list_table .group{
 width:36px;
  }
@@ -563,7 +569,7 @@ width:36px;
 width:145px;
  }
 .guest_list_table .memo{
-width:160px;
+width:100px;
  }
 .guest_list_table .action{
 width:85px;
@@ -618,7 +624,7 @@ $editable=$objInfo->get_editable_condition($plan_info);
       function getGaijis($gaiji_objs){
         $returnImage = "";
         for($i=0;$i<count($gaiji_objs);++$i){
-          $returnImage .= "<image src='gaiji/upload/img_ans/".$gaiji_objs[$i]["gu_char_img"]."' width='20' height='20'>";
+          $returnImage .= "<image src='../gaiji-image/img_ans/".$gaiji_objs[$i]["gu_char_img"]."' width='20' height='20'>";
         }
         return $returnImage;
       }
@@ -1032,231 +1038,40 @@ if($editable)
 	<div class="guests_area_L">
 	<table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
 <tr>
-            <td class="sex" align="center" bgcolor="#afeeee">席</td>
-           <td class="name" align="center" bgcolor="#afeeee">出席者名</td>
-           <td class="respect" align="center" bgcolor="#afeeee">敬称</td>
-            <td class="group" align="center" bgcolor="#afeeee">区分</td>
-            <td class="comment" align="center" bgcolor="#afeeee">肩書</td>
-            <td class="table_name" align="center" bgcolor="#afeeee">卓名</td>
-            <td class="gift" align="center" bgcolor="#afeeee">引出物</td>
-        <td class="food" align="center" bgcolor="#afeeee">料理</td>
-      <td class="memo" align="center" bgcolor="#afeeee">特記</td>
 
-			<td class="action" align="center" bgcolor="#afeeee">&nbsp;</td>
+  <td class="sex" align="center" bgcolor="#afeeee">席</td>
+  <td class="name" align="center" bgcolor="#afeeee">出席者名</td>
+  <td class="respect" align="center" bgcolor="#afeeee">敬称</td>
+  <td class="group" align="center" bgcolor="#afeeee">区分</td>
+  <td class="comment" align="center" bgcolor="#afeeee">肩書</td>
+  <td class="table_name" align="center" bgcolor="#afeeee">卓名</td>
+  <td class="gift" align="center" bgcolor="#afeeee">引出物</td>
+  <td class="food" align="center" bgcolor="#afeeee">料理</td>
+  <td class="memo" align="center" bgcolor="#afeeee">特記</td>
+  <td class="action" align="center" bgcolor="#afeeee">&nbsp;</td>
 </tr>
 <?php
-foreach($guests as $guest){
-  $boyRows='';
-  include("admin/inc/main_dbcon.inc.php");
-  $respect = $obj->GetSingleData(" spssp_respect ", "title", " id=".$guest['respect_id']);
-  if($respect == '')
-	 {
-		$respect ='様';
-	}
-  $guest_type = $obj->GetSingleData(" spssp_guest_type ", "name", " id=".$guest['guest_type']);
-  include("admin/inc/return_dbcon.inc.php");
-	$gift_id = $obj->GetSingleData(" spssp_guest_gift ", "group_id", " guest_id=".$guest['id']." and user_id = ".$user_id);
-
-	$gift_name='';
-		if((int)$gift_id > 0)
-		{
-			$gift_group = $obj->GetSingleData(" spssp_gift_group ", "name", " id=".$gift_id);
-      $gift_name = $gift_group;
-		}
-
-		$menu_id = $obj->GetSingleData(" spssp_guest_menu ", "menu_id", " guest_id=".$guest['id']." and user_id = ".$user_id);
-		$menu_name='';
-		if($menu_id > 0)
-		{
-			$menu_name = $obj->GetSingleData(" spssp_menu_group ", "name", " id=".$menu_id." and user_id = ".$user_id);
-		}
-    if($guest['self'] =='1') {
-	    if($guest['sex'] == 'Female' && $genderStatus=='2')
-		  {
+//新郎新婦の情報を取得
+$userArray = $obj_data->get_userdata($user_id);
+for($i=0;$i<count($userArray);++$i){
+  $userData = $userArray[$i];
 ?>
-	  <tr>
-      		<td bgcolor="#FFFFFF">
-<?php
-
-    if($guest["sex"] == "Male"){
-      echo "新郎";
-    }else if($guest["sex"] == "Female"){
-      echo "新婦";
-    }
-?>
-     </td>
-     <td align="left" valign="middle" bgcolor="#FFFFFF">
-		 <?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname_only.png",$extra="thumb1");?>
-		 </td>
-     <td align="center" valign="middle" bgcolor="#FFFFFF"> <?=$respect?> </td>
-     <td align="center" valign="middle" bgcolor="#FFFFFF"> <?=$guest_type?> </td>
-     <td align="left" valign="middle" bgcolor="#FFFFFF"> <?=$guest['comment1']?><br><?=$guest['comment2']?> </td>
-<?php
-		 $plan_details=$obj->getSingleRow("spssp_plan_details"," guest_id=".$guest['id']." limit 1");
-		 $seat_details=$obj->getSingleRow("spssp_default_plan_seat"," id=".$plan_details['seat_id']." limit 1");
-		 $table_details=$obj->getSingleRow("spssp_default_plan_table"," id=".$seat_details['table_id']." limit 1");
-
-		 $tbl_row = $obj->getSingleRow("spssp_table_layout"," table_id=".$table_details['id']." and user_id=".(int)$user_id." limit 1");
-		 $new_name_row = $obj->getSingleRow("spssp_user_table"," default_table_id=".$tbl_row['id']." and user_id=".(int)$user_id." limit 1");
-		 if(!empty($new_name_row))
-				{
-					$tblname = $obj->getSingleData("spssp_tables_name","name","id=".$new_name_row['table_name_id']);
-				}
-		 else
-				{
-					$tblname = $tbl_row['name'];
-				}
-     if($guest["stage"] == 1){
-       $tblname = "高砂";
-     }
-				?>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"><?=$tblname?></td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"> <?=$gift_name?> </td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"> <?=$menu_name?>  </td>
-
-        	<td align="left" valign="middle" bgcolor="#FFFFFF"><?=$guest['memo']?> </td>
-        	<td valign="middle" bgcolor="#FFFFFF">
-            	<input type="button" name="button" tabindex=22 id="button" value="編集" onclick="edit_guest(<?=$guest['id']?>)"  onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
-
-
-
-            </td>
-        </tr>
-		<?=($genderStatus=='2')?$boyRows:"";?>
-		<? }else if($genderStatus=='2') {
-		    $plan_details=$obj->getSingleRow("spssp_plan_details"," guest_id=".$guest['id']." limit 1");
-				$seat_details=$obj->getSingleRow("spssp_default_plan_seat"," id=".$plan_details['seat_id']." limit 1");
-				$table_details=$obj->getSingleRow("spssp_default_plan_table"," id=".$seat_details['table_id']." limit 1");
-
-				$tbl_row = $obj->getSingleRow("spssp_table_layout"," table_id=".$table_details['id']." and user_id=".(int)$user_id." limit 1");
-				$new_name_row = $obj->getSingleRow("spssp_user_table"," default_table_id=".$tbl_row['id']." and user_id=".(int)$user_id." limit 1");
-				if(!empty($new_name_row))
-				{
-					$tblname = $obj->getSingleData("spssp_tables_name","name","id=".$new_name_row['table_name_id']);
-				}
-				else
-				{
-					$tblname = $tbl_row['name'];
-				}
-     if($guest["stage"] == 1){
-       $tblname = "高砂";
-     }
-				$genderm = ($guest['sex'] == 'Male')?"checked":"";
-				$genderf = ($guest['sex'] == 'Female')?"checked":"";
-
-				$fristname = ($guest['stage_guest']>0)?"<span style='color:red;'>".$guest['first_name']."</span>":$guest['first_name'];
-				$lastname  = ($guest['stage_guest']>0)?"<span style='color:red;'>".$guest['last_name']."</span>":$guest['last_name'];
-				$comment1 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment1.png",$extra="thumb1");
-				$comment2 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment2.png",$extra="thumb1");
-				if($comment1==false){$comment1 = $guest['comment1'];}
-				if($comment2==false){$comment2 = $guest['comment2'];}
-
-		$boyRows='<tr>
-      		<td bgcolor="#FFFFFF">
-<?php
-if($guest["sex"] == "Male"){
-  echo "新郎";
-}else if($guest["sex"] == "Female"){
-  echo "新婦";
+<tr>
+  <td class="sex" align="center" bgcolor="#fff"><?=$userData["sex_text"]?></td>
+  <td class="name" align="left" bgcolor="#fff"><?=$userData["name_image"];?></td>
+  <td class="respect" align="center" bgcolor="#fff">様</td>
+  <td class="group" align="center" bgcolor="#fff"><?=$userData["sex_text"]?></td>
+  <td class="comment" align="center" bgcolor="#fff"></td>
+  <td class="table_name" align="center" bgcolor="#fff"><?=$userData["table_name"]?></td>
+  <td class="gift" align="center" bgcolor="#fff"><?=$userData["gift_group_text"]?></td>
+  <td class="food" align="center" bgcolor="#fff"><?=$userData["menu_text"]?></td>
+  <td class="memo" align="center" bgcolor="#fff"><?=$userData["memo"]?></td>
+  <td class="action" align="center" bgcolor="#fff">
+  <input type="button" name="button" tabindex=25 id="button" value="編集" onclick="edit_guest(<?=$userData['id']?>)"/>
+</tr>
+<?
 }
 ?>
-            </td>
-             <td align="left" valign="middle" bgcolor="#FFFFFF"> '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname_only.png",$extra="thumb1").' </td>
-     <td align="center" valign="middle" bgcolor="#FFFFFF"> '.$respect.'</td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"> '.$guest_type.' </td>
-        	<td align="left" valign="middle" bgcolor="#FFFFFF"> '.$comment1.'<br>'.$comment2.' </td>
-
-        	<td align="center" valign="middle" bgcolor="#FFFFFF">'.$tblname.'</td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"> '.$gift_name.' </td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"> '.$menu_name.' </td>
-
-        	<td align="left" valign="middle" bgcolor="#FFFFFF">'.$guest['memo'].' </td>
-        	<td valign="middle" bgcolor="#FFFFFF">';
-
-			if($editable)
-				{
-
-            	$boyRows.='<input type="button" tabindex=23 name="button" id="button" value="編集" onclick="edit_guest('.$guest['id'].')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/> ';
-				}
-           $boyRows.=' </td>
-        </tr>';
-
-		 }
-		 else
-		 {
-		 	$plan_details=$obj->getSingleRow("spssp_plan_details"," guest_id=".$guest['id']." limit 1");
-				$seat_details=$obj->getSingleRow("spssp_default_plan_seat"," id=".$plan_details['seat_id']." limit 1");
-				$table_details=$obj->getSingleRow("spssp_default_plan_table"," id=".$seat_details['table_id']." limit 1");
-
-				$tbl_row = $obj->getSingleRow("spssp_table_layout"," table_id=".$table_details['id']." and user_id=".(int)$user_id." limit 1");
-				$new_name_row = $obj->getSingleRow("spssp_user_table"," default_table_id=".$tbl_row['id']." and user_id=".(int)$user_id." limit 1");
-				if(!empty($new_name_row))
-				{
-					$tblname = $obj->getSingleData("spssp_tables_name","name","id=".$new_name_row['table_name_id']);
-				}
-				else
-				{
-					$tblname = $tbl_row['name'];
-				}
-     if($guest["stage"] == 1){
-       $tblname = "高砂";
-     }
-				$fristname = ($guest['stage_guest']>0)?"<span style='color:red;'>".$guest['first_name']."</span>":$guest['first_name'];
-				$lastname  = ($guest['stage_guest']>0)?"<span style='color:red;'>".$guest['last_name']."</span>":$guest['last_name'];
-
-		if($guest['sex'] == 'Female')
-		{
-			$username = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname_only.png",$extra="thumb1");
-		}
-		else
-		{
-			$username = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname_only.png",$extra="thumb1");
-		}
-
-		$comment1 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment1.png",$extra="thumb1");
-		$comment2 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment2.png",$extra="thumb1");
-		if($comment1==false){$comment1 = $guest['comment1'];}
-		if($comment2==false){$comment2 = $guest['comment2'];}
-
-$gender = "";
-if($guest["sex"] == "Male"){
-  $gender = "新郎";
-}else if($guest["sex"] == "Female"){
-  $gender = "新婦";
-}
-		$boyRows='<tr>
-      		<td bgcolor="#FFFFFF">
-              '.$gender.'
-            </td>
-             <td align="left" valign="middle" bgcolor="#FFFFFF">'.$username.' </td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF">'.$respect.'  </td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF">  </td>
-        	<td align="left" valign="middle" bgcolor="#FFFFFF"> '.$gender.' </td>
-
-        	<td align="center" valign="middle" bgcolor="#FFFFFF">高砂</td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"> '.$gift_name.' </td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF"> '.$menu_name.' </td>
-
-        	<td align="left" valign="middle" bgcolor="#FFFFFF">'.$guest['memo'].' </td>
-        	<td valign="middle" bgcolor="#FFFFFF">';
-			if($editable)
-				{
-
-            	$boyRows.='<input type="button" tabindex=24 name="button" id="button" value="編集" onclick="edit_guest('.$guest['id'].')"  onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>';
-				}
-           $boyRows.='</td>
-        	</tr>';
-			echo $boyRows;
-		 }
-		 ?>
-            </td>
-        </tr>
-        <?php
-        }
-}
-
-?>
-
 </table>
 <br>
 <table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
