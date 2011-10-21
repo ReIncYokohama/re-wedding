@@ -29,8 +29,6 @@
 				divid = "#"+this.id;
 
 				edited_Flag=1;
-				clearInterval(timerId);
-				timerId = setInterval('user_timeout()', timerlength);
 				
 			},
 			drop: function( event, ui ) {
@@ -48,8 +46,6 @@
 					draggedDivId = "#"+$item.parent("div").attr("id");
 					
 					edited_Flag=1;
-					clearInterval(timerId);
-					timerId = setInterval('user_timeout()', timerlength);
 					
 					var draggedDivKey = draggedDivId.replace("#","");
 					
@@ -500,8 +496,6 @@
 				
 				
 				edited_Flag=1;
-				clearInterval(timerId);
-				timerId = setInterval('user_timeout()', timerlength);
 				
 				var spanhtml = $( "div", div_id).html();				
 				
@@ -541,8 +535,6 @@
 							var thisLiId = this.id;
 							
 							edited_Flag=1;
-							clearInterval(timerId);
-							timerId = setInterval('user_timeout()', timerlength);
 							
 							var itemArray = thisLiId.split("_");
 							var item_id = itemArray[1];

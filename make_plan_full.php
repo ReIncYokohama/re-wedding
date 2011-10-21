@@ -202,16 +202,34 @@
 		$("#change_pass").dialog("open");
 	}
 
-</script>
+	var edited_Flag=0;
+	var timerlength="<?=TIMEOUTLENGTH?>";
+	var timerId;
+	var timeOutNow=false;
 
-<script>
-var edited_Flag=0;
-var timeOutLength = "<?=TIMEOUTLENGTH?>";
-var timerId = setInterval('user_timeout()', timeOutLength);
-var changeAction = false;
-var timeOutNow=false;
+	clearInterval(timerId);
+	timerId = setInterval('user_timeout()', timerlength);
+
+	function user_timeout() {
+		var button_enable="<?=$button_enable?>";
+		clearInterval(timerId);
+		if (button_enable==true && edited_Flag==1) {
+			timeOutNow=true;
+			var agree = confirm("タイムアウトしました。\n保存しますか？");
+		    if(agree==true) {
+		    	$("#timeout").val("timeout");
+		    	checkConfirm();
+		    }
+		    else {
+		    	window.location = "logout.php";	
+		    }
+		}
+		else {
+			alert("タイムアウトしました");
+			window.location = "logout.php";	
+		}
+	}
 </script>
-<script src="js/timeout_action.js"></script>
 
 <script type="text/javascript">
 function MM_openBrWindow(theURL,winName,features) { //v2.0
@@ -288,8 +306,10 @@ var msg_html=$("#msg_rpt").html();
 });
 function checkConfirm()
 {
+var button_enable="<?=$button_enable?>";
 	var conf;
 	if (timeOutNow==true) {
+		if(button_enable==true && edited_Flag==1)
 		document.insert_plan.submit();
 	}
 	conf = confirm('修正内容を保存しても宜しいですか？');
@@ -297,6 +317,7 @@ function checkConfirm()
 	{
 		document.insert_plan.submit();
 	}
+
 }
 function back_to_make_plan() {
 	window.location = "make_plan.php";
@@ -327,27 +348,6 @@ var button_enable="<?=$button_enable?>";
 		}
 	}
 }
-
-function user_timeout() {
-var button_enable="<?=$button_enable?>";
-	clearInterval(timerId);
-	if (button_enable==true && edited_Flag==1) {
-		timeOutNow=true;
-		var agree = confirm("タイムアウトしました。\n保存しますか？");
-	    if(agree==true) {
-	    	$("#timeout").val("timeout");
-	    	checkConfirm();
-	    }
-	    else {
-	    	window.location = "logout.php";	
-	    }
-	}
-	else {
-		alert("タイムアウトしました");
-		window.location = "logout.php";	
-	}
-}
-
 </script>
 <style>
 .rows
@@ -970,7 +970,6 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
   </div>
   <div class="clear" style="float:left; clear:both; height:10px;"></div></div></div>
   </div>
-
 <?php
 include("inc/new.footer.inc.php");
 ?>
