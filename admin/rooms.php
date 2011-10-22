@@ -345,7 +345,6 @@ include("inc/return_dbcon.inc.php");
             </form>
          <?php }?>
          
-         <br /><br /><br /><br /><br /><br />
          
          </td>
     <td width="635" align="center" valign="middle">
