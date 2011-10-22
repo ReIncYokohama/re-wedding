@@ -653,22 +653,21 @@ include("inc/return_dbcon.inc.php");
 			<table style="width:1050px;">
 			<tr>
 				<td width="240" valign="middle">
-					<label for="名前">名前：<font color="red">*</font></label>
-		    		<input name="name" type="text" id="name" size="20" value="<?=$edit_data_rows['name']?>" />
+					<label for="名前">名前<font color="red">*</font>：</label>
+	    		  <input name="name" type="text" id="name" size="20" value="<?=$edit_data_rows['name']?>" />
 					<input  type="hidden" id="name_current" size="20" value="<?=$edit_data_rows['name']?>" />
 				</td>
 				<td  width="90" align="left" valign="middle">
-					ログインID：<font color="red">*</font>
-				</td>
+				ログインID<font color="red">*</font>：</td>
 				<td width="180" align="left" valign="middle">
-					<input name="username" type="text" id="ID" size="10"  value="<?=$edit_data_rows['username']?>"/>
+					<input name="username" type="text" id="ID" size="25"  value="<?=$edit_data_rows['username']?>"/>
 					<input  type="hidden" id="username_current" size="20" value="<?=$edit_data_rows['username']?>" />    　
             	</td>
 				<td  width="120" align="left" valign="middle">
-					<label for="パスワード">パスワード：<font color="red">*</font></label>
+					<label for="パスワード">パスワード<font color="red">*</font>：</label>
             	</td>
 				<td  width="160" align="left" valign="middle">
-					<input name="password" type="text" id="password" size="13"  value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
+					<input name="password" type="text" id="password" size="25"  value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
 					<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください</span>
 				</td>
 				<td width="157" align="left" valign="middle" >
@@ -707,7 +706,7 @@ include("inc/return_dbcon.inc.php");
 				</td>
 			</tr>
 			</table>
-			<br>
+      <br>
 
             <label for="権限"></label><div style="width:250px; text-align:left;"> <a href="#" onclick="validForm();"><img src="img/common/btn_regist_update.jpg" alt="登録・更新" width="82" height="22" /></a>&nbsp;&nbsp;&nbsp;
 			<?php if($get[id]=="") { ?>
