@@ -177,7 +177,7 @@ function checkEmail(id)
 		$j.post('./ajax/checkemail.php', {'mail': userid}, function(data) {
 		if(data ==1)
 		{
-		  alert("ユーザIDが両副しています");
+		  alert("ユーザIDが重複しています");
 		  document.getElementById('userid').value="";
 		  return false;
 		}
