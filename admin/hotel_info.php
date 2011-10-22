@@ -113,44 +113,38 @@ function validForm()
 {
 	if($j("#name").val() =='')
 	{
-	     alert("ホテル名");
+	     alert("ホテル名が未入力です");
 		 $j("#name").focus();
 		 return false;
 	}
 	if($j("#zipcode").val() =='')
 	{
-	     alert("郵便番号");
+	     alert("郵便番号が未入力です");
 		 $j("#zipcode").focus();
 		 return false;
 	}
 	if($j("#address1").val() =='')
 	{
-	     alert("住所1");
+	     alert("住所1が未入力です");
 		 $j("#address1").focus();
-		 return false;
-	}
-	if($j("#address2").val() =='')
-	{
-	     alert("住所2");
-		 $j("#address2").focus();
 		 return false;
 	}
 	if($j("#tel").val() =='')
 	{
-	     alert("電話番号");
+	     alert("電話番号が未入力です");
 		 $j("#tel").focus();
 		 return false;
 	}
 
 	if($j("#contactperson").val() =='')
 	{
-	     alert("担当者");
+	     alert("担当者が未入力です");
 		 $j("#contactperson").focus();
 		 return false;
 	}
 	if($j("#email").val() =='')
 	{
-		 alert("「メールアドレス」を入力して下さい。");
+		 alert("メールアドレスを入力して下さい");
 		 $j("#email").focus();
 		 return false;
 	}
@@ -159,7 +153,7 @@ function validForm()
 
 	 if(!RE_EMAIL.exec($j("#email").val()))
 	 {
-		alert("メールの書式が正しくありません。");
+		alert("メールの書式が正しくありません");
 		 $j("#email").focus();
 		return false;
 	  }
@@ -183,7 +177,7 @@ function checkEmail(id)
 		$j.post('./ajax/checkemail.php', {'mail': userid}, function(data) {
 		if(data ==1)
 		{
-		  alert("Userid duplicate.");
+		  alert("ユーザIDが両副しています");
 		  document.getElementById('userid').value="";
 		  return false;
 		}
@@ -243,45 +237,45 @@ include("inc/return_dbcon.inc.php");
                 	<form action="hotel_info.php?page=<?=$_GET['page']?>&id=<?=$sqlrow['id']?>" name="hotelinfo" method="post">
                        <table width="100%" border="0" cellspacing="1" cellpadding="3">
 						  <tr>
-							<td width="170" align="left">ホテルコード&nbsp;&nbsp;</td>
+							<td width="170" align="left">ホテルコード :</td>
 							<td width="1358">
 							<input type="hidden" name="hotel_code" id="hotel_code" value="<?=$hotel_row[hotel_code]?>"/>
 							<?=$hotel_row[hotel_code]?></td>
 						  </tr>
 						  <tr>
-							<td align="left">ホテル名<span class="txtred">*</span>　</td>
+							<td align="left">ホテル名<span class="txtred">*</span> :</td>
 							<td><input type="text" name="name" id="name" style="width:250px;padding:3px;" value="<?=$hotel_row[hotel_name]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">郵便番号<span class="txtred">*</span>　</td>
+							<td align="left">郵便番号<span class="txtred">*</span> :</td>
 							<td><input name="zipcode" type="text" id="zipcode" size="10" maxlength="7" value="<?=$hotel_row[zip]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">住所1<span class="txtred">*</span>　</td>
+							<td align="left">住所1<span class="txtred">*</span> :</td>
 							<td><input type="text" name="address1" id="address1" style="width:250px;padding:3px;" value="<?=$hotel_row[address1]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">住所2&nbsp;&nbsp;</td>
+							<td align="left">住所2 :</td>
 							<td><input type="text" name="address2" id="address2" style="width:250px;padding:3px;" value="<?=$hotel_row[address2]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">電話番号<span class="txtred">*</span>　</td>
+							<td align="left">電話番号<span class="txtred">*</span> :</td>
 							<td><input type="text" name="tel" id="tel" value="<?=$hotel_row[phone]?>" /></td>
 						  </tr>
 						  <tr>
-							<td align="left">担当者<span class="txtred">*</span>　</td>
+							<td align="left">担当者<span class="txtred">*</span> :</td>
 							<td><input name="contactperson" type="text" id="contactperson" size="15" value="<?=$hotel_row[contact]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">メールアドレス<span class="txtred">*</span>　</td>
+							<td align="left">メールアドレス<span class="txtred">*</span> :</td>
 							<td><input type="text" name="email" id="email" value="<?=$hotel_row[email]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">招待者リストデータ削除日<span class="txtred">*</span>　</td>
+							<td align="left">招待者リストデータ削除日<span class="txtred">*</span> :</td>
 							<td><input name="delete_guest" type="text" id="delete_guest" size="5"   value="<?=$hotel_row[delete_guest]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">挙式情報データ削除日<span class="txtred">*</span>　</td>
+							<td align="left">挙式情報データ削除日<span class="txtred">*</span> :</td>
 							<td><input name="delete_weeding" type="text" id="delete_weeding" size="5"   value="<?=$hotel_row[delete_weeding]?>"/></td>
 						  </tr>
 
@@ -291,9 +285,9 @@ include("inc/return_dbcon.inc.php");
 						  <tr>
 							<td></td>
 							<td>
-			   <img width="82" height="22" alt="登録・更新" src="img/common/btn_regist_update.jpg" onclick="validForm();">
+			   <img width="82" height="22" alt="登録・更新" src="img/common/btn_save.jpg" onclick="validForm();">
 					<!--<input type="button" value="送信" onclick="save_super_message();" /> -->&nbsp;
-               <img width="82" height="22" border="0" src="img/common/btn_clear.jpg" alt="クリア" onclick="clearSubmit();">
+               <!--<img width="82" height="22" border="0" src="img/common/btn_clear.jpg" alt="クリア" onclick="clearSubmit();">-->
 
 
                            <!-- <input type="button" onclick="validForm();" value="保存" />　<input name="" type="button" value="クリア" />--></td>
