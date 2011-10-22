@@ -265,6 +265,11 @@ include("inc/return_dbcon.inc.php");
             	 席次表・席札 &raquo; 会場レイアウト</div>
         </h4>
 		<h2><div style="width:1035px;"><?php if ($_SESSION['user_type'] =="222") {echo '会場レイアウト';} else {echo '会場レイアウト設定';} ?></div></h2>
+        
+<!-- SEKIDUKA EDIT 11/10/22 会場レイアウトプレビューを横に表示する -->
+      <table width="1035px" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="400" valign="top">
          <?php
         	if(isset($_GET['err']) && $_GET['err']!='')
 			{
@@ -277,7 +282,7 @@ include("inc/return_dbcon.inc.php");
 		?>
 <!-- UCHIDA EDIT 11/08/08 横一列の表示を縦一列に変え、横にプレビューを表示する -->
 		 <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){ ?>
-		<div style="width:1000px;">
+		<div style="width:400px;">
         <p class="txt3">
         	<form action="room_new.php?page=<?=$_GET['page']?>" method="post" name="room_form">
                 披露宴会場名：<label for="textfield"></label>   <input name="name" type="text" id="name" size="40" />
@@ -339,11 +344,15 @@ include("inc/return_dbcon.inc.php");
 				<input type="hidden" name="room_id" value="0" />
             </form>
          <?php }?>
-
+         
+         <br /><br /><br /><br /><br /><br />
+         
+         </td>
+    <td width="635" align="center" valign="top">
 <!-- UCHIDA EDIT 11/08/08 テーブルレイアウト表示を画面上に移動  -->
         <div class="sekiji_table" id="table_preview" >
-        <div>
-			<table width="1000px" style = " text-align:center;" align="center" border="0" cellspacing="10" cellpadding="0">
+        <div align="center">
+			<table width="500px" style = " text-align:center;" align="center" border="0" cellspacing="10" cellpadding="0">
 
             <?php
             	if(isset($default_id) && $default_id > 0)
@@ -395,11 +404,23 @@ include("inc/return_dbcon.inc.php");
 			?>
 			</table>
 		</div>
-    </div>
+    </div></td>
+  </tr>
+</table>
+
+
+
+
+
+
+
+
+
+
 
 <!-- テーブルレイアウト  -->
 
-         <div class="box_table" style="width:1000px; color: black;">
+<div class="box_table" style="width:1000px; color: black;">
             <!--<div class="page_next"><?=$pageination?></div>-->
             <div class="box4">
                 <table border="0" align="center" cellpadding="1" cellspacing="1">
