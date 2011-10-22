@@ -348,7 +348,7 @@ include("inc/return_dbcon.inc.php");
          <br /><br /><br /><br /><br /><br />
          
          </td>
-    <td width="635" align="center" valign="top">
+    <td width="635" align="center" valign="middle">
 <!-- UCHIDA EDIT 11/08/08 テーブルレイアウト表示を画面上に移動  -->
         <div class="sekiji_table" id="table_preview" >
         <div align="center">
@@ -408,14 +408,8 @@ include("inc/return_dbcon.inc.php");
   </tr>
 </table>
 
-
-
-
-
-
-
-
-
+<br />
+<br />
 
 
 <!-- テーブルレイアウト  -->
