@@ -40,10 +40,10 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 				$sql="update spssp_admin set logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
 				mysql_query($sql);
         	}
-        	if (isset($_SESSION['regenerate_id'])) {
+//       	if (isset($_SESSION['regenerate_id'])) {
 	        	$_SESSION["hotel_id"] =$HOTELID;
 				redirect("manage.php");
-        	}
+//        	}
 		}
 		else
 		{
