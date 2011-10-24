@@ -3,8 +3,8 @@
 /*error_reporting(E_ALL);
 ini_set('display_errors', 1);*/
 
-require_once('inc/checklogin.inc.php');
 include_once('inc/dbcon.inc.php');
+require_once('inc/checklogin.inc.php');
 include_once('inc/class.dbo.php');
 include_once("inc/class_information.dbo.php");
 

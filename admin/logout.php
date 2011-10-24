@@ -19,6 +19,7 @@ if (!$_SESSION["super_user"]) {
 }
 	unset($_SESSION['adminid']);
 	unset($_SESSION['user_type']);
+	unset($_SESSION['hotel_id']);
 
   if(isset($_SESSION['userid']))
 	{
