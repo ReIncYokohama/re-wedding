@@ -743,28 +743,28 @@ include("inc/return_dbcon.inc.php");
 		<?php if($user_id>0) { ?>
 		<div style="width:1035px;">
         	<div class="navi">
-            	<img src="img/common/nnavi01_on.jpg"/>
+            	<img src="img/common/navi01_on.jpg"/>
             </div>
         	<div class="navi">
             	<a href="message_user.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">
-                <img src="img/common/nnavi02.jpg" onMouseOver="this.src='img/common/nnavi02_over.jpg'"onMouseOut="this.src='img/common/nnavi02.jpg'"onclick="this.src='img/common/nnavi02_click.jpg'">
+                <img src="img/common/navi02.jpg" onMouseOver="this.src='img/common/navi02_over.jpg'"onMouseOut="this.src='img/common/navi02.jpg'" />
                 </a>
             </div>
         	
             
             <div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">
-            <img src="img/common/nnavi04.jpg" onMouseOver="this.src='img/common/nnavi04_over.jpg'"onMouseOut="this.src='img/common/nnavi04.jpg'"onclick="this.src='img/common/nnavi04_click.jpg'">
+            <img src="img/common/navi04.jpg" onMouseOver="this.src='img/common/navi04_over.jpg'"onMouseOut="this.src='img/common/navi04.jpg'" />
             </a></div>
             <div class="navi">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
         	<div class="navi">
             	<a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank">
-<img src="img/common/nnavi03.jpg" onMouseOver="this.src='img/common/nnavi03_on.jpg'"onMouseOut="this.src='img/common/nnavi03.jpg'"onclick="this.src='img/common/nnavi03_click.jpg'">
+<img src="img/common/navi03.jpg" onMouseOver="this.src='img/common/navi03_on.jpg'"onMouseOut="this.src='img/common/navi03.jpg'" />
                 </a>
             </div><div class="navi2">
             
 <?php if($_SESSION["super_user"]){　?>
           <div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',700,200); return false;">
-<img src="img/common/nnavi05.jpg" onMouseOver="this.src='img/common/nnavi05_on.jpg'"onMouseOut="this.src='img/common/nnavi05.jpg'"onclick="this.src='img/common/nnavi05_click.jpg'">
+<img src="img/common/navi05.jpg" onMouseOver="this.src='img/common/navi05_on.jpg'"onMouseOut="this.src='img/common/navi05.jpg'" />
           </a></div>
 <?php } ?></div>
         	<div style="clear:both;"></div>
