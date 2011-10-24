@@ -128,7 +128,7 @@ img{
 #bridal_info {
 	float: left;
 	height: auto;
-	width: 230px;
+	width: 500px;
 	padding-left: 60px;
 	padding-right: 20px;
 }
@@ -418,7 +418,6 @@ column
 	margin-right: auto;
 	margin-left: auto;
 }
-
 /*
 #contents_right {
 	width:875px;
