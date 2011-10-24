@@ -31,17 +31,19 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 		        if($_SESSION["super_user"]){
 		          $_SESSION["user_type"] = 333;
 		        }
-//		        if ($_SESSION["user_type"] == 333) {
-//			        include_once("inc/staff_login_check.php");
-//		        }
+		        if ($_SESSION["user_type"] == 333) {
+			        include_once("inc/staff_login_check.php");
+		        }
 			//$sql="update spssp_admin set sessionid='".session_id()."',logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
 
         	if ($_SESSION["super_user"]!=true) {
 				$sql="update spssp_admin set logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
 				mysql_query($sql);
         	}
-        	$_SESSION["hotel_id"] =$HOTELID;
-			redirect("manage.php");
+        	if (isset($_SESSION['regenerate_id'])) {
+	        	$_SESSION["hotel_id"] =$HOTELID;
+				redirect("manage.php");
+        	}
 		}
 		else
 		{
@@ -58,9 +60,9 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 }
 else
 {
-//	@session_destroy();
+//	$id=$_POST['adminid'];
+//	redirect("index.php?adminid=$id&action=failed");
 }
-
 
 //	include_once("inc/new.header.inc.php");
 ?>
