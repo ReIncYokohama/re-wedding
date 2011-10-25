@@ -347,7 +347,8 @@ include("inc/return_dbcon.inc.php");
 	</div>
       <br />
       <div style="width:600px;">
-      <div class="message_bt"><img src="img/common/soushin_img_on.jpg" width="71" height="22" /><a href="message_user.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/jushin_img.jpg" width="71" height="22" class="on" /></a></div>
+      <div class="message_bt"><img src="img/common/soushin_img_on.jpg" width="71" height="22" /></div>
+      <div class="message_bt"><a href="message_user.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/jushin_img.jpg" width="71" height="22" class="on" /></a></div>
       <div style="clear:both;"></div></div>
 	  <div id="box_table" style="width:800px;">
 	 <!-- <div class="page_next">< ?php echo $pageination;?></div>-->

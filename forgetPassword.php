@@ -73,6 +73,7 @@ height:400px;
 border:1px solid #00C6FF;
 margin:10px auto;
 width:500px;
+text-align:center;
 }
 #login_midashi
 {
@@ -86,7 +87,7 @@ margin-left:auto;
 margin-right:auto;
 padding-bottom:20px;
 padding-top:20px;
-width:300px;
+width:520px;
 }
 #footer{
 clear:both;
@@ -146,31 +147,31 @@ function cancelAction()
 					<div id="login_midashi">ウエディングプラス</div>
 					<div id="login_IDarea">
 						<form action="forgetPassword.php" method="post" name="passwordForgetForm">
-							<table style="font-size:12px;" width="500" align="center" cellspacing="10" cellpadding="0" border="0">
+							<table style="font-size:12px;" width="400" align="center" cellspacing="10" cellpadding="0" border="0">
 								<tr>
 									<td colspan="2" align="left">パスワードを忘れ場合は、下記のフォームにメールアドレスを入力の上、<br />送信ボタンを押下してください<br />登録されているメールアドレスと照合の上、パスワードを送信いたします<br/><br/></td>
 								</tr>
 								<tr>
-									<td width="30%" align="left">メールアドレス</td>
-									<td width="70%" align="left"><input type="text" id="email" size="30px;" name="email" value =<?=$email?>></input></td>
+									<td width="200" align="right">登録メールアドレス :</td>
+								  <td width="200" align="left"><input type="text" id="email" size="30px;" name="email" value =<?=$email?>></input></td>
 								</tr>
 							</table>
 							<table style="font-size:12px;" width="500" align="center" cellspacing="10" cellpadding="0" border="0">
-								<tr>
-									<td width="40%">&nbsp;</td>
-									<td width="10%">
+						  <tr>
+									<td width="139">&nbsp;</td>
+									<td width="85">
 									<a href="javascript:void(0);" onclick="validForm();"><img src="img/btn_send_user.jpg" /></a>
                                 	</td>
-									<td width="10%">
+									<td width="85">
 									<a href="javascript:void(0);" onclick="cancelAction();"><img src="img/btn_cancel_user.jpg" /></a>
-                                	</td>
-									<td width="40%">&nbsp;</td>
+                           	</td>
+									<td width="139">&nbsp;</td>
 								</tr>
 							</table>
 							<input type="hidden" name="getForm" value="getForm">
 						 </form>
 					</div>
-					<div  style="width:350px;"><a href="index.php"><b>戻る</b></a></div>
+					<div  style="width:520px;"><a href="index.php"><b>戻る</b></a></div>
 				</div>
 			</div>
 

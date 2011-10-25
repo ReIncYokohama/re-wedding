@@ -563,6 +563,9 @@ $current = substr( $requrl, 0, $urilen - $reqfilelen );
 
 //$current="http://re-dev.sakura.ne.jp/demo/demo2/hotel".(int)$HOTELID;
 
+define('STAFF_LOGIN_FILENAME','./_staff_login.log');
+define('STAFF_LOGIN_TIMEOUT',1800); // 単位：秒
+
 define('ADMIN_LINK', $requrl."/admin/");     //this link is used in email system
 define('ADMIN_LINK_FOR_PRINT', $current."/admin/");     //this link is used in email system
 define('MAIN_LINK', $current."/");         //this link is used in email system

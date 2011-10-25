@@ -226,7 +226,7 @@ URL $BASE_URL
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
+株式会社サンプリンティングシステム info@wedding-plus.net
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
 -----------------------------------------------------------
@@ -316,7 +316,9 @@ function confirm_guest_register($to,$subject,$mailbody){
     <div class="top_box1">
   アップロードに成功しました。
   
+  
 </div>
+    <button onclick="window.close();">閉じる</button>
 
 </body>
 </html>

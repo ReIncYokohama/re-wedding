@@ -1092,7 +1092,7 @@ for($i=0;$i<count($userArray);++$i){
 
 			<td class="action" align="center" bgcolor="#afeeee">&nbsp;</td>
 </tr></table>
-<div style="height:300px;overflow-y:auto;width:940px;">
+<div style="height:600px;overflow-y:auto;width:940px;">
 	<table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
 
 <?php

@@ -76,6 +76,7 @@ var timeOutLength = "<?=TIMEOUTLENGTH?>";
 var timerId = setInterval('user_timeout()', timeOutLength);
 var changeAction = false;
 var timeOutNow=false;
+var timerId2 = setInterval('user_access_update()', 5000);
 </script>
 <script src="js/timeout_action.js"></script>
 
