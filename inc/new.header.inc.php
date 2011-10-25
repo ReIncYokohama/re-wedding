@@ -80,10 +80,18 @@ var logUpdateLength = "<?=USER_LOGFILE_UPDTAE?>"
 var timerId2 = setInterval('user_access_update()', logUpdateLength);
 
 function user_access_file_update() {
-//	alert("user_access_file_update");
+//	alert("user_access_file_update OK");
 	if(timeOutNow==false) {
-		$.post("user_access_update.php",{},function(data){
+
+		$.ajax({
+		    type: 'POST',
+		    url: 'inc/user_access_update.php',
+		    data: 'id=id', // Dummy
+		    success: function(data) {
+		     //alert(data);
+		    }
 		});
+
 	}
 }
 </script>

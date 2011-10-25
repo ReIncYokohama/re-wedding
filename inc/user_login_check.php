@@ -26,7 +26,8 @@ include_once("update_user_log.php");
 				else {
 					// DBログの更新
 					unset($user_log);
-					$user_log['logout_time'] = $dt;
+					$d2 = $accDate - (int)(TIMEOUTLENGTH/1000);
+					$user_log['logout_time'] = date("Y/m/d H:i:s",$d2);
 					$obj->UpdateData("spssp_user_log", $user_log, " id=".(int)$fn[4]);
 					// 新たにセッションを開始
 					session_regenerate_id();
