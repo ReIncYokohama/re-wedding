@@ -11,7 +11,6 @@ function setChangeAction() {
 }
 function keyDwonAction(event) {
 	if (event.keyCode!=9) changeAction = true; // Tab Key
-	alert("key");
 	resetTimeOut();
 }
 function clickAction () {
