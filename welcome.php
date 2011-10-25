@@ -42,7 +42,7 @@ function confirmDelete(urls)
  <style type="text/css">
 #welcome_area{
 	height:500px;
-	margin:20px 80px;
+	margin:20px 150px;
 	text-align:left;
 	}
 
@@ -70,7 +70,7 @@ function confirmDelete(urls)
 </head>
 
 <body style="color: #000000;font: 13px/1.6em 'ＭＳ Ｐゴシック', Osaka, 'ヒラギノ角ゴ Pro W3',Arial,Helvetica,sans-serif;">
-	<div style="width:860px;margin:0 auto;border:0px solid;">
+	<div style="width:1000px;align:center;margin:0 auto;border:0px solid;">
 		<div id="header" style="height:66px;border-bottom: 8px solid #00C6FF;">
 			<img border="0" src="img/logo.jpg">
 		</div>
@@ -182,7 +182,7 @@ onmouseover="this.src='img/welcome_3_on.png';" onmouseout="this.src='img/welcome
 
 
 		<div class="footer" style="text-align: center;">
-	    <div style="width:860px;border-bottom: 8px solid #00C6FF;"></div>
+	    <div style="border-bottom: 8px solid #00C6FF;"></div>
 			<div id="footer">			Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.
 			</div>
 		</div>
