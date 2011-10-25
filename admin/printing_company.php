@@ -343,14 +343,14 @@ include("inc/return_dbcon.inc.php");
         	<a href="javascript:void(0);" onclick="new_table()"><h2 id="title_bar">新規登録 </h2></a>
         </p></div>-->
 
-		<div  id="new_table" style="display:block; width:1200px;">
+		<div  id="new_table" style="display:block; width:1000px;">
         	<? if($get['id']) {
 				$comp= $obj->GetSingleRow('spssp_printing_comapny','id='.$get['id']);
 				$comp[conf_email] = $comp[email];
 			}
 			if($_SESSION['user_type'] == '222') { // スタッフログイン
 			?>
-			 <table style="width:1200px;" >
+			 <table style="width:1000px;" >
 					<tr>
 						<td width="12%">会社名 :</td>
 						<td width="88%"><?=$comp[company_name]?></td>
@@ -398,7 +398,7 @@ include("inc/return_dbcon.inc.php");
 			<? }else if($_SESSION['user_type'] != '222' ) {?>
         	<form action="printing_company.php" method="post" name="new_name">
             	<input type="hidden" name="insert_edit" id="insert_edit" value="<?=$get[id]?>" />
-                <table style="width:1200px;" >
+                <table style="width:1000px;" >
 					<tr>
 						<td width="12%">会社名<span style="color:red;">*</span> :</td>
 						<td width="88%"><input type="text" name="company_name" id="company_name" size="40" value="<?=$comp[company_name]?>" /></td>
