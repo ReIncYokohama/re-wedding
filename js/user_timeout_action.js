@@ -28,6 +28,6 @@ function user_timeout() { // 編集ページはこのfunctionをオーバライ�
 
 function user_access_update() { // 一定時間でログのアクセス時間を更新
 	clearInterval(timerId2);
-	timerId2 = setInterval('user_access_update()', logUpdateLength);
 	user_access_file_update();
+	timerId2 = setInterval('user_access_update()', logUpdateLength);
 }
