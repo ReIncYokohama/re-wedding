@@ -956,8 +956,7 @@ include("inc/return_dbcon.inc.php");
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
                               <input type="radio" name="mukoyoshi" value="0" 
 <?php 
-
-if($user_row['mukoyoshi']=='0'){
+if($user_row['mukoyoshi']!='1'){
   echo "checked='checked'";
 }
 ?> /> 通常
