@@ -28,12 +28,6 @@ function user_timeout() { // 編集ページはこのfunctionをオーバライ�
 
 function user_access_update() { // 一定時間でログのアクセス時間を更新
 	clearInterval(timerId2);
-//	ajaxでファイル作成
-//	$cont = $_SESSION["regenerate_id"]."#";
-//	$cont .= date("Y/m/d H:i:s");
-//	$cont .= $_SESSION['adminid']."#";
-//	$cont .= ($_SESSION["super_user"]==true)? "P":"S";
-//	$cont .= $_SESSION["user_log_id"];
-//	file_put_contents(USER_LOGIN_FILENAME.$_SESSION['user_id']."log", $cont);
-	timerId2 = setInterval('user_access_update()', 5000);
+	timerId2 = setInterval('user_access_update()', logUpdateLength);
+	user_access_file_update();
 }

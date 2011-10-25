@@ -43,7 +43,8 @@
 	$_SESSION['user_log_id'] = $id;
 	
 	
-	redirect("../dashboard.php");
-
+//	redirect("../dashboard.php");
+	redirect("../login.php?src=admin");
+	
 ?>
 	

@@ -76,83 +76,21 @@ var timeOutLength = "<?=TIMEOUTLENGTH?>";
 var timerId = setInterval('user_timeout()', timeOutLength);
 var changeAction = false;
 var timeOutNow=false;
-var timerId2 = setInterval('user_access_update()', 5000);
+var logUpdateLength = "<?=USER_LOGFILE_UPDTAE?>"
+var timerId2 = setInterval('user_access_update()', logUpdateLength);
+
+function user_access_file_update() {
+//	alert("user_access_file_update");
+	if(timeOutNow==false) {
+		$.post("user_access_update.php",{},function(data){
+		});
+	}
+}
 </script>
-<script src="js/timeout_action.js"></script>
+<script src="js/user_timeout_action.js"></script>
 
 <script type="text/javascript">
-	$(function() {
-		$("#change_pass").dialog({
-			autoOpen: false,
-			height: 200,
-			width: 420,
-			show: "shake",
-			hide: "explode",
-			modal: true,
-			buttons: {
-				"送信": function() {
 
-						var cur_pass = $("#cur_password").val();
-						var password = $("#password").val();
-						var conf_pass = $("#conf_password").val();
-
-						if(!cur_pass || !password || !conf_pass)
-						{
-							alert("Please Fill All Fields");
-							return false;
-						}
-						if(password != conf_pass)
-						{
-							alert("New password does not matched");
-							return false;
-						}
-						var flag = 0;
-						var abc = $( this );
-						$.post('ajax/change_password.php',{'cur_pass':cur_pass,'action':'check_user'}, function (data){
-							if(parseInt(data) == 0)
-							{
-								flag = 1;
-								alert('Plese enter correct current password');
-								return false;
-							}
-							else
-							{
-								$.post('ajax/change_password.php', {'cur_pass': cur_pass,'password':password,'action':'change_pass'},
-								function(data) {
-									abc.dialog( "close");
-									//inform_user();
-										//alert("Password changed successfully");
-
-
-
-								});
-							}
-
-						});
-
-				},
-				キャンセル: function() {
-
-					$( this ).dialog( "close" );
-				},
-				閉じる:function() {
-
-					$( this ).dialog( "close" );
-				}
-			}
-		});
-
-	});
-
-	function change_password()
-{
-	$("#cur_password").val("");
-	$("#password").val("");
-	$("#conf_password").val("");
-	$("#change_pass").dialog("open");
-}
-
-</script>
 <script type="text/javascript">
 function MM_openBrWindow(theURL,winName,features) { //v2.0
   window.open(theURL,winName,features);

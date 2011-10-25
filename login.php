@@ -4,6 +4,15 @@ include_once("admin/inc/dbcon.inc.php");
 include_once("admin/inc/class.dbo.php");
 
 $obj = new dbo();
+
+include_once("inc/user_login_check.php");
+if ($_SESSION['regenerate_user_id']=="") {
+	redirect("logout.php");
+}
+else if ($_GET['src'] == "admin") {
+	redirect("dashboard.php");
+}
+else {
 $post = $obj->protectXSS($_POST);
 $userID = $post['userID'];
 $password = $post['password'];
@@ -51,4 +60,5 @@ if($row['id']){
 	}else{
 		redirect("index.php?adminid=$userID&err=16"); // UCHIDA EDIT 11/08/17 ＩＤを再表示
 	}
+}
 ?>

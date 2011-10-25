@@ -9,6 +9,10 @@
 
 $is_stuff = $_SESSION['userid_admin'];
 
+if ($_SESSION['regenerate_user_id']!="") {
+	$fileName = USER_LOGIN_DIRNAME.$_SESSION['userid'].".log";
+	unlink($fileName);
+}
 
  unset($_SESSION['userid']);
  unset($_SESSION['useremail']);
@@ -16,7 +20,8 @@ $is_stuff = $_SESSION['userid_admin'];
  unset($_SESSION['cart']);
  unset($_SESSION['lastlogintime']);
  unset($_SESSION['userid_admin']);
-
+ unset($_SESSION['regenerate_user_id']);
+ 
 // UCHIDA EDIT 11/08/16 スタッフならログオフで画面を閉じる
 	if ($is_stuff == "") {
  		header("Location:index.php");

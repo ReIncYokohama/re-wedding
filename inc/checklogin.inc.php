@@ -1,7 +1,4 @@
 <?php
-define('TIMEOUTLENGTH', '1200000'); // タイムアウト時間を２０分(単位：ミリセカンド)
-define('USER_LOGIN_FILENAME','../_uaLog/');
-define('USER_LOGIN_TIMEOUT',300000); // 更新時間を５分(単位：ミリセカンド)
 @session_start();
 //echo $_SESSION['adminid'];exit;
 	if(trim($_SESSION['userid'])=='')
@@ -15,4 +12,5 @@ define('USER_LOGIN_TIMEOUT',300000); // 更新時間を５分(単位：ミリセ
 			echo "<script> alert('他のホテルからの移動はできません'); </script>";
 			redirect("logout.php");
 		}
+	include_once("user_login_check.php");
 ?>

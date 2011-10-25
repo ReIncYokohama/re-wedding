@@ -563,13 +563,19 @@ $current = substr( $requrl, 0, $urilen - $reqfilelen );
 
 //$current="http://re-dev.sakura.ne.jp/demo/demo2/hotel".(int)$HOTELID;
 
-define('STAFF_LOGIN_FILENAME','./_staff_login.log');
-define('STAFF_LOGIN_TIMEOUT',1800); // 単位：秒
-
 define('ADMIN_LINK', $requrl."/admin/");     //this link is used in email system
 define('ADMIN_LINK_FOR_PRINT', $current."/admin/");     //this link is used in email system
 define('MAIN_LINK', $current."/");         //this link is used in email system
 define('PRINT_COMPANY_LINK', $current."/print/");     //this link is used in email system
+
+define('STAFF_LOGIN_FILENAME','./_staff_login.log');	// スタッフログイン管理ファイル
+define('STAFF_LOGIN_TIMEOUT','1800'); 					// スタッフタイムアウト３０分　単位：秒 (無操作でログイン可能になる時間)
+define('USER_LOGIN_TIMEOUT','1800'); 					// ユーザタイムアウト３０分　単位：秒 (無操作でログイン可能になる時間)
+
+define('TIMEOUTLENGTH', '1200000'); 					// ユーザ　タイムアウト時間を２０分(単位：ミリセカンド)
+define('USER_LOGIN_DIRNAME','_uaLog/');					// ユーザログイン管理ディレクトリ
+define('USER_LOGFILE_UPDTAE','300000'); 				// ユーザログインファイル　更新時間を５分(単位：ミリセカンド)
+define('TESTING',true);					 			// テスト中はファイル作成を抑制
 
 define('GIFT_GROUP_NAME', '');
 define('GIFT_ITEM_NAME', 'Item');
