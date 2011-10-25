@@ -10,5 +10,5 @@
 			@session_destroy();
 			redirect("index.php?action=required");
 		}
-include_once("staff_login_check.php");
+	if ($_SESSION["user_type"] == 333) include_once("staff_login_check.php");
 ?>

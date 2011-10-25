@@ -17,12 +17,16 @@ if (!$_SESSION["super_user"]) {
 	$sql="update spssp_admin set sessionid='',updatetime='".date("Y-m-d H:i:s")."' WHERE id='".$_SESSION['adminid']."';";
 	mysql_query($sql);
 }
+
+	if ($_SESSION['regenerate_id']!="" && $_SESSION["user_type"] == 333) unlink(STAFF_LOGIN_FILENAME);
+	
 	unset($_SESSION['adminid']);
 	unset($_SESSION['user_type']);
 	unset($_SESSION['hotel_id']);
 	unset($_SESSION['regenerate_id']);
-
-  if(isset($_SESSION['userid']))
+	unset($_SESSION['super_user']);
+	
+  if(isset($_SESSION['super_user']))
 	{
 		$user_log['logout_time'] = date("Y-m-d H:i:s");
 

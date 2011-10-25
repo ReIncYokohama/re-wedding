@@ -17,7 +17,7 @@ include_once("update_staff_log.php");
 		if ($reg_id!=$_SESSION['regenerate_id']) {
 			if (($nowDate-$accDate)<(int)STAFF_LOGIN_TIMEOUT) {
 				echo "<script> alert('管理者ＩＤで既にログインされています'); </script>";
-				unset($_SESSION['regenerate_id']);
+				$_SESSION['regenerate_id'] = "";
 				redirect("logout.php");
 			}
 			else {
