@@ -20,7 +20,7 @@ include_once("update_user_log.php");
 		if ($reg_id!="") {
 			if ($reg_id!=$_SESSION['regenerate_user_id']) {
 				if (($nowDate-$accDate)<(int)USER_LOGIN_TIMEOUT) {
-						echo "<script> alert('既にログインされています'); </script>";
+						echo "<script> alert('既にログインされています\\nタイムアウト後の保存は無効になります'); </script>";
 						$_SESSION['regenerate_user_id'] = "";
 						redirect("logout.php");
 				}
