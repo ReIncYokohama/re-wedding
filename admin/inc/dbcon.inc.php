@@ -568,8 +568,8 @@ define('MAIN_LINK', $current."/");         				// UserへのURL
 define('PRINT_COMPANY_LINK', $current."/print/");     	// PrintへのURL
 
 define('STAFF_LOGIN_FILENAME','./_staff_login.log');	// スタッフログイン管理ファイル
-define('STAFF_LOGIN_TIMEOUT','1800'); 					// スタッフタイムアウト３０分=1800　単位：秒 (無操作でログイン可能になる時間)
-define('USER_LOGIN_TIMEOUT','1800'); 					// ユーザタイムアウト３０分=1800　単位：秒 (無操作でログイン可能になる時間)
+define('STAFF_LOGIN_TIMEOUT','1200'); 					// スタッフタイムアウト２０分=1200　単位：秒 (無操作でログイン可能になる時間)
+define('USER_LOGIN_TIMEOUT','1200'); 					// ユーザタイムアウト２０分=1200　単位：秒 (無操作でログイン可能になる時間)
 
 define('TIMEOUTLENGTH', '1200000'); 					// ユーザ　タイムアウト時間を２０分=1200000(単位：ミリセカンド)
 define('USER_LOGIN_DIRNAME','_uaLog/');					// ユーザログイン管理ディレクトリ
