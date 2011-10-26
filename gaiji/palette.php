@@ -199,8 +199,6 @@ $from = $_GET['from'];
 <div id="Div3">
 </div>
 
-<div class="Txt_yomi">
-</div>
 
 
 <div style="position: relative;">
@@ -348,22 +346,22 @@ if(is_array($results))
 </div>
 
 <img src="img/guiji_title.jpg" id="guiji_title" alt="外字検索" />
-<img src="img/imput.jpg" alt="読み" name="imput" width="160" height="46" id="imput" />
+<img src="img/imput.jpg" alt="読み" name="imput" width="160" height="26" id="imput" />
 
 <div style="position: relative;">
 <div style="position: absolute; top: 65px; left: 56px; width: 150px;">
 	
 		<input type="hidden" name="search" value="search">
-	<input type="text" id="text" name="text" style="font-size:12pt"; "back ground-color:#ffffff"; onfocus="this.style.backgroundColor='#ffb2d7'" onblur="this.style.backgroundColor='#ffffff'; write_search_item();"  size="10 maxlength="8" value="<?=$search_item?>" />
+	<input type="text" id="text" name="text" style="font-size:10pt"; "back ground-color:#ffffff"; onfocus="this.style.backgroundColor='#f9d4e5'" onblur="this.style.backgroundColor='#ffffff'; write_search_item();"  size="13 maxlength="10" value="<?=$search_item?>" />
 <script type="text/javascript">
    document.getElementById('text').focus();
 </script>
 
-   </div>
+  </div>
 </div>
 
-<img src="img/ans_title.jpg" id="ans_title" alt="検索結果" />
-
+<img src="img/ans_title.jpg" alt="検索結果" width="310" height="36" id="ans_title" />
+<img src="img/imput_comment.jpg" id="imput_comment" alt="読みコメント" />
 <a href="#">
 <img src="img/search_off.jpg" id="search" alt="test" class="rollover" onclick="getbusho_form_submit();"></div>
 </a>

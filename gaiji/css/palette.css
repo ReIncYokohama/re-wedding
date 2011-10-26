@@ -6,11 +6,11 @@ body {
 	padding: 0;
 	color: #4C4C4C;
 	font-family: "メイリオ","Meiryo","ＭＳ Ｐゴシック","Hiragino Kaku Gothic Pro","ヒラギノ角ゴ Pro W3",sans-serif;
-	font-size: 12px;
+	font-size: 11px;
 	line-height: 1.4;
 }
 body * {
-	font-size: 100%;
+	font-size: 11px;
 }
 h1, h2, h3, h4, h5, h6 {
 	font-weight: normal;
@@ -51,7 +51,7 @@ ul.symbolList {
 #Div {
 	left: 0px;
 	position: absolute;
-	top: -2px;
+	top: 0px;
 	margin-bottom: 0;
 	background-color: #dfeaf5;
 	width: 500px;
@@ -91,8 +91,8 @@ html > body #Div3 {
 	min-height: 430px;
 }
 .Txt_yomi {
-	font-family: '小塚ゴシック Pr6N R', Arial, Helvetica, sans-serif;
-	font-size: 180%;
+	font-family: "メイリオ","Meiryo","ＭＳ Ｐゴシック","Hiragino Kaku Gothic Pro","ヒラギノ角ゴ Pro W3",sans-serif;
+	font-size: 11px;
 	text-align: left;
 	color: #221f1f;
 	line-height: 150%;
@@ -260,7 +260,7 @@ html > body #Div10 {
 	left: 14px;
 	position: absolute;
 	top: 63px;
-	height: 26px;
+	height: 36px;
 	margin-bottom: 0;
 	width: 160px;
 }
@@ -272,14 +272,7 @@ html > body #Div10 {
 	margin-bottom: 0;
 	width: 310px;
 }
-#imput_comment {
-	left: 14px;
-	position: absolute;
-	top: 89px;
-	height: 10px;
-	margin-bottom: 0;
-	width: 160px;
-}
+
 /*#seach2 {
 	left: 267px;
 	position: absolute;
