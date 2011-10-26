@@ -114,8 +114,8 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 			<div class="header_resize" style="display:relative;vertical-align:middle;">
             	<div id="inform_user" style="text-align:center; font-size:15px; font-weight:bold; color:#006600;"></div>
                 <div class="logo"> 
-                <div><img src="img/logo.jpg" width="200" height="57" border="0" />
-                <font style="font-size:20px; color:#0099ff;"> <?php if (!$__editable && $__jobend==false) echo "「印刷イメージ依頼中です。編集できません」"; else if (!$__editable && $__jobend==true) echo "「印刷依頼済みです。編集できません」"; ?></font>
+                <div><img src="img/logo.jpg" width="200" height="57" border="0" align="absbottom" />
+                <font style="font-size:20px; font-weight:bold; margin-left:130px; color:#0099ff;"> <?php if (!$__editable && $__jobend==false) echo "印刷イメージ依頼中のため編集できません"; else if (!$__editable && $__jobend==true) echo "印刷依頼済みのため編集できません"; ?></font>
                 </div>
 
                 <div style="font-size:11px;height:12px;vertical-align:top;">
