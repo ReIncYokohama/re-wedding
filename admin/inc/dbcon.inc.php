@@ -574,7 +574,7 @@ define('USER_LOGIN_TIMEOUT','1200'); 					// ユーザタイムアウト２０�
 define('TIMEOUTLENGTH', '1200000'); 					// ユーザ　タイムアウト時間を２０分=1200000(単位：ミリセカンド)
 define('USER_LOGIN_DIRNAME','_uaLog/');					// ユーザログイン管理ディレクトリ
 define('USER_LOGFILE_UPDTAE','300000'); 				// ユーザログインファイル　更新時間を５分=300000(単位：ミリセカンド)
-define('TESTING',false);					 				// テスト中はファイル作成を抑制
+define('TESTING',true);					 				// テスト中はファイル作成を抑制
 
 define('GIFT_GROUP_NAME', '');
 define('GIFT_ITEM_NAME', 'Item');
