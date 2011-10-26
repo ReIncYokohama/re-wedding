@@ -5,8 +5,8 @@ body {
 	margin: 0;
 	padding: 0;
 	color: #4C4C4C;
-	font-family: "メイリオ", "Meiryo";
-	font-size: 8px;
+	font-family: "メイリオ","Meiryo","ＭＳ Ｐゴシック","Hiragino Kaku Gothic Pro","ヒラギノ角ゴ Pro W3",sans-serif;
+	font-size: 12px;
 	line-height: 1.4;
 }
 body * {
@@ -70,10 +70,10 @@ html > body #Div {
 	background-color: #c3d1e4;
 	width: 160px;
 	padding-top: 0px;
-	height: 35px;
+	height: 36px;
 }
 html > body #Div2 {
-	height: auto;
+	height: 36px;
 	min-height: 36px;
 }
 #Div3 {
