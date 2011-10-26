@@ -1,5 +1,6 @@
 <?php
-include_once("admin/inc/class.dbo.php");
+include_once("../admin/inc/class.dbo.php");
+include_once("../admin/inc/dbcon.inc.php");
 $obj = new DBO();
 include_once("update_user_log.php");
 
@@ -19,15 +20,14 @@ include_once("update_user_log.php");
 		if ($reg_id!="") {
 			if ($reg_id!=$_SESSION['regenerate_user_id']) {
 				if (($nowDate-$accDate)<(int)USER_LOGIN_TIMEOUT) {
-					echo "<script> alert('既にログインされています'); </script>";
-					$_SESSION['regenerate_user_id'] = "";
-					redirect("logout.php");
+						echo "<script> alert('既にログインされています'); </script>";
+						$_SESSION['regenerate_user_id'] = "";
+						redirect("logout.php");
 				}
 				else {
 					// DBログの更新
 					unset($user_log);
-					$d2 = $accDate - (int)(TIMEOUTLENGTH/1000);
-					$user_log['logout_time'] = date("Y/m/d H:i:s",$d2);
+					$user_log['logout_time'] = date("Y/m/d H:i:s",$accDate);
 					$obj->UpdateData("spssp_user_log", $user_log, " id=".(int)$fn[4]);
 					// 新たにセッションを開始
 					session_regenerate_id();

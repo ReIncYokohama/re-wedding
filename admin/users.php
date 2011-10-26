@@ -57,6 +57,8 @@
 		$passPresent .= "<a href='users.php?view=before'><img src='img/common/btn_kako_on.jpg' /></a>";
 	}
 
+	include_once("inc/update_user_log_for_db.php");
+	
 ?>
 <style>
 .datepickerControl table
@@ -398,10 +400,12 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 				{
 					$class = 'box6';
 				}
-				$last_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$row['id']." and admin_id='0' ORDER BY login_time DESC");
+				$last_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$row['id']." and admin_id=0  ORDER BY login_time DESC");
 
 				$user_messages = $obj->GetAllRowsByCondition("spssp_message"," user_id=".$row['id']);
 
+				$user_id_arr[0] = $row['id'];
+				update_user_log_for_db((int)(USER_LOGIN_TIMEOUT), $obj, $user_id_arr);
 			?>
             <div class="<?=$class?>" style="width:1000px;">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
@@ -427,14 +431,13 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
                         <!-- <td></td>-->
 					    <td width="80">
                        <?php
-// UCHIDA EDIT 11/08/03 'ログイン中' → ログイン時間
-						if($last_login['login_time'] > "0000-00-00 00:00:00") {
-							if($last_login['logout_time'] > "0000-00-00 00:00:00") {
-								$dMsg = strftime('%m月%d日',strtotime($last_login['logout_time']));
-								echo$dMsg;
+
+						if($last_login['login_time'] != "0000-00-00 00:00:00" && $last_login['login_time']!="") {
+							if($last_login['logout_time'] != "0000-00-00 00:00:00" && $last_login['logout_time'] != $last_login['login_time']) {
+								$dMsg = date('m月d日',strtotime($last_login['logout_time']));
+								echo $dMsg;
 							}else {
-								$dMsg = strftime('%m月%d日',strtotime($last_login['login_time']));
-								echo "<font color='#888888'>$dMsg</font>";
+								echo "ログイン中";
 							}
 					   	}
 						?>

@@ -11,6 +11,10 @@
 	$redirect_url = 'user_log.php?user_id='.$user_id;
 	$stuff_id= (int)$_GET['stuff_id'];
 
+	include_once("inc/update_user_log_for_db.php");
+	$arr[0]=$user_id;
+	update_user_log_for_db((int)(USER_LOGIN_TIMEOUT), $obj, $arr);
+
 	//$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
 
 	if($_SESSION['user_type'] == 222)
@@ -170,7 +174,7 @@ include("inc/return_dbcon.inc.php");
 								else {
 									echo "<td align='left' width='22%'>ログイン</td>";
 								}
-                        		if ($i+1 != $num) { // 最後のログアウトはログイン中なので表示対象にしない
+                        		if ($i != $num) { // 最後のログアウトはログイン中なので表示対象にしない
 									$time2 = str_replace('-','/',$row['logout_time']);
 									if ($time2 != "0000/00/00 00:00:00" and $time != $time2) {
 										echo "<tr align='center'>";
@@ -185,7 +189,7 @@ include("inc/return_dbcon.inc.php");
 											$j++; echo "<td align='center' width='5%'>$j</td>";
 											echo "<td align='left' width='22%'style='font-size:100%;' >----&nbsp;/&nbsp;--&nbsp;/&nbsp;--&nbsp;&nbsp;--:&nbsp;--:&nbsp;--</td>";
 											echo "<td align='left' width='22%'>$msg</td>";
-											echo "<td align='left' width='22%'>画面消去</td>";
+											echo "<td align='left' width='22%'>ログイン中</td>";
 											echo "</tr>";
 									}
 								}

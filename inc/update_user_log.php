@@ -5,6 +5,6 @@ function update_user_log($fileName) {
 	$cont .= $_SESSION['adminid']."#";
 	$cont .= ($_SESSION["super_user"]==true)? "P#":"S#";
 	$cont .= $_SESSION["user_log_id"];
-	if (!TESTING) file_put_contents($fileName, $cont);
+	file_put_contents($fileName, $cont);
 }
 ?>

@@ -16,6 +16,7 @@ else {
 $post = $obj->protectXSS($_POST);
 $userID = $post['userID'];
 $password = $post['password'];
+$_SESSION["hotel_id"] =$HOTELID;
 
 $query_string = "SELECT * from spssp_user WHERE BINARY user_id= '".$userID."' and BINARY password = '".$password."'";
 
@@ -40,6 +41,7 @@ if($row['id']){
 
 			$user_log['user_id']=(int)$_SESSION['userid'];
 			$user_log['login_time'] = date("Y-m-d H:i:s");
+			$user_log['logout_time'] = "";
 			$user_log['date'] = date("Y-m-d");
 			$id = $obj->InsertData("spssp_user_log", $user_log);
 			$_SESSION['user_log_id'] = $id;

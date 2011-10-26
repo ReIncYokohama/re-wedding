@@ -101,7 +101,8 @@ $get = $obj->protectXSS($_GET);
 		$post['mname']=$get['mname'];
 		$post['wname']=$get['wname'];
 	}
-
+	include_once("inc/update_user_log_for_db.php");
+	update_user_log_for_db((int)(USER_LOGIN_TIMEOUT), $obj, $user_id_arr);
 ?>
 
 		   <!--User view respect to admin start-->
@@ -670,7 +671,7 @@ include("inc/return_dbcon.inc.php");
 					$class = 'box6';
 				}
 
-				$last_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$row['id']." and admin_id='0' ORDER BY login_time DESC");
+				$last_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$row['id']." and admin_id=0 ORDER BY login_time DESC");
 
 			?>
 	            <div class="<?=$class?>" style="width:1000px; ">
@@ -701,14 +702,12 @@ include("inc/return_dbcon.inc.php");
                             <td width="60" > <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'],$staff_id);?> </td>
                         <td  width="80">
 						<?php
-// UCHIDA EDIT 11/08/03 'ログイン中' → ログイン時間
-						if($last_login['login_time'] > "0000-00-00 00:00:00") {
-							if($last_login['logout_time'] > "0000-00-00 00:00:00") {
-								$dMsg = strftime('%m月%d日',strtotime($last_login['logout_time']));
-								echo$dMsg;
+						if($last_login['login_time'] != "0000-00-00 00:00:00" && $last_login['login_time']!="") {
+							if($last_login['logout_time'] != "0000-00-00 00:00:00" && $last_login['logout_time'] != $last_login['login_time']) {
+								$dMsg = date('m月d日',strtotime($last_login['logout_time']));
+								echo $dMsg;
 							}else {
-								$dMsg = strftime('%m月%d日',strtotime($last_login['login_time']));
-								echo "<font color='#888888'>$dMsg</font>";
+								echo "ログイン中";
 							}
 					   	}
 						?>
