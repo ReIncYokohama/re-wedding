@@ -332,7 +332,7 @@ $this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_n
 */
 
 // YYYYMMDD_HHMMSS の形式で現在日付時間を取得する
-	$today = date("Ymd");
+$today = date("Ymd_Hi");
 $num = $obj->get_download_num($user_id,$_SESSION["adminid"]);
 $this_name= "招待者リスト_".$today."_".$num;	// 最終形式に整形する
 
