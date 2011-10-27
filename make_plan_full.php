@@ -221,7 +221,9 @@ body{
   background:none;
 }
 #make_plan_table{
-width: 1000px;
+width: 700px;
+overflow:scroll;
+height:500px;
 }
 .title_bar.main_plan{
  width:980px;
@@ -258,10 +260,10 @@ var button_enable="<?=$button_enable?>";
 	{
 		document.insert_plan.submit();
 	}
-
+  window.close();
 }
 function back_to_make_plan() {
-	window.location = "make_plan.php";
+  window.close();
 }
 
 function make_plan_check()
@@ -302,7 +304,6 @@ width:100%;
 {
 float:left;
 width:198px;
-margin-left:15px;
 }
 .tables p
 {
@@ -355,8 +356,7 @@ direction: ltr;
 
 <div id="contents_right">
   <div class="title_bar main_plan">
-    <div class="title_bar_txt_L">席次表を編集し、プレビューで席次表・引出物の確認をします</div>
-    <div class="title_bar_txt_R"></div>
+    <div class="title_bar_txt_L">席次表を編集</div>
 <div class="clear"></div></div>
 <div class="cont_area"  align="center">
 
@@ -575,13 +575,24 @@ if($objInfo->get_editable_condition($plan_row))
 ?>
 <image src="img/btn_save.jpg" id="button" onclick="checkConfirm()"/>
 <image src="img/btn_rollback.jpg" id="button" onclick="back_to_make_plan()"/>
-<image src="img/btn_close.jpg" id="button" onclick="back_to_make_plan()"/>
 
 <?php
   }
 ?>
             </div>
 			<?php
+
+                       $table_rows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".(int)$user_id." and row_order=".$tblrows[0]['row_order']." order by  column_order asc");
+                       $ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrows[0]['row_order']." and user_id=".$user_id." limit 1");
+
+                       $num_first = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrows[0]['row_order']." order by column_order limit 1");
+                       $num_last = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrows[0]['row_order']." order by column_order desc limit 1");
+                       $num_max = $obj->GetSingleData("spssp_table_layout", "column_order "," user_id=".$user_id." and row_order=".$tblrows[0]['row_order']." order by column_order desc limit 1");
+                       $num_none = $num_max-$num_last+$num_first-1;
+                       $width = $num_max*200;
+
+
+
 			$main_guest=array();
 			$guests_bride = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest!='0' and stage_guest!='' order by display_order DESC");
 
@@ -590,10 +601,27 @@ if($objInfo->get_editable_condition($plan_row))
 				$main_guest[$witness_bride[stage_guest]]=$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$witness_bride['id']."/thumb1");
 
 			}
+for($i=0;$i<6;++$i){
+  if(!$main_guest[$i]){
+    $main_guest[$i] = '<td align="center"  valign="middle" style="text-align:center; padding:7px;width:100px;"></td>';
+  }else{
+    $main_guest[$i] = '<td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;width:100px;">'.$main_guest[$i].'</td>';
+    
+  }
+}
 $takasago1 = ($user_info["mukoyoshi"])?"woman":"man";
 $takasago2 = ($user_info["mukoyoshi"])?"man":"woman";
 
-			$html.='<table style="width:100%; " cellspacing="2"><tr><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;">'.$main_guest[3].'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black;padding:7px; ">'.$main_guest[1].'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black;padding:7px; ">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago1}_fullname.png",$extra="thumb1").'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;">'.$main_guest[5].'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago2}_fullname.png",$extra="thumb1").'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;">'.$main_guest[2].'</td><td align="center"  valign="middle" style="text-align:center;border:1px solid black;padding:7px; ">'.$main_guest[4].'</td></tr></table>';
+			$html.='
+<table align="center" cellspacing="2"><tr>
+'.$main_guest[3].'
+'.$main_guest[1].'
+<td align="center"  valign="middle" style="width:100px;text-align:center;border:1px solid black;padding:7px; ">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago1}_fullname.png",$extra="thumb1").'</td>
+'.$main_guest[5].'
+<td align="center"  valign="middle" style="width:100px;text-align:center;border:1px solid black; padding:7px;">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago2}_fullname.png",$extra="thumb1").'</td>
+'.$main_guest[2].'
+'.$main_guest[4].'
+</tr></table>';
 
 $layoutname = $obj->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
 if($layoutname=="")
@@ -609,12 +637,11 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
 
 
 
-
-  			<div id="room" tyle="float:left; width:<?=$room_width?>; ">
-			<div align="center" style="width:600px;text-align:center; margin:0 auto; font-size:13px; font-size:13px">
+  			<div id="room" style="float:left; width:<?=$width?>px; ">
+			<div align="center" style="text-align:center; margin:0 auto; font-size:13px; font-size:13px">
 				<?=$html?>
 			</div><br/>
-			<div align="center" style="width:400px; text-align:center; border:1px solid black; padding:5px; margin:0 auto; font-size:13px">
+			<div align="center" style=" text-align:center; border:1px solid black; padding:5px; margin:0 auto; font-size:13px">
 				<?=$layoutname?>
 			</div>
 
@@ -629,19 +656,18 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
                        $num_last = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
                        $num_max = $obj->GetSingleData("spssp_table_layout", "column_order "," user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
                        $num_none = $num_max-$num_last+$num_first-1;
-
+                       $width = $num_max*200;
                        if($ralign == 'C')
                          {
 
                            if($num_none > 0)
                              {
-                               $con_width = $row_width -((int)($num_none*178));
+                               $con_width = $width -((int)($num_none*198));
                              }
                            else
                              {
-                               $con_width = $row_width;
+                               $con_width = $width;
                              }
-
                            $pos = 'margin:0 auto; width:'.$con_width.'px';
                          }
                        else if($ralign=='R' && $align_term==1)
@@ -650,16 +676,11 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
                          }
                        else
                          {
-                           $pos = 'float:left;';
+                           $pos = 'float:left;width:'.$width.'px;';
 
                          }
-
-
-
-
-
                     ?>
-                	<div class="rows" id="row_<?=$tblrow['row_order']?>">
+                	<div class="rows" id="row_<?=$tblrow['row_order']?>" style="width:<?php echo $width;?>px;">
                 		<input type="hidden" id="rowcenter_<?=$tblrow['row_order']?>" value="<?=$ralign?>" />
                 		<div class="row_conatiner" id="rowcon_<?=$tblrow['row_order']?>" style="<?=$pos;?>">
                     	<?php

@@ -128,6 +128,25 @@ if($objInfo->get_editable_condition($plan_row))
 
 
 <script type="text/javascript">
+
+function m_win(url,windowname,width,height) {
+ var features="location=no, menubar=no, status=yes, scrollbars=yes, resizable=yes, toolbar=no";
+ if (width) {
+  if (window.screen.width > width)
+   features+=", left="+(window.screen.width-width)/2;
+  else width=window.screen.width;
+  features+=", width="+width;
+ }
+ if (height) {
+  if (window.screen.height > height)
+   features+=", top="+(window.screen.height-height)/2;
+  else height=window.screen.height;
+  features+=", height="+height;
+ }
+ window.open(url,windowname,features);
+  }
+
+
 var title=$("title");
  $(title).html("席次表編集 - 席次表 - ウエディングプラス");
 
@@ -256,7 +275,7 @@ height:30px;
 
 			<table width="800" border="0 cellspacing="1" cellpadding="3">
 				  <tr>
-					<td width="210" valign="middle"><a href="make_plan_full.php"><img src="img/order/btn_sekiji.jpg" alt="席次表の編集" width="200" height="60" border="0" class="on" /></a></td>
+					<td width="210" valign="middle"><a href="make_plan_full.php" onclick="m_win(this.href,'mywindow7',1060,800); return false;"><img src="img/order/btn_sekiji.jpg" alt="席次表の編集" width="200" height="60" border="0" class="on" /></a></td>
 					<td width="10" valign="middle">　</td>
 
 					<td width="580" valign="middle">席次表をドラッグ＆ドロップで簡単に編集ができます。<br />
