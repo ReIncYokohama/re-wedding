@@ -149,7 +149,7 @@ if(!$visible){
 ?>
 </div>
 </div>
-<div id="move_card">da</div>
+<div id="move_card"></div>
 <div id="guest_detail"><image/></div>
 </body>
 </html>
