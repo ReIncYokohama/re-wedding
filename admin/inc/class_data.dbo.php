@@ -51,6 +51,11 @@ class DataClass extends DBO{
   */
   public function get_table_data($user_id){
     $returnArray = array("layoutname" => "","rows"=>array());
+    $layoutname = $this->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
+    if($layoutname==""){
+      $layoutname = $this->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
+    }
+    $returnArray["layoutname"] = $layoutname;
     //テーブル情報の配列
     $table_arr = $this->getRowsByQuery("select * from spssp_table_layout where user_id=".$user_id);
     
