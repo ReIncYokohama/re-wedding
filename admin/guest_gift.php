@@ -264,10 +264,18 @@ function validForm_2()
 }
 function confirmAction(urls , msg)
 {
-   	var agree = confirm(msg);
-	if(agree)
-	{
-		window.location = urls;
+	if (urls.search("print_request")!=-1) {
+		var busuu="<?=$plan_info['dowload_options']?>";
+		var user_id = "<?=$user_id?>";
+	    var ans = window.showModalDialog("confirm_order.php?busuu="+busuu+"&user_id="+user_id+"&msg="+msg, window ,"dialogTop:400px; dialogLeft:600px; dialogwidth:400px; dialogheight:180px;");
+	    if (ans=="OK") window.location = urls;
+	}
+	else {
+	   	var agree = confirm(msg);
+		if(agree)
+		{
+			window.location = urls;
+		}
 	}
 }
 
@@ -411,7 +419,7 @@ include("inc/return_dbcon.inc.php");
         <table width="50%" border="0" cellspacing="1" cellpadding="3">
 			  <tr>
 				<td width="210" valign="middle">
-
+<!--
 					<form action="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>" method="POST" name="day_limit_form">
 					<input type="hidden" name="gift_day_limit" value="gift_day_limit">
 
@@ -452,6 +460,7 @@ include("inc/return_dbcon.inc.php");
 					<a href="javascript:void(0);" onclick="validForm_1();"><img src="img/common/btn_save.jpg" alt="保存"></a>
 				<?php }?>
 					</form>
+-->
 				</td>
 			<?php
 				if($plan_info['admin_to_pcompany']==3 && $plan_info['admin_to_pcompany']>0 &&$plan_info['ul_print_com_times']==1)
@@ -464,6 +473,12 @@ include("inc/return_dbcon.inc.php");
  				<td>
 					<?php
 						echo $hon_hachu; // UCHIDA EDIT 11/08/16 クリック日付を表示
+						if ($hon_hachu!="") {
+							echo "<br />";
+							if ($plan_info['dowload_options']==1 || $plan_info['dowload_options']==3) echo "席次表印刷部数 ".$dayLimit_1." 部";
+							echo "　";
+							if ($plan_info['dowload_options']==2 || $plan_info['dowload_options']==3) echo "席札表印刷部数 ".$dayLimit_2." 部";
+						}
 					?>
 				</td>
 		  </tr>
