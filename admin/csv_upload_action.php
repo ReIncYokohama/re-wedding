@@ -318,7 +318,7 @@ function confirm_guest_register($to,$subject,$mailbody){
   
   
 </div>
-    <button onclick="window.close();">閉じる</button>
+      <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="img/btn_close.jpg" alt="閉じる" width="82" height="22" /></a>
 
 </body>
 </html>
