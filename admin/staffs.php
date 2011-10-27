@@ -652,21 +652,21 @@ include("inc/return_dbcon.inc.php");
 		<p class="txt3">
 			<table style="width:1000px; border="0" cellspacing="10" cellpadding="0">
 				<tr>
-					<td width="20">名前：<font color="red">*</font></td>
+					<td width="20">名前<font color="red">*</font>：</td>
 					<td width="120">
 	    		  <input name="name" type="text" id="name" size="20" value="<?=$edit_data_rows['name']?>" />
 					<input  type="hidden" id="name_current" size="20" value="<?=$edit_data_rows['name']?>" />
 					</td>
 				</tr>
 				<tr>
-					<td align="left">ログインID：<font color="red">*</font></td>
+					<td align="left">ログインID<font color="red">*</font>：</td>
 					<td align="left">
 					<input name="username" type="text" id="ID" size="25"  value="<?=$edit_data_rows['username']?>"/>
 					<input  type="hidden" id="username_current" size="20" value="<?=$edit_data_rows['username']?>" />    　
 	            	</td>
 				</tr>
 				<tr>
-					<td align="left">パスワード：<font color="red">*</font></td>
+					<td align="left">パスワード<font color="red">*</font>：</td>
 					<td align="left">
 					<input name="password" type="text" id="password" size="25"  value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
 					<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください</span>
@@ -823,21 +823,21 @@ include("inc/return_dbcon.inc.php");
 				<p>
 				<table style="width:1000px; border="0" cellspacing="10" cellpadding="0">
 				<tr>
-					<td width="20">名前：<font color="red">*</font></td>
+					<td width="20">名前<font color="red">*</font>：</td>
 					<td width="120">
 			    		<input name="name" type="text" id="name" style="width:200px;padding:3px;" value="<?=$stuff_row['name']?>" />
 						<input  type="hidden" id="name_current" style="width:200px;padding:3px;" value="<?=$stuff_row['name']?>" />
 					</td>
 				</tr>
 				<tr>
-					<td align="left">ログインID：<font color="red">*</font></td>
+					<td align="left">ログインID<font color="red">*</font>：</td>
 					<td align="left">
 						<input name="username" type="text" id="ID" style="width:200px;padding:3px;" value="<?=$stuff_row['username']?>"/>
 						<input type="hidden" id="username_current" style="width:200px;padding:3px;" value="<?=$stuff_row['username']?>" />    　
 	            	</td>
 				</tr>
 				<tr>
-					<td align="left">パスワード：<font color="red">*</font></td>
+					<td align="left">パスワード<font color="red">*</font>：</td>
 					<td align="left">
 						<input name="password" type="text" id="password" style="width:200px;padding:3px;" value="<?=$stuff_row['password']?>"  onblur="checkvalidity()"/><br>
 						<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください</span>
