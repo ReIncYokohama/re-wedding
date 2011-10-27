@@ -613,8 +613,11 @@ $editable=$objInfo->get_editable_condition($plan_info);
   <div class="title_bar_txt_R"></div>
   <div class="clear"></div></div>
 	<?php
+  
+  $edit = false;
   if(isset($get['gid']) && (int)$get['gid'] > 0)
 		{
+      $edit = true;
 			$guest_row = $obj->GetSingleRow(" spssp_guest ", " id=".(int)$get['gid']);
 
       $query_string = "SELECT * FROM spssp_gaizi_detail_for_guest WHERE guest_id = ".$get['gid'];
@@ -718,6 +721,7 @@ if($editable)
 			<td width="90" align="center"><table width="90" border="0" cellspacing="2" cellpadding="2">
   <tr>
     <td><select id="sex" name="sex" style="width:80px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1){echo "disabled";}?> tabindex=1 onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
+      <?php if($guest_row["sex"]=="") echo "<option value=''></option>";?>
       <option value="Male" <?php if($guest_row['sex']=="Male"){ echo "Selected='Selected'"; }?> >新郎側</option>
       <option value="Female" <?php if($guest_row['sex']=="Female"){ echo "Selected='Selected'"; }?> >新婦側</option>
     </select></td>
@@ -791,6 +795,7 @@ if($editable)
 			    <td width="123">
 			    <select id="respect_id" name="respect_id" tabindex=4 style="width:70px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
 			      <?php
+          if($guest_row["respect_id"]=="") echo "<option value=''></option>";
 					foreach($respects as $respect)
 					{
 						if($guest_row['respect_id'] == $respect['id'])
@@ -894,6 +899,7 @@ if($editable)
 								if((int)$_GET['gid'])
 								 $guest_gifts = $obj->GetAllRowsByCondition(" spssp_guest_gift "," user_id=".$user_id." and guest_id='".$_GET['gid']."'");
 
+                
 								$gg_arr = array();
 							    if(is_array($guest_gifts))
 								{
@@ -907,7 +913,7 @@ if($editable)
 
 								 if($guest_row['self']==1){$access= "disabled";}
 								echo "<select id='gift_group' tabindex=11 name='gift_group_id' style='width:80px; padding-top:3px; padding-bottom:3px;' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
-
+                if($edit && count($gg_arr)==0) echo "<option selected value=''></option>";
 								foreach($gift_groups as $gg)
 								{
 									$selected = (in_array($gg['id'],$gg_arr))?"selected":"";

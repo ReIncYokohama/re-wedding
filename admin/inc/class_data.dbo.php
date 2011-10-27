@@ -51,6 +51,11 @@ class DataClass extends DBO{
   */
   public function get_table_data($user_id){
     $returnArray = array("layoutname" => "","rows"=>array());
+    $layoutname = $this->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
+    if($layoutname==""){
+      $layoutname = $this->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
+    }
+    $returnArray["layoutname"] = $layoutname;
     //テーブル情報の配列
     $table_arr = $this->getRowsByQuery("select * from spssp_table_layout where user_id=".$user_id);
     
@@ -231,6 +236,26 @@ class DataClass extends DBO{
   }
   //array of man and woman data
   // first_name,last_name,menu_grp,gift_group_id.menu_text,gift_group_text,sex_text,table_name
+  public function get_guestdata($user_id){
+    $plan_id = $this->GetSingleData("spssp_plan", "id","user_id=".$user_id);
+
+    $guestArray = $this->getRowsByQuery("select * from spssp_guest where user_id = $user_id and self != 1 order by sex desc");
+
+    for($i=0;$i<count($guestArray);++$i){
+      $guestArray[$i]["menu_text"] = $this->get_menu_group($guestArray[$i]["menu_grp"],$user_id);
+      $guestArray[$i]["gift_group_text"] = $this->get_gift_group($guestArray[$i]["gift_group_id"],$user_id);
+      $guestArray[$i]["guest_type_text"] = $this->get_guest_type($guestArray[$i]["guest_type"]);
+      $guestArray[$i]["sex_text"] = $this->get_host_sex_name($guestArray[$i]["sex"]);
+      $seat_id = $this->get_seat_id($plan_id,$guestArray[$i]["id"]);
+      $table_id = $this->get_table_id_by_seat_id($seat_id);
+      $table_name = $this->get_table_name($table_id,$user_id);
+      $guestArray[$i]["table_name"] = $table_name;
+      $guestArray[$i]["respect_text"] = $this->get_respect($guestArray[$i]["respect_id"]);
+    }
+    return $guestArray;
+  }
+  //array of man and woman data
+  // first_name,last_name,menu_grp,gift_group_id.menu_text,gift_group_text,sex_text,table_name
   public function get_userdata($user_id){
     $guestArray = $this->getRowsByQuery("select * from spssp_guest where user_id = $user_id and self = 1 order by sex desc");
     $mukoyoshi = $this->GetSingleData("spssp_user","mukoyoshi"," id = ".$user_id);
@@ -268,7 +293,8 @@ class DataClass extends DBO{
   //acccess_time,login_name,screen_name,target_user,kind,targe_category,before_data,after_data
   public function get_all_log($user_id)
   {
-    $data_rows = $this->getRowsByQuery("select * from spssp_change_log where user_id = $user_id order by date desc");
+    //date desc  降順にする場合。新しいログを上にする。
+    $data_rows = $this->getRowsByQuery("select * from spssp_change_log where user_id = $user_id order by date");
     //削除したユーザのログが見えないようにするために、現在いるゲストのデータのみ受け取る。
     //もしくは削除(type=3)のデータをうけとる。
     //$data_rows = $this->getRowsByQuery("select * from spssp_change_log where user_id = $user_id and( guest_id in (select id from spssp_guest where user_id = $user_id)) or type= 3 order by date ASC");
@@ -421,6 +447,9 @@ class DataClass extends DBO{
         $j++;
       }
     return $tblname."/".$seat_pos;
+  }
+  public function get_seat_id($plan_id,$guest_id){
+    return $this->GetSingleData("spssp_plan_details","seat_id"," plan_id=".$plan_id." and guest_id=".$guest_id);
   }
   
   public function get_table_name($table_id,$user_id){
@@ -638,6 +667,8 @@ class DataClass extends DBO{
   public function check_user_data($user_obj,$line_num){
     $messageArray = array();
     $top_message = "";
+    $user_obj = str_replace(" ", "", $user_obj);
+    $user_obj = str_replace("　", "", $user_obj);
     if($line_num || $line_num === 0){
       //通常0行目からだから。
       $top_message = ($line_num+1)."行目 ".$user_obj["last_name"]." ".$user_obj["first_name"]."様:";
@@ -648,18 +679,19 @@ class DataClass extends DBO{
     if(!$this->haveString($user_obj["first_name"])){
       array_push($messageArray,$top_message."名を入力してください。[".$user_obj["first_name"]."]");
     }
-    if($this->haveKana($user_obj["furigana_last"])){
+    if($user_obj["furigana_last"] != "" && $this->haveKana($user_obj["furigana_last"])){
       array_push($messageArray,$top_message."姓のふりがなはカタカナでなはく、平仮名で入力してください[".$user_obj["furigana_last"]."]");
     }else if(!$this->haveFurigana($user_obj["furigana_last"])){
       array_push($messageArray,$top_message."姓のふりがなは平仮名で入力してください[".$user_obj["furigana_last"]."]");
     }
-    if($this->haveKana($user_obj["furigana_first"])){
+    if($user_obj["furigana_last"] != "" && $this->haveKana($user_obj["furigana_first"])){
       array_push($messageArray,$top_message."名のふりがなはカタカナではなく、平仮名で入力してください[".$user_obj["furigana_first"]."]");
     }else if(!$this->haveFurigana($user_obj["furigana_first"])){
       array_push($messageArray,$top_message."名のふりがなは平仮名で入力してください[".$user_obj["furigana_first"]."]");
     }
-    if(!$this->haveString($user_obj["respect"]) && !$this->haveRespect($user_obj["respect"])){
-      array_push($messageArray,$top_message."正しい敬称を入力してください。[".$user_obj["respect"]."]");
+
+    if($user_obj["respect"] != "" && !$this->haveRespect($user_obj["respect"])){
+      array_push($messageArray,$top_message."正しい敬称を入力してください。s[".$user_obj["respect"]."]");
     }
     if(!$this->haveSex($user_obj["sex"])){
       array_push($messageArray,$top_message."新郎新婦側は新郎もしくは新婦で入力してください。[".$user_obj["sex"]."]");

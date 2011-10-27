@@ -1,12 +1,14 @@
 <?php
 @session_start();
 include_once("admin/inc/dbcon.inc.php");
-include_once("admin/inc/class.dbo.php");
+include_once("admin/inc/class_data.dbo.php");
 include_once("inc/checklogin.inc.php");
 
-$obj = new DBO();
+$obj = new DataClass();
 $get = $obj->protectXSS($_GET);
 $user_id = (int)$_SESSION['userid'];
+$table_data = $obj->get_table_data($user_id);  
+
 include("inc/new.header.inc.php");
 
 $user_row = $obj->GetSingleRow("spssp_user"," id= $user_id");
@@ -232,190 +234,40 @@ width:200px;
   			<table width="90%" align="left" border="0" cellpadding="10" cellspacing="0">
             	<tr>
                 	<td style="border:1px solid #3681CB; padding:5px;" >
-			<?php
-
-            if(empty($user_plan_row))
-            {
-
-                foreach($room_plan_rows as $plan)
-                {
-
-				    $plan_row = $plan;
-                    $num_layouts = $obj->GetNumRows("spssp_table_layout"," default_plan_id=".$plan_row['id']);
-
-                   	$row_width = $plan_row['column_number'] *45;
-                    echo "<div class='plans' id='plan_".$plan_row['id']."' style='width:".$row_width."px;margin:0 auto;'>";
-					$default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
-					if($default_layout_title!="")
-					{
-						echo "<div style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$default_layout_title."</div>";
-					}
-					else
-					{
-						echo "<p style='text-align:center'><img src='./admin/img/sakiji_icon/icon_takasago.gif' width='102' height='22' /></p>";
-					}
-                   $sqltrace = "select distinct row_order from spssp_table_layout where default_plan_id= ".(int)$plan['id'];
-					$tblrows = $obj->getRowsByQuery($sqltrace);
-
-					foreach($tblrows as $tblrow)
-					{
-
-            $ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".(int)$user_id." limit 1");
-            
-            $num_none = $obj->GetSingleData("spssp_table_layout", "count(*) "," display=0 and row_order=".$tblrow['row_order']." and default_plan_id=".(int)$plan_row['id']." limit 1");
-            
-            if($ralign == 'L')
-              {
-                $styles = 'float:left;';
-              }
-            else if($ralign=='R')
-              {
-                $styles = 'float:right;';
-              }
-            else if($num_none>0)
-              {
-                $width = $row_width - ($num_none*41);
-                $styles = "width:".$width."px;margin: 0 auto;";
-                
-              }
-            else
-              {
-                $styles = "";
-              }
-            
-            echo "<div class='rows' style='width:100%;float: left; clear:both;'><div style='".$styles."'>";
-            $tables = $obj->getRowsByQuery("select * from spssp_table_layout where default_plan_id= ".(int)$plan['id']." and row_order=".$tblrow['row_order']);
-
-
-						foreach($tables as $table)
-						{
-							$new_name_row = $obj->GetSingleRow("spssp_user_table", "default_plan_id = ".(int)$plan_row['id']." and default_table_id=".$table['id']);
-
-
-              if(isset($new_name_row) && $new_name_row['id'] !='')
-                {
-                  $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-                  $tblname = $tblname_row['name'];
-                }
-              else
-                {
-                  $tblname = $table['name'];
-                }
-
-              if($table["display"] == 1){
-                $disp = 'display:block;';
-              }else{
-                $disp = "display:none;";
-              }
-              
-							echo "<div class='tables' style='".$disp."'><p>".mb_substr ($tblname, 0,1,'UTF-8')."</p></div>";
-						}
-						echo "</div></div>";
-					}
-
-					echo "</div>";
-
-
-                }
-            }
-            else
-            {
-              $layout_rows = $obj->GetAllRowsByCondition("spssp_table_layout"," plan_id=".$user_plan_row['id']);
-
-              $num_layouts = $obj->GetNumRows("spssp_table_layout"," default_plan_id=".$user_plan_row['id']);
-
-              $row_width = $user_plan_row['column_number'] *45;
-              echo "<div class='plans' id='plan_".$user_plan_row['id']."' style='width:".$row_width."px;margin:0 auto; display:block;'>";
-              $default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
-              if($user_plan_row['layoutname']!="")
-                {
-                  echo "<div id='user_layoutname' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$user_plan_row['layoutname']."</div>";
-                }
-              elseif($default_layout_title!="")
-                {
-                  echo "<div id='default_layout_title' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$default_layout_title."</div>";
-                }
-              else
-                {
-                  echo "<p id='img_default_layout_title' onclick='user_layout_title_input_show(\"img_default_layout_title\");' style='text-align:center'><img src='./admin/img/sakiji_icon/icon_takasago.gif' width='102' height='22' /></p>";
-                }
-              
-              $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
-              $num_tables = $obj->getSingleData("spssp_plan", "column_number"," user_id= $user_id");
-              $rw_width = (int)($num_tables* 51);
-              
-              $z=count($tblrows);
-              $i=0;
-              $ct=0; // UCHIDA EDIT 11/07/28
-              foreach($tblrows as $tblrow)
-                {
-
-                  $i++;
-                  
-                  $ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".(int)$user_id." limit 1");
-
-                  $num_hidden_table = $obj->GetNumRows("spssp_table_layout","user_id = $user_id and display = 0 and row_order=".$tblrow['row_order']);
-
-                  $num_first = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order limit 1");
-                  $num_last = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
-                  $num_max = $obj->GetSingleData("spssp_table_layout", "column_order "," user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
-                  $num_none = $num_max-$num_last+$num_first-1;
-
-                  if($ralign == 'L' || $ralign == "N")
-                    {
-                      $pos = 'float:left;';
-                    }
-                  else if($ralign=='R')
-                    {
-                      $pos = 'float:right;';
-                    }
-                  else
-                    {
-                      $wd = $rw_width - ($num_none*51);
-                      $pos = 'margin:0 auto; width:'.$wd.'px';
-                      $styles = "width:".$wd."px;margin:0 auto;";
-                    }
-                  
-                  echo "<div class='rows' style='width:100%;float; left; clear:both;'><div style='".$styles."'>";
-
-                  $table_rows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".(int)$user_id." and row_order=".$tblrow['row_order']." order by  column_order asc");
-
-
-                  foreach($table_rows as $table_row)
-                    {
-                    	$new_name_row = $obj->GetSingleRow("spssp_user_table", " user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
-
-
-                      $tblname='';
-                      if($table_row['name']!='')
-                        {
-                          $tblname = $table_row['name'];
-                        }
-                      elseif(is_array($new_name_row) && $new_name_row['id'] !='')
-                        {
-                          
-                          $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-                          $tblname = $tblname_row['name'];
-                        }
-
-                        if($table_row["display"] == 1){
-                          $disp = 'display:block;';
-                          $ct++;
-                        }else if(($num_first <= $table_row["column_order"] && $table_row["column_order"]<=$num_last) || $ralign == "N" ){
-                          $disp = "visibility:hidden";
-                        }else{
-                          $disp = "display:none";
-                        }
-                      echo "<div class='tables' style='".$disp."'><p>".mb_substr ($tblname, 0,1,'UTF-8')."</p></div>";
-                    }
-
-                  echo "</div></div>";
-                }
-              
-              echo "</div>";
-              
-            }
-            ?>
+<div id="table_view" style="margin:auto;width :100%;">
+<div style="margin:auto;border:1px solid black;width:80px;">
+<?php print $table_data["layoutname"];?>
+              </div>
+<?php
+  $table_height = "31";
+  for($i=0;$i<count($table_data["rows"]);++$i){
+    $row = $table_data["rows"][$i];
+    $width_all = 35*count($row["columns"]);
+    $width = 31;
+?>
+<div style="width:<?php echo $width_all; ?>px;display:left;position:relative;margin:auto;">
+    <div style="position:relative;overflow:hidden;<?php echo ($row['ralign']=='C')?'width:'.($width_all*$row['display_rate']).'px;margin:auto;':'';?>">
+<?php
+    for($j=0;$j<count($row["columns"]);++$j){
+      $column = $row["columns"][$j];
+      $column_num = $row['display_num'];
+      $table_name = $column["name"];
+      $table_id = $column["id"];
+      $visible = $column["visible"];
+      if($row["ralign"] == "C" && $column["display"] == 0 && !$visible) continue;
+?>
+      <div id="table<?=$table_id?>" class="tables" style="width:<?=$width;?>px;height:<?=$table_height?>px;float:left;<?php echo ($column["visible"])?"visibility:hidden":""?>;margin:2px;"><p>
+      <?php echo mb_substr ($column["name"], 0,1,'UTF-8');?></p>
+</div>
+<?
+    }
+?>
+    </div>
+</div>
+<?php
+  }
+?>
+</div>
 				</td>
               </tr>
             </table>
