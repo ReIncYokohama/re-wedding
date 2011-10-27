@@ -236,6 +236,26 @@ class DataClass extends DBO{
   }
   //array of man and woman data
   // first_name,last_name,menu_grp,gift_group_id.menu_text,gift_group_text,sex_text,table_name
+  public function get_guestdata($user_id){
+    $plan_id = $this->GetSingleData("spssp_plan", "id","user_id=".$user_id);
+
+    $guestArray = $this->getRowsByQuery("select * from spssp_guest where user_id = $user_id and self != 1 order by sex desc");
+
+    for($i=0;$i<count($guestArray);++$i){
+      $guestArray[$i]["menu_text"] = $this->get_menu_group($guestArray[$i]["menu_grp"],$user_id);
+      $guestArray[$i]["gift_group_text"] = $this->get_gift_group($guestArray[$i]["gift_group_id"],$user_id);
+      $guestArray[$i]["guest_type_text"] = $this->get_guest_type($guestArray[$i]["guest_type"]);
+      $guestArray[$i]["sex_text"] = $this->get_host_sex_name($guestArray[$i]["sex"]);
+      $seat_id = $this->get_seat_id($plan_id,$guestArray[$i]["id"]);
+      $table_id = $this->get_table_id_by_seat_id($seat_id);
+      $table_name = $this->get_table_name($table_id,$user_id);
+      $guestArray[$i]["table_name"] = $table_name;
+      $guestArray[$i]["respect_text"] = $this->get_respect($guestArray[$i]["respect_id"]);
+    }
+    return $guestArray;
+  }
+  //array of man and woman data
+  // first_name,last_name,menu_grp,gift_group_id.menu_text,gift_group_text,sex_text,table_name
   public function get_userdata($user_id){
     $guestArray = $this->getRowsByQuery("select * from spssp_guest where user_id = $user_id and self = 1 order by sex desc");
     $mukoyoshi = $this->GetSingleData("spssp_user","mukoyoshi"," id = ".$user_id);
@@ -427,6 +447,9 @@ class DataClass extends DBO{
         $j++;
       }
     return $tblname."/".$seat_pos;
+  }
+  public function get_seat_id($plan_id,$guest_id){
+    return $this->GetSingleData("spssp_plan_details","seat_id"," plan_id=".$plan_id." and guest_id=".$guest_id);
   }
   
   public function get_table_name($table_id,$user_id){
