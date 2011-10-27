@@ -721,6 +721,7 @@ if($editable)
 			<td width="90" align="center"><table width="90" border="0" cellspacing="2" cellpadding="2">
   <tr>
     <td><select id="sex" name="sex" style="width:80px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1){echo "disabled";}?> tabindex=1 onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
+      <?php if($guest_row["sex"]=="") echo "<option value=''></option>";?>
       <option value="Male" <?php if($guest_row['sex']=="Male"){ echo "Selected='Selected'"; }?> >新郎側</option>
       <option value="Female" <?php if($guest_row['sex']=="Female"){ echo "Selected='Selected'"; }?> >新婦側</option>
     </select></td>
@@ -794,6 +795,7 @@ if($editable)
 			    <td width="123">
 			    <select id="respect_id" name="respect_id" tabindex=4 style="width:70px; padding-top:3px; padding-bottom:3px;" <?php if($guest_row['self']==1){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
 			      <?php
+          if($guest_row["respect_id"]=="") echo "<option value=''></option>";
 					foreach($respects as $respect)
 					{
 						if($guest_row['respect_id'] == $respect['id'])

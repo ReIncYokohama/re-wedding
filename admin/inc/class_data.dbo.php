@@ -638,6 +638,8 @@ class DataClass extends DBO{
   public function check_user_data($user_obj,$line_num){
     $messageArray = array();
     $top_message = "";
+    $user_obj = str_replace(" ", "", $user_obj);
+    $user_obj = str_replace("　", "", $user_obj);
     if($line_num || $line_num === 0){
       //通常0行目からだから。
       $top_message = ($line_num+1)."行目 ".$user_obj["last_name"]." ".$user_obj["first_name"]."様:";
@@ -658,8 +660,9 @@ class DataClass extends DBO{
     }else if(!$this->haveFurigana($user_obj["furigana_first"])){
       array_push($messageArray,$top_message."名のふりがなは平仮名で入力してください[".$user_obj["furigana_first"]."]");
     }
-    if(!$this->haveString($user_obj["respect"]) && !$this->haveRespect($user_obj["respect"])){
-      array_push($messageArray,$top_message."正しい敬称を入力してください。[".$user_obj["respect"]."]");
+
+    if($user_obj["respect"] != "" && !$this->haveRespect($user_obj["respect"])){
+      array_push($messageArray,$top_message."正しい敬称を入力してください。s[".$user_obj["respect"]."]");
     }
     if(!$this->haveSex($user_obj["sex"])){
       array_push($messageArray,$top_message."新郎新婦側は新郎もしくは新婦で入力してください。[".$user_obj["sex"]."]");
