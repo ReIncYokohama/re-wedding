@@ -141,16 +141,19 @@ width:1000px;
 	float: left; /* SEKIDUKA ADD 11/08/12 */
 	width: 269px;
 	text-align: left;
+	vertical-align:top;
 }
 #foot_center {
 	float: left;
 	width: 205px; /* SEKIDUKA EDIT 11/08/12 */
 	text-align: left;
+	vertical-align:top;
 }
 #foot_right {
 	float: left;
 	width: 205px; /* SEKIDUKA EDIT 11/08/12 */
 	text-align: left;
+	vertical-align:top;
 }
 .clr {	clear: both;
 }
@@ -191,16 +194,16 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
       <tr>
         <td width="27%" style=" font-size:11px ">ログインID</td>
 <!-- UCHIDA EDIT 11/08/08 エンターキーを有効に設定 -->
-        <td width="73%" style="text-align:left;" onkeydown="if (event.keyCode == 13) { login_admin(); }" ><input type="text" name="adminid" id="adminid" class="login" value='<?php echo $id ?>' /></td>
+        <td width="73%" style="text-align:left;" onKeyDown="if (event.keyCode == 13) { login_admin(); }" ><input type="text" name="adminid" id="adminid" class="login" value='<?php echo $id ?>' /></td>
       </tr>
       <tr>
         <td style=" font-size:11px">パスワード</td>
 <!-- UCHIDA EDIT 11/08/08 エンターキーを有効に設定 -->
-        <td style="text-align:left;" onkeydown="if (event.keyCode == 13) { login_admin(); }" ><input type="password" name="adminpass" id="adminpass" class="login"  /></td>
+        <td style="text-align:left;" onKeyDown="if (event.keyCode == 13) { login_admin(); }" ><input type="password" name="adminpass" id="adminpass" class="login"  /></td>
       </tr>
       <tr>
         <td>&nbsp;</td>
-        <td style="text-align:left;"><input type="button" value="ログイン" onclick="login_admin()" /></td>
+        <td style="text-align:left;"><input type="button" value="ログイン" onClick="login_admin()" /></td>
       </tr>
     </table>
   </form>
@@ -223,21 +226,22 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 </tr>
 </table>
 </div>
-    <div id="foot_center"> ●Windows XP ／ Vista ／ 7<br />
-	      ・Internet Explorer 7／8<br />
-	      ・FireFox 3.5／3.6／4.0 </div>
-  <div id="foot_right">●Mac OS Ｘ（10.4）<br />
+    <div id="foot_center"><strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
+	      ・Internet Explorer 6.0以上<br />
+	      ・FireFox 5.0以上 <br />
+      ・Google Chrome 14.0以上</div>
+  <div id="foot_right"><strong>●Mac OS Ｘ（10.4以上）</strong><br />
 
-	      ・Safari 3.0以上<br />
-	      ・FireFox 3.5／3.6／4.0 </div>
+	      ・Safari 5.0以上<br />
+	      ・FireFox 5.0以上 </div>
 	    <div class="clr"></div>
 	    </div>
-		<!-- UCHIDA EDIT 11/07/26 -->
-		<script type="text/javascript"> document.login_form.adminid.focus(); </script>
 </div>
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
 
+	<!-- UCHIDA EDIT 11/07/26 -->
+	<script type="text/javascript"> document.login_form.adminid.focus(); </script>
 
-</div>
-</body>
-</html>
+<?php
+	include_once("inc/footer.inc.php");
+?>

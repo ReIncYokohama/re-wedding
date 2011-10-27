@@ -83,10 +83,14 @@ margin-right:auto;
 text-align:center;
 width:1000px;
 }
-
+#text-indent {
+	text-align:center;
+	text-indent: 125px; /* SEKIDUKA ADD 11/08/12 */
+}
 #foot_left {
 	float: left;
 	width: 330px;
+	vertical-align:top;
 }
 #foot_right {
 	float: right;
@@ -110,23 +114,24 @@ font-size:13px;
 }
 .clr {	clear: both;
 }
-#text-indent {
-	text-indent: 125px; /* SEKIDUKA ADD 11/08/12 */
-}
+
 #foot_left {
 	float: left; /* SEKIDUKA ADD 11/08/12 */
 	width: 269px;
 	text-align: left;
+	vertical-align:top;
 }
 #foot_center {
 	float: left;
 	width: 205px; /* SEKIDUKA EDIT 11/08/12 */
 	text-align: left;
+	vertical-align:top;
 }
 #foot_right {
 	float: left;
 	width: 205px; /* SEKIDUKA EDIT 11/08/12 */
 	text-align: left;
+	vertical-align:top;
 }
 .clr {	clear: both;
 }
@@ -234,10 +239,12 @@ $(function(){
 	</div>
 
 	<div class="clr"></div>
-	  <div><img src="img/bar_recommended.jpg" /></div>
-	  <div>
-	    <p align="center">当システムは下記OS、ブラウザを推奨しております。</p>
+	  <div><img src="img/bar_recommended.jpg" /></div><div>
+
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 Start -->
+<br/>
+<div id="text-indent">当システムは下記OS、ブラウザを推奨しております。</div>
+<br/>
 <div id="foot_left">
 <table width="269" border="0" cellpadding="2" cellspacing="0" title="SSLサーバ証明書導入の証 グローバルサインのサイトシール">
 <tr>
@@ -250,19 +257,22 @@ $(function(){
 </tr>
 </table>
 </div>
-    <div id="foot_center"> ●Windows XP ／ Vista ／ 7<br />
-	      ・Internet Explorer 7／8<br />
-	      ・FireFox 3.5／3.6／4.0 </div>
-  <div id="foot_right">●Mac OS Ｘ（10.4）<br />
+    <div id="foot_center"><strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
+	      ・Internet Explorer 6.0以上<br />
+	      ・FireFox 5.0以上 <br />
+      ・Google Chrome 14.0以上</div>
+  <div id="foot_right"><strong>●Mac OS Ｘ（10.4以上）</strong><br />
 
-	      ・Safari 3.0以上<br />
-	      ・FireFox 3.5／3.6／4.0 </div>
+	      ・Safari 5.0以上<br />
+	      ・FireFox 5.0以上 </div>
 	    <div class="clr"></div>
 	    </div>
-		<!-- UCHIDA EDIT 11/07/26 -->
-		<script type="text/javascript"> document.login_form.userID.focus(); </script>
 </div>
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
-	</div>
-</body>
-</html>
+
+	<!-- UCHIDA EDIT 11/07/26 -->
+	<script type="text/javascript"> document.login_form.adminid.focus(); </script>
+
+<?php
+	include_once("inc/footer.inc.php");
+?>
