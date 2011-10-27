@@ -692,5 +692,5 @@ $pdf->writeHTML($utf8text, true, false, true, false, '');
 
 // Close and output PDF document
 // This method has several options, check the source code documentation for more information.
-$pdf->Output('sekijihyou.pdf', 'I');
+$pdf->Output('sekijihyou.pdf', 'D');
 ?> 

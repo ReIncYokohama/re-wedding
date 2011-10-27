@@ -804,11 +804,11 @@ if($editable)
 						{
 							$sel = " ";
 						}
-
-						echo "<option value='".$respect['id']."'  $sel >".$respect['title']."</option>";
+						$tl = $respect['title'];
+						if ($respect['title']=="なし") $tl = "x";
+						echo "<option value='".$respect['id']."'  $sel >".$tl."</option>";
 					}
 				?>
-			      <option value="">なし</option>
 		        </select></td>
 		      </tr>
 		    </table></td>
@@ -1147,7 +1147,7 @@ if($guest["sex"] == "Male"){
              <td align="left" valign="middle" bgcolor="#FFFFFF" class="name">
 
 			 <?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_fullname_only.png",$extra="guest/".$guest['id']."/thumb1");?> </td>
-        	<td align="center" valign="middle" bgcolor="#FFFFFF" class="respect"> <?=$respect?> </td>
+        	<td align="center" valign="middle" bgcolor="#FFFFFF" class="respect"> <? if($respect!="なし") echo $respect; else echo "　　" ?> </td>
         	<td align="center" valign="middle" bgcolor="#FFFFFF" class="group"> <?=$guest_type?> </td>
         	<td align="left" valign="middle" bgcolor="#FFFFFF" class="comment"> <?=$comment1?><br><?=$comment2?> </td>
 			<?php
