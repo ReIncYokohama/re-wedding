@@ -613,8 +613,11 @@ $editable=$objInfo->get_editable_condition($plan_info);
   <div class="title_bar_txt_R"></div>
   <div class="clear"></div></div>
 	<?php
+  
+  $edit = false;
   if(isset($get['gid']) && (int)$get['gid'] > 0)
 		{
+      $edit = true;
 			$guest_row = $obj->GetSingleRow(" spssp_guest ", " id=".(int)$get['gid']);
 
       $query_string = "SELECT * FROM spssp_gaizi_detail_for_guest WHERE guest_id = ".$get['gid'];
@@ -894,6 +897,7 @@ if($editable)
 								if((int)$_GET['gid'])
 								 $guest_gifts = $obj->GetAllRowsByCondition(" spssp_guest_gift "," user_id=".$user_id." and guest_id='".$_GET['gid']."'");
 
+                
 								$gg_arr = array();
 							    if(is_array($guest_gifts))
 								{
@@ -907,7 +911,7 @@ if($editable)
 
 								 if($guest_row['self']==1){$access= "disabled";}
 								echo "<select id='gift_group' tabindex=11 name='gift_group_id' style='width:80px; padding-top:3px; padding-bottom:3px;' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
-
+                if($edit && count($gg_arr)==0) echo "<option selected value=''></option>";
 								foreach($gift_groups as $gg)
 								{
 									$selected = (in_array($gg['id'],$gg_arr))?"selected":"";
