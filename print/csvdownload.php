@@ -18,7 +18,7 @@ if($user_id>0)
 }
 else
 {
-	redirect("list.php");exit;
+	exit;
 }
 
 

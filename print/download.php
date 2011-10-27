@@ -93,17 +93,13 @@ function click_check(url) {
       <!--<input  type="checkbox"  id="chk_woman_lastname"  />-->
       <!--&nbsp;<a href="javascript:void(0);" onclick="document.getElementById('woman_lastname').value=''"> クリア </a>-->
     </div>
-   <!-- <div class="top_selectbox2"> <a href="downloadhelper.php?id=<?=$_GET['id']?>&file=pdf" onclick="validSearch();"><img src="img/common/btn_download_pdf.jpg" alt="検索" width="152" height="22" /></a>　</div>-->
      <div class="top_selectbox2">
 	 <?php
 
 	 if($downloadOK==true)
 	 {
-	 //plan_pdf_small.php?user_id=<?=$_GET['user_id']&file=pdf
-	 //NEED TO CHECK THE DAY LIMIT
-
 	 ?>
-	  <a href="plan_pdf_small.php?user_id=<?=$_GET['user_id']?>&file=pdf"><img src="img/common/btn_download_pdf.jpg" alt="検索" width="152" height="22" /></a>
+	  <a href="call_plan_pdf_small.php?user_id=<?=$_GET['user_id']?>&file=pdf" target="_blank"><img src="img/common/btn_download_pdf.jpg" alt="検索" width="152" height="22" /></a>
 	  <?php }else{?>
 	  <img src="img/common/btn_download_pdf.jpg" alt="検索" width="152" height="22" /> <span style="color:red;">[You have no access here.]</span>
 	  <?php }?>
@@ -127,7 +123,6 @@ function click_check(url) {
       <!--<input  type="checkbox"  id="chk_woman_lastname"  />-->
       <!--&nbsp;<a href="javascript:void(0);" onclick="document.getElementById('woman_lastname').value=''"> クリア </a>-->
     </div>
-        <!--<div class="top_selectbox2"> <a href="downloadhelper.php?id=<?=$_GET['id']?>&file=csv" ><img src="img/common/btn_download_csv.jpg" alt="検索" width="152" height="22" /></a>　</div>-->
 		<div class="top_selectbox2">
 		 <?php
 		 if($downloadOK==true)
@@ -159,12 +154,7 @@ include("../admin/inc/return_dbcon.inc.php");
       <li>      </li>
     </ul>
   </div>
-  <!--<div id="sidebar">
-    <ul class="nav">
-      <li><a href="list.php"><img src="img/common/nav_list.gif" alt="お客様一覧" width="148" height="30" class="on" /></a><a href="download.html"></a></li>
-      <li></li>
-    </ul>
-  </div>-->
+
   <div id="footer">
     <p>Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.
 </p>

@@ -173,12 +173,7 @@ include("../admin/inc/return_dbcon.inc.php");
 		<li> </li>
     </ul>
   </div>
-  <!--<div id="sidebar">
-    <ul class="nav">
-      <li><a href="list.php"><img src="img/common/nav_list.gif" alt="お客様一覧" width="148" height="30" class="on" /></a><a href="download.html"></a></li>
-      <li></li>
-    </ul>
-  </div>-->
+
   <div id="footer">
     <p>Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.
 </p>
