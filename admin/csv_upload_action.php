@@ -86,7 +86,7 @@ if(!$force){
     <div class="top_box1">
     <div id="message"><?=$messageText?>
     </div>
-    <button onclick="window.close();">閉じる</button>
+      <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_close.jpg" alt="閉じる" width="82" height="22" /></a>
 </div>
 
 </body>
@@ -318,7 +318,7 @@ function confirm_guest_register($to,$subject,$mailbody){
   
   
 </div>
-      <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="img/btn_close.jpg" alt="閉じる" width="82" height="22" /></a>
+      <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_close.jpg" alt="閉じる" width="82" height="22" /></a>
 
 </body>
 </html>

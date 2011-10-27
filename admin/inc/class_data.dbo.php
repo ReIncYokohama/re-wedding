@@ -648,12 +648,12 @@ class DataClass extends DBO{
     if(!$this->haveString($user_obj["first_name"])){
       array_push($messageArray,$top_message."名を入力してください。[".$user_obj["first_name"]."]");
     }
-    if($this->haveKana($user_obj["furigana_last"])){
+    if($user_obj["furigana_last"] != "" && $this->haveKana($user_obj["furigana_last"])){
       array_push($messageArray,$top_message."姓のふりがなはカタカナでなはく、平仮名で入力してください[".$user_obj["furigana_last"]."]");
     }else if(!$this->haveFurigana($user_obj["furigana_last"])){
       array_push($messageArray,$top_message."姓のふりがなは平仮名で入力してください[".$user_obj["furigana_last"]."]");
     }
-    if($this->haveKana($user_obj["furigana_first"])){
+    if($user_obj["furigana_last"] != "" && $this->haveKana($user_obj["furigana_first"])){
       array_push($messageArray,$top_message."名のふりがなはカタカナではなく、平仮名で入力してください[".$user_obj["furigana_first"]."]");
     }else if(!$this->haveFurigana($user_obj["furigana_first"])){
       array_push($messageArray,$top_message."名のふりがなは平仮名で入力してください[".$user_obj["furigana_first"]."]");
