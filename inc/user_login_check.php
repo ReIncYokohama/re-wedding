@@ -1,6 +1,6 @@
 <?php
-include_once("../admin/inc/class.dbo.php");
-include_once("../admin/inc/dbcon.inc.php");
+include_once(dirname(__file__)."/../admin/inc/class.dbo.php");
+include_once(dirname(__file__)."/../admin/inc/dbcon.inc.php");
 $obj = new DBO();
 include_once("update_user_log.php");
 

@@ -8,7 +8,7 @@ $objinfo = new InformationClass();
 
 $post = $obj->protectXSS($_POST);
 $get = $obj->protectXSS($_GET);
-
+$data_rows = false;
 	if(isset($post['ajax']) && $post['ajax'] != '' && $post['id'] != '')
 	{
 		$super_msg_row = $obj->GetSingleRow("spssp_super_message", "id=".(int)$post['id']);
@@ -41,7 +41,7 @@ $get = $obj->protectXSS($_GET);
 		$amsg_where = " admin_id=".(int)$_SESSION['adminid'];
 		if(!empty($staff_users))
 		{
-			if(in_array((int)$get['user_id'],$staff_users))
+			if(array_key_exists("user_id",$get) &&  in_array((int)$get['user_id'],$staff_users))
 			{
 				$var = 1;
 			}
@@ -92,7 +92,7 @@ $get = $obj->protectXSS($_GET);
 	$adminmsgs = $obj->GetAllRowsByCondition("spssp_admin_messages"," $amsg_where order by display_order desc ");
   if($adminmsgs) $adminmsgs = array();
 
-	if($get['action']=='delete' && (int)$get['id'] > 0)
+  if(array_key_exists("action",$get) && $get['action']=='delete' && (int)$get['id'] > 0)
 	{
 		$objinfo->delete_user_relation_table((int)$get['id']);
 
