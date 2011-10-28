@@ -23,3 +23,5 @@ admin/_staff_login.log
 upload/*
 user_name/*
 gaizi.log
+cache/*
+_uaLog/*
