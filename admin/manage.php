@@ -532,30 +532,32 @@ include("inc/return_dbcon.inc.php");
 			?>
 
 			<?php
-				$user_id_array=array();
-        foreach($usermsgs as $umsg)
-				{
-					if(in_array($umsg['user_id'],$user_id_array))
-					continue;
-
-					$user_id_array[]=$umsg['user_id'];
-
-					$userWhere = "id=".$umsg['user_id']." and party_day >= '".date("Y-m-d")."'";
-					$nm = $obj->GetRowCount("spssp_user",$userWhere);
-					if ($nm >0) {
-						$man_firstname = $obj->GetSingleData("spssp_user", "man_firstname"," id=".$umsg['user_id']);
-						$woman_firstname = $obj->GetSingleData("spssp_user", "woman_firstname"," id=".$umsg['user_id']);
-						$party_day = $obj->GetSingleData("spssp_user", "party_day"," id=".$umsg['user_id']);
-
-						$party_date_array=explode("-",$party_day);
-
-						$party_day=$party_date_array[1]."/".$party_date_array[2];
-
-						$man_name = $objinfo->get_user_name_image_or_src($umsg['user_id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
-			    		$woman_name = $objinfo->get_user_name_image_or_src($umsg['user_id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
-			    		$user_name = $man_name."・".$woman_name;
-
-						echo "<li><a href='message_user.php?stuff_id=0&user_id=".$umsg['user_id']."' >".$party_day." ".$user_name." 様よりの未読メッセージがあります。</a></li>";
+				if ($_SESSION["super_user"]==false) {
+					$user_id_array=array();
+	        		foreach($usermsgs as $umsg)
+					{
+						if(in_array($umsg['user_id'],$user_id_array))
+						continue;
+	
+						$user_id_array[]=$umsg['user_id'];
+	
+						$userWhere = "id=".$umsg['user_id']." and party_day >= '".date("Y-m-d")."'"." and stuff_id=".$stuff_id;
+						$nm = $obj->GetRowCount("spssp_user",$userWhere);
+						if ($nm >0) {
+							$man_firstname = $obj->GetSingleData("spssp_user", "man_firstname"," id=".$umsg['user_id']);
+							$woman_firstname = $obj->GetSingleData("spssp_user", "woman_firstname"," id=".$umsg['user_id']);
+							$party_day = $obj->GetSingleData("spssp_user", "party_day"," id=".$umsg['user_id']);
+	
+							$party_date_array=explode("-",$party_day);
+	
+							$party_day=$party_date_array[1]."/".$party_date_array[2];
+	
+							$man_name = $objinfo->get_user_name_image_or_src($umsg['user_id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
+				    		$woman_name = $objinfo->get_user_name_image_or_src($umsg['user_id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
+				    		$user_name = $man_name."・".$woman_name;
+	
+							echo "<li><a href='message_user.php?stuff_id=0&user_id=".$umsg['user_id']."' >".$party_day." ".$user_name." 様よりの未読メッセージがあります。</a></li>";
+						}
 					}
 				}
 			?>
