@@ -50,6 +50,11 @@ if($_GET['action']=="save") {
 			mysql_query($query);
 		}
 	}
+
+	unset($takasago);
+	$takasago['layoutname'] = $_POST['layoutname'];
+	$obj->UpdateData("spssp_plan",$takasago," user_id=".$user_id);
+	
 	redirect("user_info_allentry.php?user_id=".$user_id."&stuff_id=".$stuff_id);
 }
 
@@ -293,12 +298,28 @@ include("inc/return_dbcon.inc.php");
         		<h2>卓レイアウト設定</h2>
         	  		<br />
         		●会場の最大卓数が表示されます。不要な卓はチェックを外して削除してください。
-            </p>
         </div>
 
         <div style="width:1000px; float:left; text-align:center; font-size: 12px;">
         	<form action="set_table_layout_edit.php?action=save&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>&plan_id=<?=$plan_id?>" method="post"  name="table_form_register">
             <div style="width:<?=$row_width?>px; margin:0 auto;" id="toptstaa">
+
+			高砂卓名：
+            <?php 
+            $layoutname = $obj->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
+			$default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
+			if($layoutname!="")
+			{
+				$name_input=$layoutname;
+				echo "<input type='text' id='layoutname' name='layoutname' value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
+			}
+			else
+			{
+				$name_input=$default_layout_title;
+				echo "<input type='text' id='layoutname' name='layoutname' value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
+			}
+            ?>
+			<br /><br />
           <div style="display:none;" class="announcement table_saved">テーブル名を保存しました。</div>
                 <?php
                 	$ii=1;
@@ -432,6 +453,7 @@ include("inc/return_dbcon.inc.php");
                     <?php
                     }
                     ?>
+                    <p></p><p></p><p></p>
                     <div style="width:100%; text-align:left;">
 				          <img src="img/common/btn_save.jpg" onclick="submit_table();">
                     		&nbsp;&nbsp;

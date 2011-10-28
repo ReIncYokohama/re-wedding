@@ -286,12 +286,12 @@ function user_timeout() {
 			if($layoutname!="")
 			{
 				$name_input=$layoutname;
-				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'".$_readonly." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
+				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
 			}
 			else
 			{
 				$name_input=$default_layout_title;
-				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'".$_readonly." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
+				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
 			}
 			?>
 			　　　　　</td>
