@@ -244,45 +244,45 @@ include("inc/return_dbcon.inc.php");
                        <table width="100%" border="0" cellspacing="1" cellpadding="3">
 						  <tr>
 							<td width="170" align="left">ホテルコード :</td>
-							<td width="1358"; style="padding:5px;>
+							<td width="1358"; style="padding:1px;>
 							<input type="hidden" name="hotel_code" id="hotel_code" value="<?=$hotel_row[hotel_code]?>"/>
 							<?=$hotel_row[hotel_code]?></td>
 						  </tr>
 						  <tr>
 							<td align="left">ホテル名<span class="txtred">*</span> :</td>
-							<td><input type="text" name="name" id="name" <?=$disp_optin1?> style="width:250px;padding:3px; <?=$disp_optin2?> " value="<?=$hotel_row[hotel_name]?>"/></td>
+							<td><input type="text" name="name" id="name" <?=$disp_optin1?> style="width:250px;padding:0px; <?=$disp_optin2?> " value="<?=$hotel_row[hotel_name]?>"/></td>
 						  </tr>
 						  <tr>
 							<td align="left">郵便番号<span class="txtred">*</span> :</td>
-							<td><input name="zipcode" type="text" id="zipcode" style="padding:3px; <?=$disp_optin2?> " size="10" maxlength="7" value="<?=$hotel_row[zip]?>"/></td>
+							<td><input name="zipcode" type="text" id="zipcode" style="padding:0px; <?=$disp_optin2?> " size="10" maxlength="7" value="<?=$hotel_row[zip]?>"/></td>
 						  </tr>
 						  <tr>
 							<td align="left">住所1<span class="txtred">*</span> :</td>
-							<td><input type="text" name="address1" id="address1" <?=$disp_optin1?> style="width:250px;padding:3px; <?=$disp_optin2?> " value="<?=$hotel_row[address1]?>"/></td>
+							<td><input type="text" name="address1" id="address1" <?=$disp_optin1?> style="width:250px;padding:0px; <?=$disp_optin2?> " value="<?=$hotel_row[address1]?>"/></td>
 						  </tr>
 						  <tr>
 							<td align="left">住所2 :</td>
-							<td><input type="text" name="address2" id="address2" <?=$disp_optin1?> style="width:250px;padding:3px; <?=$disp_optin2?> " value="<?=$hotel_row[address2]?>"/></td>
+							<td><input type="text" name="address2" id="address2" <?=$disp_optin1?> style="width:250px;padding:0px; <?=$disp_optin2?> " value="<?=$hotel_row[address2]?>"/></td>
 						  </tr>
 						  <tr>
 							<td align="left">電話番号<span class="txtred">*</span> :</td>
-							<td><input type="text" name="tel" id="tel" <?=$disp_optin1?> style="padding:3px; <?=$disp_optin2?> " value="<?=$hotel_row[phone]?>" /></td>
+							<td><input type="text" name="tel" id="tel" <?=$disp_optin1?> style="padding:0px; <?=$disp_optin2?> " value="<?=$hotel_row[phone]?>" /></td>
 						  </tr>
 						  <tr>
 							<td align="left">担当者<span class="txtred">*</span> :</td>
-							<td><input name="contactperson" type="text" id="contactperson" <?=$disp_optin1?> style="padding:3px; <?=$disp_optin2?> " size="15" value="<?=$hotel_row[contact]?>"/></td>
+							<td><input name="contactperson" type="text" id="contactperson" <?=$disp_optin1?> style="padding:0px; <?=$disp_optin2?> " size="15" value="<?=$hotel_row[contact]?>"/></td>
 						  </tr>
 						  <tr>
 							<td align="left">メールアドレス<span class="txtred">*</span> :</td>
-							<td><input type="text" name="email" id="email" <?=$disp_optin1?> style="padding:3px; <?=$disp_optin2?> " value="<?=$hotel_row[email]?>"/></td>
+							<td><input type="text" name="email" id="email" <?=$disp_optin1?> style="padding:0px; <?=$disp_optin2?> " value="<?=$hotel_row[email]?>"/></td>
 						  </tr>
 						  <tr>
 							<td align="left">招待者リストデータ削除日<span class="txtred">*</span> :</td>
-							<td><input name="delete_guest" type="text" id="delete_guest" <?=$disp_optin1?> style="padding:3px; <?=$disp_optin2?> " size="5"   value="<?=$hotel_row[delete_guest]?>"/></td>
+							<td><input name="delete_guest" type="text" id="delete_guest" <?=$disp_optin1?> style="padding:0px; <?=$disp_optin2?> " size="5"   value="<?=$hotel_row[delete_guest]?>"/></td>
 						  </tr>
 						  <tr>
 							<td align="left">挙式情報データ削除日<span class="txtred">*</span> :</td>
-							<td><input name="delete_weeding" type="text" id="delete_weeding" <?=$disp_optin1?> style="padding:3px; <?=$disp_optin2?> " size="5"   value="<?=$hotel_row[delete_weeding]?>"/></td>
+							<td><input name="delete_weeding" type="text" id="delete_weeding" <?=$disp_optin1?> style="padding:0px; <?=$disp_optin2?> " size="5"   value="<?=$hotel_row[delete_weeding]?>"/></td>
 						  </tr>
 
                             <tr>
