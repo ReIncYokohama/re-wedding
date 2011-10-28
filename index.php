@@ -1,8 +1,8 @@
 <?php
-include_once("admin/inc/dbcon.inc.php");
-include_once("admin/inc/class.dbo.php");
-$obj = new DBO();
-$id = "";
+	include_once("admin/inc/dbcon.inc.php");
+	include_once("admin/inc/class.dbo.php");
+			$obj = new DBO();
+
 	/*if($_SERVER['HTTPS']!="on")
 	{
 	 	redirect($Admin_site_url);
@@ -211,7 +211,7 @@ $(function(){
 		        <img src="../img/logo_wp.jpg" width="269" height="77" />
 		        </td></tr>
 	      		<tr><td>&nbsp;</td></tr>
-	      		<tr><td align="center" style="font-size:18;"><?php echo $weddingVersion; ?></td></tr>
+	      		<tr><td align="center" style="font-size:20;"><?php echo $weddingVersion; ?></td></tr>
 			</table>
             <div id="login_area">こちらからログインしてください。<br />
 ログインID、パスワードを忘れた方は、ホテル担当者へお問い合わせください。<br />

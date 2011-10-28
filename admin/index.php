@@ -1,11 +1,11 @@
 <?php
 include_once("inc/dbcon.inc.php");
 
-$id=array_key_exists("adminid",$_GET)?$_GET["adminid"]:false; // UCHIDA EDIT 11/08/17 ＩＤを再表示
-$adminid=array_key_exists("adminid",$_POST)?$_POST["adminid"]:false;
-$adminpass=array_key_exists("adminpass",$_POST)?$_POST["adminpass"]:false;
+$id=$_GET['adminid']; // UCHIDA EDIT 11/08/17 ＩＤを再表示
+$adminid = $_POST["adminid"];
+$adminpass = $_POST["adminpass"];
 
-if(trim($adminid)&&trim($adminpass))
+if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 	{
 		$query_string="SELECT * FROM spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' AND sessionid='' LIMIT 0,1;";
 		//echo $query_string;
@@ -180,8 +180,7 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 		</table>
 	<div id="login_area">
   <?
-$action=array_key_exists("action",$_GET)?$_GET["action"]:false;
-			if($action=='failed')
+			if($_GET['action']=='failed')
 	{
 		echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください"); </script>';
 		//redirect("index.php");
@@ -239,7 +238,7 @@ $action=array_key_exists("action",$_GET)?$_GET["action"]:false;
 	    </div>
 </div>
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
-
+<br />
 	<!-- UCHIDA EDIT 11/07/26 -->
 	<script type="text/javascript"> document.login_form.adminid.focus(); </script>
 
