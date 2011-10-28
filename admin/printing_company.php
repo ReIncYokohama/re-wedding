@@ -83,9 +83,9 @@ $(function(){
 });
 $(document).ready(function(){
 
-    $('#number').keyup(function(){
-		var r=isInteger("number");
-    });
+//    $('#number').keyup(function(){
+//		var r=isInteger("number");
+//   });
 
 });
 function isInteger(id){
@@ -183,11 +183,18 @@ function check_name()
 		document.getElementById('email').focus();
 		return false;
 	}
-		if(number == '')
+	if(number == '')
 	{
 		alert("電話番号を入力してください");
 		$("#number").focus();
 		return false;
+	}
+	else {
+		if(isNaN(number)==true) {
+			alert("電話番号は半角数字で入力してください");
+			$("#number").focus();
+			return false;
+		}
 	}
 	if (postcode.length != 0) {
 		if( postcode.match( /[^0-9\s-]+/ ) ) {
@@ -414,7 +421,7 @@ include("inc/return_dbcon.inc.php");
 					</tr>
 					<tr>
 						<td>電話番号<span style="color:red;">*</span> :</td>
-						<td><input type="text" name="number" id="number" onblur="isInteger('number')" value="<?=$comp[number]?>"  size="20"/>（例　0451111111)</td>
+						<td><input type="text" name="number" id="number" value="<?=$comp[number]?>"  size="20"/>（例　0451111111)</td>
 					</tr>
 					<tr>
 						<td>郵便番号 :</td>
