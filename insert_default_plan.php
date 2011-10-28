@@ -73,7 +73,7 @@
 	}
 
 	if ($timeoutCheck=="timeout") 	$php_file="logout.php";
-	else 							$php_file="make_plan.php";
+	else 							$php_file="make_plan_full.php";
 
 	if(isset($itemids))
 	{
