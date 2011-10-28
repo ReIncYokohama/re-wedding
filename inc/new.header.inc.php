@@ -19,7 +19,6 @@ $objInfo = new InformationClass();
 
 	$resultl = mysql_query( $query_string );
 	$row1 = mysql_fetch_array($resultl);
-	$row1 = mysql_fetch_array($resultl);
 	$_SESSION['lastlogintime'] =$row1['login_time'];
 
 
