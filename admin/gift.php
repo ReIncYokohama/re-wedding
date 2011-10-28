@@ -316,7 +316,7 @@ unset($_SESSION['msg']);
 			 <input type="hidden" name="editUserGiftGroupsUpdate" value="editUserGiftGroupsUpdate">
 			<table width="100%" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-				<td width="100">引出物商品数　　：</td>
+				<td width="120">引出物商品数　　：</td>
 				<td>
 
                 <?php if($_SESSION['user_type']==333){?>
@@ -383,7 +383,7 @@ unset($_SESSION['msg']);
 <!-- 	<form  action="gift.php" method="post" name="menu_criteria_form" onsubmit="return false;"> -->
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr>
-    <td width="100">子供料理　　　　：</td>
+    <td width="120">子供料理　　　　：</td>
     <td>
     <?php if ($_SESSION['user_type']==333){?>
     <input name="num_menu_groups" type="text" id="num_menu_groups" onkeydown="if (event.keyCode == 13) { validForm2(); }" size="10" <?=$ro?> value="<?=$menu_criteria_data_row[0]['num_menu_groups']?>" />
