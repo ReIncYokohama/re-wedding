@@ -13,7 +13,10 @@
 	{
 		$sql = "delete from spssp_admin where id=".(int)$get['id'];
 		mysql_query($sql);
-		$get['id'] = $get['edit_id'];
+		if ($get['edit_id']>0) {
+			$get['action']="edit";
+			$get['id'] = $get['edit_id'];
+		}
 		//redirect('stuffs.php');
 	}
 
@@ -915,7 +918,7 @@ var edit_data;
 var urlPlus;
 var perm = (radio1==true)? "333" : "222";;
 var sub = (radio2==true)? "0" : "1";
-var action = "<?=$get['action']?>";
+//var action = urls.search("action=edit");
 	edit_data  = "&name="			  + document.stuff_form.name.value;
 	edit_data += "&username="		  + document.stuff_form.username.value;
 	edit_data += "&password="		  + document.stuff_form.password.value;
@@ -924,7 +927,7 @@ var action = "<?=$get['action']?>";
 	edit_data += "&email="			  + document.stuff_form.email.value;
 	edit_data += "&conf_email="		  + document.stuff_form.conf_email.value;
 
-	if(action=="edit") 	edit_data += "&action=edit";
+//	if(action=="edit") 	edit_data += "&action=edit";
 
 	urlPlus = url+edit_data;
 	return urlPlus;
