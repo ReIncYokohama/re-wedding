@@ -52,8 +52,11 @@ else
 
     ?>
          <tr>
-<!--             <td colspan="<?=$num_cols?>" align="center" valign="middle"><img src="img/sakiji_icon/icon_takasago.gif" width="102" height="22" /></td> -->
-             <td colspan="<?=$num_cols?>" align="center" valign="middle"><div style="width:80px; text-align:center; border:1px solid;"><?=$default_layout_title?></div></td>
+         	<?php if($default_layout_title!="") { ?>
+             	<td colspan="<?=$num_cols?>" align="center" valign="middle"><div style="width:80px; text-align:center; border:1px solid;"><?=$default_layout_title?></div></td>
+            <?php } else { ?>
+            	<td colspan="<?=$num_cols?>" align="center" valign="middle"><div style="width:80px; text-align:center; border:1px solid;">　　　</div></td>
+            <?php } ?>
         </tr>
     <?php
 

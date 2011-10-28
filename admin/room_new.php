@@ -60,7 +60,7 @@
 							$stid = $obj->InsertData('spssp_default_plan_seat',$sit_arr);
 							if($stid >0)
 							{
-								redirect("rooms.php?page=".(int)$_GET['page']."&room_id=".$room_id);
+								redirect("rooms.php?page=".(int)$_GET['page']."&room_id=".$lastid);
 							}
 						}
 					}
@@ -112,11 +112,11 @@
 						}
 				}
 			}
-			redirect("rooms.php?room_id=".$room_id."&msg=0");
+			redirect("rooms.php?room_id=".$lastid."&msg=0");
 		}
 		else
 		{
-			redirect("rooms.php?room_id=".$room_id."&msg=1");
+			redirect("rooms.php?room_id=".$lastid."&msg=1");
 		}
 	}
 ?>

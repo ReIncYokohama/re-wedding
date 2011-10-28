@@ -57,7 +57,7 @@ var msg_html=$("#msg_rpt").html();
 
 	if(msg_html!='')
 	{
-		$("#msg_rpt").fadeOut(5000);
+		//$("#msg_rpt").fadeOut(5000);
 	}
 
 });

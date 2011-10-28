@@ -523,7 +523,7 @@ function uploadFile($path,$file,$filename ,$extension='')
 							  12 => "あなたは計画の1つのゲストを少なくともするために必要な",//You must have to atleast one guest in the plan
 							  13 => "あなたはまず、宿泊プランを修正することがあります",// You First Have Fix Your Room Plan
 							  14 => "1つのゲストを少なくともするために必要な ",//You must have to atleast one guest
-							  15 => "あなたが最初の計画の基準を定義する必要があります。ウェブマスターに連絡してください",//You first have to define plan criteria. Please contact to webmaster
+							  15 => "必要なお客様情報の登録が完了しておりません。ホテル担当者にご確認ください。",//You first have to define plan criteria. Please contact to webmaster
 							  16 => "Please enter correct ログインID / パスワード",//Login ID / password
 							  17 => "アカウントの有効期限が切れました",//Account Expired
 							  18 => "このメールアドレスで新規登録ができません。メールアドレス入力してください。",//Not valid your email address. Please enter your email address.
@@ -574,7 +574,7 @@ define('USER_LOGIN_TIMEOUT','1200'); 					// ユーザタイムアウト２０�
 define('TIMEOUTLENGTH', '1200000'); 					// ユーザ　タイムアウト時間を２０分=1200000(単位：ミリセカンド)
 define('USER_LOGIN_DIRNAME','_uaLog/');					// ユーザログイン管理ディレクトリ
 define('USER_LOGFILE_UPDTAE','300000'); 				// ユーザログインファイル　更新時間を５分=300000(単位：ミリセカンド)
-define('TESTING',true);					 				// テスト中はファイル作成を抑制
+define('TESTING',false);					 				// テスト中はファイル作成を抑制
 
 define('GIFT_GROUP_NAME', '');
 define('GIFT_ITEM_NAME', 'Item');

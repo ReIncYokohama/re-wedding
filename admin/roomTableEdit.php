@@ -214,6 +214,9 @@ include("inc/return_dbcon.inc.php");
 					{
 						echo "<div id='default_layout_title' onclick='user_layout_title_input_show(\"default_layout_title\");' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$default_layout_title2."</div>";
 					}
+					else {
+						echo "<div id='default_layout_title' onclick='user_layout_title_input_show(\"default_layout_title\");' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".　　　."</div>";
+					}
 					?>
 					</td>
             	</tr>
