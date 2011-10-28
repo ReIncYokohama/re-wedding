@@ -1,8 +1,8 @@
 <?php
-	include_once("admin/inc/dbcon.inc.php");
-	include_once("admin/inc/class.dbo.php");
-			$obj = new DBO();
-
+include_once("admin/inc/dbcon.inc.php");
+include_once("admin/inc/class.dbo.php");
+$obj = new DBO();
+$id = "";
 	/*if($_SERVER['HTTPS']!="on")
 	{
 	 	redirect($Admin_site_url);
@@ -274,5 +274,5 @@ $(function(){
 	<script type="text/javascript"> document.login_form.adminid.focus(); </script>
 
 <?php
-	include_once("inc/footer.inc.php");
+	include_once("inc/new.footer.inc.php");
 ?>

@@ -394,15 +394,15 @@ function inquery_mail($to,$mailbody,$mailbody2)
 			}
 	}
 
-	if($_GET[catid])
+if(array_key_exists("catid",$_GET))
 	{
-	$loginurl="login.php?catid=".$_GET[catid];
-	$logouturl="logout.php?catid=".$_GET[catid];
-	$mypageurl="mypage.php?catid=".$_GET[catid];
-	$displayplanurl="details_plan.php?catid=".$_GET[catid];
-	$registrationurl="registration.php?catid=".$_GET[catid];
-	$registrationconfirmurl="registration_confirm.php?catid=".$_GET[catid];
-	$registrationthanksurl="registration_thanks.php?catid=".$_GET[catid];
+	$loginurl="login.php?catid=".$_GET["catid"];
+	$logouturl="logout.php?catid=".$_GET["catid"];
+	$mypageurl="mypage.php?catid=".$_GET["catid"];
+	$displayplanurl="details_plan.php?catid=".$_GET["catid"];
+	$registrationurl="registration.php?catid=".$_GET["catid"];
+	$registrationconfirmurl="registration_confirm.php?catid=".$_GET["catid"];
+	$registrationthanksurl="registration_thanks.php?catid=".$_GET["catid"];
 	}
 	else
 	{
