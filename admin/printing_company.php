@@ -507,7 +507,7 @@ include("inc/return_dbcon.inc.php");
             		<table border="0" align="center" cellpadding="1" cellspacing="1">
             			<tr align="center">
                         	<td width="10%"><?=$j?></td>
-                            <td><b><?=$row['company_name']?></b></td>
+                            <td><?=$row['company_name']?></td>
 							<?php if($_SESSION['user_type']=='333'){?>
 							<td>
 								 <span class="txt1">
