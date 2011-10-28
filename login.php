@@ -5,6 +5,17 @@ include_once("admin/inc/class.dbo.php");
 
 $obj = new dbo();
 
+$post = $obj->protectXSS($_POST);
+$userID = $post['userID'];
+$password = $post['password'];
+
+if(!isset($_SESSION['userid'])) {
+	$query_string = "SELECT * from spssp_user WHERE BINARY user_id= '".$userID."' and BINARY password = '".$password."'";
+	$result = mysql_query( $query_string );
+	$row = mysql_fetch_array($result);
+	$_SESSION['userid'] = $row['id'];
+}
+
 include_once("inc/user_login_check.php");
 if ($_SESSION['regenerate_user_id']=="") {
 	redirect("logout.php");
@@ -13,16 +24,10 @@ else if ($_GET['src'] == "admin") {
 	redirect("dashboard.php");
 }
 else {
-$post = $obj->protectXSS($_POST);
-$userID = $post['userID'];
-$password = $post['password'];
 $_SESSION["hotel_id"] =$HOTELID;
 
 $query_string = "SELECT * from spssp_user WHERE BINARY user_id= '".$userID."' and BINARY password = '".$password."'";
-
-//echo $query_string;exit;
 $result = mysql_query( $query_string );
-
 $row = mysql_fetch_array($result);
 
 if($row['id']){
