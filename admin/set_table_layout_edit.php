@@ -50,6 +50,7 @@ if($_GET['action']=="save") {
 			mysql_query($query);
 		}
 	}
+
 	unset($takasago);
 	$takasago['layoutname'] = $_POST['layoutname'];
 	$obj->UpdateData("spssp_plan",$takasago," user_id=".$user_id);

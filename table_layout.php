@@ -280,9 +280,9 @@ function user_timeout() {
 			高砂卓名： <!-- UCHIDA EDIT 11/08/04  -->
 			<?php
 			$_readonly="";
-//			if (!$editable) {
-//				$_readonly=" readonly='readonly'";
-//			}
+			if (!$editable) {
+				$_readonly=" readonly='readonly'";
+			}
 			if($layoutname!="")
 			{
 				$name_input=$layoutname;
