@@ -801,7 +801,7 @@ html;
 新郎名：{$user_info['man_lastname']} {$user_info['man_firstname']} 様
 新婦名：{$user_info['woman_lastname']} {$user_info['woman_firstname']} 様
 披露宴日時：{$party_day} {$party_day_with_time[0]}:{$party_day_with_time[1]}
-最大卓数：横 {$room_info['max_rows']} 列×縦 {$room_info['max_columns']} 段
+最大卓数：横 {$room_info['max_columns']} 列×縦 {$room_info['max_rows']} 段
 一卓人数：{$room_info['max_seats']} 名まで
 商品区分：{$dowload_options}
 商品名：{$plan_product_name}
