@@ -525,6 +525,8 @@ function check_sjis_1($target, $check_line,$enc='utf-8'){
     if($change) continue;
     // 1文字をSJISにする。
     $str = mb_convert_encoding($str0, "sjis-win", 'utf-8');
+    //utf-8からsjis-winに変換できない漢字
+    if($str0!="?"&&$str=="?") $rtn .= $str0;
     if ((strlen(bin2hex($str)) / 2) == 1) { // 1バイト文字                
       $c = ord($str{0});
     } else {
