@@ -650,61 +650,67 @@ include("inc/return_dbcon.inc.php");
 		<input type="hidden" name="permission_old" id="permission_old" value="<?=$edit_data_rows['permission']?>">
 
 		<p class="txt3">
-			<table style="width:1050px;">
-			<tr>
-				<td width="240" valign="middle">
-					<label for="名前">名前<font color="red">*</font>：</label>
+			<table style="width:1000px; border="0" cellspacing="10" cellpadding="0">
+				<tr>
+					<td width="20">名前<font color="red">*</font>：</td>
+					<td width="120">
 	    		  <input name="name" type="text" id="name" size="20" value="<?=$edit_data_rows['name']?>" />
 					<input  type="hidden" id="name_current" size="20" value="<?=$edit_data_rows['name']?>" />
-				</td>
-				<td  width="90" align="left" valign="middle">
-				ログインID<font color="red">*</font>：</td>
-				<td width="180" align="left" valign="middle">
+					</td>
+				</tr>
+				<tr>
+					<td align="left">ログインID<font color="red">*</font>：</td>
+					<td align="left">
 					<input name="username" type="text" id="ID" size="25"  value="<?=$edit_data_rows['username']?>"/>
 					<input  type="hidden" id="username_current" size="20" value="<?=$edit_data_rows['username']?>" />    　
-            	</td>
-				<td  width="120" align="left" valign="middle">
-					<label for="パスワード">パスワード<font color="red">*</font>：</label>
-            	</td>
-				<td  width="160" align="left" valign="middle">
+	            	</td>
+				</tr>
+				<tr>
+					<td align="left">パスワード<font color="red">*</font>：</td>
+					<td align="left">
 					<input name="password" type="text" id="password" size="25"  value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
 					<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください</span>
-				</td>
-				<td width="157" align="left" valign="middle" >
-					権限：
-					<?php if($edit_data_rows['permission']==333){ ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left">メールを受信する：</td>
+					<td>
+				<input type="radio" name="subcription_mail" value="0" <?php echo ($edit_data_rows['subcription_mail']=='0' && $edit_data_rows['email'] !='')?"checked":"";?> /> 受信する
+				<input type="radio" name="subcription_mail" value="1" <?php if ($edit_data_rows['subcription_mail']=='1' || !isset($edit_data_rows['subcription_mail'])) echo "checked";?>/>  受信しない
+					</td>
+				</tr>
+                				<tr>
+					<td align="left">					権限：
+					</td>
+                    <td>
+				<?php if($edit_data_rows['permission']==333){ ?>
 						<input type="radio" name="permission" id="radio2" value="333" checked="checked"  disabled="disabled" />
-						管理者
-						<input type="radio" name="permission" id="radio2" value="222" disabled="disabled"  />
+						管理者　
+				<input type="radio" name="permission" id="radio2" value="222" disabled="disabled"  />
 			 			スタッフ
 			<?php   }
 					else if($edit_data_rows['permission']==222 || isset($edit_data_rows['permission'])==false) { ?>
-						<input type="radio" name="permission" id="radio2" value="333" />
-						管理者
-						<input type="radio" name="permission" id="radio2" value="222" checked="checked" />
+					  <input type="radio" name="permission" id="radio2" value="333" />
+						管理者　
+				<input type="radio" name="permission" id="radio2" value="222" checked="checked" />
 			 			スタッフ
 			<?php   }?>
-				</td>
-			</tr>
-			<tr>
-				<td width="240">
-					メールを受信する：　
-				<input type="radio" name="subcription_mail" value="0" <?php echo ($edit_data_rows['subcription_mail']=='0' && $edit_data_rows['email'] !='')?"checked":"";?> /> 受信する
-				<input type="radio" name="subcription_mail" value="1" <?php if ($edit_data_rows['subcription_mail']=='1' || !isset($edit_data_rows['subcription_mail'])) echo "checked";?>/>  受信しない
-				</td>
-				<td align="left" width="100">メールアドレス：
-				</td>
-				<td width="180"><input name="email" type="text" id="email" size="25" value="<?=$edit_data_rows['email']?>" />
-					<input  type="hidden" id="email_current" size="20" value="<?=$edit_data_rows['email']?>" />
-				</td>
-				<td width="140">メールアドレス確認用：
-				</td>
-				<!--  UCHIDA EDIT 11/08/08 確認用メールアドレスのペーストを禁止 -->
+					</td>
+				</tr>
+				<tr>
+					<td align="left">メールアドレス：</td>
+					<td align="left">
+						<input name="email" type="text" id="email" size="25" value="<?=$edit_data_rows['email']?>" />
+					                        <input  type="hidden" id="email_current" size="20" value="<?=$edit_data_rows['email']?>" />
+					</td>
+				</tr>
+				<tr>
+					<td align="left">メールアドレス確認用：</td>
+					<!--  UCHIDA EDIT 11/08/08 確認用メールアドレスのペーストを禁止 -->
 				<td width="160" onpaste="alert('メールアドレス確認用は貼り付けできません');return false;">
 					<input name="conf_email" type="text" id="conf_email" size="25" value="<?=$edit_data_rows['email']?>" />
-
-				</td>
-			</tr>
+					</td>
+				</tr>
 			</table>
       <br>
 
@@ -817,21 +823,21 @@ include("inc/return_dbcon.inc.php");
 				<p>
 				<table style="width:1000px; border="0" cellspacing="10" cellpadding="0">
 				<tr>
-					<td width="20">名前：<font color="red">*</font></td>
+					<td width="20">名前<font color="red">*</font>：</td>
 					<td width="120">
 			    		<input name="name" type="text" id="name" style="width:200px;padding:3px;" value="<?=$stuff_row['name']?>" />
 						<input  type="hidden" id="name_current" style="width:200px;padding:3px;" value="<?=$stuff_row['name']?>" />
 					</td>
 				</tr>
 				<tr>
-					<td align="left">ログインID：<font color="red">*</font></td>
+					<td align="left">ログインID<font color="red">*</font>：</td>
 					<td align="left">
 						<input name="username" type="text" id="ID" style="width:200px;padding:3px;" value="<?=$stuff_row['username']?>"/>
 						<input type="hidden" id="username_current" style="width:200px;padding:3px;" value="<?=$stuff_row['username']?>" />    　
 	            	</td>
 				</tr>
 				<tr>
-					<td align="left">パスワード：<font color="red">*</font></td>
+					<td align="left">パスワード<font color="red">*</font>：</td>
 					<td align="left">
 						<input name="password" type="text" id="password" style="width:200px;padding:3px;" value="<?=$stuff_row['password']?>"  onblur="checkvalidity()"/><br>
 						<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください</span>

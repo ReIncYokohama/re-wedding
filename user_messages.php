@@ -290,7 +290,7 @@ function filename_change() {
 						<a href="javascript:void(0);" name="insert" onclick="validForm();"/><img src="img/btn_send_user.jpg" alt="送信" /></a> &nbsp;
 					</td>
 					<td style="text-align:left;">
-						<a href="javascript:void(0);" name="reset" onclick="cancel_insert();"/><img src="img/btn_cancel_user.jpg" alt="チャンセル" /></a>
+						<a href="javascript:void(0);" name="reset" onclick="cancel_insert();"/><img src="img/btn_clear_user.jpg" alt="クリア" /></a>
 					</td>
 				</tr>
 			</table>

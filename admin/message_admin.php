@@ -310,8 +310,8 @@ include("inc/return_dbcon.inc.php");
 		<tr>
 					<td>&nbsp;</td>
 					<td><a href="javascript:void(0);" name="insert" onclick="validForm();"/><img src="img/common/btn_send.jpg" alt="送信" /></a> &nbsp;
-						&nbsp;&nbsp;<a href="javascript:void(0);" name="reset" onclick="cancel_insert();"/><img src="img/common/btn_cancel.jpg" alt="チャンセル" /></a>
-			</td>
+						&nbsp;&nbsp;<a href="javascript:void(0);" name="reset" onclick="cancel_insert();"/><img src="img/common/btn_clear.jpg" alt="クリア" /></a>
+		</td>
 				</tr>
 			</table>
 		</form>
