@@ -119,7 +119,19 @@ width:1000px;
 #text-indent {
 	text-indent: 125px; /* SEKIDUKA ADD 11/08/12 */
 }
-
+#foot_left {
+	float: left;
+	width: 330px;
+	vertical-align:top;
+}
+#foot_right {
+	float: right;
+	width: 330px;
+}
+#foot_right2 {
+	float: right;
+	width: 350px;
+}
 .clr {	clear: both;
 }
 
@@ -176,31 +188,32 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 <br/>
 <div id="text-indent">当システムは下記OS、ブラウザを推奨しております。</div>
 <br/>
-<div style="width:500px">
-<table border="0" cellpadding="2" cellspacing="0" align="center" width="500" title="SSLサーバ証明書導入の証 グローバルサインのサイトシール">
+<div id="foot_left">
+<table width="269" border="0" cellpadding="2" cellspacing="0" title="SSLサーバ証明書導入の証 グローバルサインのサイトシール">
 <tr>
-<td width="120" align="center" valign="top"> <span id="ss_img_wrapper_115-57_image_ja">
+<td width="269" align="center" valign="top"> <span id="ss_img_wrapper_115-57_image_ja">
 <a href="http://jp.globalsign.com/" target="_blank"> <img alt="SSL グローバルサインのサイトシール" border="0" id="ss_jpn2_gif" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_115-57_ja.gif">
 </a>
-</span><br />
+</span><br>
 <script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gs_image_115-57_ja.js" defer="defer"></script> <a href="https://www.sslcerts.jp/" target="_blank" style="color:#000000; text-decoration:none; font:bold 12px 'ＭＳ ゴシック',sans-serif; letter-spacing:.5px; text-align:center; margin:0px; padding:0px;">SSLとは?</a>
-</td>
-<td width="120" style="font-size:12px;">
-●Windows XP ／ Vista ／ 7<br />
-・Internet Explorer 7／8<br />
-・FireFox 3.5／3.6／4.0
-</td>
-<td width="120" style="font-size:12px;">
-●Mac OS Ｘ（10.4）<br />
-・Safari 3.0以上<br />
-・FireFox 3.5／3.6／4.0
 </td>
 </tr>
 </table>
 </div>
+    <div id="foot_center"><strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
+      ・Internet Explorer 7.0～9.x<br />
+	      ・FireFox 5.0以上 <br />
+      ・Google Chrome 14.0以上</div>
+  <div id="foot_right"><strong>●Mac OS Ｘ（10.4以上）</strong><br />
+
+	      ・Safari 5.0以上<br />
+	      ・FireFox 5.0以上 </div>
+	    <div class="clr"></div>
+	    </div>
 </div>
-</div>
-</div>
+<!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
+
+
 <div class="clr"></div>
   <div id="footer" style="width:1000px">
     <p>Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.</p>
