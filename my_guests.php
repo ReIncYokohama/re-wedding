@@ -946,6 +946,7 @@ if($editable)
 
 								foreach($menus as $m)
 								{
+                  if($m['name']=="") continue;
 									$selected = (in_array($m['id'],$gm_arr))?"selected":"";
 									echo "<option ".$selected." value='".$m['id']."' >".$m['name']."</option>";
 								}
