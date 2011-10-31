@@ -86,9 +86,12 @@ if(!$force){
     <div class="top_box1">
     <div id="message"><?=$messageText?>
     </div>
-      <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_close.jpg" alt="閉じる" width="82" height="22" /></a>
+      
 </div>
-
+<div align="center" class="top_box1">
+  <div align="left"><a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_close.jpg" alt="閉じる" width="82" height="22" /></a>
+  </div>
+</div>
 </body>
 </html>
       
