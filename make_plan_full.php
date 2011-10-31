@@ -259,8 +259,9 @@ var button_enable="<?=$button_enable?>";
 	if(conf)
 	{
 		document.insert_plan.submit();
+    //window.close();
 	}
-  window.close();
+  
 }
 function back_to_make_plan() {
   window.close();

@@ -94,11 +94,10 @@
 				$plan_arr['plan_id'] = $plan_id;
 				
 				$lastids = $obj->InsertData("spssp_plan_details", $plan_arr);
-        
 			}
 			
 		}
-    
+
     $_SESSION["cart"] = null;
     
     if($_GET["ajax"]){
