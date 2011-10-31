@@ -1125,13 +1125,11 @@ if($user_row['mukoyoshi']=='1'){
                 foreach($tblrows as $tblrow)
                   {
                     $ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".(int)$user_id." limit 1");
-
                     $num_first = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order limit 1");
                     $num_last = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
                     $num_max = $obj->GetSingleData("spssp_table_layout", "column_order "," user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
                     $num_none = $num_max-$num_last+$num_first-1;
-
-                    if($ralign == 'L')
+                    if($ralign == 'L' || $ralign == "N")
                       {
                         $styles = 'float:left;';
                       }
@@ -1168,7 +1166,7 @@ if($user_row['mukoyoshi']=='1'){
 
                         if($table["display"] == 1){
                           $disp = 'display:block;';
-                        }else if($num_first <= $table["column_order"] && $table["column_order"]<=$num_last){
+                        }else if(($num_first <= $table["column_order"] && $table["column_order"]<=$num_last) || $ralign == "N" ){
                           $disp = "visibility:hidden";
                         }else{
                           $disp = "display:none";
