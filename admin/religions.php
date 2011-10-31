@@ -141,6 +141,11 @@ var edit_id="<?=$get['id']?>";
 	return urlPlus;
 }
 
+window.onkeydown = function(event) {
+    if(event.keyCode == 13)	return false;
+    else 					return true;
+}
+
 </script>
 <div id="topnavi">
     <?php
@@ -206,10 +211,10 @@ include("inc/return_dbcon.inc.php");
         	<h2 id="title_bar">挙式種類設定 </h2>
         	<form action="religions.php" method="post" name="new_name">
             	<input type="hidden" name="insert_edit" id="insert_edit" value="<?=$get['id']?>" />
-                挙式種類 : &nbsp;<input type="text" name="title" id="name"  value="<?=$getrow?>" /> &nbsp; &nbsp; &nbsp;
-                 <a href="#"><img  onclick="check_name()"; border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg"></a>
+                挙式種類 : &nbsp;<input type="text" name="title" id="name"  value="<?=$getrow?>" onkeydown="check_name(e)" /> &nbsp; &nbsp; &nbsp;
+                 <a href="#"><img  onclick="check_name()" border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg" /></a>
 				 &nbsp;
-               <a href="#"><img  onclick="cancel_new()"; border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg"></a>
+               <a href="#"><img  onclick="cancel_new()" border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg" /></a>
 			     &nbsp;
 
             </form><br />

@@ -241,6 +241,12 @@ function sort_view(urls) {
 	var urlPlus = urls+"&room_id="+document.room_form.room_id.value;
 	window.location = urlPlus;
 }
+
+window.onkeydown = function(event) {
+    if(event.keyCode == 13)	return false;
+    else 					return true;
+}
+
 </script>
 
 <div id="topnavi">
