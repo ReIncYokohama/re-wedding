@@ -258,13 +258,6 @@ function user_timeout() {
 		<div id='msg_rpt_err' style='display:none;text-align:center;margin-bottom:20px;background:#E1ECF7;border:1px solid #3681CB;padding:7px 10px;color:red;font-weight:bold;font-size:13px;'>
 		Table name could not updated.
 		</div>
-		<? if($permission_table_edit['rename_table']) {
-		  if($permission_table_edit==1)
-		  {
-			?>
-
-		<?php }
-			?>
 		<form name="table_entry_form" id="table_entry_form" action="" method="post"	>
 
 		<table width="410" border="0" cellspacing="0" cellpadding="5">
@@ -280,8 +273,8 @@ function user_timeout() {
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;高砂卓名： <!-- UCHIDA EDIT 11/08/04  -->
 			<?php
 			$_readonly="";
-			if (!$editable) {
-				$_readonly=" readonly='readonly'";
+			if (!$editable || $permission_table_edit['rename_table']==0) {
+				$_readonly=" readonly='readonly' style='border: #ffffff;'";
 			}
 			if($layoutname!="")
 			{
@@ -327,7 +320,7 @@ function user_timeout() {
 
 		<?php
 				echo "<script> table_count=$k-1;</script>";
-				if($permission_table_edit==1 && $editable)
+				if($editable && $permission_table_edit['rename_table']==1)
 				  {?>
 				  <tr>
 				  <td colspan="4">
@@ -348,7 +341,6 @@ function user_timeout() {
 				  ?>
 		</table>
 		</form>
-		<? } ?>
 
       </div>
       <div class="info_area_R" style="">■　テーブルのレイアウト<br />
