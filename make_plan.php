@@ -295,7 +295,32 @@ height:30px;
     
 <div id="box_2" style="height:auto;">
 		<div class="title_bar">
-		  <div class="title_bar_txt_L">席次表の編集結果、招待者への引出物の確認</div>
+		  <div class="title_bar_txt_L">席次表の編集結果の確認</div>
+		  <div class="title_bar_txt_R"></div>
+		  <div class="clear"></div>
+		</div>
+		<div class="cont_area">（説明文）ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ。<br />
+ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ。<br /><br />
+
+			  <table width="800" border="0" cellspacing="1" cellpadding="3">
+				  <tr>
+					<td width="210" valign="middle"><a href="plan_pdf.php" target="_blank"><img src="img/order/preview_sekiji_bt.jpg" alt="席次表プレビュー" width="200" height="40" border="0" class="on" /></a></td>
+					<td width="10" valign="middle">　</td>
+					<td width="580" valign="middle">プレビューで「席次表の編集」で配席したレイアウトがご確認いただけます。</td>
+				  </tr>
+			 </table>
+				  <tr>
+				    <td colspan="3" valign="middle">&nbsp;</td>
+				  </tr>
+		</div>
+	</div>
+
+
+    
+    
+<div id="box_2" style="height:auto;">
+		<div class="title_bar">
+		  <div class="title_bar_txt_L">招待者への引出物の確認</div>
 		  <div class="title_bar_txt_R"></div>
 		  <div class="clear"></div>
 		</div>
@@ -306,7 +331,7 @@ height:30px;
 				  <tr>
 					<td width="210" valign="middle"><a href="plan_pdf.php" target="_blank"><img src="img/order/preview_hikidemono_bt.jpg" alt="席次表プレビュー" width="200" height="40" border="0" class="on" /></a></td>
 					<td width="10" valign="middle">　</td>
-					<td width="580" valign="middle">プレビューで「席次表の編集」で配席したレイアウトと、招待者への引出物の確認ができます。</td>
+					<td width="580" valign="middle">プレビューで「引出物・料理の登録」、「招待者リストの作成」で編集した招待者への引出物がご確認いただけます。</td>
 				  </tr>
 			 </table>
 				  <tr>
@@ -315,6 +340,29 @@ height:30px;
 		</div>
 	</div>
 
+    
+    
+<div id="box_2" style="height:auto;">
+<div class="title_bar">
+		  <div class="title_bar_txt_L">席次表の印刷イメージの確認</div>
+		  <div class="title_bar_txt_R"></div>
+		  <div class="clear"></div>
+		</div>
+		<div class="cont_area">（説明文）ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ。<br />
+ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ。<br /><br />
+
+			  <table width="800" border="0" cellspacing="1" cellpadding="3">
+				  <tr>
+					<td width="210" valign="middle"><a href="plan_pdf.php" target="_blank"><img src="img/order/preview_print_bt_gray.jpg" alt="席次表プレビュー" width="200" height="40" border="0" class="on" /></a></td>
+					<td width="10" valign="middle">　</td>
+					<td width="580" valign="middle"><p>印刷会社よりアップロードされた「席次表の印刷イメージ」がご確認いただけます。<br />※印刷会社よりアップロードされるまでは、ボタンは使用できません。</p></td>
+				  </tr>
+			 </table>
+				  <tr>
+				    <td colspan="3" valign="middle">&nbsp;</td>
+				  </tr>
+		</div>
+	</div>
 
 <?php
 include("inc/new.footer.inc.php");
