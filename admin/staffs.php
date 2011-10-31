@@ -36,6 +36,7 @@
 				if($post['permission'] == '222')
 				{
 					$lastid = $obj->InsertData('spssp_admin',$post);
+					echo "<script> alert('新しいスタッフが登録されました'); </script>";
 				}
 				else
 				{
@@ -50,7 +51,8 @@
 					   $obj->UpdateData('spssp_admin',$value, $where);
 					}
 					  $lastid = $obj->InsertData('spssp_admin',$post);
-
+					  echo "<script> alert('新しいスタッフが登録されました'); </script>";
+					  
 			          $upd_data = array();
 			          $upd_data["adminid"] = $post["username"];
 			          $upd_data["password"] = $post["password"];
@@ -101,7 +103,7 @@
 				{
 		          $msg = 2;
 		          $obj->UpdateData('spssp_admin',$post,"id=".$post['id']);
-
+		          echo "<script> alert('スタッフ情報が更新されました'); </script>";
 				}
 				else
 				{
@@ -112,10 +114,12 @@
 					   $where = "permission = '333'";
        	  			   $value['stype'] = 0;
 					   $obj->UpdateData('spssp_admin',$value, $where);
+		          	   echo "<script> alert('スタッフ情報が更新されました'); </script>";
 					}
 
 					$msg = 2;
 					$obj->UpdateData('spssp_admin',$post,"id=".$post['id']);
+					echo "<script> alert('スタッフ情報が更新されました'); </script>";
 
 			          $upd_data = array();
 			          $upd_data["adminid"] = $post["username"];

@@ -56,7 +56,7 @@
 			else
 			{
 				$obj->UpdateData("spssp_printing_comapny", $post," id=".$id);
-				echo '<script> alert("変更されました"); </script>';
+				echo '<script> alert("印刷会社が更新されました"); </script>';
 				//$msg = 2;
 			}
 

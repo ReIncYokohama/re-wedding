@@ -28,6 +28,7 @@
 			$lastid = $obj->InsertData('spssp_room',$post);
 			if($lastid > 0)
 			{
+				echo "<script> alert('新しい披露宴会場が登録されました'); </script>";
 				$room_data = $obj->GetSingleRow('spssp_room','id='.$lastid);
 				unset($post);
 				$post['name']=$room_data['name'];

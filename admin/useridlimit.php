@@ -28,6 +28,7 @@
 			$value['order_deadline'] = $post['order_deadline'];
 			$sql="Update spssp_gift_criteria set order_deadline='".$post['order_deadline']."'";
 			mysql_query($sql);
+			echo "<script> alert('締切日が保存されました'); </script>";
 	}
 
 	//$data_rows = $obj->getRowsByQuery($query_string);

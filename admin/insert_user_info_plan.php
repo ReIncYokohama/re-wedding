@@ -63,6 +63,7 @@ if((int)$user_plan['user_id'] > 0 && empty($plan_dt))
 	$post['confirm_date'] = date("Y-m-d", $confirm_date);
 	$obj->UpdateData("spssp_plan",$post," user_id=".$user_plan['user_id']);
 
+	echo "<script> alert('お客様挙式情報が更新されました'); </script>";
 	redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']);
 }
 else if((int)$user_plan['user_id'] <= 0 && empty($plan_dt))
@@ -146,6 +147,7 @@ else if((int)$user_plan['user_id'] <= 0 && empty($plan_dt))
 			}
 		}
 	}
+	echo "<script> alert('新しいお客様挙式情報が登録されました'); </script>";
 	redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']);
 }
 else if((int)$user_plan['user_id'] > 0 && !empty($plan_dt))
@@ -167,6 +169,7 @@ else if((int)$user_plan['user_id'] > 0 && !empty($plan_dt))
 	$arr['print_size']=$post['print_size'];
 	$arr['final_proof'] = $post['final_proof'];
 	$obj->UpdateData("spssp_plan",$arr," user_id=".$user_plan['user_id']);
+	echo "<script> alert('お客様挙式情報が更新されました'); </script>";
 	redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']);
 }
 

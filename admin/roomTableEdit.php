@@ -29,6 +29,7 @@
 						mysql_query($sql);
 					}
 			}
+		echo "<script> alert('会場レイアウト卓名が保存されました'); </script>";
 		redirect("rooms.php");
 	}
 

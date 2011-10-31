@@ -54,6 +54,7 @@
 		{
 			//$err=2;
 		}
+		echo "<script> alert('引出物・料理の設定が保存されました'); </script>";
 	}
 	if($gift_criteria_num>0)
 	{

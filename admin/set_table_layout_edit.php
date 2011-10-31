@@ -54,7 +54,8 @@ if($_GET['action']=="save") {
 	unset($takasago);
 	$takasago['layoutname'] = $_POST['layoutname'];
 	$obj->UpdateData("spssp_plan",$takasago," user_id=".$user_id);
-	
+
+	echo "<script> alert('卓レイアウト設定が保存されました'); </script>";
 	redirect("user_info_allentry.php?user_id=".$user_id."&stuff_id=".$stuff_id);
 }
 
