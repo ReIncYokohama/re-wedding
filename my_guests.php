@@ -905,6 +905,7 @@ if($editable)
 								{
 									foreach($guest_gifts as $gg)
 									{
+                    
 										$gg_arr[] = $gg['group_id'];
 									}
 
@@ -916,6 +917,7 @@ if($editable)
                 if($edit && count($gg_arr)==0) echo "<option selected value=''></option>";
 								foreach($gift_groups as $gg)
 								{
+                  if($gg["name"]=="") continue;
 									$selected = (in_array($gg['id'],$gg_arr))?"selected":"";
 									echo "<option ".$selected." value='".$gg['id']."' >".$gg['name']."</option>";
 								}
