@@ -270,14 +270,14 @@ function user_timeout() {
 		<table width="410" border="0" cellspacing="0" cellpadding="5">
 		<tr>
 		<td colspan="4" align="center" style="display:none;" id="loading_td">
-		<img src="images/loading.gif" alt="loading..." />
+		
 		</td>
 		</tr>
 		<br />
 		<br />
 		<tr>
 			<td colspan="4" align="center">
-			高砂卓名： <!-- UCHIDA EDIT 11/08/04  -->
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;高砂卓名： <!-- UCHIDA EDIT 11/08/04  -->
 			<?php
 			$_readonly="";
 			if (!$editable) {
