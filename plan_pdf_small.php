@@ -2,10 +2,10 @@
 include_once("admin/inc/dbcon.inc.php");
 require_once('tcpdf/config/lang/eng.php');
 require_once('tcpdf/tcpdf.php');
-include_once("admin/inc/class.dbo.php");
+include_once("admin/inc/class_data.dbo.php");
 include_once("admin/inc/class_information.dbo.php");
 
-$obj = new DBO();
+$obj = new DataClass();
 $objInfo = new InformationClass();	
 $user_id = (int)$_SESSION['userid'];
 if($user_id=="")
@@ -690,7 +690,19 @@ $pdf->writeHTML($utf8text, true, false, true, false, '');
 
 // ---------------------------------------------------------
 
+$date_array = explode('-', $user_info['party_day']);
+
+if($user_info['id']<10)
+$user_id_name="000".$user_info['id'];
+else if($user_info['id']<100)
+$user_id_name="00".$user_info['id'];
+else if($user_info['id']<1000)
+$user_id_name="0".$user_info['id'];
+
+$version = $obj->get_download_num($user_id,$_SESSION["adminid"]);
+
+$this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
 // Close and output PDF document
 // This method has several options, check the source code documentation for more information.
-$pdf->Output('sekijihyou.pdf', 'D');
+$pdf->Output($this_name.'.pdf', 'D');
 ?> 

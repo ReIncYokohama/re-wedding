@@ -1,12 +1,13 @@
 <?php
 @session_start();
-	include_once("../admin/inc/include_class_files.php");
+include_once("../admin/inc/include_class_files.php");
+include_once("../admin/inc/class_data.dbo.php");
 
 if($_SESSION['printid'] =='')
 {
    redirect("index.php");exit;
 }
-$obj = new DBO();
+$obj = new DataClass();
 $objInfo = new InformationClass();
 $this_name = $HOTELID;
 $get = $obj->protectXSS($_GET);
@@ -41,7 +42,7 @@ $default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," o
 
 $ver = $user_info['zip1'];
 $ver++;
-$this_name = sprintf("%04d",$HOTELID)."_".$user_info['party_day']."_".sprintf("%03d",$user_id)."_".sprintf("%02d",$ver);
+
 $sql = "update spssp_user set zip1 = ".$ver." where id = $user_id";
 $result = mysql_query($sql);
 
@@ -516,6 +517,18 @@ foreach($usertblrows as $tblRows)
 	$lines .= $line;
 
 
+$date_array = explode('-', $user_info['party_day']);
+
+if($user_info['id']<10)
+$user_id_name="000".$user_info['id'];
+else if($user_info['id']<100)
+$user_id_name="00".$user_info['id'];
+else if($user_info['id']<1000)
+$user_id_name="0".$user_info['id'];
+
+//csvのダウンロードの際のカウント方法はプラス1000で
+$version = $obj->get_download_num($user_id,$_SESSION["adminid"]+1000);
+$this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
 
 //exit;
 

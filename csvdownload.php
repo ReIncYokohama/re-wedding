@@ -1,9 +1,9 @@
 <?php
 @session_start();
-include_once("admin/inc/class.dbo.php");
+include_once("admin/inc/class_data.dbo.php");
 include_once("inc/checklogin.inc.php");
 
-$obj = new DBO();
+$obj = new DataClass();
 $get = $obj->protectXSS($_GET);
 $user_id = (int)$_SESSION['userid'];
 
@@ -577,11 +577,9 @@ $user_id_name="00".$user_info['id'];
 else if($user_info['id']<1000)
 $user_id_name="0".$user_info['id'];
 
-if(SCRIPT_VERSION<10)
-$script_version="0".SCRIPT_VERSION;
-
-$this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$script_version;
-
+//user用のcsvのダウンロードの際のカウント方法はプラス2000で
+$version = $obj->get_download_num($user_id,$_SESSION["adminid"]+2000);
+$this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
 
 header("Content-Type: application/octet-stream");
 header("Content-Disposition: attachment; filename=${this_name}.csv");
