@@ -1419,6 +1419,10 @@ if($user_row['mukoyoshi']=='1'){
 						  echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></div>";
 						  $xx++;
 					  }
+		  			  for (; $xx <=$count_group; $xx++) {
+						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value=''>";
+						echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
+					  }
 					  $count_gift=$xx-1;
 				    }
 				    else {
