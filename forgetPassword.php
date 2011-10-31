@@ -163,7 +163,7 @@ function cancelAction()
 									<a href="javascript:void(0);" onclick="validForm();"><img src="img/btn_send_user.jpg" /></a>
                                 	</td>
 									<td width="85">
-									<a href="javascript:void(0);" onclick="cancelAction();"><img src="img/btn_cancel_user.jpg" /></a>
+									<a href="index.php"><img src="img/btn_cancel_user.jpg" /></a>
                            	</td>
 									<td width="139">&nbsp;</td>
 								</tr>
@@ -171,7 +171,7 @@ function cancelAction()
 							<input type="hidden" name="getForm" value="getForm">
 						 </form>
 					</div>
-					<div  style="width:520px;"><a href="index.php"><b>戻る</b></a></div>
+					
 				</div>
 			</div>
 
