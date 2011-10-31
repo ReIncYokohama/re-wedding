@@ -419,7 +419,7 @@ unset($_SESSION['msg']);
 	{?>
 	<input type="hidden" name="update" value="update" />
 	<input type="hidden" name="id" value="<?=$gift_criteria_data_row[0]['id']?>" />
-	<a href="#" onclick="validForm(<?=$xx?>);"><img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22" style=" <?=$btn_disp?>"  /></a>
+	<a href="#" onclick="validForm(<?=$xx?>);"><img src="img/common/btn_save.jpg" alt="登録" width="82" height="22" style=" <?=$btn_disp?>"  /></a>
 
 	<?php }
 	else
