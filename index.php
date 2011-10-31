@@ -257,10 +257,12 @@ $(function(){
 </tr>
 </table>
 </div>
-    <div id="foot_center"><strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
-	      ・Internet Explorer 6.0以上<br />
-	      ・FireFox 5.0以上 <br />
-      ・Google Chrome 14.0以上</div>
+    <div id="foot_center">
+      <p><strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
+        ・Internet Explorer 7.0~9.x<br />
+        ・FireFox 5.0以上 <br />
+        ・Google Chrome 14.0以上</p>
+</div>
   <div id="foot_right"><strong>●Mac OS Ｘ（10.4以上）</strong><br />
 
 	      ・Safari 5.0以上<br />
