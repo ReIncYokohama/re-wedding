@@ -34,11 +34,13 @@ $hotel_row = $obj->GetSingleRow("super_spssp_hotel", " hotel_code=".$hcode);
 	  redirect("hotel_info.php");exit;
 	}
 
-	$disp_optin1 = "";
-	$disp_optin2 = "";
+	$disp_option1 = "";
+	$disp_option2 = "";
+	$disp_option3='<span class="txtred">*</span>';
 	if ($_SESSION['user_type']==222) {
-		$disp_optin1 = ' readonly="readonly"; ';
-		$disp_optin2 = ' border:#ffffff; ';
+		$disp_option1 = ' readonly="readonly"; ';
+		$disp_option2 = ' border:#ffffff; ';
+		$disp_option3="";
 	}
 	
 ?>
@@ -249,40 +251,40 @@ include("inc/return_dbcon.inc.php");
 							<?=$hotel_row[hotel_code]?></td>
 						  </tr>
 						  <tr>
-							<td align="left">ホテル名<span class="txtred">*</span> :</td>
-							<td><input type="text" name="name" id="name" <?=$disp_optin1?> style="width:250px;padding:0px; <?=$disp_optin2?> " value="<?=$hotel_row[hotel_name]?>"/></td>
+							<td align="left">ホテル名<?=$disp_option3?> :</td>
+							<td><input type="text" name="name" id="name" <?=$disp_option1?> style="width:250px;padding:0px; <?=$disp_option2?> " value="<?=$hotel_row[hotel_name]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">郵便番号<span class="txtred">*</span> :</td>
-							<td><input name="zipcode" type="text" id="zipcode" style="padding:0px; <?=$disp_optin2?> " size="10" maxlength="7" value="<?=$hotel_row[zip]?>"/></td>
+							<td align="left">郵便番号<?=$disp_option3?> :</td>
+							<td><input name="zipcode" type="text" id="zipcode" style="padding:0px; <?=$disp_option2?> " size="10" maxlength="7" value="<?=$hotel_row[zip]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">住所1<span class="txtred">*</span> :</td>
-							<td><input type="text" name="address1" id="address1" <?=$disp_optin1?> style="width:250px;padding:0px; <?=$disp_optin2?> " value="<?=$hotel_row[address1]?>"/></td>
+							<td align="left">住所1<?=$disp_option3?> :</td>
+							<td><input type="text" name="address1" id="address1" <?=$disp_option1?> style="width:250px;padding:0px; <?=$disp_option2?> " value="<?=$hotel_row[address1]?>"/></td>
 						  </tr>
 						  <tr>
 							<td align="left">住所2 :</td>
-							<td><input type="text" name="address2" id="address2" <?=$disp_optin1?> style="width:250px;padding:0px; <?=$disp_optin2?> " value="<?=$hotel_row[address2]?>"/></td>
+							<td><input type="text" name="address2" id="address2" <?=$disp_option1?> style="width:250px;padding:0px; <?=$disp_option2?> " value="<?=$hotel_row[address2]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">電話番号<span class="txtred">*</span> :</td>
-							<td><input type="text" name="tel" id="tel" <?=$disp_optin1?> style="padding:0px; <?=$disp_optin2?> " value="<?=$hotel_row[phone]?>" /></td>
+							<td align="left">電話番号<?=$disp_option3?> :</td>
+							<td><input type="text" name="tel" id="tel" <?=$disp_option1?> style="padding:0px; <?=$disp_option2?> " value="<?=$hotel_row[phone]?>" /></td>
 						  </tr>
 						  <tr>
-							<td align="left">担当者<span class="txtred">*</span> :</td>
-							<td><input name="contactperson" type="text" id="contactperson" <?=$disp_optin1?> style="padding:0px; <?=$disp_optin2?> " size="15" value="<?=$hotel_row[contact]?>"/></td>
+							<td align="left">担当者<?=$disp_option3?> :</td>
+							<td><input name="contactperson" type="text" id="contactperson" <?=$disp_option1?> style="padding:0px; <?=$disp_option2?> " size="15" value="<?=$hotel_row[contact]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">メールアドレス<span class="txtred">*</span> :</td>
-							<td><input type="text" name="email" id="email" <?=$disp_optin1?> style="padding:0px; <?=$disp_optin2?> " value="<?=$hotel_row[email]?>"/></td>
+							<td align="left">メールアドレス<?=$disp_option3?> :</td>
+							<td><input type="text" name="email" id="email" <?=$disp_option1?> style="padding:0px; <?=$disp_option2?> " value="<?=$hotel_row[email]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">招待者リストデータ削除日<span class="txtred">*</span> :</td>
-							<td><input name="delete_guest" type="text" id="delete_guest" <?=$disp_optin1?> style="padding:0px; <?=$disp_optin2?> " size="5"   value="<?=$hotel_row[delete_guest]?>"/></td>
+							<td align="left">招待者リストデータ削除日<?=$disp_option3?> :</td>
+							<td><input name="delete_guest" type="text" id="delete_guest" <?=$disp_option1?> style="padding:0px; <?=$disp_option2?> " size="5"   value="<?=$hotel_row[delete_guest]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">挙式情報データ削除日<span class="txtred">*</span> :</td>
-							<td><input name="delete_weeding" type="text" id="delete_weeding" <?=$disp_optin1?> style="padding:0px; <?=$disp_optin2?> " size="5"   value="<?=$hotel_row[delete_weeding]?>"/></td>
+							<td align="left">挙式情報データ削除日<?=$disp_option3?> :</td>
+							<td><input name="delete_weeding" type="text" id="delete_weeding" <?=$disp_option1?> style="padding:0px; <?=$disp_option2?> " size="5"   value="<?=$hotel_row[delete_weeding]?>"/></td>
 						  </tr>
 
                             <tr>
@@ -291,7 +293,7 @@ include("inc/return_dbcon.inc.php");
 						  <tr>
 							<td></td>
 							<td>
-							<?php if ($disp_optin1=="") { ?>
+							<?php if ($disp_option1=="") { ?>
 							   <img width="82" height="22" alt="登録・更新" src="img/common/btn_save.jpg" onclick="validForm();">
 							<?php } ?>
 						  </tr>
