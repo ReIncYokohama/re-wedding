@@ -204,26 +204,34 @@ if($objInfo->get_editable_condition($plan_row))
 
 <style>
 .make_plan_main_contents{
-  width:980px;
+  width:1260px;
 }
 .make_plan_main_title{
-  width:980px;
+  width:1260px;
 }
 .make_plan_main_left{
   width:270px;
   float:left;
 }
 .make_plan_main_right{
-  width:710px;
+  width:980px;
   float:left;
+}
+#contents_right{
+width:1260px;
+}
+#contents_wrapper{
+width:1220px;
+padding:0px;
+margin:0px;
 }
 body{
   background:none;
 }
 #make_plan_table{
-width: 700px;
+width: 980px;
 overflow:scroll;
-height:500px;
+height:700px;
 }
 .title_bar.main_plan{
  width:980px;
