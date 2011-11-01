@@ -1050,16 +1050,16 @@ if($editable)
 	<table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
 <tr>
 
-  <td class="sex" align="center" bgcolor="#e0ffff">席</td>
-  <td class="name" align="center" bgcolor="#e0ffff">出席者名</td>
-  <td class="respect" align="center" bgcolor="#e0ffff">敬称</td>
-  <td class="group" align="center" bgcolor="#e0ffff">区分</td>
-  <td class="comment" align="center" bgcolor="#e0ffff">肩書</td>
-  <td class="table_name" align="center" bgcolor="#e0ffff">卓名</td>
-  <td class="gift" align="center" bgcolor="#e0ffff">引出物</td>
-  <td class="food" align="center" bgcolor="#e0ffff">料理</td>
-  <td class="memo" align="center" bgcolor="#e0ffff">特記</td>
-  <td class="action" align="center" bgcolor="#e0ffff">&nbsp;</td>
+  <td class="sex" align="center" bgcolor="#ffffff">席</td>
+  <td class="name" align="center" bgcolor="#ffffff">出席者名</td>
+  <td class="respect" align="center" bgcolor="#ffffff">敬称</td>
+  <td class="group" align="center" bgcolor="#ffffff">区分</td>
+  <td class="comment" align="center" bgcolor="#ffffff">肩書</td>
+  <td class="table_name" align="center" bgcolor="#ffffff">卓名</td>
+  <td class="gift" align="center" bgcolor="#ffffff">引出物</td>
+  <td class="food" align="center" bgcolor="#ffffff">料理</td>
+  <td class="memo" align="center" bgcolor="#ffffff">特記</td>
+  <td class="action" align="center" bgcolor="#ffffff">&nbsp;</td>
 </tr>
 <?php
 //新郎新婦の情報を取得
@@ -1089,17 +1089,17 @@ for($i=0;$i<count($userArray);++$i){
 <br>
 <table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
     	<tr>
-            <td class="sex" align="center" bgcolor="#e0ffff">席</td>
-           <td class="name" align="center" bgcolor="#e0ffff">出席者名</td>
-            <td class="respect" align="center" bgcolor="#e0ffff">敬称</td>
-            <td class="group" align="center" bgcolor="#e0ffff">区分</td>
-            <td class="comment" align="center" bgcolor="#e0ffff">肩書</td>
-            <td class="table_name" align="center" bgcolor="#e0ffff">卓名</td>
-            <td class="gift" align="center" bgcolor="#e0ffff">引出物</td>
-            <td class="food" align="center" bgcolor="#e0ffff">料理</td>
-            <td class="memo" align="center" bgcolor="#e0ffff">特記</td>
+            <td class="sex" align="center" bgcolor="#ffffff">席</td>
+           <td class="name" align="center" bgcolor="#ffffff">出席者名</td>
+            <td class="respect" align="center" bgcolor="#ffffff">敬称</td>
+            <td class="group" align="center" bgcolor="#ffffff">区分</td>
+            <td class="comment" align="center" bgcolor="#ffffff">肩書</td>
+            <td class="table_name" align="center" bgcolor="#ffffff">卓名</td>
+            <td class="gift" align="center" bgcolor="#ffffff">引出物</td>
+            <td class="food" align="center" bgcolor="#ffffff">料理</td>
+            <td class="memo" align="center" bgcolor="#ffffff">特記</td>
 
-			<td class="action" align="center" bgcolor="#e0ffff">&nbsp;</td>
+			<td class="action" align="center" bgcolor="#ffffff">&nbsp;</td>
 </tr></table>
 <div style="height:600px;overflow-y:auto;width:940px;">
 	<table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
@@ -1248,23 +1248,23 @@ if($guest["sex"] == "Male"){
       ?>
         <table width="510" border="0" cellspacing="1" cellpadding="0" bgcolor="#999999">
           <tr>
-            <td colspan="2" width="105" align="right" bgcolor="#e0ffff">グループ</td>
+            <td colspan="2" width="105" align="right" bgcolor="#ffffff">グループ</td>
             <?php
 				foreach($group_rows as $grp)
 				{
 					if ($grp['name']!="") {
 					?>
-			            <td width="45" align="center" bgcolor="#e0ffff"><?=$grp['name']?></td>
+			            <td width="45" align="center" bgcolor="#ffffff"><?=$grp['name']?></td>
 		            <?php
 					}
             	}
 			?>
-            <td width="45" align="center" bgcolor="#e0ffff">予備</td>
-            <td width="45" align="center" bgcolor="#e0ffff">合計</td>
+            <td width="45" align="center" bgcolor="#ffffff">予備</td>
+            <td width="45" align="center" bgcolor="#ffffff">合計</td>
           </tr>
         
           <tr >
-            <td colspan="2" align="right" bgcolor="#e0ffff">グループ数</td>
+            <td colspan="2" align="right" bgcolor="#ffffff">グループ数</td>
             <?php
 				$total = 0;
             	foreach($group_rows as $grp)
@@ -1272,18 +1272,18 @@ if($guest["sex"] == "Male"){
 					if ($grp['name']!="") {
 						$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']);
 						$total += $num_guests_groups;
-						echo "<td align='center' bgcolor='#e0ffff'> $num_guests_groups </td>";
+						echo "<td align='center' bgcolor='#ffffff'> $num_guests_groups </td>";
 					}
 				}
 			?>
 
-            <td align="center" bgcolor="#e0ffff"> - </td>
-            <td bgcolor="#e0ffff" align="center"><?=$total?></td>
+            <td align="center" bgcolor="#ffffff"> - </td>
+            <td bgcolor="#ffffff" align="center"><?=$total?></td>
           </tr>     
 
           <?php
           echo "<tr>";
-          echo "<td bgcolor='#e0ffff' align='center' width='45' rowspan='7'>商品名</td>";
+          echo "<td bgcolor='#ffffff' align='center' width='45' rowspan='7'>商品名</td>";
           foreach($gift_rows as $gift)
 			{
 			if ($gift['name']!="") {
@@ -1339,7 +1339,7 @@ if($guest["sex"] == "Male"){
           if(count($item_name_arr) == 0) continue;
           $item_names = implode("<br>",$item_name_arr);
 
-					echo "<tr><td bgcolor='#e0ffff' width='30' align='center'>".$grp['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".$item_names."</td></tr>";
+					echo "<tr><td bgcolor='#ffffff' width='30' align='center'>".$grp['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".$item_names."</td></tr>";
 				}
 			?>
         </table>
@@ -1362,7 +1362,7 @@ if($guest["sex"] == "Male"){
 
 		$totalsum +=$num_menu_guest;
 	}
-	echo'<tr><td   bgcolor="#e0ffff" align="center" >大人</td><td  bgcolor="#FFFFFF" align="center" >'.($Noofguest-$totalsum).'</td></tr>';
+	echo'<tr><td   bgcolor="#ffffff" align="center" >大人</td><td  bgcolor="#FFFFFF" align="center" >'.($Noofguest-$totalsum).'</td></tr>';
 	foreach($menu_groups as $mg)
 	{
 		$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']." and guest_id<>0");
@@ -1370,13 +1370,13 @@ if($guest["sex"] == "Male"){
 		if ($mg['name']!="") {
 	  ?>
 	     <tr>
-	      <td width="120" align="center" bgcolor="#e0ffff"><?=$mg['name']?></td>
+	      <td width="120" align="center" bgcolor="#ffffff"><?=$mg['name']?></td>
 	      <td width="60" align="center" bgcolor="#FFFFFF"><?=$num_menu_guest?></td>
 	    </tr>
 	   <?php
 		}
    	}
-	echo'<tr><td   bgcolor="#e0ffff" align="center" >合計</td><td  bgcolor="#FFFFFF" align="center" >'.$Noofguest.'</td></tr>';
+	echo'<tr><td   bgcolor="#ffffff" align="center" >合計</td><td  bgcolor="#FFFFFF" align="center" >'.$Noofguest.'</td></tr>';
    ?>
   </table>
 
