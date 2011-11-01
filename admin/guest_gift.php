@@ -353,7 +353,10 @@ include("inc/return_dbcon.inc.php");
         </a>
       </div>
       <div class="navi">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-        	<div class="navi"><a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank"><img src="img/common/navi03.jpg" onMouseOver="this.src='img/common/navi03_on.jpg'"onMouseOut="this.src='img/common/navi03.jpg'" /></a>
+        	<div class="navi">
+        	<a href="javascript:void(0);" onClick="windowUserOpen('user_dashboard.php?user_id=<?=$user_id?>')" target="_userWindow">
+        		<img src="img/common/navi03.jpg" onMouseOver="this.src='img/common/navi03_on.jpg'"onMouseOut="this.src='img/common/navi03.jpg'" />
+        	</a>
             </div><div class="navi2">
             
 <?php if($_SESSION["super_user"]){ ?>

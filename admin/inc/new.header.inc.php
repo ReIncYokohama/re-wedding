@@ -13,6 +13,11 @@
 <script type="text/javascript" src="../js/util.js"></script>
 <!--<script type="text/javascript" src="js/jquery.rollover.js"></script>-->
 <script type="text/javascript">
+
+function windowUserOpen(url) {
+	userWindow = window.open(url,"_userWindow");
+}
+
 function confirmDelete(urls)
 {
    	var agree = confirm("削除しても宜しいですか？");

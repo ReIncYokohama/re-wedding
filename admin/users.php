@@ -443,7 +443,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 						?>
                         </td>
                         <td width="60" class="txt1">
-                        	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
+                        	<a href="javascript:void(0);" onClick="windowUserOpen('user_dashboard.php?user_id=<?=$row['id']?>')" target="_userWindow"><img src="img/common/customer_view.gif" /></a>
                         </td>
 
                         <td width="40">
