@@ -113,7 +113,9 @@ function validForm(num)
 	
 	$.post('ajax/plan_table_name_update_all.php',sendObject, function(data){
 	    if (timeOutNow==true) location.href = "logout.php";
+      alert("テーブル名が保存されました");
 		});
+  
 }
 
 function user_layout_title_input_show(id)

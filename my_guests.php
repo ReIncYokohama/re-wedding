@@ -11,6 +11,11 @@ $get = $obj->protectXSS($_GET);
 $user_id = (int)$_SESSION['userid'];
 include_once("inc/new.header.inc.php");
 
+$message = "";
+if($_GET["insert"]) $message = "招待者および招待者情報が登録されました。";
+if($_GET["update"]) $message = "招待者および招待者情報が更新されました。";;
+
+
 if(isset($_GET['action']) && $_GET['action'] == 'delete' )
 	{
 		$guest_id = (int)$_GET['guest_id'];
@@ -260,6 +265,8 @@ $(function(){
       {
         $("#msg_rpt").fadeOut(5000);
       }
+    var message = "<?php echo $message;?>";
+    if(message != "") alert(message);
 	});
 
 function edit_guest(gid)
