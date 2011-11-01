@@ -41,7 +41,7 @@ function checkGaiji(str,path,ele){
            "url" :path,
            "success":function(txt){
                if(txt != ""){
-                   alert("JIS規格による異形文字が含まれています。\n●の漢字を外字検索より正しく入力し直してください。\n");
+                   alert("外字またはJIS規格による異形文字が含まれています。\n●の漢字を外字検索より正しく入力し直してください。\n");
                    
                    for(var i=0;i<txt.length;++i){
                        $j(ele).val(String($j(ele).val()).replace(txt[i],"●"));
