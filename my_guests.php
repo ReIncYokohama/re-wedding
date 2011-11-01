@@ -1179,7 +1179,7 @@ if($guest["sex"] == "Male"){
         	<td align="center" valign="middle" bgcolor="#FFFFFF" class="food"> <?=$menu_name?>  </td>
 
         	<td align="left" valign="middle" bgcolor="#FFFFFF" class="memo"><?=$guest['memo']?> </td>
-        	<td valign="middle" bgcolor="#FFFFFF" class="action">
+        	<td valign="middle" align="center" bgcolor="#FFFFFF" class="action">
 			<?php
 			if($editable)
 				{
