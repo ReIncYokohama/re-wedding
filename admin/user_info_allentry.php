@@ -866,7 +866,7 @@ include("inc/return_dbcon.inc.php");
                 </td>
             </tr>
             <tr>
-              <td width="192" align="left" valign="middle" nowrap="nowrap">披露宴会場</td>
+              <td width="192" align="left" valign="middle" nowrap="nowrap">披露宴会場<font color="red">*</font></td>
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
 				<input type="hidden" name="current_room_id" id="current_room_id" value="<?=$user_row['room_id']?>"  />
@@ -946,7 +946,7 @@ include("inc/return_dbcon.inc.php");
                 </td>
 
                 <td align="left" valign="middle" nowrap="nowrap">
-                	　　&nbsp;挙式会場<font color="red">*</font>　：
+                	　　&nbsp;挙式会場&nbsp;　：
 					<?php
 						$party_rooms_name = $obj->GetSingleData("spssp_party_room","name"," id=".$user_row['party_room_id']);
 
@@ -1259,7 +1259,7 @@ if($user_row['mukoyoshi']=='1'){
 
           </tr>
             <tr>
-              <td width="192" align="left" valign="middle" nowrap="nowrap">サイズ／タイプ</td>
+              <td width="192" align="left" valign="middle" nowrap="nowrap">サイズ／タイプ<font color="red">*</font></td>
 
               <td width="40" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
