@@ -1364,11 +1364,11 @@ if($user_row['mukoyoshi']=='1'){
 			?>
 
         <div style="width:1000px; float:left;" id="div_box_3">
-        	<div style="width:32%; float:left; ">
+        	<div style="width:40%; float:left; ">
             	<div style="width:100px; float:left; ">
                 	<p> 引出物商品： <p>
                 </div>
-                <div style="width:200px; float:left;">
+                <div style="width:300px; float:left;">
 <!-- 			<form action="user_info.php?user_id=<?=$user_id?>" method="post"  name="editUserGiftItemsForm"> -->
 	   		<input type="hidden" name="editUserGiftItemsUpdate" value="editUserGiftItemsUpdate">
 	   		<table width="100%" border="0" cellspacing="1" cellpadding="0">
@@ -1377,14 +1377,14 @@ if($user_row['mukoyoshi']=='1'){
 		  	$yy = 1;
 			foreach($gifts as $gift_name)
 			{
-				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;' name='name_gift".$yy."' value='".$gift_name['name']."' size='13'>&nbsp;&nbsp;&nbsp;";
+				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;' name='name_gift".$yy."' value='".$gift_name['name']."' size='35'>&nbsp;&nbsp;&nbsp;";
 				echo "<input type='hidden' name='gift_fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
 				$yy++;
 			}
 	   }
 	   else {
 		   	for ($yy=1; $yy<=$count_gift; $yy++) {
-				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;' name='name_gift".$yy."' value='' size='13'>&nbsp;&nbsp;&nbsp;";
+				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;' name='name_gift".$yy."' value='' size='35'>&nbsp;&nbsp;&nbsp;";
 				echo "<input type='hidden' name='gift_fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
 		   	}
 	   	}
