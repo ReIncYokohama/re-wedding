@@ -659,36 +659,40 @@ include("inc/return_dbcon.inc.php");
 		<p class="txt3">
 			<table style="width:1000px; border="0" cellspacing="10" cellpadding="0">
 				<tr>
-					<td width="20">名前<font color="red">*</font>：</td>
-					<td width="120">
-	    		  <input name="name" type="text" id="name" size="20" value="<?=$edit_data_rows['name']?>" />
+				  <td width="18">名前<font color="red">*</font></td>
+					<td width="1">：</td>
+					<td width="126">
+	    		  <input name="name" type="text" id="name" size="20" style="border-style: inset;" value="<?=$edit_data_rows['name']?>" />
 					<input  type="hidden" id="name_current" size="20" value="<?=$edit_data_rows['name']?>" />
 					</td>
 				</tr>
 				<tr>
-					<td align="left">ログインID<font color="red">*</font>：</td>
+				  <td align="left">ログインID<font color="red">*</font></td>
+					<td align="left">：</td>
 					<td align="left">
-					<input name="username" type="text" id="ID" size="25"  value="<?=$edit_data_rows['username']?>"/>
+					<input name="username" type="text" id="ID" size="25" style="border-style: inset;" value="<?=$edit_data_rows['username']?>"/>
 					<input  type="hidden" id="username_current" size="20" value="<?=$edit_data_rows['username']?>" />    　
 	            	</td>
 				</tr>
 				<tr>
-					<td align="left">パスワード<font color="red">*</font>：</td>
+				  <td align="left">パスワード<font color="red">*</font></td>
+					<td align="left">：</td>
 					<td align="left">
-					<input name="password" type="text" id="password" size="25"  value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
+					<input name="password" type="text" id="password" size="25" style="border-style: inset;" value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
 					<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください</span>
 					</td>
 				</tr>
 				<tr>
-					<td align="left">メールを受信する：</td>
+				  <td align="left">メールを受信する</td>
+					<td align="left">：</td>
 					<td>
 				<input type="radio" name="subcription_mail" value="0" <?php echo ($edit_data_rows['subcription_mail']=='0' && $edit_data_rows['email'] !='')?"checked":"";?> /> 受信する
 				<input type="radio" name="subcription_mail" value="1" <?php if ($edit_data_rows['subcription_mail']=='1' || !isset($edit_data_rows['subcription_mail'])) echo "checked";?>/>  受信しない
 					</td>
 				</tr>
                 				<tr>
-					<td align="left">					権限：
-					</td>
+                				  <td align="left">権限</td>
+					<td align="left">： </td>
                     <td>
 				<?php if($edit_data_rows['permission']==333){ ?>
 						<input type="radio" name="permission" id="radio2" value="333" checked="checked"  disabled="disabled" />
@@ -705,21 +709,23 @@ include("inc/return_dbcon.inc.php");
 					</td>
 				</tr>
 				<tr>
-					<td align="left">メールアドレス：</td>
+				  <td align="left">メールアドレス</td>
+					<td align="left">：</td>
 					<td align="left">
-						<input name="email" type="text" id="email" size="25" value="<?=$edit_data_rows['email']?>" />
+						<input name="email" type="text" id="email" size="25" style="border-style: inset;" value="<?=$edit_data_rows['email']?>" />
 					                        <input  type="hidden" id="email_current" size="20" value="<?=$edit_data_rows['email']?>" />
 					</td>
 				</tr>
 				<tr>
-					<td align="left">メールアドレス確認用：</td>
+				  <td align="left">メールアドレス確認用</td>
+					<td align="left">：</td>
 					<!--  UCHIDA EDIT 11/08/08 確認用メールアドレスのペーストを禁止 -->
 				<td width="160" onpaste="alert('メールアドレス確認用は貼り付けできません');return false;">
-					<input name="conf_email" type="text" id="conf_email" size="25" value="<?=$edit_data_rows['email']?>" />
+					<input name="conf_email" type="text" id="conf_email" size="25" style="border-style: inset;" value="<?=$edit_data_rows['email']?>" />
 					</td>
 				</tr>
 			</table>
-      <br>
+  <br>
 
             <label for="権限"></label><div style="width:250px; text-align:left;"> <a href="#" onclick="validForm();"><img src="img/common/btn_regist_update.jpg" alt="登録・更新" width="82" height="22" /></a>&nbsp;&nbsp;&nbsp;
 			<?php if($get[id]=="") { ?>
@@ -830,49 +836,55 @@ include("inc/return_dbcon.inc.php");
 				<p>
 				<table style="width:1000px; border="0" cellspacing="10" cellpadding="0">
 				<tr>
-					<td width="20">名前<font color="red">*</font>：</td>
-					<td width="120">
+				  <td width="18">名前<font color="red">*</font></td>
+					<td width="1">：</td>
+					<td width="126">
 			    		<input name="name" type="text" id="name" style="width:200px;padding:3px;" value="<?=$stuff_row['name']?>" />
 						<input  type="hidden" id="name_current" style="width:200px;padding:3px;" value="<?=$stuff_row['name']?>" />
 					</td>
 				</tr>
 				<tr>
-					<td align="left">ログインID<font color="red">*</font>：</td>
+				  <td align="left">ログインID<font color="red">*</font></td>
+					<td align="left">：</td>
 					<td align="left">
 						<input name="username" type="text" id="ID" style="width:200px;padding:3px;" value="<?=$stuff_row['username']?>"/>
 						<input type="hidden" id="username_current" style="width:200px;padding:3px;" value="<?=$stuff_row['username']?>" />    　
 	            	</td>
 				</tr>
 				<tr>
-					<td align="left">パスワード<font color="red">*</font>：</td>
+				  <td align="left">パスワード<font color="red">*</font></td>
+					<td align="left">：</td>
 					<td align="left">
 						<input name="password" type="text" id="password" style="width:200px;padding:3px;" value="<?=$stuff_row['password']?>"  onblur="checkvalidity()"/><br>
 						<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください</span>
 					</td>
 				</tr>
 				<tr>
-					<td align="left">メールを受信する：</td>
+				  <td align="left">メールを受信する</td>
+					<td align="left">：</td>
 					<td>
 					<input type="radio" name="subcription_mail" value="0" <?php echo ($stuff_row['subcription_mail']=='0' && $stuff_row['email'] !='')?"checked":"";?> /> 受信する
 					<input type="radio" name="subcription_mail" value="1" <?php echo($stuff_row['subcription_mail']=='1')?"checked":"";?>/>  受信しない
 					</td>
 				</tr>
 				<tr>
-					<td align="left">メールアドレス：</td>
+				  <td align="left">メールアドレス</td>
+					<td align="left">：</td>
 					<td align="left">
 						<input name="email" type="text" id="email" style="width:200px;padding:3px;" value="<?=$stuff_row['email']?>" />
 						<input  type="hidden" id="email_current" style="width:200px;padding:3px;" value="<?=$stuff_row['email']?>" />
 					</td>
 				</tr>
 				<tr>
-					<td align="left">メールアドレス確認用：</td>
+				  <td align="left">メールアドレス確認用</td>
+					<td align="left">：</td>
 					<!--  UCHIDA EDIT 11/08/08 確認用メールアドレスのペーストを禁止 -->
 					<td onpaste="alert('メールアドレス確認用は貼り付けできません');return false;">
 						<input name="conf_email" type="text" id="conf_email" style="width:200px;padding:3px;" value="<?=$stuff_row['email']?>" />
 					</td>
 				</tr>
 			</table>
-                    <br />
+                  <br />
 				   <a href="#" onclick="validForm_staff();"><img src="img/common/btn_update.jpg" alt="更新" width="82" height="22" /></a>
         		</p>
 				</form>

@@ -295,10 +295,10 @@ include("inc/return_dbcon.inc.php");
 
 <table style="width:340px;" border="0" align="left" cellpadding="0" cellspacing="10" >
             <tr>
-              <td width="60" align="left" nowrap="nowrap">高砂卓名</td>
-                <td width="10" align="left" nowrap="nowrap">：</td>
-                <td width="270" nowrap="nowrap">
-                	 <?php 				if ($InputArea=="") {?> <input type="text" name="default_layout_title"  id="DefaultLayoutTitle" value="<?=$default_layout_title?>" /> <?php } else	echo $default_layout_title ?>
+              <td width="50" align="left" nowrap="nowrap">高砂卓名</td>
+                <td width="5" align="left" nowrap="nowrap">：</td>
+                <td width="285" nowrap="nowrap">
+                	 <?php 				if ($InputArea=="") {?> <input type="text" name="default_layout_title"  id="DefaultLayoutTitle" style="border-style: inset;" value="<?=$default_layout_title?>" /> <?php } else	echo $default_layout_title ?>
            	  </td>
   </tr>
 </table>
@@ -312,9 +312,9 @@ include("inc/return_dbcon.inc.php");
 			<?php if ($InputArea=="") {?>
 			<table style="width:680px;" border="0" align="left" cellpadding="0" cellspacing="10">
             <tr align="left">
-                <td width="60" align="left" nowrap="nowrap">卓名</td>
-                <td width="10" align="left" nowrap="nowrap">：</td>
-                <td width="270" nowrap="nowrap"><input type="text" name="name" id="name"  value="<?=$get['name']?>"/></td>
+                <td width="50" align="left" nowrap="nowrap">卓名</td>
+                <td width="5" align="left" nowrap="nowrap">：</td>
+                <td width="285" nowrap="nowrap"><input type="text" name="name" id="name" style="border-style: inset;"  value="<?=$get['name']?>"/></td>
                 <td width="60" nowrap="nowrap">卓名変更</td>
                 <td width="10" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">

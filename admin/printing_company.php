@@ -359,11 +359,13 @@ include("inc/return_dbcon.inc.php");
 			?>
 			 <table style="width:1000px;" >
 					<tr>
-						<td width="12%">会社名 :</td>
-						<td width="88%"><?=$comp[company_name]?></td>
+					  <td width="12%">会社名</td>
+						<td width="1%"> ：</td>
+						<td width="85%"><?=$comp[company_name]?></td>
 					</tr>
 					<tr>
-						<td>メールアドレス :</td>
+					  <td>メールアドレス</td>
+						<td> ：</td>
 						<td><?=$comp[email]?></td>
 					</tr>
 <!-- UCHIDA EDIT 11/08/08 確認用は表示不要
@@ -373,23 +375,28 @@ include("inc/return_dbcon.inc.php");
 					</tr>
  -->
  					<tr>
-						<td>電話番号 :</td>
+ 					  <td>電話番号</td>
+						<td> ：</td>
 						<td><?=$comp[number]?></td>
 					</tr>
 					<tr>
-						<td>郵便番号 :</td>
+					  <td>郵便番号</td>
+						<td> ：</td>
 						<td><?=$comp[postcode]?></td>
 					</tr>
 					<tr>
-						<td>住所1 :</td>
+					  <td>住所1</td>
+						<td> ：</td>
 						<td><?=$comp[address_1]?></td>
 					</tr>
 					<tr>
-						<td>住所2 :</td>
+					  <td>住所2</td>
+						<td> ：</td>
 						<td><?=$comp[address_2]?></td>
 					</tr>
 					<tr>
-						<td >担当者名 :</td>
+					  <td >担当者名</td>
+						<td > ：</td>
 						<td ><?=$comp[contact_name]?></td>
 					</tr>
 				<!--	<tr>
@@ -403,43 +410,53 @@ include("inc/return_dbcon.inc.php");
 
 				</table>
 			<? }else if($_SESSION['user_type'] != '222' ) {?>
-        	<form action="printing_company.php" method="post" name="new_name">
+   	  <form action="printing_company.php" method="post" name="new_name">
             	<input type="hidden" name="insert_edit" id="insert_edit" value="<?=$get[id]?>" />
                 <table style="width:1000px;" >
 					<tr>
-						<td width="12%">会社名<span style="color:red;">*</span> :</td>
-						<td width="88%"><input type="text" name="company_name" id="company_name" size="40" value="<?=$comp[company_name]?>" /></td>
+					  <td width="12%">会社名<span style="color:red;">*</span></td>
+						<td width="1%">：</td>
+						<td width="86%"><input type="text" name="company_name" id="company_name" size="40" style="border-style: inset;" value="<?=$comp[company_name]?>" /></td>
 					</tr>
 					<tr>
-						<td>メールアドレス<span style="color:red;">*</span> :</td>
-						<td><input type="text" name="email" id="email"  size="30" value="<?=$comp[email]?>" /></td>
+					  <td>メールアドレス<span style="color:red;">*</span></td>
+						<td>：</td>
+						<td><input type="text" name="email" id="email"  size="30" style="border-style: inset;" value="<?=$comp[email]?>" /></td>
 					</tr>
 					<tr>
-						<td>メールアドレス確認用<span style="color:red;">*</span> :</td>
+					  <td>メールアドレス確認用<span style="color:red;">*</span></td>
+						<td>：</td>
 						<!--  UCHIDA EDIT 11/08/08 確認用メールアドレスのペーストを禁止 -->
-						<td onpaste="alert('メールアドレス確認用は貼り付けできません');return false;"><input type="text" name="conf_email" id="conf_email" size="30" value="<?=$comp[conf_email]?>"  /></td>
+						<td onpaste="alert('メールアドレス確認用は貼り付けできません');return false;"><input type="text" name="conf_email" id="conf_email" size="30" style="border-style: inset;" value="<?=$comp[conf_email]?>"  /></td>
 					</tr>
 					<tr>
-						<td>電話番号<span style="color:red;">*</span> :</td>
-						<td><input type="text" name="number" id="number" value="<?=$comp[number]?>"  size="20"/>（例　0451111111)</td>
+					  <td>電話番号<span style="color:red;">*</span></td>
+						<td>：</td>
+						<td><input type="text" name="number" id="number" style="border-style: inset;" value="<?=$comp[number]?>"  size="20"/>（例　0451111111)</td>
 					</tr>
 					<tr>
-						<td>郵便番号 :</td>
-						<td><input name="postcode" type="text" id="postcode" value="<?=$comp[postcode]?>" size="10" maxlength="8" />（例　231-0000）</td>
+					  <td>郵便番号</td>
+						<td> ：</td>
+						<td><input name="postcode" type="text" id="postcode" style="border-style: inset;" value="<?=$comp[postcode]?>" size="10" maxlength="8" />（例　231-0000）</td>
 					</tr>
 					<tr>
-						<td>住所1 :</td>
-						<td><input type="text" name="address_1" id="address_1" size="50" value="<?=$comp[address_1]?>"  /></td>
+					  <td>住所1</td>
+						<td> ：</td>
+						<td><input type="text" name="address_1" id="address_1" size="50" style="border-style: inset;" value="<?=$comp[address_1]?>"  /></td>
 					</tr>
 					<tr>
-						<td>住所2 :</td>
-						<td><input type="text" name="address_2" id="address_2"  size="50" value="<?=$comp[address_2]?>" /></td>
+					  <td>住所2</td>
+						<td> ：</td>
+						<td><input type="text" name="address_2" id="address_2"  size="50" style="border-style: inset;" value="<?=$comp[address_2]?>" /></td>
 					</tr>
 					<tr>
-						<td>担当者名 :</td>
-						<td><input name="contact_name" type="text" id="contact_name" value="<?=$comp[contact_name]?>" size="10"  /></td>
+					  <td>担当者名</td>
+						<td> ：</td>
+						<td><input name="contact_name" type="text" id="contact_name" style="border-style: inset;" value="<?=$comp[contact_name]?>" size="10"  /></td>
 					</tr>
-					<tr><td>&nbsp;</td></tr>
+					<tr>
+					  <td>&nbsp;</td>
+				    <td>&nbsp;</td></tr>
 				<!--	<tr>
 						<td width="10%">表示する :</td>
 						<td width="90%">
@@ -450,6 +467,7 @@ include("inc/return_dbcon.inc.php");
 					</tr>	-->
 				<?php if($_SESSION['user_type']=='333' OR $_SESSION['user_type']=='111'){?>
                     <tr>
+                      <td width="10%"></td>
 						<td width="10%"></td>
 						<td width="90%">
 						<a href="#"><img width="82" height="22" border="0" src="img/common/btn_regist_update.jpg" alt="登録・更新" onclick="check_name();" >&nbsp; &nbsp;

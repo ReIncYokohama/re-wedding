@@ -317,11 +317,12 @@ unset($_SESSION['msg']);
 			 <input type="hidden" name="editUserGiftGroupsUpdate" value="editUserGiftGroupsUpdate">
 			<table width="100%" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-				<td width="120">引出物商品数　　：</td>
+			    <td width="120">引出物商品数</td>
+				<td width="10">：</td>
 				<td>
 
                 <?php if($_SESSION['user_type']==333){?>
-                <input name="num_gift_items" <?=$ro?> type="text" onlyNumeric="i" id="num_gift_items" size="10" maxlength='1' value="<?=$gift_criteria_data_row[0]['num_gift_items']?>" /> &nbsp;種類（最大7種類まで）
+                <input name="num_gift_items" <?=$ro?> type="text" onlyNumeric="i" id="num_gift_items" size="10" maxlength='1' style="border-style: inset;" value="<?=$gift_criteria_data_row[0]['num_gift_items']?>" /> &nbsp;種類（最大7種類まで）
                 <?
 				}else{
 					?>
@@ -332,10 +333,11 @@ unset($_SESSION['msg']);
                 </td>
 			  </tr>
 			  <tr>
-				<td>引出物グループ数：</td>
+			    <td>引出物グループ数</td>
+				<td>：</td>
 				<td>
                 <?php if($_SESSION['user_type']==333){?>
-                <input name="num_gift_groups" <?=$ro?> type="text"  onlyNumeric="i" id="num_gift_groups" size="10" maxlength='1' value="<?=$gift_criteria_data_row[0]['num_gift_groups']?>"  />
+                <input name="num_gift_groups" <?=$ro?> type="text"  onlyNumeric="i" id="num_gift_groups" size="10" maxlength='1' style="border-style: inset;" value="<?=$gift_criteria_data_row[0]['num_gift_groups']?>"  />
 					&nbsp;グループ（最大7グループまで）
                 <?
 				}else{
@@ -347,27 +349,28 @@ unset($_SESSION['msg']);
         </td>
 			  </tr>
 			  <tr>
-				<td valign="top">グループ記号　　：</td>
+			    <td valign="top">グループ記号</td>
+				<td valign="top">：</td>
 				<td>
 				<?
 				$xx = 1;
 			foreach($data_rows as $row)
 			{
                 if($_SESSION['user_type']==333){
-				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='1' size='6' value='".$row['name']."'>";
+				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='1' size='6' border-style='inset' value='".$row['name']."'>";
 				}else{
 					echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'>".$row['name']."";
 				}
-				echo "<input type='hidden' name='fieldId".$xx."' value='".$row['id']."'></div>";
+				echo "<input type='hidden' name='fieldId".$xx."' border-style='inset' value='".$row['id']."'></div>";
 				$xx++;
 			}
 			for (; $xx <=7; $xx++) {
                 if($_SESSION['user_type']==333){
-				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='1' size='6' value=''>";
+				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='1' size='6' border-style='inset' value=''>";
 				}else{
 					echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'>";
 				}
-				echo "<input type='hidden' name='fieldId".$xx."' value=''></div>";
+				echo "<input type='hidden' name='fieldId".$xx."' border-style='inset' value=''></div>";
 			}
 		  ?>
 				</td>
@@ -384,10 +387,11 @@ unset($_SESSION['msg']);
 <!-- 	<form  action="gift.php" method="post" name="menu_criteria_form" onsubmit="return false;"> -->
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr>
-    <td width="120">子供料理　　　　：</td>
+    <td width="120">子供料理</td>
+    <td width="10">：</td>
     <td>
     <?php if ($_SESSION['user_type']==333){?>
-    <input name="num_menu_groups" type="text" id="num_menu_groups" size="10" <?=$ro?> value="<?=$menu_criteria_data_row[0]['num_menu_groups']?>" />
+    <input name="num_menu_groups" type="text" id="num_menu_groups" size="10" <?=$ro?> style="border-style: inset;" value="<?=$menu_criteria_data_row[0]['num_menu_groups']?>" />
       種類(最大3種類まで)
       <?
 	}else{
@@ -397,7 +401,7 @@ unset($_SESSION['msg']);
       </td>
   </tr>
   <tr>
-    <td colspan="2">
+    <td colspan="3">
 	<div style="padding-left:100px; margin-top:3px;">
 	<?php if($menu_criteria_num>0)
 	{?>
