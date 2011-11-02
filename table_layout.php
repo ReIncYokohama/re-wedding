@@ -202,7 +202,7 @@ function user_timeout() {
 
 		<table width="75%" border="0" >
 		  <tr>
-			  <td width="100%" nowrap align="left" > <pre>■　テーブルレイアウトは右の形になります。</pre></td>
+			  <td width="100%" nowrap align="left" > ■　テーブルレイアウトは右の形になります。</td>
 		  </tr>
 		</table>
 		<table width="75%" border="0" >
