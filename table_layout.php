@@ -202,7 +202,7 @@ function user_timeout() {
 
 		<table width="75%" border="0" >
 		  <tr>
-			  <td width="100%" nowrap align="left" > ■　テーブルレイアウトは右の形になります。</td>
+			  <td width="100%" nowrap align="left" > <pre>■　テーブルレイアウトは右の形になります。</pre></td>
 		  </tr>
 		</table>
 		<table width="75%" border="0" >
@@ -272,7 +272,7 @@ function user_timeout() {
 		<br />
 		<tr>
 			<td colspan="4" align="center">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;高砂卓名： <!-- UCHIDA EDIT 11/08/04  -->
+			<div style="padding-left:25px;">高砂卓名：
 			<?php
 			$_readonly="";
 			if (!$editable || $permission_table_edit['rename_table']==0) {
@@ -288,7 +288,7 @@ function user_timeout() {
 				$name_input=$default_layout_title;
 				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
 			}
-			?>
+			?></div>
 			　　　　　</td>
 		</tr>
          <tr>
