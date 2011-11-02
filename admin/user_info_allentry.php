@@ -870,7 +870,7 @@ include("inc/return_dbcon.inc.php");
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
 				<input type="hidden" name="current_room_id" id="current_room_id" value="<?=$user_row['room_id']?>"  />
-                	<select name="room_id" id="room_id" style="padding-top:4px; padding-bottom:4px;">
+                	<select name="room_id" id="room_id" style="padding-top:4px; padding-bottom:4px;border-style:inset;">
 
                     <?php
                         if($rooms)
@@ -923,7 +923,7 @@ include("inc/return_dbcon.inc.php");
 
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-                	<select name="religion" style="padding-top:4px; padding-bottom:4px;" id="religion" ><!--onchange="load_party_room(this.value);"-->
+                	<select name="religion" style="padding-top:4px; padding-bottom:4px;border-style:inset;" id="religion" ><!--onchange="load_party_room(this.value);"-->
 
 <!-- UCHIDA EDIT 11/08/03  <option value=""  <?php if($user_row[religion]=='') {?> selected="selected" <?php } ?>>選択してください</option> -->
                         <?php
@@ -1031,7 +1031,7 @@ if($user_row['mukoyoshi']=='1'){
               <td width="192" align="left" valign="middle" nowrap="nowrap">担当</td>
                 <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
-				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;">
+				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;border-style:inset;">
 				<?php
 				if ($user_id>0) {
 					foreach($All_staffs as $staf_rows) {
@@ -1250,7 +1250,7 @@ if($user_row['mukoyoshi']=='1'){
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
 
-				<select name="dowload_options" id="dowload_options">
+				<select name="dowload_options" id="dowload_options" style="border-style: inset;">
                     	<option value="1" <?php if($user_plan_row['dowload_options'] == 1) echo "selected='selected'";?>>席次表</option>
                         <option value="2" <?php if($user_plan_row['dowload_options'] == 2) echo "selected='selected'";?>>席札</option>
                         <option value="3" <?php if($user_plan_row['dowload_options'] == 3) echo "selected='selected'";?>>席次表・席札</option>
@@ -1263,12 +1263,12 @@ if($user_row['mukoyoshi']=='1'){
 
               <td width="40" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-                	<select name="print_size" id="print_size" style="width:45px;">
+                	<select name="print_size" id="print_size" style="width:45px;border-style:inset;">
 <!-- 					<option value="">選択してください</option> -->
 					<option value="1" <?php if($user_plan_row['print_size'] == 1) echo "selected='selected'";?>>A3</option>
 					<option value="2" <?php if($user_plan_row['print_size'] == 2) echo "selected='selected'";?>>B4</option>
 				</select>
-				<select name="print_type" id="print_type" style="width:45px;">
+				<select name="print_type" id="print_type" style="width:45px;border-style:inset;">
 <!--					<option value="">選択してください</option> -->
 					<option value="1" <?php if($user_plan_row['print_type'] == 1) echo "selected='selected'";?>>横</option>
 					<option value="2" <?php if($user_plan_row['print_type'] == 2) echo "selected='selected'";?>>縦
@@ -1326,7 +1326,7 @@ if($user_row['mukoyoshi']=='1'){
 					$company_results = $obj->getRowsByQuery($sql_company);
 					?>
 
-					<select name="print_company" id="print_company">
+					<select name="print_company" id="print_company" style="border-style: inset;">
 <!-- 						<option value="">選択してください</option> -->
 						<?php foreach($company_results as $company){?>
 						<option value="<?=$company['id']?>" <?php if($user_plan_row['print_company']==$company['id']){echo "selected='selected'";}?> ><?=$company['company_name']?></option>
@@ -1370,21 +1370,21 @@ if($user_row['mukoyoshi']=='1'){
                 </div>
                 <div style="width:300px; float:left;">
 <!-- 			<form action="user_info.php?user_id=<?=$user_id?>" method="post"  name="editUserGiftItemsForm"> -->
-	   		<input type="hidden" name="editUserGiftItemsUpdate" value="editUserGiftItemsUpdate">
+	   		<input type="hidden" name="editUserGiftItemsUpdate" value="editUserGiftItemsUpdate" style="border-style: inset;">
 	   		<table width="100%" border="0" cellspacing="1" cellpadding="0">
 	   <?php
 	   if($user_id>0) {
 		  	$yy = 1;
 			foreach($gifts as $gift_name)
 			{
-				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;' name='name_gift".$yy."' value='".$gift_name['name']."' size='30'>&nbsp;&nbsp;&nbsp;";
+				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;border-style:inset;' name='name_gift".$yy."' value='".$gift_name['name']."' size='30'>&nbsp;&nbsp;&nbsp;";
 				echo "<input type='hidden' name='gift_fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
 				$yy++;
 			}
 	   }
 	   else {
 		   	for ($yy=1; $yy<=$count_gift; $yy++) {
-				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;' name='name_gift".$yy."' value='' size='30'>&nbsp;&nbsp;&nbsp;";
+				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;border-style:inset;' name='name_gift".$yy."' value='' size='30'>&nbsp;&nbsp;&nbsp;";
 				echo "<input type='hidden' name='gift_fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
 		   	}
 	   	}
@@ -1413,12 +1413,12 @@ if($user_row['mukoyoshi']=='1'){
 					  $xx = 1;
 					  foreach($gift_groups as $row)
 					  {
-						  echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value='".$row['name']."'>";
+						  echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset;' value='".$row['name']."'>";
 						  echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></div>";
 						  $xx++;
 					  }
 		  			  for (; $xx <=$count_group; $xx++) {
-						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value=''>";
+						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset;' value=''>";
 						echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
 					  }
 					  $count_gift=$xx-1;
@@ -1428,7 +1428,7 @@ if($user_row['mukoyoshi']=='1'){
 					  	$data_rows = $obj->getRowsByQuery($group_sql);
 						$xx = 1;
 						foreach($data_rows as $row) {
-							echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value='".$row['name']."'>";
+							echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset;' value='".$row['name']."'>";
 							echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
 							$xx++;
 						}
@@ -1477,15 +1477,15 @@ if($user_row['mukoyoshi']=='1'){
        <div id="div_box_4" style="width:500px;">
 
 <!-- 				<form action="user_info.php?user_id=<?=$user_id?>" method="post" name="editUserMenuGroupsForm"> -->
-		  			<input type="hidden" name="editUserMenuGroupsUpdate" value="editUserMenuGroupsUpdate">
+		  			<input type="hidden" name="editUserMenuGroupsUpdate" value="editUserMenuGroupsUpdate"  style="border-style:inset;">
 					 <table width="100%" border="0" cellspacing="10" cellpadding="0">
         	<?php if($num_groups >0) {
 					$i=1;
 					echo "<tr>";
 					foreach($menu_groups as $mg)
 					{
-						echo "<td>子供料理 $i ：<input type='text' name='menu_child".$i."' id='menu_child".$i."' value='".$mg['name']."' size='20'></td>";
-						echo "<input type='hidden' name='menu_child_id".$i."' id='menu_child_id".$i."' value='".$mg['id']."'>";
+						echo "<td>子供料理 $i ：<input type='text'  style='border-style:inset;' name='menu_child".$i."' id='menu_child".$i."' value='".$mg['name']."' size='20'></td>";
+						echo "<input type='hidden' style='border-style:inset;' name='menu_child_id".$i."' id='menu_child_id".$i."' value='".$mg['id']."'>";
 						$i++;
 					}
 					echo "</tr>";
@@ -1493,8 +1493,8 @@ if($user_row['mukoyoshi']=='1'){
 				else {
 					echo "<tr>";
 					for ($i=1; $i<=$count_child; $i++) {
-						echo "<td>子供料理 $i ：<input type='text' name='menu_child".$i."' id='menu_child".$i."' value='' size='20'></td>";
-						echo "<input type='hidden' name='menu_child_id".$i."' id='menu_child_id".$i."' value=''>";
+						echo "<td>子供料理 $i ：<input type='text'  style='border-style:inset;' name='menu_child".$i."' id='menu_child".$i."' value='' size='20'></td>";
+						echo "<input type='hidden' style='border-style:inset;' name='menu_child_id".$i."' id='menu_child_id".$i."' value=''>";
 					}
 					echo "</tr>";
 				}
