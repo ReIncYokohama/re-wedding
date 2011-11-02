@@ -221,12 +221,12 @@ $(function(){
 						<tr>
 							<td>ログインID</td>
 <!-- UCHIDA EDIT 11/08/08 エンターキーを有効に設定 -->
-							<td onkeydown="if (event.keyCode == 13) { validForm(); }" ><input type="text" id="userID" name="userID" class="login" value='<?php echo $id ?>' /></td>
+							<td onkeydown="if (event.keyCode == 13) { validForm(); }" ><input type="text" id="userID" name="userID" class="login" style="border-style: inset;" value='<?php echo $id ?>' /></td>
 					    </tr>
 						<tr>
 							<td>パスワード</td>
 <!-- UCHIDA EDIT 11/08/08 エンターキーを有効に設定 -->
-							<td onkeydown="if (event.keyCode == 13) { validForm(); }" ><input type="password" id="password" name="password" class="login" /></td>
+							<td onkeydown="if (event.keyCode == 13) { validForm(); }" ><input type="password" id="password" name="password" style="border-style: inset;" class="login" /></td>
 					    </tr>
 						<tr>
 							<td>&nbsp;</td>

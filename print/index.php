@@ -165,13 +165,13 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
             <td width="20%" align="left" nowrap="nowrap" style="font-size:12px;">ログインID</td>
             <td width=" 5%" align="left" nowrap="nowrap" style="font-size:12px;">：</td>
             <td width="75%" nowrap="nowrap"><label for="ログインID"></label>
-            <input onkeydown="if (event.keyCode == 13) { login_admin(); }" name="userID" type="text" id="userID" size="20"  value='<?php echo $id ?>'/></td>
+            <input onkeydown="if (event.keyCode == 13) { login_admin(); }" name="userID" type="text" id="userID" size="20" style="border-style: inset;" value='<?php echo $id ?>'/></td>
           </tr>
           <tr>
             <td align="left" nowrap="nowrap" style="font-size:12px;">パスワード</td>
             <td align="left" nowrap="nowrap" style="font-size:12px;">：</td>
             <td nowrap="nowrap">
-            <input onkeydown="if (event.keyCode == 13) { login_admin(); }" name="password" type="password" id="password" size="20" /></td>
+            <input onkeydown="if (event.keyCode == 13) { login_admin(); }" name="password" type="password" id="password" size="20" style="border-style: inset;" /></td>
           </tr>
         </table>
       <div id="login_bt" style="margin-left: 104px;"><a href="javascript:void(0);" onclick="login_admin();"><img src="img/common/btn_login.jpg" alt="ログイン" width="152" height="22" /></a></div>
