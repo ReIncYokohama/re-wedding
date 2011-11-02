@@ -244,52 +244,64 @@ include("inc/return_dbcon.inc.php");
                 	<form action="hotel_info.php?page=<?=$_GET['page']?>&id=<?=$sqlrow['id']?>" name="hotelinfo" method="post">
                        <table width="100%" border="0" cellspacing="1" cellpadding="3">
 						  <tr>
-							<td width="170" align="left">ホテルコード :</td>
+						    <td width="150" align="left">ホテルコード</td>
+							<td width="20" align="left"> ：</td>
 							<td width="1358"; style="padding:1px;>
 							<input type="hidden" name="hotel_code" id="hotel_code" value="<?=$hotel_row[hotel_code]?>"/>
 							<?=$hotel_row[hotel_code]?></td>
 						  </tr>
 						  <tr>
-							<td align="left">ホテル名<?=$disp_option3?> :</td>
+						    <td align="left">ホテル名<?=$disp_option3?></td>
+							<td align="left">：</td>
 							<td><input type="text" name="name" id="name" <?=$disp_option1?> style="width:250px;padding:0px;border-style: inset; <?=$disp_option2?> " value="<?=$hotel_row[hotel_name]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">郵便番号<?=$disp_option3?> :</td>
+						    <td align="left">郵便番号<?=$disp_option3?></td>
+							<td align="left">：</td>
 							<td><input name="zipcode" type="text" id="zipcode" style="padding:0px;border-style: inset; <?=$disp_option2?> " size="10" maxlength="7" value="<?=$hotel_row[zip]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">住所1<?=$disp_option3?> :</td>
+						    <td align="left">住所1<?=$disp_option3?></td>
+							<td align="left">：</td>
 							<td><input type="text" name="address1" id="address1" <?=$disp_option1?> style="width:250px;padding:0px;border-style: inset; <?=$disp_option2?> " value="<?=$hotel_row[address1]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">住所2 :</td>
+						    <td align="left">住所2</td>
+							<td align="left">：</td>
 							<td><input type="text" name="address2" id="address2" <?=$disp_option1?> style="width:250px;padding:0px;border-style: inset; <?=$disp_option2?> " value="<?=$hotel_row[address2]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">電話番号<?=$disp_option3?> :</td>
+						    <td align="left">電話番号<?=$disp_option3?></td>
+							<td align="left">：</td>
 							<td><input type="text" name="tel" id="tel" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " value="<?=$hotel_row[phone]?>" /></td>
 						  </tr>
 						  <tr>
-							<td align="left">担当者<?=$disp_option3?> :</td>
+						    <td align="left">担当者<?=$disp_option3?></td>
+							<td align="left">：</td>
 							<td><input name="contactperson" type="text" id="contactperson" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " size="15" value="<?=$hotel_row[contact]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">メールアドレス<?=$disp_option3?> :</td>
+						    <td align="left">メールアドレス<?=$disp_option3?></td>
+							<td align="left">：</td>
 							<td><input type="text" name="email" id="email" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " value="<?=$hotel_row[email]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">招待者リストデータ削除日<?=$disp_option3?> :</td>
+						    <td align="left">招待者リストデータ削除日<?=$disp_option3?></td>
+							<td align="left">：</td>
 							<td><input name="delete_guest" type="text" id="delete_guest" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " size="5"   value="<?=$hotel_row[delete_guest]?>"/></td>
 						  </tr>
 						  <tr>
-							<td align="left">挙式情報データ削除日<?=$disp_option3?> :</td>
+						    <td align="left">挙式情報データ削除日<?=$disp_option3?></td>
+							<td align="left"> ：</td>
 							<td><input name="delete_weeding" type="text" id="delete_weeding" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " size="5"   value="<?=$hotel_row[delete_weeding]?>"/></td>
 						  </tr>
 
                             <tr>
+                              <td>&nbsp;</td>
                             <td>&nbsp;</td><td>&nbsp;</td>
                             </tr>
 						  <tr>
+						    <td></td>
 							<td></td>
 							<td>
 							<?php if ($disp_option1=="") { ?>
