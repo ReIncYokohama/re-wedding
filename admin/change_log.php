@@ -199,7 +199,7 @@ include("inc/return_dbcon.inc.php");
         <div align="center"> 
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><div style="height:20px; text-align:right"><a href="#">▲ページ上へ</a></div></td>
+    <td><div style="height:20px; text-align:right"><a href="#"><font size="3">▲ページ上へ</font></a></div></td>
   </tr>
   <tr>
     <td align="center"><a href="user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_back.gif" width="43" height="17" alt="戻る" /></a></td>
