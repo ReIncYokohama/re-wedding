@@ -22,6 +22,7 @@
 
 		$delete_query="Update spssp_room set status=0 where id=".(int)$_GET['id'];
 		mysql_query($delete_query);
+		if ((int)$_GET['id'] == (int)$_GET['room_id']) $room_id=0;
 
 		//delete all information
 		/*
