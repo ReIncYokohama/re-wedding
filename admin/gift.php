@@ -357,20 +357,20 @@ unset($_SESSION['msg']);
 			foreach($data_rows as $row)
 			{
                 if($_SESSION['user_type']==333){
-				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='1' size='6' border-style='inset' value='".$row['name']."'>";
+				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' style='border-style:inset' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='1' size='6' value='".$row['name']."'>";
 				}else{
 					echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'>".$row['name']."";
 				}
-				echo "<input type='hidden' name='fieldId".$xx."' border-style='inset' value='".$row['id']."'></div>";
+				echo "<input type='hidden' style='border-style:inset' name='fieldId".$xx."' value='".$row['id']."'></div>";
 				$xx++;
 			}
 			for (; $xx <=7; $xx++) {
                 if($_SESSION['user_type']==333){
-				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='1' size='6' border-style='inset' value=''>";
+				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='1' size='6' style='border-style:inset' value=''>";
 				}else{
 					echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'>";
 				}
-				echo "<input type='hidden' name='fieldId".$xx."' border-style='inset' value=''></div>";
+				echo "<input type='hidden' style='border-style:inset' name='fieldId".$xx."' value=''></div>";
 			}
 		  ?>
 				</td>
