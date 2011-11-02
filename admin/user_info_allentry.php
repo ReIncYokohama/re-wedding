@@ -1368,7 +1368,7 @@ if($user_row['mukoyoshi']=='1'){
             	<div style="width:100px; float:left; ">
                 	<p> 引出物商品： <p>
                 </div>
-                <div style="width:200px;; float:left;">
+                <div style="width:200px; float:left;">
 <!-- 			<form action="user_info.php?user_id=<?=$user_id?>" method="post"  name="editUserGiftItemsForm"> -->
 	   		<input type="hidden" name="editUserGiftItemsUpdate" value="editUserGiftItemsUpdate">
 	   		<table width="100%" border="0" cellspacing="1" cellpadding="0">
@@ -1400,7 +1400,7 @@ if($user_row['mukoyoshi']=='1'){
             </div>
 
 		 <div style="width:100px; float:left; ">
-		 引出物グループ:
+		 引出物グループ：
 		 </div>
 
 	       <div style="width:300px; float:left; ">
@@ -1484,7 +1484,7 @@ if($user_row['mukoyoshi']=='1'){
 					echo "<tr>";
 					foreach($menu_groups as $mg)
 					{
-						echo "<td>子供料理 $i :<input type='text' name='menu_child".$i."' id='menu_child".$i."' value='".$mg['name']."' size='20'></td>";
+						echo "<td>子供料理 $i ：<input type='text' name='menu_child".$i."' id='menu_child".$i."' value='".$mg['name']."' size='20'></td>";
 						echo "<input type='hidden' name='menu_child_id".$i."' id='menu_child_id".$i."' value='".$mg['id']."'>";
 						$i++;
 					}
@@ -1493,7 +1493,7 @@ if($user_row['mukoyoshi']=='1'){
 				else {
 					echo "<tr>";
 					for ($i=1; $i<=$count_child; $i++) {
-						echo "<td>子供料理 $i :<input type='text' name='menu_child".$i."' id='menu_child".$i."' value='' size='20'></td>";
+						echo "<td>子供料理 $i ：<input type='text' name='menu_child".$i."' id='menu_child".$i."' value='' size='20'></td>";
 						echo "<input type='hidden' name='menu_child_id".$i."' id='menu_child_id".$i."' value=''>";
 					}
 					echo "</tr>";
