@@ -1377,14 +1377,14 @@ if($user_row['mukoyoshi']=='1'){
 		  	$yy = 1;
 			foreach($gifts as $gift_name)
 			{
-				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;' name='name_gift".$yy."' value='".$gift_name['name']."' size='35'>&nbsp;&nbsp;&nbsp;";
+				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;' name='name_gift".$yy."' value='".$gift_name['name']."' size='30'>&nbsp;&nbsp;&nbsp;";
 				echo "<input type='hidden' name='gift_fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
 				$yy++;
 			}
 	   }
 	   else {
 		   	for ($yy=1; $yy<=$count_gift; $yy++) {
-				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;' name='name_gift".$yy."' value='' size='35'>&nbsp;&nbsp;&nbsp;";
+				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;' name='name_gift".$yy."' value='' size='30'>&nbsp;&nbsp;&nbsp;";
 				echo "<input type='hidden' name='gift_fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
 		   	}
 	   	}
