@@ -17,8 +17,8 @@
 				mysql_query($query_string);
 				if(mysql_affected_rows())
 				{
-
-					redirect("changepassword.php?mass=1");
+					echo "<script> alert('パスワードの変更が正常に完了しました'); </script>";
+					redirect("user_info.php");
 				}
 				else
 				{
@@ -171,14 +171,15 @@ $(function(){
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
-				<td><input type="button" name="login" value="更新"  onclick="validForm();"/></td>
+				<td><a href="#" onclick="validForm();"><img src="img/btn_save_user.jpg" alt="更新" /></a>
+				&nbsp;
+				<a href="#" onclick="window.location='user_info.php'"><img src="img/btn_cancel_user.jpg" alt="キャンセル" /></a></td>
 			</tr>
 		</table>
 	 </form>
     <script>document.getElementById('userID').focus();</script>
     </div>
     <div class="clear"></div>
-    <div align="center"><a href="user_info.php">&lt;&lt;戻る</a></div><br /><br /><br /> <!-- UCHIDA EDIT 11/07/28 -->
   <div class="clear"></div>
   </div>
 
