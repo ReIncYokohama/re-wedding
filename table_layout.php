@@ -304,7 +304,7 @@ function user_timeout() {
 
            <td width="14" align="center" valign="middle" nowrap="nowrap"><strong><?=$k?></strong></td>
            <td width="104" nowrap="nowrap">
-		   <input name="tableName_<?=$k?>" type="text" id="tableId_<?=$k?>" value="<?=$user_table_row['name']?>" size="15" <?=$_readonly?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
+		   <input name="tableName_<?=$k?>" type="text" id="tableId_<?=$k?>" value="<?=$user_table_row['name']?>" size="15" style="border-style: inset;" <?=$_readonly?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
 		   <input name="hiddenid_<?=$k?>" type="hidden" id="hiddenid_<?=$k?>" value="<?=$user_table_row['id']?>" size="15" />
 		   </td>
           <?php
