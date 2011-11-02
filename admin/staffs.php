@@ -661,21 +661,21 @@ include("inc/return_dbcon.inc.php");
 				<tr>
 					<td width="20">名前<font color="red">*</font>：</td>
 					<td width="120">
-	    		  <input name="name" type="text" id="name" size="20" value="<?=$edit_data_rows['name']?>" />
+	    		  <input name="name" type="text" id="name" size="20" style="border-style: inset;" value="<?=$edit_data_rows['name']?>" />
 					<input  type="hidden" id="name_current" size="20" value="<?=$edit_data_rows['name']?>" />
 					</td>
 				</tr>
 				<tr>
 					<td align="left">ログインID<font color="red">*</font>：</td>
 					<td align="left">
-					<input name="username" type="text" id="ID" size="25"  value="<?=$edit_data_rows['username']?>"/>
+					<input name="username" type="text" id="ID" size="25" style="border-style: inset;" value="<?=$edit_data_rows['username']?>"/>
 					<input  type="hidden" id="username_current" size="20" value="<?=$edit_data_rows['username']?>" />    　
 	            	</td>
 				</tr>
 				<tr>
 					<td align="left">パスワード<font color="red">*</font>：</td>
 					<td align="left">
-					<input name="password" type="text" id="password" size="25"  value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
+					<input name="password" type="text" id="password" size="25" style="border-style: inset;" value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
 					<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください</span>
 					</td>
 				</tr>
@@ -707,7 +707,7 @@ include("inc/return_dbcon.inc.php");
 				<tr>
 					<td align="left">メールアドレス：</td>
 					<td align="left">
-						<input name="email" type="text" id="email" size="25" value="<?=$edit_data_rows['email']?>" />
+						<input name="email" type="text" id="email" size="25" style="border-style: inset;" value="<?=$edit_data_rows['email']?>" />
 					                        <input  type="hidden" id="email_current" size="20" value="<?=$edit_data_rows['email']?>" />
 					</td>
 				</tr>
@@ -715,7 +715,7 @@ include("inc/return_dbcon.inc.php");
 					<td align="left">メールアドレス確認用：</td>
 					<!--  UCHIDA EDIT 11/08/08 確認用メールアドレスのペーストを禁止 -->
 				<td width="160" onpaste="alert('メールアドレス確認用は貼り付けできません');return false;">
-					<input name="conf_email" type="text" id="conf_email" size="25" value="<?=$edit_data_rows['email']?>" />
+					<input name="conf_email" type="text" id="conf_email" size="25" style="border-style: inset;" value="<?=$edit_data_rows['email']?>" />
 					</td>
 				</tr>
 			</table>

@@ -292,10 +292,11 @@ include("inc/return_dbcon.inc.php");
 		<div style="width:400px;">
         <p class="txt3">
         	<form action="room_new.php?page=<?=$_GET['page']?>" method="post" name="room_form">
-                披露宴会場名：<label for="textfield"></label>   <input name="name" type="text" id="name" size="40" />
+                披露宴会場名：<label for="textfield"></label>   <input name="name" type="text" style="border-style: inset;" id="name" size="40" />
 				<br /><br />
 
-         		最大卓数　　：横 <label for="textfield2"></label> <!--  <input name="max_columns" type="text" id="max_columns"  maxlength="1" size="1" />-->
+         		最大卓数　　　：横 
+         		<label for="textfield2"></label> <!--  <input name="max_columns" type="text" id="max_columns"  maxlength="1" size="1" />-->
                 <select name="max_columns"  id="max_columns">
 				<option value="1">1</option>
 				<option value="2">2</option>
@@ -326,7 +327,8 @@ include("inc/return_dbcon.inc.php");
                   段　
 				<br /><br />
 
-                一卓人数　　：<label for="textfield4"></label>
+                一卓人数　　　：
+                <label for="textfield4"></label>
 				<select name="max_seats"  id="max_seats">
 				<option value="4">4</option>
 				<option value="6">6</option>

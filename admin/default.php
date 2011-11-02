@@ -298,7 +298,7 @@ include("inc/return_dbcon.inc.php");
               <td width="60" align="left" nowrap="nowrap">高砂卓名</td>
                 <td width="10" align="left" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
-                	 <?php 				if ($InputArea=="") {?> <input type="text" name="default_layout_title"  id="DefaultLayoutTitle" value="<?=$default_layout_title?>" /> <?php } else	echo $default_layout_title ?>
+                	 <?php 				if ($InputArea=="") {?> <input type="text" name="default_layout_title"  id="DefaultLayoutTitle" style="border-style: inset;" value="<?=$default_layout_title?>" /> <?php } else	echo $default_layout_title ?>
            	  </td>
   </tr>
 </table>
@@ -314,7 +314,7 @@ include("inc/return_dbcon.inc.php");
             <tr align="left">
                 <td width="60" align="left" nowrap="nowrap">卓名</td>
                 <td width="10" align="left" nowrap="nowrap">：</td>
-                <td width="270" nowrap="nowrap"><input type="text" name="name" id="name"  value="<?=$get['name']?>"/></td>
+                <td width="270" nowrap="nowrap"><input type="text" name="name" id="name" style="border-style: inset;"  value="<?=$get['name']?>"/></td>
                 <td width="60" nowrap="nowrap">卓名変更</td>
                 <td width="10" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
