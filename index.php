@@ -90,7 +90,7 @@ width:1000px;
 #foot_left {
 	float: left;
 	width: 330px;
-	vertical-align:top;
+	vertical-align: top;
 }
 #foot_right {
 	float: right;
@@ -119,19 +119,19 @@ font-size:13px;
 	float: left; /* SEKIDUKA ADD 11/08/12 */
 	width: 269px;
 	text-align: left;
-	vertical-align:top;
+	vertical-align: top;
 }
 #foot_center {
 	float: left;
 	width: 205px; /* SEKIDUKA EDIT 11/08/12 */
 	text-align: left;
-	vertical-align:top;
+	vertical-align: top;
 }
 #foot_right {
 	float: left;
 	width: 205px; /* SEKIDUKA EDIT 11/08/12 */
 	text-align: left;
-	vertical-align:top;
+	vertical-align: top;
 }
 .clr {	clear: both;
 }
@@ -258,10 +258,10 @@ $(function(){
 </table>
 </div>
     <div id="foot_center">
-      <p><strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
+      <strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
         ・Internet Explorer 7.0~9.x<br />
         ・FireFox 5.0以上 <br />
-        ・Google Chrome 14.0以上</p>
+        ・Google Chrome 14.0以上
 </div>
   <div id="foot_right"><strong>●Mac OS Ｘ（10.4以上）</strong><br />
 
