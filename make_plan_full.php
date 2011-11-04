@@ -110,6 +110,7 @@ $obj = new DataClass();
 <title></title>
 
 <link href="css/tmpl.css" rel="stylesheet" type="text/css" />
+<link href="css/tate-style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="tmp_js/cufon-yui.js"></script>
 <script type="text/javascript" src="tmp_js/arial.js"></script>
 <script type="text/javascript" src="tmp_js/cuf_run.js"></script>
@@ -892,12 +893,13 @@ $layoutname = $tableData["layoutname"];
 										if($j==1) 
 										{
 											?>
-											<div  class="vertical" rowspan="<?php echo count($seats)/2;?>" style='float:left;text-align:center; width:25px; height:30px;white-space:nowrap;'>
-											  <p align="center" style="text-align:center;width:15px;" id="table_<?=$table_row['id']?>">
-
-                                    				<b><a href="javascript:void(0)" style="cursor:default; text-decoration:none"><span><?=$tblname?></span></a></b>
-                               				 </p>
+                      <div style="float:left;text-align:center; width:25px; height:30px;">
+											<div  class="tate-area" rowspan="<?php echo count($seats)/2;?>" style='direction:rtl;margin-right:8px;'>
+											  <div align="center" class="tate-line" id="table_<?=$table_row['id']?>">
+                                    				<span class="font08"><?=$tblname?></span>
+                               				 </div>
 											 </div>
+                       </div>
 											<?php
 
 
