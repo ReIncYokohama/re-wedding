@@ -10,7 +10,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete' && (int)$_GET['id'] > 0
 	$obj->DeleteRow("super_spssp_hotel"," id =".(int)$_GET['id']);
 }
 
-$query_string="SELECT * FROM super_spssp_admin;";
+$query_string="SELECT * FROM super_spssp_admin where id=".$_SESSION['super_adminid'].";";
 $db_result=mysql_query($query_string);
 if(mysql_num_rows($db_result))
 {
