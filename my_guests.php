@@ -545,6 +545,9 @@ function user_timeout() {
 margin:0px;
 
 }
+.guest_list_table td{
+  background-color:white;
+ }
 .guest_list_table .sex{
 width:24px;
  }
@@ -1068,16 +1071,16 @@ for($i=0;$i<count($userArray);++$i){
   $userData = $userArray[$i];
 ?>
 <tr>
-  <td class="sex" align="center" bgcolor="#fff"><?=$userData["sex_text"]?></td>
-  <td class="name" align="left" bgcolor="#fff"><?=$userData["name_image"];?></td>
-  <td class="respect" align="center" bgcolor="#fff">様</td>
-  <td class="group" align="center" bgcolor="#fff"><?=$userData["sex_text"]?></td>
-  <td class="comment" align="center" bgcolor="#fff"></td>
-  <td class="table_name" align="center" bgcolor="#fff"><?=$userData["table_name"]?></td>
-  <td class="gift" align="center" bgcolor="#fff"><?=$userData["gift_group_text"]?></td>
-  <td class="food" align="center" bgcolor="#fff"><?=$userData["menu_text"]?></td>
-  <td class="memo" align="center" bgcolor="#fff"><?=$userData["memo"]?></td>
-  <td class="action" align="center" bgcolor="#fff">
+  <td class="sex" align="center" bgcolor="#ffffff"><?=$userData["sex_text"]?></td>
+  <td class="name" align="left" bgcolor="#ffffff"><?=$userData["name_image"];?></td>
+  <td class="respect" align="center" bgcolor="#ffffff">様</td>
+  <td class="group" align="center" bgcolor="#ffffff"><?=$userData["sex_text"]?></td>
+  <td class="comment" align="center" bgcolor="#ffffff"></td>
+  <td class="table_name" align="center" bgcolor="#ffffff"><?=$userData["table_name"]?></td>
+  <td class="gift" align="center" bgcolor="#ffffff"><?=$userData["gift_group_text"]?></td>
+  <td class="food" align="center" bgcolor="#ffffff"><?=$userData["menu_text"]?></td>
+  <td class="memo" align="center" bgcolor="#ffffff"><?=$userData["memo"]?></td>
+  <td class="action" align="center" bgcolor="#ffffff">
   <?php if($editable){ ?>
     <input type="button" name="button" tabindex=25 id="button" value="編集" onclick="edit_guest(<?=$userData['id']?>)"/>
   <?php }?>
