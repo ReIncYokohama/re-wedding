@@ -951,7 +951,8 @@ include("inc/return_dbcon.inc.php");
 						$party_rooms_name = $obj->GetSingleData("spssp_party_room","name"," id=".$user_row['party_room_id']);
 
 					?>
-					<input name="party_room_id" style="padding-top:4px; padding-bottom:4px; width:130px;border-style: inset;" type="text" id="party_room_id"  class="input_text" value="<?=$party_rooms_name?>" />
+				&nbsp; 
+				<input name="party_room_id" style="padding-top:4px; padding-bottom:4px; width:130px;border-style: inset;" type="text" id="party_room_id"  class="input_text" value="<?=$party_rooms_name?>" />
                 </td>
             </tr>
             <tr>
