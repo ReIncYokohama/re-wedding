@@ -54,7 +54,7 @@ if(!$$hotel_sqlhost_val){
 		  </tr>
 	  </table>
 		  </div>
-  <div class="top_searchbox2"><a href="javascript: submitform()"><img src="img/common/btn_search1_admin.jpg" alt="検索" /></a><a href="hotel_input.php" <?php if(!$enable_new_hotel){ ?> onClick='alert("ホテル追加の設定が完了しておりません。\nホテルを追加する際は、開発会社にご連絡お願いします。");return false;' <?php }?>>　<img src="img/common/new_register_admin.jpg" alt="新規登録" /></a> </div>
+  <div class="top_searchbox2"><a href="javascript: submitform()"><img src="img/common/btn_search1_admin.jpg" alt="検索" /></a><a href="hotel_input.php" <?php if(!$enable_new_hotel){ ?> onClick='alert("ただいま登録ホテル数が上限のため、新規登録はできません");return false;' <?php }?>>　<img src="img/common/new_register_admin.jpg" alt="新規登録" /></a> </div>
 	  </form>
 
 

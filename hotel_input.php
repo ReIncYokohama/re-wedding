@@ -18,7 +18,7 @@ $hotel_sqldatabase_val = "hotel".((int)$hotel_code)."_sqldatabase";
 
 mysql_close();
 if(!$$hotel_sqlhost_val){
-  echo "ホテル追加の設定が完了しておりません。<br>ホテルを追加する際は、開発会社にご連絡お願いします。<button onClick='history.back()'>戻る</button>";
+  echo "ただいま登録ホテル数が上限のため、新規登録はできません<button onClick='history.back()'>戻る</button>";
   exit();
 }
 $link = mysql_connected($$hotel_sqlhost_val,$$hotel_sqluser_val,$$hotel_sqlpassword_val,$$hotel_sqldatabase_val);
