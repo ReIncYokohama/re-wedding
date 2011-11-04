@@ -741,9 +741,10 @@ include("inc/return_dbcon.inc.php");
 			$i++;
             }
 			?>
+        <br /><br /><br /><br />
         </div>
 		 <div style="width:100%; margin-top:25px">
-            	<?php
+		 		<?php
                 	if($_SESSION['user_type'] == 111)
 					{
 				?>
