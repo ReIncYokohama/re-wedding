@@ -351,7 +351,11 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 
             <div style="width:100%; display:none;" id="srch_result"></div>
 
+<<<<<<< HEAD
 	        <div class="box_table"  id="box_table">
+=======
+	        <div class="box_table"  id="box_table" style="height:200px;">
+>>>>>>> 503bb8988951bb40f9ec4785a6465536f317178e
 
             <div class="page_next"><? #echo $pageination?></div>
 

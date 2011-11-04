@@ -55,6 +55,7 @@ class DataClass extends DBO{
     if($layoutname==""){
       $layoutname = $this->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
     }
+    if($layoutname=="null") $layoutname = "";
     $returnArray["layoutname"] = $layoutname;
     //テーブル情報の配列
     $table_arr = $this->getRowsByQuery("select * from spssp_table_layout where user_id=".$user_id);
@@ -465,6 +466,9 @@ class DataClass extends DBO{
       {
         $tblname = $tbl_row['name'];
       }
+    if(!$tblname || $tblname == ""){
+      $tblname = "高砂";
+    }
     return $tblname;
   }
 
