@@ -17,6 +17,9 @@
 
 exuid_global=0; // javascript グローバル変数
 function windowUserOpen(url) {
+
+userWindow = window.open(url,"_userWindow");
+/*	
 	var exuid = "<? echo $_SESSION['userid']; ?>";
 	var uid = url.split("=");
 //	alert("call :"+uid[1]+" session:"+exuid+" global:"+exuid_global);
@@ -35,6 +38,7 @@ function windowUserOpen(url) {
 	else {
 		alert("同時に２名分のお客様画面を開くことはできません\n開いているお客様画面をログアウトして\nこの画面を再読み込み（Ｆ５キー押下）してください");
 	}
+*/
 }
 
 function confirmDelete(urls)
