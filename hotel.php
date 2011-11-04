@@ -20,6 +20,21 @@ if(mysql_num_rows($db_result))
 		$adminpass=$db_row['password'];
 	}
 }
+
+
+//ホテルの新規登録が出来るかどうか??
+include_once("inc/class_hotel.dbo.php");
+$hotel_dbo = new HotelDBO();
+//hotel_codeを自動生成するため次のhotelcodeを生成
+$hotel_code = $hotel_dbo->getNextHotelCode();
+
+$hotel_sqlhost_val = "hotel".((int)$hotel_code)."_sqlhost";
+
+$enable_new_hotel = true;
+if(!$$hotel_sqlhost_val){
+  $enable_new_hotel = false;
+}
+
 ?>
   <div id="topnavi">
 
@@ -39,7 +54,7 @@ if(mysql_num_rows($db_result))
 		  </tr>
 	  </table>
 		  </div>
-		  <div class="top_searchbox2"><a href="javascript: submitform()"><img src="img/common/btn_search1_admin.jpg" alt="検索" /></a>　<a href="hotel_input.php"><img src="img/common/new_register_admin.jpg" alt="新規登録" /></a> </div>
+  <div class="top_searchbox2"><a href="javascript: submitform()"><img src="img/common/btn_search1_admin.jpg" alt="検索" /></a><a href="hotel_input.php" <?php if(!$enable_new_hotel){ ?> onClick='alert("ホテル追加の設定が完了しておりません。\nホテルを追加する際は、開発会社にご連絡お願いします。");return false;' <?php }?>>　<img src="img/common/new_register_admin.jpg" alt="新規登録" /></a> </div>
 	  </form>
 
 
@@ -113,4 +128,5 @@ function hotelSubmit(no)
 {
     document.forms["fm"+no].submit();
 }
+
 </script>
