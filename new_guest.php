@@ -52,9 +52,10 @@ $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$use
 
 //新郎新婦かどうかのフラグ
 $self = true;
-
+$message = "test";
 if($guest_id >0 )
   { 
+    $message = "update";
     $guest_info = $data_obj->get_guest_detail($user_id,$guest_id);
     //新郎新婦は情報が少ないため省く
     if($guest_info["self"] != 1){
@@ -70,6 +71,7 @@ if($guest_id >0 )
   }
 else
   { 
+    $message = "insert";
     $post['user_id']=$user_id;
     $guest_id = $data_obj->set_guest_data_insert($post,$user_id,$_SESSION["adminid"]);
     $self = false;
@@ -137,4 +139,4 @@ if(!$self){
   }
 }
 if ($timeoutCheck=="timeout")	redirect("logout.php");
-else 							redirect("my_guests.php?page=".$_GET['guest_id']."&option=".$_GET['option']);
+else 							redirect("my_guests.php?".$message."=true&page=".$_GET['guest_id']."&option=".$_GET['option']);

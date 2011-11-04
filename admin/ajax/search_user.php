@@ -161,7 +161,7 @@ else
 ?>
 <div id="passPresent"> <?php echo $passPresent; ?> </div>
 
-<div class="box_table" style="height:485px; overflow-y:auto;">
+<div class="box_table" style="height:485px;">
 
 			<div class="box4" style="width:1000px;" >
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1">

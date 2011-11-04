@@ -36,7 +36,7 @@ function deleteGo ()
 
 <?php
 	require_once("../inc/class.dbo.php");
-	include_once("../inc/checklogin.inc.php");
+//	include_once("../inc/checklogin.inc.php");
 
 	$obj = new DBO();
 

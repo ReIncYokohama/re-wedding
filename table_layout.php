@@ -113,7 +113,9 @@ function validForm(num)
 	
 	$.post('ajax/plan_table_name_update_all.php',sendObject, function(data){
 	    if (timeOutNow==true) location.href = "logout.php";
+      alert("テーブル名が保存されました");
 		});
+  
 }
 
 function user_layout_title_input_show(id)
@@ -270,7 +272,7 @@ function user_timeout() {
 		<br />
 		<tr>
 			<td colspan="4" align="center">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;高砂卓名： <!-- UCHIDA EDIT 11/08/04  -->
+			<div style="padding-left:25px;">高砂卓名：
 			<?php
 			$_readonly="";
 			if (!$editable || $permission_table_edit['rename_table']==0) {
@@ -286,7 +288,7 @@ function user_timeout() {
 				$name_input=$default_layout_title;
 				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
 			}
-			?>
+			?></div>
 			　　　　　</td>
 		</tr>
          <tr>
@@ -302,7 +304,7 @@ function user_timeout() {
 
            <td width="14" align="center" valign="middle" nowrap="nowrap"><strong><?=$k?></strong></td>
            <td width="104" nowrap="nowrap">
-		   <input name="tableName_<?=$k?>" type="text" id="tableId_<?=$k?>" value="<?=$user_table_row['name']?>" size="15" <?=$_readonly?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
+		   <input name="tableName_<?=$k?>" type="text" id="tableId_<?=$k?>" value="<?=$user_table_row['name']?>" size="15" style="border-style: inset;" <?=$_readonly?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
 		   <input name="hiddenid_<?=$k?>" type="hidden" id="hiddenid_<?=$k?>" value="<?=$user_table_row['id']?>" size="15" />
 		   </td>
           <?php

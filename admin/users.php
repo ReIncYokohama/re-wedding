@@ -351,7 +351,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 
             <div style="width:100%; display:none;" id="srch_result"></div>
 
-	        <div class="box_table"  id="box_table" style="height:485px; overflow-y:auto;">
+	        <div class="box_table"  id="box_table" style="height:485px;">
 
             <div class="page_next"><? #echo $pageination?></div>
 
@@ -443,7 +443,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 						?>
                         </td>
                         <td width="60" class="txt1">
-                        	<a href="javascript:void(0);" onClick="windowUserOpen('user_dashboard.php?user_id=<?=$row['id']?>')" target="_userWindow"><img src="img/common/customer_view.gif" /></a>
+                        	<a href="javascript:void(0);" onClick="windowUserOpen('user_dashboard.php?user_id=<?=$row['id']?>')"><img src="img/common/customer_view.gif" /></a>
                         </td>
 
                         <td width="40">

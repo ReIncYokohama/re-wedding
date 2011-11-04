@@ -182,7 +182,7 @@ include("inc/return_dbcon.inc.php");
 
         <div class="sekiji_table2" id="table_preview">
 		<form name="tableedit" action="" method="post" >
-        	<div>
+        	<div style="width:600px;">
           <table width="100%" style = " text-align:center;" align="center" border="0" cellspacing="10" cellpadding="0">
 
             <?php
@@ -265,18 +265,22 @@ include("inc/return_dbcon.inc.php");
 		  <tr>
 		  <td>
 			<input type="hidden" name="save" value="save">
-		  	&nbsp;&nbsp;<input type="button" value="保存" name="save_table" onclick="form_tableedit();"/>
-			&nbsp;&nbsp;<input type="button" value="キャンセル" onclick="window.location='rooms.php'" /> <!-- UCHIDA EDIT 11/08/01 閉じる→キャンセル -->
 		  </td>
 		  </tr>
 	</table>
-
           </div>
 		</form>
-
     </div>
 	 <br />
-<br />
+	 <br />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="#" onclick="form_tableedit();"><img src="img/common/btn_save.jpg" alt="保存" />
+			&nbsp;&nbsp;<a href="#" onclick="window.location='rooms.php'"><img src="img/common/btn_cancel.jpg" alt="キャンセル" />
+
 <!-- UCHIDA EDIT 11/08/03
 <div align="center">
 <a href="./rooms.php">会場レイアウト一覧に戻る</a>

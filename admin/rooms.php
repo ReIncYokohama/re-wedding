@@ -22,6 +22,7 @@
 
 		$delete_query="Update spssp_room set status=0 where id=".(int)$_GET['id'];
 		mysql_query($delete_query);
+		if ((int)$_GET['id'] == (int)$_GET['room_id']) $room_id=0;
 
 		//delete all information
 		/*
@@ -291,11 +292,12 @@ include("inc/return_dbcon.inc.php");
 		<div style="width:400px;">
         <p class="txt3">
         	<form action="room_new.php?page=<?=$_GET['page']?>" method="post" name="room_form">
-                披露宴会場名：<label for="textfield"></label>   <input name="name" type="text" id="name" size="40" />
+                披露宴会場名：<label for="textfield"></label>   <input name="name" type="text" style="border-style: inset;" id="name" size="40" />
 				<br /><br />
 
-         		最大卓数　　：横 <label for="textfield2"></label> <!--  <input name="max_columns" type="text" id="max_columns"  maxlength="1" size="1" />-->
-                <select name="max_columns"  id="max_columns">
+         		最大卓数　　　：横 
+         		<label for="textfield2"></label> <!--  <input name="max_columns" type="text" id="max_columns"  maxlength="1" size="1" />-->
+                <select name="max_columns"  id="max_columns" style="border-style: inset;">
 				<option value="1">1</option>
 				<option value="2">2</option>
 				<option value="3">3</option>
@@ -311,7 +313,7 @@ include("inc/return_dbcon.inc.php");
 
 
                 <label for="textfield3"></label><!-- <input name="max_rows" type="text" id="max_rows" maxlength="1" size="1" />-->
-                <select name="max_rows"  id="max_rows">
+                <select name="max_rows"  id="max_rows" style="border-style: inset;">
 				<option value="1">1</option>
 				<option value="2">2</option>
 				<option value="3">3</option>
@@ -325,8 +327,9 @@ include("inc/return_dbcon.inc.php");
                   段　
 				<br /><br />
 
-                一卓人数　　：<label for="textfield4"></label>
-				<select name="max_seats"  id="max_seats">
+                一卓人数　　　：
+                <label for="textfield4"></label>
+				<select name="max_seats"  id="max_seats" style="border-style: inset;">
 				<option value="4">4</option>
 				<option value="6">6</option>
 				<option value="8">8</option>

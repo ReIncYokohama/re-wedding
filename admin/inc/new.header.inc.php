@@ -2,6 +2,7 @@
   include("inc/pagetitle.inc.php");
   $pagetitle1= getPageTitle(basename($_SERVER['SCRIPT_NAME']));
   $pagetitle=($pagetitle1=='')?"管理画面 | ログイン":$pagetitle1;
+ 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -14,8 +15,26 @@
 <!--<script type="text/javascript" src="js/jquery.rollover.js"></script>-->
 <script type="text/javascript">
 
+exuid_global=0; // javascript グローバル変数
 function windowUserOpen(url) {
-	userWindow = window.open(url,"_userWindow");
+	var exuid = "<? echo $_SESSION['userid']; ?>";
+	var uid = url.split("=");
+//	alert("call :"+uid[1]+" session:"+exuid+" global:"+exuid_global);
+	if (exuid_global==0) {
+		if (exuid == uid[1] || exuid<=0) {
+			exuid_global = uid[1];
+			userWindow = window.open(url,"_userWindow");
+		}
+		else {
+			alert("同時に２名分のお客様画面を開くことはできません\n開いているお客様画面をログアウトして\nこの画面を再読み込み（Ｆ５キー押下）してください");
+		}
+	}
+	else if (exuid_global == uid[1]) {
+		userWindow = window.open(url,"_userWindow");
+	} 
+	else {
+		alert("同時に２名分のお客様画面を開くことはできません\n開いているお客様画面をログアウトして\nこの画面を再読み込み（Ｆ５キー押下）してください");
+	}
 }
 
 function confirmDelete(urls)

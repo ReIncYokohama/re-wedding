@@ -16,22 +16,29 @@
 	$_title = $post['default_layout_title'];
 	$_view  = $post['rename_table_view'];
 	$chng = 0;
-	if ($_title != $default_layout_title || $_view != $default_raname_table_view) $chng = 1;
+	if ($_title != $default_layout_title) $chng = 1;
 
 	if($post['sub']!='' && $chng == 1)
 	{
-		$whereCloser = array('default_layout_title','rename_table_view');
-		for($i=0;$i<count($whereCloser);$i++)
-		{
-			$sql="Update spssp_options set option_value='".$post[$whereCloser[$i]]."' where option_name='".$whereCloser[$i]."'";
-			mysql_query($sql);
-		}
+		$sql="Update spssp_options set option_value='".$_title."' where option_name='default_layout_title'";
+		mysql_query($sql);
+		echo '<script> alert("高砂卓名が更新されました"); </script>';
 	}
+	$chng = 0;
+echo $post['table_name']." : ".$chng;
+	if ($_view != $default_raname_table_view) $chng = 1;
+	if($post['table_name']!='' && $chng == 1) {
+		$sql="Update spssp_options set option_value='".$_view."' where option_name='rename_table_view'";
+		mysql_query($sql);
+		if ($post['name']=="") echo '<script> alert("卓名変更が更新されました"); </script>';
+	}
+	
 ?>
 
 <?php
 	if(isset($post['name']) && $post['name'] != '')
 	{
+
 		$id = (int)$post['insert_edit'];
 		unset($post['insert_edit']);
 		if($id <= 0)
@@ -214,8 +221,11 @@ function edit_name(id, name,adminType,boxid)
 function validForm()
 {
 	document.defaultForm.submit();
-
 }
+function validForm_takasago() {
+	document.defaultForm_takasago.submit();
+}
+
 function clearForm()
 {
 	window.location="default.php";
@@ -224,6 +234,7 @@ function clearForm()
 function confirmDeletePlus(url, id)
 {
 	var edit_id="<?=$get['id']?>";
+	if (typeof(edit_id)=="undefined" || edit_id=="") edit_id = 0;
 	var agree = confirm("卓名を削除してもよろしいですか？");
 	if(agree)
 	{
@@ -236,17 +247,18 @@ function orderAction(url) {
 	window.location = collecting_data(url);
 }
 
-function collecting_data(url) {
+function collecting_data(url, edit_id) {
+var edit_id="<?=$get['id']?>";
 var radio1  = document.defaultForm.rename_table_view[0].checked;
 var edit_data;
 var urlPlus;
-var edit_id="<?=$get['id']?>";
 var chng = (radio1==true)? "1": "0";
 	edit_data  = "&name="+document.defaultForm.name.value;
-	edit_data += "&Title="+document.defaultForm.default_layout_title.value;
+	edit_data += "&Title="+document.defaultForm_takasago.default_layout_title.value;
 	edit_data += "&rename_table_view="+chng;
 	edit_data += "&edit_id="+edit_id;
 	urlPlus = url+edit_data;
+	alert(urlPlus);
 	return urlPlus;
 }
 
@@ -285,40 +297,49 @@ include("inc/return_dbcon.inc.php");
 		?>
 
 	  <div style="width:100%; border:0px solid #fff" >
-	  <form name="defaultForm" action="default.php" method="post">
+
+	  <form name="defaultForm_takasago" action="default.php" method="post">
 	  <input type="hidden" name="sub" value="1" />
-	  <input type="hidden" name="edit_table_name" id="edit_table_name" value="<?=$get[id]?>" />
-	  <input type="hidden" name="insert_edit" value="<?=$get[id]?>"  />
-
-
+	  
 <div style="width:100%;"><h2>高砂卓名設定</h2></div>
 
 <table style="width:340px;" border="0" align="left" cellpadding="0" cellspacing="10" >
             <tr>
-              <td width="60" align="left" nowrap="nowrap">高砂卓名</td>
-                <td width="10" align="left" nowrap="nowrap">：</td>
-                <td width="270" nowrap="nowrap">
-                	 <?php 				if ($InputArea=="") {?> <input type="text" name="default_layout_title"  id="DefaultLayoutTitle" value="<?=$default_layout_title?>" /> <?php } else	echo $default_layout_title ?>
+              <td width="50" align="left" nowrap="nowrap">高砂卓名</td>
+                <td width="5" align="left" nowrap="nowrap">：</td>
+                <td width="285" nowrap="nowrap">
+                	 <?php 				if ($InputArea=="") {?> <input type="text" name="default_layout_title"  id="DefaultLayoutTitle" style="border-style: inset;" value="<?=$default_layout_title?>" /> <?php } else	echo $default_layout_title ?>
            	  </td>
   </tr>
-</table>
+  		</tr>
+  		</table>
+  		<table width="100%" border="0" cellspacing="1" cellpadding="4">
+  		<tr><td width="45">&nbsp;</td></tr>
+  		<tr>
+  		<td width="50">&nbsp;</td>
+		<td><a href="#"><img onclick="validForm_takasago();"; alt="保存" src="img/common/btn_save.jpg"></a></td>
+		</tr>
+		</table>
+</form>
 
-
-<br /><br /><br /><br />
-
+<br /><br />
+	  <form name="defaultForm" action="default.php" method="post">
+	  <input type="hidden" name="edit_table_name" id="edit_table_name" value="<?=$get[id]?>" />
+	  <input type="hidden" name="insert_edit" value="<?=$get[id]?>"  />
+	  <input type="hidden" name="table_name" value="1" />
 
 <div style="width:100%;"><h2> 卓名設定</h2></div>
 
 			<?php if ($InputArea=="") {?>
 			<table style="width:680px;" border="0" align="left" cellpadding="0" cellspacing="10">
             <tr align="left">
-                <td width="60" align="left" nowrap="nowrap">卓名</td>
-                <td width="10" align="left" nowrap="nowrap">：</td>
-                <td width="270" nowrap="nowrap"><input type="text" name="name" id="name"  value="<?=$get['name']?>"/></td>
+                <td width="50" align="left" nowrap="nowrap">卓名</td>
+                <td width="5" align="left" nowrap="nowrap">：</td>
+                <td width="285" nowrap="nowrap"><input type="text" name="name" id="name" style="border-style: inset;"  value="<?=$get['name']?>"/></td>
                 <td width="60" nowrap="nowrap">卓名変更</td>
                 <td width="10" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
-                	<input type="radio" value="1" name="rename_table_view" <?php 	if($default_raname_table_view == 1){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;可&nbsp;&nbsp;
+                	<input type="radio" value="1" name="rename_table_view" <?php 	if($default_raname_table_view == "1"){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;可&nbsp;&nbsp;
 					<input type="radio" value="0" name="rename_table_view" <?php 	if($default_raname_table_view == "0"){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;不可&nbsp;&nbsp;
            	  </td>
 	        </tr>
@@ -330,7 +351,7 @@ include("inc/return_dbcon.inc.php");
                 <td width="60" nowrap="nowrap">卓名変更</td>
                 <td width="10" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
-                	<input type="radio" value="1" name="rename_table_view" <?php 	if($default_raname_table_view == 1){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;可&nbsp;&nbsp;
+                	<input type="radio" value="1" name="rename_table_view" <?php 	if($default_raname_table_view == "1"){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;可&nbsp;&nbsp;
 					<input type="radio" value="0" name="rename_table_view" <?php 	if($default_raname_table_view == "0"){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;不可&nbsp;&nbsp;
            	  </td>
            	</tr>

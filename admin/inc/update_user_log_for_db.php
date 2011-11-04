@@ -11,6 +11,7 @@ function update_user_log_for_db($tmOut, $obj, $id_arry) {
 			if ($nowDate-$accDate>$tmOut) {
 				$user_log['logout_time'] = $fn[1];
 				$obj->UpdateData("spssp_user_log", $user_log, " id=".(int)$fn[4]);
+				unlink($fileName);
 			}
 		}
 		$i++;

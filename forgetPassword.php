@@ -153,7 +153,7 @@ function cancelAction()
 								</tr>
 								<tr>
 									<td width="200" align="right">登録メールアドレス :</td>
-								  <td width="200" align="left"><input type="text" id="email" size="30px;" name="email" value =<?=$email?>></input></td>
+								  <td width="200" align="left"><input type="text" id="email" size="30px;" name="email" style="border-style: inset;" value =<?=$email?>></input></td>
 								</tr>
 							</table>
 							<table style="font-size:12px;" width="500" align="center" cellspacing="10" cellpadding="0" border="0">

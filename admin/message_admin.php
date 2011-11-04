@@ -262,10 +262,7 @@ include("inc/return_dbcon.inc.php");
         <div class="navi"><img src="img/common/navi02_on.jpg" /></div>
         <div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi04.jpg" onMouseOver="this.src='img/common/navi04_over.jpg'"onMouseOut="this.src='img/common/navi04.jpg'" /></a></div>
             <div class="navi">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-        	<div class="navi">
-        	<a href="javascript:void(0);" onClick="windowUserOpen('user_dashboard.php?user_id=<?=$user_id?>')" target="_userWindow">
-        		<img src="img/common/navi03.jpg" onMouseOver="this.src='img/common/navi03_on.jpg'"onMouseOut="this.src='img/common/navi03.jpg'" />
-        	</a>
+        	<div class="navi"><a href="user_dashboard.php?user_id=<?=$user_id?>" target="_blank"><img src="img/common/navi03.jpg" onMouseOver="this.src='img/common/navi03_on.jpg'"onMouseOut="this.src='img/common/navi03.jpg'" /></a>
             </div><div class="navi2">
         
 <?php if($_SESSION["super_user"]){ ?>
@@ -292,19 +289,19 @@ include("inc/return_dbcon.inc.php");
 				<tr>
 					<td width="7%" style="text-align:left;">タイトル&nbsp;&nbsp;：</td>
 					<td style="text-align:left;">
-						<input type="text" name="title" id="title" style="width:579px;"/>
+						<input type="text" name="title" id="title" style="width:579px;border-style: inset;"/>
 					</td>
 				</tr>
 				<tr>
 					<td width="7%" style="text-align:left;">本文　　&nbsp;&nbsp;：</td>
 					<td style="text-align:left;">
-						<textarea name="description" id="description" cols="70" rows="5"></textarea>
+						<textarea name="description" id="description" cols="70" rows="5" style="border-style: inset;"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td width="7%" style="text-align:left;">添付　　&nbsp;&nbsp;：</td>
 					<td style="text-align:left;" >
-						<input type="text" id="file1" name="file1" readonly style="margin-bottom:2px;"/>
+						<input type="text" id="file1" name="file1" readonly style="margin-bottom:2px;border-style: inset;"/>
 
 						<input id="upfile" type="file" name="upfile" onchange="filename_change();" style="display: none">
 						<a href="javascript:void(0);" name="file2" onclick="button1_onclick();"/><img src="img/common/btn_attach.jpg" alt="参照" /></a>

@@ -194,12 +194,12 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
       <tr>
         <td width="27%" style=" font-size:11px ">ログインID</td>
 <!-- UCHIDA EDIT 11/08/08 エンターキーを有効に設定 -->
-        <td width="73%" style="text-align:left;" onKeyDown="if (event.keyCode == 13) { login_admin(); }" ><input type="text" name="adminid" id="adminid" class="login" value='<?php echo $id ?>' /></td>
+        <td width="73%" style="text-align:left;" onKeyDown="if (event.keyCode == 13) { login_admin(); }" ><input type="text" name="adminid" id="adminid" style="border-style: inset;" class="login" value='<?php echo $id ?>' /></td>
       </tr>
       <tr>
         <td style=" font-size:11px">パスワード</td>
 <!-- UCHIDA EDIT 11/08/08 エンターキーを有効に設定 -->
-        <td style="text-align:left;" onKeyDown="if (event.keyCode == 13) { login_admin(); }" ><input type="password" name="adminpass" id="adminpass" class="login"  /></td>
+        <td style="text-align:left;" onKeyDown="if (event.keyCode == 13) { login_admin(); }" ><input type="password" name="adminpass" id="adminpass" style="border-style: inset;" class="login"  /></td>
       </tr>
       <tr>
         <td>&nbsp;</td>

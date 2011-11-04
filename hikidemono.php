@@ -12,6 +12,10 @@
 	$data_rows_gift = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".(int)$_SESSION['userid']." order by id asc");
 	
 	$editable=$objInfo->get_editable_condition($plan_info);
+  //登録後のメッセージの表示のフラグ
+  $save_hikidemono = "false";
+  if($_GET["save"]) $save_hikidemono = "true";
+
 	if($_POST['submitok']=='OK')
 	{
 	 	$post = $obj->protectXSS($_POST);
@@ -47,8 +51,10 @@
 			$obj->InsertData("spssp_item_value",$value_string);
 
 		}
-	if ($post['timeout']=="timeout")	redirect("logout.php");
-	else								redirect("hikidemono.php");exit;
+    
+    if ($post['timeout']=="timeout")	redirect("logout.php");
+
+	else								redirect("hikidemono.php?save=true");exit;
 	}
 	if(isset($_POST['subgroup']))
 	{
@@ -116,6 +122,7 @@
 	$(function(){
 		$("ul#menu li").removeClass();
 		$("ul#menu li:eq(2)").addClass("active");
+    if(<?php echo $save_hikidemono;?>) alert("引出物グループが保存されました");
 	});
 
 function validForm()
@@ -414,7 +421,7 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 				}
 			?></div>
             </td>
-			<td align="center"><input type="text" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+			<td align="center"><input type="text" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right;border-style:inset;" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
 
             </tr>
 			<?php

@@ -81,8 +81,8 @@ else {
 	$sortOptin = str_replace(":", ",", $post['sortOptin']); // +を,変換(,はPOST中に消滅する)
 	$qry .=" order by ".$sortOptin;
 }
+if ($_SESSION["super_user"]==false) $rows = $obj->getRowsByQuery($qry);
 
-$rows = $obj->getRowsByQuery($qry);
 //echo $qry." : ".$sortOptin;
 $count_rows = count($rows);
 if($count_rows > 5)
@@ -97,7 +97,7 @@ if(empty($rows))
 {
 ?>
 <!-- UCHIDA EDIT 11/08/08 検索数０でもタイトルだけは表示する  -->
-<div class="box_table">
+<div class="box_table" style="height:360px;">
     <p>&nbsp;</p>
 
     <div class="box4">
@@ -123,7 +123,7 @@ if(empty($rows))
 else
 {
 ?>
-			<div class="box_table" style="height:360px; overflow-y:auto;">
+			<div class="box_table" style="height:360px;">
     		<p>&nbsp;</p>
 
             <div class="box4" style="width:1000px;">
