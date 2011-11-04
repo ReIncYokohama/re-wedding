@@ -216,7 +216,7 @@ if($objInfo->get_editable_condition($plan_row))
   float:left;
 }
 .make_plan_main_right{
-  width:980px;
+  width:900px;
   float:left;
 }
 #contents_right{
@@ -231,9 +231,9 @@ body{
   background:none;
 }
 #make_plan_table{
-width: 980px;
+width: 900px;
 overflow:scroll;
-height:700px;
+height:650px;
 }
 .title_bar.main_plan{
  width:980px;
@@ -942,6 +942,6 @@ $layoutname = $tableData["layoutname"];
   </div>
   <div class="clear" style="float:left; clear:both; height:10px;"></div></div></div>
   </div>
-<?php
-include("inc/new.footer.inc.php");
-?>
+</html>
+
+
