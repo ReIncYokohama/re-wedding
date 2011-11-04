@@ -207,10 +207,10 @@ if($objInfo->get_editable_condition($plan_row))
 
 <style>
 .make_plan_main_contents{
-  width:1260px;
+  width:1220px;
 }
 .make_plan_main_title{
-  width:1260px;
+  width:1220px;
 }
 .make_plan_main_left{
   width:270px;
@@ -221,10 +221,10 @@ if($objInfo->get_editable_condition($plan_row))
   float:left;
 }
 #contents_right{
-width:1260px;
+width:1220px;
 }
 #contents_wrapper{
-width:1220px;
+width:1200px;
 padding:0px;
 margin:0px;
 }
