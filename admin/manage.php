@@ -621,7 +621,7 @@ include("inc/return_dbcon.inc.php");
             <div style="width:100%; display:none;" id="srch_result"></div>
             <p></p>
 
-		    <div class="box_table" id="box_table" style="height:360px;">
+		    <div class="box_table" id="box_table">
             <p>&nbsp;</p>
 
             <div class="box4" style="width:1000px;">
