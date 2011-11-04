@@ -621,7 +621,7 @@ include("inc/return_dbcon.inc.php");
             <div style="width:100%; display:none;" id="srch_result"></div>
             <p></p>
 
-		    <div class="box_table" id="box_table" style="height:360px;">
+		    <div class="box_table" id="box_table">
             <p>&nbsp;</p>
 
             <div class="box4" style="width:1000px;">
@@ -741,9 +741,10 @@ include("inc/return_dbcon.inc.php");
 			$i++;
             }
 			?>
+        <br /><br /><br /><br />
         </div>
 		 <div style="width:100%; margin-top:25px">
-            	<?php
+		 		<?php
                 	if($_SESSION['user_type'] == 111)
 					{
 				?>
