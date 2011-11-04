@@ -1,7 +1,8 @@
 <?php
 	include_once("admin/inc/class_information.dbo.php");
+	include_once("admin/inc/class_data.dbo.php");
 	include_once("inc/checklogin.inc.php");
-	$obj = new DBO();
+  $obj = new DataClass();
 	$objInfo = new InformationClass();
 	$get = $obj->protectXSS($_GET);
 	$user_id = (int)$_SESSION['userid'];
@@ -632,10 +633,8 @@ $takasago2 = ($user_info["mukoyoshi"])?"man":"woman";
 '.$main_guest[4].'
 </tr></table>';
 
-$layoutname = $obj->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
-if($layoutname=="")
-$layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
-
+$tableData = $obj->get_table_data($user_id);
+$layoutname = $tableData["layoutname"];
 
 ?>
 <br/>
@@ -650,7 +649,7 @@ $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name
 			<div align="center" style="text-align:center; margin:0 auto; font-size:13px; font-size:13px">
 				<?=$html?>
 			</div><br/>
-			<div align="center" style=" text-align:center; border:1px solid black; padding:5px; margin:0 auto; font-size:13px">
+			<div align="center" style="height:20px; text-align:center; border:1px solid black; padding:5px; margin:0 auto; font-size:13px">
 				<?=$layoutname?>
 			</div>
 

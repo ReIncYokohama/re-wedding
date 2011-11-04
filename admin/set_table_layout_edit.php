@@ -53,6 +53,7 @@ if($_GET['action']=="save") {
 
 	unset($takasago);
 	$takasago['layoutname'] = $_POST['layoutname'];
+  if($takasago["layoutname"]=="") $takasago["layoutname"] = "null";
 	$obj->UpdateData("spssp_plan",$takasago," user_id=".$user_id);
 
 	echo "<script> alert('卓レイアウト設定が保存されました'); </script>";
@@ -312,6 +313,8 @@ include("inc/return_dbcon.inc.php");
 			if($layoutname!="")
 			{
 				$name_input=$layoutname;
+        //空白を入力した際の処理
+        if($name_input=="null") $name_input = "";
 				echo "<input type='text' id='layoutname' name='layoutname' value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
 			}
 			else
