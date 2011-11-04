@@ -176,7 +176,6 @@ include("inc/return_dbcon.inc.php");
 
 			?>
 
-       会場名：<?=$roomName;?>
         </div>
 
 
@@ -184,7 +183,9 @@ include("inc/return_dbcon.inc.php");
 		<form name="tableedit" action="" method="post" >
         	<div style="width:600px;">
           <table width="100%" style = " text-align:center;" align="center" border="0" cellspacing="10" cellpadding="0">
-
+			<tr>
+			<td align="left"><font size="2"><b>会場名：<?=$roomName;?></b></font></td>
+			</tr>
             <?php
             	if(isset($default_id) && $default_id > 0)
 				{
@@ -208,7 +209,7 @@ include("inc/return_dbcon.inc.php");
 					}
 			?>
             	 <tr>
-              		<td colspan="<?=$room_row['max_columns']?>" align="center" valign="middle">
+              		<td colspan="<?=$room_row['max_columns']?>" align="center" valign="middle"><font size="2"><b>
 					<?php
 					$default_layout_title2 = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
 					if($default_layout_title2!="")
@@ -219,9 +220,11 @@ include("inc/return_dbcon.inc.php");
 						echo "<div id='default_layout_title' onclick='user_layout_title_input_show(\"default_layout_title\");' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".　　　."</div>";
 					}
 					?>
-					</td>
+					</b></font></td>
             	</tr>
-            <?php
+            	<tr></tr>
+            	<tr></tr>
+            	<?php
 				  $query_string="SELECT * FROM spssp_tables_name  ORDER BY display_order asc ;";
 				//echo $query_string;
 					$name_rows = $obj->getRowsByQuery($query_string);

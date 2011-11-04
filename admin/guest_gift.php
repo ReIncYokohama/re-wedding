@@ -371,19 +371,20 @@ include("inc/return_dbcon.inc.php");
 
 <!-- 	<div id="message_BOX"  style="width:800px;"> UCHIDA EDIT 11/08/10 -->
 	<div style="width:800px;">
-		<h2>席次表・席札　発注</h2>
+		<h2>①席次表・席札　発注</h2>
 		席次表の仮発注、本発注、依頼解除ができます。
         <div style="margin-top:20px;">
 		<table width="50%" border="0" cellspacing="1" cellpadding="3">
 			  <tr>
-				<td width="210" valign="middle"><a href="../plan_pdf_small.php" target="_blank"><img src="img/common/order/seat_preview.gif" alt="" border="0" class="on" /></a></td>
+				<td width="182" valign="middle"><a href="../plan_pdf_small.php" target="_blank"><img src="img/common/order/seat_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a></td>
+					<td width="50" rowspan="3" align="center" valign="middle" style="font-size:16pt"><img src="img/common/arrow_1to2.gif" alt="矢印" width="32" height="59" border="0" /></td>
 			<?php
 				if(($plan_info['admin_to_pcompany']>0 && $plan_info['ul_print_com_times']==1) || ($plan_info['admin_to_pcompany']>0 && $plan_info['order']<=2))
 				{
 			?>
-				<td width="24%" valign="middle"><img src="img/common/order/seat_pro_order_greyed.gif" /></td>
+				<td width="146" valign="middle"><img src="img/common/order/seat_pro_order_greyed.gif" width="146" height="32" /></td>
 				<?php }else{?>
-			  	<td width="24%" valign="middle"><a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=allow&user_id=<?=$user_id?>&hotel_name=<?=$hotel_name ?>&stuff_id=<?=$stuff_id?>','印刷会社へ仮発注を行います。宜しいですか？')" ><img src="img/common/order/seat_pro_order.gif" /></a></td>
+			  	<td width="146" valign="middle"><a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=allow&user_id=<?=$user_id?>&hotel_name=<?=$hotel_name ?>&stuff_id=<?=$stuff_id?>','印刷会社へ仮発注を行います。宜しいですか？')" ><img src="img/common/order/seat_pro_order.gif" width="146" height="32" /></a></td>
 				<?php }?>
 				<td>
 					<?php
@@ -391,9 +392,15 @@ include("inc/return_dbcon.inc.php");
 					?>
 				</td>
 		  </tr>
+			  <tr>
+			    <td valign="middle" height="20">&nbsp;</td>
+			    <td width="146" height="20" valign="middle">&nbsp;</td>
+			    <td width="146" height="20" valign="middle">&nbsp;</td>
+			    <td>&nbsp;</td>
+          </tr>
 
-		</table>
-        </div>
+
+
 
 <!-- 		<div style="margin-top:20px;">
 		<table width="50%" border="0" cellspacing="1" cellpadding="3">
@@ -418,11 +425,11 @@ include("inc/return_dbcon.inc.php");
 		</table>
         </div> -->
 
-		<div style="margin-top:20px;">
-        <table width="50%" border="0" cellspacing="1" cellpadding="3">
+
+
 			  <tr>
-				<td width="210" valign="middle">
-<!--
+				<td width="182" valign="middle">
+  <!--
 					<form action="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>" method="POST" name="day_limit_form">
 					<input type="hidden" name="gift_day_limit" value="gift_day_limit">
 
@@ -464,14 +471,14 @@ include("inc/return_dbcon.inc.php");
 				<?php }?>
 					</form>
 -->
-				</td>
-			<?php
+			    </td>
+				<?php
 				if($plan_info['admin_to_pcompany']==3 && $plan_info['admin_to_pcompany']>0 &&$plan_info['ul_print_com_times']==1)
 				{
 			?>
-				<td width="24%" valign="middle"><img src="img/common/order/seat_order_greyed.gif" /></td>
+				<td width="146" valign="middle"><img src="img/common/order/seat_order_greyed.gif" width="146" height="32" /></td>
 				<?php }else{?>
-			  	<td width="24%" valign="middle"><a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=print_request&user_id=<?=$user_id?>&hotel_name=<?=$hotel_name ?>&stuff_id=<?=$stuff_id?>','印刷会社へ本発注を行います。宜しいですか？')"><img src="img/common/order/seat_order.gif" /></a></td>
+			  	<td width="146" valign="middle"><a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=print_request&user_id=<?=$user_id?>&hotel_name=<?=$hotel_name ?>&stuff_id=<?=$stuff_id?>','印刷会社へ本発注を行います。宜しいですか？')"><img src="img/common/order/seat_order.gif" width="146" height="32" /></a></td>
 				<?php }?>
  				<td>
 					<?php
@@ -487,19 +494,21 @@ include("inc/return_dbcon.inc.php");
 		  </tr>
 
 		</table>
-		</div>
+	  </div>
 		<div style="margin-top:20px;margin-bottom:20px;">
 		<table width="783" border="0" cellspacing="1" cellpadding="3">
 			  <tr>
-				<td width="210" valign="middle"></td>
+				<td width="182" valign="middle"></td>
+				<td width="50" align="center" valign="middle">&nbsp;</td>
 
 			  	<td width="617" valign="middle">
 			  	<?php if ($plan_info['admin_to_pcompany']==1 || $plan_info['admin_to_pcompany']==3) { // アップロードされるまで ?>
-			  		<img src="img/common/order/seat_order_release_greyed.gif" /></a>
+			  		<img src="img/common/order/seat_order_release_greyed.gif" width="146" height="32" /></a>
 			  	<?php }else { ?>
-					<a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=reset&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>','依頼解除を行います。宜しいですか？')"><img src="img/common/order/seat_order_release.gif" /></a>
+					<a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=reset&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>','依頼解除を行います。宜しいですか？')"><img src="img/common/order/seat_order_release.gif" width="146" height="32" /></a>
 				<?php }?>
-					<br>※お客様画面の「依頼」ボタンが押されていて、<br>
+					<br>
+					※お客様画面の「依頼」ボタンが押されていて、<br>
 　　						依頼解除したい場合にはこちらを押してください。
 				</td>
 
@@ -510,22 +519,23 @@ include("inc/return_dbcon.inc.php");
 
 <!-- 		<div style="border-top:1px solid #3681CB;padding:5px; width:800px;"> UCHIDA EDIT 11/08/10 -->
 		<div>
-			<h2>引出物発注</h2>
+			<h2>②引出物発注</h2>
 			お客様からの引出物発注を確認後は、引出物処理済ボタンをクリックしてください。
 		</div>
 		<div style="margin-top:20px;">
         <table width="50%" border="0" cellspacing="1" cellpadding="3">
 			  <tr>
-				<td width="210" valign="middle"><a href="../plan_pdf.php" target="_blank"><img src="img/common/order/gift_preview.gif" alt="" border="0" class="on" /></a></td>
+				<td width="182" valign="middle"><a href="../plan_pdf.php" target="_blank"><img src="img/common/order/gift_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a></td>
+					<td width="50" align="center" valign="middle" style="font-size:16pt"><img src="img/common/arrow_1to1.gif" alt="矢印" width="32" height="7" border="0" /></td>
 			<?php
 				if($plan_info['gift_daylimit']==3 && $plan_info['gift_daylimit']>0)
 				{
 			?>
-				<td width="24%" valign="middle"><img src="img/common/order/gift_processed_greyed.gif" /></td>
+				<td width="146" valign="middle"><img src="img/common/order/gift_processed_greyed.gif" width="146" height="32" /></td>
 				<?php }else{?>
-			  	<td width="24%" valign="middle">
+			  	<td width="146" valign="middle">
 				<a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=daylimit_request&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>','引出物処理をします。宜しいですか？')">
-				<img src="img/common/order/gift_processed.gif" /></a></td>
+				<img src="img/common/order/gift_processed.gif" width="146" height="32" /></a></td>
 				<?php }?>
 				<td>
 					<?php
