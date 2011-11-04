@@ -26,14 +26,14 @@ function windowUserOpen(url) {
 			userWindow = window.open(url,"_userWindow");
 		}
 		else {
-			alert("お客様画面は違うお客様で開かれています\n現在のお客様画面をログアウトしてから開いてください\nその後F５キーでこのページを更新してください");
+			alert("同時に２名分のお客様画面を開くことはできません\n開いているお客様画面をログアウトして\nこの画面を再読み込み（Ｆ５キー押下）してください");
 		}
 	}
 	else if (exuid_global == uid[1]) {
 		userWindow = window.open(url,"_userWindow");
 	} 
 	else {
-		alert("お客様画面は違うお客様で開かれています\n現在のお客様画面をログアウトしてから開いてください\nその後F５キーでこのページを更新してください");
+		alert("同時に２名分のお客様画面を開くことはできません\n開いているお客様画面をログアウトして\nこの画面を再読み込み（Ｆ５キー押下）してください");
 	}
 }
 
