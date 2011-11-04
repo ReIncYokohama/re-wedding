@@ -466,9 +466,6 @@ class DataClass extends DBO{
       {
         $tblname = $tbl_row['name'];
       }
-    if(!$tblname || $tblname == ""){
-      $tblname = "高砂";
-    }
     return $tblname;
   }
 

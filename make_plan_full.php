@@ -2,7 +2,8 @@
 	include_once("admin/inc/class_information.dbo.php");
 	include_once("admin/inc/class_data.dbo.php");
 	include_once("inc/checklogin.inc.php");
-  $obj = new DataClass();
+//$obj = new DataClass();
+$obj = new DataClass();
 	$objInfo = new InformationClass();
 	$get = $obj->protectXSS($_GET);
 	$user_id = (int)$_SESSION['userid'];
@@ -633,7 +634,8 @@ $takasago2 = ($user_info["mukoyoshi"])?"man":"woman";
 '.$main_guest[4].'
 </tr></table>';
 
-$tableData = $obj->get_table_data($user_id);
+//$tableData = $obj->get_table_data($user_id);
+
 $layoutname = $tableData["layoutname"];
 
 ?>
@@ -665,6 +667,7 @@ $layoutname = $tableData["layoutname"];
                        $num_max = $obj->GetSingleData("spssp_table_layout", "column_order "," user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
                        $num_none = $num_max-$num_last+$num_first-1;
                        $width = $num_max*200;
+
                        if($ralign == 'C')
                          {
 
@@ -743,7 +746,6 @@ $layoutname = $tableData["layoutname"];
 
 
                                 //echo $disp;
-
                                 $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
 
 
