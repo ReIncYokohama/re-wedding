@@ -235,7 +235,7 @@ width:200px;
             	<tr>
                 	<td style="border:1px solid #3681CB; padding:5px;" >
 <div id="table_view" style="margin:auto;width :100%;">
-<div style="margin:auto;border:1px solid black;width:80px;">
+<div style="height:20px;margin:auto;border:1px solid black;width:80px;">
 <?php print $table_data["layoutname"];?>
               </div>
 <?php

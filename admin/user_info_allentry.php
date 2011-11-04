@@ -1107,7 +1107,9 @@ if($user_row['mukoyoshi']=='1'){
                 $row_width = $user_plan_row['column_number'] *45;
                 echo "<div class='plans' id='plan_".$user_plan_row['id']."' style='width:".$row_width."px;margin:0 auto; display:block;'>";
                 $default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
-                if($user_plan_row['layoutname']!="")
+                if($user_plan_row['layoutname']=="null"){
+                  echo "<div id='user_layoutname'  style='height:20px;display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'></div>";
+                }elseif($user_plan_row['layoutname']!="")
                   {
                     echo "<div id='user_layoutname'  style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$user_plan_row['layoutname']."</div>";
                   }
