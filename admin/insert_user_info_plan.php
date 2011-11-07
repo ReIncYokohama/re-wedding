@@ -1,3 +1,6 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <?php
 @session_start();
 /*error_reporting(E_ALL);
@@ -174,3 +177,5 @@ else if((int)$user_plan['user_id'] > 0 && !empty($plan_dt))
 }
 
 ?>
+</head>
+</html>
