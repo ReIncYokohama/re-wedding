@@ -314,9 +314,9 @@ include("inc/return_dbcon.inc.php");
   		</tr>
   		</table>
   		<table width="100%" border="0" cellspacing="1" cellpadding="4">
-  		<tr><td width="45">&nbsp;</td></tr>
+  		<tr><td width="40">&nbsp;</td></tr>
   		<tr>
-  		<td width="50">&nbsp;</td>
+  		<td width="40">&nbsp;</td>
 		<td><a href="#"><img onclick="validForm_takasago();"; alt="保存" src="img/common/btn_save.jpg"></a></td>
 		</tr>
 		</table>
@@ -364,7 +364,7 @@ include("inc/return_dbcon.inc.php");
 				<table width="100%" border="0" cellspacing="1" cellpadding="4">
 				  <tr>
   <?php 				if ($InputArea=="") { ?>
-				    <td width="563" align="left" valign="middle"><p>　　　<a href="#"><img  onclick="validForm();"; border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg">
+				    <td width="563" align="left" valign="middle"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#"><img  onclick="validForm();"; border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg">
 				    </a>　　<a href="#"><img  onclick="clearForm()"; border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg"></a></p></td> <?php } ?>
 			      </tr>
 				</table>
