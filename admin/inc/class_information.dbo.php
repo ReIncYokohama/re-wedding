@@ -1,6 +1,6 @@
 <?php
-include_once('dbcon.inc.php');
-include_once("class.dbo.php");
+include_once(dirname(__file__).'/dbcon.inc.php');
+include_once(dirname(__file__)."/class.dbo.php");
 class InformationClass extends DBO
 {
 
