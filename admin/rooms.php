@@ -340,7 +340,7 @@ include("inc/return_dbcon.inc.php");
 				 <!--<input name="max_seats" type="text" id="max_seats" maxlength="2" size="1" />-->    名まで
 				<br /><br />
 
-        　　	<a href="#" onclick="validForm();">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="validForm();">
                     <img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22"  />
 
                 </a>&nbsp;&nbsp;
