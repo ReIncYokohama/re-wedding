@@ -223,7 +223,7 @@ function validForm2()
 		if(num_menu_groups>3)
 		{
 			 alert("子供料理数の上限は3種類までです");
-			 document.menu_criteria_form.num_menu_groups.value = <?=$menu_criteria_data_row[0]['num_menu_groups']?>;
+			 document.menu_criteria_form.num_menu_groups.value = "<?=$menu_criteria_data_row[0]['num_menu_groups']?>";
 			 document.getElementById('num_menu_groups').focus();
 			 return false;
 		}
