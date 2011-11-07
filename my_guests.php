@@ -722,7 +722,7 @@ if($editable)
 		  <tr>
 			<td width="96" align="right"><table width="96" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-			    <td align="right" width="88">新郎新婦側<font color="red">*</font>:</td>
+			    <td align="right" width="88">新郎新婦側<font color="red">*</font>：</td>
 		      </tr>
 			  <tr>
 			    <td>&nbsp;</td>
@@ -743,7 +743,7 @@ if($editable)
 			<td colspan="2">
 			<table  width="237" border="0" cellspacing="2" cellpadding="2">
 			<tr>
-			<td align="right" width="100">姓<font color="red">*</font>:</td>
+			<td align="right" width="100">姓<font color="red">*</font>：</td>
 			<td align="center" width="137">
 			  <input type="text" size="20" class="check_sjs_1" tabindex=2 style="padding-top:3px; padding-bottom:3px;border-style: inset;" name="last_name" id="last_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['last_name']?>" onfocus="change_gaiji_link('last_name');" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
 				<div id="last_div_id" style="display:none;"></div>
@@ -751,7 +751,7 @@ if($editable)
 			</td>
 			</tr>
 			<tr>
-			<td align="right" width="100" >ふりがな姓:</td>
+			<td align="right" width="100" >ふりがな姓：</td>
       <?php
 				if($guest_row['self']==1)
 				{
@@ -772,7 +772,7 @@ if($editable)
 			<td width="198">
 			<table  width="237" border="0" cellspacing="2" cellpadding="2">
 			<tr>
-				<td align="right" width="100">名<font color="red">*</font>:</td>
+				<td align="right" width="100">名<font color="red">*</font>：</td>
 				<td align="center" width="137" >
        			<input type="text" name="first_name" class="check_sjs_1" size="20" tabindex=3 style="padding-top:3px; padding-bottom:3px;border-style: inset;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
 			  <div id="first_div_id" style="display:none;" ></div>
@@ -780,7 +780,7 @@ if($editable)
 				</td>
 			</tr>
 			<tr>
-				<td align="right" width="100">ふりがな名:</td>
+				<td align="right" width="100">ふりがな名：</td>
       <?php
 			if($guest_row['self']==1)
 			{
@@ -801,7 +801,7 @@ if($editable)
 
 			<td width="169" colspan="2" align="right" valign="top" ><table width="315" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-			    <td width="78" align="right">敬称<font color="red">*</font>:</td>
+			    <td width="78" align="right">敬称<font color="red">*</font>：</td>
 			    <td width="123">
 			    <select id="respect_id" name="respect_id" tabindex=4 style="width:70px; padding-top:3px; padding-bottom:3px;border-style: inset;" <?php if($guest_row['self']==1){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
 			      <?php
@@ -842,7 +842,7 @@ if($editable)
 			</tr>
 			<tr>
 
-			<td align="right" width="96">区分:</td>
+			<td align="right" width="96">区分：</td>
 			<td align="center" width="90" >
 			  <select id="guest_type" name="guest_type" tabindex=7 style="width:80px; padding-top:3px; padding-bottom:3px;border-style:inset;" <?php if($guest_row['self']==1){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
 					<?php
@@ -863,7 +863,7 @@ if($editable)
 			<td colspan="2">
 				<table width="237" border="0" cellspacing="2" cellpadding="2">
 			  		<tr>
-						<td width="100" align="right">肩書 １行目:</td>
+						<td width="100" align="right">肩書 １行目：</td>
 						<td width="137" align="center">
 
 							<input size="20" name="comment1" tabindex=8 type="text" class="check_sjs_1" id="comment1" style="padding-top:3px; padding-bottom:3px;border-style: inset;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
@@ -876,7 +876,7 @@ if($editable)
 			<td>
 				<table width="237" border="0" cellspacing="2" cellpadding="2">
 					<tr>
-			    		<td width="100" align="right">肩書 ２行目:</td>
+			    		<td width="100" align="right">肩書 ２行目：</td>
 			    		<td width="137" align="center">
 
 							<input size="20" name="comment2" tabindex=9 type="text" id="comment2" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;border-style: inset;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
@@ -888,7 +888,7 @@ if($editable)
 			</td>
 			<td width="196" colspan="2" align="right" valign="top" ><table width="313" border="0" cellspacing="2" cellpadding="2">
 			  <tr>
-			    <td width="76" align="right">　特記:</td>
+			    <td width="76" align="right">　特記：</td>
 			    <td width="123"><input type="text" tabindex=10 style="padding-top:3px; padding-bottom:3px; width:114px;border-style: inset;"   name="memo" id="memo" maxlength="40" value="<?=$guest_row['memo']?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
 		      </tr>
 		    </table></td>
@@ -899,7 +899,7 @@ if($editable)
 		<tr>
 		<td width="96" align="right" valign="top"> <table width="96" border="0" cellspacing="2" cellpadding="2">
 		  <tr>
-		    <td align="right">引出物<font color="red">*</font>:</td>
+		    <td align="right">引出物<font color="red">*</font>：</td>
 		    </tr>
 		  </table></td>
           <td width="90" align="center" valign="top"> <table width="90" border="0" cellspacing="2" cellpadding="2">
@@ -938,7 +938,7 @@ if($editable)
 
           <td colspan="2" valign="top"> <table width="190" border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td width="100" align="right">料理<font color="red">*</font>:</td>
+              <td width="100" align="right">料理<font color="red">*</font>：</td>
               <td width="76"><?php
                             	$menus = $obj->GetAllRowsByCondition(" spssp_menu_group "," user_id=".$user_id);
 								if((int)$_GET['gid'])
@@ -969,7 +969,7 @@ if($editable)
           </table>               </td>
           <td valign="top"> <table width="180" border="0" cellspacing="2" cellpadding="2">
                           <tr>
-                            <td width="90" align="right">席種別<font color="red">*</font>:</td>
+                            <td width="90" align="right">席種別<font color="red">*</font>：</td>
                             <td width="76" align="center"><select id="stage" tabindex=13 name="stage" style="width:96px;padding-top:3px; padding-bottom:3px;border-style:inset;"  <?php if($guest_row['self']==1){echo "disabled";}?> onchange="stage_enebeled();" onkeydown="keyDwonAction(event)" onClick="clickAction()">
                               <option value="0" <?php if($guest_row['stage']=="0"){ echo "Selected='Selected'"; }?> >招待席</option>
                               <option value="1" <?php if($guest_row['stage']=="1"){ echo "Selected='Selected'"; }?> >高砂席</option>
@@ -978,7 +978,7 @@ if($editable)
                         </table> </td>
                         <td width="283" colspan="2" align="right" valign="top" ><table width="313" border="0" cellspacing="2" cellpadding="2">
                           <tr>
-                            <td width="76" align="right">高砂席名: <input type="hidden" id="stage_guest_current" value="<?=$guest_row[stage_guest]?>" ></td>
+                            <td width="76" align="right">高砂席名：                              <input type="hidden" id="stage_guest_current" value="<?=$guest_row[stage_guest]?>" ></td>
                             <td width="123"><select id="stage_guest" tabindex=14 name="stage_guest" style="width:120px; padding-top:3px; padding-bottom:3px;border-style:inset;" <?php if($guest_row['self']==1 || $guest_row['stage']!="1"){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
                               <option value="">選択してください</option>
                               <?php

@@ -141,7 +141,9 @@ width:150px;
 ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 }
 </style>
-
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>ログイン - 印刷会社様画面 - ウエディングプラス</title>
   <div align="center">
     <div id="login_BOX">
@@ -200,22 +202,25 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 </tr>
 </table>
 </div>
-    <div id="foot_center"><strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
-      ・Internet Explorer 7.0～9.x<br />
+    <div id="foot_center"><strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
+      ・Internet Explorer 7.0～9.x<br />
 	      ・FireFox 5.0以上 <br />
       ・Google Chrome 14.0以上</div>
   <div id="foot_right"><strong>●Mac OS Ｘ（10.4以上）</strong><br />
 
-	      ・Safari 5.0以上<br />
+	      ・Safari 5.0以上<br />
 	      ・FireFox 5.0以上 </div>
 	    <div class="clr"></div>
 	    </div>
 </div>
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
 
+	<script type="text/javascript"> document.loginform.userID.focus(); </script>
 
 <div class="clr"></div>
   <div id="footer" style="width:1000px">
     <p>Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.</p>
   </div>
-
+</div>
+</head>
+</html>

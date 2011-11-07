@@ -1,3 +1,6 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <?php
 require_once("inc/include_class_files.php");
 include_once("inc/dbcon.inc.php");
@@ -415,3 +418,5 @@ function get_font_size($font_type,$hotel_id){
   echo "document.user_info_plan.submit();";
   echo "</script>";
 ?>
+</head>
+</html>
