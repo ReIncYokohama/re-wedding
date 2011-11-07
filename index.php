@@ -258,14 +258,14 @@ $(function(){
 </table>
 </div>
     <div id="foot_center">
-      <strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
-        ・Internet Explorer 7.0~9.x<br />
+      <strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
+        ・Internet Explorer 7.0~9.x<br />
         ・FireFox 5.0以上 <br />
         ・Google Chrome 14.0以上
 </div>
   <div id="foot_right"><strong>●Mac OS Ｘ（10.4以上）</strong><br />
 
-	      ・Safari 5.0以上<br />
+	      ・Safari 5.0以上<br />
 	      ・FireFox 5.0以上 </div>
 	    <div class="clr"></div>
 	    </div>
@@ -273,7 +273,7 @@ $(function(){
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
 
 	<!-- UCHIDA EDIT 11/07/26 -->
-	<script type="text/javascript"> document.login_form.adminid.focus(); </script>
+	<script type="text/javascript"> document.login_form.userID.focus(); </script>
 
 <?php
 	include_once("inc/new.footer.inc.php");
