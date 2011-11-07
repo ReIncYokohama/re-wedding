@@ -270,8 +270,7 @@ height:30px;
 			<div class="title_bar_txt_R"></div>
 			<div class="clear"></div>
 		</div>
-		<div class="cont_area">（説明文）ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ。<br />
-		  ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ。<br /><br />
+		<div class="cont_area"><br />
 
 			<table width="800" border="0 cellspacing="1" cellpadding="3">
 				  <tr>
@@ -299,8 +298,7 @@ height:30px;
 		  <div class="title_bar_txt_R"></div>
 		  <div class="clear"></div>
 		</div>
-		<div class="cont_area">（説明文）ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ。<br />
-ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ。<br /><br />
+		<div class="cont_area"><br />
 
 			  <table width="800" border="0" cellspacing="1" cellpadding="3">
 				  <tr>
@@ -324,8 +322,7 @@ height:30px;
 		  <div class="title_bar_txt_R"></div>
 		  <div class="clear"></div>
 		</div>
-		<div class="cont_area">（説明文）ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ。<br />
-ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ。<br /><br />
+		<div class="cont_area"><br />
 
 			  <table width="800" border="0" cellspacing="1" cellpadding="3">
 				  <tr>
@@ -348,8 +345,7 @@ height:30px;
 		  <div class="title_bar_txt_R"></div>
 		  <div class="clear"></div>
 		</div>
-		<div class="cont_area">（説明文）ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ。<br />
-ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ。<br /><br />
+		<div class="cont_area"><br />
 
 			  <table width="800" border="0" cellspacing="1" cellpadding="3">
 				  <tr>
