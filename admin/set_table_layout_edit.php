@@ -159,7 +159,16 @@ function Multicheck() {
 	{
 		var tId="table_name_"+loop;
 		var table_name=	$("#"+tId).val();
-		if(table_name != "" && typeof(table_name) != "undefined") {
+
+		var nm = "default_"+loop;
+		var disp=0;
+		var ds = $("#"+nm).val();
+		if (typeof(ds) != "undefined") {
+			var dn = ds.split("/");
+			if($("#display_"+dn[0]).is(':checked') == true) disp=1;
+		}
+
+		if(table_name != "" && typeof(table_name) != "undefined" && disp==1) {
 			for(var loop2 = loop+1; loop2<=81; loop2++) {
 				var tId2="table_name_"+loop2;
 				var table_name2 =$("#"+tId2).val();
