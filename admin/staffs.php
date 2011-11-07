@@ -737,6 +737,9 @@ include("inc/return_dbcon.inc.php");
         </p>
         </form>
         </div>
+        
+        <br /><br />
+        
         <div class="box_table" style="width: 1000px;">
 
       		<!--<div class="page_next"><?=$pageination?></div>-->
