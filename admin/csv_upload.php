@@ -97,8 +97,7 @@ margin: 0;
   <div class="fileinputs">
               <input type="file" size="50" id="myfile" name="csv" class="file hidden" >
               <div class="fakefile">
-                <image src="../img/btn_attach.jpg"/>
-                <input type="text" id="csv_text" size="40"/>
+                <input type="text" id="csv_text" size="40"/><image src="../img/btn_attach.jpg"/>
               </div></div>
               <input type="hidden" name="user_id" value="<?=$_GET["user_id"]?>" />
             </form>
