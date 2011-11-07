@@ -727,7 +727,7 @@ include("inc/return_dbcon.inc.php");
 			</table>
   <br>
 
-            <label for="権限"></label><div style="width:250px; text-align:left;"> <a href="#" onclick="validForm();"><img src="img/common/btn_regist_update.jpg" alt="登録・更新" width="82" height="22" /></a>&nbsp;&nbsp;&nbsp;
+            <label for="権限"></label><div style="width:800px; padding-left:156px; text-align:left;"> <a href="#" onclick="validForm();"><img src="img/common/btn_regist_update.jpg" alt="登録・更新" width="82" height="22" /></a>&nbsp;&nbsp;&nbsp;
 			<?php if($get[id]=="") { ?>
 			<a  href="#" onclick="clearform();"><img src="img/common/btn_clear.jpg" alt="クリア" width="82" height="22" /></a>
 			<?php } else { ?>
@@ -885,7 +885,7 @@ include("inc/return_dbcon.inc.php");
 				</tr>
 			</table>
                   <br />
-				   <a href="#" onclick="validForm_staff();"><img src="img/common/btn_update.jpg" alt="更新" width="82" height="22" /></a>
+				   <div style="width:800px; padding-left:156px; text-align:left;"><a href="#" onclick="validForm_staff();"><img src="img/common/btn_update.jpg" alt="更新" width="82" height="22" /></a></div>
         		</p>
 				</form>
 
