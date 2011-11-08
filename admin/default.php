@@ -314,11 +314,13 @@ include("inc/return_dbcon.inc.php");
   		</tr>
   		</table>
         <br /><br /><br /><br />
-  		<table width="100%" border="0" cellspacing="5" cellpadding="0">
-  		<td width="76">&nbsp;</td>
-		<td><a href="#"><img onclick="validForm_takasago();"; alt="保存" src="img/common/btn_save.jpg"></a></td>
-		</tr>
-		</table>
+        <?php if ($InputArea=="") { ?>
+	  		<table width="100%" border="0" cellspacing="5" cellpadding="0">
+	  		<td width="76">&nbsp;</td>
+			<td><a href="#"><img onclick="validForm_takasago();"; alt="保存" src="img/common/btn_save.jpg"></a></td>
+			</tr>
+			</table>
+		<?php } ?>
 </form>
 
 <br /><br />
