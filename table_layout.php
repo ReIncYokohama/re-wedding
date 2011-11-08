@@ -279,7 +279,7 @@ function user_timeout() {
 			if (!$editable || $permission_table_edit['rename_table']==0) {
 				$_readonly=" readonly='readonly' style='border: #ffffff;'";
 			}
-			if($layoutname!="")
+			if($layoutname!="" && $layoutname!="null")
 			{
 				$name_input=$layoutname;
 				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
@@ -357,7 +357,7 @@ function user_timeout() {
 			<div>
 	<?php
 
-		if($layoutname!="")
+		if($layoutname!="" && $layoutname!="null")
 		{
 			echo "<div id='user_layoutname'  style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$layoutname."</div>";
 		}
