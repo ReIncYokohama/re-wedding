@@ -510,7 +510,7 @@ include("inc/return_dbcon.inc.php");
     <div id="contents">
         <h2>お知らせ</h2>
 
-       <div style="font-size:12px; font-weight:bold;">
+       <div style="font-size:12px; font-weight:bold;" height:124px; overflow-y:auto; >
         <ul class="ul2">
 
             <?php
@@ -612,7 +612,7 @@ include("inc/return_dbcon.inc.php");
             <div style="width:100%; display:none;" id="srch_result"></div>
             <p></p>
 
-		    <div class="box_table" id="box_table" style="height:360px; overflow-y:auto;">
+		    <div class="box_table" id="box_table">
             <p>&nbsp;</p>
 
             <div class="box4" style="width:1000px;">
@@ -734,6 +734,7 @@ include("inc/return_dbcon.inc.php");
 			$i++;
             }
 			?>
+			<br /><br /><br /><br />
         </div>
 		 <div style="width:100%; margin-top:25px">
             	<?php
@@ -798,7 +799,7 @@ include("inc/return_dbcon.inc.php");
 <!--                         <div class="txt2">■管理会社より -News- -->
                         <div class="txt2"> <h2>管理会社より -News-</h2>
                             <ul class="ul3">
-
+                            <div style="height:124px; overflow-y:auto;">
                             <?php
 	include("inc/main_dbcon.inc.php");
  	$super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," show_it=1 order by id desc");
@@ -811,6 +812,7 @@ include("inc/return_dbcon.inc.php");
                                     <p class='super_desc' id='super_desc_".$msg['id']."'><span>".$msg['description']."</span> </p></li>";
 
                                 }?>
+                            </div>
                             </ul>
                         </div>
                  <?php
