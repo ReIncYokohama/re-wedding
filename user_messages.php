@@ -267,31 +267,28 @@ function filename_change() {
 			<input type="hidden" name="admin_id" value="<?=$_SESSION['adminid']?>">
 			<table align="left" border="0" >
 				<tr>
-					<td width="40" style="text-align:right;">タイトル</td>
-					<td colspan="2" style="text-align:left;" > <input size="114" type="text" name="title" id="title" /></td>
+					<td width="40" valign="middle" style="text-align:right;">タイトル</td>
+					<td colspan="2" valign="middle" style="text-align:left;" > <input size="114" type="text" name="title" id="title" style="border-style:inset;" /></td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">本文</td>
-					<td colspan="2" style="text-align:left;"><textarea name="description" id="description" cols="70" rows="5"></textarea></td>
+					<td valign="middle" style="text-align:right;">本文</td>
+					<td colspan="2" valign="middle" style="text-align:left;"><textarea name="description" id="description" cols="83" rows="5" style="border-style: inset;"></textarea></td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">添付</td>
-					<td width="10" style="text-align:left;"  valign="baseline">
-						<input type="text" id="file1" name="file1" readonly />
+					<td valign="middle" style="text-align:right;">添付</td>
+					<td align="left" valign="middle" style="text-align:left;">
+						<input name="file1" type="text" id="file1" size="40" style="border-style: inset;" readonly />
 						<input id="upfile" type="file" name="upfile" onchange="filename_change();" style="display: none">
-					</td>
-					<td width="480" >
-						<a href="javascript:void(0);" name="file2" onclick="button1_onclick();"><img src="img//btn_attach_user.jpg" alt="参照" /></a>
-					</td>
+					
+					<a href="javascript:void(0);" name="file2" onclick="button1_onclick();"><img src="img//btn_attach_user.jpg" alt="参照" width="82" height="22" /></a>	
+				  </td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
-					<td style="text-align:center">
-						<a href="javascript:void(0);" name="insert" onclick="validForm();"/><img src="img/btn_send_user.jpg" alt="送信" /></a> &nbsp;
-					</td>
-					<td style="text-align:left;">
-						<a href="javascript:void(0);" name="reset" onclick="cancel_insert();"/><img src="img/btn_clear_user.jpg" alt="クリア" /></a>
-					</td>
+					<td align="left" style="text-align:left">
+<a href="javascript:void(0);" name="insert" onclick="validForm();"/><img src="img/btn_send_user.jpg" alt="送信" width="82" height="22" /></a>&nbsp;&nbsp;&nbsp;
+					<a href="javascript:void(0);" name="reset" onclick="cancel_insert();"/><img src="img/btn_clear_user.jpg" alt="クリア" width="82" height="22" /></a></td>
+
 				</tr>
 			</table>
 		</form>

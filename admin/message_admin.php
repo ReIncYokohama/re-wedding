@@ -295,7 +295,7 @@ include("inc/return_dbcon.inc.php");
 				<tr>
 					<td width="7%" style="text-align:left;">本文　　&nbsp;&nbsp;：</td>
 					<td style="text-align:left;">
-						<textarea name="description" id="description" cols="70" rows="5" style="border-style: inset;"></textarea>
+						<textarea name="description" id="description" cols="69" rows="5" style="border-style: inset;"></textarea>
 					</td>
 				</tr>
 				<tr>
