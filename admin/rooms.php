@@ -276,8 +276,10 @@ include("inc/return_dbcon.inc.php");
 <!-- SEKIDUKA EDIT 11/10/22 会場レイアウトプレビューを横に表示する -->
       <table width="1035px" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="400" valign="top">
-         <?php
+    <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222") echo '<td width="400" valign="top">';
+    	  else echo '<td width="2" valign="top">'; 
+    ?>
+    	<?php
         	if(isset($_GET['err']) && $_GET['err']!='')
 			{
 				echo "<script>
