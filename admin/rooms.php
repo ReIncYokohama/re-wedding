@@ -276,8 +276,10 @@ include("inc/return_dbcon.inc.php");
 <!-- SEKIDUKA EDIT 11/10/22 会場レイアウトプレビューを横に表示する -->
       <table width="1035px" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="400" valign="top">
-         <?php
+    <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222") echo '<td width="400" valign="top">';
+    	  else echo '<td width="2" valign="top">'; 
+    ?>
+    	<?php
         	if(isset($_GET['err']) && $_GET['err']!='')
 			{
 				echo "<script>
@@ -339,14 +341,19 @@ include("inc/return_dbcon.inc.php");
 
 				 <!--<input name="max_seats" type="text" id="max_seats" maxlength="2" size="1" />-->    名まで
 				<br /><br />
-
-        　　	<a href="#" onclick="validForm();">
+		      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+			      <tr>
+			        <td width="85">&nbsp;</td>
+			        <td><a href="#" onclick="validForm();">
                     <img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22"  />
 
                 </a>&nbsp;&nbsp;
 					<a href="#"><img width="82" height="22" border="0" src="img/common/btn_clear.jpg" alt="クリア" onclick="cancel_new();""></a>
-				<input type="hidden" name="room_id" value="0" />
-             </form>
+				<input type="hidden" name="room_id" value="0" /></td>
+		        </tr>
+		      </table>
+		      
+            </form>
          </p></div>
          <?php } else {?>
          	<form method="post" name="room_form">

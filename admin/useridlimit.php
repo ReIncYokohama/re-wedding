@@ -251,26 +251,20 @@ include("inc/return_dbcon.inc.php");
            	  </td>
             </tr>
         </table>
-
-
-<br /><br /><br />
-
-
-<table width="500" border="0" align="left" cellpadding="0" cellspacing="10" style="width:300px;">
-
-
+<br /><br /><br /><br />
+<table width="500" border="0" align="left" cellpadding="0" cellspacing="10" style="width:260px;">
 		  <tr>
             <tr align="left">
-              <td colspan="3" nowrap="nowrap">&nbsp;</td>
+              <td width="120" nowrap="nowrap">&nbsp;</td>
+              <td width="10" nowrap="nowrap">&nbsp;</td>
+              <td width="270" nowrap="nowrap">&nbsp;</td>
             </tr>
             <tr align="left">
-           	  <td colspan="3" nowrap="nowrap">
-			   <?php if($_SESSION['user_type']=='333'){?>
-                	<!--<input type="button" onclick="valid_user();" value="保存" />-->
-					<a href="#"><img width="82" height="22" alt="保存" onclick="valid_user();" src="img/common/btn_save.jpg">
-					<? }?>
-
-                </td>
+           	  <td width="120" nowrap="nowrap">&nbsp;</td>
+           	  <td width="10" nowrap="nowrap">&nbsp;</td>
+           	  <td width="270" nowrap="nowrap"><?php if($_SESSION['user_type']=='333'){?>
+                <!--<input type="button" onclick="valid_user();" value="保存" />--><a href="#"><img width="82" height="22" alt="保存" onclick="valid_user();" src="img/common/btn_save.jpg" />
+              <? }?></td>
             </tr>
       </table>
       </form>

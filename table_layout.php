@@ -1,8 +1,7 @@
 <?php
 	include_once("admin/inc/class_information.dbo.php");
-	include_once("admin/inc/class_data.dbo.php");
 	include_once("inc/checklogin.inc.php");
-	$obj = new DataClass();
+	$obj = new DBO();
 	$objInfo = new InformationClass();
 	$get = $obj->protectXSS($_GET);
 	$user_id = (int)$_SESSION['userid'];
@@ -113,9 +112,10 @@ function validForm(num)
 	sendObject["total_table"] = num;
 	
 	$.post('ajax/plan_table_name_update_all.php',sendObject, function(data){
+      	alert("テーブル名が保存されました");
 	    if (timeOutNow==true) location.href = "logout.php";
-      alert("テーブル名が保存されました");
-		});
+	    else 				  location.href = "table_layout.php";
+	});
   
 }
 
@@ -279,22 +279,16 @@ function user_timeout() {
 			if (!$editable || $permission_table_edit['rename_table']==0) {
 				$_readonly=" readonly='readonly' style='border: #ffffff;'";
 			}
-			if($layoutname!="")
+			if($layoutname!="" && $layoutname!="null")
 			{
-        if($layoutname=="null"){
-          $name_input="";
-        }else{
-          $name_input=$layoutname;
-        }
-				
+				$name_input=$layoutname;
+				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
 			}
 			else
 			{
 				$name_input=$default_layout_title;
-				
+				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
 			}
-      
-      echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
 			?></div>
 			　　　　　</td>
 		</tr>
@@ -335,7 +329,7 @@ function user_timeout() {
 				  <td colspan="4">
 
 					&nbsp;<br />
-					<a href="javascript:void(0)" onclick="validForm(<?=$k-1?>);" name="edit">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="validForm(<?=$k-1?>);" name="edit">
 		        	<img src="img/btn_save_user.jpg" border="0" />
 		        	</a>
 					&nbsp;
@@ -363,21 +357,21 @@ function user_timeout() {
 			<div>
 	<?php
 
-		if($layoutname!="")
+		if($layoutname!="" && $layoutname!="null")
 		{
-      if($layoutname=="null"){
-        echo'<table width="10" border="0" cellspacing="0" cellpadding="0" align="center">
-			  <tr>
-				<td style="text-align:center;"><div id="img_default_layout_title"  style="text-align:center"><div style="border:1px solid #000000; width:60px;">　　　</div></div></td>
-			  </tr>
-			</table>';
-      }else{
-        echo "<div id='user_layoutname'  style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$layoutname."</div>";
-      }
+			echo "<div id='user_layoutname'  style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$layoutname."</div>";
 		}
 		elseif($default_layout_title!="")
 		{
 			echo "<div id='default_layout_title' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$default_layout_title."</div>";
+		}
+		else
+		{
+			echo'<table width="10" border="0" cellspacing="0" cellpadding="0" align="center">
+			  <tr>
+				<td style="text-align:center;"><div id="img_default_layout_title"  style="text-align:center"><div style="border:1px solid #000000; width:60px;">　　　</div></div></td>
+			  </tr>
+			</table>';
 		}
 
 		echo "<div id='input_user_layoutname' style='display:none;'>
@@ -387,7 +381,6 @@ function user_timeout() {
 		<input type='submit' name='submit' value='保存'>
 		</form>
 		</div>";
-      
 		?>
 			</div>
         	<div align="center" style="width:<?=$rw_width?>px; margin:10px auto;"  id="table_information">

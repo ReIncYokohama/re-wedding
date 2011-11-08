@@ -310,13 +310,13 @@ width:200px;
 			$gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
 			?>
 		  <tr>
-			<td align="left" nowrap="nowrap">締切日は披露宴の&nbsp;<?=$gift_criteria['order_deadline']?> &nbsp;日前となります</td>
+			<td align="left" nowrap="nowrap">締切日は披露宴の&nbsp;<?=$user_row['order_deadline']?> &nbsp;日前となります</td>
 		  </tr>
 			<?php
 				$day = strftime('%d',strtotime($user_row['party_day']));
 				$month = strftime('%m',strtotime($user_row['party_day']));
 				$year = strftime('%Y',strtotime($user_row['party_day']));
-				$lastmonth = mktime(0, 0, 0, $month, $day-$gift_criteria['order_deadline'], $year);
+				$lastmonth = mktime(0, 0, 0, $month, $day-$user_row['order_deadline'], $year);
 				$dateBeforeparty = date("Y-m-d",$lastmonth);
 			?>
 		  <tr>

@@ -313,13 +313,14 @@ include("inc/return_dbcon.inc.php");
   </tr>
   		</tr>
   		</table>
-  		<table width="100%" border="0" cellspacing="1" cellpadding="4">
-  		<tr><td width="45">&nbsp;</td></tr>
-  		<tr>
-  		<td width="50">&nbsp;</td>
-		<td><a href="#"><img onclick="validForm_takasago();"; alt="保存" src="img/common/btn_save.jpg"></a></td>
-		</tr>
-		</table>
+        <br /><br /><br /><br />
+        <?php if ($InputArea=="") { ?>
+	  		<table width="100%" border="0" cellspacing="5" cellpadding="0">
+	  		<td width="76">&nbsp;</td>
+			<td><a href="#"><img onclick="validForm_takasago();"; alt="保存" src="img/common/btn_save.jpg"></a></td>
+			</tr>
+			</table>
+		<?php } ?>
 </form>
 
 <br /><br />
@@ -361,11 +362,13 @@ include("inc/return_dbcon.inc.php");
 <br /><br /><br /><br />
 
 
-				<table width="100%" border="0" cellspacing="1" cellpadding="4">
+				<table width="100%" border="0" cellpadding="0" cellspacing="5">
 				  <tr>
   <?php 				if ($InputArea=="") { ?>
-				    <td width="563" align="left" valign="middle"><p>　　　<a href="#"><img  onclick="validForm();"; border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg">
-				    </a>　　<a href="#"><img  onclick="clearForm()"; border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg"></a></p></td> <?php } ?>
+				    <td width="22" align="left" valign="middle"><p>&nbsp;</p></td>
+				    <td width="281" align="left" valign="middle"><a href="#"><img  onclick="validForm();"; border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg">
+				    </a>　　<a href="#"><img  onclick="clearForm()"; border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg"></a></td> 
+				    <?php } ?>
 			      </tr>
 				</table>
 

@@ -5,10 +5,9 @@ include_once("inc/checklogin.inc.php");
 $obj = new DBO();
 $objMsg = new MessageClass();
 $objinfo = new InformationClass();
-
 $post = $obj->protectXSS($_POST);
 $get = $obj->protectXSS($_GET);
-$data_rows = false;
+
 	if(isset($post['ajax']) && $post['ajax'] != '' && $post['id'] != '')
 	{
 		$super_msg_row = $obj->GetSingleRow("spssp_super_message", "id=".(int)$post['id']);
@@ -41,7 +40,7 @@ $data_rows = false;
 		$amsg_where = " admin_id=".(int)$_SESSION['adminid'];
 		if(!empty($staff_users))
 		{
-			if(array_key_exists("user_id",$get) &&  in_array((int)$get['user_id'],$staff_users))
+			if(in_array((int)$get['user_id'],$staff_users))
 			{
 				$var = 1;
 			}
@@ -92,17 +91,17 @@ $data_rows = false;
 	$adminmsgs = $obj->GetAllRowsByCondition("spssp_admin_messages"," $amsg_where order by display_order desc ");
   if($adminmsgs) $adminmsgs = array();
 
-  if(array_key_exists("action",$get) && $get['action']=='delete' && (int)$get['id'] > 0)
+	if($get['action']=='delete' && (int)$get['id'] > 0)
 	{
-		$objinfo->delete_user_relation_table((int)$get['id']);
-
+		$sql = "delete from spssp_user where id=".(int)$get['id'];
+		mysql_query($sql);
+		$sql = "delete from spssp_plan where user_id=".(int)$get['id'];
+		mysql_query($sql);
 		$post['date_from']=$get['date_from'];
 		$post['date_to']=$get['date_to'];
 		$post['mname']=$get['mname'];
 		$post['wname']=$get['wname'];
 	}
-	include_once("inc/update_user_log_for_db.php");
-	update_user_log_for_db((int)(USER_LOGIN_TIMEOUT), $obj, $user_id_arr);
 ?>
 
 		   <!--User view respect to admin start-->
@@ -210,18 +209,14 @@ font-weight:normal;
 window.onbeforeunload = function(event) {
 //	alert("Before Unload");
 //return true;
-//	alert("Before onunload");
-//	if(self.closed) alert("CLOSE");
 }
 window.onunload = function(event) {
 //	var ref = event.target.referrer;
-//	var ref=closed;
+//	var ref=location.href;
 //	alert("Unload : "+ref);
 //return true;
 }
-//window.onclose = function(event) {
-//	alert("Closed : ");
-//}
+
 var user_a_id;
 $j(function(){
 
@@ -394,15 +389,15 @@ function sortAction(sortOptin)
 
 function validSearch()
 {
-	var date_from="";
-	var date_to="";
-	var mname="";
-	var wname="";
+	var date_from;
+	var date_to;
+	var mname;
+	var wname;
 
-	date_from = document.condition.date_from.value;
-	date_to = document.condition.date_to.value;
-	mname= document.condition.man_lastname.value
-	wname = document.condition.woman_lastname.value;
+	date_from = $j("#date_from").val();
+	date_to = $j("#date_to").val();
+	mname= $j("#man_lastname").val();
+	wname = $j("#woman_lastname").val();
 
 	document.condition.h_date_from.value = date_from;
 	document.condition.h_date_to.value = date_to;
@@ -430,21 +425,20 @@ function validSearch()
 				alert("披露宴開始日の日付指定が間違っています。\nカレンダーアイコンから選択するか、正しく入力してください");
 				return false;
 			}
-			if (date_from < today) {
-				alert("披露宴開始日が過去になっています");
-				return false;
-			}
 		}
-
+		if (date_from < today) {
+			alert("披露宴開始日が過去になっています");
+			return false;
+		}
 		if (date_to != "") {
 			if (ckDate(date_to) == false) {
 				alert("披露宴終了日の日付指定が間違っています。\nカレンダーアイコンから選択するか、正しく入力してください");
 				return false;
 			}
-			if (date_to < today) {
-				alert("披露宴終了日が過去になっています");
-				return false;
-			}
+		}
+		if (date_to < today) {
+			alert("披露宴終了日が過去になっています");
+			return false;
 		}
 		if (date_from != "" && date_to != "") {
 			if (date_from > date_to) {
@@ -516,11 +510,10 @@ include("inc/return_dbcon.inc.php");
     <div id="contents">
         <h2>お知らせ</h2>
 
-       <div style="font-size:12px height:124px; overflow-y:auto; font-weight:bold;">
+       <div style="font-size:12px; font-weight:bold;" height:124px; overflow-y:auto; >
         <ul class="ul2">
 
             <?php
-  if(!$data_rows) $data_rows = array();
 			foreach($data_rows as $row)
 			{
 				echo $objMsg->get_admin_side_order_print_mail_system_status_msg($row['id']);	// 席次・席札確認 → メッセージ表示
@@ -532,32 +525,30 @@ include("inc/return_dbcon.inc.php");
 			?>
 
 			<?php
-				if ($_SESSION["super_user"]==false) {
-					$user_id_array=array();
-	        		foreach($usermsgs as $umsg)
-					{
-						if(in_array($umsg['user_id'],$user_id_array))
-						continue;
-	
-						$user_id_array[]=$umsg['user_id'];
-	
-						$userWhere = "id=".$umsg['user_id']." and party_day >= '".date("Y-m-d")."'"." and stuff_id=".$stuff_id;
-						$nm = $obj->GetRowCount("spssp_user",$userWhere);
-						if ($nm >0) {
-							$man_firstname = $obj->GetSingleData("spssp_user", "man_firstname"," id=".$umsg['user_id']);
-							$woman_firstname = $obj->GetSingleData("spssp_user", "woman_firstname"," id=".$umsg['user_id']);
-							$party_day = $obj->GetSingleData("spssp_user", "party_day"," id=".$umsg['user_id']);
-	
-							$party_date_array=explode("-",$party_day);
-	
-							$party_day=$party_date_array[1]."/".$party_date_array[2];
-	
-							$man_name = $objinfo->get_user_name_image_or_src($umsg['user_id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
-				    		$woman_name = $objinfo->get_user_name_image_or_src($umsg['user_id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
-				    		$user_name = $man_name."・".$woman_name;
-	
-							echo "<li><a href='message_user.php?stuff_id=0&user_id=".$umsg['user_id']."' >".$party_day." ".$user_name." 様よりの未読メッセージがあります。</a></li>";
-						}
+				$user_id_array=array();
+        foreach($usermsgs as $umsg)
+				{
+					if(in_array($umsg['user_id'],$user_id_array))
+					continue;
+
+					$user_id_array[]=$umsg['user_id'];
+
+					$userWhere = "id=".$umsg['user_id']." and party_day >= '".date("Y-m-d")."'";
+					$nm = $obj->GetRowCount("spssp_user",$userWhere);
+					if ($nm >0) {
+						$man_firstname = $obj->GetSingleData("spssp_user", "man_firstname"," id=".$umsg['user_id']);
+						$woman_firstname = $obj->GetSingleData("spssp_user", "woman_firstname"," id=".$umsg['user_id']);
+						$party_day = $obj->GetSingleData("spssp_user", "party_day"," id=".$umsg['user_id']);
+
+						$party_date_array=explode("-",$party_day);
+
+						$party_day=$party_date_array[1]."/".$party_date_array[2];
+
+						$man_name = $objinfo->get_user_name_image_or_src($umsg['user_id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
+			    		$woman_name = $objinfo->get_user_name_image_or_src($umsg['user_id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
+			    		$user_name = $man_name."・".$woman_name;
+
+						echo "<li><a href='message_user.php?stuff_id=0&user_id=".$umsg['user_id']."' >".$party_day." ".$user_name." 様よりの未読メッセージがあります。</a></li>";
 					}
 				}
 			?>
@@ -673,7 +664,7 @@ include("inc/return_dbcon.inc.php");
 					$class = 'box6';
 				}
 
-				$last_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$row['id']." and admin_id=0 ORDER BY login_time DESC");
+				$last_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$row['id']." and admin_id='0' ORDER BY login_time DESC");
 
 			?>
 	            <div class="<?=$class?>" style="width:1000px; ">
@@ -704,18 +695,20 @@ include("inc/return_dbcon.inc.php");
                             <td width="60" > <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'],$staff_id);?> </td>
                         <td  width="80">
 						<?php
-						if($last_login['login_time'] != "0000-00-00 00:00:00" && $last_login['login_time']!="") {
-							if($last_login['logout_time'] != "0000-00-00 00:00:00" && $last_login['logout_time'] != $last_login['login_time']) {
-								$dMsg = date('m月d日',strtotime($last_login['logout_time']));
-								echo $dMsg;
+// UCHIDA EDIT 11/08/03 'ログイン中' → ログイン時間
+						if($last_login['login_time'] > "0000-00-00 00:00:00") {
+							if($last_login['logout_time'] > "0000-00-00 00:00:00") {
+								$dMsg = strftime('%m月%d日',strtotime($last_login['logout_time']));
+								echo$dMsg;
 							}else {
-								echo "ログイン中";
+								$dMsg = strftime('%m月%d日',strtotime($last_login['login_time']));
+								echo "<font color='#888888'>$dMsg</font>";
 							}
 					   	}
 						?>
                         </td>
                         <td class="txt1" width="60" >
-                        	<a href="javascript:void(0);" onClick="windowUserOpen('user_dashboard.php?user_id=<?=$row['id']?>')"><img src="img/common/customer_view.gif" /></a>
+                        	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
                         </td>
 
                         <td width="40">
@@ -741,10 +734,10 @@ include("inc/return_dbcon.inc.php");
 			$i++;
             }
 			?>
-        <br /><br /><br /><br />
+			<br /><br /><br /><br />
         </div>
 		 <div style="width:100%; margin-top:25px">
-		 		<?php
+            	<?php
                 	if($_SESSION['user_type'] == 111)
 					{
 				?>
@@ -806,7 +799,7 @@ include("inc/return_dbcon.inc.php");
 <!--                         <div class="txt2">■管理会社より -News- -->
                         <div class="txt2"> <h2>管理会社より -News-</h2>
                             <ul class="ul3">
-							<div style="height:124px; overflow-y:auto;">
+                            <div style="height:124px; overflow-y:auto;">
                             <?php
 	include("inc/main_dbcon.inc.php");
  	$super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," show_it=1 order by id desc");

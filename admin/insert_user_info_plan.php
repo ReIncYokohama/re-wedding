@@ -1,3 +1,6 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <?php
 @session_start();
 /*error_reporting(E_ALL);
@@ -166,7 +169,9 @@ else if((int)$user_plan['user_id'] > 0 && !empty($plan_dt))
 
 	$arr['product_name'] = $post['product_name'];
 	$arr['dowload_options'] = $post['dowload_options'];
+	$arr['rename_table']=$post['rename_table'];
 	$arr['print_size']=$post['print_size'];
+	$arr['print_type']=$post['print_type'];
 	$arr['final_proof'] = $post['final_proof'];
 	$obj->UpdateData("spssp_plan",$arr," user_id=".$user_plan['user_id']);
 	echo "<script> alert('お客様挙式情報が更新されました'); </script>";
@@ -174,3 +179,5 @@ else if((int)$user_plan['user_id'] > 0 && !empty($plan_dt))
 }
 
 ?>
+</head>
+</html>

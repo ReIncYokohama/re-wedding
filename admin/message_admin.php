@@ -295,15 +295,15 @@ include("inc/return_dbcon.inc.php");
 				<tr>
 					<td width="7%" style="text-align:left;">本文　　&nbsp;&nbsp;：</td>
 					<td style="text-align:left;">
-						<textarea name="description" id="description" cols="70" rows="5" style="border-style: inset;"></textarea>
+						<textarea name="description" id="description" cols="69" rows="5" style="border-style: inset;"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td width="7%" style="text-align:left;">添付　　&nbsp;&nbsp;：</td>
 					<td style="text-align:left;" >
-						<input type="text" id="file1" name="file1" readonly style="margin-bottom:2px;border-style: inset;"/>
+						<input name="file1" type="text" id="file1" style="margin-bottom:2px;border-style: inset;" size="40" readonly/>
 
-						<input id="upfile" type="file" name="upfile" onchange="filename_change();" style="display: none">
+		        <input id="upfile" type="file" name="upfile" onchange="filename_change();" style="display: none">
 						<a href="javascript:void(0);" name="file2" onclick="button1_onclick();"/><img src="img/common/btn_attach.jpg" alt="参照" /></a>
 					</td>
 				</tr>

@@ -1,6 +1,5 @@
 <?php
 	require_once("../admin/inc/class.dbo.php");
-	include_once("../inc/checklogin.inc.php");
 	
 	$user_id = (int)$_SESSION['userid'];
 	$obj = new DBO();

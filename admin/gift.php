@@ -417,9 +417,12 @@ unset($_SESSION['msg']);
 	</td>
   </tr>
 </table>
-<br />
-<br />
-	<?php if($gift_criteria_num>0)
+<br /><br />
+    <table width="100%" border="0" cellspacing="2" cellpadding="2">
+      <tr>
+        <td width="120">&nbsp;</td>
+        <td width="10">&nbsp;</td>
+        <td><?php if($gift_criteria_num>0)
 	{?>
 	<input type="hidden" name="update" value="update" />
 	<input type="hidden" name="id" value="<?=$gift_criteria_data_row[0]['id']?>" />
@@ -434,6 +437,11 @@ unset($_SESSION['msg']);
 	<a href="#" onclick="validForm(<?=$xx?>);"><img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22" style=" <?=$btn_disp?>"  /></a>
 	<?php }?>
 
+	</td>
+      </tr>
+    </table>
+    <br />
+<br />
 	</form>
 	</div>
     </div>
