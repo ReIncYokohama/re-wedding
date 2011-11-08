@@ -1116,32 +1116,38 @@ if($guest["sex"] == "Male"){
 
       <table width="920" border="0" cellspacing="1" cellpadding="3">
         <tr>
-          <td width="50" align="right" nowrap="nowrap"><strong>新郎側：</strong></td>
-          <td width="50"  align="left" nowrap="nowrap">
-          	<strong>
-          	<?php
+          <td align="right" nowrap="nowrap">&nbsp;</td>
+          <td  align="left" nowrap="nowrap">&nbsp;</td>
+          <td align="right" nowrap="nowrap">&nbsp;</td>
+          <td  align="left" nowrap="nowrap">&nbsp;</td>
+          <td align="right" nowrap="nowrap">&nbsp;</td>
+          <td  align="left" nowrap="nowrap">&nbsp;</td>
+          <td></td>
+          <td width="76" rowspan="4" align="center" valign="bottom"><a href="javascript:void(0)" onclick="backtotop();">Top</a></td>
+        </tr>
+        <tr>
+          <td width="50" rowspan="2" align="right" nowrap="nowrap"><strong>新郎側：</strong></td>
+          <td width="50" rowspan="2"  align="left" nowrap="nowrap"><strong>
+            <?php
             	$male_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$_SESSION['userid']." and sex='Male'");
 				      echo $male_guest_num;
 			      ?>
-          	名
-            </strong></td>
-          <td width="50" align="right" nowrap="nowrap"><strong>新婦側：</strong></td>
-          <td width="50"  align="left" nowrap="nowrap">
-          	<strong>
-          	<?php
+名</strong></td>
+          <td width="50" rowspan="2" align="right" nowrap="nowrap"><strong>新婦側：</strong></td>
+          <td width="50" rowspan="2"  align="left" nowrap="nowrap"><strong>
+            <?php
             	$female_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$_SESSION['userid']." and sex='Female'");
 				      echo $female_guest_num;
-			      ?>w
-          	名
-            </strong></td>
-
-          <td width="50" align="right" nowrap="nowrap"><strong>計：</strong></td>
-          <td width="100"  align="left" nowrap="nowrap"><strong>
+			      ?>
+名 </strong></td>
+          <td width="50" rowspan="2" align="right" nowrap="nowrap"><strong>計：</strong></td>
+          <td width="100" rowspan="2"  align="left" nowrap="nowrap"><strong>
             <?=$total_record?>
-            名</strong></td>
+名</strong></td>
           <td></td>
-          <td width="76" rowspan="3" align="center"><a href="javascript:void(0)" onclick="backtotop();">Top</a></td>
-
+        </tr>
+        <tr>
+          <td></td>
           <?php
 
           	//echo $pagination;
@@ -1149,12 +1155,10 @@ if($guest["sex"] == "Male"){
 		  ?>
         </tr>
         <tr>
-
+          
           </td>
-          </tr>
-        <tr>
-          </tr>
-      </table>
+        </tr>
+        </table>
       <div class="line01"></div>
     </div>
     <br /><br />
