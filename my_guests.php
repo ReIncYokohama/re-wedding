@@ -710,36 +710,36 @@ if($editable)
 
 <table width="873" border="0" cellspacing="2" cellpadding="2">
   <tr>
-    <td width="100" align="right" valign="bottom" nowrap="nowrap">&nbsp;</td>
+    <td width="90" align="right" valign="bottom" nowrap="nowrap">&nbsp;</td>
     <td width="100" align="left" valign="bottom">&nbsp;</td>
-    <td width="100" align="right" valign="bottom" nowrap="nowrap">&nbsp;</td>
+    <td width="90" align="right" valign="bottom" nowrap="nowrap">&nbsp;</td>
     <td width="120" align="left" valign="bottom"><div id="lastname_img_div_id">
             <?php if($lastname_gaijis) echo getGaijis($lastname_gaijis);?>
         </div></td>
-    <td width="100" align="right" valign="bottom" nowrap="nowrap">&nbsp;</td>
+    <td width="90" align="right" valign="bottom" nowrap="nowrap">&nbsp;</td>
     <td width="120" align="left" valign="bottom"><div id="firstname_img_div_id">
             <?php if($firstname_gaijis) echo getGaijis($firstname_gaijis);?>
           </div></td>
-    <td width="100" align="right" valign="bottom" nowrap="nowrap">&nbsp;</td>
-    <td width="140" align="left" valign="bottom">&nbsp;</td>
+    <td width="90" align="right" valign="bottom" nowrap="nowrap">&nbsp;</td>
+    <td width="173" align="left" valign="bottom">&nbsp;</td>
   </tr>
   <tr>
-    <td width="100" align="right" nowrap="nowrap">新郎新婦側<font color="red">*</font>：</td>
+    <td width="90" align="right" nowrap="nowrap">新郎新婦側<font color="red">*</font>：</td>
     <td width="100" align="left"><select id="sex" name="sex" style="width:80px; padding-top:3px; padding-bottom:3px;border-style:inset;" <?php if($guest_row['self']==1){echo "disabled";}?> tabindex=1 onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
       <?php if($guest_row["sex"]=="") echo "<option value=''></option>";?>
       <option value="Male" <?php if($guest_row['sex']=="Male"){ echo "Selected='Selected'"; }?> >新郎側</option>
       <option value="Female" <?php if($guest_row['sex']=="Female"){ echo "Selected='Selected'"; }?> >新婦側</option>
     </select></td>
-    <td width="100" align="right" nowrap="nowrap">姓<font color="red">*</font>：</td>
+    <td width="90" align="right" nowrap="nowrap">姓<font color="red">*</font>：</td>
     <td width="120" align="left"><input type="text" size="20" class="check_sjs_1" tabindex=2 style="padding-top:3px; padding-bottom:3px;border-style: inset;" name="last_name" id="last_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['last_name']?>" onfocus="change_gaiji_link('last_name');" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
 				<div id="last_div_id" style="display:none;"></div>
         <div><?=$gaiji_button_last_name?></div></td>
-    <td width="100" align="right" nowrap="nowrap">名<font color="red">*</font>：</td>
+    <td width="90" align="right" nowrap="nowrap">名<font color="red">*</font>：</td>
     <td width="120" align="left"><input type="text" name="first_name" class="check_sjs_1" size="20" tabindex=3 style="padding-top:3px; padding-bottom:3px;border-style: inset;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
 			  <div id="first_div_id" style="display:none;" ></div>
         <div><?=$gaiji_button_first_name?></div></td>
-    <td width="100" align="right" nowrap="nowrap">敬称<font color="red">*</font>：</td>
-    <td width="140" align="left"><select id="respect_id" name="respect_id" tabindex=4 style="width:70px; padding-top:3px; padding-bottom:3px;border-style: inset;" <?php if($guest_row['self']==1){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
+    <td width="90" align="right" nowrap="nowrap">敬称<font color="red">*</font>：</td>
+    <td width="173" align="left"><select id="respect_id" name="respect_id" tabindex=4 style="width:70px; padding-top:3px; padding-bottom:3px;border-style: inset;" <?php if($guest_row['self']==1){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
 			      <?php
           if($guest_row["respect_id"]=="") echo "<option value=''></option>";
 					foreach($respects as $respect)
@@ -760,31 +760,31 @@ if($editable)
 		        </select></td>
   </tr>
   <tr>
-    <td width="100" align="right" nowrap="nowrap">&nbsp;</td>
+    <td width="90" align="right" nowrap="nowrap">&nbsp;</td>
     <td width="100" align="left">&nbsp;</td>
-    <td width="100" align="right" nowrap="nowrap">ふりがな姓：</td>
+    <td width="90" align="right" nowrap="nowrap">ふりがな姓：</td>
     <td width="120" align="left"><input type="text" tabindex=5 size="20" style="padding-top:3px;border-style:inset; padding-bottom:3px;" name="furigana_last" id="furigana_last" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_lastname?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
-    <td width="100" align="right" nowrap="nowrap">ふりがな名：</td>
+    <td width="90" align="right" nowrap="nowrap">ふりがな名：</td>
     <td width="120" align="left"><input type="text" name="furigana_first" tabindex=6 size="20"  style="padding-top:3px; padding-bottom:3px;border-style: inset;" id="furigana_first" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_first_name?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
-    <td width="100" align="right" nowrap="nowrap">&nbsp;</td>
-    <td width="140" align="left">&nbsp;</td>
+    <td width="90" align="right" nowrap="nowrap">&nbsp;</td>
+    <td width="173" align="left">&nbsp;</td>
   </tr>
   <tr>
-    <td width="100" align="right" nowrap="nowrap">&nbsp;</td>
+    <td width="90" align="right" nowrap="nowrap">&nbsp;</td>
     <td width="100" align="left">&nbsp;</td>
-    <td width="100" align="right" nowrap="nowrap">&nbsp;</td>
+    <td width="90" align="right" nowrap="nowrap">&nbsp;</td>
     <td width="120" align="left"><div id="comment1_img_div_id">
             <?php if($comment1_gaijis) echo getGaijis($comment1_gaijis);?>
           </div></td>
-    <td width="100" align="right" nowrap="nowrap">&nbsp;</td>
+    <td width="90" align="right" nowrap="nowrap">&nbsp;</td>
     <td width="120" align="left"><div id="comment2_img_div_id">
             <?php if($comment2_gaijis) echo getGaijis($comment2_gaijis);?>
           </div></td>
-    <td width="100" align="right" nowrap="nowrap">&nbsp;</td>
-    <td width="140" align="left">&nbsp;</td>
+    <td width="90" align="right" nowrap="nowrap">&nbsp;</td>
+    <td width="173" align="left">&nbsp;</td>
   </tr>
   <tr>
-    <td width="100" align="right" nowrap="nowrap">区分：</td>
+    <td width="90" align="right" nowrap="nowrap">区分：</td>
     <td width="100" align="left"><select id="guest_type" name="guest_type" tabindex=7 style="width:80px; padding-top:3px; padding-bottom:3px;border-style:inset;" <?php if($guest_row['self']==1){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
 					<?php
 						foreach($guest_types as $guest_type)
@@ -801,18 +801,18 @@ if($editable)
 						}
 					?>
 		    </select></td>
-    <td width="100" align="right" nowrap="nowrap">肩書 １行目：</td>
-    <td width="120" align="left"><input size="23" name="comment1" tabindex=8 type="text" class="check_sjs_1" id="comment1" style="padding-top:3px; padding-bottom:3px;border-style: inset;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
+    <td width="90" align="right" nowrap="nowrap">肩書 １行目：</td>
+    <td width="120" align="left"><input size="27" name="comment1" tabindex=8 type="text" class="check_sjs_1" id="comment1" style="padding-top:3px; padding-bottom:3px;border-style: inset;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
 							<div id="comment1_div_id" style="display:none;"></div>
               <div><?=$gaiji_button_comment1?></div></td>
-    <td width="100" align="right" nowrap="nowrap">肩書 ２行目：</td>
-    <td width="120" align="left"><input size="23" name="comment2" tabindex=9 type="text" id="comment2" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;border-style: inset;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
+    <td width="90" align="right" nowrap="nowrap">肩書 ２行目：</td>
+    <td width="120" align="left"><input size="27" name="comment2" tabindex=9 type="text" id="comment2" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;border-style: inset;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
 							<div id="comment2_div_id" style="display:none;"></div>
             <div><?=$gaiji_button_comment2?></div></td>
-    <td width="100" align="right" nowrap="nowrap">特記：</td>
-    <td width="140" align="left"><input type="text" tabindex=10 style="padding-top:3px; padding-bottom:3px; width:120px;border-style: inset;"   name="memo" id="memo" maxlength="40" value="<?=$guest_row['memo']?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
+    <td width="90" align="right" nowrap="nowrap">特記：</td>
+    <td width="173" align="left"><input type="text" tabindex=10 style="padding-top:3px; padding-bottom:3px; width:140px;border-style: inset;"   name="memo" id="memo" maxlength="40" value="<?=$guest_row['memo']?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
   <tr>
-    <td width="100" align="right" nowrap="nowrap">引出物<font color="red">*</font>：</td>
+    <td width="90" align="right" nowrap="nowrap">引出物<font color="red">*</font>：</td>
     <td width="100" align="left"><?php
                             	$gift_groups = $obj->GetAllRowsByCondition(" spssp_gift_group "," user_id=".$user_id);
 								if((int)$_GET['gid'])
@@ -842,7 +842,7 @@ if($editable)
 								}
 								echo "</select>";
 							?></td>
-    <td width="100" align="right" nowrap="nowrap">料理<font color="red">*</font>：</td>
+    <td width="90" align="right" nowrap="nowrap">料理<font color="red">*</font>：</td>
     <td width="120" align="left"><?php
                             	$menus = $obj->GetAllRowsByCondition(" spssp_menu_group "," user_id=".$user_id);
 								if((int)$_GET['gid'])
@@ -869,13 +869,13 @@ if($editable)
 								echo "</select>";
 
 							?>         </td>
-    <td width="100" align="right" nowrap="nowrap">席種別<font color="red">*</font>：</td>
+    <td width="90" align="right" nowrap="nowrap">席種別<font color="red">*</font>：</td>
     <td width="120" align="left"><select id="stage" tabindex=13 name="stage" style="width:96px;padding-top:3px; padding-bottom:3px;border-style:inset;"  <?php if($guest_row['self']==1){echo "disabled";}?> onchange="stage_enebeled();" onkeydown="keyDwonAction(event)" onClick="clickAction()">
                               <option value="0" <?php if($guest_row['stage']=="0"){ echo "Selected='Selected'"; }?> >招待席</option>
                               <option value="1" <?php if($guest_row['stage']=="1"){ echo "Selected='Selected'"; }?> >高砂席</option>
                             </select></td>
-    <td width="100" align="right" nowrap="nowrap">高砂席名：                              <input type="hidden" id="stage_guest_current" value="<?=$guest_row[stage_guest]?>" ></td>
-    <td width="140" align="left"><select id="stage_guest" tabindex=14 name="stage_guest" style="width:120px; padding-top:3px; padding-bottom:3px;border-style:inset;" <?php if($guest_row['self']==1 || $guest_row['stage']!="1"){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
+    <td width="90" align="right" nowrap="nowrap">高砂席名：                              <input type="hidden" id="stage_guest_current" value="<?=$guest_row[stage_guest]?>" ></td>
+    <td width="173" align="left"><select id="stage_guest" tabindex=14 name="stage_guest" style="width:120px; padding-top:3px; padding-bottom:3px;border-style:inset;" <?php if($guest_row['self']==1 || $guest_row['stage']!="1"){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
                               <option value="">選択してください</option>
                               <?php
 							$stage_guest_1 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=1");
@@ -912,22 +912,22 @@ if($editable)
                             </select></td>
   </tr>
   <tr>
-    <td width="100" align="right" nowrap="nowrap">&nbsp;</td>
+    <td width="90" align="right" nowrap="nowrap">&nbsp;</td>
     <td width="100" align="left">&nbsp;</td>
-    <td width="100" align="right" nowrap="nowrap">&nbsp;</td>
+    <td width="90" align="right" nowrap="nowrap">&nbsp;</td>
     <td width="120" align="left">&nbsp;</td>
-    <td width="100" align="right" nowrap="nowrap">&nbsp;</td>
+    <td width="90" align="right" nowrap="nowrap">&nbsp;</td>
     <td width="120" align="left">&nbsp;</td>
-    <td width="100" align="right" nowrap="nowrap">&nbsp;</td>
-    <td width="140" align="left" nowrap="nowrap"><a href="my_guests_takasago.html" onclick="m_win(this.href,'mywindow7',520,270); return false;">高砂席位置について</a></td>
+    <td width="90" align="right" nowrap="nowrap">&nbsp;</td>
+    <td width="173" align="left" nowrap="nowrap"><a href="my_guests_takasago.html" onclick="m_win(this.href,'mywindow7',520,270); return false;">高砂席位置について</a></td>
   </tr>
   <tr>
   </tr>
 </table>
 <table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr>
-    <td width="100" nowrap="nowrap">&nbsp;</td>
-    <td align="left"><a href="javascript:void(0)" onclick="validForm()" tabindex=15 >
+    <td width="80" nowrap="nowrap">&nbsp;</td>
+    <td width="863" align="left"><a href="javascript:void(0)" onclick="validForm()" tabindex=15 >
 			<img border="0" src="img/btn_regist_update_user.jpg" alt="登録"></a>&nbsp;&nbsp;
 			<a href="javascript:void(0)" tabindex=16 <?php if($_GET['gid']=="") {?>onclick="resetButton()" <?php } else  { ?> onclick="window.location='my_guests.php?page=<?=$_GET['page']?>'" <?php } ?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
 			<img border="0" src="img/btn_clear_user.jpg" alt="ｸﾘｱ">
