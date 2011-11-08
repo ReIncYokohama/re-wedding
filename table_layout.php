@@ -112,9 +112,10 @@ function validForm(num)
 	sendObject["total_table"] = num;
 	
 	$.post('ajax/plan_table_name_update_all.php',sendObject, function(data){
+      	alert("テーブル名が保存されました");
 	    if (timeOutNow==true) location.href = "logout.php";
-      alert("テーブル名が保存されました");
-		});
+	    else 				  location.href = "table_layout.php";
+	});
   
 }
 
