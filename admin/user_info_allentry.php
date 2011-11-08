@@ -637,8 +637,28 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	if(email =='' && com_email != "") {
 		alert("メールアドレスが未入力です");
 		document.getElementById('mail').focus();
+		return false;
 	}
 
+	var confirm_day_num = document.getElementById("confirm_day_num").value;
+	if (isNaN(parseInt(confirm_day_num, 10))) {
+		alert("席次表本発注締切日は半角数字で入力してください");
+		document.getElementById('confirm_day_num').focus();
+		return false;
+	}
+	var limitation_ranking = document.getElementById("limitation_ranking").value;
+	if (isNaN(parseInt(limitation_ranking, 10))) {
+		alert("席次表編集利用制限日は半角数字で入力してください");
+		document.getElementById('limitation_ranking').focus();
+		return false;
+	}
+	var order_deadline = document.getElementById("order_deadline").value;
+	if (isNaN(parseInt(order_deadline, 10))) {
+		alert("引出物本発注締切日は半角数字で入力してください");
+		document.getElementById('order_deadline').focus();
+		return false;
+	}
+	
 	if (valid_plan(noUpdate) == false) return false;
 	if (checkGiftForm(count_gift, noUpdate) == false) return false;
 	if (checkGroupForm(count_group, noUpdate) == false) return false;
@@ -906,7 +926,7 @@ include("inc/return_dbcon.inc.php");
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
 				<input type="hidden" name="current_room_id" id="current_room_id" value="<?=$user_row['room_id']?>"  />
-                	<select name="room_id" id="room_id" style="padding-top:4px; padding-bottom:4px;border-style:inset;">
+                	<select name="room_id" id="room_id" style="padding-top:4px; padding-bottom:4px;border-style:inset; width: 140px;">
 
                     <?php
                         if($rooms)
@@ -959,7 +979,7 @@ include("inc/return_dbcon.inc.php");
 
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-                	<select name="religion" style="padding-top:4px; padding-bottom:4px;border-style:inset;" id="religion" ><!--onchange="load_party_room(this.value);"-->
+                	<select name="religion" style="padding-top:4px; padding-bottom:4px;border-style:inset; width: 140px;" id="religion" ><!--onchange="load_party_room(this.value);"-->
 
 <!-- UCHIDA EDIT 11/08/03  <option value=""  <?php if($user_row[religion]=='') {?> selected="selected" <?php } ?>>選択してください</option> -->
                         <?php
@@ -1039,7 +1059,7 @@ if($user_row['mukoyoshi']=='1'){
 				// UCHIDA EDIT 11/08/17 曜日表示
 				$weekname = $objMsg->get_youbi_name( $dateBeforeparty );
 			   ?>
-			   <?php if ($user_id>0) { ?><td colspan="3" align="left" valign="middle" nowrap="nowrap"><?=$dateBeforeparty?><?=$weekname?> 披露宴日&nbsp;<?=$user_id_limit?>日後</td> <?php } ?>
+			   <?php if ($user_id>0) { ?><td colspan="3" align="left" valign="middle" nowrap="nowrap"><?=$dateBeforeparty?><?=$weekname?> 披露宴日&nbsp;<?=$user_id_limit?>&nbsp;日後</td> <?php } ?>
             </tr>
 			<tr>
   			<td width="160" align="left" valign="middle" nowrap="nowrap">メールアドレス</td>
@@ -1056,7 +1076,7 @@ if($user_row['mukoyoshi']=='1'){
 				</td>
             </tr>
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">お知らせをメールで受信する</td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">お知らせをメールで受信する<font color="red">*</font></td>
 			   <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
 				<td colspan="3" align="left" valign="middle" nowrap="nowrap">
 
@@ -1068,7 +1088,7 @@ if($user_row['mukoyoshi']=='1'){
               <td width="160" align="left" valign="middle" nowrap="nowrap">担当</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
-				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;border-style:inset;">
+				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;border-style:inset; width: 140px;">
 				<?php
 				if ($user_id>0) {
 					foreach($All_staffs as $staf_rows) {
@@ -1108,9 +1128,6 @@ if($user_row['mukoyoshi']=='1'){
         <input type="hidden" id="max_seats" value="<?=$room_row['max_seats']?>" />
 
         <table width="850" border="0" cellspacing="10" cellpadding="0">
-
-
-
 
             <tr>
               <td width="160" align="left" valign="middle" nowrap="nowrap">披露宴会場名</td>
@@ -1281,7 +1298,7 @@ if($user_row['mukoyoshi']=='1'){
               <td width="160" align="left" valign="middle" nowrap="nowrap">商品名<font color="red">　</font></td>
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-               	  <input name="product_name" type="text" style="border-style:inset;" id="product_name" value="<?=$user_plan_row['product_name']?>" size="20" />
+               	  <input name="product_name" type="text" style="border-style:inset;" id="product_name" value="<?=$user_plan_row['product_name']?>" size="18" />
               </td>
             </tr>
       <tr>
@@ -1289,7 +1306,7 @@ if($user_row['mukoyoshi']=='1'){
         <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
 
-				<select name="dowload_options" id="dowload_options" style="border-style: inset;" onchange="dowload_options_change();">
+				<select name="dowload_options" id="dowload_options" style="border-style: inset; width: 140px;" onchange="dowload_options_change();">
                     	<option value="1" <?php if($user_plan_row['dowload_options'] == 1) echo "selected='selected'";?>>席次表</option>
                         <option value="2" <?php if($user_plan_row['dowload_options'] == 2) echo "selected='selected'";?>>席札</option>
                         <option value="3" <?php if($user_plan_row['dowload_options'] == 3) echo "selected='selected'";?>>席次表・席札</option>
@@ -1317,20 +1334,22 @@ if($user_row['mukoyoshi']=='1'){
               </td>
             </tr>
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">本発注締切日</td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">本発注締切日<font color="red">*</font></td>
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
                 	<?php
-                		if($user_id>0) {
-							$limitation_ranking = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");
-							$date6 = new DateTime($user_row['party_day']);
-							$dateinterval = "-".$user_row['confirm_day_num']."day";
-				            $date6->modify($dateinterval);
-							echo $date6->format("Y/m/d");
-                		}
+                	if ($user_id>0) {
+						$confirm_day_num = $user_row['confirm_day_num'];
+						$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $confirm_day_num , $flag=2 );
+			            $weekname = $objMsg->get_youbi_name($dateBeforeparty);
+						echo $dateBeforeparty.$weekname." 披露宴日 ";
+                	}
+                	else {
+                		$confirm_day_num = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
+                	}
 					?>
 					<?php if ($user_id>0) { ?>
-						<input type="text" name="confirm_day_num" id="confirm_day_num" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$user_row['confirm_day_num']?>" /> 日前
+						<input type="text" name="confirm_day_num" id="confirm_day_num" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$confirm_day_num?>" /> 日前
 					<?php } else {
 						$confirm_day_num    = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
 					?>
@@ -1339,16 +1358,29 @@ if($user_row['mukoyoshi']=='1'){
 			  <input type="hidden" value="<?=$user_row['party_day']?>" name="party_day_for_confirm" />	</td>
             </tr>
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">席次表編集利用制限日</td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">席次表編集利用制限日<font color="red">*</font></td>
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
 
 				<?php
+				if ($user_id>0) {
+					$limitation_ranking = $user_row['limitation_ranking'];
+					$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $limitation_ranking , $flag=2 );
+					$weekname = $objMsg->get_youbi_name( $dateBeforeparty );
+				}
+				else {
+					$limitation_ranking = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");
+				}
 				if($user_id>0) {
-				$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $limitation_ranking , $flag=2 );
-				$weekname = $objMsg->get_youbi_name( $dateBeforeparty );
-				echo $dateBeforeparty.$weekname." 披露宴日&nbsp;".$limitation_ranking."&nbsp;日前";
-				} ?>
+					echo $dateBeforeparty.$weekname." 披露宴日 ";
+				?>
+					<input type="text" name="limitation_ranking" id="limitation_ranking" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$limitation_ranking?>" /> 日前
+				<?php } 
+				else { ?>
+					披露宴日&nbsp;
+					<input type="text" name="limitation_ranking" id="limitation_ranking" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$limitation_ranking?>" /> 日前
+				<?php } ?>
+				
 				</td>
 
             </tr>
@@ -1365,7 +1397,7 @@ if($user_row['mukoyoshi']=='1'){
 					$company_results = $obj->getRowsByQuery($sql_company);
 					?>
 
-					<select name="print_company" id="print_company" style="border-style: inset;">
+					<select name="print_company" id="print_company" style="border-style: inset; width: 140px;">
 <!-- 						<option value="">選択してください</option> -->
 						<?php foreach($company_results as $company){?>
 						<option value="<?=$company['id']?>" <?php if($user_plan_row['print_company']==$company['id']){echo "selected='selected'";}?> ><?=$company['company_name']?></option>
@@ -1375,9 +1407,6 @@ if($user_row['mukoyoshi']=='1'){
               </td>
             </tr>
         </table>
-
-
-
 
 <!--  <br />
       <p class="txt3">
@@ -1487,17 +1516,30 @@ if($user_row['mukoyoshi']=='1'){
 			<!--GIFT GROUP BOX END-->
 					<br />
             </div>
-	       <div style="width:300px; float:left; valign:top" >
+	       <div style="width:320px; float:left; valign:top" >
 			<p>
             <?php
-			$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $gift_criteria['order_deadline'] , $flag=2 );
+            if ($user_id>0) {
+            	$order_deadline = $user_row['order_deadline'];
+            }
+            else {
+            	$order_deadline = $gift_criteria['order_deadline'];
+            }
+			$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $order_deadline , $flag=2 );
 			?>
-				締切予定日： <?php if($user_id>0) { ?> &nbsp; <input style="background:#EBEBE4;border:1px solid gray;padding:2px;" type="text" id="textfield15" readonly="readonly" value="<?=$obj->japanyDateFormate($dateBeforeparty)?>" size="25" /> <?php } ?>
+				締切予定日<font color="red">*</font>：&nbsp;
+				<?php if($user_id>0) { 
+				    $weekname = $objMsg->get_youbi_name( $dateBeforeparty );
+				?> 
+				<?=$dateBeforeparty?><?=$weekname?>&nbsp披露宴日&nbsp;
+				<input type="text" name="order_deadline" id="order_deadline" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$order_deadline?>" /> 日前
+				<?php } 
+				else { ?>
+				&nbsp;
+				<input type="text" name="order_deadline" id="order_deadline" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$order_deadline?>" /> 日前
+				<?php } ?>
             </p>
-            <br /><p>
-                締切日設定： &nbsp;<?=$gift_criteria['order_deadline']?> &nbsp;日前
             <br /><br />
-            </p>
 		</div>
 
         </div>

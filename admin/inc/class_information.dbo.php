@@ -147,9 +147,9 @@ class InformationClass extends DBO
 	function proccesse_gift_day_limit($user_id)
 	{
 		$user_row = $this->get_user_info($user_id);
-		$gift_criteria = $this->GetSingleRow("spssp_gift_criteria", " id=1");
-		$gift_criteria['order_deadline'];
-		$dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $gift_criteria['order_deadline'] , $flag=2 );
+//		$gift_criteria = $this->GetSingleRow("spssp_gift_criteria", " id=1");
+//		$gift_criteria['order_deadline'];
+		$dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $user_row['order_deadline'] , $flag=2 );
 		if($dateBeforeparty <= date("Y/m/d")) // 指定された期日以内になったか
 		{
 // UCHIDA EDIT 11/08/10 発注締切日はそのその状態を保持する
@@ -168,8 +168,8 @@ class InformationClass extends DBO
 	function proccesse_gift_day_limit_7_days($user_id)
 	{
 		$user_row = $this->get_user_info($user_id);
-		$gift_criteria = $this->GetSingleRow("spssp_gift_criteria", " id=1");
-		$gift_criteria['order_deadline'];
+//		$gift_criteria = $this->GetSingleRow("spssp_gift_criteria", " id=1");
+//		$gift_criteria['order_deadline'];
 		$dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_row['party_day'] , 7 , $flag=2 );
 
 		if($dateBeforeparty <= date("Y/m/d")) // 指定された期日以内になったか 8/17なら8/10を過ぎたか
@@ -191,9 +191,9 @@ class InformationClass extends DBO
 	function sekiji_day_limit_over_check_for_all_users($user_id)
 	{
 		$user_info = $this->get_user_info($user_id);
-		$confirm_day_num = $this->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
+//		$confirm_day_num = $this->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
 
-		$dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_info['party_day'] , $confirm_day_num , $flag=2 );
+		$dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_info['party_day'] , $user_info['confirm_day_num'] , $flag=2 );
 
 // UCHIDA EDIT 11/08/17 締切日だけの確認
 //		$partydate = str_replace("-","/",$user_info['party_day']);
@@ -227,7 +227,7 @@ class InformationClass extends DBO
 	function sekiji_day_limit_over_check_for_7days_all_users($user_id)
 	{
 		$user_info = $this->get_user_info($user_id);
-		$confirm_day_num = $this->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
+//		$confirm_day_num = $this->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
 
 		$dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_info['party_day'] , 7 , $flag=2 );
 		$partydate = str_replace("-","/",$user_info['party_day']);

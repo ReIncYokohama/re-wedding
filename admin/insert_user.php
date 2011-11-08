@@ -214,6 +214,8 @@ else
     $post['password'] = rand();
 
     if((int)$post['confirm_day_num']==0) $post['confirm_day_num'] = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
+    if((int)$post['limitation_ranking']==0) $post['limitation_ranking'] = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");
+    if((int)$post['order_deadline']==0) $post['order_deadline'] = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='order_deadline'");
 
 	$last_id = $obj->InsertData("spssp_user",$post);
     $user_id = $last_id;
