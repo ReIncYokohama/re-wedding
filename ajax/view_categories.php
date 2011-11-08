@@ -1,6 +1,5 @@
 <?php
 	require_once("../admin/inc/class.dbo.php");
-	include_once("../inc/checklogin.inc.php");
 
 	$obj = new DBO();
 	$categories = $obj->GetAllRowsByCondition(" spssp_guest_category "," user_id=".(int)$_SESSION['userid']." order by display_order desc ");

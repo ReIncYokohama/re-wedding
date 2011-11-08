@@ -1,10 +1,7 @@
 <?php
 	session_start();
 	include_once("../admin/inc/dbcon.inc.php");	
-	include_once("../inc/checklogin.inc.php");	
-	
 	include_once("../admin/inc/class.dbo.php");
-
 
 //print "Insert plan call rei";
 //exit();

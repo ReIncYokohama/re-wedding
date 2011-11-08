@@ -1,7 +1,6 @@
 <?php
 session_start();
 include_once("../admin/inc/dbcon.inc.php");
-include_once("../inc/checklogin.inc.php");
 include_once("../admin/inc/class.dbo.php");
 $user_id = $_SESSION['userid'];
 $obj = new DBO();
