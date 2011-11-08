@@ -675,6 +675,42 @@ function email_validate(email) {
    		return true;
    }
 }
+
+function dowload_options_change() {
+  var element = document.getElementById("dowload_options");
+  for(var i=0; i<element.options.length; i++) {
+    var option = element.options[i];
+    if(option.selected) {
+      var sel = option.value;
+    }
+  }
+
+  var doc = document.getElementById("print_size");
+  switch (sel) {
+    case "1":
+        doc.length = 2;
+        doc.options[0].text = "A3";
+        doc.options[0].value = 1;
+        doc.options[1].text = "B4";
+        doc.options[1].value = 2;
+        doc.options[1].selected = true;
+        break;
+    case "2":
+        doc.length = 1;
+        doc.options[0].text = "A3";
+        doc.options[0].value = 1;
+        doc.options[0].selected = true;
+        break;
+    case "3":	  
+        doc.length = 2;
+        doc.options[0].text = "A3";
+        doc.options[0].value = 1;
+        doc.options[0].selected = true;
+        doc.options[1].text = "B4";
+        doc.options[1].value = 2;
+        break;
+  }
+}
 </script>
 
 <script type="text/javascript"><!--
@@ -970,7 +1006,7 @@ if($user_row['mukoyoshi']!='1'){
 if($user_row['mukoyoshi']=='1'){
   echo "checked='checked'";
 }
-?> />高砂席入れ替え
+?> /> 高砂席入れ替え
                 </td>
             </tr>
             <tr>
@@ -1253,7 +1289,7 @@ if($user_row['mukoyoshi']=='1'){
         <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
 
-				<select name="dowload_options" id="dowload_options" style="border-style: inset;">
+				<select name="dowload_options" id="dowload_options" style="border-style: inset;" onchange="dowload_options_change();">
                     	<option value="1" <?php if($user_plan_row['dowload_options'] == 1) echo "selected='selected'";?>>席次表</option>
                         <option value="2" <?php if($user_plan_row['dowload_options'] == 2) echo "selected='selected'";?>>席札</option>
                         <option value="3" <?php if($user_plan_row['dowload_options'] == 3) echo "selected='selected'";?>>席次表・席札</option>
@@ -1262,17 +1298,17 @@ if($user_row['mukoyoshi']=='1'){
 
           </tr>
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">サイズ／タイプ<font color="red">*</font></td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">サイズ<font color="red">*</font>／タイプ<font color="red">*</font></td>
 
             <td width="40" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
                 	<select name="print_size" id="print_size" style="width:45px;border-style:inset;">
-<!-- 					<option value="">選択してください</option> -->
 					<option value="1" <?php if($user_plan_row['print_size'] == 1) echo "selected='selected'";?>>A3</option>
-					<option value="2" <?php if($user_plan_row['print_size'] == 2) echo "selected='selected'";?>>B4</option>
+					<?php if ($user_plan_row['dowload_options'] != 2) { ?>
+					<option value="2" <?php if($user_plan_row['print_size'] == 2 || $user_plan_row['dowload_options'] == 0) echo "selected='selected'";?>>B4</option>
+					<?php } ?>
 				</select>
 				<select name="print_type" id="print_type" style="width:45px;border-style:inset;">
-<!--					<option value="">選択してください</option> -->
 					<option value="1" <?php if($user_plan_row['print_type'] == 1) echo "selected='selected'";?>>横</option>
 					<option value="2" <?php if($user_plan_row['print_type'] == 2) echo "selected='selected'";?>>縦
 </option>
