@@ -267,23 +267,27 @@ function filename_change() {
 			<input type="hidden" name="admin_id" value="<?=$_SESSION['adminid']?>">
 			<table align="left" border="0" >
 				<tr>
-					<td width="40" valign="middle" style="text-align:right;">タイトル</td>
-					<td colspan="2" valign="middle" style="text-align:left;" > <input size="114" type="text" name="title" id="title" style="border-style:inset;" /></td>
+				  <td width="40" align="left" valign="middle" nowrap="nowrap" style="text-align:left;">タイトル</td>
+					<td width="5" valign="middle" nowrap="nowrap" style="text-align:center;">：</td>
+				  <td colspan="2" valign="middle" style="text-align:left;" > <input type="text" name="title" id="title" style="border-style:inset;width: 775px;" /></td>
 				</tr>
 				<tr>
-					<td valign="middle" style="text-align:right;">本文</td>
-					<td colspan="2" valign="middle" style="text-align:left;"><textarea name="description" id="description" cols="83" rows="5" style="border-style: inset;"></textarea></td>
+				  <td width="40" align="left" valign="middle" nowrap="nowrap" style="text-align:left;">本文</td>
+					<td width="5" valign="middle" nowrap="nowrap" style="text-align:center;">：</td>
+				  <td colspan="2" valign="middle" style="text-align:left;"><textarea name="description" id="description" cols="83" rows="5" style="border-style: inset;width: 775px;"></textarea></td>
 				</tr>
 				<tr>
-					<td valign="middle" style="text-align:right;">添付</td>
+				  <td width="40" align="left" valign="middle" nowrap="nowrap" style="text-align:left;">添付</td>
+					<td width="5" valign="middle" nowrap="nowrap" style="text-align:center;">：</td>
 					<td align="left" valign="middle" style="text-align:left;">
-						<input name="file1" type="text" id="file1" size="40" style="border-style: inset;" readonly />
+					  <input name="file1" type="text" id="file1" size="40" style="border-style: inset;" readonly />
 						<input id="upfile" type="file" name="upfile" onchange="filename_change();" style="display: none">
 					
 					<a href="javascript:void(0);" name="file2" onclick="button1_onclick();"><img src="img//btn_attach_user.jpg" alt="参照" width="82" height="22" /></a>	
 				  </td>
 				</tr>
 				<tr>
+				  <td align="left">&nbsp;</td>
 					<td>&nbsp;</td>
 					<td align="left" style="text-align:left">
 <a href="javascript:void(0);" name="insert" onclick="validForm();"/><img src="img/btn_send_user.jpg" alt="送信" width="82" height="22" /></a>&nbsp;&nbsp;&nbsp;
@@ -382,7 +386,7 @@ function filename_change() {
     <div class="clear"></div>
   </div>
   <div class="cont_area"><span id="v_no"></span>　<span id="v_title"></span><br />
-    メッセージ本文<br />
+    メッセージ本文：<br />
     <div class="message_area2">
       <p id="v_desc"></p>
 
