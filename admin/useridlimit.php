@@ -184,9 +184,9 @@ include("inc/return_dbcon.inc.php");
 <h2>席次表編集利用制限日</h2>
 <table width="500" border="0" align="left" cellpadding="0" cellspacing="10" style="width:500px;">
             <tr>
-              <td width="120" align="left" nowrap="nowrap" bgcolor="#99FFFF">席次表編集利用制限日</td>
-              <td width="10" align="left" nowrap="nowrap" bgcolor="#99FFFF">：</td>
-                <td width="270" nowrap="nowrap" bgcolor="#99FFFF">
+              <td width="120" align="left" nowrap="nowrap">席次表編集利用制限日</td>
+                <td width="10" align="left" nowrap="nowrap">：</td>
+                <td width="270" nowrap="nowrap">
                 	 披露宴日<?php if($_SESSION['user_type']=='333'){?>
                 	 <?php 		if ($InputArea=="") {?>
                	     	<input type="text" style="text-align:right;border-style: inset;" name="limitation_ranking" id="limitation_ranking" size="5" maxlength="2" onblur="isInteger('limitation_ranking')" value="<?=$limitation_ranking?>" />&nbsp;日前 <?php } else	echo $limitation_ranking." 日前" ?>
