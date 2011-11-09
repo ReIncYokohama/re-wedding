@@ -203,7 +203,7 @@ include("admin/inc/return_dbcon.inc.php");
 $html.='<table style="font-size:'.$main_font_size_top.';"><tr>';
 
 /* 引出物　商品数　開始 */
-$html.='<td><table><tr><td><table><tr><td style="text-align:right;border:1px solid black;" colspan="2" height="14"  width="120" >グループ</td>';
+$html.='<td width="25%"><table><tr><td><table><tr><td style="text-align:right;border:1px solid black;" colspan="2" height="14"  width="120" >グループ</td>';
 
 $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_id);
 $gift_rows = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".$user_id);
@@ -310,39 +310,37 @@ $year = $party_date_array[0];
 $confirm_date= mktime(0, 0, 0, $month, $day-7, $year);
 $confirm_date_main=date("Y-m-d", $confirm_date);
 
-$html.='<td><table style="border:1px solid black; padding:10px;"><tr><td align="center"  valign="middle" style="text-align:center;">新郎<br/>'.
-$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_lastname_respect.png",$extra="thumb1").
-'</td><td align="center"  valign="middle" style="text-align:center;">新婦<br/>'
-.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_lastname_respect.png",$extra="thumb1").' </td></tr></table><br/>
+$html.='<td width="40%">
 
 			<table>
 				<tr>
 					<td align="left"  valign="middle" style="text-align:center;">
-					新郎様側: './/$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_lastname_respect.png",$extra="thumb1").
-'&nbsp;&nbsp;&nbsp;&nbsp;列席者数 :'.$male_guest_num.'名様 &nbsp;&nbsp;&nbsp;					新婦様側: '.
-  //$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_lastname_respect.png",$extra="thumb1").
-'&nbsp;&nbsp;&nbsp;&nbsp;列席者数:'.$female_guest_num.'名様 
+					新郎様側: '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2").
+'家&nbsp;&nbsp;&nbsp;&nbsp;列席者数 :'.$male_guest_num.'名様 &nbsp;&nbsp;&nbsp;					新婦様側: '.
+  $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb2").
+'家&nbsp;&nbsp;&nbsp;&nbsp;列席者数:'.$female_guest_num.'名様 列席者数合計: '.$total_guest.'名様&nbsp;&nbsp;&nbsp;&nbsp;合計人数:'.$total_guest_with_bride.'名様 
+					</td>
+				</tr>
+        <tr><td></td></tr>
+				<tr>
+					<td align="left"  valign="middle" style="text-align:center;">挙式日時　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['marriage_day']))).'  '.date("H時i分",strtotime($user_info['marriage_day_with_time'])).'&nbsp;&nbsp;&nbsp;会場'.$party_room_info[name].' </td>
+				</tr>
+				<tr>
+					<td align="left"  valign="middle" style="text-align:center;">披露宴日時　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['party_day']))).'  '.date("H時i分",strtotime($user_info['party_day_with_time'])).'&nbsp;&nbsp;&nbsp;会場'.$room_info[name].' </td>
+				</tr>
+				<tr>
+					<td align="left"  valign="middle" style="text-align:center;">作成日時　&nbsp;&nbsp;'.date('Y年n月j日  H時i分').'&nbsp;&nbsp;&nbsp;&nbsp;
+					スタッフ名 '.$staff_name.'
 					</td>
 				</tr>
 				<tr>
-					<td align="left"  valign="middle" style="text-align:center;">列席者数合計: '.$total_guest.'名様&nbsp;&nbsp;&nbsp;&nbsp;合計人数:'.$total_guest_with_bride.'名様 </td>
-				</tr>
-				<tr>
-					<td align="left"  valign="middle" style="text-align:center;">挙式日 '.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['marriage_day']))).'  '.date("H時i分",strtotime($user_info['marriage_day_with_time'])).'&nbsp;&nbsp;&nbsp;挙式会場 :'.$party_room_info[name].' </td>
-				</tr>
-				<tr>
-					<td align="left"  valign="middle" style="text-align:center;">披露宴日 '.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['party_day']))).'  '.date("H時i分",strtotime($user_info['party_day_with_time'])).'&nbsp;&nbsp;&nbsp;披露宴会場 :'.$room_info[name].' </td>
-				</tr>
-				<tr>
-					<td align="left"  valign="middle" style="text-align:center;">席次表本発注締切日 '.strftime('%Y年%m月%d日',strtotime(jp_decode($confirm_date_main))).' 
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					プランナー: '.$staff_name.'
+					<td align="left"  valign="middle" style="text-align:center;">席次表本発注締切日　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($confirm_date_main))).' 
 					</td>
 				</tr>
 			</table>
 		
 
-</td><td width="20%">
+</td><td width="25%">
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
@@ -387,34 +385,11 @@ $html.='<tr>
 	
 $html.='</table></td>';
 $html.='</tr></table> <br/>';
-			
-$guests_bride = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest!='0' and stage_guest!='' order by display_order DESC");
 
-foreach($guests_bride as $witness_bride)
-  {
-    $group_name=$menu_name="";
-					
-				
-    $group_id = $obj->GetSingleData("spssp_guest_gift ","group_id"," user_id=".$user_id." and guest_id='".$witness_bride['id']."' limit 1");
-							
-    if($group_id)
-      $group_name= $obj->GetSingleData("spssp_gift_group","name"," id='".$group_id."'");
-				
-				
-    $guest_menu_id = $obj->GetSingleData("spssp_guest_menu ","menu_id"," user_id=".$user_id." and guest_id='".$witness_bride['id']."' limit 1");
-				
-			
-    if($guest_menu_id > 0)
-      {
-        $menu_name = $obj->GetSingleData(" spssp_menu_group ", "name", " id=".$guest_menu_id." and user_id = ".$user_id);
-					
-      }
-				
-    $main_guest[$witness_bride[stage_guest]]=$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$witness_bride['id']);
-				
-    //$main_guest[$witness_bride[stage_guest]]=$witness_bride['first_name']." ".$witness_bride['last_name']."<br/>".$witness_bride['memo']."<br/>".$menu_name."<br/>".$group_name;
-			
-  }
+$takasago_guests = $obj->get_guestdata_in_takasago($user_id);
+$takasago_num = count($takasago_guests)+2;
+$main_guest = $obj->get_guestdata_in_takasago_for_pdf($user_id);
+$gift_table = $obj->get_gift_table_html($takasago_guests,$user_id);
 
 $html.='<table style="font-size:'.$main_font_size_top.';border:1px solid black; width:100%; padding:10px;">';
 
@@ -422,7 +397,7 @@ $userArray = $obj->get_userdata($user_id);
 $man_image = $userArray[0]["namecard_memo"];
 $woman_image = $userArray[1]["namecard_memo"];
 
-$html.='<tr><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[3].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[1].'</td><td align="center"  valign="middle" style="text-align:center;">'.$man_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[5].'</td><td align="center"  valign="middle" style="text-align:center;">'.$woman_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[2].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[4].'</td></tr></table><br/>';
+$html.='<tr><td colspan="3"></td><td style="font-size:40px;">高砂【 '.$takasago_num.'名 】'.$gift_table.'</td><td colspan="3"></td></tr><tr><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[3].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[1].'</td><td align="center"  valign="middle" style="text-align:center;">'.$man_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[5].'</td><td align="center"  valign="middle" style="text-align:center;">'.$woman_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[2].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[4].'</td></tr></table><br/>';
 
 $layoutname = $obj->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
 if($layoutname=="")
@@ -777,9 +752,7 @@ foreach($tblrows as $tblrow)
 			
 			
             $html.="</table></td>";
-          }                    
-			
-			
+          }
       }
 
     if($pos == "center" && $table_width != 100)
@@ -788,17 +761,7 @@ foreach($tblrows as $tblrow)
       $html.="</tr></table></td></tr>";
 	}
 
-
-
-
-
-
 $html.="</table>";
-
-
-
-
-
 
 
 $samplefile="sam_".$plan_id."_".rand()."_".time().".txt";

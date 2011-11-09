@@ -238,23 +238,50 @@ class DataClass extends DBO{
   //array of man and woman data
   // first_name,last_name,menu_grp,gift_group_id.menu_text,gift_group_text,sex_text,table_name
   public function get_guestdata($user_id){
-    $plan_id = $this->GetSingleData("spssp_plan", "id","user_id=".$user_id);
-
+    $plan_id = $this->get_plan_id($user_id);
     $guestArray = $this->getRowsByQuery("select * from spssp_guest where user_id = $user_id and self != 1 order by sex desc");
-
     for($i=0;$i<count($guestArray);++$i){
-      $guestArray[$i]["menu_text"] = $this->get_menu_group($guestArray[$i]["menu_grp"],$user_id);
-      $guestArray[$i]["gift_group_text"] = $this->get_gift_group($guestArray[$i]["gift_group_id"],$user_id);
-      $guestArray[$i]["guest_type_text"] = $this->get_guest_type($guestArray[$i]["guest_type"]);
-      $guestArray[$i]["sex_text"] = $this->get_host_sex_name($guestArray[$i]["sex"]);
-      $seat_id = $this->get_seat_id($plan_id,$guestArray[$i]["id"]);
-      $table_id = $this->get_table_id_by_seat_id($seat_id);
-      $table_name = $this->get_table_name($table_id,$user_id);
-      $guestArray[$i]["table_name"] = $table_name;
-      $guestArray[$i]["respect_text"] = $this->get_respect($guestArray[$i]["respect_id"]);
+      $guestArray[$i] = $this->get_guest_data_detail($guest_detail,$user_id,$plan_id);
     }
     return $guestArray;
   }
+  //高砂席のみ取得する
+  public function get_guestdata_in_takasago($user_id){
+    $plan_id = $this->get_plan_id($user_id);
+    $guestArray = $this->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest!='0' and stage_guest!='' order by display_order DESC");
+    for($i=0;$i<count($guestArray);++$i){
+      $guestArray[$i] = $this->get_guest_data_detail($guestArray[$i],$user_id,$plan_id);
+    }
+    return $guestArray;
+  }
+  public function get_guestdata_in_takasago_for_pdf($user_id){
+    $returnArray = array();
+    $guests = $this->get_guestdata_in_takasago($user_id);
+
+    include_once(dirname(__file__)."/class_information.dbo.php");
+    $infoobj = new InformationClass();
+
+    foreach($guests as $guest){
+      $returnArray[$guest["stage_guest"]] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$guest['id']);
+    }
+    return $returnArray;
+  }
+
+  public function get_guest_data_detail($guest_detail,$user_id,$plan_id){
+    $guest_detail["menu_text"] = $this->get_menu_group($guest_detail["menu_grp"],$user_id);
+    $guest_detail["gift_group_text"] = $this->get_gift_group($guest_detail["gift_group_id"],$user_id);
+    $guest_detail["guest_type_text"] = $this->get_guest_type($guest_detail["guest_type"]);
+    $guest_detail["sex_text"] = $this->get_host_sex_name($guest_detail["sex"]);
+    $seat_id = $this->get_seat_id($plan_id,$guest_detail["id"]);
+    $table_id = $this->get_table_id_by_seat_id($seat_id);
+    $table_name = $this->get_table_name($table_id,$user_id);
+    $guest_detail["table_name"] = $table_name;
+    $guest_detail["respect_text"] = $this->get_respect($guest_detail["respect_id"]);
+    
+    return $guest_detail;
+  }
+  
+  
   //array of man and woman data
   // first_name,last_name,menu_grp,gift_group_id.menu_text,gift_group_text,sex_text,table_name
   public function get_userdata($user_id){
@@ -451,6 +478,9 @@ class DataClass extends DBO{
   }
   public function get_seat_id($plan_id,$guest_id){
     return $this->GetSingleData("spssp_plan_details","seat_id"," plan_id=".$plan_id." and guest_id=".$guest_id);
+  }
+  public function get_plan_id($user_id){
+    return $this->GetSingleData("spssp_plan", "id","user_id=".$user_id);
   }
   
   public function get_table_name($table_id,$user_id){
@@ -650,8 +680,7 @@ class DataClass extends DBO{
     $gift_name='';
 		if((int)$gift_id > 0)
 		{
-			$gift_group = $this->GetSingleData(" spssp_gift_group ", "name", " id=".$gift_id);
-      $gift_name = $gift_group;
+      $gift_name = $this->get_gift_name_by_gift_id($gift_id);
 		}
     return $gift_name;
   }
@@ -763,4 +792,39 @@ class DataClass extends DBO{
   public function get_num_in_digit($num,$digit){
     return sprintf("%0".$digit."d", $num);
   }
+  //A B C D E
+  //3 4 2 2 2
+  public function get_gift_table($guestDetailArray,$user_id){
+    $giftGroups = $this->get_gift_groups($user_id);
+    $returnArray = array();
+    for($i=0;$i<count($giftGroups);++$i){
+      $num = 0;
+      $name = $this->get_gift_name_by_gift_id($giftGroups[$i]["id"]);
+      for($j=0;$j<count($guestDetailArray);++$j){
+        if($guestDetailArray[$j]["gift_group_id"] == $giftGroups[$i]["id"]) ++$num;
+      }
+      if($name=="" and $num == 0) continue;
+      array_push($returnArray,array("name"=>$name,"num"=>$num));
+    }
+    return $returnArray;
+  }
+  public function get_gift_table_html($guestDetailArray,$user_id){
+    $gift_table = $this->get_gift_table($guestDetailArray,$user_id);
+    $html = "<table>";
+    $nameTr = "<tr>";
+    $numTr = "<tr>";
+    
+    for($i=0;$i<count($gift_table);++$i){
+      $nameTr .= "<td align=\"center\" style=\" border:1px solid black;\">".$gift_table[$i]["name"]."</td>";
+      $numTr .= "<td align=\"center\"  style=\" border:1px solid black;\">".$gift_table[$i]["num"]."</td>";
+    }
+    $nameTr .= "</tr>";
+    $numTr .= "</tr>";
+    $html.= $nameTr.$numTr."</table>";
+    return $html;
+  }
+  public function get_gift_name_by_gift_id($gift_id){
+    return $this->GetSingleData(" spssp_gift_group ", "name", " id=".$gift_id);
+  }
+
 }
