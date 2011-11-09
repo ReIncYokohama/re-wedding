@@ -312,7 +312,7 @@ function get_image_name_plate_full($last_name,$first_name,$comment1="",$comment2
   $first_left = 0;
 
   get_image_name_plate_data2($image,$width_px,$first_left,
-                            $last_name,$first_name,$memo2,$memo3,
+                            $last_name,$first_name,$memo3,$memo2,
                          $gaiji_last_name_arr,$gaiji_first_name_arr,
                             array(),array(),$color,$respect);
   
@@ -346,7 +346,7 @@ function get_image_name_plate_full2($last_name,$first_name,$comment1="",$comment
 
   $first_left = $memo_px;
   get_image_name_plate_data2($image,$width_px,$first_left,
-                            $last_name,$first_name,$memo2,$memo3,
+                            $last_name,$first_name,$memo3,$memo2,
                          $gaiji_last_name_arr,$gaiji_first_name_arr,
                               $gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
   
