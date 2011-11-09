@@ -181,11 +181,9 @@ include("inc/return_dbcon.inc.php");
 
         <div class="sekiji_table2" id="table_preview">
 		<form name="tableedit" action="" method="post" >
-        	<div style="width:600px;">
+        <div style="width:600px;">
+		<td align="left"><font size="2"><b>会場名：<?=$roomName;?></b></font></td>
           <table width="100%" style = " text-align:center;" align="center" border="0" cellspacing="10" cellpadding="0">
-			<tr>
-			<td align="left"><font size="2"><b>会場名：<?=$roomName;?></b></font></td>
-			</tr>
             <?php
             	if(isset($default_id) && $default_id > 0)
 				{
