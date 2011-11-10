@@ -349,7 +349,17 @@ height:30px;
 
 			  <table width="800" border="0" cellspacing="1" cellpadding="3">
 				  <tr>
-					<td width="210" valign="middle"><a href="plan_pdf.php" target="_blank"><img src="img/order/preview_print_bt_gray.jpg" alt="席次表プレビュー" width="200" height="40" border="0" /></a></td>
+				    <?php 
+				    if ($obj->GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and `order` = 1 and user_id=".$user_id) && ($plan_info['dl_print_com_times'] & 0x100) == 0x00) {
+				    ?>
+				    	<td width="210" valign="middle"><a href="<?=substr($plan_info['p_company_file_up'], 3)?>" target="_blank"><img src="img/order/preview_print_bt.jpg" alt="席次表プレビュー" width="200" height="40" border="0" class="on"/></a></td>
+				    <?php 
+				    } 
+				    else { 
+				    ?>
+				    	<td width="210" valign="middle"><img src="img/order/preview_print_bt_gray.jpg" alt="席次表プレビュー" width="200" height="40" border="0" /></td>
+				    <?php 
+				    } ?>
 					<td width="10" valign="middle">　</td>
 					<td width="580" valign="middle"><p>印刷会社よりアップロードされた「席次表の印刷イメージ」がご確認いただけます。<br />※印刷会社よりアップロードされるまでは、ボタンは使用できません。</p></td>
 				  </tr>

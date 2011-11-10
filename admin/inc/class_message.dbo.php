@@ -156,15 +156,16 @@ class MessageClass extends InformationClass
 			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".$user_name."  ".INFO_A."</a></li>";
 		}
 
-		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and `order` = 2 and user_id=".$user_id) )
+		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and `order` = 1 and user_id=".$user_id) )
 		{
 			$dl = $user_plan_info['dl_print_com_times'];
-			if (($dl & 0x200) == 0x000) {// UCHIDA EDIT 11/08/15 スタッフがPDF表示を行っていないか
-				$dl = $dl | 0x200;
-				$msg_text  = "<li id=msg_hide1>";
-				$msg_text .= "<a href=ajax/pdf_readed?user_id=".$user_id."&filename=".$user_plan_info[p_company_file_up]."&vset=".$dl." target=_blank";
-				$msg_text .= " onclick='hide_this(\"msg_hide1\");'>";
-				$msg_text .= $party_day." ".$user_name." ".INFO_B."</a></li>";
+			if (($dl & 0x200) == 0x00) {// UCHIDA EDIT 11/08/15 スタッフがPDF表示を行っていないか
+				$dl = $dl | 0x00; // 0x200;
+				$msg_text  = "<div id=msg_hide1>";
+				$msg_text .= "<a href=ajax/pdf_readed.php?user_id=".$user_id."&filename=".$user_plan_info[p_company_file_up]."&vset=".$dl." target=_blank";
+//				$msg_text .= " onclick='hide_this(\"msg_hide1\");'";
+				$msg_text .= ">";
+				$msg_text .= $party_day." ".$user_name." ".INFO_B."</a></div>";
 			}
 		}
 		else if( $this :: GetRowCount("spssp_plan"," `order` = 2 and `admin_to_pcompany` != 3 and user_id=".$user_id) )
@@ -276,14 +277,12 @@ class MessageClass extends InformationClass
 		{
 			$dl = $user_plan_info['dl_print_com_times'];
 			if (($dl & 0x100) == 0x000) { // UCHIDA EDIT 11/08/15 ユーザがPDF表示を行っていないか
-				// UCHIDA EDIT 11/08/09 UPLOADフォルダがユーザディレクトにあるので、先頭の'../'を削除してリンク先にする
 				$dl = $dl | 0x100;
 				$href = $user_plan_info['p_company_file_up'];
-//				$l = strlen($href)-3;
-//				$href = substr($href, 3, $l);
 				$msg_text  = "<div id=msg_hide1>";
-				$msg_text .= "<a href=admin/ajax/pdf_readed?user_id=".$user_id."&filename=".$href."&vset=".$dl." target=_blank";
-				$msg_text .= " onclick='hide_this(\"msg_hide1\")';>".INFO_C."</a></div>";
+				$msg_text .= "<a href=admin/ajax/pdf_readed.php?user_id=".$user_id."&filename=".$href."&vset=".$dl." target=_blank";
+				$msg_text .= " onclick='hide_this(\"msg_hide1\");'>";
+				$msg_text .= INFO_C."</a></div>";
 			}
 		}
 		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 3 and `order` = 2 and user_id=".$user_id) )
