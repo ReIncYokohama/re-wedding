@@ -731,6 +731,27 @@ function dowload_options_change() {
         break;
   }
 }
+
+change_record = false;
+window.onchange = function(event) {
+	change_record = true;
+}
+
+function date_change () {
+	change_record = true;
+}
+
+function check_change (url) {
+	if (change_record) {
+		var ans = confirm("変更したお客様情報が無効になります\nよろしいですか？");
+		if (ans) 	return window.location = url;
+		else		return false;
+	}
+	else {
+		window.location = url;
+	}
+}
+
 </script>
 
 <script type="text/javascript"><!--
@@ -771,10 +792,9 @@ include("inc/return_dbcon.inc.php");
     <div id="contents">
     <div style="font-size:11px; width:250px;">
 
-  <?php if($user_id>0) echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1",$height=20)." ・";?>
+  <?php if($user_id>0) echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1",$height=20)."・";?>
 
-  <?php if($user_id>0) echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20)."様";?>
-
+  <?php if($user_id>0) echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20)."  様";?>
 
     </div>
         <h4><div style="width:500px; ">
@@ -849,7 +869,7 @@ include("inc/return_dbcon.inc.php");
               <td width="160" align="left" valign="middle" nowrap="nowrap">披露宴日<font color="red">*</font>　</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="1" align="left" valign="middle" nowrap="nowrap">
-                	<input name="party_day" type="text" id="party_day" value="<?if($user_id>0) echo $obj->date_dashes_convert($user_row['party_day'])?>" size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;padding-top:4px; padding-bottom:4px;" class="datepicker"/>
+                	<input name="party_day" type="text" id="party_day" value="<?if($user_id>0) echo $obj->date_dashes_convert($user_row['party_day'])?>" size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;padding-top:4px; padding-bottom:4px;" class="datepicker" onclick="date_change()"/>
 					<?php
 					if ($user_row['party_day'] < date("Y-m-d") && $user_id>0) $noUpdate = true; else $noUpdate = false;
 					//$party_day_array = explode("-",$user_row['party_day']);
@@ -954,7 +974,7 @@ include("inc/return_dbcon.inc.php");
               <td width="10" align="left" valign="middle" nowrap="nowrap" style="text-align:left;" >：</td>
                 <td width="60" align="left" valign="middle" nowrap="nowrap">
 
-					<input name="marriage_day" type="text" id="marriage_day" value="<?if($user_id>0) echo $obj->date_dashes_convert($user_row['marriage_day'])?>"  size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; padding-top:4px; padding-bottom:4px;" class="datepicker" />
+					<input name="marriage_day" type="text" id="marriage_day" value="<?if($user_id>0) echo $obj->date_dashes_convert($user_row['marriage_day'])?>"  size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; padding-top:4px; padding-bottom:4px;" class="datepicker" onclick="date_change()"/>
 
 					<?php
 					//$marriage_day_array = explode("-",$user_row['marriage_day']);
@@ -1245,7 +1265,7 @@ if($user_row['mukoyoshi']=='1'){
 			<div>
 			<?php
 				if ($noUpdate == false) { ?>
-				<a href='set_table_layout_edit.php?plan_id=<?=$user_plan_row['id']?>&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>'>
+				<a href="javascript:void(0);" onclick='check_change("set_table_layout_edit.php?plan_id=<?=$user_plan_row['id']?>&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>");'>
                   <img src='img/common/btn_taku_edit.gif' boredr='0' height='17'>
                 </a>
               <?php } ?>
