@@ -763,9 +763,9 @@ if($editable)
     <td width="90" align="right" nowrap="nowrap">&nbsp;</td>
     <td width="100" align="left">&nbsp;</td>
     <td width="90" align="right" nowrap="nowrap">ふりがな姓：</td>
-    <td width="120" align="left"><input type="text" tabindex=5 size="20" style="padding-top:3px;border-style:inset; padding-bottom:3px;" name="furigana_last" id="furigana_last" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_lastname?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+    <td width="120" align="left"><input type="text" tabindex=5 size="20" style="padding-top:3px;border-style:inset; padding-bottom:3px;" name="furigana_last" id="furigana_last" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?php echo $guest_row['furigana_last']?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
     <td width="90" align="right" nowrap="nowrap">ふりがな名：</td>
-    <td width="120" align="left"><input type="text" name="furigana_first" tabindex=6 size="20"  style="padding-top:3px; padding-bottom:3px;border-style: inset;" id="furigana_first" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_first_name?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+    <td width="120" align="left"><input type="text" name="furigana_first" tabindex=6 size="20"  style="padding-top:3px; padding-bottom:3px;border-style: inset;" id="furigana_first" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?php echo $guest_row['furigana_first']?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
     <td width="90" align="right" nowrap="nowrap">&nbsp;</td>
     <td width="173" align="left">&nbsp;</td>
   </tr>
