@@ -40,7 +40,7 @@ if($user_id>0) {
 		  $html = "";
 		  $html .= "<input type='hidden' name='".$value."_gaiji_img[]' value='".$img."'>";
 		  $html .= "<input type='hidden' name='".$value."_gaiji_gid[]' value='".$gid."'>";
-		  $html .= "<input type='hidden' name='".$value."_gaiji_gsid[]' value='".$gsid."'>";
+		  //$html .= "<input type='hidden' name='".$value."_gaiji_gsid[]' value='".$gsid."'>";
 		  return $html;
 	}
 	function getAllGaijisInputEle($gaijis){
@@ -155,19 +155,23 @@ $j(document).ready(function(){
     setDeleteGaiji({
       input_id:"man_lastname",
           form_name:"male_last_gaiji_",
-          div_image:"male_lastname_img_div_id"});
+          div_image:"male_lastname_img_div_id",
+          input_ele:"male_lastname_div_id"});
     setDeleteGaiji({
       input_id:"man_firstname",
           form_name:"male_first_gaiji_",
-          div_image:"male_firstname_img_div_id"});
+          div_image:"male_firstname_img_div_id",
+          input_ele:"male_firstname_div_id"});
     setDeleteGaiji({
       input_id:"woman_lastname",
           form_name:"female_last_gaiji_",
-          div_image:"female_lastname_img_div_id"});
+          div_image:"female_lastname_img_div_id",
+          input_ele:"female_lastname_div_id"});
     setDeleteGaiji({
       input_id:"woman_firstname",
           form_name:"female_first_gaiji_",
-          div_image:"female_firstname_img_div_id"});
+          div_image:"female_firstname_img_div_id",
+          input_ele:"female_firstname_div_id"});
 
   $j(".check_sjs_1").change(function(){
       checkGaiji($j(this).val(),"../gaiji_check.php",this);
@@ -273,14 +277,6 @@ function box_expand(id)
 	$j("#"+id).toggle("slow");
 }
 
-function appendHiddenValue(type,img,gid,gsid){
-	var typeArray = ["male_first","male_last","female_first","female_last"];
-	var value = typeArray[type];
-	$j("#form_hidden_value").append("<input type='hidden' name='"+value+"_gaiji_img[]' value='"+img+"'>");
-	$j("#form_hidden_value").append("<input type='hidden' name='"+value+"_gaiji_gid[]' value='"+gid+"'>");
-	$j("#form_hidden_value").append("<input type='hidden' name='"+value+"_gaiji_gsid[]' value='"+gsid+"'>");
-}
-
 function get_gaiji_value(from,img,gid,gsid)
 {
   if(img==""){
@@ -289,42 +285,19 @@ function get_gaiji_value(from,img,gid,gsid)
   }
 	if(from=="man_firstname")
 	{
-		var man_firstname = $j("#man_firstname").val();
-		appendHiddenValue(0,img,gid,gsid);
-		$j("#male_firstname_img_div_id").append("<img src='../../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
-
-		$j("#man_firstname").attr("value", man_firstname+"＊");
+    set_gaiji("male_first","man_firstname","male_firstname_div_id","male_firstname_img_div_id",img,gid,gsid,"../..");
 	}
 	if(from=="man_lastname")
 	{
-		var man_lastname = $j("#man_lastname").val();
-
-		appendHiddenValue(1,img,gid,gsid);
-
-		$j("#male_lastname_img_div_id").append("<img src='../../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
-
-		$j("#man_lastname").attr("value", man_lastname+"＊");
+    set_gaiji("male_last","man_lastname","male_lastname_div_id","male_lastname_img_div_id",img,gid,gsid,"../..");
 	}
 	if(from=="woman_firstname")
 	{
-		var woman_firstname = $j("#woman_firstname").val();
-
-		appendHiddenValue(2,img,gid,gsid);
-
-		$j("#female_firstname_img_div_id").append("<img src='../../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
-
-		$j("#woman_firstname").attr("value", woman_firstname+"＊");
+    set_gaiji("female_first","woman_firstname","female_firstname_div_id","female_firstname_img_div_id",img,gid,gsid,"../..");
 	}
 	if(from=="woman_lastname")
 	{
-		var woman_lastname = $j("#woman_lastname").val();
-
-		appendHiddenValue(3,img,gid,gsid);
-
-		$j("#female_lastname_img_div_id").append("<img src='../../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
-
-		$j("#woman_lastname").attr("value", woman_lastname+"＊");
-
+    set_gaiji("female_last","woman_lastname","female_lastname_div_id","female_lastname_img_div_id",img,gid,gsid,"../..");
 	}
 }
 
@@ -874,14 +847,16 @@ include("inc/return_dbcon.inc.php");
               <td width="160" align="left" valign="middle" nowrap="nowrap">新郎氏名<font color="red">*</font></td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td width="92%" colspan="3" align="left" valign="middle" nowrap="nowrap">
-		   <div id="form_hidden_value"><? if($user_id>0) echo getAllGaijisInputEle(array($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis));?></div>
 		   <div style="height:20px;width:346px;">
 
 		   	<div id="male_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php if($user_id>0) echo getGaijis($man_lastname_gaijis);?></div>
 	      <div id="male_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php if($user_id>0) echo getGaijis($man_firstname_gaijis);?></div>
+	     	<div id="male_firstname_div_id"><?php if($user_id>0 && $man_firstname_gaijis) echo getGaijisInputEle($man_firstname_gaijis);?></div>
+        <div id="male_lastname_div_id"><?php if($user_id>0 && $man_lastname_gaijis) echo getGaijisInputEle($man_lastname_gaijis);?></div>
+	   	
                    </div>
-                    <input name="man_lastname" class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;border-style: inset;" type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="30" onclick="change_gaiji_link('man_lastname')" />
-					<input name="man_firstname"  class="check_sjs_1" type="text" style="padding-top:4px; padding-bottom:4px;border-style: inset;" id="man_firstname" value="<?=$user_row['man_firstname']?>" size="30"  onclick="change_gaiji_link('man_firstname')" />
+                    <input name="man_lastname" class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;border-style: inset;" type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="30" onclick="change_gaiji_link('man_lastname')"  onblur="set_gaiji_position()"/>
+					<input name="man_firstname"  class="check_sjs_1" type="text" style="padding-top:4px; padding-bottom:4px;border-style: inset;" id="man_firstname" value="<?=$user_row['man_firstname']?>" size="30"  onclick="change_gaiji_link('man_firstname')"  onblur="set_gaiji_position()"/>
                 	様　<a id="man_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22"alt="外字検索" title="外字検索" /></a>
                 </td>
 
@@ -902,10 +877,12 @@ include("inc/return_dbcon.inc.php");
 		    	<div style="width:346px;height:20px;">
 		        <div id="female_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php if($user_id>0) echo getGaijis($woman_lastname_gaijis);?></div>
             <div id="female_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php if($user_id>0) echo getGaijis($woman_firstname_gaijis);?></div>
+	     	<div id="female_firstname_div_id"><?php if($user_id>0 && $woman_firstname_gaijis) echo getGaijisInputEle($woman_firstname_gaijis);?></div>
+        <div id="female_lastname_div_id"><?php if($user_id>0 && $woman_lastname_gaijis) echo getGaijisInputEle($woman_lastname_gaijis);?></div>
 			</div>
 
-            <input name="woman_lastname"  class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;border-style: inset;" type="text" id="woman_lastname" value="<?=$user_row['woman_lastname']?>" size="30" onclick="change_gaiji_link('woman_lastname')" />
-            <input name="woman_firstname"  class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;border-style: inset;" type="text" id="woman_firstname" value="<?=$user_row['woman_firstname']?>" size="30"  onclick="change_gaiji_link('woman_firstname')"/>
+            <input name="woman_lastname"  class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;border-style: inset;" type="text" id="woman_lastname" value="<?=$user_row['woman_lastname']?>" size="30" onclick="change_gaiji_link('woman_lastname')" onblur="set_gaiji_position()"/>
+            <input name="woman_firstname"  class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;border-style: inset;" type="text" id="woman_firstname" value="<?=$user_row['woman_firstname']?>" size="30"  onclick="change_gaiji_link('woman_firstname')" onblur="set_gaiji_position()"/>
                     様　<a id="woman_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22" alt="外字検索" title="外字検索" /></a>
                 </td>
 
