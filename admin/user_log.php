@@ -170,7 +170,7 @@ include("inc/return_dbcon.inc.php");
 								else {
 									echo "<td align='left' width='22%'>ログイン</td>";
 								}
-                        		if ($i+1 != $num) { // 最後のログアウトはログイン中なので表示対象にしない
+                        		if ($i != $num) {
 									$time2 = str_replace('-','/',$row['logout_time']);
 									if ($time2 != "0000/00/00 00:00:00" and $time != $time2) {
 										echo "<tr align='center'>";
