@@ -114,7 +114,6 @@ width:200px;
 
 <script type="text/javascript" language="javascript" src="../datepicker/prototype-date-extensions.js"></script>
 <script type="text/javascript" language="javascript" src="../datepicker/behaviour.js"></script>
-
 <script type="text/javascript" language="javascript" src="../datepicker/datepicker.js"></script>
 <script type="text/javascript">
 
@@ -128,12 +127,11 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 <script type="text/javascript" language="javascript" src="../datepicker/behaviors.js"></script>
 <!-- <script type="text/javascript" src="../js/registration_validation.js"></script> -->
 <script type="text/javascript" src="../js/jquery.cj-object-scaler.min.js"></script>
+<script type="text/javascript" src="../js/ierange-m2.js"></script>
 <script type="text/javascript" src="../js/gaiji.js"></script>
 <script type="text/javascript">
 $j(function(){
-
 	var msg_html=$j("#msg_rpt").html();
-
 	if(msg_html!='')
 	{
 		$j("#msg_rpt").fadeOut(5000);
