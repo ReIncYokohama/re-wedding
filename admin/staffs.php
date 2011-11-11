@@ -174,20 +174,21 @@
 		}
 
 		$order_main=" permission DESC,".$order;
-
-		$edit_data_rows['name']				=$get['name'];
-		$edit_data_rows['username']			=$get['username'];
-		$edit_data_rows['password']			=$get['password'];
-		$edit_data_rows['permission']		=$get['permission'];
-		$edit_data_rows['subcription_mail']	=$get['subcription_mail'];
-		$edit_data_rows['email']			=$get['email'];
-		$edit_data_rows['conf_email']		=$get['conf_email'];
+		if($get['action']!="edit") {
+			$edit_data_rows['name']				=$get['name'];
+			$edit_data_rows['username']			=$get['username'];
+			$edit_data_rows['password']			=$get['password'];
+			$edit_data_rows['permission']		=$get['permission'];
+			$edit_data_rows['subcription_mail']	=$get['subcription_mail'];
+			$edit_data_rows['email']			=$get['email'];
+			$edit_data_rows['conf_email']		=$get['conf_email'];
+		}
 	}
 	else
 	{
 		$order_main=" permission DESC";
 	}
-
+echo "edit : ".$get['id'];
 	$query_string="SELECT * FROM spssp_admin where permission!=111  ORDER BY  $order_main ;";
 	$data_rows = $obj->getRowsByQuery($query_string);
 ?>

@@ -93,10 +93,8 @@ $get = $obj->protectXSS($_GET);
 
 	if($get['action']=='delete' && (int)$get['id'] > 0)
 	{
-		$sql = "delete from spssp_user where id=".(int)$get['id'];
-		mysql_query($sql);
-		$sql = "delete from spssp_plan where user_id=".(int)$get['id'];
-		mysql_query($sql);
+		$objinfo->delete_user_relation_table((int)$get['id']);
+
 		$post['date_from']=$get['date_from'];
 		$post['date_to']=$get['date_to'];
 		$post['mname']=$get['mname'];
@@ -426,8 +424,8 @@ function validSearch()
 				return false;
 			}
 		}
-		if (date_from < today) {
-			alert("披露宴開始日が過去になっています");
+		if (date_from !="" && date_from < today) {
+			alert("披露宴開始日が過去になっています"+date_from+" : "+today);
 			return false;
 		}
 		if (date_to != "") {
@@ -436,7 +434,7 @@ function validSearch()
 				return false;
 			}
 		}
-		if (date_to < today) {
+		if (date_to!="" && date_to < today) {
 			alert("披露宴終了日が過去になっています");
 			return false;
 		}
