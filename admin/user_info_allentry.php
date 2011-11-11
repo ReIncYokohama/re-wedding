@@ -70,6 +70,15 @@ if($user_id>0) {
 	$user_plan_row_count = $obj->GetRowCount("spssp_plan"," user_id= $user_id");
 
 	$room_row = $obj->GetSingleRow("spssp_room"," id= ".$user_row['room_id']);
+
+	$disp_option1 = "";
+	$disp_option2 = "";
+	$disp_option3 = "";
+	if ($user_plan_row['admin_to_pcompany'] == 3) {
+		$disp_option1 = ' readonly="readonly"; ';
+		$disp_option2 = ' border:#ffffff; ';
+		$disp_option3 = ' border-style:none ';
+	}
 }
 else {
 	$query_string="SELECT * FROM spssp_room where status=1 ORDER BY display_order ASC ;";
@@ -1239,7 +1248,7 @@ if($user_row['mukoyoshi']=='1'){
 			?>
 			<div>
 			<?php
-				if ($noUpdate == false) { ?>
+				if ($noUpdate == false && $disp_option1 =="") { ?>
 				<a href="javascript:void(0);" onclick='check_change("set_table_layout_edit.php?plan_id=<?=$user_plan_row['id']?>&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>");'>
                   <img src='img/common/btn_taku_edit.gif' boredr='0' height='17'>
                 </a>
@@ -1582,9 +1591,11 @@ if($user_row['mukoyoshi']=='1'){
             </table>
 			<br /><br />
             <div colspan="4" align="left" valign="middle" nowrap="nowrap">
+            <?php if ($disp_option1=="") { ?>
              <a href="javascript:void(0)" onclick="valid_user('<?=$user_id?>','<?=$noUpdate?>','<?=$count_gift?>','<?=$count_group?>','<?=$count_child?>');">
                 <img src="img/common/btn_regist_update.jpg" border="0" />
              </a>
+             <?php } ?>
             <?php if($user_id>0) { ?>
             		<br />
             		<br />
