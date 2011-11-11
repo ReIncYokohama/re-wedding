@@ -16,7 +16,7 @@ $stuff_id= (int)$get['stuff_id'];
 $user_id = (int)$get['user_id'];
 
 if($_GET['action']=="save") {
-//print_r($_POST);
+//print_r($_POST);exit;
 	for ($i=1;$i<=9; $i++) {
 		$align = $_POST['rowcenter_'.$i];
 		if (isset($align)) {
@@ -46,7 +46,7 @@ if($_GET['action']=="save") {
 			$disp = $_POST['display_'.$def_id];
 			if (isset($disp))	$set_disp = 1;
 			else 				$set_disp = 0;
-			$query = "update spssp_table_layout set display=".$set_disp." where id=".$def_id." and user_id=".$user_id;
+			$query = "update spssp_table_layout set display=".$set_disp.", name='".$_POST['table_name_'.$i]."' where id=".$def_id." and user_id=".$user_id;
 			mysql_query($query);
 		}
 	}
