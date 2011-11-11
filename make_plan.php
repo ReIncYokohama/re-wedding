@@ -350,7 +350,7 @@ height:30px;
 			  <table width="800" border="0" cellspacing="1" cellpadding="3">
 				  <tr>
 				    <?php 
-				    if ($obj->GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and `order` = 1 and user_id=".$user_id)) {
+				    if ($obj->GetRowCount("spssp_plan"," admin_to_pcompany >= 2 and `ul_print_com_times` < 2 and `order` >= 1 and user_id=".$user_id) && $user_info['party_day'] >= date("Y-m-d")) {
 				    ?>
 				    	<td width="210" valign="middle"><a href="<?=substr($plan_info['p_company_file_up'], 3)?>" target="_blank"><img src="img/order/preview_print_bt.jpg" alt="席次表プレビュー" width="200" height="40" border="0" class="on"/></a></td>
 				    <?php 
@@ -361,7 +361,7 @@ height:30px;
 				    <?php 
 				    } ?>
 					<td width="10" valign="middle">　</td>
-					<td width="580" valign="middle"><p>印刷会社よりアップロードされた「席次表の印刷イメージ」がご確認いただけます。<br />※印刷会社よりアップロードされるまでは、ボタンは使用できません。</p></td>
+					<td width="580" valign="middle"><p>印刷会社よりアップロードされた「席次表の印刷イメージ」がご確認いただけます。<br />※印刷会社よりアップロードされるまでは、ボタンは使用できません。<?echo $user_info['party_day']." : ".date("Y-m-d")?></p></td>
 				  </tr>
 			 </table>
 				  <tr>
