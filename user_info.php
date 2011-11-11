@@ -235,8 +235,10 @@ width:200px;
             	<tr>
                 	<td style="border:1px solid #3681CB; padding:5px;" >
 <div id="table_view" style="margin:auto;width :100%;">
-<div style="height:20px;margin:auto;border:1px solid black;width:80px;">
+<div style="margin:0 auto;width:100px;display:block;">
+<div  style="margin: auto;width:80x;border:1px solid gray;white-space:nowrap;text-align:center; ">
 <?php print $table_data["layoutname"];?>
+</div>
               </div>
 <?php
   $table_height = "31";
