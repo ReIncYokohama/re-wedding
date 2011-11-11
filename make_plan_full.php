@@ -232,9 +232,9 @@ body{
   background:none;
 }
 #make_plan_table{
-width: 900px;
+width: 965px;
 overflow:scroll;
-height:650px;
+height:680px;
 }
 .title_bar.main_plan{
  width:980px;
@@ -385,7 +385,7 @@ direction: ltr;
 <div class="make_plan_main_contents" id="con_area_ie">
   <div id="side_area">
   <div align="right"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
-  <div  id="guests_conatiner" style="float:left; height:600px; width:100%; overflow-x:auto;overflow-y:visible;" >
+  <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:auto;overflow-y:visible;" >
 				<table width="98%">
 				<?php
 				$guest_type_sort=($_GET['guest_type_sort']=='desc' || $_GET['guest_type_sort']=='' )?"asc":"desc";
