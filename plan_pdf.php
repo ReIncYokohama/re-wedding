@@ -323,16 +323,18 @@ $html.='<td width="40%">
 				</tr>
         <tr><td></td></tr>
 				<tr>
-					<td align="left"  valign="middle" style="text-align:center;">挙式日時　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['marriage_day']))).'  '.date("H時i分",strtotime($user_info['marriage_day_with_time'])).'&nbsp;&nbsp;&nbsp;会場'.$party_room_info[name].' </td>
+					<td align="left"  valign="middle" style="text-align:center;font-size:40px;">挙式日時　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['marriage_day']))).'  '.date("H時i分",strtotime($user_info['marriage_day_with_time'])).'&nbsp;&nbsp;&nbsp;会場'.$party_room_info[name].' </td>
 				</tr>
 				<tr>
-					<td align="left"  valign="middle" style="text-align:center;">披露宴日時　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['party_day']))).'  '.date("H時i分",strtotime($user_info['party_day_with_time'])).'&nbsp;&nbsp;&nbsp;会場'.$room_info[name].' </td>
+					<td align="left"  valign="middle" style="text-align:center;font-size:40px;">披露宴日時　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['party_day']))).'  '.date("H時i分",strtotime($user_info['party_day_with_time'])).'&nbsp;&nbsp;&nbsp;会場'.$room_info[name].' </td>
 				</tr>
+        <tr><td></td></tr>
 				<tr>
 					<td align="left"  valign="middle" style="text-align:center;">作成日時　&nbsp;&nbsp;'.date('Y年n月j日  H時i分').'&nbsp;&nbsp;&nbsp;&nbsp;
 					スタッフ名 '.$staff_name.'
 					</td>
 				</tr>
+
 				<tr>
 					<td align="left"  valign="middle" style="text-align:center;">席次表本発注締切日　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($confirm_date_main))).' 
 					</td>
@@ -340,7 +342,7 @@ $html.='<td width="40%">
 			</table>
 		
 
-</td><td width="25%">
+</td><td width="25%" style="font-size:15px;">
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
@@ -391,13 +393,13 @@ $takasago_num = count($takasago_guests)+2;
 $main_guest = $obj->get_guestdata_in_takasago_for_pdf($user_id);
 $gift_table = $obj->get_gift_table_html($takasago_guests,$user_id);
 
-$html.='<table style="font-size:'.$main_font_size_top.';border:1px solid black; width:100%; padding:10px;">';
+$html.='<table style="font-size:'.$main_font_size_top.';border:1px solid black; width:100%; padding:0px;margin:0px;">';
 
 $userArray = $obj->get_userdata($user_id);
 $man_image = $userArray[0]["namecard_memo"];
 $woman_image = $userArray[1]["namecard_memo"];
 
-$html.='<tr><td colspan="3"></td><td style="font-size:40px;">高砂【 '.$takasago_num.'名 】'.$gift_table.'</td><td colspan="3"></td></tr><tr><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[3].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[1].'</td><td align="center"  valign="middle" style="text-align:center;">'.$man_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[5].'</td><td align="center"  valign="middle" style="text-align:center;">'.$woman_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[2].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[4].'</td></tr></table><br/>';
+$html.='<tr><td colspan="3"></td><td><span style="font-size:40px;">高砂【 '.$takasago_num.'名 】</span><span style="font-size:20px;margin:0px;">'.$gift_table.'</span></td><td colspan="3"></td></tr><tr><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[3].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[1].'</td><td align="center"  valign="middle" style="text-align:center;">'.$man_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[5].'</td><td align="center"  valign="middle" style="text-align:center;">'.$woman_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[2].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[4].'</td></tr></table><br/>';
 
 $layoutname = $obj->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
 if($layoutname=="")
@@ -548,12 +550,6 @@ foreach($tblrows as $tblrow)
                       {
                         $menu_name = $obj->GetSingleData(" spssp_menu_group ", "name", " id=".$guest_menu_id." and user_id = ".$user_id);
                       }
-							
-							
-							
-							
-							
-							
 							
                     if($disp=='1')
                       $border="none";
