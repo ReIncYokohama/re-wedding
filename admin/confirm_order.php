@@ -21,6 +21,7 @@ if((int)$get['sekiji']>0 || (int)$get['sekifuda']>0) {
 
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>本発注の確認</title>
 </head>
 <script type="text/javascript">
@@ -62,9 +63,13 @@ function cl2(vl) {
     window.returnValue=vl;
     window.close();
 }
+window.onkeydown = function(event) {
+    if(event.keyCode == 13)	return false;
+    else 					return true;
+}
 </script>
 <body bgcolor="#FCFEFF">
-	<form action="confirm_order.php?user_id=<?=$user_id?>" method="post" name="seki_input" >
+	<form action="confirm_order.php?user_id=<?=$user_id?>" method="post" name="seki_input">
 	<?php if ($busuu==1 || $busuu==3) { ?>
 	席次表印刷部数　:　
  	<input type="text" name="sekiji" id="sekiji" style="width:100px; text-align:right;"/>　部<br />
@@ -77,8 +82,8 @@ function cl2(vl) {
  	<br />
  	<?php echo $_GET['msg']; ?><br /><br />
  	 	　　　　　　　　　<!-- 位置を右にずらす -->
-    <input type="button" value="　　OK　　" name="submit" onClick="cl('OK')">
-    <input type="button" value="キャンセル" name="submit" onClick="cl2('CANCEL')">
+    <input type="button" value="　　OK　　" name="submit" onClick="cl('OK')" onkeydown="if (event.keyCode == 13) { cl('OK'); }">
+    <input type="button" value="キャンセル" name="submit" onClick="cl2('CANCEL')" onkeydown="if (event.keyCode == 13) { cl2('CANCEL'); }">
     <input type="hidden" name="update" value="update" />
     </form>
     <script type="text/javascript"> document.seki_input.sekiji.focus(); </script>
