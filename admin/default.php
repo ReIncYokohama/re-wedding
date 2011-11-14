@@ -258,7 +258,6 @@ var chng = (radio1==true)? "1": "0";
 	edit_data += "&rename_table_view="+chng;
 	edit_data += "&edit_id="+edit_id;
 	urlPlus = url+edit_data;
-	alert(urlPlus);
 	return urlPlus;
 }
 

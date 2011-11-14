@@ -148,4 +148,48 @@ $.fn.extend({
         }
     }
 });
- 
+$.fn.extend({
+    getForcusIndex: function() {
+        //$(this).focus();
+        if (jQuery.browser.msie) {
+            var elem = this[0];
+            if(elem==null) {
+                return null;
+            }
+            alert(elem.id);
+            //elem.focus();
+            // ボックスの先頭からキャレットまでのrangeを作って，長さを調査
+            var range = document.selection.createRange();
+            range.moveStart( "character", - elem.value.length );
+            alert(range.text);
+            var caret_position = range.text.length;
+            
+            return caret_position;
+        }else{
+            return $(this)[0].selectionStart;
+        }
+    }
+});
+
+$.fn.extend({
+    appendIndex: function(text,index) {
+        if(index===0){
+            this.prepend(text);
+        }else if(index>0){
+            $j(this.children()[index-1]).after(text);
+        }else{
+            this.append(text);
+        }
+    }
+});
+
+function append_text(parent,insert,index){
+    return parent.substr(0,index)+insert+parent.substr(index);
+}
+function text_num(str,text,num){
+    var returnnum = 0;
+    for(var i=0;i<num;++i){
+        if(str[i]==text) ++returnnum; 
+    }
+    return returnnum;
+}

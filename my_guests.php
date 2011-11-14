@@ -166,19 +166,23 @@ $(document).ready(function(){
     setDeleteGaiji({
       input_id:"last_name",
           form_name:"male_last_gaiji_",
-          div_image:"lastname_img_div_id"});
+          div_image:"lastname_img_div_id",
+          input_ele:"last_div_id"});
     setDeleteGaiji({
       input_id:"first_name",
           form_name:"male_first_gaiji_",
-          div_image:"firstname_img_div_id"});
+          div_image:"firstname_img_div_id",
+          input_ele:"first_div_id"});
     setDeleteGaiji({
       input_id:"comment1",
           form_name:"comment1_gaiji_",
-          div_image:"comment1_img_div_id"});
+          div_image:"comment1_img_div_id",
+          input_ele:"comment1_div_id"});
     setDeleteGaiji({
       input_id:"comment2",
           form_name:"comment2_gaiji_",
-          div_image:"comment2_img_div_id"});
+          div_image:"comment2_img_div_id",
+          input_ele:"comment2_div_id"});
 });
 
   function backtotop()
@@ -464,6 +468,7 @@ function m_win(url,windowname,width,height) {
 }
 
 var now_action = null;
+
 function change_gaiji_link(action)
 {
   if(now_action==action) return;
@@ -471,7 +476,6 @@ function change_gaiji_link(action)
   $("#gaiji_button_"+action).show();
   now_action = action;
 }
-
 
 function get_gaiji_value(from,img,gid,gsid)
 {
@@ -483,45 +487,20 @@ function get_gaiji_value(from,img,gid,gsid)
   }
 	if(from=="first_name")
     {
-      var firstname = $("#first_name").val();
-      $("#first_div_id").append("<input type='hidden' name='male_first_gaiji_img[]' value='"+img+"'>");
-      $("#first_div_id").append("<input type='hidden' name='male_first_gaiji_gid[]' value='"+gid+"'>");
-      $("#first_div_id").append("<input type='hidden' name='male_first_gaiji_gsid[]' value='"+gsid+"'>");
-
-      $("#firstname_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
-      $("#first_name").attr("value", firstname+"＊");
+      set_gaiji("male_first","first_name","first_div_id","firstname_img_div_id",img,gid,gsid);
     }
 	if(from=="last_name")
     {
-      var lastname = $("#last_name").val();
-      $("#last_div_id").append("<input type='hidden' name='male_last_gaiji_img[]' value='"+img+"'>");
-      $("#last_div_id").append("<input type='hidden' name='male_last_gaiji_gid[]' value='"+gid+"'>");
-      $("#last_div_id").append("<input type='hidden' name='male_last_gaiji_gsid[]' value='"+gsid+"'>");
-
-      $("#lastname_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
-      $("#last_name").attr("value", lastname+"＊");
+      set_gaiji("male_last","last_name","last_div_id","lastname_img_div_id",img,gid,gsid);
     }
 	if(from=="comment1")
     {
-      var comment1 = $("#comment1").val();
-      $("#comment1_div_id").append("<input type='hidden' name='comment1_gaiji_img[]' value='"+img+"'>");
-      $("#comment1_div_id").append("<input type='hidden' name='comment1_gaiji_gid[]' value='"+gid+"'>");
-      $("#comment1_div_id").append("<input type='hidden' name='comment1_gaiji_gsid[]' value='"+gsid+"'>");
-
-      $("#comment1_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
-      $("#comment1").attr("value", comment1+"＊");
+      set_gaiji("comment1","comment1","comment1_div_id","comment1_img_div_id",img,gid,gsid);
     }
 	if(from=="comment2")
     {
-      var comment2 = $("#comment2").val();
-      $("#comment2_div_id").append("<input type='hidden' name='comment2_gaiji_img[]' value='"+img+"'>");
-      $("#comment2_div_id").append("<input type='hidden' name='comment2_gaiji_gid[]' value='"+gid+"'>");
-      $("#comment2_div_id").append("<input type='hidden' name='comment2_gaiji_gsid[]' value='"+gsid+"'>");
-
-      $("#comment2_img_div_id").append("<img src='../gaiji-image/img_ans/"+img+"' wight='20' height='20'>");
-      $("#comment2").attr("value", comment2+"＊");
+      set_gaiji("comment2","comment2","comment2_div_id","comment2_img_div_id",img,gid,gsid);
     }
-
 
 }
 
@@ -701,13 +680,7 @@ if($editable)
     ?>
       <form id="newguest" name="newguest" method="post" action="new_guest.php?page=<?=$_GET['page']?><?=$op?>">
 	 <input type="hidden" name="id" id="id" value="<?=$_GET['gid']?>" />
-   <?php if($firstname_gaijis || $lastname_gaijis || $comment1_gaijis || $comment2_gaijis) echo getAllGaijisInputEle(array($firstname_gaijis,$lastname_gaijis,$comment1_gaijis,$comment2_gaijis))?>
-   
-   
-   
-   
-   
-
+  
 <table width="873" border="0" cellspacing="2" cellpadding="2">
   <tr>
     <td width="90" align="right" valign="bottom" nowrap="nowrap">&nbsp;</td>
@@ -731,12 +704,15 @@ if($editable)
       <option value="Female" <?php if($guest_row['sex']=="Female"){ echo "Selected='Selected'"; }?> >新婦側</option>
     </select></td>
     <td width="90" align="right" nowrap="nowrap">姓<font color="red">*</font>：</td>
-    <td width="120" align="left"><input type="text" size="20" class="check_sjs_1" tabindex=2 style="padding-top:3px; padding-bottom:3px;border-style: inset;" name="last_name" id="last_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['last_name']?>" onfocus="change_gaiji_link('last_name');" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
-				<div id="last_div_id" style="display:none;"></div>
+    <td width="120" align="left"><input type="text" size="20" class="check_sjs_1" tabindex=2 style="padding-top:3px; padding-bottom:3px;border-style: inset;" name="last_name" id="last_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['last_name']?>" onfocus="change_gaiji_link('last_name');" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()" onblur="set_gaiji_position()"/>
+				<div id="last_div_id" style="display:none;"><?php if($lastname_gaijis) echo getGaijisInputEle($lastname_gaijis);?>
+        </div>
         <div><?=$gaiji_button_last_name?></div></td>
     <td width="90" align="right" nowrap="nowrap">名<font color="red">*</font>：</td>
-    <td width="120" align="left"><input type="text" name="first_name" class="check_sjs_1" size="20" tabindex=3 style="padding-top:3px; padding-bottom:3px;border-style: inset;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
-			  <div id="first_div_id" style="display:none;" ></div>
+    <td width="120" align="left"><input type="text" name="first_name" class="check_sjs_1" size="20" tabindex=3 style="padding-top:3px; padding-bottom:3px;border-style: inset;" id="first_name" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$guest_row['first_name']?>" onfocus="change_gaiji_link('first_name')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()" onblur="set_gaiji_position()"/>
+			  <div id="first_div_id" style="display:none;" >
+<?php if($firstname_gaijis) echo getGaijisInputEle($firstname_gaijis);?>
+        </div>
         <div><?=$gaiji_button_first_name?></div></td>
     <td width="90" align="right" nowrap="nowrap">敬称<font color="red">*</font>：</td>
     <td width="173" align="left"><select id="respect_id" name="respect_id" tabindex=4 style="width:70px; padding-top:3px; padding-bottom:3px;border-style: inset;" <?php if($guest_row['self']==1){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
@@ -763,9 +739,9 @@ if($editable)
     <td width="90" align="right" nowrap="nowrap">&nbsp;</td>
     <td width="100" align="left">&nbsp;</td>
     <td width="90" align="right" nowrap="nowrap">ふりがな姓：</td>
-    <td width="120" align="left"><input type="text" tabindex=5 size="20" style="padding-top:3px;border-style:inset; padding-bottom:3px;" name="furigana_last" id="furigana_last" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_lastname?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+    <td width="120" align="left"><input type="text" tabindex=5 size="20" style="padding-top:3px;border-style:inset; padding-bottom:3px;" name="furigana_last" id="furigana_last" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?php echo $guest_row['furigana_last']?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
     <td width="90" align="right" nowrap="nowrap">ふりがな名：</td>
-    <td width="120" align="left"><input type="text" name="furigana_first" tabindex=6 size="20"  style="padding-top:3px; padding-bottom:3px;border-style: inset;" id="furigana_first" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?=$furigana_first_name?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+    <td width="120" align="left"><input type="text" name="furigana_first" tabindex=6 size="20"  style="padding-top:3px; padding-bottom:3px;border-style: inset;" id="furigana_first" <?php if($guest_row['self']==1){echo "disabled";}?> value="<?php echo $guest_row['furigana_first']?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
     <td width="90" align="right" nowrap="nowrap">&nbsp;</td>
     <td width="173" align="left">&nbsp;</td>
   </tr>
@@ -802,12 +778,16 @@ if($editable)
 					?>
 		    </select></td>
     <td width="90" align="right" nowrap="nowrap">肩書 １行目：</td>
-    <td width="120" align="left"><input size="27" name="comment1" tabindex=8 type="text" class="check_sjs_1" id="comment1" style="padding-top:3px; padding-bottom:3px;border-style: inset;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
-							<div id="comment1_div_id" style="display:none;"></div>
+    <td width="120" align="left"><input size="27" name="comment1" tabindex=8 type="text" class="check_sjs_1" id="comment1" style="padding-top:3px; padding-bottom:3px;border-style: inset;" value="<?=$guest_row['comment1']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment1')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()" onblur="set_gaiji_position()"/>
+							<div id="comment1_div_id" style="display:none;">
+                <?php if($comment1_gaijis) echo getGaijisInputEle($comment1_gaijis);?> 
+              </div>
               <div><?=$gaiji_button_comment1?></div></td>
     <td width="90" align="right" nowrap="nowrap">肩書 ２行目：</td>
-    <td width="120" align="left"><input size="27" name="comment2" tabindex=9 type="text" id="comment2" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;border-style: inset;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
-							<div id="comment2_div_id" style="display:none;"></div>
+    <td width="120" align="left"><input size="27" name="comment2" tabindex=9 type="text" id="comment2" class="check_sjs_1" style="padding-top:3px; padding-bottom:3px;border-style: inset;" value="<?=$guest_row['comment2']?>" size="10" maxlength="40" <?php if($guest_row['self']==1){echo "disabled";}?>  onfocus="change_gaiji_link('comment2')" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()" onblur="set_gaiji_position()"/>
+							<div id="comment2_div_id" style="display:none;">
+                                                                                                                                                                                                                                                                                                                <?php if($comment2_gaijis) echo getGaijisInputEle($comment2_gaijis);?> 
+              </div>
             <div><?=$gaiji_button_comment2?></div></td>
     <td width="90" align="right" nowrap="nowrap">特記：</td>
     <td width="173" align="left"><input type="text" tabindex=10 style="padding-top:3px; padding-bottom:3px; width:140px;border-style: inset;"   name="memo" id="memo" maxlength="40" value="<?=$guest_row['memo']?>" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>

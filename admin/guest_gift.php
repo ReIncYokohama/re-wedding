@@ -375,29 +375,30 @@ include("inc/return_dbcon.inc.php");
 		席次表の仮発注、本発注、依頼解除ができます。
         <div style="margin-top:20px;">
 		<table width="50%" border="0" cellspacing="1" cellpadding="3">
-			  <tr>
+			 <tr>
 				<td width="182" valign="middle"><a href="../plan_pdf_small.php" target="_blank"><img src="img/common/order/seat_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a></td>
 					<td width="50" rowspan="3" align="center" valign="middle" style="font-size:16pt"><img src="img/common/arrow_1to2.gif" alt="矢印" width="32" height="59" border="0" /></td>
 			<?php
 				if(($plan_info['admin_to_pcompany']>0 && $plan_info['ul_print_com_times']==1) || ($plan_info['admin_to_pcompany']>0 && $plan_info['order']<=2))
 				{
 			?>
-				<td width="146" valign="middle"><img src="img/common/order/seat_pro_order_greyed.gif" width="146" height="32" /></td>
+				<td valign="middle"><img src="img/common/order/seat_pro_order_greyed.gif" width="146" height="32" /></td>
 				<?php }else{?>
-			  	<td width="146" valign="middle"><a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=allow&user_id=<?=$user_id?>&hotel_name=<?=$hotel_name ?>&stuff_id=<?=$stuff_id?>','印刷会社へ仮発注を行います。宜しいですか？')" ><img src="img/common/order/seat_pro_order.gif" width="146" height="32" /></a></td>
+			  	<td valign="middle"><a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=allow&user_id=<?=$user_id?>&hotel_name=<?=$hotel_name ?>&stuff_id=<?=$stuff_id?>','印刷会社へ仮発注を行います。宜しいですか？')" ><img src="img/common/order/seat_pro_order.gif" width="146" height="32" /></a></td>
 				<?php }?>
-				<td>
+				<td width="300">
 					<?php
 						echo $kari_hachu; // UCHIDA EDIT 11/08/16 クリック日付を表示
 					?>
 				</td>
-		  </tr>
-			  <tr>
+				<td  width="80">&nbsp;</td>
+		    </tr>
+		    <tr>
 			    <td valign="middle" height="20">&nbsp;</td>
 			    <td width="146" height="20" valign="middle">&nbsp;</td>
 			    <td width="146" height="20" valign="middle">&nbsp;</td>
 			    <td>&nbsp;</td>
-          </tr>
+            </tr>
 
 
 
@@ -476,9 +477,9 @@ include("inc/return_dbcon.inc.php");
 				if($plan_info['admin_to_pcompany']==3 && $plan_info['admin_to_pcompany']>0 &&$plan_info['ul_print_com_times']==1)
 				{
 			?>
-				<td width="146" valign="middle"><img src="img/common/order/seat_order_greyed.gif" width="146" height="32" /></td>
+				<td valign="middle"><img src="img/common/order/seat_order_greyed.gif" width="146" height="32" /></td>
 				<?php }else{?>
-			  	<td width="146" valign="middle"><a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=print_request&user_id=<?=$user_id?>&hotel_name=<?=$hotel_name ?>&stuff_id=<?=$stuff_id?>','印刷会社へ本発注を行います。宜しいですか？')"><img src="img/common/order/seat_order.gif" width="146" height="32" /></a></td>
+			  	<td valign="middle"><a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=print_request&user_id=<?=$user_id?>&hotel_name=<?=$hotel_name ?>&stuff_id=<?=$stuff_id?>','印刷会社へ本発注を行います。宜しいですか？')"><img src="img/common/order/seat_order.gif" width="146" height="32" /></a></td>
 				<?php }?>
  				<td>
 					<?php
@@ -531,7 +532,7 @@ include("inc/return_dbcon.inc.php");
 				if($plan_info['gift_daylimit']==3 && $plan_info['gift_daylimit']>0)
 				{
 			?>
-				<td width="146" valign="middle"><img src="img/common/order/gift_processed_greyed.gif" width="146" height="32" /></td>
+				<td valign="middle"><img src="img/common/order/gift_processed_greyed.gif" width="146" height="32" /></td>
 				<?php }else{?>
 			  	<td width="146" valign="middle">
 				<a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=daylimit_request&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>','引出物処理をします。宜しいですか？')">

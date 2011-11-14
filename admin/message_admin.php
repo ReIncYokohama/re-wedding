@@ -287,19 +287,22 @@ include("inc/return_dbcon.inc.php");
 					</td>
 				</tr> -->
 				<tr>
-					<td width="7%" style="text-align:left;">タイトル&nbsp;&nbsp;：</td>
+				  <td width="40" nowrap="nowrap" style="text-align:left;">タイトル</td>
+					<td width="5" nowrap="nowrap" style="text-align:left;">：</td>
 					<td style="text-align:left;">
-						<input type="text" name="title" id="title" style="width:579px;border-style: inset;"/>
+						<input type="text" name="title" id="title" style="width: 730px;border-style: inset;"/>
 					</td>
 				</tr>
 				<tr>
-					<td width="7%" style="text-align:left;">本文　　&nbsp;&nbsp;：</td>
+				  <td width="40" nowrap="nowrap" style="text-align:left;">本文</td>
+					<td width="5" nowrap="nowrap" style="text-align:left;">：</td>
 					<td style="text-align:left;">
-						<textarea name="description" id="description" cols="69" rows="5" style="border-style: inset;"></textarea>
+						<textarea name="description" id="description" cols="69" rows="5" style="border-style: inset;width: 730px;"></textarea>
 					</td>
 				</tr>
 				<tr>
-					<td width="7%" style="text-align:left;">添付　　&nbsp;&nbsp;：</td>
+				  <td width="40" nowrap="nowrap" style="text-align:left;">添付</td>
+					<td width="5" nowrap="nowrap" style="text-align:left;">：</td>
 					<td style="text-align:left;" >
 						<input name="file1" type="text" id="file1" style="margin-bottom:2px;border-style: inset;" size="40" readonly/>
 
@@ -308,7 +311,8 @@ include("inc/return_dbcon.inc.php");
 					</td>
 				</tr>
 		<tr>
-					<td>&nbsp;</td>
+		  <td width="40" nowrap="nowrap">&nbsp;</td>
+					<td width="5">&nbsp;</td>
 					<td><a href="javascript:void(0);" name="insert" onclick="validForm();"/><img src="img/common/btn_send.jpg" alt="送信" /></a> &nbsp;
 						&nbsp;&nbsp;<a href="javascript:void(0);" name="reset" onclick="cancel_insert();"/><img src="img/common/btn_clear.jpg" alt="クリア" /></a>
 		</td>
