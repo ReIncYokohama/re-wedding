@@ -156,12 +156,10 @@ $.fn.extend({
             if(elem==null) {
                 return null;
             }
-            alert(elem.id);
             //elem.focus();
             // ボックスの先頭からキャレットまでのrangeを作って，長さを調査
             var range = document.selection.createRange();
             range.moveStart( "character", - elem.value.length );
-            alert(range.text);
             var caret_position = range.text.length;
             
             return caret_position;
