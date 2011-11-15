@@ -10,7 +10,7 @@ include_once("inc/class_data.dbo.php");
 
 $obj = new dbo;
 
-$user_id = (int)$_SESSION['userid'];
+$user_id = (int)$_GET['user_id'];
 
 $dataObj = new DataClass;
 //ログ出力に必要なデータを取得。class_data.dbo.jp

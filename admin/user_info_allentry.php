@@ -74,10 +74,14 @@ if($user_id>0) {
 	$disp_option1 = "";
 	$disp_option2 = "";
 	$disp_option3 = "";
+	$disp_option4 = '<font color="red">*</font>';
+	$disp_option5 = "";
 	if ($user_plan_row['admin_to_pcompany'] == 3) {
 		$disp_option1 = ' readonly="readonly"; ';
 		$disp_option2 = ' border:#ffffff; ';
 		$disp_option3 = ' border-style:none ';
+		$disp_option4 = "";
+		$disp_option5 = ' disabled="disabled" ';
 	}
 }
 else {
@@ -836,7 +840,7 @@ include("inc/return_dbcon.inc.php");
         	<div style="width:400px;"><font color="#2052A3"><strong>お客様新規登録</strong></font></div>
         <?php } ?>
         </h2>
-　 <font color="red">*</font>の付いた項目は必須です。<br /><br />
+　 <?php if (preg_match("/red/", $disp_option4)) echo '<font color="red">*</font>の付いた項目は必須です。' ?> <br /><br />
 		<?php
 		//echo "<pre>";
 		//print_r($user_row);
@@ -846,10 +850,10 @@ include("inc/return_dbcon.inc.php");
          <form action="insert_user.php?user_id=<?=$user_id;?>" method="post" name="user_form_register">
         <table width="800" border="0" cellspacing="10" cellpadding="0">
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">披露宴日<font color="red">*</font>　</td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">披露宴日<?=$disp_option4?>　</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="1" align="left" valign="middle" nowrap="nowrap">
-                	<input name="party_day" type="text" id="party_day" value="<?if($user_id>0) echo $obj->date_dashes_convert($user_row['party_day'])?>" size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;padding-top:4px; padding-bottom:4px;" class="datepicker" onclick="date_change()"/>
+                	<input name="party_day" type="text" id="party_day" value="<?if($user_id>0) echo $obj->date_dashes_convert($user_row['party_day'])?>" size="15" readonly="readonly" style="<?=$disp_option2?> <?=$disp_option3?> background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;padding-top:4px; padding-bottom:4px;" <?php if($disp_option2=="") echo 'class="datepicker" onclick="date_change()"'; ?> />
 					<?php
 					if ($user_row['party_day'] < date("Y-m-d") && $user_id>0) $noUpdate = true; else $noUpdate = false;
 					//$party_day_array = explode("-",$user_row['party_day']);
@@ -859,19 +863,19 @@ include("inc/return_dbcon.inc.php");
 					<input type="text" style="width:17px;" maxlength="2" name="party_day" id="party_day" value="<?=$party_day_array[2]?>"> yyyy/mm/dd-->
                 <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day').value='';">クリア </a>-->
                 </td>
-				<td colspan="2" align="left" valign="middle" nowrap="nowrap">　　&nbsp;披露宴時間<font color="red">*</font>：<!--<input name="party_day_with_time" type="text" id="party_day_with_time" value="<?=date("H:i", strtotime($user_row['party_day_with_time']))?>" size="10" readonly="readonly" style="width:86px;background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>-->
+				<td colspan="2" align="left" valign="middle" nowrap="nowrap">　　&nbsp;披露宴時間<?=$disp_option4?>：<!--<input name="party_day_with_time" type="text" id="party_day_with_time" value="<?=date("H:i", strtotime($user_row['party_day_with_time']))?>" size="10" readonly="readonly" style="width:86px;background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>-->
 				<?php
 				$party_time_array = explode(":",$user_row['party_day_with_time']);
 				?> 
 				&nbsp;
-				<input type="text" style="padding-top:4px; padding-bottom:4px;width:17px;border-style: inset;" maxlength="2" name="party_hour" id="party_hour" value="<?=$party_time_array[0]?>"> :
-				<input type="text" style="padding-top:4px; padding-bottom:4px;width:17px;border-style: inset;" maxlength="2" name="party_minute" id="party_minute" value="<?=$party_time_array[1]?>"> (24時間表記)
+				<input type="text" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;width:17px;border-style: inset;<?=$disp_option2?> <?=$disp_option3?> " maxlength="2" name="party_hour" id="party_hour" value="<?=$party_time_array[0]?>"> :
+				<input type="text" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;width:17px;border-style: inset;<?=$disp_option2?> <?=$disp_option3?> " maxlength="2" name="party_minute" id="party_minute" value="<?=$party_time_array[1]?>"> (24時間表記)
                 <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day_with_time').value='';">クリア </a>-->
                 </td>
             </tr>
 
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">新郎氏名<font color="red">*</font></td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">新郎氏名<?=$disp_option4?>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td width="92%" colspan="3" align="left" valign="middle" nowrap="nowrap">
 		   <div style="height:20px;width:346px;">
@@ -882,23 +886,23 @@ include("inc/return_dbcon.inc.php");
         <div id="male_lastname_div_id"><?php if($user_id>0 && $man_lastname_gaijis) echo getGaijisInputEle($man_lastname_gaijis);?></div>
 	   	
                    </div>
-                    <input name="man_lastname" class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;border-style: inset;" type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="30" onclick="change_gaiji_link('man_lastname')"  onblur="set_gaiji_position()"/>
-					<input name="man_firstname"  class="check_sjs_1" type="text" style="padding-top:4px; padding-bottom:4px;border-style: inset;" id="man_firstname" value="<?=$user_row['man_firstname']?>" size="30"  onclick="change_gaiji_link('man_firstname')"  onblur="set_gaiji_position()"/>
-                	様　<a id="man_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22"alt="外字検索" title="外字検索" /></a>
+                    <input name="man_lastname" class="check_sjs_1" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="30" onclick="change_gaiji_link('man_lastname')"  onblur="set_gaiji_position()"/>
+					<input name="man_firstname"  class="check_sjs_1" <?=$disp_option1?> type="text" style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " id="man_firstname" value="<?=$user_row['man_firstname']?>" size="30"  onclick="change_gaiji_link('man_firstname')"  onblur="set_gaiji_position()"/>
+                	様　<?php if ($disp_option1=="") { ?> <a id="man_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22"alt="外字検索" title="外字検索" /></a> <?php } ?>
                 </td>
 
             </tr>
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">ふりがな<font color="red">*</font>　</td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">ふりがな<?=$disp_option4?>　</td>
            	  <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
            		<td  colspan="3" align="left" valign="middle" nowrap="nowrap">
 
-               		<input name="man_furi_lastname" style="padding-top:4px; padding-bottom:4px;border-style: inset;" type="text" id="man_furi_lastname" value="<?=$user_row['man_furi_lastname']?>" size="30" />
-            		<input name="man_furi_firstname" style="padding-top:4px;border-style: inset; padding-bottom:4px;" type="text" id="man_furi_firstname" value="<?=$user_row['man_furi_firstname']?>" size="30" /> 様
+               		<input name="man_furi_lastname" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_furi_lastname" value="<?=$user_row['man_furi_lastname']?>" size="30" />
+            		<input name="man_furi_firstname" <?=$disp_option1?> style="padding-top:4px;border-style: inset; padding-bottom:4px; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_furi_firstname" value="<?=$user_row['man_furi_firstname']?>" size="30" /> 様
                 </td>
             </tr>
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">新婦氏名<font color="red">*</font></td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">新婦氏名<?=$disp_option4?> </td>
            	  <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
             	<td  colspan="3" align="left" valign="middle" nowrap="nowrap">
 		    	<div style="width:346px;height:20px;">
@@ -908,28 +912,28 @@ include("inc/return_dbcon.inc.php");
         <div id="female_lastname_div_id"><?php if($user_id>0 && $woman_lastname_gaijis) echo getGaijisInputEle($woman_lastname_gaijis);?></div>
 			</div>
 
-            <input name="woman_lastname"  class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;border-style: inset;" type="text" id="woman_lastname" value="<?=$user_row['woman_lastname']?>" size="30" onclick="change_gaiji_link('woman_lastname')" onblur="set_gaiji_position()"/>
-            <input name="woman_firstname"  class="check_sjs_1" style="padding-top:4px; padding-bottom:4px;border-style: inset;" type="text" id="woman_firstname" value="<?=$user_row['woman_firstname']?>" size="30"  onclick="change_gaiji_link('woman_firstname')" onblur="set_gaiji_position()"/>
-                    様　<a id="woman_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22" alt="外字検索" title="外字検索" /></a>
+            <input name="woman_lastname"  class="check_sjs_1" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="woman_lastname" value="<?=$user_row['woman_lastname']?>" size="30" onclick="change_gaiji_link('woman_lastname')" onblur="set_gaiji_position()"/>
+            <input name="woman_firstname"  class="check_sjs_1" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="woman_firstname" value="<?=$user_row['woman_firstname']?>" size="30"  onclick="change_gaiji_link('woman_firstname')" onblur="set_gaiji_position()"/>
+                    様　<?php if ($disp_option1=="") { ?> <a id="woman_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22" alt="外字検索" title="外字検索" /></a> <?php } ?>
                 </td>
 
             </tr>
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">ふりがな<font color="red">*</font>　</td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">ふりがな<?=$disp_option4?>　</td>
            	  <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
             	<td  colspan="3" align="left" valign="middle" nowrap="nowrap">
-                  	<input name="woman_furi_lastname" style="padding-top:4px; padding-bottom:4px;border-style: inset;" type="text" id="woman_furi_lastname" value="<?=$user_row['woman_furi_lastname']?>" size="30" />
-
-                   <input name="woman_furi_firstname" style="padding-top:4px; padding-bottom:4px;border-style: inset;" type="text" id="woman_furi_firstname" value="<?=$user_row['woman_furi_firstname']?>" size="30" />
+                  	<input name="woman_furi_lastname" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="woman_furi_lastname" value="<?=$user_row['woman_furi_lastname']?>" size="30" />
+                   <input name="woman_furi_firstname" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="woman_furi_firstname" value="<?=$user_row['woman_furi_firstname']?>" size="30" />
 様
 
                 </td>
             </tr>
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">披露宴会場<font color="red">*</font></td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">披露宴会場<?=$disp_option4?> </td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-				<input type="hidden" name="current_room_id" id="current_room_id" value="<?=$user_row['room_id']?>"  />
+				<input type="hidden" name="current_room_id" id="current_room_id" value="<?=$user_row['room_id']?>" />
+				<?php if ($disp_option1=="") { ?>
                 	<select name="room_id" id="room_id" style="padding-top:4px; padding-bottom:4px;border-style:inset; width: 140px;">
 
                     <?php
@@ -946,6 +950,10 @@ include("inc/return_dbcon.inc.php");
                         }
                     ?>
                 </select>
+                <?php } 
+                else { 
+                	echo $room_name;
+                 } ?>
                 </td>
                 <td align="left" valign="middle" nowrap="nowrap">&nbsp;</td>
                 <td nowrap="nowrap">&nbsp;</td>
@@ -958,7 +966,7 @@ include("inc/return_dbcon.inc.php");
               <td width="10" align="left" valign="middle" nowrap="nowrap" style="text-align:left;" >：</td>
                 <td width="60" align="left" valign="middle" nowrap="nowrap">
 
-					<input name="marriage_day" type="text" id="marriage_day" value="<?if($user_id>0) echo $obj->date_dashes_convert($user_row['marriage_day'])?>"  size="15" readonly="readonly" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; padding-top:4px; padding-bottom:4px;" class="datepicker" onclick="date_change()"/>
+					<input name="marriage_day" type="text" id="marriage_day" value="<?if($user_id>0) echo $obj->date_dashes_convert($user_row['marriage_day'])?>"  size="15" readonly="readonly" style="<?=$disp_option2?> <?=$disp_option3?> background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; padding-top:4px; padding-bottom:4px;" <?php if($disp_option2=="") echo 'class="datepicker" onclick="date_change()"'; ?> />
 
 					<?php
 					//$marriage_day_array = explode("-",$user_row['marriage_day']);
@@ -973,8 +981,8 @@ include("inc/return_dbcon.inc.php");
 				$marriage_time_array = explode(":",$user_row['marriage_day_with_time']);
 				?>
 				&nbsp; 
-				<input type="text" style="width:17px;padding-top:4px; padding-bottom:4px;border-style: inset;" maxlength="2" name="marriage_hour" id="marriage_hour" value="<?=$marriage_time_array[0]?>"> :
-				<input type="text" style="width:17px;padding-top:4px; padding-bottom:4px;border-style: inset;" maxlength="2" name="marriage_minute" id="marriage_minute" value="<?=$marriage_time_array[1]?>"> (24時間表記)
+				<input type="text" <?=$disp_option1?> style="width:17px;padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" name="marriage_hour" id="marriage_hour" value="<?=$marriage_time_array[0]?>"> :
+				<input type="text" <?=$disp_option1?> style="width:17px;padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" name="marriage_minute" id="marriage_minute" value="<?=$marriage_time_array[1]?>"> (24時間表記)
                 <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('marriage_day_with_time').value='';">クリア </a>-->
                 </td>
             </tr>
@@ -983,9 +991,9 @@ include("inc/return_dbcon.inc.php");
 
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-                	<select name="religion" style="padding-top:4px; padding-bottom:4px;border-style:inset; width: 140px;" id="religion" ><!--onchange="load_party_room(this.value);"-->
+                	<?php if ($disp_option1=="") { ?>
+                	<select name="religion" style="padding-top:4px; padding-bottom:4px;border-style:inset; width: 140px;" id="religion" >
 
-<!-- UCHIDA EDIT 11/08/03  <option value=""  <?php if($user_row[religion]=='') {?> selected="selected" <?php } ?>>選択してください</option> -->
                         <?php
 							$religions = $obj->GetAllRowsByCondition("spssp_religion", " 1=1 order by display_order asc");
 							foreach($religions as $rel)
@@ -1001,8 +1009,11 @@ include("inc/return_dbcon.inc.php");
 								echo "<option value='".$rel['id']."' $sel >".$rel['title']."</option>";
 							}
 						?>
-
                     </select>
+                    <?php }
+                    else {
+                    	echo $obj->GetSingleData("spssp_religion","title"," id=".$user_row['religion']);
+                	} ?>
                 </td>
 
                 <td align="left" valign="middle" nowrap="nowrap">
@@ -1012,20 +1023,20 @@ include("inc/return_dbcon.inc.php");
 
 					?>
 				&nbsp; 
-				<input name="party_room_id" style="padding-top:4px; padding-bottom:4px; width:130px;border-style: inset;" type="text" id="party_room_id"  class="input_text" value="<?=$party_rooms_name?>" />
+				<input name="party_room_id" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px; width:130px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="party_room_id"  class="input_text" value="<?=$party_rooms_name?>" />
                 </td>
             </tr>
             <tr>
               <td width="160" align="left" valign="middle" nowrap="nowrap">新郎新婦高砂席位置</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
-                              <input type="radio" name="mukoyoshi" value="0" 
+                              <input type="radio" name="mukoyoshi" <?=$disp_option5?> value="0" 
 <?php 
 if($user_row['mukoyoshi']!='1'){
   echo "checked='checked'";
 }
 ?> /> 通常
-<input type="radio" name="mukoyoshi" value="1" 
+<input type="radio" name="mukoyoshi" <?=$disp_option5?> value="1" 
 <?php
 if($user_row['mukoyoshi']=='1'){
   echo "checked='checked'";
@@ -1068,7 +1079,7 @@ if($user_row['mukoyoshi']=='1'){
 			<tr>
   			<td width="160" align="left" valign="middle" nowrap="nowrap">メールアドレス</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
-                <td colspan="3" align="left" valign="middle" nowrap="nowrap"><input style="padding-top:4px; padding-bottom:4px;border-style: inset;" name="mail" type="text" id="mail" size="30" value="<?=$user_row['mail']?>" />
+                <td colspan="3" align="left" valign="middle" nowrap="nowrap"><input <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " name="mail" type="text" id="mail" size="30" value="<?=$user_row['mail']?>" />
 				</td>
             </tr>
 			<tr>
@@ -1076,22 +1087,23 @@ if($user_row['mukoyoshi']=='1'){
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <!--  UCHIDA EDIT 11/08/05 確認用メールアドレスのペーストを禁止 -->
                 <!--  UCHIDA EDIT 11/08/08 メッセージ変更 -->
-                <td colspan="3" align="left" valign="middle" nowrap="nowrap" onpaste="alert('メールアドレス確認用は貼り付けできません');return false;"><input style="padding-top:4px; padding-bottom:4px;border-style: inset;" name="con_mail" type="text" id="con_mail" size="30" value="<?=$user_row['mail']?>" />
+                <td colspan="3" align="left" valign="middle" nowrap="nowrap" onpaste="alert('メールアドレス確認用は貼り付けできません');return false;"><input <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " name="con_mail" type="text" id="con_mail" size="30" value="<?=$user_row['mail']?>" />
 				</td>
             </tr>
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">お知らせをメールで受信する<font color="red">*</font></td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">お知らせをメールで受信する<?=$disp_option4?> </td>
 			   <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
 				<td colspan="3" align="left" valign="middle" nowrap="nowrap">
 
-			<input type="radio" name="subcription_mail" value="0" <?php if($user_row['subcription_mail']=='0'){echo "checked='checked'";}?> /> 受信する
-			<input type="radio" name="subcription_mail" value="1" <?php if($user_row['subcription_mail']=='1' || !isset($user_row['subcription_mail'])) {echo "checked='checked'";}?>/>  受信しない
+			<input type="radio" name="subcription_mail" <?=$disp_option5?> value="0" <?php if($user_row['subcription_mail']=='0'){echo "checked='checked'";}?> /> 受信する
+			<input type="radio" name="subcription_mail" <?=$disp_option5?> value="1" <?php if($user_row['subcription_mail']=='1' || !isset($user_row['subcription_mail'])) {echo "checked='checked'";}?>/>  受信しない
 				</td>
 			</tr>
             <tr>
               <td width="160" align="left" valign="middle" nowrap="nowrap">担当</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
+                <?php if ($disp_option1=="") {?>
 				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;border-style:inset; width: 140px;">
 				<?php
 				if ($user_id>0) {
@@ -1106,7 +1118,10 @@ if($user_row['mukoyoshi']=='1'){
 				<?php } 
 				} ?>
 				</select>
-
+				<?php } 
+				else {
+					echo $obj->GetSingleData("spssp_admin","name"," id=".$user_row['stuff_id']);
+                } ?>
 				<!--<input name="stuff_id" type="text" id="stuff_id" value="<?=$staff_name?>" size="10" />-->
 				</td>
             </tr>
@@ -1281,7 +1296,7 @@ if($user_row['mukoyoshi']=='1'){
             </tr>
 
   <tr>
-    <td width="160" align="left" valign="middle" nowrap="nowrap">卓名変更<font color="red">*</font></td>
+    <td width="160" align="left" valign="middle" nowrap="nowrap">卓名変更<?=$disp_option4?> </td>
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
             <td align="left" valign="middle" nowrap="nowrap">
                 <?php
@@ -1290,55 +1305,78 @@ if($user_row['mukoyoshi']=='1'){
 					if ($default_raname_table_view == "0") $_def_view = "disabled='disabled'";
 					if ($user_plan_row['rename_table'] != "") {
 				?>
-					<input name="rename_table" type="radio" id="radio1" value="1"  <?php if($user_plan_row['rename_table'] == "1") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
-					<input type="radio" name="rename_table" id="radio0" value="0"  <?php if($user_plan_row['rename_table'] == "0") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
+					<input name="rename_table" type="radio" id="radio1" <?=$disp_option5?> value="1"  <?php if($user_plan_row['rename_table'] == "1") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
+					<input type="radio" name="rename_table" id="radio0" <?=$disp_option5?> value="0"  <?php if($user_plan_row['rename_table'] == "0") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
 			  <?php } else {?>
-					<input name="rename_table" type="radio" id="radio1" value="1"  <?php if($_def_view=="") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
-					<input type="radio" name="rename_table" id="radio0" value="0"  <?php if($_def_view!="") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
+					<input name="rename_table" type="radio" id="radio1" <?=$disp_option5?> value="1"  <?php if($_def_view=="") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
+					<input type="radio" name="rename_table" id="radio0" <?=$disp_option5?> value="0" <?php if($_def_view!="") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
 			  <?php }?>
             </td>
   </tr>
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">商品名<font color="red">　</font></td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">商品名<?=$disp_option4?> </td>
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-               	  <input name="product_name" type="text" style="border-style:inset;" id="product_name" value="<?=$user_plan_row['product_name']?>" size="18" />
+               	  <input name="product_name" type="text" <?=$disp_option1?> style="border-style:inset; <?=$disp_option2?> <?=$disp_option3?> " id="product_name" value="<?=$user_plan_row['product_name']?>" size="18" />
               </td>
             </tr>
       <tr>
-        <td width="160" align="left" valign="middle" nowrap="nowrap">商品区分<font color="red">*</font></td>
+        <td width="160" align="left" valign="middle" nowrap="nowrap">商品区分<?=$disp_option4?> </td>
         <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-
+				<?php if ($disp_option1=="") { ?>
 				<select name="dowload_options" id="dowload_options" style="border-style: inset; width: 140px;" onchange="dowload_options_change();">
                     	<option value="1" <?php if($user_plan_row['dowload_options'] == 1) echo "selected='selected'";?>>席次表</option>
                         <option value="2" <?php if($user_plan_row['dowload_options'] == 2) echo "selected='selected'";?>>席札</option>
                         <option value="3" <?php if($user_plan_row['dowload_options'] == 3) echo "selected='selected'";?>>席次表・席札</option>
                 </select>
+                <?php } 
+                else {
+                	switch ($user_plan_row['dowload_options']) {
+                		case 1:
+                			echo "席次表";
+                			break;
+                		case 2:
+                			echo "席札";
+                			break;
+                	    case 3:
+                	    	echo "席次表・席札";
+                			break;
+                	}
+                }?>
             </td>
 
           </tr>
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">サイズ<font color="red">*</font>／タイプ<font color="red">*</font></td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">サイズ<?=$disp_option4?>／タイプ<?=$disp_option4?> </td>
 
             <td width="40" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
+                	<?php if ($disp_option1=="") { ?>
                 	<select name="print_size" id="print_size" style="width:45px;border-style:inset;">
 					<option value="1" <?php if($user_plan_row['print_size'] == 1) echo "selected='selected'";?>>A3</option>
 					<?php if ($user_plan_row['dowload_options'] != 2) { ?>
 					<option value="2" <?php if($user_plan_row['print_size'] == 2 || $user_plan_row['dowload_options'] == 0) echo "selected='selected'";?>>B4</option>
 					<?php } ?>
 				</select>
+				<?php }
+				else  {
+					if ($user_plan_row['print_size'] == 1) echo "A3"; else echo "B4";
+				}?>
+				<?php if ($disp_option1=="") { ?>
 				<select name="print_type" id="print_type" style="width:45px;border-style:inset;">
 					<option value="1" <?php if($user_plan_row['print_type'] == 1) echo "selected='selected'";?>>横</option>
-					<option value="2" <?php if($user_plan_row['print_type'] == 2) echo "selected='selected'";?>>縦
-</option>
+					<option value="2" <?php if($user_plan_row['print_type'] == 2) echo "selected='selected'";?>>縦</option>
 				</select>
-
+				<?php }
+				else  {
+					echo " ／ ";
+					if ($user_plan_row['print_type'] == 1) echo "横"; else echo "縦";
+				}?>
               </td>
             </tr>
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">本発注締切日<font color="red">*</font></td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">本発注締切日<?=$disp_option4?> </td>
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
                 	<?php
@@ -1353,7 +1391,7 @@ if($user_row['mukoyoshi']=='1'){
                 	}
 					?>
 					<?php if ($user_id>0) { ?>
-						<input type="text" name="confirm_day_num" id="confirm_day_num" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$confirm_day_num?>" /> 日前
+						<input type="text" name="confirm_day_num" id="confirm_day_num" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$confirm_day_num?>" /> 日前
 					<?php } else {
 						$confirm_day_num    = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
 					?>
@@ -1363,7 +1401,7 @@ if($user_row['mukoyoshi']=='1'){
 			  <input type="hidden" value="<?=$user_row['party_day']?>" name="party_day_for_confirm" />	</td>
             </tr>
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">席次表編集利用制限日<font color="red">*</font></td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">席次表編集利用制限日<?=$disp_option4?> </td>
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
 
@@ -1379,7 +1417,7 @@ if($user_row['mukoyoshi']=='1'){
 				if($user_id>0) {
 					echo $dateBeforeparty.$weekname." 披露宴日 ";
 				?>
-					<input type="text" name="limitation_ranking" id="limitation_ranking" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$limitation_ranking?>" /> 日前
+					<input type="text" name="limitation_ranking" id="limitation_ranking" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$limitation_ranking?>" /> 日前
 				<?php } 
 				else { ?>
 					披露宴日&nbsp;
@@ -1391,24 +1429,24 @@ if($user_row['mukoyoshi']=='1'){
             </tr>
 
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">印刷会社名<font color="red">*</font></td>
+              <td width="160" align="left" valign="middle" nowrap="nowrap">印刷会社名<?=$disp_option4?> </td>
 
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
                 	<?php
-// UCHIDA EDIT 11/08/02 印刷会社の並び順を印刷会社一覧と同様にする
-//					$sql_company = "select * from spssp_printing_comapny order by id desc";
 					$sql_company = "select * from spssp_printing_comapny ORDER BY display_order";
 					$company_results = $obj->getRowsByQuery($sql_company);
 					?>
-
+					<?php if ($disp_option1=="") { ?>
 					<select name="print_company" id="print_company" style="border-style: inset; width: 140px;">
-<!-- 						<option value="">選択してください</option> -->
 						<?php foreach($company_results as $company){?>
 						<option value="<?=$company['id']?>" <?php if($user_plan_row['print_company']==$company['id']){echo "selected='selected'";}?> ><?=$company['company_name']?></option>
 						<?php }?>
-				  </select>
-
+				    </select>
+					<?php } 
+					else {
+						echo $obj->GetSingleData("spssp_printing_comapny","company_name"," id=".$user_plan_row['print_company']);
+					}?>
               </td>
             </tr>
         </table>
@@ -1450,7 +1488,7 @@ if($user_row['mukoyoshi']=='1'){
 		  	$yy = 1;
 			foreach($gifts as $gift_name)
 			{
-				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' style='padding-top:3px; padding-buttom:3px;border-style:inset;' name='name_gift".$yy."' value='".$gift_name['name']."' size='30'>&nbsp;&nbsp;&nbsp;";
+				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy.$disp_option1."' style='padding-top:3px; padding-buttom:3px;border-style:inset;".$disp_option2.$disp_option3."' name='name_gift".$yy."' value='".$gift_name['name']."' size='30'>&nbsp;&nbsp;&nbsp;";
 				echo "<input type='hidden' name='gift_fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
 				$yy++;
 			}
@@ -1484,14 +1522,14 @@ if($user_row['mukoyoshi']=='1'){
 				  <?php
 				  if($user_id>0) {
 					  $xx = 1;
-					  foreach($gift_groups as $row)
+				  	  foreach($gift_groups as $row)
 					  {
-						  echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset;' value='".$row['name']."'>";
+						  echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro.$disp_option1." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset; $disp_option2 $disp_option3' value='".$row['name']."'>";
 						  echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></div>";
 						  $xx++;
 					  }
 		  			  for (; $xx <=$count_group; $xx++) {
-						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset;' value=''>";
+						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro.$disp_option1." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset; $disp_option2 $disp_option3' value=''>";
 						echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
 					  }
 					  $count_gift=$xx-1;
@@ -1521,7 +1559,7 @@ if($user_row['mukoyoshi']=='1'){
 			<!--GIFT GROUP BOX END-->
 					<br />
             </div>
-	       <div style="width:320px; float:left; valign:top" >
+	       <div float:left; valign:top" >
 			<p>
             <?php
             if ($user_id>0) {
@@ -1532,12 +1570,12 @@ if($user_row['mukoyoshi']=='1'){
             }
 			$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $order_deadline , $flag=2 );
 			?>
-				締切予定日<font color="red">*</font>：&nbsp;
-				<?php if($user_id>0) { 
+				締切予定日<?=$disp_option4?>：&nbsp;
+				<?php if($user_id>0) {
 				    $weekname = $objMsg->get_youbi_name( $dateBeforeparty );
 				?> 
 				<?=$dateBeforeparty?><?=$weekname?>&nbsp披露宴日&nbsp;
-				<input type="text" name="order_deadline" id="order_deadline" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$order_deadline?>" /> 日前
+				<input type="text" name="order_deadline" id="order_deadline"  <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$order_deadline?>" /> 日前
 				<?php } 
 				else { ?>
 				披露宴日&nbsp;
@@ -1570,7 +1608,7 @@ if($user_row['mukoyoshi']=='1'){
 					echo "<tr>";
 					foreach($menu_groups as $mg)
 					{
-						echo "<td>子供料理 $i ：<input type='text'  style='border-style:inset;' name='menu_child".$i."' id='menu_child".$i."' value='".$mg['name']."' size='20'></td>";
+						echo "<td>子供料理 $i ：<input type='text'".$disp_option1."style='border-style:inset; $disp_option2 $disp_option3' name='menu_child".$i."' id='menu_child".$i."' value='".$mg['name']."' size='20'></td>";
 						echo "<input type='hidden' style='border-style:inset;' name='menu_child_id".$i."' id='menu_child_id".$i."' value='".$mg['id']."'>";
 						$i++;
 					}
@@ -1579,7 +1617,7 @@ if($user_row['mukoyoshi']=='1'){
 				else {
 					echo "<tr>";
 					for ($i=1; $i<=$count_child; $i++) {
-						echo "<td>子供料理 $i ：<input type='text'  style='border-style:inset;' name='menu_child".$i."' id='menu_child".$i."' value='' size='20'></td>";
+						echo "<td>子供料理 $i ：<input type='text'".$disp_option1."style='border-style:inset; $disp_option2 $disp_option3' name='menu_child".$i."' id='menu_child".$i."' value='' size='20'></td>";
 						echo "<input type='hidden' style='border-style:inset;' name='menu_child_id".$i."' id='menu_child_id".$i."' value=''>";
 					}
 					echo "</tr>";
