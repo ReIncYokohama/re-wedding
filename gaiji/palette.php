@@ -23,8 +23,9 @@ $from = $_GET['from'];
 		$busho_item_value = $_POST['busho_item_value'];
 		$busho_item_group = $_POST['busho_item_group'];
 		//$results = search_busho_result($search_item);
-		if($busho_item_value)
-		$results2 = get_busho_sub($busho_item_value,$search_item);
+		if($busho_item_value || $busho_item_value==0){
+      $results2 = get_busho_sub($busho_item_value,$search_item);
+    }
 		else
 		$results2 = get_gaizi_char_file($search_item);
 		//echo "<pre>";
