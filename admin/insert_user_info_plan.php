@@ -6,15 +6,25 @@
 /*error_reporting(E_ALL);
 ini_set('display_errors', 1);*/
 
-include_once('inc/dbcon.inc.php');
-require_once('inc/checklogin.inc.php');
-include_once('inc/class.dbo.php');
-include_once("inc/class_information.dbo.php");
+require_once("inc/include_class_files.php");
+//include_once("inc/class_data.dbo.php");
+//include_once("inc/class_information.dbo.php");
+include_once("inc/dbcon.inc.php");
+include_once("inc/checklogin.inc.php");
 
 $obj = new DBO();
 $objInfo = new InformationClass(); // UCHIDA EDIT 11/09/02
 
 $post = $obj->protectXSS($_POST);
+
+$plan_product_name = $post['product_name'];
+$plan_dowload_options = $post['dowload_options'];
+$plan_print_size = $post['print_size'];
+$plan_print_type = $post['print_type'];
+$plan_party_day_for_confirm = $post['party_day_for_confirm'];
+$plan_print_company = $post['print_company'];
+$room_id = $post['room_id'];
+unset($post['room_id']);
 
 $plan_id = (int)$post['plan_id'];
 if($plan_id > 0)
@@ -150,6 +160,14 @@ else if((int)$user_plan['user_id'] <= 0 && empty($plan_dt))
 			}
 		}
 	}
+	// 印刷会社へメール送信
+	include("inc/main_dbcon.inc.php");
+	$hcode=$HOTELID;
+	$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
+	include("inc/return_dbcon.inc.php");
+	$objMail = new MailClass();
+	$r=$objMail->process_mail_user_newentry((int)$_GET['user_id'], $plan_print_company, $plan_product_name, $plan_dowload_options, $plan_print_size, $plan_print_type, $hotel_name, $room_id);
+	
 	echo "<script> alert('新しいお客様挙式情報が登録されました'); </script>";
 	redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']);
 }
