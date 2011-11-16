@@ -1,5 +1,5 @@
 <?php
-include_once(dirname(__file__).'/dbcon.inc.php');
+include_once(dirname(__file__)."/dbcon.inc.php");
 include_once(dirname(__file__)."/class.dbo.php");
 class DataClass extends DBO{
   public function DataClass()

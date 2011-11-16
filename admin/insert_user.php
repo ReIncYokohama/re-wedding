@@ -2,7 +2,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <?php
-require_once("inc/include_class_files.php");
+include_once("inc/class_data.dbo.php");
+include_once("inc/class_information.dbo.php");
 include_once("inc/dbcon.inc.php");
 include_once("inc/checklogin.inc.php");
 require_once("inc/imageclass.inc.php");
@@ -50,7 +51,8 @@ $user_id = (int)$get['user_id'];
 	$plan_print_type = $post['print_type'];
 	$plan_party_day_for_confirm = $post['party_day_for_confirm'];
 	$plan_print_company = $post['print_company'];
-
+	$room_id = $post['room_id'];
+	
 	unset($post['column_number']);
 	unset($post['row_number']);
 	unset($post['seat_number']);
@@ -61,7 +63,7 @@ $user_id = (int)$get['user_id'];
 	unset($post['print_type']);
 	unset($post['party_day_for_confirm']);
 	unset($post['print_company']);
-
+	
 if(isset($user_id) && $user_id > 0)
   {
     //更新時に必要なデータだけ送信する。
@@ -85,28 +87,24 @@ if(isset($user_id) && $user_id > 0)
     $party_rooms = $obj->GetFields("spssp_user",'party_room_id'," id=".$user_id);
 
     if($party_rooms[0]['party_room_id']==0 || $party_rooms[0]['party_room_id']=="")
-      {
-
+    {
         $sql ="insert into spssp_party_room (religion_id,name) values (".$post['religion'].",'".$post['party_room_id']."')";
         mysql_query($sql);
         $post['party_room_id']= mysql_insert_id();
-      }
+    }
     else
-      {
-        $party_rooms_name = $obj->GetSingleData("spssp_party_room","name"," id=".$party_rooms[0]['party_room_id']);
-        if($party_rooms_name!="")
-          {
-            $sql = "update spssp_party_room set name ='".$post['party_room_id']."' where id=".$party_rooms[0]['party_room_id'];
-            mysql_query($sql);
-            $post['party_room_id'] = $party_rooms[0]['party_room_id'];
-          }
-        else
-          {
+    {
+    	if ($obj->GetRowCount("spssp_party_room"," id=".$party_rooms[0]['party_room_id'])>0) {
+	        $sql = "update spssp_party_room set name ='".$post['party_room_id']."', religion_id='".$post['religion']."' where id=".$party_rooms[0]['party_room_id'];
+	        mysql_query($sql);
+	        $post['party_room_id'] = $party_rooms[0]['party_room_id'];
+    	}
+    	else {
             $sql ="insert into spssp_party_room (religion_id,name) values (".$post['religion'].",'".$post['party_room_id']."')";
             mysql_query($sql);
             $post['party_room_id']= mysql_insert_id();
-          }
-      }
+       	}
+    }
 
     $post['marriage_day_with_time'] =  $post['marriage_hour'].":".$post['marriage_minute'];
     $post['party_day_with_time'] = $post['party_hour'].":".$post['party_minute'];
@@ -267,14 +265,13 @@ else
         //redirect("newuser.php?err=1");
       }
       // 印刷会社へメール送信
-      include("inc/main_dbcon.inc.php");
-	  $hcode=$HOTELID;
-	  $hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-	  include("inc/return_dbcon.inc.php");
-      $objMail = new MailClass();
-      $r=$objMail->process_mail_user_newentry($user_id, $plan_print_company, $plan_product_name, $plan_dowload_options, $plan_print_size, $plan_print_type, $hotel_name, $post['room_id']);
+//      include("inc/main_dbcon.inc.php");
+//	  $hcode=$HOTELID;
+//	  $hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
+//	  include("inc/return_dbcon.inc.php");
+//      $objMail = new MailClass();
+//      $r=$objMail->process_mail_user_newentry($user_id, $plan_print_company, $plan_product_name, $plan_dowload_options, $plan_print_size, $plan_print_type, $hotel_name, $room_id);
   }
-
 
 //CHECK EMAIL DUPLICACY
 function checkEmail($user_id,$mail)
@@ -411,6 +408,7 @@ function get_font_size($font_type,$hotel_id){
         <input type="hidden" name="print_type" id="print_type" value="<?=$plan_print_type?>" />
         <input type="hidden" name="party_day_for_confirm" id="party_day_for_confirm" value="<?=$plan_party_day_for_confirm?>" />
         <input type="hidden" name="print_company" id="print_company" value="<?=$plan_print_company?>" />
+        <input type="hidden" name="room_id" id="room_id" value="<?=$room_id?>" />
  </form>
  </div>
 <?php

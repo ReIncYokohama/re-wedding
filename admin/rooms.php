@@ -19,37 +19,15 @@
 
 	if($_GET['action']=='delete' && (int)$_GET['id'] > 0)
 	{
+		$del_room_id = (int)$_GET['id'];
 
-		$delete_query="Update spssp_room set status=0 where id=".(int)$_GET['id'];
-		mysql_query($delete_query);
+		$sql ="DELETE FROM spssp_default_plan WHERE room_id=".$del_room_id.";";
+		mysql_query($sql);
+
+		$sql ="DELETE FROM spssp_room WHERE id=".$del_room_id.";"; // REFERENCESにより、spssp_default_plan_tableも同時に削除される。同様にspssp_default_plan_seatも削除される
+		mysql_query($sql);
+
 		if ((int)$_GET['id'] == (int)$_GET['room_id']) $room_id=0;
-
-		//delete all information
-		/*
-
-		$tables= $obj->GetAllRowsByCondition("spssp_default_plan_table"," room_id=".(int)$_GET['id']);
-		foreach($tables as $tbl)
-		{
-			$obj->DeleteRow("spssp_default_plan_seat"," table_id=".$tbl['id']);
-		}
-
-		$obj->DeleteRow("spssp_default_plan_table"," room_id=".(int)$_GET['id']);
-
-		$obj->DeleteRow("spssp_room"," id=".(int)$_GET['id']);
-
-		$user_rows = $obj->getRowsByQuery("select * from spssp_user where room_id = ".(int)$_GET['id']);
-
-		foreach($user_rows as $user)
-		{
-			$usei_id=$user['id'];
-			$obj->DeleteRow("spssp_table_layout","user_id= ".(int)$user_id);
-			$user_plan =  $obj->GetSingleRow("spssp_plan"," user_id=".(int)$user_id);
-			$obj->DeleteRow("spssp_plan_details"," plan_id='".(int)$user_plan['id']."'");
-
-			$obj->DeleteRow("spssp_plan","user_id= ".(int)$user_id);
-		}
-		*/
-
 	}
 	else if($_GET['action']=='sort' && (int)$_GET['id'] > 0)
 	{
