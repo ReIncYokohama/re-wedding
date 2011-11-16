@@ -5,6 +5,7 @@ require_once('tcpdf/tcpdf.php');
 include_once("admin/inc/class.dbo.php");
 include_once("admin/inc/class_information.dbo.php");
 include_once("admin/inc/class_data.dbo.php");
+include_once("inc/gaiji.image.wedding.php");
 
 $obj = new DataClass();	
 $objInfo = new InformationClass();
@@ -296,8 +297,8 @@ $female_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." an
 $total_guest=$male_guest_num+$female_guest_num;
 $total_guest_with_bride=$total_guest+2;
 	
-$woman_lastname=$user_info['woman_firstname'];
-$man_lastname=$user_info['man_firstname'];
+$woman_lastname=$user_info['woman_lastname'];
+$man_lastname=$user_info['man_lastname'];
          
 
 $html.='</table></td>';
@@ -310,16 +311,19 @@ $year = $party_date_array[0];
 $confirm_date= mktime(0, 0, 0, $month, $day-7, $year);
 $confirm_date_main=date("Y-m-d", $confirm_date);
 
-$html.='<td width="40%">
+$man_lastname_gaiji_pathArray = array();
+$woman_lastname_gaiji_pathArray = array();
 
-			<table>
+make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaiji_pathArray,$woman_lastname,$woman_lastname_gaiji_pathArray,$male_guest_num,$female_guest_num);
+
+
+$html.='<td width="40%">
+	<table>
 				<tr>
 					<td align="left"  valign="middle" style="text-align:center;">
-					新郎様側: '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2").
-'家&nbsp;&nbsp;&nbsp;&nbsp;列席者数 :'.$male_guest_num.'名様 &nbsp;&nbsp;&nbsp;					新婦様側: '.
-  $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb2").
-'家&nbsp;&nbsp;&nbsp;&nbsp;列席者数:'.$female_guest_num.'名様 列席者数合計: '.$total_guest.'名様&nbsp;&nbsp;&nbsp;&nbsp;合計人数:'.$total_guest_with_bride.'名様 
-					</td>
+		
+'.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="pdf_hikidemono_head.png",$extra="/").'
+			</td>
 				</tr>
         <tr><td></td></tr>
 				<tr>
@@ -341,7 +345,6 @@ $html.='<td width="40%">
 				</tr>
 			</table>
 		
-
 </td><td width="25%" style="font-size:15px;">
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 

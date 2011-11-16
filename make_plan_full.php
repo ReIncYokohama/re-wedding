@@ -2,8 +2,8 @@
 	include_once("admin/inc/class_information.dbo.php");
 	include_once("admin/inc/class_data.dbo.php");
 	include_once("inc/checklogin.inc.php");
-//$obj = new DataClass();
-$obj = new DataClass();
+  //$obj = new DataClass();
+  $obj = new DataClass();
 	$objInfo = new InformationClass();
 	$get = $obj->protectXSS($_GET);
 	$user_id = (int)$_SESSION['userid'];

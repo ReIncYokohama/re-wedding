@@ -826,5 +826,8 @@ class DataClass extends DBO{
   public function get_gift_name_by_gift_id($gift_id){
     return $this->GetSingleData(" spssp_gift_group ", "name", " id=".$gift_id);
   }
+  public function set_pdf_data($user_id){
+    
+  }
 
 }

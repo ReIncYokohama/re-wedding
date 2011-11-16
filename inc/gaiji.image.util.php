@@ -2,8 +2,7 @@
 
 
 /* widthの大きさを返す
-   gaijiはfontのheightに大きさを調整する
-   。
+   gaijiはfontのheightに大きさを調整する。
  */
 function get_image_text_width($fontsize,$str,$fontfile,$gaiji_image_url_arr = array(),$gaiji_str = "＊"
                               ,$angle = 0
