@@ -310,11 +310,24 @@ $month = $party_date_array[1];
 $year = $party_date_array[0];
 $confirm_date= mktime(0, 0, 0, $month, $day-7, $year);
 $confirm_date_main=date("Y-m-d", $confirm_date);
+$query_string = "SELECT * FROM spssp_gaizi_detail_for_user WHERE gu_id = $user_id";
+//$man_firstname_gaijis = getGaijiPathArray(get_gaiji_arr($obj->getRowsByQuery($query_string." and gu_trgt_type=0")));
+$man_lastname_gaijis = getGaijiPathArray(get_gaiji_arr($obj->getRowsByQuery($query_string." and gu_trgt_type=1")));
+//$woman_firstname_gaijis = getGaijiPathArray(get_gaiji_arr($obj->getRowsByQuery($query_string." and gu_trgt_type=2")));
+$woman_lastname_gaijis = getGaijiPathArray(get_gaiji_arr($obj->getRowsByQuery($query_string." and gu_trgt_type=3")));
+
+function get_gaiji_arr($gaijis){
+  $returnArray = array();
+  for($i=0;$i<count($gaijis);++$i){
+    array_push($returnArray,$gaijis[$i]["gu_char_img"]);
+  }
+  return $returnArray;
+}
 
 $man_lastname_gaiji_pathArray = array();
 $woman_lastname_gaiji_pathArray = array();
 
-make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaiji_pathArray,$woman_lastname,$woman_lastname_gaiji_pathArray,$male_guest_num,$female_guest_num);
+make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaijis,$woman_lastname,$woman_lastname_gaijis,$male_guest_num,$female_guest_num);
 
 
 $html.='<td width="40%">

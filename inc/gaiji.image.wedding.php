@@ -628,11 +628,11 @@ function make_pdf_guest_info($user_id,$man_last_name,$man_lastname_gaiji_pathArr
   @mkdir($user_folder);
   $colorArray = array(0x00,0x00,0x00);
 
-  
+  $gaiji_arr = array_merge((array)$man_lastname_gaiji_pathArray, (array)$woman_lastname_gaiji_pathArray);
   $guest_sum = $man_guest_sum+$woman_guest_sum;
   $sum = $guest_sum+2;
   make_text_save("新郎様側:".$man_last_name."家  列席者数：".$man_guest_sum."名様  新婦様側:".
                  $woman_last_name."家  列席者数：".$woman_guest_sum."名様 列席者数合計：".
                  $guest_sum."名様  合計人数：".$sum."名様"
-                 ,$lastname_gaiji_pathArray,$user_folder."pdf_hikidemono_head.png",14,500);
+                 ,$gaiji_arr,$user_folder."pdf_hikidemono_head.png",14,500);
 }
