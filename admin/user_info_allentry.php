@@ -85,6 +85,7 @@ if($user_id>0) {
 	}
 }
 else {
+	$disp_option4 = '<font color="red">*</font>';
 	$query_string="SELECT * FROM spssp_room where status=1 ORDER BY display_order ASC ;";
 	$rooms = $obj->getRowsByQuery($query_string);
 	$All_staffs = $obj->GetAllRowsByCondition("spssp_admin"," `permission` != '111' ORDER BY `permission` DESC");

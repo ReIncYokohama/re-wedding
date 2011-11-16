@@ -268,8 +268,8 @@ else
 	  $hcode=$HOTELID;
 	  $hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
 	  include("inc/return_dbcon.inc.php");
-      $objMail = new MailClass();
-      $r=$objMail->process_mail_user_newentry($user_id, $plan_print_company, $plan_product_name, $plan_dowload_options, $plan_print_size, $plan_print_type, $hotel_name, $post['room_id']);
+//     $objMail = new MailClass();
+//     $r=$objMail->process_mail_user_newentry($user_id, $plan_print_company, $plan_product_name, $plan_dowload_options, $plan_print_size, $plan_print_type, $hotel_name, $post['room_id']);
   }
 
 
