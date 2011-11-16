@@ -61,7 +61,7 @@ function make_name_plate_full_view($last_name,$first_name,$comment1="",$comment2
                               $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect = ""){
   //$image = get_image_name_plate_full2($last_name,$first_name,$comment1,$comment2,$memo1,$memo2,$memo3,
   $image = get_image_name_plate_full($last_name,$first_name,$comment1,$comment2,$memo1,$memo2,$memo3,
-                                $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
+  $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
   imagefilter($image, IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
   header("Content-Type: image/png");
   imagepng($image);
@@ -301,7 +301,7 @@ function get_image_name_plate_full($last_name,$first_name,$comment1="",$comment2
   $name_max_fontsize = "12";
 
   $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
-  $width_px = "150";
+  $width_px = "170";
   $memo_px = "30";
   
   $image = imagecreatetruecolor($width_px+$memo_px,45) or die("Cannot Initialize new GD image stream");
@@ -331,7 +331,7 @@ function get_image_name_plate_full2($last_name,$first_name,$comment1="",$comment
   $name_max_fontsize = "12";
 
   $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
-  $width_px = "150";
+  $width_px = "200";
   $memo_px = "30";
 
   $image = imagecreatetruecolor($width_px+$memo_px,45) or die("Cannot Initialize new GD image stream");
@@ -339,14 +339,13 @@ function get_image_name_plate_full2($last_name,$first_name,$comment1="",$comment
   $col_t = imagecolorallocate($image,0x00,0x00,0x00);
   imagefill($image,0,0,$col_g);
   
-  $memo1_fontsize = get_image_font_size(12,$memo1,$font,$memo_px,
-                                        array());
-  gaiji_imagettftext($image,$memo1_fontsize,0,0,45,$col_t,$font,$memo1,array());  
-  
+   $memo1_fontsize = get_image_font_size(12,$memo1,$font,$memo_px,
+                                      array());
+  gaiji_imagettftext($image,$memo1_fontsize,0,0,47,$col_t,$font,$memo1,array());
 
-  $first_left = $memo_px;
+  $first_left = 0;
   get_image_name_plate_data2($image,$width_px,$first_left,
-                            $last_name,$first_name,$memo3,$memo2,
+                            "  ".$last_name,$first_name,$memo3,$memo2,
                          $gaiji_last_name_arr,$gaiji_first_name_arr,
                               $gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
   
