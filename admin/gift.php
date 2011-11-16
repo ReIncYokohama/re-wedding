@@ -20,6 +20,7 @@
 
 	$gift_criteria_num = $obj->GetNumRows("spssp_gift_criteria"," 1=1");
 
+
 	if($post['update']=="update" || $post['insert']=="insert")
 	{
 		if(trim($post['num_gift_groups']) && trim($post['num_gift_items']))
@@ -132,7 +133,6 @@ function validForm(x)
 //	var order_deadline  = document.getElementById('order_deadline').value;
 	var num_menu_groups  = document.getElementById('num_menu_groups').value;
 	$r_flg = 0;
-
 // UCHIDA EDIT 11/08/01 入力チェック追加
 // AKIKUSA EDIT 11/08/19 2種類以上のエラーの場合の処理を追加
 	if(!num_gift_items || num_gift_items == 0)
@@ -164,7 +164,6 @@ function validForm(x)
 //			 return false;
 		}
 	}
-
 	if(!num_gift_groups || num_gift_groups == 0)
 	{
 		 if($r_flg == 0)
@@ -431,7 +430,9 @@ unset($_SESSION['msg']);
 
 	<?php }
 	else
-	{?>
+	{
+    ?>
+   
 	<input type="hidden" name="insert" value="insert">
 	<a href="#" onclick="validForm(<?=$xx?>);"><img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22" style=" <?=$btn_disp?>"  /></a>
 	<?php }?>
