@@ -434,15 +434,15 @@ include("inc/return_dbcon.inc.php");
             <div class="box4">
                 <table border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-                        <td width ="35" nowrap="nowrap" >披露宴会場名</td>
-                      <td width ="20" nowrap="nowrap">最大卓数</td>
-                       <td width ="20" nowrap="nowrap">一卓人数</td>
-                     <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width ="20" nowrap="nowrap">順序変更</td><?php } ?>
-                    <td width ="20" nowrap="nowrap">イメージ</td>
-                      <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width ="20" nowrap="nowrap">編集</td><?php } ?>
-                        <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width ="20" nowrap="nowrap">削除</td><?php } ?>
+                      <td width="100" nowrap="nowrap" >披露宴会場名</td>
+                     <td width="100" nowrap="nowrap">最大卓数</td>
+                      <td width="70" nowrap="nowrap">一卓人数</td>
+                     <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width="70" nowrap="nowrap">順序変更</td><?php } ?>
+                    <td width="70" nowrap="nowrap">イメージ</td>
+                      <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width="70" nowrap="nowrap">編集</td><?php } ?>
+                        <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width="70" nowrap="nowrap">削除</td><?php } ?>
                     </tr>
-                </table>
+              </table>
             </div>
             <?php
 			$i=0;
@@ -473,41 +473,41 @@ include("inc/return_dbcon.inc.php");
                 <div class="<?=$class?>"  id="boxid<?=$row['id']?>">
                     <table border="0" align="center" cellpadding="1" cellspacing="1">
                         <tr align="center">
-                            <td width ="35" nowrap="nowrap" ><?=$row['name']?></td>
+                          <td width="100" nowrap="nowrap" ><?=$row['name']?></td>
                             <!--<td><a href="plans.php?room_id=<?=$row['id']?>"><?=$row['name']?></a></td>-->
-                        <td width ="20" nowrap="nowrap" >横<?=$row['max_columns']?>列 × 縦<?=$row['max_rows']?>段</td>
-                          <td width ="20" nowrap="nowrap" ><?=$row['max_seats']?>名</td>
+                        <td width="100" nowrap="nowrap" >横<?=$row['max_columns']?>列 × 縦<?=$row['max_rows']?>段</td>
+                        <td width ="70" nowrap="nowrap" ><?=$row['max_seats']?>名</td>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){ ?>
-                          <td width ="20" nowrap="nowrap" class="txt1">
+                      <td width="70" nowrap="nowrap" class="txt1">
     							<a href="javascript:void(0);" onClick="sort_view('rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=up&amp;id=<?=$row['id']?>')">▲</a> &nbsp;
                 				<a href="javascript:void(0);" onClick="sort_view('rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=down&amp;id=<?=$row['id']?>')">▼</a>
-                             </td>
+                          </td>
 							 <?php } ?>
-                            <td width ="20" nowrap="nowrap" >
-							  <a href="javascript:void(0);" onClick="preview_room(<?=$row['id']?>)"><img src="img/common/btn_preview.gif" id="room_<?=$row['id']?>"></a>
-                            </td>
+                            <td width ="70" nowrap="nowrap" >
+							  <a href="javascript:void(0);" onClick="preview_room(<?=$row['id']?>)"><img src="img/common/btn_preview.gif" name="room_<?=$row['id']?>" width="57" height="17" id="room_<?=$row['id']?>"></a>
+                        </td>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
-                        <td width ="20" nowrap="nowrap" >
+                  <td width="70" nowrap="nowrap" >
                             	<a href="roomTableEdit.php?room_id=<?=$row['id']?>">
                             		<img src="img/common/btn_room_edit.gif" width="62" height="17" />
                                 </a>
-                            </td>
+                          </td>
 							<?php }	 ?>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
-                          <td width ="20" nowrap="nowrap" >
+                      <td width="70" nowrap="nowrap" >
                             	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] =="222"){?>alert('権限がありません');<?php }else{?>confirmDeletePlus('rooms.php?page=<?=(int)$_GET['page']?>&action=delete&id=<?=$row['id']?>'); <?php }?>">
                             		<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
-                            </td>
+                          </td>
 							<?php }	 ?>
                         </tr>
-                    </table>
+                  </table>
                 </div>
 			<?php
             	$i++;
 			}
 			?>
-      	</div>
+   	  </div>
       	<?php
 		if ($room_id>0) {
 			echo "<script> preview_room($room_id); </script>";

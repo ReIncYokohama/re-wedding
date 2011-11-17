@@ -876,8 +876,8 @@ include("inc/return_dbcon.inc.php");
             </tr>
 
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">新郎氏名<?=$disp_option4?>
-              <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+              <td width="160" align="left" valign="bottom" nowrap="nowrap">新郎氏名<?=$disp_option4?>
+              <td width="10" align="left" valign="bottom" nowrap="nowrap">：</td>
               <td width="92%" colspan="3" align="left" valign="middle" nowrap="nowrap">
 		   <div style="height:20px;width:346px;">
 
@@ -904,8 +904,8 @@ include("inc/return_dbcon.inc.php");
               </td>
             </tr>
             <tr>
-              <td width="160" align="left" valign="middle" nowrap="nowrap">新婦氏名<?=$disp_option4?> </td>
-           	  <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
+              <td width="160" align="left" valign="bottom" nowrap="nowrap">新婦氏名<?=$disp_option4?> </td>
+           	  <td width="10" align="left" valign="bottom" nowrap="nowrap">：</td>
            	  <td  colspan="3" align="left" valign="middle" nowrap="nowrap">
 		    	<div style="width:346px;height:20px;">
 		        <div id="female_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php if($user_id>0) echo getGaijis($woman_lastname_gaijis);?></div>
