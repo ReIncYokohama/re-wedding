@@ -878,7 +878,7 @@ include("inc/return_dbcon.inc.php");
             <tr>
               <td width="160" align="left" valign="middle" nowrap="nowrap">新郎氏名<?=$disp_option4?>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
-                <td width="92%" colspan="3" align="left" valign="middle" nowrap="nowrap">
+              <td width="92%" colspan="3" align="left" valign="middle" nowrap="nowrap">
 		   <div style="height:20px;width:346px;">
 
 		   	<div id="male_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php if($user_id>0) echo getGaijis($man_lastname_gaijis);?></div>
@@ -886,10 +886,10 @@ include("inc/return_dbcon.inc.php");
 	     	<div id="male_firstname_div_id"><?php if($user_id>0 && $man_firstname_gaijis) echo getGaijisInputEle($man_firstname_gaijis);?></div>
         <div id="male_lastname_div_id"><?php if($user_id>0 && $man_lastname_gaijis) echo getGaijisInputEle($man_lastname_gaijis);?></div>
 	   	
-                   </div>
-                    <input name="man_lastname" class="check_sjs_1" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="30" onclick="change_gaiji_link('man_lastname')"  onblur="set_gaiji_position()"/>
-					<input name="man_firstname"  class="check_sjs_1" <?=$disp_option1?> type="text" style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " id="man_firstname" value="<?=$user_row['man_firstname']?>" size="30"  onclick="change_gaiji_link('man_firstname')"  onblur="set_gaiji_position()"/>
-                	様　<?php if ($disp_option1=="") { ?> <a id="man_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22"alt="外字検索" title="外字検索" /></a> <?php } ?>
+               </div>
+                    <input name="man_lastname" class="check_sjs_1" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="23" onclick="change_gaiji_link('man_lastname')"  onblur="set_gaiji_position()"/>
+				  <input name="man_firstname"  class="check_sjs_1" <?=$disp_option1?> type="text" style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " id="man_firstname" value="<?=$user_row['man_firstname']?>" size="23"  onclick="change_gaiji_link('man_firstname')"  onblur="set_gaiji_position()"/>
+               	  様　<?php if ($disp_option1=="") { ?> <a id="man_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22"alt="外字検索" title="外字検索" /></a> <?php } ?>
                 </td>
 
             </tr>
@@ -898,14 +898,15 @@ include("inc/return_dbcon.inc.php");
            	  <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
            		<td  colspan="3" align="left" valign="middle" nowrap="nowrap">
 
-               		<input name="man_furi_lastname" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_furi_lastname" value="<?=$user_row['man_furi_lastname']?>" size="30" />
-            		<input name="man_furi_firstname" <?=$disp_option1?> style="padding-top:4px;border-style: inset; padding-bottom:4px; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_furi_firstname" value="<?=$user_row['man_furi_firstname']?>" size="30" /> 様
-                </td>
+               		<input name="man_furi_lastname" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_furi_lastname" value="<?=$user_row['man_furi_lastname']?>" size="23" />
+            		<input name="man_furi_firstname" <?=$disp_option1?> style="padding-top:4px;border-style: inset; padding-bottom:4px; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_furi_firstname" value="<?=$user_row['man_furi_firstname']?>" size="23" /> 
+            		様
+              </td>
             </tr>
             <tr>
               <td width="160" align="left" valign="middle" nowrap="nowrap">新婦氏名<?=$disp_option4?> </td>
            	  <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
-            	<td  colspan="3" align="left" valign="middle" nowrap="nowrap">
+           	  <td  colspan="3" align="left" valign="middle" nowrap="nowrap">
 		    	<div style="width:346px;height:20px;">
 		        <div id="female_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php if($user_id>0) echo getGaijis($woman_lastname_gaijis);?></div>
             <div id="female_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php if($user_id>0) echo getGaijis($woman_firstname_gaijis);?></div>
@@ -913,18 +914,18 @@ include("inc/return_dbcon.inc.php");
         <div id="female_lastname_div_id"><?php if($user_id>0 && $woman_lastname_gaijis) echo getGaijisInputEle($woman_lastname_gaijis);?></div>
 			</div>
 
-            <input name="woman_lastname"  class="check_sjs_1" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="woman_lastname" value="<?=$user_row['woman_lastname']?>" size="30" onclick="change_gaiji_link('woman_lastname')" onblur="set_gaiji_position()"/>
-            <input name="woman_firstname"  class="check_sjs_1" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="woman_firstname" value="<?=$user_row['woman_firstname']?>" size="30"  onclick="change_gaiji_link('woman_firstname')" onblur="set_gaiji_position()"/>
-                    様　<?php if ($disp_option1=="") { ?> <a id="woman_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22" alt="外字検索" title="外字検索" /></a> <?php } ?>
+            <input name="woman_lastname"  class="check_sjs_1" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="woman_lastname" value="<?=$user_row['woman_lastname']?>" size="23" onclick="change_gaiji_link('woman_lastname')" onblur="set_gaiji_position()"/>
+            <input name="woman_firstname"  class="check_sjs_1" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="woman_firstname" value="<?=$user_row['woman_firstname']?>" size="23"  onclick="change_gaiji_link('woman_firstname')" onblur="set_gaiji_position()"/>
+                  様　<?php if ($disp_option1=="") { ?> <a id="woman_gaiji_link_id" onclick="m_win(this.href,'mywindow7',500,500); return false;" href="../gaiji/palette.php"><img src="img/common/btn_gaiji.jpg" width="82" height="22" alt="外字検索" title="外字検索" /></a> <?php } ?>
                 </td>
 
             </tr>
             <tr>
               <td width="160" align="left" valign="middle" nowrap="nowrap">ふりがな<?=$disp_option4?>　</td>
            	  <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
-            	<td  colspan="3" align="left" valign="middle" nowrap="nowrap">
-                  	<input name="woman_furi_lastname" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="woman_furi_lastname" value="<?=$user_row['woman_furi_lastname']?>" size="30" />
-                   <input name="woman_furi_firstname" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="woman_furi_firstname" value="<?=$user_row['woman_furi_firstname']?>" size="30" />
+       	    <td  colspan="3" align="left" valign="middle" nowrap="nowrap">
+                  	<input name="woman_furi_lastname" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="woman_furi_lastname" value="<?=$user_row['woman_furi_lastname']?>" size="23" />
+               <input name="woman_furi_firstname" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="woman_furi_firstname" value="<?=$user_row['woman_furi_firstname']?>" size="23" />
 様
 
                 </td>
@@ -932,10 +933,10 @@ include("inc/return_dbcon.inc.php");
             <tr>
               <td width="160" align="left" valign="middle" nowrap="nowrap">披露宴会場<?=$disp_option4?> </td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
-                <td align="left" valign="middle" nowrap="nowrap">
+                <td colspan="2" align="left" valign="middle" nowrap="nowrap">
 				<input type="hidden" name="current_room_id" id="current_room_id" value="<?=$user_row['room_id']?>" />
 				<?php if ($disp_option1=="") { ?>
-                	<select name="room_id" id="room_id" style="padding-top:4px; padding-bottom:4px;border-style:inset; width: 140px;">
+                	<select name="room_id" id="room_id" style="padding-top:4px; padding-bottom:4px;border-style:inset;">
 
                     <?php
                         if($rooms)
@@ -956,8 +957,7 @@ include("inc/return_dbcon.inc.php");
                 	echo $room_name;
                  } ?>
                 </td>
-                <td align="left" valign="middle" nowrap="nowrap">&nbsp;</td>
-                <td nowrap="nowrap">&nbsp;</td>
+              <td nowrap="nowrap">&nbsp;</td>
             </tr>
 
 
@@ -993,7 +993,7 @@ include("inc/return_dbcon.inc.php");
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
                 	<?php if ($disp_option1=="") { ?>
-                	<select name="religion" style="padding-top:4px; padding-bottom:4px;border-style:inset; width: 140px;" id="religion" >
+                	<select name="religion" style="padding-top:4px; padding-bottom:4px;border-style:inset;" id="religion" >
 
                         <?php
 							$religions = $obj->GetAllRowsByCondition("spssp_religion", " 1=1 order by display_order asc");
@@ -1024,7 +1024,7 @@ include("inc/return_dbcon.inc.php");
 
 					?>
 				&nbsp; 
-				<input name="party_room_id" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px; width:130px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="party_room_id"  class="input_text" value="<?=$party_rooms_name?>" />
+				<input name="party_room_id" type="text"  class="input_text" id="party_room_id" style="padding-top:4px; padding-bottom:4px; border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " value="<?=$party_rooms_name?>" size="30" <?=$disp_option1?> />
                 </td>
             </tr>
             <tr>
@@ -1105,7 +1105,7 @@ if($user_row['mukoyoshi']=='1'){
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
                 <?php if ($disp_option1=="") {?>
-				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;border-style:inset; width: 140px;">
+				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;border-style:inset;">
 				<?php
 				if ($user_id>0) {
 					foreach($All_staffs as $staf_rows) {
@@ -1392,7 +1392,8 @@ if($user_row['mukoyoshi']=='1'){
                 	}
 					?>
 					<?php if ($user_id>0) { ?>
-						<input type="text" name="confirm_day_num" id="confirm_day_num" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$confirm_day_num?>" /> 日前
+					披露宴日&nbsp;
+<input type="text" name="confirm_day_num" id="confirm_day_num" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$confirm_day_num?>" /> 日前
 					<?php } else {
 						$confirm_day_num    = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
 					?>
@@ -1418,7 +1419,8 @@ if($user_row['mukoyoshi']=='1'){
 				if($user_id>0) {
 					echo $dateBeforeparty.$weekname." 披露宴日 ";
 				?>
-					<input type="text" name="limitation_ranking" id="limitation_ranking" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$limitation_ranking?>" /> 日前
+				披露宴日&nbsp;
+<input type="text" name="limitation_ranking" id="limitation_ranking" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$limitation_ranking?>" /> 日前
 				<?php } 
 				else { ?>
 					披露宴日&nbsp;
@@ -1439,7 +1441,7 @@ if($user_row['mukoyoshi']=='1'){
 					$company_results = $obj->getRowsByQuery($sql_company);
 					?>
 					<?php if ($disp_option1=="") { ?>
-					<select name="print_company" id="print_company" style="border-style: inset; width: 140px;">
+					<select name="print_company" id="print_company" style="border-style: inset;">
 						<?php foreach($company_results as $company){?>
 						<option value="<?=$company['id']?>" <?php if($user_plan_row['print_company']==$company['id']){echo "selected='selected'";}?> ><?=$company['company_name']?></option>
 						<?php }?>
@@ -1575,8 +1577,9 @@ if($user_row['mukoyoshi']=='1'){
 				<?php if($user_id>0) {
 				    $weekname = $objMsg->get_youbi_name( $dateBeforeparty );
 				?> 
-				<?=$dateBeforeparty?><?=$weekname?>&nbsp披露宴日&nbsp;
-				<input type="text" name="order_deadline" id="order_deadline"  <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$order_deadline?>" /> 日前
+				<?=$dateBeforeparty?><?=$weekname?>
+				披露宴日&nbsp;
+<input type="text" name="order_deadline" id="order_deadline"  <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$order_deadline?>" /> 日前
 				<?php } 
 				else { ?>
 				披露宴日&nbsp;

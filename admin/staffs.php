@@ -660,41 +660,41 @@ include("inc/return_dbcon.inc.php");
 		<p class="txt3">
 			<table style="width:1000px; border="0" cellspacing="10" cellpadding="0">
 				<tr>
-				  <td width="18">名前<font color="red">*</font></td>
-					<td width="1">：</td>
-					<td width="126">
+				  <td width="18" nowrap="nowrap">名前<font color="red">*</font></td>
+				  <td width="1" nowrap="nowrap">：</td>
+					<td width="126" nowrap="nowrap">
 	    		  <input name="name" type="text" id="name" size="20" style="border-style: inset;" value="<?=$edit_data_rows['name']?>" />
 					<input  type="hidden" id="name_current" size="20" value="<?=$edit_data_rows['name']?>" />
 					</td>
 				</tr>
 				<tr>
-				  <td align="left">ログインID<font color="red">*</font></td>
-					<td align="left">：</td>
-					<td align="left">
+				  <td align="left" nowrap="nowrap">ログインID<font color="red">*</font></td>
+				  <td align="left" nowrap="nowrap">：</td>
+					<td align="left" nowrap="nowrap">
 					<input name="username" type="text" id="ID" size="25" style="border-style: inset;" value="<?=$edit_data_rows['username']?>"/>
 					<input  type="hidden" id="username_current" size="20" value="<?=$edit_data_rows['username']?>" />    　
 	            	</td>
 				</tr>
 				<tr>
-				  <td align="left">パスワード<font color="red">*</font></td>
-					<td align="left">：</td>
-					<td align="left">
+				  <td align="left" nowrap="nowrap">パスワード<font color="red">*</font></td>
+				  <td align="left" nowrap="nowrap">：</td>
+					<td align="left" nowrap="nowrap">
 					<input name="password" type="text" id="password" size="25" style="border-style: inset;" value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
 					<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください</span>
 					</td>
 				</tr>
 				<tr>
-				  <td align="left">メールを受信する</td>
-					<td align="left">：</td>
-					<td>
+				  <td align="left" nowrap="nowrap">メールを受信する</td>
+				  <td align="left" nowrap="nowrap">：</td>
+					<td nowrap="nowrap">
 				<input type="radio" name="subcription_mail" value="0" <?php echo ($edit_data_rows['subcription_mail']=='0' && $edit_data_rows['email'] !='')?"checked":"";?> /> 受信する
 				<input type="radio" name="subcription_mail" value="1" <?php if ($edit_data_rows['subcription_mail']=='1' || !isset($edit_data_rows['subcription_mail'])) echo "checked";?>/>  受信しない
 					</td>
 				</tr>
                 				<tr>
-                				  <td align="left">権限</td>
-					<td align="left">： </td>
-                    <td>
+                				  <td align="left" nowrap="nowrap">権限</td>
+					<td align="left" nowrap="nowrap">： </td>
+                    <td nowrap="nowrap">
 				<?php if($edit_data_rows['permission']==333){ ?>
 						<input type="radio" name="permission" id="radio2" value="333" checked="checked"  disabled="disabled" />
 						管理者　
@@ -710,23 +710,23 @@ include("inc/return_dbcon.inc.php");
 					</td>
 				</tr>
 				<tr>
-				  <td align="left">メールアドレス</td>
-					<td align="left">：</td>
-					<td align="left">
+				  <td align="left" nowrap="nowrap">メールアドレス</td>
+				  <td align="left" nowrap="nowrap">：</td>
+					<td align="left" nowrap="nowrap">
 						<input name="email" type="text" id="email" size="25" style="border-style: inset;" value="<?=$edit_data_rows['email']?>" />
 					                        <input  type="hidden" id="email_current" size="20" value="<?=$edit_data_rows['email']?>" />
 					</td>
 				</tr>
 				<tr>
-				  <td align="left">メールアドレス確認用</td>
-					<td align="left">：</td>
+				  <td align="left" nowrap="nowrap">メールアドレス確認用</td>
+				  <td align="left" nowrap="nowrap">：</td>
 					<!--  UCHIDA EDIT 11/08/08 確認用メールアドレスのペーストを禁止 -->
-				<td width="160" onpaste="alert('メールアドレス確認用は貼り付けできません');return false;">
+				<td width="160" nowrap="nowrap" onpaste="alert('メールアドレス確認用は貼り付けできません');return false;">
 					<input name="conf_email" type="text" id="conf_email" size="25" style="border-style: inset;" value="<?=$edit_data_rows['email']?>" />
 					</td>
 				</tr>
 			</table>
-  <br>
+<br>
 
             <label for="権限"></label><div style="width:800px; padding-left:156px; text-align:left;"> <a href="#" onclick="validForm();"><img src="img/common/btn_regist_update.jpg" alt="登録・更新" width="82" height="22" /></a>&nbsp;&nbsp;&nbsp;
 			<?php if($get[id]=="") { ?>
@@ -748,17 +748,17 @@ include("inc/return_dbcon.inc.php");
       		<div class="box4">
                 <table border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-                        <td>名前
+                        <td nowrap="nowrap">名前
 						<span class="txt1">
 							<a href="javascript:void(0);" onClick="sortAction('staffs.php?id=<?=$get['id']?>&order_by=name&asc=true');">▲</a>
                         	<a href="javascript:void(0);" onClick="sortAction('staffs.php?id=<?=$get['id']?>&order_by=name&asc=false');">▼</a>
                         </span>
 						</td>
-                        <td>ログインID</td>
-                        <td>パスワード</td>
-                        <td>権限</td>
-                        <td>編集</td>
-                        <td>削除</td>
+                      <td nowrap="nowrap">ログインID</td>
+                      <td nowrap="nowrap">パスワード</td>
+                      <td nowrap="nowrap">権限</td>
+                      <td nowrap="nowrap">編集</td>
+                        <td nowrap="nowrap">削除</td>
                     </tr>
                 </table>
         	</div>
@@ -784,16 +784,16 @@ include("inc/return_dbcon.inc.php");
                     <div class="<?=$class?>" id="boxid<?=$row['id']?>">
                         <table border="0" align="center" cellpadding="1" cellspacing="1">
                             <tr align="center">
-                            <td><?=$row['name']?></td>
-                            <td><?=$row['username']?></td>
-                            <td><?=$row['password']?></td>
-                            <td <?php if($row['permission']==333){?>id="m_admin"<?php }?>><?php if($row['permission']==222){echo 'スタッフ';} if($row['permission']==111){echo 'スーパー管理者';}if($row['permission']==333){echo '管理者';}?></td>
-                            <td>
+                            <td nowrap="nowrap"><?=$row['name']?></td>
+                            <td nowrap="nowrap"><?=$row['username']?></td>
+                            <td nowrap="nowrap"><?=$row['password']?></td>
+                            <td nowrap="nowrap" <?php if($row['permission']==333){?>id="m_admin"<?php }?>><?php if($row['permission']==222){echo 'スタッフ';} if($row['permission']==111){echo 'スーパー管理者';}if($row['permission']==333){echo '管理者';}?></td>
+                            <td nowrap="nowrap">
 							<?php //if($row['id']!=$_SESSION['adminid']) { ?>
 							<a href="staffs.php?id=<?=$row['id']?>&action=edit<?=$getOrder?>"><img src="img/common/btn_edit.gif" width="42" height="17" /></a>
 							<?php //} ?>
 							</td>
-                            <td>
+                            <td nowrap="nowrap">
 							<?php// if($row['id']!=$_SESSION['adminid']) { ?>
                             	<a href="javascript:void(0);" onClick="confirmDeletePlus('staffs.php?action=delete&id=<?=$row['id']?><?=$getOrder?>', <?=$row['permission']?>, <?=$row['id']?>);">
                             		<img src="img/common/btn_deleate.gif" width="42" height="17" />
@@ -840,55 +840,55 @@ include("inc/return_dbcon.inc.php");
 				<p>
 				<table style="width:1000px; border="0" cellspacing="10" cellpadding="0">
 				<tr>
-				  <td width="18">名前<font color="red">*</font></td>
-					<td width="1">：</td>
-					<td width="126">
-			    		<input name="name" type="text" id="name" style="width:200px;padding:3px;" value="<?=$stuff_row['name']?>" />
+				  <td width="18" nowrap="nowrap">名前<font color="red">*</font></td>
+				  <td width="1" nowrap="nowrap">：</td>
+					<td width="126" nowrap="nowrap">
+		    		  <input name="name" type="text" id="name" style="width:200px;padding:3px;" value="<?=$stuff_row['name']?>" />
 						<input  type="hidden" id="name_current" style="width:200px;padding:3px;" value="<?=$stuff_row['name']?>" />
 					</td>
 				</tr>
 				<tr>
-				  <td align="left">ログインID<font color="red">*</font></td>
-					<td align="left">：</td>
-					<td align="left">
-						<input name="username" type="text" id="ID" style="width:200px;padding:3px;" value="<?=$stuff_row['username']?>"/>
+				  <td align="left" nowrap="nowrap">ログインID<font color="red">*</font></td>
+				  <td align="left" nowrap="nowrap">：</td>
+					<td align="left" nowrap="nowrap">
+					  <input name="username" type="text" id="ID" style="width:200px;padding:3px;" value="<?=$stuff_row['username']?>"/>
 						<input type="hidden" id="username_current" style="width:200px;padding:3px;" value="<?=$stuff_row['username']?>" />    　
 	            	</td>
 				</tr>
 				<tr>
-				  <td align="left">パスワード<font color="red">*</font></td>
-					<td align="left">：</td>
-					<td align="left">
-						<input name="password" type="text" id="password" style="width:200px;padding:3px;" value="<?=$stuff_row['password']?>"  onblur="checkvalidity()"/><br>
+				  <td align="left" nowrap="nowrap">パスワード<font color="red">*</font></td>
+				  <td align="left" nowrap="nowrap">：</td>
+					<td align="left" nowrap="nowrap">
+					  <input name="password" type="text" id="password" style="width:200px;padding:3px;" value="<?=$stuff_row['password']?>"  onblur="checkvalidity()"/><br>
 						<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください</span>
 					</td>
 				</tr>
 				<tr>
-				  <td align="left">メールを受信する</td>
-					<td align="left">：</td>
-					<td>
+				  <td align="left" nowrap="nowrap">メールを受信する</td>
+				  <td align="left" nowrap="nowrap">：</td>
+					<td nowrap="nowrap">
 					<input type="radio" name="subcription_mail" value="0" <?php echo ($stuff_row['subcription_mail']=='0' && $stuff_row['email'] !='')?"checked":"";?> /> 受信する
 					<input type="radio" name="subcription_mail" value="1" <?php echo($stuff_row['subcription_mail']=='1')?"checked":"";?>/>  受信しない
 					</td>
 				</tr>
 				<tr>
-				  <td align="left">メールアドレス</td>
-					<td align="left">：</td>
-					<td align="left">
-						<input name="email" type="text" id="email" style="width:200px;padding:3px;" value="<?=$stuff_row['email']?>" />
+				  <td align="left" nowrap="nowrap">メールアドレス</td>
+				  <td align="left" nowrap="nowrap">：</td>
+					<td align="left" nowrap="nowrap">
+					  <input name="email" type="text" id="email" style="width:200px;padding:3px;" value="<?=$stuff_row['email']?>" />
 						<input  type="hidden" id="email_current" style="width:200px;padding:3px;" value="<?=$stuff_row['email']?>" />
 					</td>
 				</tr>
 				<tr>
-				  <td align="left">メールアドレス確認用</td>
-					<td align="left">：</td>
+				  <td align="left" nowrap="nowrap">メールアドレス確認用</td>
+				  <td align="left" nowrap="nowrap">：</td>
 					<!--  UCHIDA EDIT 11/08/08 確認用メールアドレスのペーストを禁止 -->
-					<td onpaste="alert('メールアドレス確認用は貼り付けできません');return false;">
+				  <td nowrap="nowrap" onpaste="alert('メールアドレス確認用は貼り付けできません');return false;">
 						<input name="conf_email" type="text" id="conf_email" style="width:200px;padding:3px;" value="<?=$stuff_row['email']?>" />
 					</td>
 				</tr>
 			</table>
-                  <br />
+                 <br />
 				   <div style="width:800px; padding-left:156px; text-align:left;"><a href="#" onclick="validForm_staff();"><img src="img/common/btn_update.jpg" alt="更新" width="82" height="22" /></a></div>
         		</p>
 				</form>

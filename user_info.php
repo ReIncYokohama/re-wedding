@@ -213,7 +213,7 @@ width:200px;
                 </td>
             </tr>
         </table>
-        &nbsp;</td>
+        &nbsp;
 
     <td width="619" style="width:450px; vertical-align:top">
 
@@ -221,7 +221,7 @@ width:200px;
 
 		<table width="80%" border="0" cellspacing="10" cellpadding="0">
 		  <tr>
-			<td style="border-bottom:1px solid #3681CB; text-align:left; "><strong>席次表</strong></td>
+			<td nowrap="nowrap" style="border-bottom:1px solid #3681CB; text-align:left; "><strong>席次表</strong></td>
 		  </tr>
 		</table>
 
@@ -299,7 +299,7 @@ width:200px;
         </table>
 		<table width="80%" border="0" cellspacing="10" cellpadding="0">
 		  <tr>
-			<td style="border-bottom:1px solid #3681CB; text-align:left; "><strong>引出物</strong></td>
+			<td nowrap="nowrap" style="border-bottom:1px solid #3681CB; text-align:left; "><strong>引出物</strong></td>
 		  </tr>
 		</table>
 
@@ -328,7 +328,7 @@ width:200px;
 
 		<table width="80%" border="0" cellspacing="10" cellpadding="0">
 		  <tr>
-			<td style="border-bottom:1px solid #3681CB; text-align:left; "><strong>商品</strong></td>
+			<td nowrap="nowrap" style="border-bottom:1px solid #3681CB; text-align:left; "><strong>商品</strong></td>
 		  </tr>
 		</table>
         <table width="90%" border="0" cellspacing="10" cellpadding="0">
@@ -362,8 +362,7 @@ width:200px;
 		</table>
 
 	</div>
-		<div">&nbsp;</div>
-		<div">&nbsp;</div>
+		<div>&nbsp;</div>
 	</td>
 <!-- UCHIDA EDIT 11/07/28 レイアウト変更 ↑ -->
   </tr>
