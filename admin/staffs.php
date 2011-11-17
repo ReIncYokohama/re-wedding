@@ -676,10 +676,10 @@ include("inc/return_dbcon.inc.php");
 	            	</td>
 				</tr>
 				<tr>
-				  <td align="left" nowrap="nowrap">パスワード<font color="red">*</font></td>
-				  <td align="left" nowrap="nowrap">：</td>
-					<td align="left" nowrap="nowrap">
-					<input name="password" type="text" id="password" size="25" style="border-style: inset;" value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
+				  <td align="left" valign="middle" nowrap="nowrap">パスワード<font color="red">*</font></td>
+			    <td align="left" valign="middle" nowrap="nowrap">：</td>
+					<td align="left" valign="middle" nowrap="nowrap">
+					<span id="password_msg" style="color:#FF0000;font-size:8px;">&nbsp;</span><br><input name="password" type="text" id="password" size="25" style="border-style: inset;" value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
 					<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください</span>
 					</td>
 				</tr>
@@ -856,10 +856,10 @@ include("inc/return_dbcon.inc.php");
 	            	</td>
 				</tr>
 				<tr>
-				  <td align="left" nowrap="nowrap">パスワード<font color="red">*</font></td>
-				  <td align="left" nowrap="nowrap">：</td>
-					<td align="left" nowrap="nowrap">
-					  <input name="password" type="text" id="password" style="width:200px;padding:3px;" value="<?=$stuff_row['password']?>"  onblur="checkvalidity()"/><br>
+				  <td align="left" valign="middle" nowrap="nowrap">パスワード<font color="red">*</font></td>
+			    <td align="left" valign="middle" nowrap="nowrap">：</td>
+					<td align="left" valign="middle" nowrap="nowrap">
+				    <span id="password_msg" style="color:#FF0000;font-size:8px;">&nbsp;</span><br><input name="password" type="text" id="password" style="width:200px;padding:3px;" value="<?=$stuff_row['password']?>"  onblur="checkvalidity()"/><br>
 						<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください</span>
 					</td>
 				</tr>
@@ -888,7 +888,7 @@ include("inc/return_dbcon.inc.php");
 					</td>
 				</tr>
 			</table>
-                 <br />
+                <br />
 				   <div style="width:800px; padding-left:156px; text-align:left;"><a href="#" onclick="validForm_staff();"><img src="img/common/btn_update.jpg" alt="更新" width="82" height="22" /></a></div>
         		</p>
 				</form>

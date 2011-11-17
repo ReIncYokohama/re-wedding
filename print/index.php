@@ -120,13 +120,22 @@ width:1000px;
 	text-indent: 125px; /* SEKIDUKA ADD 11/08/12 */
 }
 #foot_left {
+	float: left; /* SEKIDUKA ADD 11/08/12 */
+	width: 269px;
+	text-align: left;
+	vertical-align: top;
+}
+#foot_center {
 	float: left;
-	width: 330px;
-	vertical-align:top;
+	width: 205px; /* SEKIDUKA EDIT 11/08/12 */
+	text-align: left;
+	vertical-align: top;
 }
 #foot_right {
-	float: right;
-	width: 330px;
+	float: left;
+	width: 205px; /* SEKIDUKA EDIT 11/08/12 */
+	text-align: left;
+	vertical-align: top;
 }
 #foot_right2 {
 	float: right;
@@ -167,16 +176,16 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
             <td width="20%" align="left" nowrap="nowrap" style="font-size:12px;">ログインID</td>
             <td width=" 5%" align="left" nowrap="nowrap" style="font-size:12px;">：</td>
             <td width="75%" nowrap="nowrap"><label for="ログインID"></label>
-            <input onkeydown="if (event.keyCode == 13) { login_admin(); }" name="userID" type="text" id="userID" size="20" style="border-style: inset;" value='<?php echo $id ?>'/></td>
+            <input name="userID" type="text" id="userID" style="border-style:inset;" onkeydown="if (event.keyCode == 13) { login_admin(); }" value='<?php echo $id ?>' size="23"/></td>
           </tr>
           <tr>
             <td align="left" nowrap="nowrap" style="font-size:12px;">パスワード</td>
             <td align="left" nowrap="nowrap" style="font-size:12px;">：</td>
             <td nowrap="nowrap">
-            <input onkeydown="if (event.keyCode == 13) { login_admin(); }" name="password" type="password" id="password" size="20" style="border-style: inset;" /></td>
+            <input name="password" type="password" id="password" style="border-style:inset;" onkeydown="if (event.keyCode == 13) { login_admin(); }" size="25" /></td>
           </tr>
         </table>
-      <div id="login_bt" style="margin-left: 104px;"><a href="javascript:void(0);" onclick="login_admin();"><img src="img/common/btn_login.jpg" alt="ログイン" width="152" height="22" /></a></div>
+      <div id="login_bt" style="margin-left: 104px;"><a href="javascript:void(0);" onclick="login_admin();"><img src="img/common/btn_login.jpg" alt="ログイン" width="152" height="22" border="0" /></a></div>
 	  <input type="hidden" name="sub" value="1" />
       </div>
 	  </form>
@@ -202,10 +211,12 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 </tr>
 </table>
 </div>
-    <div id="foot_center"><strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
-      ・Internet Explorer 7.0～9.x<br />
-	      ・FireFox 5.0以上 <br />
-      ・Google Chrome 14.0以上</div>
+    <div id="foot_center">
+      <strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
+        ・Internet Explorer 7.0~9.x<br />
+        ・FireFox 5.0以上 <br />
+        ・Google Chrome 14.0以上
+</div>
   <div id="foot_right"><strong>●Mac OS Ｘ（10.4以上）</strong><br />
 
 	      ・Safari 5.0以上<br />
@@ -217,10 +228,11 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 
 	<script type="text/javascript"> document.loginform.userID.focus(); </script>
 
+</div>
 <div class="clr"></div>
   <div id="footer" style="width:1000px">
     <p>Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.</p>
   </div>
-</div>
+
 </head>
 </html>
