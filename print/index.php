@@ -110,10 +110,10 @@ body{
 }
 #footer{
 clear:both;
-margin-left:200px;
+margin-left:auto;
 margin-right:auto;
 text-align:center;
-width:1000px;
+width:680px;
 }
 
 #text-indent {
@@ -222,17 +222,21 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 	      ・Safari 5.0以上<br />
 	      ・FireFox 5.0以上 </div>
 	    <div class="clr"></div>
-	    </div>
+      </div>
 </div>
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
 
 	<script type="text/javascript"> document.loginform.userID.focus(); </script>
 
 </div>
-<div class="clr"></div>
-  <div id="footer" style="width:1000px">
-    <p>Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.</p>
-  </div>
 
+<div align="center">
+<table width="680" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center"><font size="2">Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.</font></td>
+  </tr>
+</table>
+</div>
 </head>
-</html>
+
+  </html>
