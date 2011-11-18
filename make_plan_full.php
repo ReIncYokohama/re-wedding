@@ -697,7 +697,7 @@ $layoutname = $tableData["layoutname"];
                 		<div class="row_conatiner" id="rowcon_<?=$tblrow['row_order']?>" style="<?=$pos;?>">
                     	<?php
 
-
+                       $index = 0;
 							foreach($table_rows as $table_row)
 							{
                 $tblname = $table_row["name"];
@@ -728,6 +728,8 @@ $layoutname = $tableData["layoutname"];
                 if($table_row["display"] == 1){
                   $disp = 'display:block;';
 									$class = 'droppable';
+                  //テーブルの色について
+                  ++$index;
                 }else if($num_first <= $table_row["column_order"] && $table_row["column_order"]<=$num_last){
 									$disp = 'visibility:hidden;';
                   $class = 'seat_droppable';
@@ -789,8 +791,17 @@ $layoutname = $tableData["layoutname"];
 
 										<div id="abc_<?=$seat['id']?>" class="gallery ui-helper-reset ui-helper-clearfix">
 
-											<div class="ui-widget-content ui-corner-tr" id="item_<?=$item_info['id']?>"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
 
+											<div class="ui-widget-content ui-corner-tr" id="item_<?=$item_info['id']?>"   style="width:80px; height:30px;background-color:
+<?php
+//座席表の色の指定
+if($index % 2 == 1){
+  echo "#F5F8E5";
+}else{
+  echo "#e5b9b9";
+}
+?>
+;border:0;">
 
 													<?php
 													$gname=$item_info['first_name']." ".$item_info['last_name']." ".$rspct;
