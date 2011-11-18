@@ -4,6 +4,7 @@ require_once("inc/class.dbo.php");
 $obj = new DBO();
 $get = $obj->protectXSS($_GET);
 
+$msg = "印刷会社へ本発注を行います。宜しいですか？";
 $busuu=(int)$get['busuu'];
 $user_id=(int)$get['user_id'];
 
@@ -80,7 +81,7 @@ window.onkeydown = function(event) {
  	<input type="text" name="sekifuda" id="sekifuda" style="width:100px; text-align:right;"/>　部<br />
  	<?php } ?>
  	<br />
- 	<?php echo $_GET['msg']; ?><br /><br />
+ 	<?php echo $msg; ?><br /><br />
  	 	　　　　　　　　　<!-- 位置を右にずらす -->
     <input type="button" value="　　OK　　" name="submit" onClick="cl('OK')" onkeydown="if (event.keyCode == 13) { cl('OK'); }">
     <input type="button" value="キャンセル" name="submit" onClick="cl2('CANCEL')" onkeydown="if (event.keyCode == 13) { cl2('CANCEL'); }">

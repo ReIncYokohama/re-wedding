@@ -616,18 +616,18 @@ include("inc/return_dbcon.inc.php");
             <div class="box4" style="width:1000px;">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
                     <tr align="center">
-                        <td width="70">披露宴日<span class="txt1">
+                        <td width="80">披露宴日<span class="txt1">
                         	<a href="javascript:void(0);" onclick="sortAction('party_day asc : party_day_with_time asc');">▲</a>
                         	<a href="javascript:void(0);" onclick="sortAction('party_day desc : party_day_with_time desc');">▼</a></span>
                         </td>
-                        <td width="150" > 新郎氏名<span class="txt1">
+                        <td width="145" > 新郎氏名<span class="txt1">
                         	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname asc');">▲</a>
                         	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname desc');">▼</a></span>
-                        </td>
-                        <td width="150" align="center" >新婦氏名<span class="txt1">
+                        　　</td>
+                        <td width="145" align="center" >新婦氏名<span class="txt1">
                         	<a href="javascript:void(0);" onclick="sortAction('woman_furi_lastname asc');">▲</a>
                         	<a href="javascript:void(0);" onclick="sortAction('woman_furi_lastname desc');">▼</a></span>
-                        </td>
+                        　　</td>
                     	<td width="60" >詳細</td>
                         <td width="80" >スタッフ</td>
                         <td width="60" >メッセージ</td>
@@ -668,9 +668,9 @@ include("inc/return_dbcon.inc.php");
 	            <div class="<?=$class?>" style="width:1000px; ">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-						<td  width="70"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
+						<td  width="80"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
 
-                        <td width="150" align="left">
+                        <td width="145" align="left">
                  <?php
                  $man_name = $objinfo->get_user_name_image_or_src($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
         if($man_name==false){$man_name = $row['man_firstname']." ".$row['man_lastname'].' 様';}
@@ -678,7 +678,7 @@ include("inc/return_dbcon.inc.php");
 					   ?>
                         </td>
 
-                        <td width="150" align="left">
+                        <td width="145" align="left">
                         <?php
                            $woman_name = $objinfo->get_user_name_image_or_src($row['id'],$hotel_id=1 , $name="woman_fullname.png",$extra="thumb1");
 						   if($woman_name==false){$woman_name = $row['woman_firstname']." ".$row['woman_lastname'].' 様';}

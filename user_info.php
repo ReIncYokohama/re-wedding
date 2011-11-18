@@ -213,7 +213,7 @@ width:200px;
                 </td>
             </tr>
         </table>
-        &nbsp;</td>
+        &nbsp;
 
     <td width="619" style="width:450px; vertical-align:top">
 
@@ -221,7 +221,7 @@ width:200px;
 
 		<table width="80%" border="0" cellspacing="10" cellpadding="0">
 		  <tr>
-			<td style="border-bottom:1px solid #3681CB; text-align:left; "><strong>席次表</strong></td>
+			<td nowrap="nowrap" style="border-bottom:1px solid #3681CB; text-align:left; "><strong>席次表</strong></td>
 		  </tr>
 		</table>
 
@@ -273,7 +273,7 @@ width:200px;
 				</td>
               </tr>
             </table>
-
+<br clear="all">
         <table width="90%" border="0" cellspacing="10" cellpadding="0">
 
 			<?
@@ -299,7 +299,7 @@ width:200px;
         </table>
 		<table width="80%" border="0" cellspacing="10" cellpadding="0">
 		  <tr>
-			<td style="border-bottom:1px solid #3681CB; text-align:left; "><strong>引出物</strong></td>
+			<td nowrap="nowrap" style="border-bottom:1px solid #3681CB; text-align:left; "><strong>引出物</strong></td>
 		  </tr>
 		</table>
 
@@ -328,13 +328,13 @@ width:200px;
 
 		<table width="80%" border="0" cellspacing="10" cellpadding="0">
 		  <tr>
-			<td style="border-bottom:1px solid #3681CB; text-align:left; "><strong>商品</strong></td>
+			<td nowrap="nowrap" style="border-bottom:1px solid #3681CB; text-align:left; "><strong>商品</strong></td>
 		  </tr>
 		</table>
         <table width="90%" border="0" cellspacing="10" cellpadding="0">
             <tr>
                 <td width="10%" align="left" nowrap="nowrap">商品区分</td>
-				<td width=" 5%" style="text-align:center"><font color="#2052A3"></font>：</td>
+				<td width=" 5%" nowrap="nowrap" style="text-align:center"><font color="#2052A3"></font>：</td>
                 <td width="85%" nowrap="nowrap" style="text-align:left">
 
                     	<?php if($user_plan_row['dowload_options'] == 1){?> 席次表<? }?>
@@ -345,13 +345,13 @@ width:200px;
            </tr>
             <tr>
                 <td align="left" nowrap="nowrap">商品名</td>
-				<td style="text-align:center"><font color="#2052A3"></font>：</td>
+				<td nowrap="nowrap" style="text-align:center"><font color="#2052A3"></font>：</td>
                 <td nowrap="nowrap" style="text-align:left"><?=$user_plan_row['product_name']?></td>
             </tr>
 
             <tr>
                 <td align="left" nowrap="nowrap">サイズ</td>
-				<td style="text-align:center"><font color="#2052A3"></font>：</td>
+				<td nowrap="nowrap" style="text-align:center"><font color="#2052A3"></font>：</td>
                 <td nowrap="nowrap" style="text-align:left">
 					<?php if($user_plan_row['print_size'] == 1){?>A3<? }?>
 					<?php if($user_plan_row['print_size'] == 2){ ?>B4<? }?>
@@ -362,8 +362,7 @@ width:200px;
 		</table>
 
 	</div>
-		<div">&nbsp;</div>
-		<div">&nbsp;</div>
+		<div>&nbsp;</div>
 	</td>
 <!-- UCHIDA EDIT 11/07/28 レイアウト変更 ↑ -->
   </tr>

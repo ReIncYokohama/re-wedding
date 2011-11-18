@@ -2,9 +2,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <?php
-include_once("inc/class_data.dbo.php");
 include_once("inc/class_information.dbo.php");
-include_once("inc/dbcon.inc.php");
 include_once("inc/checklogin.inc.php");
 require_once("inc/imageclass.inc.php");
 include_once("../inc/gaiji.image.wedding.php");

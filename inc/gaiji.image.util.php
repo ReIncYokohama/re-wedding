@@ -2,8 +2,7 @@
 
 
 /* widthの大きさを返す
-   gaijiはfontのheightに大きさを調整する
-   。
+   gaijiはfontのheightに大きさを調整する。
  */
 function get_image_text_width($fontsize,$str,$fontfile,$gaiji_image_url_arr = array(),$gaiji_str = "＊"
                               ,$angle = 0
@@ -67,11 +66,10 @@ function text_imagettftext($image,$insert_height,$angle,$left,$bottom,$color,$fo
   $insert_width = $insert_width*$width_compression/100;
   //$height = $im_image_arr[1] - $im_image_arr[5];
   //$width = $im_image_arr[2] - $im_image_arr[0];
-
+  
   imagecopyresampled($image,$im,$left,$bottom-$insert_height,0,0,
                        $insert_width,$insert_height,
                      $width,$height);
-  
   return $insert_width;  
 }
 

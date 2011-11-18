@@ -557,13 +557,13 @@ width:36px;
 width:36px;
  }
 .guest_list_table .food{
-width:145px;
+width:100px;
  }
 .guest_list_table .memo{
 width:100px;
  }
 .guest_list_table .action{
-width:85px;
+width:130px;
  }
 </style>
 
@@ -939,16 +939,16 @@ if($editable)
 	<table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
 <tr>
 
-  <td class="sex" align="center" bgcolor="#ffffff">席</td>
-  <td class="name" align="center" bgcolor="#ffffff">出席者名</td>
-  <td class="respect" align="center" bgcolor="#ffffff">敬称</td>
-  <td class="group" align="center" bgcolor="#ffffff">区分</td>
-  <td class="comment" align="center" bgcolor="#ffffff">肩書</td>
-  <td class="table_name" align="center" bgcolor="#ffffff">卓名</td>
-  <td class="gift" align="center" bgcolor="#ffffff">引出物</td>
-  <td class="food" align="center" bgcolor="#ffffff">料理</td>
-  <td class="memo" align="center" bgcolor="#ffffff">特記</td>
-  <td class="action" align="center" bgcolor="#ffffff">&nbsp;</td>
+  <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="sex">席</td>
+  <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="name">出席者名</td>
+  <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="respect">敬称</td>
+  <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="group">区分</td>
+  <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="comment">肩書</td>
+  <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="table_name">卓名</td>
+  <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="gift">引出物</td>
+  <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="food">料理</td>
+  <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="memo">特記</td>
+  <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="action">&nbsp;</td>
 </tr>
 <?php
 //新郎新婦の情報を取得
@@ -957,16 +957,16 @@ for($i=0;$i<count($userArray);++$i){
   $userData = $userArray[$i];
 ?>
 <tr>
-  <td class="sex" align="center" bgcolor="#ffffff"><?=$userData["sex_text"]?></td>
-  <td class="name" align="left" bgcolor="#ffffff"><?=$userData["name_image"];?></td>
-  <td class="respect" align="center" bgcolor="#ffffff">様</td>
-  <td class="group" align="center" bgcolor="#ffffff"><?=$userData["sex_text"]?></td>
-  <td class="comment" align="center" bgcolor="#ffffff"></td>
-  <td class="table_name" align="center" bgcolor="#ffffff"><?=$userData["table_name"]?></td>
-  <td class="gift" align="center" bgcolor="#ffffff"><?=$userData["gift_group_text"]?></td>
-  <td class="food" align="center" bgcolor="#ffffff"><?=$userData["menu_text"]?></td>
-  <td class="memo" align="center" bgcolor="#ffffff"><?=$userData["memo"]?></td>
-  <td class="action" align="center" bgcolor="#ffffff">
+  <td align="center" bgcolor="#ffffff" class="sex"><?=$userData["sex_text"]?></td>
+  <td align="left" bgcolor="#ffffff" class="name"><?=$userData["name_image"];?></td>
+  <td align="center" bgcolor="#ffffff" class="respect">様</td>
+  <td align="center" bgcolor="#ffffff" class="group"><?=$userData["sex_text"]?></td>
+  <td align="center" bgcolor="#ffffff" class="comment"></td>
+  <td align="center" bgcolor="#ffffff" class="table_name"><?=$userData["table_name"]?></td>
+  <td align="center" bgcolor="#ffffff" class="gift"><?=$userData["gift_group_text"]?></td>
+  <td align="center" bgcolor="#ffffff" class="food"><?=$userData["menu_text"]?></td>
+  <td align="center" bgcolor="#ffffff" class="memo"><?=$userData["memo"]?></td>
+  <td align="center" bgcolor="#ffffff" class="action">
   <?php if($editable){ ?>
     <input type="button" name="button" tabindex=25 id="button" value="編集" onclick="edit_guest(<?=$userData['id']?>)"/>
   <?php }?>
@@ -978,17 +978,17 @@ for($i=0;$i<count($userArray);++$i){
 <br>
 <table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
     	<tr>
-            <td class="sex" align="center" bgcolor="#ffffff">席</td>
-           <td class="name" align="center" bgcolor="#ffffff">出席者名</td>
-            <td class="respect" align="center" bgcolor="#ffffff">敬称</td>
-            <td class="group" align="center" bgcolor="#ffffff">区分</td>
-            <td class="comment" align="center" bgcolor="#ffffff">肩書</td>
-            <td class="table_name" align="center" bgcolor="#ffffff">卓名</td>
-            <td class="gift" align="center" bgcolor="#ffffff">引出物</td>
-            <td class="food" align="center" bgcolor="#ffffff">料理</td>
-            <td class="memo" align="center" bgcolor="#ffffff">特記</td>
+            <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="sex">席</td>
+           <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="name">出席者名</td>
+            <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="respect">敬称</td>
+            <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="group">区分</td>
+            <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="comment">肩書</td>
+            <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="table_name">卓名</td>
+            <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="gift">引出物</td>
+            <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="food">料理</td>
+            <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="memo">特記</td>
 
-			<td class="action" align="center" bgcolor="#ffffff">&nbsp;</td>
+			<td align="center" nowrap="nowrap" bgcolor="#ffffff" class="action">&nbsp;</td>
 </tr></table>
 <div style="height:600px;overflow-y:auto;width:940px;">
 	<table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
@@ -1068,7 +1068,7 @@ if($guest["sex"] == "Male"){
         	<td align="center" valign="middle" bgcolor="#FFFFFF" class="food"> <?=$menu_name?>  </td>
 
         	<td align="left" valign="middle" bgcolor="#FFFFFF" class="memo"><?=$guest['memo']?> </td>
-        	<td valign="middle" align="center" bgcolor="#FFFFFF" class="action">
+        	<td align="center" valign="middle" bgcolor="#FFFFFF" class="action">
 			<?php
 			if($editable)
 				{
@@ -1092,7 +1092,7 @@ if($guest["sex"] == "Male"){
 </div>
     <div class="cont_area">
 
-      <br /><br /><br />
+      <br /><br />
 
       <table width="920" border="0" cellspacing="1" cellpadding="3">
         <tr>
@@ -1141,7 +1141,7 @@ if($guest["sex"] == "Male"){
         </table>
       <div class="line01"></div>
     </div>
-    <br /><br />
+    <br />
     <div class="cont_area">
       <div class="guests_area_L">■ 引出物 商品数
       <?php 
@@ -1166,21 +1166,7 @@ if($guest["sex"] == "Male"){
           </tr>
         
           <tr >
-            <td colspan="2" align="right" bgcolor="#ffffff">グループ数</td>
-            <?php
-				$total = 0;
-            	foreach($group_rows as $grp)
-				{
-					if ($grp['name']!="") {
-						$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']);
-						$total += $num_guests_groups;
-						echo "<td align='center' bgcolor='#ffffff'> $num_guests_groups </td>";
-					}
-				}
-			?>
-
-            <td align="center" bgcolor="#ffffff"> - </td>
-            <td bgcolor="#ffffff" align="center"><?=$total?></td>
+             
           </tr>     
 
           <?php
@@ -1227,32 +1213,10 @@ if($guest["sex"] == "Male"){
 		}
 		?>
         </table>
-
-      </div>
-      <div class="guests_area_R">■ 引出物　グループ内容
-        <table width="243" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999">
-        <?php
-            	foreach($group_rows as $grp)
-				{
-					$gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
-					$gift_arr = explode("|",$gift_ids);
-					$gift_ids = implode(',',$gift_arr);
-					$item_name_arr = getObjectArrayToArray($obj->GetAllRowsByCondition("spssp_gift" , " id in ( $gift_ids )"),"name");
-          if(count($item_name_arr) == 0) continue;
-          $item_names = implode("<br>",$item_name_arr);
-
-					echo "<tr><td bgcolor='#ffffff' width='30' align='center'>".$grp['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".$item_names."</td></tr>";
-				}
-			?>
-        </table>
-      </div>
-<div class="clear"></div>
-    </div>
-<div class="cont_area">
-
-■ 料理数
-  <table width="180" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999" style="padding-top:1px">
-  <?php
+        <br /><br />
+        ■ 料理数 <br />
+        <table width="180" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999" style="padding-top:1px">
+          <?php
   	$menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".(int)$user_id);
 	$num_groups = count($menu_groups);
 	$totalsum='';
@@ -1271,18 +1235,40 @@ if($guest["sex"] == "Male"){
 
 		if ($mg['name']!="") {
 	  ?>
-	     <tr>
-	      <td width="120" align="center" bgcolor="#ffffff"  nowrap="nowrap"><?=$mg['name']?></td>
-	      <td width="60" align="center" bgcolor="#FFFFFF"  nowrap="nowrap"><?=$num_menu_guest?></td>
-	    </tr>
-	   <?php
+          <tr>
+      <td width="120" align="center" bgcolor="#ffffff"  nowrap="nowrap"><?=$mg['name']?></td>
+      <td width="60" align="center" bgcolor="#FFFFFF"  nowrap="nowrap"><?=$num_menu_guest?></td>
+    </tr>
+    <?php
 		}
    	}
 	echo'<tr><td   bgcolor="#ffffff" align="center" >合計</td><td  bgcolor="#FFFFFF" align="center" >'.$Noofguest.'</td></tr>';
    ?>
-  </table>
+</table>
+      </div>
+      <div class="guests_area_R">■ 引出物　グループ内容
+        <table width="243" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999">
+        <?php
+            	foreach($group_rows as $grp)
+				{
+					$gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
+					$gift_arr = explode("|",$gift_ids);
+					$gift_ids = implode(',',$gift_arr);
+					$item_name_arr = getObjectArrayToArray($obj->GetAllRowsByCondition("spssp_gift" , " id in ( $gift_ids )"),"name");
+          if(count($item_name_arr) == 0) continue;
+          $item_names = implode("<br>",$item_name_arr);
 
+					echo "<tr><td bgcolor='#ffffff' width='30' align='center'>".$grp['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".$item_names."</td></tr>";
+				}
+			?>
+        </table>
+        
+      </div>
+<div class="clear">
+<br /><br />
 </div>
+    </div>
+
   </form>
 </div>
 </div>

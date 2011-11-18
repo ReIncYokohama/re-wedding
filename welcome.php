@@ -28,7 +28,7 @@ $obj = new DBO();
 <script type="text/javascript">
 function confirmDelete(urls)
 {
-   	var agree = confirm("文字コード確認させていただきました。ありがとうございました。");
+   	var agree = confirm("環境の確認させていただきました。ありがとうございました。");
 	if(agree)
 	{
 		window.location = urls;
@@ -61,6 +61,7 @@ function confirmDelete(urls)
 
 #tuji{
 	margin:10px auto;
+	height:170px;
 	padding-top:50px;
 	font-size: 140px;
 	}

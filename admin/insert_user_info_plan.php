@@ -7,8 +7,6 @@
 ini_set('display_errors', 1);*/
 
 require_once("inc/include_class_files.php");
-//include_once("inc/class_data.dbo.php");
-//include_once("inc/class_information.dbo.php");
 include_once("inc/dbcon.inc.php");
 include_once("inc/checklogin.inc.php");
 

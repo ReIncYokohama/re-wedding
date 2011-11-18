@@ -267,7 +267,7 @@ function confirmAction(urls , msg)
 	if (urls.search("print_request")!=-1) {
 		var busuu="<?=$plan_info['dowload_options']?>";
 		var user_id = "<?=$user_id?>";
-	    var ans = window.showModalDialog("confirm_order.php?busuu="+busuu+"&user_id="+user_id+"&msg="+msg, window ,"dialogTop:400px; dialogLeft:600px; dialogwidth:400px; dialogheight:180px;");
+	    var ans = window.showModalDialog("confirm_order.php?busuu="+busuu+"&user_id="+user_id, window ,"dialogTop:400px; dialogLeft:600px; dialogwidth:400px; dialogheight:180px;");
 	    if (ans=="OK") window.location = urls;
 	}
 	else {

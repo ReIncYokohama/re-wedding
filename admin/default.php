@@ -365,8 +365,7 @@ include("inc/return_dbcon.inc.php");
 				  <tr>
   <?php 				if ($InputArea=="") { ?>
 				    <td width="22" align="left" valign="middle"><p>&nbsp;</p></td>
-				    <td width="281" align="left" valign="middle"><a href="#"><img  onclick="validForm();"; border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg">
-				    </a>　　<a href="#"><img  onclick="clearForm()"; border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg"></a></td> 
+				    <td width="281" align="left" valign="middle"><a href="#"><img  onclick="validForm();"; border="0" height="22" width="82" alt="登録・更新" src="img/common/btn_regist_update.jpg"></a>　　<a href="#"><img  onclick="clearForm()"; border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg"></a></td> 
 				    <?php } ?>
 			      </tr>
 				</table>
@@ -390,11 +389,11 @@ include("inc/return_dbcon.inc.php");
             <div class="box4">
                 <table border="0" align="center" cellpadding="1" cellspacing="1" style="width:90%;">
                 <tr align="center">
-                  <td width="10%">No.</td>
-                  <td>卓名</td>
-             	  <td>順序変更</td>
-                  <td>編集</td>
-                  <td>削除</td>
+                  <td width="10%" nowrap="nowrap">No.</td>
+                  <td nowrap="nowrap">卓名</td>
+             	  <td nowrap="nowrap">順序変更</td>
+                  <td nowrap="nowrap">編集</td>
+                  <td nowrap="nowrap">削除</td>
                 </tr>
               </table>
             </div>
@@ -420,20 +419,20 @@ include("inc/return_dbcon.inc.php");
             	 <div class="<?=$class?>" id="boxid<?=$row['id']?>">
             		<table border="0" align="center" cellpadding="1" cellspacing="1" style="width:90%;">
             			<tr align="center">
-                        	<td width="10%"><?=$j?></td>
-                            <td><?=$row['name']?></td>
-                             <td>
+                        	<td width="10%" nowrap="nowrap"><?=$j?></td>
+                         <td nowrap="nowrap"><?=$row['name']?></td>
+                             <td nowrap="nowrap">
 							  <span class="txt1">
 							  <a href="javascript:void(0);" onClick="orderAction('default.php?action=sort&amp;move=up&amp;id=<?=$row['id']?>');">▲</a>
                               <a href="javascript:void(0);" onClick="orderAction('default.php?action=sort&amp;move=down&amp;id=<?=$row['id']?>');">▼</a>
                              </span>
-                           </td>
-							<td>
+                         </td>
+							<td nowrap="nowrap">
                             	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>window.location='default.php?id=<?=$row['id']?>&name=<?=$row['name']?>&userid=<?=$_SESSION['user_type']?>&action=edit';<?php }?>" >
                                 	<img src="img/common/btn_edit.gif" width="42" height="17" />
                                 </a>
-                            </td>
-              				<td>
+                          </td>
+              				<td nowrap="nowrap">
                             	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']==222){?>alert('権限がありません');<?php }else{?>confirmDeletePlus('ajax/delete_table.php?id=<?=$row['id']?>', <?=$row['id']?>);<?php }?>">
                                 	<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
@@ -453,11 +452,11 @@ include("inc/return_dbcon.inc.php");
             <div class="box4">
                 <table border="0" align="center" cellpadding="1" cellspacing="1" style="width:90%;">
                 <tr align="center">
-                  <td width="10%">No.</td>
-                  <td>卓名</td>
-             	  <td>順序変更</td>
-                  <td>編集</td>
-                  <td>削除</td>
+                  <td width="10%" nowrap="nowrap">No.</td>
+                  <td nowrap="nowrap">卓名</td>
+             	  <td nowrap="nowrap">順序変更</td>
+                  <td nowrap="nowrap">編集</td>
+                  <td nowrap="nowrap">削除</td>
                 </tr>
               </table>
             </div>
@@ -483,11 +482,11 @@ include("inc/return_dbcon.inc.php");
             	 <div class="<?=$class?>" id="boxid<?=$row['id']?>">
             		<table border="0" align="center" cellpadding="1" cellspacing="1" style="width:90%;">
             			<tr align="center">
-                        	<td width="10%"><?=$j?></td>
-                            <td><?=$row['name']?></td>
-                            <td><font color="gray">▲▼</font></td>
-                            <td> <img src="img/common/btn_edit_greyed.gif" width="42" height="17" /> </td>
-                            <td> <img src="img/common/btn_deleate_greyed.gif" width="42" height="17" /> </td>
+                        	<td width="10%" nowrap="nowrap"><?=$j?></td>
+                          <td nowrap="nowrap"><?=$row['name']?></td>
+                          <td nowrap="nowrap"><font color="gray">▲▼</font></td>
+                          <td nowrap="nowrap"> <img src="img/common/btn_edit_greyed.gif" width="42" height="17" /> </td>
+                            <td nowrap="nowrap"> <img src="img/common/btn_deleate_greyed.gif" width="42" height="17" /> </td>
             			</tr>
                      </table>
         		</div>

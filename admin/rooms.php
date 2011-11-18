@@ -19,15 +19,37 @@
 
 	if($_GET['action']=='delete' && (int)$_GET['id'] > 0)
 	{
-		$del_room_id = (int)$_GET['id'];
 
-		$sql ="DELETE FROM spssp_default_plan WHERE room_id=".$del_room_id.";";
-		mysql_query($sql);
-
-		$sql ="DELETE FROM spssp_room WHERE id=".$del_room_id.";"; // REFERENCESにより、spssp_default_plan_tableも同時に削除される。同様にspssp_default_plan_seatも削除される
-		mysql_query($sql);
-
+		$delete_query="Update spssp_room set status=0 where id=".(int)$_GET['id'];
+		mysql_query($delete_query);
 		if ((int)$_GET['id'] == (int)$_GET['room_id']) $room_id=0;
+
+		//delete all information
+		/*
+
+		$tables= $obj->GetAllRowsByCondition("spssp_default_plan_table"," room_id=".(int)$_GET['id']);
+		foreach($tables as $tbl)
+		{
+			$obj->DeleteRow("spssp_default_plan_seat"," table_id=".$tbl['id']);
+		}
+
+		$obj->DeleteRow("spssp_default_plan_table"," room_id=".(int)$_GET['id']);
+
+		$obj->DeleteRow("spssp_room"," id=".(int)$_GET['id']);
+
+		$user_rows = $obj->getRowsByQuery("select * from spssp_user where room_id = ".(int)$_GET['id']);
+
+		foreach($user_rows as $user)
+		{
+			$usei_id=$user['id'];
+			$obj->DeleteRow("spssp_table_layout","user_id= ".(int)$user_id);
+			$user_plan =  $obj->GetSingleRow("spssp_plan"," user_id=".(int)$user_id);
+			$obj->DeleteRow("spssp_plan_details"," plan_id='".(int)$user_plan['id']."'");
+
+			$obj->DeleteRow("spssp_plan","user_id= ".(int)$user_id);
+		}
+		*/
+
 	}
 	else if($_GET['action']=='sort' && (int)$_GET['id'] > 0)
 	{
@@ -412,15 +434,15 @@ include("inc/return_dbcon.inc.php");
             <div class="box4">
                 <table border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-                        <td width ="35" >披露宴会場名</td>
-                        <td width ="20">最大卓数</td>
-                        <td width ="20">一卓人数</td>
-                       <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width ="20">順序変更</td><?php } ?>
-                        <td width ="20">イメージ</td>
-                        <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width ="20">編集</td><?php } ?>
-                        <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width ="20">削除</td><?php } ?>
+                      <td width="100" nowrap="nowrap" >披露宴会場名</td>
+                     <td width="100" nowrap="nowrap">最大卓数</td>
+                      <td width="70" nowrap="nowrap">一卓人数</td>
+                     <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width="70" nowrap="nowrap">順序変更</td><?php } ?>
+                    <td width="70" nowrap="nowrap">イメージ</td>
+                      <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width="70" nowrap="nowrap">編集</td><?php } ?>
+                        <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?> <td width="70" nowrap="nowrap">削除</td><?php } ?>
                     </tr>
-                </table>
+              </table>
             </div>
             <?php
 			$i=0;
@@ -451,41 +473,41 @@ include("inc/return_dbcon.inc.php");
                 <div class="<?=$class?>"  id="boxid<?=$row['id']?>">
                     <table border="0" align="center" cellpadding="1" cellspacing="1">
                         <tr align="center">
-                            <td width ="35" ><?=$row['name']?></td>
+                          <td width="100" nowrap="nowrap" ><?=$row['name']?></td>
                             <!--<td><a href="plans.php?room_id=<?=$row['id']?>"><?=$row['name']?></a></td>-->
-                            <td width ="20" >横<?=$row['max_columns']?>列 × 縦<?=$row['max_rows']?>段</td>
-                            <td width ="20" ><?=$row['max_seats']?>名</td>
+                        <td width="100" nowrap="nowrap" >横<?=$row['max_columns']?>列 × 縦<?=$row['max_rows']?>段</td>
+                        <td width ="70" nowrap="nowrap" ><?=$row['max_seats']?>名</td>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){ ?>
-                            <td width ="20" class="txt1">
+                      <td width="70" nowrap="nowrap" class="txt1">
     							<a href="javascript:void(0);" onClick="sort_view('rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=up&amp;id=<?=$row['id']?>')">▲</a> &nbsp;
                 				<a href="javascript:void(0);" onClick="sort_view('rooms.php?page=<?=(int)$_GET['page']?>&action=sort&amp;move=down&amp;id=<?=$row['id']?>')">▼</a>
-                             </td>
+                          </td>
 							 <?php } ?>
-                            <td width ="20" >
-							  <a href="javascript:void(0);" onClick="preview_room(<?=$row['id']?>)"><img src="img/common/btn_preview.gif" id="room_<?=$row['id']?>"></a>
-                            </td>
+                            <td width ="70" nowrap="nowrap" >
+							  <a href="javascript:void(0);" onClick="preview_room(<?=$row['id']?>)"><img src="img/common/btn_preview.gif" name="room_<?=$row['id']?>" width="57" height="17" id="room_<?=$row['id']?>"></a>
+                        </td>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
-                           <td width ="20" >
+                  <td width="70" nowrap="nowrap" >
                             	<a href="roomTableEdit.php?room_id=<?=$row['id']?>">
                             		<img src="img/common/btn_room_edit.gif" width="62" height="17" />
                                 </a>
-                            </td>
+                          </td>
 							<?php }	 ?>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){?>
-                            <td width ="20" >
+                      <td width="70" nowrap="nowrap" >
                             	<a href="javascript:void(0);" onClick="<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] =="222"){?>alert('権限がありません');<?php }else{?>confirmDeletePlus('rooms.php?page=<?=(int)$_GET['page']?>&action=delete&id=<?=$row['id']?>'); <?php }?>">
                             		<img src="img/common/btn_deleate.gif" width="42" height="17" />
                                 </a>
-                            </td>
+                          </td>
 							<?php }	 ?>
                         </tr>
-                    </table>
+                  </table>
                 </div>
 			<?php
             	$i++;
 			}
 			?>
-      	</div>
+   	  </div>
       	<?php
 		if ($room_id>0) {
 			echo "<script> preview_room($room_id); </script>";
