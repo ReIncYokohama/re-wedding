@@ -404,7 +404,7 @@ direction: ltr;
 					}
 					$no=0;
 				if($_GET[sortby]=="")
-				$guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by display_order DESC");
+				$guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by id");
 				else if($_GET[sortby]=="sex")
 				$guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by sex ".$_GET['guest_sex_sort']);
 				else if($_GET[sortby]=="guest_type")
@@ -447,7 +447,7 @@ direction: ltr;
 									$tblname=mb_substr ($tblname, 0,1,'UTF-8');
                   }*/
                 $tblname = $tbl_row['name'];
-                $tblname=mb_substr ($tblname, 0,1,'UTF-8');
+                $tblname=mb_substr ($tblname, 0,2,'UTF-8');
 
 
 							}
