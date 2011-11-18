@@ -1,3 +1,4 @@
+
 <?php 
 require_once("inc/class.dbo.php");
 
@@ -8,6 +9,7 @@ $msg = "印刷会社へ本発注を行います。宜しいですか？";
 $busuu=(int)$get['busuu'];
 $user_id=(int)$get['user_id'];
 
+/*
 if((int)$get['sekiji']>0 || (int)$get['sekifuda']>0) {
 	$sekiji = (int)$get['sekiji'];
 	$sekifuda = (int)$get['sekifuda'];
@@ -18,9 +20,10 @@ if((int)$get['sekiji']>0 || (int)$get['sekifuda']>0) {
 	echo "window.close();";
 	echo "</script>";
 }
+*/
 ?>
-
 <html>
+<body>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>本発注の確認</title>
@@ -29,9 +32,11 @@ if((int)$get['sekiji']>0 || (int)$get['sekifuda']>0) {
 function cl(vl){
 	var busuu = "<?=$busuu?>";
 	var user_id="<?=$user_id?>";
-
-	if (busuu==1 || busuu==3)  	var v1 = document.seki_input.sekiji.value;
-	if (busuu==2 || busuu==3)  	var v2 = document.seki_input.sekifuda.value;
+	var v1 = 0;
+	var v2 = 0;
+	
+	if (busuu==1 || busuu==3)   v1 = document.seki_input.sekiji.value;
+	if (busuu==2 || busuu==3)   v2 = document.seki_input.sekifuda.value;
 	if (busuu==1 || busuu==3) {
 		if (v1 == "") {
 			alert ("席次表印刷部数を入力してください");
@@ -56,9 +61,11 @@ function cl(vl){
 			return false;
 		}
 	}
-	if (busuu==1)	window.location = "confirm_order.php?user_id="+user_id+"&sekiji="+v1;
-	if (busuu==2)	window.location = "confirm_order.php?user_id="+user_id+"&sekifuda="+v2;
-	if (busuu==3)	window.location = "confirm_order.php?user_id="+user_id+"&sekiji="+v1+"&sekifuda="+v2;
+    window.returnValue=vl+","+v1+","+v2;
+    window.close();
+//	if (busuu==1)	window.location.href = "confirm_order.php?user_id="+user_id+"&sekiji="+v1;
+//	if (busuu==2)	window.location.href = "confirm_order.php?user_id="+user_id+"&sekifuda="+v2;
+//	if (busuu==3)	window.location.href = "confirm_order.php?user_id="+user_id+"&sekiji="+v1+"&sekifuda="+v2;
 }
 function cl2(vl) {
     window.returnValue=vl;

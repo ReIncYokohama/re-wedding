@@ -27,7 +27,7 @@ else if($_SESSION['printid'] =='')
 	 {
 		unset($post);
 		$user_plan_info = $objInfo->get_user_plan_info($user_id);
-		$post['dl_print_com_times'] = $user_plan_info['dl_print_com_times'] - 1;
+//		$post['dl_print_com_times'] = $user_plan_info['dl_print_com_times'] - 1;
 		$obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
 	 }
 	 else

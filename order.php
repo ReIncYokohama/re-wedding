@@ -169,7 +169,10 @@ function confirmAction(urls , msg)
 					<td width="28%" valign="middle"><a href="plan_pdf_small.php" target="_blank"><img src="img/order/preview_sekiji_bt.jpg" alt="席次表プレビュー" width="200" height="40" border="0" class="on" /></a></td>
 					<td width="5%" valign="middle" style="font-size:16pt">→</td>
 					<?php
-						if($plan_info['order']<=3 && $plan_info['order']>0)
+						$isGrey=false;
+						if($plan_info['order']>0) $isGrey=true;
+						if ($plan_info['admin_to_pcompany']==2) $isGrey=false;
+						if($isGrey==true)
 						{
 					?>
 					<td width="20%" valign="middle"><img src="img/order/print_img_bt_greyed.jpg" /></td>

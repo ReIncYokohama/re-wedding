@@ -54,7 +54,7 @@ if(isset($_POST['sub']))
 		if($message)
 		{
 			unset($post);
-			$post['ul_print_com_times'] = $user_plan_info['ul_print_com_times'] - 1;
+//			$post['ul_print_com_times'] = $user_plan_info['ul_print_com_times'] - 1;
 			$post['p_company_file_up']=$message;
 			$post['admin_to_pcompany']=2;
 			$res = $obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
@@ -141,7 +141,7 @@ $row = $objInfo->get_user_info($user_id);
     <div class="top_searchbox2">
 	<?php
 	 $user_plan_info = $objInfo->get_user_plan_info($user_id);
-	 if($user_plan_info['ul_print_com_times']==1 || $user_plan_info['ul_print_com_times']<=0)
+	 if($user_plan_info['ul_print_com_times']==1)
 	 {	//NEED TO CHECK THE DAY LIMIT
 	 ?>
 	<a href="javascript:void(0);"><img onclick="javascript:document.uploaddoc.submit();" src="img/common/btn_upload.jpg" alt="検索" width="152" height="22" /></a>
