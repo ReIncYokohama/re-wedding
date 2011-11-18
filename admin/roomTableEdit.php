@@ -279,7 +279,8 @@ include("inc/return_dbcon.inc.php");
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<a href="#" onclick="form_tableedit();"><img src="img/common/btn_save.jpg" alt="保存" />　　<img src="img/common/btn_cancel.jpg" alt="キャンセル" />
+			<a href="#" onclick="form_tableedit();"><img src="img/common/btn_save.jpg" alt="保存" />
+			&nbsp;&nbsp;<a href="#" onclick="window.location='rooms.php'"><img src="img/common/btn_cancel.jpg" alt="キャンセル" />
 
 <!-- UCHIDA EDIT 11/08/03
 <div align="center">
