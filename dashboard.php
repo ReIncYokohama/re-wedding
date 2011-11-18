@@ -68,14 +68,14 @@ function japanyDateFormateForDashboard($rawTime, $time_24h=0) {
 <div id="main_contents" class="displayBox">
 
         <div id="bridal_info">
-            <table width="450" border="0" cellspacing="1" cellpadding="0">
+            <table width="500" border="0" cellspacing="1" cellpadding="0">
                 <tr>
-                <td width="70" nowrap="nowrap"><font size="3">披露宴日時：</font></td>
+                <td width="105" nowrap="nowrap"><font size="3">披露宴日時：</font></td>
 <!--                 <td width="237" class="bridal_info_txt01"><?=$obj->japanyDateFormate($user_data['party_day'],$user_data['party_day_with_time'])?></td> UCHIDA EDIT 11/08/09 -->
-                <td width="237" nowrap="nowrap" ><font size="3"><?=japanyDateFormateForDashboard($user_data['party_day'],$user_data['party_day_with_time'])?></font></td>
+                <td width="392" nowrap="nowrap" ><font size="3"><?=japanyDateFormateForDashboard($user_data['party_day'],$user_data['party_day_with_time'])?></font></td>
                 </tr>
                 <tr>
-                <td width="70" nowrap="nowrap"><font size="3">披露宴会場：</font></td>
+                <td nowrap="nowrap"><font size="3">披露宴会場：</font></td>
 <!--                 <td class="bridal_info_txt01"><?=$roomName;?></td> UCHIDA EDIT 11/08/09 -->
                 <td nowrap="nowrap"><font size="3"><?=$roomName;?></font></td>
                 </tr>

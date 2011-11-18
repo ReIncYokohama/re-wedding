@@ -232,18 +232,28 @@ function checkGroupForm(x, noUpdate)
 	for(var y=1;y<=x;y++)
 	{
 		var gval = $j("#name_group"+y).val()
-		if(gReg.test(gval) == true && gval)
-		{
-			alert("引出物グループ名は全角１文字で入力してください");
-			$j("#name_group"+y).focus();
-			return false;
+
+		if (gval != "") {
+			if(gReg.test(gval) == false)
+			{
+				if (gval.length>1) {
+					alert("全角は１文字で入力してください");
+					document.getElementById("name_group"+y).focus();
+					return false;
+				}
+				else if (gval=="¥" || gval==" " || gval=="  " || gval=="　" || gval=="　　") {
+					alert("全角１文字、または半角２文字で入力してください");
+					document.getElementById("name_group"+y).focus();
+					return false;
+				}
+			}
+			else if (gval=="　" || gval=="　　") {
+				alert("全角１文字、または半角２文字で入力してください");
+				document.getElementById("name_group"+y).focus();
+				return false;
+			}
 		}
 
-		else if (gval=="¥" && gval != "") {
-			alert("引出物グループ名は全角１文字で入力してください");
-			$j("#name_group"+y).focus();
-			return false;
-		}
 	}
 	return true;
 }
