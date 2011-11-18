@@ -117,6 +117,11 @@
 					$post['gift_daylimit']=3;
 					$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 
+					$sekiji = (int)$get['sekiji'];
+					$sekifuda = (int)$get['sekifuda'];
+					$sql = "update spssp_plan set day_limit_1_to_print_com=".$sekiji.", day_limit_2_to_print_com=".$sekifuda." where user_id=".(int)$user_id;
+					mysql_query($sql);
+					
 					/*unset($post);
 					$post['msg_type']=0;
 					$obj->UpdateData('spssp_message',$post," msg_type=2 and user_id=".$user_id);*/
@@ -269,7 +274,11 @@ function confirmAction(urls , msg)
 		var busuu="<?=$plan_info['dowload_options']?>";
 		var user_id = "<?=$user_id?>";
 	    var ans = window.showModalDialog("confirm_order.php?busuu="+busuu+"&user_id="+user_id, window ,"dialogTop:400px; dialogLeft:600px; dialogwidth:400px; dialogheight:180px;");
-	    if (ans=="OK") window.location = urls;
+	    var ansArray = ans.split(",");
+	    if (ansArray[0]=="OK") {
+	    	urls = urls + "&sekiji="+ansArray[1]+"&sekifuda="+ansArray[2];
+		    window.location = urls;
+	    }
 	}
 	else {
 	   	var agree = confirm(msg);
