@@ -555,13 +555,17 @@ hotel  1のとき、ホテルユーザ用のお知らせ。0のとき、ユー�
   }
 
   public function get_message_csv_import_for_hotel(){
+    
     $logs_arr = $this->GetAllRowsByCondition("guest_csv_upload_log"," hotel=1 and state = 1");
     $text = "";
     for($i=0;$i<count($logs_arr);++$i){
       $user_info = $this->GetSingleRow("spssp_user"," id = ".$logs_arr[$i]["user_id"]);
+      $man_name = $objinfo->get_user_name_image_or_src($user_info['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
+      $woman_name = $objinfo->get_user_name_image_or_src($user_info['id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
+			
       $party_day = $this->getMonthAndDate($user_info["party_day"]);
       $text .= "<li><a href='user_dashboard.php?user_id=".$logs_arr[$i]["user_id"]."' target='_blank'>".$party_day
-        ." ".$user_info["man_lastname"]."・".$user_info["woman_lastname"]
+        ." ".$man_name."・".$woman_name
         ."様の招待客リストデータがアップロードされました。</a></li>";
     }
     return $text;
@@ -569,7 +573,7 @@ hotel  1のとき、ホテルユーザ用のお知らせ。0のとき、ユー�
   public function finish_message_csv_import_for_hotel($user_id){
     $this->UpdateData("guest_csv_upload_log",array("state" => 0)," hotel=1 and user_id = '".$user_id."'");
   }
-
+  //ホテルごとにDBを切っているのでHOTELIDを使って振り分けて、対応をしている。
   public function new_message_csv_import($user_id){
     $this->InsertData("guest_csv_upload_log",array("user_id" => $user_id,"hotel" => 0));
     $this->InsertData("guest_csv_upload_log",array("user_id" => $user_id,"hotel" => 1));
