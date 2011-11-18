@@ -67,6 +67,7 @@
 					unset($post);
 					$post['order']=1;
 					$post['admin_to_pcompany']=1;
+					$post['ul_print_com_times']=0;
 					$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 					
 					unset($post);
@@ -379,7 +380,11 @@ include("inc/return_dbcon.inc.php");
 				<td width="182" valign="middle"><a href="../plan_pdf_small.php" target="_blank"><img src="img/common/order/seat_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a></td>
 					<td width="50" rowspan="3" align="center" valign="middle" style="font-size:16pt"><img src="img/common/arrow_1to2.gif" alt="矢印" width="32" height="59" border="0" /></td>
 			<?php
-				if(($plan_info['admin_to_pcompany']>0 && $plan_info['ul_print_com_times']==1) || ($plan_info['admin_to_pcompany']>0 && $plan_info['order']<=2))
+				$isGrey=false;
+				if ($plan_info['admin_to_pcompany']>0 && $plan_info['ul_print_com_times']==1) $isGrey=true;
+				if ($plan_info['admin_to_pcompany']>0 && $plan_info['order']<=2)  $isGrey=true;
+				if ($plan_info['admin_to_pcompany']==2) $isGrey=false;
+				if($isGrey==true)
 				{
 			?>
 				<td valign="middle"><img src="img/common/order/seat_pro_order_greyed.gif" width="146" height="32" /></td>
