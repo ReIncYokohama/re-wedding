@@ -1392,8 +1392,7 @@ if($user_row['mukoyoshi']=='1'){
                 	}
 					?>
 					<?php if ($user_id>0) { ?>
-					披露宴日&nbsp;
-<input type="text" name="confirm_day_num" id="confirm_day_num" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$confirm_day_num?>" /> 日前
+				  <input type="text" name="confirm_day_num" id="confirm_day_num" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$confirm_day_num?>" /> 日前
 					<?php } else {
 						$confirm_day_num    = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
 					?>
@@ -1419,8 +1418,7 @@ if($user_row['mukoyoshi']=='1'){
 				if($user_id>0) {
 					echo $dateBeforeparty.$weekname." 披露宴日 ";
 				?>
-				披露宴日&nbsp;
-<input type="text" name="limitation_ranking" id="limitation_ranking" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$limitation_ranking?>" /> 日前
+				<input type="text" name="limitation_ranking" id="limitation_ranking" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$limitation_ranking?>" /> 日前
 				<?php } 
 				else { ?>
 					披露宴日&nbsp;
