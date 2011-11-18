@@ -233,7 +233,7 @@ body{
 }
 #make_plan_table{
 width: 965px;
-overflow:scroll;
+/*overflow:scroll;*/
 height:680px;
 }
 .title_bar.main_plan{
@@ -586,7 +586,7 @@ if($objInfo->get_editable_condition($plan_row))
 	{
 ?>
 <image src="img/btn_save.jpg" id="button" onclick="checkConfirm()"/>
-<image src="img/btn_rollback.jpg" id="button" onclick="back_to_make_plan()"/>
+<image src="img/btn_cancel.jpg" id="button" onclick="back_to_make_plan()"/>
 
 <?php
   }
