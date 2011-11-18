@@ -354,6 +354,14 @@ width:auto;
 width:80px;
 height:30px;
 }
+.seat_droppable
+{
+width:80px;
+height:30px;
+float:left;
+margin:0px;
+padding:0px;
+}
 .vertical {
 width: 430px;
 height: 180px;
@@ -667,7 +675,7 @@ $layoutname = $tableData["layoutname"];
                        $num_last = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
                        $num_max = $obj->GetSingleData("spssp_table_layout", "column_order "," user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
                        $num_none = $num_max-$num_last+$num_first-1;
-                       $width = $num_max*200;
+                       $width = $num_max*215;
 
                        if($ralign == 'C')
                          {
@@ -735,10 +743,10 @@ $layoutname = $tableData["layoutname"];
                   $class = 'seat_droppable';
                 }else{
 									$disp = 'display:none;';
-									$class = 'seat_droppable';
+									$class = 'droppable';
                 }
                     		?>
-                        	<div class="tables" id="tid_<?=$table_row['id']?>" style=" <?=$disp?>" >
+                        	<div class="tables" id="tid_<?=$table_row['id']?>" style=" <?=$disp?>margin-left:15px;" >
 
                                 <p align="center" style="text-align:center" id="table_<?=$table_row['id']?>">
 
@@ -759,7 +767,16 @@ $layoutname = $tableData["layoutname"];
                                 foreach($seats as $seat)
                                 {
                                 ?>
-                                    <div id="<?=$seat['id']?>" class="<?=$class?>" >
+                                    <div id="<?=$seat['id']?>" class="<?=$class?>" style="background-color:
+<?php
+//座席表の色の指定
+if($index % 2 == 1){
+  echo "#F5F8E5";
+}else{
+  echo "#e5b9b9";
+}
+?>
+;" >
                                         <?php
                                         $key = $seat['id']."_input";
                                         if(isset($_SESSION['cart'][$key]) && $_SESSION['cart'][$key] != '')
@@ -792,7 +809,7 @@ $layoutname = $tableData["layoutname"];
 										<div id="abc_<?=$seat['id']?>" class="gallery ui-helper-reset ui-helper-clearfix">
 
 
-											<div class="ui-widget-content ui-corner-tr" id="item_<?=$item_info['id']?>"   style="width:80px; height:30px;background-color:
+											<div class="ui-widget-content ui-corner-tr" id="item_<?=$item_info['id']?>"   style="width:80px; height:30px;border:0;background-color:
 <?php
 //座席表の色の指定
 if($index % 2 == 1){
@@ -801,7 +818,7 @@ if($index % 2 == 1){
   echo "#e5b9b9";
 }
 ?>
-;border:0;">
+;">
 
 													<?php
 													$gname=$item_info['first_name']." ".$item_info['last_name']." ".$rspct;
