@@ -9,6 +9,9 @@ $get = $obj->protectXSS($_GET);
 $user_id = (int)$_SESSION['userid'];
 $table_data = $obj->get_table_data($user_id);  
 
+//tabの切り替え
+$tab_user_info = true;
+
 include("inc/new.header.inc.php");
 
 $user_row = $obj->GetSingleRow("spssp_user"," id= $user_id");
@@ -23,8 +26,7 @@ var title=$("title");
 $(title).html("お客様情報 - ウエディングプラス");
 
 $(function(){
-		$("ul#menu li").removeClass();
-		$("ul#menu li:eq(7)").addClass("active");
+	
 	});
 </script>
 <style>

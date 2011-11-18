@@ -9,6 +9,10 @@ $obj_data = new DataClass();
 $objInfo = new InformationClass();
 $get = $obj->protectXSS($_GET);
 $user_id = (int)$_SESSION['userid'];
+
+//tabの切り替え
+$tab_my_guests = true;
+
 include_once("inc/new.header.inc.php");
 
 $message = "";

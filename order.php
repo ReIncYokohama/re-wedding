@@ -8,6 +8,9 @@
 	$get = $obj->protectXSS($_GET);
 	$user_id = (int)$_SESSION['userid'];
 
+  //tabの切り替え
+  $tab_order = true;
+
 	include_once("inc/new.header.inc.php");
 
 	/*
@@ -125,8 +128,7 @@ var title=$("title");
  $(title).html("発注 - ウエディングプラス");
 
 $(function(){
-		$("ul#menu li").removeClass();
-		$("ul#menu li:eq(5)").addClass("active");
+
 	});
 </script>
 <script type="text/javascript">

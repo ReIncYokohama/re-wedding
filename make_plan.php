@@ -25,6 +25,10 @@
 		redirect('table_layout.php?err=15');
 	}
 
+
+  //tabの切り替え
+  $tab_make_plan = true;
+
 	include_once("inc/new.header.inc.php");
 
 	$plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);

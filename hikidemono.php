@@ -5,6 +5,10 @@
 	$objInfo = new InformationClass();
 	$get = $obj->protectXSS($_GET);
 	$user_id = (int)$_SESSION['userid'];
+
+//tabの切り替え
+$tab_hikidemono = true;
+
 	include_once("inc/new.header.inc.php");
 	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
 	$data_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".(int)$_SESSION['userid']." order by id asc");
@@ -120,8 +124,6 @@
  $(title).html("引出物・料理の登録 - ウエディングプラス");
 
 	$(function(){
-		$("ul#menu li").removeClass();
-		$("ul#menu li:eq(2)").addClass("active");
     if(<?php echo $save_hikidemono;?>) alert("引出物グループが保存されました");
 	});
 

@@ -21,8 +21,7 @@ $user_data = $obj->GetSingleRow("spssp_user", " id=".$user_id);
 	//$date= $marriage_date->format('Y/m/d h:i A');
 
 $fullTime = $user_data['party_day']." ".$user_data['party_day_with_time'];
-$party_date = new DateTime($fullTime);
-$date= $party_date->format('Y/m/d h:i A');
+$party_date = new DateTime($fullTime);$date= $party_date->format('Y/m/d h:i A');
 
 $date2= $party_date->format('Y/m/d h:i');
 $date3= date('Y/m/d h:i');
@@ -35,6 +34,9 @@ echo "<h1>".$fullTime ." $user_id  $date   ////  03/15/2011 05:00 PM <h1>";*/
 
 //$user_room_data = $obj->GetSingleRow("spssp_party_room", " id=".$user_data['party_room_id']);
 $roomName = $obj->GetSingleData("spssp_room","name"," id = ".$user_data["room_id"]);
+
+//tabの切り替え
+$tab_home = true;
 
 include("inc/new.header.inc.php");
 
