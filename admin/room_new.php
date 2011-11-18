@@ -3,12 +3,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <?php
-	include_once("inc/dbcon.inc.php");
-
+	include_once("inc/dbcon.inc.php");¥
 	include_once("inc/checklogin.inc.php");
-
 	include_once("inc/class.dbo.php");
-
 
 	if(trim($_POST['name']) !='' && trim($_POST['max_rows'])!='' && trim($_POST['max_columns'])!='')
 	{
