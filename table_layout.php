@@ -5,11 +5,6 @@
 	$objInfo = new InformationClass();
 	$get = $obj->protectXSS($_GET);
 	$user_id = (int)$_SESSION['userid'];
-
-
-//tabの切り替え
-$tab_table_layout = true;
-
 	include_once("inc/new.header.inc.php");
 
 	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
@@ -53,13 +48,17 @@ if($_POST['ajax']=="ajax")
  $(title).html("テーブルの配置 - ウエディングプラス");
 $(function(){
 
+$("ul#menu li").removeClass();
+$("ul#menu li:eq(1)").addClass("active");
+
 $(".rows").filter(":first").css("border-top","1px solid #666666");
 
 var msg_html=$("#msg_rpt").html();
-if(msg_html!='')
-  {
-    //$("#msg_rpt").fadeOut(5000);
-  }
+
+	if(msg_html!='')
+	{
+		//$("#msg_rpt").fadeOut(5000);
+	}
 
 });
 function checkGuest(tid,cid)
@@ -330,9 +329,7 @@ function user_timeout() {
 				  <td colspan="4">
 
 					&nbsp;<br />
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="validForm(<?=$k-1?>);" name="edit">
-		        	<img src="img/btn_save_user.jpg" border="0" />
-		        	</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="validForm(<?=$k-1?>);" name="edit"><img src="img/btn_save_user.jpg" border="0" /></a>
 					&nbsp;
 					<a href="table_layout.php" name="cancel">
 		        	<img src="img/btn_rollback_user.jpg" border="0" />

@@ -874,7 +874,7 @@ include("inc/return_dbcon.inc.php");
 					<input type="text" style="width:17px;" maxlength="2" name="party_day" id="party_day" value="<?=$party_day_array[2]?>"> yyyy/mm/dd-->
                 <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day').value='';">クリア </a>-->
                 </td>
-				<td colspan="2" align="left" valign="middle" nowrap="nowrap">　　&nbsp;披露宴時間<?=$disp_option4?>：<!--<input name="party_day_with_time" type="text" id="party_day_with_time" value="<?=date("H:i", strtotime($user_row['party_day_with_time']))?>" size="10" readonly="readonly" style="width:86px;background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>-->
+				<td colspan="2" align="left" valign="middle" nowrap="nowrap">披露宴時間<?=$disp_option4?>：<!--<input name="party_day_with_time" type="text" id="party_day_with_time" value="<?=date("H:i", strtotime($user_row['party_day_with_time']))?>" size="10" readonly="readonly" style="width:86px;background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>-->
 				<?php
 				$party_time_array = explode(":",$user_row['party_day_with_time']);
 				?> 
@@ -975,7 +975,7 @@ include("inc/return_dbcon.inc.php");
             <tr>
               <td width="160" align="left" valign="middle" nowrap="nowrap" style="text-align:left;" >挙式日</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap" style="text-align:left;" >：</td>
-                <td width="60" align="left" valign="middle" nowrap="nowrap">
+                <td align="left" valign="middle" nowrap="nowrap">
 
 					<input name="marriage_day" type="text" id="marriage_day" value="<?if($user_id>0) echo $obj->date_dashes_convert($user_row['marriage_day'])?>"  size="15" readonly="readonly" style="<?=$disp_option2?> <?=$disp_option3?> background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; padding-top:4px; padding-bottom:4px;" <?php if($disp_option2=="") echo 'class="datepicker" onclick="date_change()"'; ?> />
 
@@ -987,7 +987,7 @@ include("inc/return_dbcon.inc.php");
 					<input type="text" style="width:17px;" maxlength="2" name="marriage_day" id="marriage_day" value="<?=$marriage_day_array[2]?>"> yyyy/mm/dd-->
                 	<!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('marriage_day').value='';">クリア </a>-->
                 </td>
-                <td width="200" colspan="2" align="left" valign="middle" nowrap="nowrap">　　&nbsp;挙式時間&nbsp;　：
+                <td colspan="2" align="left" valign="middle" nowrap="nowrap">挙式時間&nbsp;　：
 				<?php
 				$marriage_time_array = explode(":",$user_row['marriage_day_with_time']);
 				?>
@@ -1027,14 +1027,13 @@ include("inc/return_dbcon.inc.php");
                 	} ?>
                 </td>
 
-                <td align="left" valign="middle" nowrap="nowrap">
-                	　　&nbsp;挙式会場&nbsp;　：
+                <td align="left" valign="middle" nowrap="nowrap">挙式会場&nbsp;　：
 					<?php
 						$party_rooms_name = $obj->GetSingleData("spssp_party_room","name"," id=".$user_row['party_room_id']);
 
 					?>
 				&nbsp; 
-				<input name="party_room_id" type="text"  class="input_text" id="party_room_id" style="padding-top:4px; padding-bottom:4px; border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " value="<?=$party_rooms_name?>" size="30" <?=$disp_option1?> />
+				<input name="party_room_id" type="text"  class="input_text" id="party_room_id" style="padding-top:4px; padding-bottom:4px; border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " value="<?=$party_rooms_name?>" size="20" <?=$disp_option1?> />
                 </td>
             </tr>
             <tr>
@@ -1620,7 +1619,7 @@ if($user_row['mukoyoshi']=='1'){
 					echo "<tr>";
 					foreach($menu_groups as $mg)
 					{
-						echo "<td>子供料理 $i ：<input type='text'".$disp_option1."style='border-style:inset; $disp_option2 $disp_option3' name='menu_child".$i."' id='menu_child".$i."' value='".$mg['name']."' size='20'></td>";
+						echo "<td>子供料理 $i ：<input type='text'".$disp_option1."style='border-style:inset; $disp_option2 $disp_option3' name='menu_child".$i."' id='menu_child".$i."' value='".$mg['name']."' size='19'></td>";
 						echo "<input type='hidden' style='border-style:inset;' name='menu_child_id".$i."' id='menu_child_id".$i."' value='".$mg['id']."'>";
 						$i++;
 					}
@@ -1629,7 +1628,7 @@ if($user_row['mukoyoshi']=='1'){
 				else {
 					echo "<tr>";
 					for ($i=1; $i<=$count_child; $i++) {
-						echo "<td>子供料理 $i ：<input type='text'".$disp_option1."style='border-style:inset; $disp_option2 $disp_option3' name='menu_child".$i."' id='menu_child".$i."' value='' size='20'></td>";
+						echo "<td>子供料理 $i ：<input type='text'".$disp_option1."style='border-style:inset; $disp_option2 $disp_option3' name='menu_child".$i."' id='menu_child".$i."' value='' size='19'></td>";
 						echo "<input type='hidden' style='border-style:inset;' name='menu_child_id".$i."' id='menu_child_id".$i."' value=''>";
 					}
 					echo "</tr>";
