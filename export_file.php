@@ -80,6 +80,7 @@ $this_name= "リスト".$today."".$userArray[0]["last_name"]."_".$userArray[1]["
  include_once('admin/inc/ExportToExcel.class.php');
 
 	$exp=new ExportToExcel();
+$this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
 	$exp->exportWithPage($File,$this_name.".xls");
 
 

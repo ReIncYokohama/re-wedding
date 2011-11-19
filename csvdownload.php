@@ -580,6 +580,7 @@ $user_id_name="0".$user_info['id'];
 //user用のcsvのダウンロードの際のカウント方法はプラス2000で
 $version = $obj->get_download_num($user_id,$_SESSION["adminid"]+2000);
 $this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
+$this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
 
 header("Content-Type: application/octet-stream");
 header("Content-Disposition: attachment; filename=${this_name}.csv");

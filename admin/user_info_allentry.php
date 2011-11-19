@@ -14,7 +14,7 @@
 if($user_id>0) {
 	$user_row = $obj->GetSingleRow("spssp_user"," id= $user_id");
 
-	$query_string = "SELECT * FROM spssp_gaizi_detail_for_user WHERE gu_id = $user_id";
+	$query_string = "SELECT * FROM spssp_gaizi_detail_for_user WHERE gu_id = '$user_id'";
 	$man_firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=0");
 	$man_lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=1");
 	$woman_firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=2");
