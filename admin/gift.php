@@ -390,8 +390,8 @@ unset($_SESSION['msg']);
 <div style="clear:both;"></div>
 	<br />
 <br />
-     <h2>料理設定
-</h2>
+<div style="width:1035px;"><h2>料理設定</h2></div>
+
 <!-- 	<form  action="gift.php" method="post" name="menu_criteria_form" onsubmit="return false;"> -->
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr>
