@@ -391,7 +391,7 @@ direction: ltr;
 </div>
 
 <div class="make_plan_main_contents" id="con_area_ie">
-  <div id="side_area">
+  <div id="side_area" sytle="padding-right:0px;width:350px;">
   <div align="right"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
   <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:auto;overflow-y:visible;" >
 				<table width="98%">
@@ -643,7 +643,7 @@ $takasago2 = ($user_info["mukoyoshi"])?"man":"woman";
 '.$main_guest[4].'
 </tr></table>';
 
-//$tableData = $obj->get_table_data($user_id);
+$tableData = $obj->get_table_data($user_id);
 
 $layoutname = $tableData["layoutname"];
 
@@ -660,8 +660,10 @@ $layoutname = $tableData["layoutname"];
 			<div align="center" style="text-align:center; margin:0 auto; font-size:13px; font-size:13px">
 				<?=$html?>
 			</div><br/>
-			<div align="center" style="height:20px; text-align:center; border:1px solid black; padding:5px; margin:0 auto; font-size:13px">
+			<div align="center" style="height:20px; text-align:center; padding:5px; margin:0 auto; font-size:13px">
+  <div style="width:500px; border:1px solid black;">
 				<?=$layoutname?>
+</div>
 			</div>
 
             	<div id="toptst" style="float:left; width:100%; ">
