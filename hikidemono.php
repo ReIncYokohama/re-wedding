@@ -438,16 +438,14 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 		{?>
 			&nbsp;<br />
 			<a href="javascript:void(0)" onclick="validForm();" name="sub">
-        	<img src="img/btn_save_user.jpg" border="0" />
-        	</a>
-			&nbsp;
-			<a href="hikidemono.php" name="cancel">
+        	<img src="img/btn_save_user.jpg" border="0" /></a>　
+            <a href="hikidemono.php" name="cancel">
         	<img src="img/btn_rollback_user.jpg" border="0" />
         	</a>
         	<?php
 		}
 		?>
-		<input type="hidden" id="timeout" name="timeout" value="" />
+		    <input type="hidden" id="timeout" name="timeout" value="" />
 </form>
 </div>
 <br /><br />

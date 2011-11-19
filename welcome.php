@@ -51,7 +51,7 @@ function confirmDelete(urls)
 #tujibox{
 	float:left;
 	width:170px;
-	height:280px;
+	height:170px;
 	margin-top:0px;
 	margin-left: 0px;
 	margin-right: 0px;
@@ -61,9 +61,10 @@ function confirmDelete(urls)
 
 #tuji{
 	margin:10px auto;
-	height:280px;
-	padding-top:50px;
+	height:170px;
+	padding-top:0px;
 	font-size: 140px;
+	line-height:150px;
 	}
 
  </style>
@@ -119,7 +120,7 @@ onmouseover="this.src='img/welcome_2_on.png';" onmouseout="this.src='img/welcome
   </tr>
   <tr><!-- row 4 -->
    <td valign="top"><p style="margin:0px"></p></td>
-   <td align="center" valign="top"><p style="margin:0px">お客様のパソコンで<br />
+   <td align="center" valign="top"><p style="margin:0px">お客様のパソコンで　<br />
 表示される文字の形</p></td>
    <td colspan="2" valign="top"><p style="margin:0px"></p></td>
    <td colspan="4" rowspan="2" align="left" valign="middle"><p style="margin:0px">しんにょうが１点の場合は<br />
@@ -134,7 +135,7 @@ onmouseover="this.src='img/welcome_2_on.png';" onmouseout="this.src='img/welcome
 		  </div>
    
    </p></td>
-   <td rowspan="7" valign="top"><img name="n_r5_c4" src="img/welcome_02g.jpg" width="244" height="174" border="0" id="n_r5_c4" alt="" /></td>
+   <td rowspan="7"><img name="n_r5_c4" src="img/welcome_02g.jpg" width="244" height="174" border="0" id="n_r5_c4" alt="" /></td>
    <td><img src="images/spacer.gif" width="1" height="8" border="0" alt="" /></td>
   </tr>
   <tr><!-- row 6 -->
