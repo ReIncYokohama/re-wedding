@@ -130,12 +130,16 @@ if(isset($user_id) && $user_id > 0)
     //EDIT USER AS GUEST
     $guest_array['first_name']=$post['man_firstname'];
     $guest_array['last_name']=$post['man_lastname'];
-
+    $guest_array['furigana_last']=$post['man_furi_lastname'];
+    $guest_array['furigana_first']=$post['man_furi_firstname'];
+    
     $obj->UpdateData("spssp_guest",$guest_array," user_id=".$user_id." and sex='Male' and self=1");
 
     $guest_array2['first_name']=$post['woman_firstname'];
     $guest_array2['last_name']=$post['woman_lastname'];
-
+    $guest_array2['furigana_last']=$post['woman_furi_lastname'];
+    $guest_array2['furigana_first']=$post['woman_furi_firstname'];
+    
     $obj->UpdateData("spssp_guest",$guest_array2," user_id=".$user_id." and sex='Female' and self=1");
     
     set_user_gaiji_position($user_id,$post["man_firstname"],0,$_POST["male_first_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
@@ -226,6 +230,9 @@ else
     //insert USER AS GUEST
     $guest_array['first_name']=$post['man_firstname'];
     $guest_array['last_name']=$post['man_lastname'];
+    $guest_array['furigana_last']=$post['man_furi_lastname'];
+    $guest_array['furigana_first']=$post['man_furi_firstname'];
+    
     $guest_array['sex']='Male';
     $guest_array['self']=1;
     $guest_array['stage']=1;
@@ -238,6 +245,9 @@ else
 
     $guest_array2['first_name']=$post['woman_firstname'];
     $guest_array2['last_name']=$post['woman_lastname'];
+
+    $guest_array['furigana_last']=$post['woman_furi_lastname'];
+    $guest_array['furigana_first']=$post['woman_furi_firstname'];
     $guest_array2['sex']='Female';
     $guest_array2['self']=1;
     $guest_array2['stage']=1;
