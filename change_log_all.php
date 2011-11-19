@@ -40,6 +40,16 @@ width:100px;
 {
 width:100px;
 }
+
+.box8{
+  
+}
+.box8 td{
+  vertical-align:top;
+}
+.littlebox{
+height:20px;
+}
 </style>
 
 <div id="main_contents" class="displayBox">
@@ -53,7 +63,7 @@ width:100px;
         <div class="box_table">
       		<div style="text-align:left; width:875px">&nbsp;</div>
 <!-- UCHIDA EDIT 11/08/04 ↑ -->
-      		<div class="box4">
+      		<div class="box8">
                 <table border="0" width="875px" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
 
@@ -76,7 +86,7 @@ width:100px;
             for($i=0;$i<count($logArray);++$i){
               $logObject = $logArray[$i];
             ?>
-              <div class="<?php echo ($i%2==0)?"box5" :"box6" ;?>">
+              <div class="box8">
               <table width="875px"  border="0" align="center" cellpadding="1" cellspacing="1">
               <tr align="left">
                 <td  width="15%"><?=$logObject["access_time"]?></td>

@@ -38,6 +38,15 @@ width:100px;
 {
 width:100px;
 }
+.box8{
+  
+}
+.box8 td{
+  vertical-align:top;
+}
+.littlebox{
+height:20px;
+}
 </style>
 <script src="../js/noConflict.js" type="text/javascript"></script>
 <script type="text/javascript" src="calendar/calendar.js"></script>
@@ -152,7 +161,7 @@ include("inc/return_dbcon.inc.php");
 
 			<!--<div style="text-align:right;">< ?=$pageination?></div>-->
 
-      		<div class="box4">
+      		<div class="box8">
                 <table border="0" width="100%" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
 
@@ -177,7 +186,7 @@ include("inc/return_dbcon.inc.php");
             for($i=0;$i<count($logArray);++$i){
               $logObject = $logArray[$i];
               ?>
-              <div class="<?php echo ($i%2==0)?"box5" :"box6" ;?>">
+              <div class="box8">
               <table width="875px"  border="0" align="center" cellpadding="1" cellspacing="1">
               <tr align="left">
                 <td  width="15%"><?=$logObject["access_time"]?></td>
