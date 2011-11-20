@@ -188,7 +188,7 @@
 	{
 		$order_main=" permission DESC";
 	}
-echo "edit : ".$get['id'];
+//echo "edit : ".$get['id'];
 	$query_string="SELECT * FROM spssp_admin where permission!=111  ORDER BY  $order_main ;";
 	$data_rows = $obj->getRowsByQuery($query_string);
 ?>
