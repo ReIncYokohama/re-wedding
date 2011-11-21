@@ -1649,7 +1649,7 @@ if($user_row['mukoyoshi']=='1'){
             		<br />
             		<br />
                  	<a href="user_log.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_access.jpg" width="173" height="23" /></a>　
-                    <a href="change_log.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_data.jpg" width="173" height="23" /></a></div>
+                    <a href="change_log.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_data.jpg" width="173" height="23" /></a>
             <?php } ?>
            </div>
 		   </form> <!--end of  id="div_box_3"-->
@@ -1659,6 +1659,8 @@ if($user_row['mukoyoshi']=='1'){
         <br />
         <br />
 
+
+    </div>
     </div>
 
 
