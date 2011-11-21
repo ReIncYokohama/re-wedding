@@ -67,10 +67,9 @@ font-weight:normal;
   <div id="container">
     <div id="contents">
       <h2>ホテルへのメッセージ編集</h2>
-      <div class="txt2">
-       <!-- <p><a href="javascript:void()" onclick="add_supper_message();">メッセージ作成 </a></p>-->
-        <p>メッセージ作成 </p>
-		<form action="manage.php" method="post" name="super_msg_frm">
+      <div class="txt2"> <!-- <p><a href="javascript:void()" onclick="add_supper_message();">メッセージ作成 </a></p>-->
+        メッセージ作成<br /> 
+        <form action="manage.php" method="post" name="super_msg_frm">
 		<!--<table class="new_super_message" cellpadding="5" cellspacing="1" border="0" align="left">-->
         <table cellpadding="5" cellspacing="1" border="0" align="left">
  <!--
@@ -83,13 +82,16 @@ font-weight:normal;
 			</tr>
  -->
 			<tr>
-				<td width="10%" align="left">&nbsp;&nbsp;タイトル </td><td> <input type="text" name="title" id="super_title" style="width: 732px;"/></td>
+			  <td width="50" align="left" nowrap="nowrap"><font size="2">タイトル</font></td>
+				<td width="5" align="center" nowrap="nowrap"> <font size="2">：</font></td><td width="750" align="right"> <input type="text" name="title" id="super_title" style="width:750px;"/></td>
 			</tr>
 			<tr>
-				<td align="left">&nbsp;&nbsp;本文 </td>
-				<td> <textarea name="description" id="super_description" cols="40" style="width: 732px;"  /></textarea><br /><br /></td>
+			  <td align="left" nowrap="nowrap"><font size="2">本文</font></td>
+				<td align="center" nowrap="nowrap"><font size="2">：</font></td>
+				<td width="750" align="right"> <textarea name="description" cols="40" rows="15" id="super_description" style="width:750px;"  /></textarea><br /><br /></td>
 			</tr>
 			<tr>
+			  <td nowrap="nowrap">&nbsp;</td>
 				<td>&nbsp; </td>
 				<td>
 					<img alt="登録" src="img/common/btn_send_admin.jpg" onclick="save_super_message();">

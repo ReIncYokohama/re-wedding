@@ -171,17 +171,17 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
           <tr>
             <td width="27%" align="left" nowrap="nowrap" style=" font-size:11px ">ログインID</td>
             <td width="73%" align="left" nowrap="nowrap"><label for="ログインID"></label>
-            <input onkeydown="if (event.keyCode == 13) { login_admin(); }" name="adminid" type="text" id="adminid" size="20" class="login"  value='<?php echo $id ?>' /></td> <!-- UCHIDA EDIT 11/08/17 ＩＤを再表示 -->
+            <input onKeyDown="if (event.keyCode == 13) { login_admin(); }" name="adminid" type="text" id="adminid" size="20" class="login"  value='<?php echo $id ?>' /></td> <!-- UCHIDA EDIT 11/08/17 ＩＤを再表示 -->
           </tr>
           <tr>
             <td align="left" nowrap="nowrap" style=" font-size:11px ">パスワード</td>
             <td align="left" nowrap="nowrap">
-            <input onkeydown="if (event.keyCode == 13) { login_admin(); }"name="adminpass" type="password" id="adminpass" size="20" class="login" /></td>
+            <input onKeyDown="if (event.keyCode == 13) { login_admin(); }"name="adminpass" type="password" id="adminpass" size="20" class="login" /></td>
           </tr>
           <tr>
             <td align="right" nowrap="nowrap">&nbsp;</td>
             <td nowrap="nowrap">
-            <input type="button" value="ログイン" onclick="login_admin()" /></td>
+            <input type="button" value="ログイン" onClick="login_admin()" /></td>
           </tr>
         </table>
       <div id="login_bt"></div>
@@ -204,13 +204,13 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 </tr>
 </table>
 </div>
-    <div id="foot_center"> ●Windows XP ／ Vista ／ 7<br />
-	      ・Internet Explorer 7／8<br />
-	      ・FireFox 3.5／3.6／4.0 </div>
-  <div id="foot_right">●Mac OS Ｘ（10.4）<br />
-
-	      ・Safari 3.0以上<br />
-	      ・FireFox 3.5／3.6／4.0 </div>
+    <div id="foot_center"> <strong>●Windows XP ／ Vista ／ 7</strong><br />
+      ・Internet Explorer 8／9<br />
+・FireFox 7／8 <br />
+・Google Chrome 14.0~ </div>
+  <div id="foot_right"><strong>●Mac OS Ｘ 10.4~</strong><br />
+    ・Safari 5.0~<br />
+・FireFox 7／8</div>
 	    <div class="clr"></div>
 	    </div>
 </div>
@@ -219,6 +219,10 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 	<!-- UCHIDA EDIT 11/07/26 -->
 	<script type="text/javascript"> document.login_form.adminid.focus(); </script>
 
-<?php
-	include_once("inc/footer.inc.php");
-?>
+<div align="center">
+<table width="680" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center"><font size="2">Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.</font></td>
+  </tr>
+</table>
+</div>
