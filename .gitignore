@@ -8,3 +8,5 @@ conf/conf.php
 #apaceh
 .htaccess
 .htpasswd
+
+cron/mail.log
