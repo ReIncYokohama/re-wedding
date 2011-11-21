@@ -200,6 +200,14 @@ function validForm(x)
 //			 return false;
 		}
 	}
+  for($i=1;$i<=7;++$i){
+    $value = $("#name"+$i).val();
+    if(String($value).length>2){
+      alert("グループ記号は２文字以内で入力してください。");
+      $r_flg = 1;
+      document.getElementById('name'+$i).focus();
+    }
+  }
 
 	if($r_flg == 1)
 	{
@@ -365,7 +373,7 @@ unset($_SESSION['msg']);
 			foreach($data_rows as $row)
 			{
                 if($_SESSION['user_type']==333){
-				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' style='border-style:inset' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='2' size='6' value='".$row['name']."'>";
+				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' style='border-style:inset' id='name".$xx."' ".$ro." name='name".$xx."' size='6' value='".$row['name']."'>";
 				}else{
 					echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'>".$row['name']."";
 				}
@@ -374,7 +382,7 @@ unset($_SESSION['msg']);
 			}
 			for (; $xx <=7; $xx++) {
                 if($_SESSION['user_type']==333){
-				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='2' size='6' style='border-style:inset' value=''>";
+				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' size='6' style='border-style:inset' value=''>";
 				}else{
 					echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'>";
 				}

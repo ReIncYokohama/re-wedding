@@ -151,7 +151,7 @@ if(isset($user_id) && $user_id > 0)
     make_user_images($user_id,$post["man_lastname"],$post["man_firstname"],$post["woman_lastname"],$post["woman_firstname"],$_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],$_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"]);
 
 	$menu_groups = $obj->GetAllRowsByCondition("spssp_gift","user_id=".$user_id);
-	$count_item = count($menu_groups);
+	$count_item = count($gift_post);
     for($i=1;$i<=$count_item;$i++)
 	{
 		unset($array);
@@ -159,14 +159,22 @@ if(isset($user_id) && $user_id > 0)
 		$obj->UpdateData("spssp_gift", $array," user_id=".$user_id." and id=".(int)$gift_post_id[$i]);
 	}
 	$menu_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".$user_id);
-	$count_group = count($menu_groups);
+
+	$count_group = count($group_post);
 	for($i=1;$i<=$count_group;$i++)
 	{
+		unset($array);
 		$array['name'] = $group_post[$i];
-		$obj->UpdateData("spssp_gift_group", $array," user_id=".$user_id." and id=".(int)$group_post_id[$i]);
+    if(!$group_post_id[$i] || $group_post_id[$i] == ""){
+  	  $array['user_id']=$user_id;
+      $obj->InsertData("spssp_gift_group", $array);
+    }else{
+      $obj->UpdateData("spssp_gift_group", $array," user_id=".$user_id." and id=".(int)$group_post_id[$i]);
+    }
+		
 	}
 	$menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".$user_id);
-	$count_child = count($menu_groups);
+	$count_child = count($menu_post);
 	for($i=1;$i<=$count_child;$i++)
 	{
 		unset($array);
@@ -303,7 +311,7 @@ function userGiftGroup($user_id, $group_post)
   $count_gift=$gift_criteria_data_row[0]['num_gift_groups'];
 
   for($i=1;$i<=$count_gift;$i++) {
-  	unset($vl);
+  	unset($vl); 
   	$vl['user_id']=$user_id;
   	$vl['name']=$group_post[$i];
 	$lid = $obj->InsertData("spssp_gift_group", $vl);

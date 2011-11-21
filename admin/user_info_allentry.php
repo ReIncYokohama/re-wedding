@@ -251,7 +251,11 @@ function checkGroupForm(x, noUpdate)
 				alert("全角１文字、または半角２文字で入力してください");
 				document.getElementById("name_group"+y).focus();
 				return false;
-			}
+			}else if(gval.length>2){
+        alert("半角は２文字以内で入力してください");
+        document.getElementById("name_group"+y).focus();
+        return false;
+      }
 		}
 
 	}
@@ -1534,9 +1538,11 @@ if($user_row['mukoyoshi']=='1'){
 					  $xx = 1;
 				  	  foreach($gift_groups as $row)
 					  {
+              if($xx == $count_group+1) break;
 						  echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro.$disp_option1." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset; $disp_option2 $disp_option3' value='".$row['name']."'>";
 						  echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></div>";
 						  $xx++;
+              
 					  }
 		  			  for (; $xx <=$count_group; $xx++) {
 						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro.$disp_option1." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset; $disp_option2 $disp_option3' value=''>";
