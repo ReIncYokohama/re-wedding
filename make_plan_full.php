@@ -650,18 +650,14 @@ $layoutname = $tableData["layoutname"];
 ?>
 <br/>
 
-
-
     <div id="make_plan_table">
-
-
 
   			<div id="room" style="float:left; width:<?=$width?>px; ">
 			<div align="center" style="text-align:center; margin:0 auto; font-size:13px; font-size:13px">
 				<?=$html?>
 			</div><br/>
 			<div align="center" style="height:20px; text-align:center; padding:5px; margin:0 auto; font-size:13px">
-  <div style="width:500px; border:1px solid black;">
+  <div style="width:500px; border:1px solid black;margin:auto;">
 				<?=$layoutname?>
 </div>
 			</div>
