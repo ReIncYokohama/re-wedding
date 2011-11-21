@@ -625,7 +625,7 @@ for($i=0;$i<6;++$i){
   if(!$main_guest[$i]){
     $main_guest[$i] = '<td align="center"  valign="middle" style="text-align:center; padding:7px;width:100px;"></td>';
   }else{
-    $main_guest[$i] = '<td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;width:100px;">'.$main_guest[$i].'</td>';
+    $main_guest[$i] = '<td align="center"  valign="middle" style="text-align:center; padding:7px;width:100px;">'.$main_guest[$i].'</td>';
     
   }
 }
@@ -636,9 +636,9 @@ $takasago2 = ($user_info["mukoyoshi"])?"man":"woman";
 <table align="center" cellspacing="2"><tr>
 '.$main_guest[3].'
 '.$main_guest[1].'
-<td align="center"  valign="middle" style="width:100px;text-align:center;border:1px solid black;padding:7px; ">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago1}_fullname.png",$extra="thumb1").'</td>
+<td align="center"  valign="middle" style="width:100px;text-align:center;padding:7px; ">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago1}_fullname.png",$extra="thumb1").'</td>
 '.$main_guest[5].'
-<td align="center"  valign="middle" style="width:100px;text-align:center;border:1px solid black; padding:7px;">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago2}_fullname.png",$extra="thumb1").'</td>
+<td align="center"  valign="middle" style="width:100px;text-align:center; padding:7px;">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago2}_fullname.png",$extra="thumb1").'</td>
 '.$main_guest[2].'
 '.$main_guest[4].'
 </tr></table>';
