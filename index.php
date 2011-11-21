@@ -262,7 +262,7 @@ $(function(){
       ・Internet Explorer 8／9<br />
 ・FireFox 7／8 <br />
 ・Google Chrome 14.0~ </div>
-  <div id="foot_right"><strong>●Mac OS Ｘ（10.4以上）</strong><br />
+  <div id="foot_right"><strong>●Mac OS Ｘ 10.4~</strong><br />
     ・Safari 5.0~<br />
 ・FireFox 7／8</div>
 	    <div class="clr"></div>
