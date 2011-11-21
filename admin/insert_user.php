@@ -246,8 +246,8 @@ else
     $guest_array2['first_name']=$post['woman_firstname'];
     $guest_array2['last_name']=$post['woman_lastname'];
 
-    $guest_array['furigana_last']=$post['woman_furi_lastname'];
-    $guest_array['furigana_first']=$post['woman_furi_firstname'];
+    $guest_array2['furigana_last']=$post['woman_furi_lastname'];
+    $guest_array2['furigana_first']=$post['woman_furi_firstname'];
     $guest_array2['sex']='Female';
     $guest_array2['self']=1;
     $guest_array2['stage']=1;
