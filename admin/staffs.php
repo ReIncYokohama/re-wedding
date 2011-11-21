@@ -188,7 +188,7 @@
 	{
 		$order_main=" permission DESC";
 	}
-echo "edit : ".$get['id'];
+//echo "edit : ".$get['id'];
 	$query_string="SELECT * FROM spssp_admin where permission!=111  ORDER BY  $order_main ;";
 	$data_rows = $obj->getRowsByQuery($query_string);
 ?>
@@ -660,7 +660,7 @@ include("inc/return_dbcon.inc.php");
 		<p class="txt3">
 			<table style="width:1000px; border="0" cellspacing="10" cellpadding="0">
 				<tr>
-				  <td width="80" nowrap="nowrap">名前<font color="red">*</font></td>
+				  <td width="60" nowrap="nowrap">名前<font color="red">*</font></td>
 			    <td width="5" nowrap="nowrap">：</td>
 					<td width="300" nowrap="nowrap">
 	    		  <input name="name" type="text" id="name" size="20" style="border-style: inset;" value="<?=$edit_data_rows['name']?>" />
@@ -840,7 +840,7 @@ include("inc/return_dbcon.inc.php");
 				<p>
 				<table style="width:1000px; border="0" cellspacing="10" cellpadding="0">
 				<tr>
-				  <td width="80" nowrap="nowrap">名前<font color="red">*</font></td>
+				  <td width="60" nowrap="nowrap">名前<font color="red">*</font></td>
 			    <td width="5" nowrap="nowrap">：</td>
 					<td width="300" nowrap="nowrap">
 	    		    <input name="name" type="text" id="name" style="width:200px;padding:3px;" value="<?=$stuff_row['name']?>" />

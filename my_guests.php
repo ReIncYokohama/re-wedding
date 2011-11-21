@@ -9,6 +9,10 @@ $obj_data = new DataClass();
 $objInfo = new InformationClass();
 $get = $obj->protectXSS($_GET);
 $user_id = (int)$_SESSION['userid'];
+
+//tabの切り替え
+$tab_my_guests = true;
+
 include_once("inc/new.header.inc.php");
 
 $message = "";
@@ -19,9 +23,9 @@ if($_GET["update"]) $message = "招待者および招待者情報が更新され
 if(isset($_GET['action']) && $_GET['action'] == 'delete' )
 	{
 		$guest_id = (int)$_GET['guest_id'];
-    
-    //ゲストの削除をログに
-    $obj->set_log_guest_delete($user_id,$guest_id,$_SESSION["adminid"]);
+		$admID = $_SESSION["adminid"];
+	    //ゲストの削除をログに
+	    $obj_data->set_log_guest_delete($user_id,$guest_id,$admID);
 
 		$obj->DeleteRow('spssp_guest', 'id='.$guest_id);
 		$obj->DeleteRow('spssp_plan_details', 'guest_id='.$guest_id);
@@ -763,6 +767,7 @@ if($editable)
     <td width="90" align="right" nowrap="nowrap">区分：</td>
     <td width="100" align="left"><select id="guest_type" name="guest_type" tabindex=7 style="width:80px; padding-top:3px; padding-bottom:3px;border-style:inset;" <?php if($guest_row['self']==1){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
 					<?php
+          if($edit && count($gg_arr)==0) echo "<option selected value=''></option>";
 						foreach($guest_types as $guest_type)
 						{
 							if($guest_row['guest_type'] == $guest_type['id'])

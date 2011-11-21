@@ -21,8 +21,7 @@ $user_data = $obj->GetSingleRow("spssp_user", " id=".$user_id);
 	//$date= $marriage_date->format('Y/m/d h:i A');
 
 $fullTime = $user_data['party_day']." ".$user_data['party_day_with_time'];
-$party_date = new DateTime($fullTime);
-$date= $party_date->format('Y/m/d h:i A');
+$party_date = new DateTime($fullTime);$date= $party_date->format('Y/m/d h:i A');
 
 $date2= $party_date->format('Y/m/d h:i');
 $date3= date('Y/m/d h:i');
@@ -35,6 +34,9 @@ echo "<h1>".$fullTime ." $user_id  $date   ////  03/15/2011 05:00 PM <h1>";*/
 
 //$user_room_data = $obj->GetSingleRow("spssp_party_room", " id=".$user_data['party_room_id']);
 $roomName = $obj->GetSingleData("spssp_room","name"," id = ".$user_data["room_id"]);
+
+//tabの切り替え
+$tab_home = true;
 
 include("inc/new.header.inc.php");
 
@@ -68,14 +70,14 @@ function japanyDateFormateForDashboard($rawTime, $time_24h=0) {
 <div id="main_contents" class="displayBox">
 
         <div id="bridal_info">
-            <table width="450" border="0" cellspacing="1" cellpadding="0">
+            <table width="500" border="0" cellspacing="1" cellpadding="0">
                 <tr>
-                <td width="70" nowrap="nowrap"><font size="3">披露宴日時：</font></td>
+                <td width="105" nowrap="nowrap"><font size="3">披露宴日時：</font></td>
 <!--                 <td width="237" class="bridal_info_txt01"><?=$obj->japanyDateFormate($user_data['party_day'],$user_data['party_day_with_time'])?></td> UCHIDA EDIT 11/08/09 -->
-                <td width="237" nowrap="nowrap" ><font size="3"><?=japanyDateFormateForDashboard($user_data['party_day'],$user_data['party_day_with_time'])?></font></td>
+                <td width="392" nowrap="nowrap" ><font size="3"><?=japanyDateFormateForDashboard($user_data['party_day'],$user_data['party_day_with_time'])?></font></td>
                 </tr>
                 <tr>
-                <td width="70" nowrap="nowrap"><font size="3">披露宴会場：</font></td>
+                <td nowrap="nowrap"><font size="3">披露宴会場：</font></td>
 <!--                 <td class="bridal_info_txt01"><?=$roomName;?></td> UCHIDA EDIT 11/08/09 -->
                 <td nowrap="nowrap"><font size="3"><?=$roomName;?></font></td>
                 </tr>

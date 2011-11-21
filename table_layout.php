@@ -329,9 +329,7 @@ function user_timeout() {
 				  <td colspan="4">
 
 					&nbsp;<br />
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="validForm(<?=$k-1?>);" name="edit">
-		        	<img src="img/btn_save_user.jpg" border="0" />
-		        	</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="validForm(<?=$k-1?>);" name="edit"><img src="img/btn_save_user.jpg" border="0" /></a>
 					&nbsp;
 					<a href="table_layout.php" name="cancel">
 		        	<img src="img/btn_rollback_user.jpg" border="0" />

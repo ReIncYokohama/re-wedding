@@ -23,6 +23,9 @@
 		redirect('table_layout.php?err=15');
 	}
 
+//tabの切り替え
+$tab_download = true;
+
 	include_once("inc/new.header.inc.php");
 
 	$cats =	$obj->GetAllRowsByCondition('spssp_guest_category',' user_id='.$user_id);

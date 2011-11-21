@@ -23,7 +23,7 @@ $from = $_GET['from'];
 		$busho_item_value = $_POST['busho_item_value'];
 		$busho_item_group = $_POST['busho_item_group'];
 		//$results = search_busho_result($search_item);
-		if($busho_item_value || $busho_item_value==0){
+		if($busho_item_value != ""){
       $results2 = get_busho_sub($busho_item_value,$search_item);
     }
 		else
@@ -66,50 +66,14 @@ $from = $_GET['from'];
 		
 		$qry_11 = "select * from spssp_gaizi_char_file where gr_bushu_code='".$busho_item_value."' and (gr_sjis_text_01 like '%".$gaizi_item."%' or  gr_sjis_text_02 like '%".$gaizi_item."%' or  gr_sjis_text_03 like '%".$gaizi_item."%' or  gr_sjis_text_04 like '%".$gaizi_item."%' or  gr_sjis_text_05 like '%".$gaizi_item."%' or  gr_sjis_text_06 like '%".$gaizi_item."%')";
 		return $result = $obj->getRowsByQuery($qry_11);
-		
-		/*$qry_22 = "select * from spssp_gaizi_char_file where gr_bushu_code='".$busho_item_value."' and gr_sjis_text_02 like '%".$gaizi_item."%' ";
-		$results_22 = $obj->getRowsByQuery($qry_22);	
-		
-		$qry_33 = "select * from spssp_gaizi_char_file where gr_bushu_code='".$busho_item_value."' and gr_sjis_text_03 like '%".$gaizi_item."%' ";
-		$results_33 = $obj->getRowsByQuery($qry_33);	
-		
-		$qry_44 = "select * from spssp_gaizi_char_file where gr_bushu_code='".$busho_item_value."' and gr_sjis_text_04 like '%".$gaizi_item."%' ";
-		$results_44 = $obj->getRowsByQuery($qry_44);	
-		
-		$qry_55 = "select * from spssp_gaizi_char_file where gr_bushu_code='".$busho_item_value."' and gr_sjis_text_05 like '%".$gaizi_item."%' ";
-		$results_55 = $obj->getRowsByQuery($qry_55);	
-		
-		$qry_66 = "select * from spssp_gaizi_char_file where gr_bushu_code='".$busho_item_value."' and gr_sjis_text_06 like '%".$gaizi_item."%' ";
-		$results_66 = $obj->getRowsByQuery($qry_66);
-		
-		return $result_7 = $result = array_merge($results_11 , $results_22 , $results_33 , $results_44 , $results_55 , $results_66);*/
 	}
 	function get_gaizi_char_file($gaizi_item)
 	{
 		$obj = new DBO();
 		
 		$qry_11 = "select * from spssp_gaizi_char_file where gr_sjis_text_01 = '".$gaizi_item."' or  gr_sjis_text_02 ='".$gaizi_item."' or  gr_sjis_text_03 = '".$gaizi_item."' or  gr_sjis_text_04 ='".$gaizi_item."' or  gr_sjis_text_05 ='".$gaizi_item."' or  gr_sjis_text_06 ='".$gaizi_item."'";
-		//echo $qry_11;
-		//$qry_11 = "select * from spssp_gaizi_char_file where gr_sjis_text_01 like '%".$gaizi_item."%' ";
 		return $result = $obj->getRowsByQuery($qry_11);
-		
-		/*$qry_22 = "select * from spssp_gaizi_char_file where gr_sjis_text_02 like '%".$gaizi_item."%' ";
-		$results_22 = $obj->getRowsByQuery($qry_22);	
-		
-		$qry_33 = "select * from spssp_gaizi_char_file where gr_sjis_text_03 like '%".$gaizi_item."%' ";
-		$results_33 = $obj->getRowsByQuery($qry_33);	
-		
-		$qry_44 = "select * from spssp_gaizi_char_file where gr_sjis_text_04 like '%".$gaizi_item."%' ";
-		$results_44 = $obj->getRowsByQuery($qry_44);	
-		
-		$qry_55 = "select * from spssp_gaizi_char_file where gr_sjis_text_05 like '%".$gaizi_item."%' ";
-		$results_55 = $obj->getRowsByQuery($qry_55);	
-		
-		$qry_66 = "select * from spssp_gaizi_char_file where gr_sjis_text_06 like '%".$gaizi_item."%' ";
-		$results_66 = $obj->getRowsByQuery($qry_66);
-		
-		return $result_7 = $result = array_merge($results_11 , $results_22 , $results_33 , $results_44 , $results_55 , $results_66);*/
-
+	
 	}
 	function get_gaizi_char_group_all($gr_gaizi_group_code)
 	{

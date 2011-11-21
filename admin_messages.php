@@ -5,6 +5,11 @@
 	$obj = new DBO();
 	$get = $obj->protectXSS($_GET);
 	$user_id = (int)$_SESSION['userid'];
+
+//tabの切り替え
+$tab_message = true;
+
+
 	include_once("inc/new.header.inc.php");
 
 	$table='spssp_admin_messages';

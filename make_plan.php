@@ -25,6 +25,10 @@
 		redirect('table_layout.php?err=15');
 	}
 
+
+  //tabの切り替え
+  $tab_make_plan = true;
+
 	include_once("inc/new.header.inc.php");
 
 	$plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
@@ -302,7 +306,7 @@ height:30px;
 
 			  <table width="800" border="0" cellspacing="1" cellpadding="3">
 				  <tr>
-					<td width="210" valign="middle"><a href="plan_pdf.php" target="_blank"><img src="img/order/preview_sekiji_bt.jpg" alt="席次表プレビュー" width="200" height="40" border="0" class="on" /></a></td>
+					<td width="210" valign="middle"><a href="plan_pdf_small.php" target="_blank"><img src="img/order/preview_sekiji_bt.jpg" alt="席次表プレビュー" width="200" height="40" border="0" class="on" /></a></td>
 					<td width="10" valign="middle">　</td>
 					<td width="580" valign="middle">プレビューで「席次表の編集」で配席したレイアウトがご確認いただけます。</td>
 				  </tr>

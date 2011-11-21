@@ -25,7 +25,7 @@
 		echo '<script> alert("高砂卓名が更新されました"); </script>';
 	}
 	$chng = 0;
-echo $post['table_name']." : ".$chng;
+//echo $post['table_name']." : ".$chng;
 	if ($_view != $default_raname_table_view) $chng = 1;
 	if($post['table_name']!='' && $chng == 1) {
 		$sql="Update spssp_options set option_value='".$_view."' where option_name='rename_table_view'";
@@ -507,7 +507,6 @@ include("inc/return_dbcon.inc.php");
 			</div>
         </div>
 </form>
-</div>
 </div>
 </div>
 <?php

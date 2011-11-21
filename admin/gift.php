@@ -200,6 +200,14 @@ function validForm(x)
 //			 return false;
 		}
 	}
+  for($i=1;$i<=7;++$i){
+    $value = $("#name"+$i).val();
+    if(String($value).length>2){
+      alert("グループ記号は２文字以内で入力してください。");
+      $r_flg = 1;
+      document.getElementById('name'+$i).focus();
+    }
+  }
 
 	if($r_flg == 1)
 	{
@@ -246,19 +254,28 @@ function checkGroupForm(x)
 	for(var y=1;y<x;y++)
 	{
 		var gval = $("#name"+y).val();
-		if(gReg.test(gval) == true && gval != "")
-		{
-			alert("全角１文字で入力してください");
-			var error =1;
-			document.getElementById("name"+y).focus();
-			return false;
-		}
-
-		else if (gval=="¥" && gval != "") {
-			alert("全角１文字で入力してください");
-			var error =1;
-			document.getElementById("name"+y).focus();
-			return false;
+		if (gval != "") {
+			if(gReg.test(gval) == false)
+			{
+				if (gval.length>1) {
+					alert("全角は１文字で入力してください");
+					var error =1;
+					document.getElementById("name"+y).focus();
+					return false;
+				}
+				else if (gval=="¥" || gval==" " || gval=="  " || gval=="　" || gval=="　　") {
+					alert("全角１文字、または半角２文字で入力してください");
+					var error =1;
+					document.getElementById("name"+y).focus();
+					return false;
+				}
+			}
+			else if (gval=="　" || gval=="　　") {
+				alert("全角１文字、または半角２文字で入力してください");
+				var error =1;
+				document.getElementById("name"+y).focus();
+				return false;
+			}
 		}
     }
 	if(error!=1)
@@ -356,7 +373,7 @@ unset($_SESSION['msg']);
 			foreach($data_rows as $row)
 			{
                 if($_SESSION['user_type']==333){
-				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' style='border-style:inset' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='1' size='6' value='".$row['name']."'>";
+				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' style='border-style:inset' id='name".$xx."' ".$ro." name='name".$xx."' size='6' value='".$row['name']."'>";
 				}else{
 					echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'>".$row['name']."";
 				}
@@ -365,7 +382,7 @@ unset($_SESSION['msg']);
 			}
 			for (; $xx <=7; $xx++) {
                 if($_SESSION['user_type']==333){
-				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' maxlength='1' size='6' style='border-style:inset' value=''>";
+				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' size='6' style='border-style:inset' value=''>";
 				}else{
 					echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'>";
 				}
@@ -381,8 +398,8 @@ unset($_SESSION['msg']);
 <div style="clear:both;"></div>
 	<br />
 <br />
-     <h2>料理設定
-</h2>
+<div style="width:1035px;"><h2>料理設定</h2></div>
+
 <!-- 	<form  action="gift.php" method="post" name="menu_criteria_form" onsubmit="return false;"> -->
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr>

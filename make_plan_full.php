@@ -233,7 +233,7 @@ body{
 }
 #make_plan_table{
 width: 965px;
-overflow:scroll;
+/*overflow:scroll;*/
 height:680px;
 }
 .title_bar.main_plan{
@@ -354,6 +354,14 @@ width:auto;
 width:80px;
 height:30px;
 }
+.seat_droppable
+{
+width:80px;
+height:30px;
+float:left;
+margin:0px;
+padding:0px;
+}
 .vertical {
 width: 430px;
 height: 180px;
@@ -383,7 +391,7 @@ direction: ltr;
 </div>
 
 <div class="make_plan_main_contents" id="con_area_ie">
-  <div id="side_area">
+  <div id="side_area" sytle="padding-right:0px;width:350px;">
   <div align="right"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
   <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:auto;overflow-y:visible;" >
 				<table width="98%">
@@ -404,7 +412,7 @@ direction: ltr;
 					}
 					$no=0;
 				if($_GET[sortby]=="")
-				$guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by display_order DESC");
+				$guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by id");
 				else if($_GET[sortby]=="sex")
 				$guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by sex ".$_GET['guest_sex_sort']);
 				else if($_GET[sortby]=="guest_type")
@@ -447,7 +455,7 @@ direction: ltr;
 									$tblname=mb_substr ($tblname, 0,1,'UTF-8');
                   }*/
                 $tblname = $tbl_row['name'];
-                $tblname=mb_substr ($tblname, 0,1,'UTF-8');
+                $tblname=mb_substr ($tblname, 0,2,'UTF-8');
 
 
 							}
@@ -586,7 +594,7 @@ if($objInfo->get_editable_condition($plan_row))
 	{
 ?>
 <image src="img/btn_save.jpg" id="button" onclick="checkConfirm()"/>
-<image src="img/btn_rollback.jpg" id="button" onclick="back_to_make_plan()"/>
+<image src="img/btn_cancel.jpg" id="button" onclick="back_to_make_plan()"/>
 
 <?php
   }
@@ -635,7 +643,7 @@ $takasago2 = ($user_info["mukoyoshi"])?"man":"woman";
 '.$main_guest[4].'
 </tr></table>';
 
-//$tableData = $obj->get_table_data($user_id);
+$tableData = $obj->get_table_data($user_id);
 
 $layoutname = $tableData["layoutname"];
 
@@ -652,8 +660,10 @@ $layoutname = $tableData["layoutname"];
 			<div align="center" style="text-align:center; margin:0 auto; font-size:13px; font-size:13px">
 				<?=$html?>
 			</div><br/>
-			<div align="center" style="height:20px; text-align:center; border:1px solid black; padding:5px; margin:0 auto; font-size:13px">
+			<div align="center" style="height:20px; text-align:center; padding:5px; margin:0 auto; font-size:13px">
+  <div style="width:500px; border:1px solid black;">
 				<?=$layoutname?>
+</div>
 			</div>
 
             	<div id="toptst" style="float:left; width:100%; ">
@@ -667,7 +677,7 @@ $layoutname = $tableData["layoutname"];
                        $num_last = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
                        $num_max = $obj->GetSingleData("spssp_table_layout", "column_order "," user_id=".$user_id." and row_order=".$tblrow['row_order']." order by column_order desc limit 1");
                        $num_none = $num_max-$num_last+$num_first-1;
-                       $width = $num_max*200;
+                       $width = $num_max*215;
 
                        if($ralign == 'C')
                          {
@@ -697,7 +707,7 @@ $layoutname = $tableData["layoutname"];
                 		<div class="row_conatiner" id="rowcon_<?=$tblrow['row_order']?>" style="<?=$pos;?>">
                     	<?php
 
-
+                       $index = 0;
 							foreach($table_rows as $table_row)
 							{
                 $tblname = $table_row["name"];
@@ -728,15 +738,17 @@ $layoutname = $tableData["layoutname"];
                 if($table_row["display"] == 1){
                   $disp = 'display:block;';
 									$class = 'droppable';
+                  //テーブルの色について
+                  ++$index;
                 }else if($num_first <= $table_row["column_order"] && $table_row["column_order"]<=$num_last){
 									$disp = 'visibility:hidden;';
                   $class = 'seat_droppable';
                 }else{
 									$disp = 'display:none;';
-									$class = 'seat_droppable';
+									$class = 'droppable';
                 }
                     		?>
-                        	<div class="tables" id="tid_<?=$table_row['id']?>" style=" <?=$disp?>" >
+                        	<div class="tables" id="tid_<?=$table_row['id']?>" style=" <?=$disp?>margin-left:15px;" >
 
                                 <p align="center" style="text-align:center" id="table_<?=$table_row['id']?>">
 
@@ -757,7 +769,16 @@ $layoutname = $tableData["layoutname"];
                                 foreach($seats as $seat)
                                 {
                                 ?>
-                                    <div id="<?=$seat['id']?>" class="<?=$class?>" >
+                                    <div id="<?=$seat['id']?>" class="<?=$class?>" style="background-color:
+<?php
+//座席表の色の指定
+if($index % 2 == 1){
+  echo "#F5F8E5";
+}else{
+  echo "#e5b9b9";
+}
+?>
+;" >
                                         <?php
                                         $key = $seat['id']."_input";
                                         if(isset($_SESSION['cart'][$key]) && $_SESSION['cart'][$key] != '')
@@ -789,8 +810,17 @@ $layoutname = $tableData["layoutname"];
 
 										<div id="abc_<?=$seat['id']?>" class="gallery ui-helper-reset ui-helper-clearfix">
 
-											<div class="ui-widget-content ui-corner-tr" id="item_<?=$item_info['id']?>"   style="width:80px; height:30px;background-color:#F5F8E5;border:0;">
 
+											<div class="ui-widget-content ui-corner-tr" id="item_<?=$item_info['id']?>"   style="width:80px; height:30px;border:0;background-color:
+<?php
+//座席表の色の指定
+if($index % 2 == 1){
+  echo "#F5F8E5";
+}else{
+  echo "#e5b9b9";
+}
+?>
+;">
 
 													<?php
 													$gname=$item_info['first_name']." ".$item_info['last_name']." ".$rspct;

@@ -128,24 +128,25 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
                 </div>
   				<div class="clr"></div>
   				<div class="menu_nav" >
+ 
                   <ul id="menu">
-                    <li class="active"><a href="dashboard.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>
+                    <li  <?php echo ($tab_home==true)?"class='active'":"";?>><a href="dashboard.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>
                     Home</a></li>
-                    <li><a href="table_layout.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>テーブルの配置</a></li>
-                    <li><a href="hikidemono.php" <?=$make_plan?>>引出物・料理の<br>
+                    <li  <?php echo ($tab_table_layout==true)?"class='active'":"";?>><a href="table_layout.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>テーブルの配置</a></li>
+                    <li  <?php echo ($tab_hikidemono==true)?"class='active'":"";?>><a href="hikidemono.php" <?=$make_plan?>>引出物・料理の<br>
                       登録</a></li>
-                    <li><a href="my_guests.php" <?=$make_plan?>>招待者リスト<br>
+                    <li  <?php echo ($tab_my_guests==true)?"class='active'":"";?>><a href="my_guests.php" <?=$make_plan?>>招待者リスト<br>
                       の作成</a></li>
-                    <li><a href="make_plan.php"><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>席次表</a></li>
+                    <li  <?php echo ($tab_make_plan==true)?"class='active'":"";?>><a href="make_plan.php"><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>席次表</a></li>
                     <!--<li><a href="menu_group.php">Guest Menus</a></li>-->
                     <!--<li><a href="gifts.php">Guest Gifts</a></li>-->
-                    <li><a href="order.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>発注</a></li>
+                    <li <?php echo ($tab_order==true)?"class='active'":"";?>><a href="order.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>発注</a></li>
                     <!--<li><a href="dummy.php">Preview</a></li>-->
-                    <li><a href="download.php" <?=$make_plan?>>招待者リスト<br>
+                    <li  <?php echo ($tab_download==true)?"class='active'":"";?>><a href="download.php" <?=$make_plan?>>招待者リスト<br>
                       ダウンロード</a></li>
                     <!--<li><a href="dummy.php">About Me</a></li>-->
-                    <li><a href="user_info.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>お客様情報</a></li>
-                    <li><a href="<?=$messege_url?>" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>メッセージ</a></li>
+                    <li  <?php echo ($tab_user_info==true)?"class='active'":"";?>><a href="user_info.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>お客様情報</a></li>
+                    <li <?php echo ($tab_message==true)?"class='active'":"";?>><a href="<?=$messege_url?>" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>メッセージ</a></li>
                   </ul>
     		  </div>
   				<div class="clr"></div>

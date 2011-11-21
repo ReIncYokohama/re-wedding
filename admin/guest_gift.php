@@ -67,6 +67,7 @@
 					unset($post);
 					$post['order']=1;
 					$post['admin_to_pcompany']=1;
+					$post['ul_print_com_times']=0;
 					$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 					
 					unset($post);
@@ -116,6 +117,11 @@
 					$post['gift_daylimit']=3;
 					$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 
+					$sekiji = (int)$get['sekiji'];
+					$sekifuda = (int)$get['sekifuda'];
+					$sql = "update spssp_plan set day_limit_1_to_print_com=".$sekiji.", day_limit_2_to_print_com=".$sekifuda." where user_id=".(int)$user_id;
+					mysql_query($sql);
+					
 					/*unset($post);
 					$post['msg_type']=0;
 					$obj->UpdateData('spssp_message',$post," msg_type=2 and user_id=".$user_id);*/
@@ -268,7 +274,11 @@ function confirmAction(urls , msg)
 		var busuu="<?=$plan_info['dowload_options']?>";
 		var user_id = "<?=$user_id?>";
 	    var ans = window.showModalDialog("confirm_order.php?busuu="+busuu+"&user_id="+user_id, window ,"dialogTop:400px; dialogLeft:600px; dialogwidth:400px; dialogheight:180px;");
-	    if (ans=="OK") window.location = urls;
+	    var ansArray = ans.split(",");
+	    if (ansArray[0]=="OK") {
+	    	urls = urls + "&sekiji="+ansArray[1]+"&sekifuda="+ansArray[2];
+		    window.location = urls;
+	    }
 	}
 	else {
 	   	var agree = confirm(msg);
@@ -379,7 +389,11 @@ include("inc/return_dbcon.inc.php");
 				<td width="182" valign="middle"><a href="../plan_pdf_small.php" target="_blank"><img src="img/common/order/seat_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a></td>
 					<td width="50" rowspan="3" align="center" valign="middle" style="font-size:16pt"><img src="img/common/arrow_1to2.gif" alt="矢印" width="32" height="59" border="0" /></td>
 			<?php
-				if(($plan_info['admin_to_pcompany']>0 && $plan_info['ul_print_com_times']==1) || ($plan_info['admin_to_pcompany']>0 && $plan_info['order']<=2))
+				$isGrey=false;
+				if ($plan_info['admin_to_pcompany']>0 && $plan_info['ul_print_com_times']==1) $isGrey=true;
+				if ($plan_info['admin_to_pcompany']>0 && $plan_info['order']<=2)  $isGrey=true;
+				if ($plan_info['admin_to_pcompany']==2) $isGrey=false;
+				if($isGrey==true)
 				{
 			?>
 				<td valign="middle"><img src="img/common/order/seat_pro_order_greyed.gif" width="146" height="32" /></td>

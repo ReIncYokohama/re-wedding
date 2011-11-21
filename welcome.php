@@ -62,8 +62,9 @@ function confirmDelete(urls)
 #tuji{
 	margin:10px auto;
 	height:170px;
-	padding-top:50px;
+	padding-top:0px;
 	font-size: 140px;
+	line-height:150px;
 	}
 
  </style>
@@ -119,7 +120,7 @@ onmouseover="this.src='img/welcome_2_on.png';" onmouseout="this.src='img/welcome
   </tr>
   <tr><!-- row 4 -->
    <td valign="top"><p style="margin:0px"></p></td>
-   <td align="left" valign="top"><p style="margin:0px">お客様のパソコンで<br />
+   <td align="center" valign="top"><p style="margin:0px">お客様のパソコンで　<br />
 表示される文字の形</p></td>
    <td colspan="2" valign="top"><p style="margin:0px"></p></td>
    <td colspan="4" rowspan="2" align="left" valign="middle"><p style="margin:0px">しんにょうが１点の場合は<br />
@@ -149,7 +150,7 @@ onmouseover="this.src='img/welcome_2_on.png';" onmouseout="this.src='img/welcome
    <td><img src="images/spacer.gif" width="1" height="47" border="0" alt="" /></td>
   </tr>
   <tr><!-- row 8 -->
-   <td rowspan="6"><a href="javascript:void(0);"  onClick="confirmDelete('welcome.php?code=2');">
+   <td rowspan="6" valign="top"><a href="javascript:void(0);"  onClick="confirmDelete('welcome.php?code=2');">
 						<img src="img/welcome_3.png" width="150" height="150" border="0" align="absmiddle" style="border:0px solid;margin-top:0px;"
 onmouseover="this.src='img/welcome_3_on.png';" onmouseout="this.src='img/welcome_3.png'" /> </a></td>
    <td><img src="images/spacer.gif" width="1" height="1" border="0" alt="" /></td>

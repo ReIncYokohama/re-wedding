@@ -5,6 +5,10 @@
 	$objInfo = new InformationClass();
 	$get = $obj->protectXSS($_GET);
 	$user_id = (int)$_SESSION['userid'];
+
+//tabの切り替え
+$tab_hikidemono = true;
+
 	include_once("inc/new.header.inc.php");
 	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
 	$data_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".(int)$_SESSION['userid']." order by id asc");
@@ -120,8 +124,6 @@
  $(title).html("引出物・料理の登録 - ウエディングプラス");
 
 	$(function(){
-		$("ul#menu li").removeClass();
-		$("ul#menu li:eq(2)").addClass("active");
     if(<?php echo $save_hikidemono;?>) alert("引出物グループが保存されました");
 	});
 
@@ -436,16 +438,14 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 		{?>
 			&nbsp;<br />
 			<a href="javascript:void(0)" onclick="validForm();" name="sub">
-        	<img src="img/btn_save_user.jpg" border="0" />
-        	</a>
-			&nbsp;
-			<a href="hikidemono.php" name="cancel">
+        	<img src="img/btn_save_user.jpg" border="0" /></a>　
+            <a href="hikidemono.php" name="cancel">
         	<img src="img/btn_rollback_user.jpg" border="0" />
         	</a>
         	<?php
 		}
 		?>
-		<input type="hidden" id="timeout" name="timeout" value="" />
+		    <input type="hidden" id="timeout" name="timeout" value="" />
 </form>
 </div>
 <br /><br />
