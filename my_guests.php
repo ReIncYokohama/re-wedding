@@ -23,9 +23,9 @@ if($_GET["update"]) $message = "招待者および招待者情報が更新され
 if(isset($_GET['action']) && $_GET['action'] == 'delete' )
 	{
 		$guest_id = (int)$_GET['guest_id'];
-    
-    //ゲストの削除をログに
-    $obj->set_log_guest_delete($user_id,$guest_id,$_SESSION["adminid"]);
+		$admID = $_SESSION["adminid"];
+	    //ゲストの削除をログに
+	    $obj_data->set_log_guest_delete($user_id,$guest_id,$admID);
 
 		$obj->DeleteRow('spssp_guest', 'id='.$guest_id);
 		$obj->DeleteRow('spssp_plan_details', 'guest_id='.$guest_id);
