@@ -304,10 +304,10 @@ include("inc/return_dbcon.inc.php");
 				  <td width="40" nowrap="nowrap" style="text-align:left;">添付</td>
 					<td width="5" nowrap="nowrap" style="text-align:left;">：</td>
 					<td style="text-align:left;" >
-						<input name="file1" type="text" id="file1" style="margin-bottom:2px;border-style: inset;" size="40" readonly/>
-
-		        <input id="upfile" type="file" name="upfile" onchange="filename_change();" style="display: none">
-						<a href="javascript:void(0);" name="file2" onclick="button1_onclick();"/><img src="img/common/btn_attach.jpg" alt="参照" /></a>
+<!-- 						<input name="file1" type="text" id="file1" style="margin-bottom:2px;border-style: inset;" size="40" readonly/> -->
+<!-- 		        		<input id="upfile" type="file" name="upfile" onchange="filename_change();" style="display: none"> -->
+ 							<input id="upfile" type="file" name="upfile">
+<!-- 						<a href="javascript:void(0);" name="file2" onclick="button1_onclick();"/><img src="img/common/btn_attach.jpg" alt="参照" /></a> -->
 					</td>
 				</tr>
 		<tr>
