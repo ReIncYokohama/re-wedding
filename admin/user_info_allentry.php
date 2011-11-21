@@ -1660,7 +1660,7 @@ if($user_row['mukoyoshi']=='1'){
         <br />
 
     </div>
-    </div>
+
 
 <?php
 	include_once('inc/left_nav.inc.php');
