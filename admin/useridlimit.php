@@ -68,10 +68,10 @@ width:100px;
 <script type="text/javascript">
 function valid_user()
 {
-var con_int = <?=$confirm_day_num?>;
-var rng_int = <?=$limitation_ranking?>;
-var ord_int = <?=$order_deadline?>;
-var lim_int = <?=$user_id_limit?>;
+var con_int = '<?=$confirm_day_num?>';
+var rng_int = '<?=$limitation_ranking?>';
+var ord_int = '<?=$order_deadline?>';
+var lim_int = '<?=$user_id_limit?>';
 
 var con = document.getElementById("confirm_day_num").value;
 var rng = document.getElementById("limitation_ranking").value;
