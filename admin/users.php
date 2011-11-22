@@ -330,7 +330,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 					</table>
 					<table width="720" border="0" cellpadding="0" cellspacing="8">
 					  <tr>
-					  	<td width="27" >&nbsp;</td>
+					  	<td width="58" >&nbsp;</td>
 					    <td width="90" align="left" valign="bottom" > <a href="javascript:void(0);" onclick="validSearch();"><img src="img/common/btn_search1.jpg" alt="検索" width="82" height="22" border="0" /></a></td>
 					    <td width="90" align="left" valign="bottom"> <a href="javascript:void(0)" onclick="clearForm()"><img border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg" ></a></td>
 					 	<td width="90" align="left" valign="bottom" ><a href="users.php"><img border="0" height="22" width="82" alt="検索解除" src="img/common/btn_search_clear.jpg"/></a></td> <!-- UCHIDA EDIT 11/07/26 -->
