@@ -39,7 +39,11 @@
 
     $order_deadline     = $obj->GetSingleData("spssp_gift_criteria" ,"order_deadline" ,"1=1");							// 引出物本発注締切日
 
-
+    if ($confirm_day_num == "") 	$confirm_day_num = "0";
+	if ($limitation_ranking == "") 	$limitation_ranking = "0";
+	if ($user_id_limit == "") 		$user_id_limit = "0";
+	if ($order_deadline == "") 		$order_deadline = "0";
+	
 ?>
 <style>
 .datepickerControl table
