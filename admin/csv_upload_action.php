@@ -217,7 +217,6 @@ $party_date = $obj->japanyDateFormate_for_mail($user_row['party_day']);
 $admin_row = $obj->GetSingleRow("spssp_admin"," permission='333'");
 $admin_email = $admin_row["email"];
 $admin_name = $admin_row["name"];
-$admin_email = "kubonagarei@gmail.com";
 
 $BASE_URL = BASE_URL;
 $title = "［ウエディングプラス］招待客リストデータがアップロードされました";
@@ -259,7 +258,7 @@ $printing_company_mail = "kubonagarei@gmail.com";
 */
 
 $mail = $user_row["mail"];
-$mail = "sekiduka@re-inc.jp";
+
 $title = "［ウエディングプラス］招待客リストデータが追加されました。";
 if($user_row["subcription_mail"]){
 
