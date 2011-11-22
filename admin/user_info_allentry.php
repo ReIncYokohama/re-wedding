@@ -724,9 +724,9 @@ function dowload_options_change() {
         doc.length = 2;
         doc.options[0].text = "A3";
         doc.options[0].value = 1;
-        doc.options[0].selected = true;
         doc.options[1].text = "B4";
         doc.options[1].value = 2;
+        doc.options[1].selected = true;
         break;
   }
 }
