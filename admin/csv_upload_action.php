@@ -6,6 +6,7 @@ include_once("inc/class.dbo.php");
 include_once("../inc/gaiji.image.wedding.php");
 include_once("inc/class_message.dbo.php");
 include_once("inc/class_data.dbo.php");
+include_once("../app/ext/Utils/email.php");
 
 $obj = new DataClass();
 
@@ -216,60 +217,77 @@ $party_date = $obj->japanyDateFormate_for_mail($user_row['party_day']);
 $admin_row = $obj->GetSingleRow("spssp_admin"," permission='333'");
 $admin_email = $admin_row["email"];
 $admin_name = $admin_row["name"];
+$admin_email = "kubonagarei@gmail.com";
+
+$BASE_URL = BASE_URL;
+$title = "［ウエディングプラス］招待客リストデータがアップロードされました";
 
 if($admin_email){
 
 $body = <<<_EOT_
-$admin_name様
+${admin_name}様
 
 いつもお世話になっております。
-$party_date $man_last_name･$woman_last_name 様から仮発注依頼がありました。
-仮発注処理をお願いいたします。
+${party_date} ${man_last_name}・${woman_last_name} 様向け招待者リストデータがアップロードされました。
+ご確認をお願いいたします。
+  URL ${BASE_URL}admin/
+
+▼ このメールは、システムによる自動配信メールとなっております。
+心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
+株式会社サンプリンティングシステム info@wedding-plus.net
+
+▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
+
+-----------------------------------------------------------
+ウエディングプラス
+株式会社サンプリンティングシステム
+E-mail：info@wedding-plus.net
+URL: $BASE_URL
+
+_EOT_;
+  $email = new Email($admin_email,$title,$body);
+  $email->send();
+  //confirm_guest_register($admin_email,$title,$body);
+}
+
+//印刷会社さんにメール
+/*
+$printing_company_row = $obj->GetSingleRow("spssp_printing_company"," where id = ".$user_plan_row["printing_company"]);
+$printing_company_mail = $printing_company_row["email"];
+$printing_company_name = $printing_company_row["company_name"];
+$printing_company_mail = "kubonagarei@gmail.com";
+*/
+
+$mail = $user_row["mail"];
+$mail = "sekiduka@re-inc.jp";
+$title = "［ウエディングプラス］招待客リストデータが追加されました。";
+if($user_row["subcription_mail"]){
+
+$body = <<<_EOT_
+${man_last_name}・${woman_last_name} 様
+
+このたびはウェディングプラスをご利用いただき、ありがとうございます。
+お客様からご提供いただきました招待客リストデータが追加されました。
+ご確認をお願いします。
 URL $BASE_URL
 
 ▼ このメールは、システムによる自動配信メールとなっております。
 心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
 株式会社サンプリンティングシステム info@wedding-plus.net
+
 ▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
 
 -----------------------------------------------------------
   ウエディングプラス(株式会社サンプリンティングシステム)
-E-mail：wedding-plus@wedding-plus.net
-URL： （ホテルスタッフログイン画面）
+E-mail：info@wedding-plus.net
+URL： $BASE_URL
 
 _EOT_;
-
-  confirm_guest_register($admin_email,$title,$body);
-}
-
-//印刷会社さんにメール
-$printing_company_row = $obj->GetSingleRow("spssp_printing_company"," where id = ".$user_plan_row["printing_company"]);
-$printing_company_mail = $printing_company_row["email"];
-$printing_company_name = $printing_company_row["company_name"];
-
-if($printing_company_mail){
-
-$body = <<<_EOT_
-$printing_company_name様
-
-いつもお世話になっております。
-$party_date $man_last_name ･$woman_last_name 様から仮発注依頼がありました。
-仮発注処理をお願いいたします。
-URL $BASE_URL
-
-▼ このメールは、システムによる自動配信メールとなっております。
-心当たりのない場合、その他ご不明な点がございましたら、お手数ですが下記よりご連絡いただけますようお願い申し上げます。
-株式会社サンプリンティングシステム wedding-plus@wedding-plus.net
-▼ このアドレスは配信専用となります。このメールに対しての返信につきましては対応いたしかねます旨ご了承ください。
-
------------------------------------------------------------
-  ウエディングプラス(株式会社サンプリンティングシステム)
-E-mail：wedding-plus@wedding-plus.net
-URL： （ホテルスタッフログイン画面）
-
-_EOT_;
-
-  confirm_guest_register($printing_company_mail,$title,$body);
+$email = new Email($mail,$title,$body);
+$email->from = "info@wedding-plus.net";
+$email->fromName = "Wedding Plus";
+$email->send();
+//confirm_guest_register($printing_company_mail,$title,$body);
 }
 
 /*
