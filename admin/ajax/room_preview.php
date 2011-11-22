@@ -47,9 +47,7 @@ else
             {
 //				$names[] = mb_substr($rt['name'], 0,1,'UTF-8');// 先頭の1文字
 				$nm=$objInfo->get_table_name($rt['name']);
-				if (mb_substr($nm, 0,1,'UTF-8')=="") 	$names[] = "&nbsp;";
-				else									$names[] = mb_substr($nm, 0,1,'UTF-8');// 先頭の1文字
-//				$names[] = mb_substr($nm, 0,1,'UTF-8');// 先頭の1文字
+				$names[] = mb_substr($nm, 0,1,'UTF-8');// 先頭の1文字
             }
 
     ?>
@@ -68,7 +66,7 @@ else
                 for($col = 1; $col <= $num_cols; $col++)
                     {
                         //echo "<td>ahad</td>";
-                        echo "<td align='center' valign='middle'><div style=\"width:31px; text-align:center; height:24px; padding-top:7px; background-image:url('img/circle_small.jpg')\"><span class='tbl_name'>".array_shift($names)."</span></div></td>";
+                        echo "<td align='center' valign='middle'><div style=\"width:31px; text-align:center; height:24px; padding-top:7px; background-image:url('img/circle_small.jpg'); background-repeat: no-repeat;\"><span>".array_shift($names)."</span></div></td>";
                     }
                 echo "</tr>";
             }

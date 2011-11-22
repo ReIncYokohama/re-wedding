@@ -292,8 +292,8 @@ include("inc/return_dbcon.inc.php");
 ?>
 
     <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
+        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" border="0" /></a>　
+        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" border="0" /></a>
     </div>
 </div>
 <div id="container">
@@ -331,9 +331,9 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 					<table width="720" border="0" cellpadding="0" cellspacing="8">
 					  <tr>
 					  	<td width="27" >&nbsp;</td>
-					    <td width="50" align="left" valign="bottom" > <a href="javascript:void(0);" onclick="validSearch();"><img src="img/common/btn_search1.jpg" alt="検索" width="82" height="22" /></a></td>
-					    <td width="50" align="left" valign="bottom"> <a href="javascript:void(0)" onclick="clearForm()"><img border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg" ></a></td>
-					 	<td width="30" align="left" valign="bottom" ><a href="users.php"><img border="0" height="22" width="82" alt="検索解除" src="img/common/btn_search_clear.jpg"/></a></td> <!-- UCHIDA EDIT 11/07/26 -->
+					    <td width="90" align="left" valign="bottom" > <a href="javascript:void(0);" onclick="validSearch();"><img src="img/common/btn_search1.jpg" alt="検索" width="82" height="22" border="0" /></a></td>
+					    <td width="90" align="left" valign="bottom"> <a href="javascript:void(0)" onclick="clearForm()"><img border="0" height="22" width="82" alt="クリア" src="img/common/btn_clear.jpg" ></a></td>
+					 	<td width="90" align="left" valign="bottom" ><a href="users.php"><img border="0" height="22" width="82" alt="検索解除" src="img/common/btn_search_clear.jpg"/></a></td> <!-- UCHIDA EDIT 11/07/26 -->
 				      </tr>
 					</table>
 		                <input type="hidden" name="h_date_from" value="">
@@ -425,7 +425,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 						   echo $woman_name;
 					   ?>
 						</td>
-                    	<td width="60"><a href="user_info_allentry.php?user_id=<?=$row['id']?>&stuff_id=<?=$row['stuff_id']?>"><img src="img/common/customer_info.gif" /></a></td>
+                    	<td width="60"><a href="user_info_allentry.php?user_id=<?=$row['id']?>&stuff_id=<?=$row['stuff_id']?>"><img src="img/common/customer_info.gif" border="0" /></a></td>
                         <td width="80"> <?=$row['name']?></td>
                         <td width="60"> <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'], $row['stuff_id']);?> </td>
                         <!-- <td></td>-->
@@ -443,8 +443,8 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 						?>
                         </td>
                         <td width="60" class="txt1">
-                        	<a href="javascript:void(0);" onClick="windowUserOpen('user_dashboard.php?user_id=<?=$row['id']?>')"><img src="img/common/customer_view.gif" /></a>
-                        </td>
+                        	<a href="javascript:void(0);" onClick="windowUserOpen('user_dashboard.php?user_id=<?=$row['id']?>')"><img src="img/common/customer_view.gif" border="0" /></a>
+                      </td>
 
                         <td width="40">
                         	<?php
@@ -456,7 +456,7 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 						</td>
                         <td width="40">
                         	<a href="javascript:void(0);" onclick="confirmDeleteUser(<?=$row['id']?>);" >
-                        		<img src="img/common/btn_deleate.gif" />
+                        		<img src="img/common/btn_deleate.gif" border="0" />
                             </a>
                         </td>
                     </tr>

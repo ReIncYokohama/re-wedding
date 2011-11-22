@@ -1,7 +1,10 @@
+<<<<<<< HEAD
 #写真のフォルダを反映しない
 #子フォルダに記入
 #user_name
 
+=======
+>>>>>>> 64382511c28799ae195af7dca3a4bb2a83b38419
 #コンフファイルを反映しない
 conf/conf.php
 
@@ -10,6 +13,7 @@ conf/conf.php
 \#*\#
 
 #apaceh
+<<<<<<< HEAD
 !.htaccess
 !.htpasswd
 
@@ -25,3 +29,7 @@ user_name/*
 gaizi.log
 cache/*
 _uaLog/*
+=======
+.htaccess
+.htpasswd
+>>>>>>> 64382511c28799ae195af7dca3a4bb2a83b38419
