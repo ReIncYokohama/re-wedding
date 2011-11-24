@@ -340,7 +340,7 @@ include("inc/return_dbcon.inc.php");
                 <td width="10" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
                 	<input type="radio" value="1" name="rename_table_view" <?php 	if($default_raname_table_view == "1"){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;可&nbsp;&nbsp;
-					<input type="radio" value="0" name="rename_table_view" <?php 	if($default_raname_table_view == "0"){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;不可&nbsp;&nbsp;
+					<input type="radio" value="0" name="rename_table_view" <?php 	if($default_raname_table_view == "0" || $default_raname_table_view == ""){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;不可&nbsp;&nbsp;
            	  </td>
 	        </tr>
 	        </table>
@@ -352,7 +352,7 @@ include("inc/return_dbcon.inc.php");
                 <td width="10" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
                 	<input type="radio" value="1" name="rename_table_view" <?php 	if($default_raname_table_view == "1"){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;可&nbsp;&nbsp;
-					<input type="radio" value="0" name="rename_table_view" <?php 	if($default_raname_table_view == "0"){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;不可&nbsp;&nbsp;
+					<input type="radio" value="0" name="rename_table_view" <?php 	if($default_raname_table_view == "0" || $default_raname_table_view == ""){echo "checked='checked'";}?> <?=$InputArea ?> >&nbsp;不可&nbsp;&nbsp;
            	  </td>
            	</tr>
         	</table>
