@@ -280,10 +280,11 @@ function filename_change() {
 				  <td width="40" align="left" valign="middle" nowrap="nowrap" style="text-align:left;">添付</td>
 					<td width="5" valign="middle" nowrap="nowrap" style="text-align:center;">：</td>
 					<td align="left" valign="middle" style="text-align:left;">
-					  <input name="file1" type="text" id="file1" size="40" style="border-style: inset;" readonly />
-						<input id="upfile" type="file" name="upfile" onchange="filename_change();" style="display: none">
+<!-- 					  <input name="file1" type="text" id="file1" size="40" style="border-style: inset;" readonly /> -->
+<!--						<input id="upfile" type="file" name="upfile" onchange="filename_change();" style="display: none"> -->
+						<input id="upfile" type="file" name="upfile">
 					
-					<a href="javascript:void(0);" name="file2" onclick="button1_onclick();"><img src="img//btn_attach_user.jpg" alt="参照" width="82" height="22" /></a>	
+<!--					<a href="javascript:void(0);" name="file2" onclick="button1_onclick();"><img src="img//btn_attach_user.jpg" alt="参照" width="82" height="22" /></a>	 -->
 				  </td>
 				</tr>
 				<tr>
