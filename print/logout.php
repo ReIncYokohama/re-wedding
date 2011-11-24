@@ -4,5 +4,8 @@ unset($_SESSION['company_name']);
 unset($_SESSION['email']);
 unset($_SESSION['printid']);
 unset($_SESSION['contact_name']);
-header("Location:index.php");
+//header("Location:index.php");
 ?>
+<script>
+window.close();
+</script>
