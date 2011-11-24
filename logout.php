@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
  @session_start();
  include_once("admin/inc/class.dbo.php");
@@ -34,14 +33,4 @@ if ($_SESSION['regenerate_user_id']!="") {
 		echo "</script>";
 	}
 ?>
-=======
-<?php
- @session_start();
- require_once("inc/class.dbo.php");
- $obj = new DBO();
 
-	unset($_SESSION['super_adminid']);
-	redirect("index.php");
-	exit;
-?>
->>>>>>> 64382511c28799ae195af7dca3a4bb2a83b38419
