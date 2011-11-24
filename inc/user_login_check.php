@@ -4,7 +4,7 @@ include_once(dirname(__file__)."/../admin/inc/dbcon.inc.php");
 $obj = new DBO();
 include_once("update_user_log.php");
 
-	if ($_SESSION['userid']>0) {
+	if ($_SESSION['userid']>0 && isset($_SESSION['userid'])) {
 		$fileName = USER_LOGIN_DIRNAME.$_SESSION['userid'].".log";
 		if (!file_exists($fileName)) {
 			session_regenerate_id();
