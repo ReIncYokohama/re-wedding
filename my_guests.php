@@ -66,7 +66,6 @@ $order = ' id asc ';
 
 $plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
 
-
 if(isset($_GET['option']) && $_GET['option'] != '')
 	{
 		$optionValue = $_GET['option'];
@@ -75,7 +74,9 @@ if(isset($_GET['option']) && $_GET['option'] != '')
 
     for($i=0;$i<(count($ordervalue)-1);$i++)
       {
-        if($ordervalue[$i]!="guest_type")
+        if($ordervalue[$i]=="sex"){
+          $orderarray[] = "sex desc";
+        }else if($ordervalue[$i]!="guest_type")
 					$orderarray[] =  $ordervalue[$i].' asc';
         else
 					{
