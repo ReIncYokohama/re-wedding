@@ -361,7 +361,8 @@ function user_timeout() {
 		}
 		elseif($default_layout_title!="")
 		{
-			echo "<div id='default_layout_title' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$default_layout_title."</div>";
+			echo "<div id='default_layout_title' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>"."　　　"."</div>";
+			//echo "<div id='default_layout_title' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$default_layout_title."</div>";
 		}
 		else
 		{
