@@ -354,6 +354,7 @@ foreach($usertblrows as $tblRows)
 
 		//respect
 		$respect = $obj->GetSingleData("spssp_respect", "title","id=".$guest_info['respect_id']);
+    if ($respect=="なし") $respect = "";
 		$value = chop($respect);
 		$cl22[] = "\"$value\"";
 
