@@ -1055,6 +1055,8 @@ if($guest["sex"] == "Male"){
 				$table_details=$obj->getSingleRow("spssp_default_plan_table"," id=".$seat_details['table_id']." limit 1");
 
 				$tbl_row = $obj->getSingleRow("spssp_table_layout"," table_id=".$table_details['id']." and user_id=".(int)$user_id." limit 1");
+				$tblname = $tbl_row['name'];
+/*
 				$new_name_row = $obj->getSingleRow("spssp_user_table"," default_table_id=".$tbl_row['id']." and user_id=".(int)$user_id." limit 1");
 				if(!empty($new_name_row))
 				{
@@ -1064,6 +1066,7 @@ if($guest["sex"] == "Male"){
 				{
 					$tblname = $tbl_row['name'];
 				}
+*/
      if($guest["stage"] == 1){
        $tblname = "高砂";
      }
