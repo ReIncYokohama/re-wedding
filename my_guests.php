@@ -1174,8 +1174,22 @@ if($guest["sex"] == "Male"){
           </tr>
         
           <tr >
-             
-          </tr>     
+            <td colspan="2" align="right" bgcolor="#ffffff">グループ数</td>
+            <?php
+				$total = 0;
+            	foreach($group_rows as $grp)
+				{
+					if ($grp['name']!="") {
+						$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']);
+						$total += $num_guests_groups;
+						echo "<td align='center' bgcolor='#ffffff'> $num_guests_groups </td>";
+					}
+				}
+			?>
+
+            <td align="center" bgcolor="#ffffff"> - </td>
+            <td bgcolor="#ffffff" align="center"><?=$total?></td>
+          </tr>
 
           <?php
           echo "<tr>";
