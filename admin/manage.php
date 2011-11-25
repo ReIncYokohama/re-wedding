@@ -546,6 +546,7 @@ include("inc/return_dbcon.inc.php");
 			    		$woman_name = $objinfo->get_user_name_image_or_src($umsg['user_id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
 			    		$user_name = $man_name."・".$woman_name;
 
+						echo "<li><a href='message_user.php?stuff_id=0&user_id=".$umsg['user_id']."' >".$party_day." ".$user_name." 様よりの未読メッセージがあります。</a></li>";
 					}
 				}
 			?>
