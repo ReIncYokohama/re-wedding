@@ -215,7 +215,8 @@ $total_guest_with_bride=$total_guest+2;
 $woman_lastname=$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_lastname_respect.png",$extra="thumb1");
 	
 $man_lastname=$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_lastname_respect.png",$extra="thumb1");
-	
+
+
 $party_day_for_confirm=$user_info['party_day'];
 $party_date_array=explode("-",$party_day_for_confirm);
 $day = $party_date_array[2];
