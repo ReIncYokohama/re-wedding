@@ -241,7 +241,7 @@ class DataClass extends DBO{
     $plan_id = $this->get_plan_id($user_id);
     $guestArray = $this->getRowsByQuery("select * from spssp_guest where user_id = $user_id and self != 1 order by sex desc");
     for($i=0;$i<count($guestArray);++$i){
-      $guestArray[$i] = $this->get_guest_data_detail($guest_detail,$user_id,$plan_id);
+      $guestArray[$i] = $this->get_guest_data_detail($guestArray[$i],$user_id,$plan_id);
     }
     return $guestArray;
   }
