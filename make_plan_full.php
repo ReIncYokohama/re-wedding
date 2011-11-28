@@ -381,7 +381,7 @@ direction: ltr;
     <div class="title_bar_txt_L">席次表を編集</div>
 <div class="clear"></div></div>
 <div class="cont_area"  align="center">
-
+<!--
 <?php
 
 	if(isset($_GET['err']) && $_GET['err'] !='')
@@ -389,7 +389,7 @@ direction: ltr;
 		$obj->GetErrorMsg((int)$_GET['err']);
 	}
 
-  ?>
+  ?>-->
 </div>
 
 <div class="make_plan_main_contents" id="con_area_ie">
