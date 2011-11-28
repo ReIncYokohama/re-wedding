@@ -12,7 +12,7 @@ function setDeleteGaiji(gaiji_obj){
     return text.split("＊").length-1;
   }
   var id = "#"+gaiji_obj["input_id"];
-  if (jQuery.browser.msie) {
+  //if (jQuery.browser.msie) {
       $j(id).click(function(event){
           if(!event) event = window.event;
           var target = event.target;
@@ -25,7 +25,7 @@ function setDeleteGaiji(gaiji_obj){
           nowGaijiIndex = $j(event.target).getForcusIndex();
           
       });
-  }
+  //}
   $j(id).keydown(function(event){
       text = $j(this).val();
       gaiji = getGaijiNum(text);
@@ -44,8 +44,10 @@ function setDeleteGaiji(gaiji_obj){
       }else if(!target){
           target = event.srcElement;
       }
+      //if(event.keyCode==13) return;
+      //alert(event.keyCode);
       nowGaijiIndex = $j(target).getForcusIndex();
-
+          //alert(nowGaijiIndex);
       if(event.keyCode == 8){
         if(nowgaiji < gaiji){
           var textnum = text_num(nowtext,mark,nowGaijiIndex);
