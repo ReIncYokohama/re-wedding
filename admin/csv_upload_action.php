@@ -23,6 +23,11 @@ if($_FILES["csv"]["tmp_name"]){
   while ($csv[] = fgetcsv($tmp, "1024")) {}
   mb_convert_variables("UTF-8", "SJIS-win", $csv);
 }
+if(count($csv)==0){
+  print 'ファイルが添付されていません。<br><img onclick="javascript:window.close();" src="../img/btn_close.jpg" alt="閉じる" width="82" height="22" />';
+  exit;
+}
+
 $post = $obj->protectXSS($_POST);
 
 if($_GET["force"]){
