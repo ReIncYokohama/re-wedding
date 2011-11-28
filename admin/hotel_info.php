@@ -167,6 +167,26 @@ function validForm()
 	  }
 	}
 
+	if ($j("#delete_guest").val() == "") {
+		alert ("招待者リストデータ削除日を入力してください");
+		$j("#delete_guest").focus();
+		return false;
+	}
+	if (isNaN($j("#delete_guest").val()) == true) {
+		alert ("招待者リストデータ削除日は半角数字で入力してください");
+		$j("#delete_guest").focus();
+		return false;
+	}
+	if ($j("#delete_weeding").val() == "") {
+		alert ("挙式情報データ削除日を入力してください");
+		$j("#delete_weeding").focus();
+		return false;
+	}
+	if (isNaN($j("#delete_weeding").val()) == true) {
+		alert ("挙式情報データ削除日は半角数字で入力してください");
+		$j("#delete_weeding").focus();
+		return false;
+	}
 
 	document.hotelinfo.submit();
 }
@@ -288,12 +308,12 @@ include("inc/return_dbcon.inc.php");
 						  <tr>
 						    <td align="left">招待者リストデータ削除日<?=$disp_option3?></td>
 							<td align="left">：</td>
-							<td><input name="delete_guest" type="text" id="delete_guest" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " size="5"   value="<?=$hotel_row[delete_guest]?>"/></td>
+							<td><input name="delete_guest" type="text" id="delete_guest" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " size="5"   value="<?=$hotel_row[delete_guest]?>"/> ヶ月後</td>
 						  </tr>
 						  <tr>
 						    <td align="left">挙式情報データ削除日<?=$disp_option3?></td>
 							<td align="left"> ：</td>
-							<td><input name="delete_weeding" type="text" id="delete_weeding" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " size="5"   value="<?=$hotel_row[delete_weeding]?>"/></td>
+							<td><input name="delete_weeding" type="text" id="delete_weeding" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " size="5"   value="<?=$hotel_row[delete_weeding]?>"/> ヶ月後</td>
 						  </tr>
 
                             <tr>
