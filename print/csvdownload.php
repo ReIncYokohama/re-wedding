@@ -295,10 +295,6 @@ function getGaijis($gaiji_objs){
 }
 
 
-include("admin/inc/main_dbcon.inc.php");
-$respects = $obj->GetAllRow(" spssp_respect"." order by display_order DESC ");
-include("admin/inc/return_dbcon.inc.php");
-
 $o=1;$cl22 = "";
 foreach($usertblrows as $tblRows)
 {	//echo "<br>".$tblRows['table_id']."<br>";
@@ -367,15 +363,7 @@ foreach($usertblrows as $tblRows)
 		$cl22[] = "\"$value\"";
 
 		//respect
-    foreach($respects as $respect)
-      {
-        if($guest_info['respect_id'] == $respect['id'])
-          {
-            $respectname = $respect["title"];
-            break;
-          }
-      }
-    if ($respectname=="なし") $respectname = "";
+    $respectname = $obj->get_respect($guest_info["respect_id"]);
 		$value = chop($respectname);
 		$cl22[] = "\"$value\"";
 
@@ -505,15 +493,7 @@ foreach($usertblrows as $tblRows)
     if($own_info["self"]==1){
       $respectname = "様";
     }else{
-      foreach($respects as $respect)
-        {
-          if($guest_info['respect_id'] == $respect['id'])
-            {
-              $respectname = $respect["title"];
-              break;
-            }
-        }
-      if ($respectname=="なし") $respectname = "";
+      $respectname = $obj->get_respect($own_info["respect_id"]);
     }
 		$value = chop($respectname);
 		$own_array[] = "\"$value\"";

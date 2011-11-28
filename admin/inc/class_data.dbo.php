@@ -628,7 +628,7 @@ class DataClass extends DBO{
     include(dirname(__file__)."/main_dbcon.inc.php");
     $respect = $this->GetSingleData(" spssp_respect ", "title", " id='".$respect_id."'");
     include(dirname(__file__)."/return_dbcon.inc.php");
-    
+    if($respect=="なし") return "";
     return $respect;
   }
   //区分をテキストで返す。

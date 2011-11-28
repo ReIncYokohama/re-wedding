@@ -98,10 +98,6 @@
 
 	}
 
-	include("admin/inc/main_dbcon.inc.php");
-	$respects = $obj->GetAllRow(" spssp_respect");
-	include("admin/inc/return_dbcon.inc.php");
-
 $closeWindow = "false";
 if($_GET["delete"]){
   $closeWindow = "true";
@@ -475,10 +471,7 @@ direction: ltr;
 								$src = "img/icon02.jpg";
 								$style = "style = 'display:block'";
 							}
-
-							include("admin/inc/main_dbcon.inc.php");
-							$rsp = $obj->GetSingleData(" spssp_respect", "title"," id=".$guest['respect_id']);
-							include("admin/inc/return_dbcon.inc.php");
+              $rsp = $obj->get_respect($guest["respect_id"]);
 
 							$edited_num = $obj->GetNumRows("spssp_guest", "edit_item_id=".$guest['id']." and user_id=".(int)$user_id);
 							//echo '<h1>'.$edited_num.'</h1>';
