@@ -33,3 +33,4 @@ if ($_SESSION['regenerate_user_id']!="") {
 		echo "</script>";
 	}
 ?>
+

@@ -83,29 +83,39 @@ else if($plan_info['dowload_options']==3)
 
 }
 
-$entityArray['HotelName']			= "SPSSP";
-$entityArray['WeddingDate']			= strftime('%Y年%m月%d日',strtotime($user_info['marriage_day']));
-$entityArray['WeddingTime']			= $user_info['marriage_day_with_time'];
+include("../admin/inc/main_dbcon.inc.php");
+$hcode=$HOTELID;
+$hotel_name = $obj->GetSingleData("super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
+$data =  $obj->GetSingleRow("super_spssp_hotel", " 1=1");
+include("../admin/inc/return_dbcon.inc.php");
+
+$layoutname = $obj->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
+$default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
+
+$entityArray['HotelName']			= $hotel_name;
+$entityArray['WeddingDate']			= ($user_info['marriage_day']=="0000-00-00")?"":strftime('%Y年%m月%d日',strtotime($user_info['marriage_day']));
+$entityArray['WeddingTime']			= mb_substr($user_info['marriage_day_with_time'],0,5);
 $entityArray['WeddingVenues']		= $room_info['name'];
 $entityArray['ReceptionDate']		= strftime('%Y年%m月%d日',strtotime($user_info['party_day']));
-$entityArray['ReceptionTime']		= $user_info['party_day_with_time'];
+$entityArray['ReceptionTime']		= mb_substr($user_info['party_day_with_time'],0,5);
 $entityArray['ReceptionHall']		= $party_room_info['name'];
-$entityArray['GroomName']			= $user_info['man_firstname']."  ".$user_info['man_lastname'];
-$entityArray['fullPhoneticGroom']	= "PhoneticGroom";
-$entityArray['BrideFullName']		= $user_info['woman_firstname']."  ".$user_info['woman_lastname'];
-$entityArray['BrideFullPhonetic']	= "BrideFullPhonetic";
+$entityArray['GroomName']			= $user_info['man_lastname']."  ".$user_info['man_firstname'];
+$entityArray['fullPhoneticGroom']	= $user_info['man_furi_lastname']."  ".$user_info['man_furi_firstname'];
+$entityArray['BrideFullName']		= $user_info['woman_lastname']."  ".$user_info['woman_firstname'];
+$entityArray['BrideFullPhonetic']	= $user_info['woman_furi_lastname']."  ".$user_info['woman_furi_firstname'];
 $entityArray['Categories']			= $dowload_options;
 $entityArray['ProductName']			= $plan_info['product_name'];
 $entityArray['Printsize']			= $print_size;
 $entityArray['tableArrangement']	= $tableArrangement;
-$entityArray['JIs_num']				= $user_info['user_code'];
-$entityArray['DataOutputTime']		= strftime('%Y年%m月%d日',strtotime(date("Y/m/d")));
+$entityArray['JIs_num']				= strtoupper($user_info['user_code']);
+$entityArray['DataOutputTime']		= date("Y年m月d日 g時i分");
+$entityArray['TakasagoName']		= ($layoutname!="" && $layoutname!="null")?$layoutname:$default_layout_title;
 $entityArray['PlannerName']			= $stuff_info['name'];
 $entityArray['LayoutColumns']		= $plan_info['column_number'];
 $entityArray['TableLayoutStages']	= $plan_info['row_number'];
 $entityArray['Colortable']	        = "";
 $entityArray['Max']					= $plan_info['seat_number'];
-$entityArray['NumberAttendance']	= $plan_info['column_number']*$plan_info['row_number']*$plan_info['seat_number'];
+$entityArray['NumberAttendance']	= $plan_info['column_number']*$plan_info['row_number']*$plan_info['seat_number']+2;
 
 $count = count($entityArray);
 foreach($entityArray as $key=>$values)
@@ -353,8 +363,8 @@ foreach($usertblrows as $tblRows)
 		$cl22[] = "\"$value\"";
 
 		//respect
-		$respect = $obj->GetSingleData("spssp_respect", "title","id=".$guest_info['respect_id']);
-		$value = chop($respect);
+    $respectname = $obj->get_respect($guest_info["respect_id"]);
+		$value = chop($respectname);
 		$cl22[] = "\"$value\"";
 
 		//com1 com2
@@ -427,11 +437,27 @@ foreach($usertblrows as $tblRows)
 			$own_array[] = "\"$value\"";*/
 		$own_array[] = "\n\"$value\"";
 
-    $query_string = "SELECT * FROM spssp_gaizi_detail_for_guest WHERE guest_id = '".$own_info['id']."'";
-    $firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=0 order by gu_char_position");
-    $lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=1 order by gu_char_position");
-    $comment1_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=2 order by gu_char_position");
-    $comment2_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=3 order by gu_char_position");
+    if($own_info["self"] == 1){
+     $query_string = "SELECT * FROM spssp_gaizi_detail_for_user WHERE gu_id = '$user_id'";
+     if($own_info["sex"]=="Male"){
+       //men
+       $firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=0");
+       $lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=1");
+       $comment1_gaijis = array();
+       $comment2_gaijis = array();
+     }else{
+       $firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=2");
+       $lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=3");
+       $comment1_gaijis = array();
+       $comment2_gaijis = array();
+     }
+    }else{
+      $query_string = "SELECT * FROM spssp_gaizi_detail_for_guest WHERE guest_id = '".$own_info['id']."'";
+      $firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=0 order by gu_char_position");
+      $lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=1 order by gu_char_position");
+      $comment1_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=2 order by gu_char_position");
+      $comment2_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=3 order by gu_char_position");
+    }
 
 		//TableName
 		//$value = chop($tblname);
@@ -461,12 +487,17 @@ foreach($usertblrows as $tblRows)
 		//FullName gaiji
     $gaiji_name_arr = array_merge($lastname_gaijis,$firstname_gaijis);
 		$value = chop(getGaijis($gaiji_name_arr));
-		$cl22[] = "\"$value\"";
+		$own_array[] = "\"$value\"";
 
 		//respect
-		$respect = $obj->GetSingleData("spssp_respect", "title","id=".$own_info['respect_id']);
-		$value = chop($respect);
+    if($own_info["self"]==1){
+      $respectname = "様";
+    }else{
+      $respectname = $obj->get_respect($own_info["respect_id"]);
+    }
+		$value = chop($respectname);
 		$own_array[] = "\"$value\"";
+
 		//com1 com2
 		if($own_info['comment1']&&$own_info['comment2'])
 			$value = chop($own_info['comment1']." △ ".$own_info['comment2']);
@@ -551,7 +582,7 @@ $this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
 //print_r($entityArrayGuests);
 //exit;
 
-header("Content-Type: application/octet-stream");
-header("Content-Disposition: attachment; filename=${this_name}.csv");
+//header("Content-Type: application/octet-stream");
+//header("Content-Disposition: attachment; filename=${this_name}.csv");
 echo $lines;
 ?>

@@ -98,9 +98,11 @@
 
 	}
 
-	include("admin/inc/main_dbcon.inc.php");
-	$respects = $obj->GetAllRow(" spssp_respect");
-	include("admin/inc/return_dbcon.inc.php");
+$closeWindow = "false";
+if($_GET["delete"]){
+  $closeWindow = "true";
+}
+  
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -275,6 +277,10 @@ var button_enable="<?=$button_enable?>";
   
 }
 function back_to_make_plan() {
+  location.href = "cancel_default_plan.php";  
+}
+
+if(<?php echo $closeWindow;?>){
   window.close();
 }
 
@@ -465,10 +471,7 @@ direction: ltr;
 								$src = "img/icon02.jpg";
 								$style = "style = 'display:block'";
 							}
-
-							include("admin/inc/main_dbcon.inc.php");
-							$rsp = $obj->GetSingleData(" spssp_respect", "title"," id=".$guest['respect_id']);
-							include("admin/inc/return_dbcon.inc.php");
+              $rsp = $obj->get_respect($guest["respect_id"]);
 
 							$edited_num = $obj->GetNumRows("spssp_guest", "edit_item_id=".$guest['id']." and user_id=".(int)$user_id);
 							//echo '<h1>'.$edited_num.'</h1>';
@@ -625,7 +628,7 @@ for($i=0;$i<6;++$i){
   if(!$main_guest[$i]){
     $main_guest[$i] = '<td align="center"  valign="middle" style="text-align:center; padding:7px;width:100px;"></td>';
   }else{
-    $main_guest[$i] = '<td align="center"  valign="middle" style="text-align:center;border:1px solid black; padding:7px;width:100px;">'.$main_guest[$i].'</td>';
+    $main_guest[$i] = '<td align="center"  valign="middle" style="text-align:center; padding:7px;width:100px;">'.$main_guest[$i].'</td>';
     
   }
 }
@@ -636,9 +639,9 @@ $takasago2 = ($user_info["mukoyoshi"])?"man":"woman";
 <table align="center" cellspacing="2"><tr>
 '.$main_guest[3].'
 '.$main_guest[1].'
-<td align="center"  valign="middle" style="width:100px;text-align:center;border:1px solid black;padding:7px; ">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago1}_fullname.png",$extra="thumb1").'</td>
+<td align="center"  valign="middle" style="width:100px;text-align:center;padding:7px; ">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago1}_fullname.png",$extra="thumb1").'</td>
 '.$main_guest[5].'
-<td align="center"  valign="middle" style="width:100px;text-align:center;border:1px solid black; padding:7px;">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago2}_fullname.png",$extra="thumb1").'</td>
+<td align="center"  valign="middle" style="width:100px;text-align:center; padding:7px;">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago2}_fullname.png",$extra="thumb1").'</td>
 '.$main_guest[2].'
 '.$main_guest[4].'
 </tr></table>';

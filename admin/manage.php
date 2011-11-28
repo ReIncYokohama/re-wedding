@@ -500,8 +500,8 @@ include("inc/return_dbcon.inc.php");
 <h1><?=$hotel_name?></h1>
 
     <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
+        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" border="0" /></a>　
+        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" border="0" /></a>
     </div>
 </div>
 <div id="container">
@@ -584,17 +584,17 @@ include("inc/return_dbcon.inc.php");
 
 			  <table width="720" border="0" cellpadding="0" cellspacing="8">
 			  <tr>
-			  	<td width="30" >&nbsp;</td>
-				<td width="50" align="left" valign="bottom" >
-					<a href="javascript:void(0);" onclick="validSearch();"><img src="img/common/btn_search1.jpg" alt="search" /></a></td>
-				<td width="50" align="left" valign="bottom" >
-					<a href="javascript:void(0);" onclick="clearForm()"><img border="0" height="22" alt="ｸﾘｱ" src="img/common/btn_clear.jpg"></a></td>
-			 	<td width="50" align="left" valign="bottom" >
-			 		<a href="manage.php"><img src="img/common/new_userlist.gif"/></a></td> <!-- UCHIDA EDIT 11/07/26 -->
+			  	<td width="55" >&nbsp;</td>
+				<td width="90" align="left" valign="bottom" >
+					<a href="javascript:void(0);" onclick="validSearch();"><img src="img/common/btn_search1.jpg" alt="search" width="82" height="22" border="0" /></a></td>
+				<td width="90" align="left" valign="bottom" >
+					<a href="javascript:void(0);" onclick="clearForm()"><img src="img/common/btn_clear.jpg" alt="ｸﾘｱ" width="82" height="22" border="0"></a></td>
+			 	<td width="90" align="left" valign="bottom" >
+			 		<a href="manage.php"><img src="img/common/new_userlist.gif" width="82" height="22" border="0"/></a></td> <!-- UCHIDA EDIT 11/07/26 -->
 			  </tr>
 			   <tr>
 			   <td>&nbsp; </td>
-			    <td align="left" colspan="3" > <a href="user_info_allentry.php"><img src="img/common/new_register.gif" alt="New Register"></a></td>
+			    <td align="left" colspan="3" > <a href="user_info_allentry.php"><img src="img/common/new_register.gif" alt="New Register" border="0"></a></td>
 			   </tr>
 			</table>
                 <input type="hidden" name="h_date_from" value="">
@@ -686,11 +686,11 @@ include("inc/return_dbcon.inc.php");
 					   ?>
                         </td>
 
-                    	<td width="60"><a href="user_info_allentry.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif"  /></a></td>
+                    	<td width="60"><a href="user_info_allentry.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" border="0"  /></a></td>
                          <!--<td><?php //echo $obj->japanyDateFormate($row['party_day'] , $row['party_day_with_time'])?></td>-->
 
                         <td width="80"> <?=$staff_name?></td>
-                            <td width="60" > <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'],$staff_id);?> </td>
+                            <td width="60" > <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'],0);?> </td>
                         <td  width="80">
 						<?php
 // UCHIDA EDIT 11/08/03 'ログイン中' → ログイン時間
@@ -706,8 +706,8 @@ include("inc/return_dbcon.inc.php");
 						?>
                         </td>
                         <td class="txt1" width="60" >
-                        	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" /></a>
-                        </td>
+                        	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" border="0" /></a>
+                      </td>
 
                         <td width="40">
                         	<?php
@@ -722,7 +722,7 @@ include("inc/return_dbcon.inc.php");
 
                         <td width="40">
                         	<a href="javascript:void(0);" onclick="confirmDeleteUser(<?=$row['id']?>);" >
-                        		<img src="img/common/btn_deleate.gif"  />
+                        		<img src="img/common/btn_deleate.gif" border="0"  />
                             </a>
                         </td>
                     </tr>

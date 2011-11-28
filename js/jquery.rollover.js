@@ -12,4 +12,8 @@ function initRollOverImages() {
   });
 }
 
+<<<<<<< HEAD
 $(document).ready(initRollOverImages);
+=======
+$(document).ready(initRollOverImages);
+>>>>>>> 64382511c28799ae195af7dca3a4bb2a83b38419

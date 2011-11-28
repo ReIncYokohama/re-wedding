@@ -724,9 +724,9 @@ function dowload_options_change() {
         doc.length = 2;
         doc.options[0].text = "A3";
         doc.options[0].value = 1;
-        doc.options[0].selected = true;
         doc.options[1].text = "B4";
         doc.options[1].value = 2;
+        doc.options[1].selected = true;
         break;
   }
 }
@@ -1082,6 +1082,7 @@ if($user_row['mukoyoshi']=='1'){
 			  <td width="160" align="left" valign="middle" nowrap="nowrap">お客様ＩＤ利用期限日</td>
                <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                <?php $user_id_limit = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='user_id_limit'");
+               if ($user_id_limit == "") $user_id_limit = "0";
 
 				$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $user_id_limit , $flag=1 );
 
@@ -1205,7 +1206,8 @@ if($user_row['mukoyoshi']=='1'){
                   }
                 else
                   {
-                    echo "<p id='img_default_layout_title' style='text-align:center'><img src='img/sakiji_icon/icon_takasago.gif' width='102' height='22' /></p>";
+                    echo "<div id='default_layout_title' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>"."　　　"."</div>";
+                  	// echo "<p id='img_default_layout_title' style='text-align:center'><img src='img/sakiji_icon/icon_takasago.gif' width='102' height='22' /></p>";
                   }
 
                 echo "<div id='input_user_layoutname' style='display:none;'><input type='text' name='layoutname' value='".$user_plan_row['layoutname']."'></div>";
@@ -1402,13 +1404,15 @@ if($user_row['mukoyoshi']=='1'){
                 	}
                 	else {
                 		$confirm_day_num = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
+                		if ($confirm_day_num == "") $confirm_day_num = "0";
                 	}
-					?>
+                	?>
 					<?php if ($user_id>0) { ?>
 				  <input type="text" name="confirm_day_num" id="confirm_day_num" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$confirm_day_num?>" /> 日前
 					<?php } else {
 						$confirm_day_num    = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
-					?>
+                		if ($confirm_day_num == "") $confirm_day_num = "0";
+						?>
 						披露宴日&nbsp;
 						<input type="text" name="confirm_day_num" id="confirm_day_num" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$confirm_day_num?>" /> 日前
 					<?php } ?>
@@ -1428,6 +1432,7 @@ if($user_row['mukoyoshi']=='1'){
 				else {
 					$limitation_ranking = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");
 				}
+				if ($limitation_ranking == "") $limitation_ranking = "0";
 				if($user_id>0) {
 					echo $dateBeforeparty.$weekname." 披露宴日 ";
 				?>

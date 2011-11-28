@@ -146,7 +146,7 @@
 	if($get['action']=="daylimit_request")
 	{
 
-		if($obj->GetRowCount("spssp_plan"," gift_daylimit = 1 and user_id=".$user_id) >0 || $obj->GetRowCount("spssp_plan"," gift_daylimit = 2 and user_id=".$user_id) >0)
+		if($obj->GetRowCount("spssp_plan"," gift_daylimit < 3 and user_id=".$user_id) > 0)
 		{
 
 			unset($post);
@@ -543,10 +543,10 @@ include("inc/return_dbcon.inc.php");
 				<td width="182" valign="middle"><a href="../plan_pdf.php" target="_blank"><img src="img/common/order/gift_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a></td>
 					<td width="50" align="center" valign="middle" style="font-size:16pt"><img src="img/common/arrow_1to1.gif" alt="矢印" width="32" height="7" border="0" /></td>
 			<?php
-				if($plan_info['gift_daylimit']==3 && $plan_info['gift_daylimit']>0)
+				if($plan_info['gift_daylimit']>=3)
 				{
 			?>
-				<td valign="middle"><img src="img/common/order/gift_processed_greyed.gif" width="146" height="32" /></td>
+				<td width="182" valign="middle"><img src="img/common/order/gift_processed_greyed.gif" width="146" height="32" /></td>
 				<?php }else{?>
 			  	<td width="146" valign="middle">
 				<a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=daylimit_request&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>','引出物処理をします。宜しいですか？')">

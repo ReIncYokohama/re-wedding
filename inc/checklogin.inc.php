@@ -1,4 +1,5 @@
 <?php
+
 @session_start();
 //echo $_SESSION['adminid'];exit;
 	if(trim($_SESSION['userid'])=='')
@@ -12,5 +13,14 @@
 			echo "<script> alert('他のホテルからの移動はできません'); </script>";
 			redirect("logout.php");
 		}
-	include_once("user_login_check.php");
+include_once("user_login_check.php");
+
+/*
+	if(trim($_SESSION['super_adminid'])=='')
+		{
+			
+			@session_destroy();
+			redirect("index.php?action=required");
+		}
+*/
 ?>

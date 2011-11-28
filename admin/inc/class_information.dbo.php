@@ -242,7 +242,14 @@ class InformationClass extends DBO
 	}
 	function get_editable_condition($plan_info_array)
 	{
-		if(($plan_info_array['order']<=3 && $plan_info_array['order']>0) && ($_SESSION['userid']!=$_SESSION['userid_admin'] || ($plan_info_array['order']==2 && $plan_info_array['admin_to_pcompany']==3)))
+		if ($plan_info_array['order'] == 1 && ($plan_info_array['admin_to_pcompany'] == 0 || $plan_info_array['admin_to_pcompany'] == 1)) {  // 追加仕様で「スタッフ画面：仮発注、ユーザ画面：印刷イメージ依頼」で編集不可
+			return false;
+		}
+		if($plan_info_array['admin_to_pcompany']==2) {
+			return true;
+		}
+		
+		if(($plan_info_array['order']<=3 && $plan_info_array['order']>0) || ($plan_info_array['order']==2 && $plan_info_array['admin_to_pcompany']==3))
 		{
 			return false;
 		}

@@ -281,7 +281,8 @@ class MessageClass extends InformationClass
 				$href = $user_plan_info['p_company_file_up'];
 				$msg_text  = "<div id=msg_hide1>";
 				$msg_text .= "<a href=admin/ajax/pdf_readed.php?user_id=".$user_id."&filename=".$href."&vset=".$dl." target=_blank";
-				$msg_text .= " onclick='hide_this(\"msg_hide1\");'>";
+//				$msg_text .= " onclick='hide_this(\"msg_hide1\");'>";
+				$msg_text .= ">";
 				$msg_text .= INFO_C."</a></div>";
 			}
 		}

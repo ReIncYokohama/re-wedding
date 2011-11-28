@@ -17,6 +17,7 @@ if(!isset($_SESSION['userid'])) {
 }
 
 include_once("inc/user_login_check.php");
+
 if ($_SESSION['regenerate_user_id']=="") {
 	redirect("logout.php");
 }

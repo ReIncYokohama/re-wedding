@@ -53,15 +53,17 @@
 					  $lastid = $obj->InsertData('spssp_admin',$post);
 					  echo "<script> alert('新しいスタッフが登録されました'); </script>";
 					  
-			          $upd_data = array();
-			          $upd_data["adminid"] = $post["username"];
-			          $upd_data["password"] = $post["password"];
-			          $upd_data["email"] = $post["email"];
-			          $upd_data["adminstrator"] = $post["name"];
-			          mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
-			          $obj->UpdateData("super_spssp_hotel",$upd_data,"hotel_code=".$HOTELID."");
-			          //$obj->UpdateData("super_spssp_admin",$upd_data,"hotel_code=".$HOTELID);
-			          mysql_connected($hotel_sqlhost,$hotel_sqluser,$hotel_sqlpassword,$hotel_sqldatabase);
+					  if($post['permission'] == '333') {					  
+				          $upd_data = array();
+				          $upd_data["adminid"] = $post["username"];
+				          $upd_data["password"] = $post["password"];
+				          $upd_data["email"] = $post["email"];
+				          $upd_data["adminstrator"] = $post["name"];
+				          mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
+				          $obj->UpdateData("super_spssp_hotel",$upd_data,"hotel_code=".$HOTELID."");
+				          //$obj->UpdateData("super_spssp_admin",$upd_data,"hotel_code=".$HOTELID);
+				          mysql_connected($hotel_sqlhost,$hotel_sqluser,$hotel_sqlpassword,$hotel_sqldatabase);
+					  }
 				}
 
 				if($lastid > 0)
@@ -114,13 +116,13 @@
 					   $where = "permission = '333'";
        	  			   $value['stype'] = 0;
 					   $obj->UpdateData('spssp_admin',$value, $where);
-		          	   echo "<script> alert('スタッフ情報が更新されました'); </script>";
+//		          	   echo "<script> alert('スタッフ情報が更新されました'); </script>";
 					}
 
 					$msg = 2;
 					$obj->UpdateData('spssp_admin',$post,"id=".$post['id']);
 					echo "<script> alert('スタッフ情報が更新されました'); </script>";
-
+					if($post['permission'] == '333') {
 			          $upd_data = array();
 			          $upd_data["adminid"] = $post["username"];
 			          $upd_data["password"] = $post["password"];
@@ -130,6 +132,7 @@
 
 			          $obj->UpdateData("super_spssp_hotel ",$upd_data,"hotel_code=".$HOTELID);
 			          mysql_connected($hotel_sqlhost,$hotel_sqluser,$hotel_sqlpassword,$hotel_sqldatabase);
+					}
 				}
 			}
 			else

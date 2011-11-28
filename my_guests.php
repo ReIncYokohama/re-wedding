@@ -66,7 +66,6 @@ $order = ' id asc ';
 
 $plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
 
-
 if(isset($_GET['option']) && $_GET['option'] != '')
 	{
 		$optionValue = $_GET['option'];
@@ -75,7 +74,9 @@ if(isset($_GET['option']) && $_GET['option'] != '')
 
     for($i=0;$i<(count($ordervalue)-1);$i++)
       {
-        if($ordervalue[$i]!="guest_type")
+        if($ordervalue[$i]=="sex"){
+          $orderarray[] = "sex desc";
+        }else if($ordervalue[$i]!="guest_type")
 					$orderarray[] =  $ordervalue[$i].' asc';
         else
 					{
@@ -1055,6 +1056,8 @@ if($guest["sex"] == "Male"){
 				$table_details=$obj->getSingleRow("spssp_default_plan_table"," id=".$seat_details['table_id']." limit 1");
 
 				$tbl_row = $obj->getSingleRow("spssp_table_layout"," table_id=".$table_details['id']." and user_id=".(int)$user_id." limit 1");
+				$tblname = $tbl_row['name'];
+/*
 				$new_name_row = $obj->getSingleRow("spssp_user_table"," default_table_id=".$tbl_row['id']." and user_id=".(int)$user_id." limit 1");
 				if(!empty($new_name_row))
 				{
@@ -1064,6 +1067,7 @@ if($guest["sex"] == "Male"){
 				{
 					$tblname = $tbl_row['name'];
 				}
+*/
      if($guest["stage"] == 1){
        $tblname = "高砂";
      }
@@ -1171,8 +1175,22 @@ if($guest["sex"] == "Male"){
           </tr>
         
           <tr >
-             
-          </tr>     
+            <td colspan="2" align="right" bgcolor="#ffffff">グループ数</td>
+            <?php
+				$total = 0;
+            	foreach($group_rows as $grp)
+				{
+					if ($grp['name']!="") {
+						$num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']);
+						$total += $num_guests_groups;
+						echo "<td align='center' bgcolor='#ffffff'> $num_guests_groups </td>";
+					}
+				}
+			?>
+
+            <td align="center" bgcolor="#ffffff"> - </td>
+            <td bgcolor="#ffffff" align="center"><?=$total?></td>
+          </tr>
 
           <?php
           echo "<tr>";

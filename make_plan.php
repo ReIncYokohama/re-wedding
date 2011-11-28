@@ -365,7 +365,7 @@ height:30px;
 				    <?php 
 				    } ?>
 					<td width="10" valign="middle">　</td>
-					<td width="580" valign="middle"><p>印刷会社よりアップロードされた「席次表の印刷イメージ」がご確認いただけます。<br />※印刷会社よりアップロードされるまでは、ボタンは使用できません。<?echo $user_info['party_day']." : ".date("Y-m-d")?></p></td>
+					<td width="580" valign="middle"><p>印刷会社よりアップロードされた「席次表の印刷イメージ」がご確認いただけます。<br />※印刷会社よりアップロードされるまでは、ボタンは使用できません。</p></td>
 				  </tr>
 			 </table>
 				  <tr>

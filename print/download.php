@@ -48,12 +48,12 @@ else if($_SESSION['printid'] =='')
 <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="js/jquery.rollover.js"></script>
 <script>
-var downloaded=0;
+//var downloaded=0;
 function click_check(url) {
-	if (downloaded==0) {
-		downloaded++;
+//	if (downloaded==0) {
+//		downloaded++;
 		window.location.href=url;
-	}
+//	}
 }
 </script>
 <style type="text/css">

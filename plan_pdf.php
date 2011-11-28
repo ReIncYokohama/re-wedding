@@ -240,8 +240,7 @@ $html.='<td  style="text-align:center;border:1px solid black;"  width="20">-</td
 	
 $html.='</table></td></tr>';
 
-$html.='<tr>';
-$html.='<td style="text-align:center; border:1px solid black;" width="16" rowspan="7">商品名</td>';
+if(count($gift_rows)!=0) $html.='<tr><td style="text-align:center; border:1px solid black;" width="16" rowspan="7">商品名</td>';
 $start=0;
 foreach($gift_rows as $gift)
 	{
@@ -299,7 +298,7 @@ $total_guest_with_bride=$total_guest+2;
 	
 $woman_lastname=$user_info['woman_lastname'];
 $man_lastname=$user_info['man_lastname'];
-         
+
 
 $html.='</table></td>';
  
@@ -329,6 +328,16 @@ $woman_lastname_gaiji_pathArray = array();
 
 make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaijis,$woman_lastname,$woman_lastname_gaijis,$male_guest_num,$female_guest_num);
 
+$marriage_day = "";
+$marriage_day_with_time = "";
+if($user_info['marriage_day'] &&  $user_info['marriage_day'] != "0000-00-00"){
+  $marriage_day = strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['marriage_day'])));
+  $marriage_day_with_time = date("H時i分",strtotime($user_info['marriage_day_with_time']));
+}
+$marrige_day_text = '<tr>
+					<td align="left"  valign="middle" style="text-align:center;font-size:40px;">挙式日時　&nbsp;&nbsp;'.$marriage_day.'  '.$marriage_day_with_time.'&nbsp;&nbsp;&nbsp;会場'.$party_room_info[name].' </td>
+                                                                                                                                                                              </tr>';
+
 
 $html.='<td width="40%">
 	<table>
@@ -339,9 +348,7 @@ $html.='<td width="40%">
 			</td>
 				</tr>
         <tr><td></td></tr>
-				<tr>
-					<td align="left"  valign="middle" style="text-align:center;font-size:40px;">挙式日時　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['marriage_day']))).'  '.date("H時i分",strtotime($user_info['marriage_day_with_time'])).'&nbsp;&nbsp;&nbsp;会場'.$party_room_info[name].' </td>
-				</tr>
+				'.$marrige_day_text.'
 				<tr>
 					<td align="left"  valign="middle" style="text-align:center;font-size:40px;">披露宴日時　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['party_day']))).'  '.date("H時i分",strtotime($user_info['party_day_with_time'])).'&nbsp;&nbsp;&nbsp;会場'.$room_info[name].' </td>
 				</tr>

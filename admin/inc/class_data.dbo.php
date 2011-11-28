@@ -241,7 +241,7 @@ class DataClass extends DBO{
     $plan_id = $this->get_plan_id($user_id);
     $guestArray = $this->getRowsByQuery("select * from spssp_guest where user_id = $user_id and self != 1 order by sex desc");
     for($i=0;$i<count($guestArray);++$i){
-      $guestArray[$i] = $this->get_guest_data_detail($guest_detail,$user_id,$plan_id);
+      $guestArray[$i] = $this->get_guest_data_detail($guestArray[$i],$user_id,$plan_id);
     }
     return $guestArray;
   }
@@ -628,7 +628,7 @@ class DataClass extends DBO{
     include(dirname(__file__)."/main_dbcon.inc.php");
     $respect = $this->GetSingleData(" spssp_respect ", "title", " id='".$respect_id."'");
     include(dirname(__file__)."/return_dbcon.inc.php");
-    
+    if($respect=="なし") return "";
     return $respect;
   }
   //区分をテキストで返す。
