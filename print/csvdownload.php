@@ -25,7 +25,7 @@ else
 
 /*$entityArray2 = array(" HotelName , WeddingDate , WeddingTime , WeddingVenues , ReceptionDate, ReceptionTime , ReceptionHall , GroomName,  fullPhoneticGroom , BrideFullName , BrideFullPhonetic , Categories, ProductName ,  Printsize,tableArrangement , JIs_num, DataOutputTime , PlannerName , LayoutColumns , TableLayoutStages , Colortable , Max , NumberAttendance "); */
 
-$entityArray2 = array("ホテル名,挙式日,挙式時間,挙式会場,披露宴日,披露宴時間,披露宴会場,新郎姓名,新郎姓名ふりがな,新婦姓名,新婦姓名ふりがな,商品区分,商品名,席次表サイズ,席次表配置,字形,データ出力日時,プランナー名,卓レイアウト列数,卓レイアウト段数,卓色,一卓最大人数,合計人数");
+$entityArray2 = array("ホテル名,挙式日,挙式時間,挙式会場,披露宴日,披露宴時間,披露宴会場,新郎姓名,新郎姓名ふりがな,新婦姓名,新婦姓名ふりがな,商品区分,商品名,席次表サイズ,席次表配置,字形,データ出力日時,高砂卓名,プランナー名,卓レイアウト列数,卓レイアウト段数,卓色,一卓最大人数,合計人数");
 
 $entity=implode(",",$entityArray2);
 $entity = mb_convert_encoding("$entity", "SJIS", "UTF8");
@@ -582,7 +582,7 @@ $this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
 //print_r($entityArrayGuests);
 //exit;
 
-//header("Content-Type: application/octet-stream");
-//header("Content-Disposition: attachment; filename=${this_name}.csv");
+header("Content-Type: application/octet-stream");
+header("Content-Disposition: attachment; filename=${this_name}.csv");
 echo $lines;
 ?>
