@@ -40,15 +40,17 @@ include_once("admin/inc/class_message.dbo.php");
 $message_class = new MessageClass();
 
 switch($_SESSION["adminid"]){
+  case 0:
+    exit;
+    $message_class->finish_message_csv_import_for_user($user_id);
+    break;
+  default:
   case 1:
   case 2:
     $message_class->finish_message_csv_import_for_hotel($user_id);
     break;
-  case 0:
-    $message_class->finish_message_csv_import_for_user($user_id);
-    break;
-}
 
+}
 
 include("admin/inc/main_dbcon.inc.php");
 $respects = $obj->GetAllRow(" spssp_respect"." order by display_order DESC ");

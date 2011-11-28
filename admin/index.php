@@ -10,7 +10,7 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 		$query_string="SELECT * FROM spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' AND sessionid='' LIMIT 0,1;";
 		//echo $query_string;
 		$db_result=mysql_query($query_string);
-        $_SESSION["super_user"] = false;
+    $_SESSION["super_user"] = false;
 
     if(!mysql_num_rows($db_result)){
       mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
@@ -25,43 +25,44 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 		{
 			if($db_row=mysql_fetch_array($db_result))
 			{
-
 				$_SESSION['adminid']=jp_decode($db_row['id']);
 				$_SESSION['user_type'] = $db_row['permission'];
-		        if($_SESSION["super_user"]){
-		          $_SESSION["user_type"] = 333;
-		        }
-		        if ($_SESSION["user_type"] == 333) {
-		        	include_once("inc/staff_login_check.php");
-		        }
-			//$sql="update spssp_admin set sessionid='".session_id()."',logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
+
+        if($_SESSION["super_user"]){
+          $_SESSION["user_type"] = 333;
+        }
+        $_SESSION["staff_id"] = $db_row["id"];
+        if ($_SESSION["user_type"] == 333) {
+          include_once("inc/staff_login_check.php");
+        }
+        //$sql="update spssp_admin set sessionid='".session_id()."',logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
         	if ($_SESSION["super_user"]!=true) {
-				$sql="update spssp_admin set logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
-				mysql_query($sql);
+            $sql="update spssp_admin set logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
+            mysql_query($sql);
         	}
         	if (($_SESSION["user_type"] != 333) || ($_SESSION['regenerate_id']!=""))  {
 	        	$_SESSION["hotel_id"] =$HOTELID;
-				redirect("manage.php");
+            redirect("manage.php");
         	}
+      }
+      else
+        {
+          // UCHIDA EDIT 11/08/17 ＩＤを再表示
+          $id=$_POST['adminid'];
+          redirect("index.php?adminid=$id&action=failed");			}
 		}
-		else
-		{
-			// UCHIDA EDIT 11/08/17 ＩＤを再表示
-			$id=$_POST['adminid'];
-			redirect("index.php?adminid=$id&action=failed");			}
-		}
-	else
-	{
-			// UCHIDA EDIT 11/08/17 ＩＤを再表示
+    else
+      {
+        // UCHIDA EDIT 11/08/17 ＩＤを再表示
 			$id=$_POST['adminid'];
 			redirect("index.php?adminid=$id&action=failed");
-	}
-}
+      }
+  }
 else
-{
-//	$id=$_POST['adminid'];
-//	redirect("index.php?adminid=$id&action=failed");
-}
+  {
+    //	$id=$_POST['adminid'];
+    //	redirect("index.php?adminid=$id&action=failed");
+  }
 
 //	include_once("inc/new.header.inc.php");
 ?>
