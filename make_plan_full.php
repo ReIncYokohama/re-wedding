@@ -116,7 +116,6 @@ if($_GET["delete"]){
 <script type="text/javascript" src="tmp_js/cufon-yui.js"></script>
 <script type="text/javascript" src="tmp_js/arial.js"></script>
 <script type="text/javascript" src="tmp_js/cuf_run.js"></script>
-<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
 <link rel="stylesheet" href="css/base/jquery.ui.all.css">
 <script src="js/jquery-1.4.2.js"></script>
 <script src="js/external/jquery.bgiframe-2.1.1.js"></script>
@@ -188,11 +187,8 @@ $(function() {
 <body>
 
 <script src="js/jquery.ui.droppable.js" type="text/javascript"></script>
-
-
 <link rel="stylesheet" type="text/css" href="css/jquery.treeview.css">
 
-<script src="js/jquery.cookie.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/jquery.tipTip.js"></script>
 <link href="js/tipTip.css" rel="stylesheet" type="text/css" />
 <script src="js/jquery.treeview.js" type="text/javascript"></script>

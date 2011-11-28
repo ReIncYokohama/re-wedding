@@ -1,4 +1,4 @@
-function initRollOverImages() {
+var initRollOverImages = function() {
   var image_cache = new Object();
   $("img.on").each(function(i) {
     var imgsrc = this.src;
@@ -10,10 +10,6 @@ function initRollOverImages() {
       function() { this.src = imgsrc_on; },
       function() { this.src = imgsrc; });
   });
-}
+};
 
-<<<<<<< HEAD
 $(document).ready(initRollOverImages);
-=======
-$(document).ready(initRollOverImages);
->>>>>>> 64382511c28799ae195af7dca3a4bb2a83b38419
