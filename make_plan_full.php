@@ -101,6 +101,12 @@
 	include("admin/inc/main_dbcon.inc.php");
 	$respects = $obj->GetAllRow(" spssp_respect");
 	include("admin/inc/return_dbcon.inc.php");
+
+$closeWindow = "false";
+if($_GET["delete"]){
+  $closeWindow = "true";
+}
+  
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -275,6 +281,10 @@ var button_enable="<?=$button_enable?>";
   
 }
 function back_to_make_plan() {
+  location.href = "cancel_default_plan.php";  
+}
+
+if(<?php echo $closeWindow;?>){
   window.close();
 }
 
