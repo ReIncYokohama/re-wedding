@@ -334,15 +334,10 @@ if($user_info['marriage_day'] &&  $user_info['marriage_day'] != "0000-00-00"){
   $marriage_day = strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['marriage_day'])));
   $marriage_day_with_time = date("H時i分",strtotime($user_info['marriage_day_with_time']));
 }
-if($party_room_info["name"]){
-  $party_room_info["name"] = "会場".$party_room_info["name"];
-}
-$marrige_day_text = "";
-if($marrige_day != ""){
-  $marrige_day_text = '<tr>
-					<td align="left"  valign="middle" style="text-align:center;font-size:40px;">挙式日時　&nbsp;&nbsp;'.$marriage_day.'  '.$marriage_day_with_time.'&nbsp;&nbsp;&nbsp;'.$party_room_info[name].' </td>
+$marrige_day_text = '<tr>
+					<td align="left"  valign="middle" style="text-align:center;font-size:40px;">挙式日時　&nbsp;&nbsp;'.$marriage_day.'  '.$marriage_day_with_time.'&nbsp;&nbsp;&nbsp;会場'.$party_room_info[name].' </td>
                                                                                                                                                                               </tr>';
-}
+
 
 $html.='<td width="40%">
 	<table>
