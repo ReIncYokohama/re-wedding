@@ -245,6 +245,8 @@ URL: $BASE_URL
 
 _EOT_;
   $email = new Email($admin_email,$title,$body);
+  $email->from = "info@wedding-plus.net";
+  $email->fromName = "Wedding Plus";
   $email->send();
   //confirm_guest_register($admin_email,$title,$body);
 }

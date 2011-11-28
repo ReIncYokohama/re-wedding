@@ -16,7 +16,8 @@ class Email{
     mb_language("ja");
     mb_internal_encoding("UTF-8");
     if($this->fromName and $this->from){
-      $mailFrom = "From: " . mb_encode_mimeheader (mb_convert_encoding($this->fromName,"ISO-2022-JP","UTF8")) . "<" . $this->from . ">";
+      //$mailFrom = "From: " . mb_encode_mimeheader (mb_convert_encoding($this->fromName,"ISO-2022-JP","UTF8")) . "<" . $this->from . ">";
+      $mailFrom = "From: " . mb_encode_mimeheader (mb_convert_encoding($this->fromName,"ISO-2022-JP","UTF8"));
       mb_send_mail($this->to,$this->subject,$this->body,$mailFrom);
     }else{
       mb_send_mail($this->to,$this->subject,$this->body);
