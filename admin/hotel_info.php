@@ -262,7 +262,7 @@ include("inc/return_dbcon.inc.php");
           <br />
 		  <p>
                 	<form action="hotel_info.php?page=<?=$_GET['page']?>&id=<?=$sqlrow['id']?>" name="hotelinfo" method="post">
-                       <table width="100%" border="0" cellspacing="1" cellpadding="3">
+                       <table width="100%" border="0" cellspacing="6" cellpadding="3">
 						  <tr>
 						    <td width="150" align="left">ホテルコード</td>
 							<td width="20" align="left"> ：</td>
@@ -298,7 +298,7 @@ include("inc/return_dbcon.inc.php");
 						  <tr>
 						    <td align="left">担当者<?=$disp_option3?></td>
 							<td align="left">：</td>
-							<td><input name="contactperson" type="text" id="contactperson" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " size="15" value="<?=$hotel_row[contact]?>"/></td>
+							<td><input name="contactperson" type="text" id="contactperson" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " value="<?=$hotel_row[contact]?>"/></td>
 						  </tr>
 						  <tr>
 						    <td align="left">メールアドレス<?=$disp_option3?></td>

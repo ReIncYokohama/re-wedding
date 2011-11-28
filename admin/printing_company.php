@@ -359,7 +359,7 @@ include("inc/return_dbcon.inc.php");
 			?>
 			 <table style="width:1000px;" >
 					<tr>
-					  <td width="12%">会社名</td>
+					  <td width="15%">会社名</td>
 						<td width="1%"> ：</td>
 						<td width="85%"><?=$comp[company_name]?></td>
 					</tr>
@@ -414,7 +414,7 @@ include("inc/return_dbcon.inc.php");
             	<input type="hidden" name="insert_edit" id="insert_edit" value="<?=$get[id]?>" />
                 <table style="width:1000px;" >
 					<tr>
-					  <td width="12%">会社名<span style="color:red;">*</span></td>
+					  <td width="15%">会社名<span style="color:red;">*</span></td>
 						<td width="1%">：</td>
 						<td width="86%"><input type="text" name="company_name" id="company_name" size="40" style="border-style: inset;" value="<?=$comp[company_name]?>" /></td>
 					</tr>

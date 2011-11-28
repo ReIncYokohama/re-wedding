@@ -661,12 +661,12 @@ include("inc/return_dbcon.inc.php");
 		<input type="hidden" name="permission_old" id="permission_old" value="<?=$edit_data_rows['permission']?>">
 
 		<p class="txt3">
-			<table style="width:1000px; border="0" cellspacing="10" cellpadding="0">
+			<table style="width:1000px; border="0" cellspacing="6" cellpadding="0">
 				<tr>
 				  <td width="60" nowrap="nowrap">名前<font color="red">*</font></td>
 			    <td width="5" nowrap="nowrap">：</td>
 					<td width="300" nowrap="nowrap">
-	    		  <input name="name" type="text" id="name" size="20" style="border-style: inset;" value="<?=$edit_data_rows['name']?>" />
+	    		  <input name="name" type="text" id="name" size="25" style="border-style: inset;" value="<?=$edit_data_rows['name']?>" />
 					<input  type="hidden" id="name_current" size="20" value="<?=$edit_data_rows['name']?>" />
 					</td>
 				</tr>
