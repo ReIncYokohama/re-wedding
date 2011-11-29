@@ -41,8 +41,6 @@ if($row['id']){
 			$_SESSION['username'] = $row['user_id'];
 			$_SESSION['userid'] = $row['id'];
       $_SESSION['adminid'] = 0;
-      print_r($$row);
-      exit;
 
 			include_once("admin/inc/class.dbo.php");
 			$obj = new DBO();
@@ -71,4 +69,5 @@ if($row['id']){
 		redirect("index.php?adminid=$userID&err=16"); // UCHIDA EDIT 11/08/17 ＩＤを再表示
 	}
 }
+
 ?>
