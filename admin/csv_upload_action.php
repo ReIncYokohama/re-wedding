@@ -23,9 +23,25 @@ if($_FILES["csv"]["tmp_name"]){
   while ($csv[] = fgetcsv($tmp, "1024")) {}
   mb_convert_variables("UTF-8", "SJIS-win", $csv);
 }
-if(count($csv)==0){
-  print 'ファイルが添付されていません。<br><img onclick="javascript:window.close();" src="../img/btn_close.jpg" alt="閉じる" width="82" height="22" />';
+if(count($csv)==0 && !$_GET["force"]){
+  print '
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>招待者リストcsv一括アップロード</title>
+  <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
+  
+  <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+</head>
+<body>
+
+ファイルが添付されていません。<br><img onclick="javascript:window.close();" src="../img/btn_close.jpg" alt="閉じる" width="82" height="22" />
+</body>
+</html>
+';
   exit;
+
 }
 
 $post = $obj->protectXSS($_POST);
@@ -253,7 +269,7 @@ _EOT_;
   $email->from = "info@wedding-plus.net";
   $email->fromName = "Wedding Plus";
   $email->send();
-  //confirm_guest_register($admin_email,$title,$body);
+
 }
 
 //印刷会社さんにメール
@@ -267,7 +283,7 @@ $printing_company_mail = "kubonagarei@gmail.com";
 $mail = $user_row["mail"];
 
 $title = "［ウエディングプラス］招待客リストデータが追加されました。";
-if($user_row["subcription_mail"]){
+if($mail){
 
 $body = <<<_EOT_
 ${man_last_name}・${woman_last_name} 様
@@ -293,7 +309,7 @@ $email = new Email($mail,$title,$body);
 $email->from = "info@wedding-plus.net";
 $email->fromName = "Wedding Plus";
 $email->send();
-//confirm_guest_register($printing_company_mail,$title,$body);
+
 }
 
 /*
@@ -301,28 +317,6 @@ csv uploadのログを残す
 */
 $message_class = new MessageClass();
 $message_class->new_message_csv_import($user_id);
-
-function confirm_guest_register($to,$subject,$mailbody){
-	$from='Ｗｅｄｄｉｎｇ-ｐｌｕｓ';
-  $header='From:'.$from." \r\n";
-  $header.='Content-Type:text/plain; charset=utf-8'."\r\n";
-  //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
-
-  $subject = base64_encode(mb_convert_encoding($subject,"JIS","UTF8"));
-  $usersubject = '=?ISO-2022-JP?B?'.$subject.'?=';
-
-  $user_body=$mailbody;
-
-		///////MAIL TO USER /////////////
-  if(@mail($to, $usersubject, $user_body, $header))
-		{
-			return 1;
-		}
-		else
-		{
-			return 2;
-		}
-}
 
 ?>
 
