@@ -117,7 +117,7 @@ if($_GET["delete"]){
 <script type="text/javascript" src="tmp_js/arial.js"></script>
 <script type="text/javascript" src="tmp_js/cuf_run.js"></script>
 <link rel="stylesheet" href="css/base/jquery.ui.all.css">
-<script src="js/jquery-1.4.2.js"></script>
+<script src="js/jquery-1.7.1.min.js"></script>
 <script src="js/external/jquery.bgiframe-2.1.1.js"></script>
 <script src="js/ui/jquery.ui.core.js"></script>
 <script src="js/ui/jquery.ui.widget.js"></script>
@@ -592,12 +592,12 @@ direction: ltr;
 if($objInfo->get_editable_condition($plan_row))
 	{
 ?>
-<image src="img/btn_save.jpg" id="button" onclick="checkConfirm()"/>
-<image src="img/btn_cancel.jpg" id="button" onclick="back_to_make_plan()"/>
-
+<image src="img/btn_save_user.jpg" id="button" onclick="checkConfirm()"/>
+<image src="img/btn_cancel_user.jpg" id="button" onclick="back_to_make_plan()"/>
 <?php
   }
 ?>
+<image src="img/btn_back_user.jpg" id="button" onclick="javascript:history.back();"/>
             </div>
 			<?php
 

@@ -165,7 +165,7 @@ class DataClass extends DBO{
   }
   
   public function get_guest_image_url($user_id,$guest_id,$name){
-    return BASE_URL."name_image/hotel1/user_name/".$user_id."/guest/".$guest_id."/".$name;
+    return BASE_PATH."name_image/hotel1/user_name/".$user_id."/guest/".$guest_id."/".$name;
   }
   public function get_guest_detail($user_id,$guest_id){
     $guest_detail = $this->GetSingleRow("spssp_guest"," id=".$guest_id." and user_id=".$user_id);

@@ -721,16 +721,8 @@ foreach($tblrows as $tblrow)
                 $seats_nums++;
 						
                 if($seats_nums==2)
-                  $seats_nums=0; 
-					
-						
-						
-						
-				
-				
+                  $seats_nums=0;
               }
-				
-				
             if($disp=='1' || $table_row['display'] == 0){
               $guest_num="&nbsp;";
               $tblname = "";

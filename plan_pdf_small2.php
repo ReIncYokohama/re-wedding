@@ -59,6 +59,9 @@ $pdf->SetTitle('TCPDF Example 006');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
+$pdf->setPrintHeader(false);
+$pdf->setPrintFooter(false);
+
 // set default header data
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING);
 
@@ -293,6 +296,9 @@ for($i=0;$i<count($table_data["rows"]);++$i){
     $visible = $column["visible"];
     if($row["ralign"] == "C" && $column["display"] == 0 && !$visible) continue;
     $html .= "<td><table cellspacing=\"4\" cellspadding=\"4\"><tr><td colspan=\"2\" align=\"center\">".$table_name."</td></tr>";
+    print_r($seat_row);
+    print $column["seats"][$k];
+    exit;
     for($k=0;$k<$seat_row;++$k){
       if($k%2==0) $html .= "<tr>";
       $seat_detail = $column["seats"][$k];
@@ -333,5 +339,6 @@ $pdf->writeHTML($utf8text, true, false, true, false, '');
 // Close and output PDF document
 // This method has several options, check the source code documentation for more information.
 $date = date("His");
-$pdf->Output('sekijihyou'.$date.'.pdf', 'D');
+//$pdf->Output('sekijihyou'.$date.'.pdf', 'D');
+$pdf->Output('example_001.pdf', 'I');
 ?> 
