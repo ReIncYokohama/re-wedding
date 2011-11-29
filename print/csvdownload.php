@@ -162,10 +162,6 @@ for($i=0;$i<($room_tables*3);$i++)
 array_unshift($entityArraytable, "レイアウト");
 $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id = ".(int)$user_id." order by id ASC");
 
-
-//echo "<pre>";
-//print_r($tblrows);
-
 $entityArraytable=implode(",",$entityArraytable);
 $entitytable = mb_convert_encoding("$entityArraytable", "SJIS", "UTF8");
 $lines .= <<<html
@@ -200,7 +196,6 @@ foreach($tblrows as $tblrow)
 		{
 			$tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
 			$tblname = $tblname_row['name'];
-
 		}
 		else
 		{
@@ -276,7 +271,7 @@ $entityArrayGuests = array("テーブル番号,テーブル名,座席番号,姓,
 
 
 $entityArrayGuests=implode(",",$entityArrayGuests);
-$entityGuests = mb_convert_encoding("$entityArrayGuests", "SJIS", "UTF8");
+$entityGuests = mb_convert_encoding($entityArrayGuests, "SJIS", "UTF8");
 $lines .= <<<html
 $entityGuests
 html;
@@ -284,13 +279,30 @@ html;
 $usertblrows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".(int)$user_id." order by id ASC");
 $num_tables;
 
+define("GAIJI_SQLHOST",$hotel_gaiji_sqlhost);
+define("GAIJI_SQLUSER",$hotel_gaiji_sqluser);
+define("GAIJI_SQLPASSWORD",$hotel_gaiji_sqlpassword);
+define("GAIJI_SQLDATABASE",$hotel_gaiji_sqldatabase);
+
+define("SQLHOST",$hotel_sqlhost);
+define("SQLUSER",$hotel_sqluser);
+define("SQLPASSWORD",$hotel_sqlpassword);
+define("SQLDATABASE",$hotel_sqldatabase);
+
+
 //gaiji 関連の関数
 function getGaijis($gaiji_objs){
   $returnArray = array();
+  mysql_connected(GAIJI_SQLHOST,GAIJI_SQLUSER,GAIJI_SQLPASSWORD,GAIJI_SQLDATABASE);
+  $obj = new DataClass();
   for($i=0;$i<count($gaiji_objs);++$i){
     preg_match("/(.*?)\.(.*?)/",$gaiji_objs[$i]["gu_char_img"],$matches);
+    $data = $obj->GetSingleRow("spssp_gaizi_char_file", " gr_fname = ".$gaiji_objs[$i]["gu_char_img"]);
+    print_r($data);
+    exit;
     array_push($returnArray,$matches[1]);
   }
+  mysql_connected(SQLHOST,SQLUSER,SQLPASSWORD,SQLDATABASE);
   return implode(",",$returnArray);
 }
 
@@ -305,7 +317,6 @@ foreach($usertblrows as $tblRows)
 	{
 		$tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
 		$tblname = $tblname_row['name'];
-
 	}
 	else
 	{
@@ -375,6 +386,7 @@ foreach($usertblrows as $tblRows)
 			$value = chop($guest_info['comment1']);
 		elseif($guest_info['comment2'])
 			$value = chop($guest_info['comment2']);
+    else $value = "";
 
 		$cl22[] = "$value";
 
@@ -388,6 +400,7 @@ foreach($usertblrows as $tblRows)
 			$value = chop("新郎側");
 		elseif($guest_info['sex']=="Female")
 			$value = chop("新婦側");
+    else $value = "";
 
 		$cl22[] = "$value";
 
@@ -417,6 +430,7 @@ foreach($usertblrows as $tblRows)
 			$value = chop($guest_info['comment1']);
 		elseif($guest_info['comment2'])
 			$value = chop($guest_info['comment2']);
+    else $value = "";
 
 		$cl22[] = "$value";
 
@@ -506,6 +520,7 @@ foreach($usertblrows as $tblRows)
 			$value = chop($own_info['comment1']);
 		elseif($own_info['comment2'])
 			$value = chop($own_info['comment2']);
+    else $value = "";
 
 		$own_array[] = "$value";
 
@@ -521,6 +536,7 @@ foreach($usertblrows as $tblRows)
 			$value = chop("新郎側");
 		elseif($own_info['sex']=="Female")
 			$value = chop("新婦側");
+    else $value = "";
 
 		$own_array[] = "$value";
 
@@ -549,6 +565,7 @@ foreach($usertblrows as $tblRows)
 			$value = chop($own_info['comment1']);
 		elseif($own_info['comment2'])
 			$value = chop($own_info['comment2']);
+    else $value = "";
 
 		$own_array[] = "$value";
 
@@ -581,7 +598,7 @@ $this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
 //print_r($entityArrayGuests);
 //exit;
 
-header("Content-Type: application/octet-stream");
-header("Content-Disposition: attachment; filename=${this_name}.csv");
+//header("Content-Type: application/octet-stream");
+//header("Content-Disposition: attachment; filename=${this_name}.csv");
 echo $lines;
 ?>
