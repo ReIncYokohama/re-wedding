@@ -266,6 +266,19 @@ class DataClass extends DBO{
     }
     return $returnArray;
   }
+  public function get_guestdata_in_takasago_for_small_pdf($user_id){
+    $returnArray = array();
+    $guests = $this->get_guestdata_in_takasago($user_id);
+
+    include_once(dirname(__file__)."/class_information.dbo.php");
+    $infoobj = new InformationClass();
+
+    foreach($guests as $guest){
+      $returnArray[$guest["stage_guest"]] = "<img src=\"".$infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard.png",$extra="guest/".$guest['id'],100,"src")."\"   height=\"25\" />";
+    }
+
+    return $returnArray;
+  }
 
   public function get_guest_data_detail($guest_detail,$user_id,$plan_id){
     $guest_detail["menu_text"] = $this->get_menu_group($guest_detail["menu_grp"],$user_id);
@@ -297,8 +310,10 @@ class DataClass extends DBO{
       if($guestArray[$i]["sex"]=="Male"){
         $guestArray[$i]["name_image"] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname_only.png",$extra="thumb1");
         $guestArray[$i]["namecard_memo"] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$guestArray[$i]["id"]."/");
+        $guestArray[$i]["fullname"] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname.png",$extra="/thumb2");
       }else{
         $guestArray[$i]["name_image"] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname_only.png",$extra="thumb1");
+        $guestArray[$i]["fullname"] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname.png",$extra="/thumb2");
         $guestArray[$i]["namecard_memo"] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$guestArray[$i]["id"]."/");
       }
     }

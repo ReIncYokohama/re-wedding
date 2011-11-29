@@ -4,9 +4,10 @@ require_once('tcpdf/config/lang/eng.php');
 require_once('tcpdf/tcpdf.php');
 include_once("admin/inc/class_data.dbo.php");
 include_once("admin/inc/class_information.dbo.php");
+include_once("inc/gaiji.image.wedding.php");
 
 $obj = new DataClass();
-$objInfo = new InformationClass();	
+$objInfo = new InformationClass();
 $user_id = (int)$_SESSION['userid'];
 if($user_id=="")
   $user_id = (int)$_GET['user_id'];
@@ -58,6 +59,10 @@ $pdf->SetAuthor('Nicola Asuni');
 $pdf->SetTitle('TCPDF Example 006');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+$pdf->SetMargins(5, 0,5);
+
+$pdf->setPrintHeader(false);
+$pdf->setPrintFooter(false);
 
 // set default header data
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING);
@@ -70,12 +75,14 @@ $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 //set margins
-$pdf->SetMargins(PDF_MARGIN_LEFT, 15, PDF_MARGIN_RIGHT);
-$pdf->SetHeaderMargin(0);
-$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+//$pdf->SetMargins(PDF_MARGIN_LEFT, 15, PDF_MARGIN_RIGHT);
+//$pdf->SetHeaderMargin(0);
+//$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
 //set auto page breaks
-$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+//$pdf->SetAutoPageBreak(True, PDF_MARGIN_BOTTOM);
+$pdf->SetAutoPageBreak( true, 0);
+$pdf->SetHeaderMargin(0);
 
 //set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -97,9 +104,6 @@ $pdf->AddPage();
 	
 	
 //include_once("inc/header.inc.php");
-	
-	
-	
 
 $get = $obj->protectXSS($_GET);
 	
@@ -144,7 +148,7 @@ $table_width = $table_width-6;
 	
 $room_tables = $plan_row['column_number'];
 $room_width = (int)(184*(int)$room_tables)."px";
-	
+
 	
 $row_width = (int)(182*$room_tables);
 $content_width = ($row_width+235).'px';
@@ -186,36 +190,24 @@ if(isset($_SESSION['cart']))
       }
 
 	}
-
-
-$group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_id);
-$gift_rows = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".$user_id);
-foreach($group_rows as $grp)
-	{
-	
-		$group_menu_array[$grp['name']]=0;
-		
-	
-	}
-$menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".(int)$user_id);
-	
-foreach($menu_groups as $mg)
-	{
-		$group_menu_array[$mg['name']]=0;
-	}
 include("admin/inc/main_dbcon.inc.php");
-$respects = $obj->GetAllRow( "spssp_respect");
+$respects = $obj->GetAllRow("spssp_main.spssp_respect");
 include("admin/inc/return_dbcon.inc.php");
 
+
+$html.='<table style="font-size:'.$main_font_size_top.';"><tr>';
+
+/* 引出物　商品数　開始 */
+$html.='<td width="25%">';
+$html.='</td>';
+	
 $male_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male'");
 $female_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female'");
 $total_guest=$male_guest_num+$female_guest_num;
 $total_guest_with_bride=$total_guest+2;
-
-$woman_lastname=$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_lastname_respect.png",$extra="thumb1");
 	
-$man_lastname=$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_lastname_respect.png",$extra="thumb1");
-
+$woman_lastname=$user_info['woman_lastname'];
+$man_lastname=$user_info['man_lastname'];
 
 $party_day_for_confirm=$user_info['party_day'];
 $party_date_array=explode("-",$party_day_for_confirm);
@@ -224,457 +216,124 @@ $month = $party_date_array[1];
 $year = $party_date_array[0];
 $confirm_date= mktime(0, 0, 0, $month, $day-7, $year);
 $confirm_date_main=date("Y-m-d", $confirm_date);
-         
-//$html.='<table style="text-align:left; padding:5px;border:1px solid black;">	<tr>
-$html.='<table width="100%" cellpadding="5px"><tr>';
-$html.='<td width="20%"><table style="border:1px solid black; padding:5px;font-size:'.$main_font_size2.';" width="100%"><tr><td align="left"  valign="middle" style="text-align:left;">新郎様側: '.$man_lastname.'</td></tr><tr><td align="left"  valign="middle" style="text-align:left;">新婦様側: '.$woman_lastname.'</td></tr></table></td>';
+$query_string = "SELECT * FROM spssp_gaizi_detail_for_user WHERE gu_id = $user_id";
 
+//$man_firstname_gaijis = getGaijiPathArray(get_gaiji_arr($obj->getRowsByQuery($query_string." and gu_trgt_type=0")));
 
+$man_lastname_gaijis = getGaijiPathArray(get_gaiji_arr($obj->getRowsByQuery($query_string." and gu_trgt_type=1")));
+//$woman_firstname_gaijis = getGaijiPathArray(get_gaiji_arr($obj->getRowsByQuery($query_string." and gu_trgt_type=2")));
 
-$html.='<td width="50%"><table style="padding:5px;font-size:'.$main_font_size2.';"><tr><td align="center"   style="text-align:center;">新郎<br/> '.$man_lastname.'</td><td align="center"    style="text-align:center;">新婦<br/> '.$woman_lastname.'</td></tr></table>
-</td>';
-$html.='<td>&nbsp;</td></tr></table><br/>';
+$woman_lastname_gaijis = getGaijiPathArray(get_gaiji_arr($obj->getRowsByQuery($query_string." and gu_trgt_type=3")));
 
-			
-$guests_bride = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest!='0' and stage_guest!='' order by display_order DESC");
-
-foreach($guests_bride as $witness_bride)
-  {
-    $group_name=$menu_name="";
-					
-				
-    $group_id = $obj->GetSingleData("spssp_guest_gift ","group_id"," user_id=".$user_id." and guest_id='".$witness_bride['id']."' limit 1");
-							
-    if($group_id)
-      $group_name= $obj->GetSingleData("spssp_gift_group","name"," id='".$group_id."'");
-				
-				
-    $guest_menu_id = $obj->GetSingleData("spssp_guest_menu ","menu_id"," user_id=".$user_id." and guest_id='".$witness_bride['id']."' limit 1");
-				
-			
-    if($guest_menu_id > 0)
-      {
-        $menu_name = $obj->GetSingleData(" spssp_menu_group ", "name", " id=".$guest_menu_id." and user_id = ".$user_id);
-      }
-				
-    $main_guest[$witness_bride[stage_guest]]=$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$witness_bride['id']."/thumb2")."<br/>".$witness_bride['memo']."<br/>".$menu_name."<br/>".$group_name;;
-			
+function get_gaiji_arr($gaijis){
+  $returnArray = array();
+  for($i=0;$i<count($gaijis);++$i){
+    array_push($returnArray,$gaijis[$i]["gu_char_img"]);
   }
+  return $returnArray;
+}
 
+$man_lastname_gaiji_pathArray = array();
+$woman_lastname_gaiji_pathArray = array();
 
-$html.='<table style="font-size:'.$main_font_size2.';border:1px solid black; width:100%; padding:10px;"><tr><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[3].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[1].'</td><td align="center"  valign="middle" style="text-align:center;">'.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1").'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[5].'</td><td align="center"  valign="middle" style="text-align:center;">'.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="woman_fullname.png",$extra="thumb1").'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[2].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[4].'</td></tr></table><br/>';
+make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaijis,$woman_lastname,$woman_lastname_gaijis,$male_guest_num,$female_guest_num);
 
-$layoutname = $obj->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
-if($layoutname=="")
-  $layoutname = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
+$marriage_day = "";
+$marriage_day_with_time = "";
+if($user_info['marriage_day'] &&  $user_info['marriage_day'] != "0000-00-00"){
+  $marriage_day = strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['marriage_day'])));
+  $marriage_day_with_time = date("H時i分",strtotime($user_info['marriage_day_with_time']));
+}
+$marrige_day_text = '<tr>
+					<td align="left"  valign="middle" style="text-align:center;font-size:40px;">挙式日時　&nbsp;&nbsp;'.$marriage_day.'  '.$marriage_day_with_time.'&nbsp;&nbsp;&nbsp;会場'.$party_room_info[name].' </td>
+                                                                                                                                                                              </tr>';
 
+$html.='<td width="40%">
+	<table>
+				<tr>
+					<td align="left"  valign="middle" style="text-align:center;">
+		
+'.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="pdf_hikidemono_head.png",$extra="/").'
+			</td>
+				</tr>
+				'.$marrige_day_text.'
+				<tr>
+					<td align="left"  valign="middle" style="text-align:center;font-size:40px;">披露宴日時　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['party_day']))).'  '.date("H時i分",strtotime($user_info['party_day_with_time'])).'&nbsp;&nbsp;&nbsp;会場'.$room_info[name].' </td>
+				</tr>
+				<tr>
+					<td align="left"  valign="middle" style="text-align:center;">作成日時　&nbsp;&nbsp;'.date('Y年n月j日  H時i分').'&nbsp;&nbsp;&nbsp;&nbsp;
+					スタッフ名 '.$staff_name.'
+					</td>
+				</tr>
 
-
-
-$html.='<table style="font-size:'.$main_font_size2.';">';
-
-
-$html.='<tr><td>&nbsp;</td><td>&nbsp;</td><td><table style="border:1px solid black;padding:10px;"><tr><td align="center"  valign="middle" style="text-align:center;">'.$layoutname.'</td></tr></table></td><td>&nbsp;</td><td>&nbsp;</td></tr></table><br/>';
-
-
-$html.='<table cellspacing="4" cellspadding="4" width="100%" style="font-size:'.$main_font_size.';">';
-
-
+				<tr>
+					<td align="left"  valign="middle" style="text-align:center;">席次表本発注締切日　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($confirm_date_main))).' 
+					</td>
+				</tr>
+			</table>
+		
+</td><td width="25%" style="font-size:15px;">
+';
 	
-			
+$html.='</td>';
+$html.='</tr></table> ';
 
+$takasago_guests = $obj->get_guestdata_in_takasago($user_id);
+$takasago_num = count($takasago_guests)+2;
+$main_guest = $obj->get_guestdata_in_takasago_for_small_pdf($user_id);
+$gift_table = $obj->get_gift_table_html($takasago_guests,$user_id);
 
-$i=1;
-foreach($tblrows as $tblrow)
-  {
-		$ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrow['row_order']." and user_id=".$user_id." limit 1");					
-		if($ralign == 'C')
-      {
-			
-			
-        $pos = 'center';
-      }
-		else if($ralign=='R')
-      {
-			
-			
-        $pos = 'right';
-			
-      }
-		else
-      {
-			
-        $pos = 'left';
-		
-			
-      }
-		
-		$table_rows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".(int)$user_id." and row_order=".$tblrow['row_order']." order by  column_order asc");
-		
-		$table_rows_hidden = $obj->getRowsByQuery("select count(id) as countvalue from spssp_table_layout where user_id = ".(int)$user_id." and row_order=".$tblrow['row_order']." and display='0' order by  column_order asc");
-		
-		if($pos!="right" && $pos!="left")
-      {
-        $num_of_table_in_row=count($table_rows)-$table_rows_hidden[0][countvalue];
-      }
-		else
-      {
-        $num_of_table_in_row=count($table_rows);
-      }
-		
-		
-    $table_width=($num_of_table_in_row/count($table_rows))*100;
-		
-		if($table_width!=100) 
-      $hidden_table_width=((100-$table_width)/2);
-		
-		
-		$html.="<tr >";
-		
-		
-		if($table_width!=100)
-      {
-        $html.="<td  width=\"".$hidden_table_width."%\" style=\"\">&nbsp;</td>";
-      }
-		$html.="<td width=\"".$table_width."%\" ><table align='".$pos."'  width=\"100%\"><tr>";
-		
-		
-		
-		if($table_rows_hidden[0][countvalue]>0 && $pos=='right')
-      for($i=0;$i<$table_rows_hidden[0][countvalue];$i++)
-        {
-          $html.='<td><table  cellspacing="4" cellspadding="4" ><tr><td colspan="2"></td></tr><tr><td width="'.$td_width.'" >&nbsp;</td><td width="'.$td_width.'" >&nbsp;</td></tr></table></td>';
-        }
+$html.='<table style="font-size:'.$main_font_size_top.';border:1px solid black; width:100%; padding:2px;margin:0px;">';
 
-    $number=0;
-		foreach($table_rows as $table_row)
-      {
-        $number++;
-        $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
-        
-        $num_first = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$table_row['row_order']." order by column_order limit 1");
-        $num_last = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$table_row['row_order']." order by column_order desc limit 1");
-        $num_max = $obj->GetSingleData("spssp_table_layout", "column_order "," user_id=".$user_id." and row_order=".$table_row['row_order']." order by column_order desc limit 1");
-        $num_none = $num_max-$num_last+$num_first-1;
-        
-        if(isset($new_name_row) && $new_name_row['id'] !='')
-          {
-            $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-            $tblname = $tblname_row['name'];
-				
-          }
-        else
-          {
-            $tblname = $table_row['name'];
-          }
-			
-        if($table_row["display"] == 1){
-          $disp = '2';
-        }else if($num_first <= $table_row["column_order"] && $table_row["column_order"]<=$num_last){
-          $disp = "1";
-        }else{
-          $disp = "0";
-        }
-			
-        if($disp!='0')
-          {                   
-            $html.="<td ><table  cellspacing=\"4\" cellspadding=\"4\">";
+$userArray = $obj->get_userdata($user_id);
+$man_image = $userArray[0]["fullname"];
+$woman_image = $userArray[1]["fullname"];
 
-            if($disp=='1')
-              $tblname="&nbsp;";
-								   
-            $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
-            $seats_nums=0;
-            $guest_num=0;
-            $html2="";
-				
-            foreach($group_menu_array as $key=>$value)
-              {
-                $group_menu_array[$key]=0;
-              }
-				
-            foreach($seats as $seat)
-              {
-                $key = $seat['id']."_input";
-					
-                $itemArray = explode("_", $_SESSION['cart'][$key]);
-                $item_info=array();
-                $edited_nums="";
-                $item="";
-                $submname='';
-                $item = $itemArray[1];
-                if($item!='')
-                  {
-						
-                    $item_info =  $obj->GetSingleRow("spssp_guest", " id=".$item." and id in(SELECT id FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest=0)");
-                    if($item_info)
-                      {
-                        $submname = $obj->GetSingleData("spssp_guest_sub_category ", "name"," id=".$item_info['sub_category_id']);
-							
-                        include("admin/inc/main_dbcon.inc.php");
-                        $rspct = $obj->GetSingleData( "spssp_respect", "title"," id=".$item_info['respect_id']);
-                        include("admin/inc/return_dbcon.inc.php");
-							
-                        $edited_nums = $obj->GetNumRows("spssp_guest", "edit_item_id='".$item_info['id']."' and user_id=".(int)$user_id);
-                      }
-                  }
-						
-						
-                if($edited_nums > 0)
-                  {
-                    $guest_editeds = $obj->GetSingleRow("spssp_guest", "edit_item_id=".$item_info['id']." and user_id=".(int)$user_id);
-                    $item_info['id']=$guest_editeds['id'];
-                    $item_info['sub_category_id']=$guest_editeds['sub_category_id'];
-                    $item_info['name']=$guest_editeds['name'];
-																					
-                  }
-						
-                if($disp=='1')
-                  $item_info['first_name']=$item_info['last_name']=$item_info['comment1']=$item_info['comment2']=$rspct="&nbsp;";
-						
-                if($seats_nums==0)
-                  {
-                    $html2.="<tr >";
-                    $style_table="text-align:left";
-                  }
-                else
-                  {
-                    $style_table="text-align:right";
-                  }
-						
-						
-                if($item_info['first_name']!='')
-                  {
-					
-							
-							
-                    $border="";
-							
-                    $menu_name="";
-							
-                    $guest_gifts = $obj->GetAllRowsByCondition("spssp_guest_gift "," user_id=".$user_id." and guest_id='".$item_info['id']."'");
-							
-                    if($guest_gifts)
-                      $gift_groups = $obj->GetSingleData("spssp_gift_group","name"," id='".$guest_gifts['0']['group_id']."'");
-							
-							
-                    $guest_menu_id = $obj->GetSingleData("spssp_guest_menu ","menu_id"," user_id=".$user_id." and guest_id='".$item_info['id']."' limit 1");
-							
-						
-                    if($guest_menu_id > 0)
-                      {
-                        $menu_name = $obj->GetSingleData(" spssp_menu_group ", "name", " id=".$guest_menu_id." and user_id = ".$user_id);
-                      }
-							
-							
-							
-							
-							
-							
-							
-                    if($disp=='1')
-                      $border="none";
-							
-                    /*if($item_info['comment1']=="")
-                      $item_info['comment1']="-";
-							
-                      if($item_info['comment2']=="")
-                      $item_info['comment2']="-";*/
-							
-                    $comment=$item_info['comment1']." ".$item_info['comment2'];
-							
-                    $comment1=$item_info['comment1'];
-							
-                    $comment2=$item_info['comment2'];
-							
-							
-                    $memo=$item_info['memo'];
-							
-                    $full_name=$item_info['first_name']." ".$item_info['last_name']." ".$rspct;
-							
-                    $chr_in_comment1=mb_strlen($comment1,"utf-8");
-                    $chr_in_comment2=mb_strlen($comment2,"utf-8");
-							
-                    if($chr_in_comment1>=$chr_in_comment2)
-                      $chr_in_comment=$chr_in_comment1;
-                    else
-                      $chr_in_comment=$chr_in_comment2;
-							
-							
-							
-                    $chr_in_fullname=mb_strlen($full_name,"utf-8");
-							
-                    $chr_in_menu_name=mb_strlen($menu_name,"utf-8");
-							
-                    $chr_in_memo=mb_strlen($memo,"utf-8");
-							
-							
-                    if($chr_in_fullname)
-                      $font_size_fullname=(int)(((1/$num_of_table_in_row)*(1/$chr_in_fullname))*8000);
-								
-                    if($chr_in_menu_name)
-                      $font_size_menu_name=(int)(((1/$num_of_table_in_row)*(1/$chr_in_menu_name))*3500);
-								
-                    if($chr_in_memo)
-                      $font_size_memo=(int)(((1/$num_of_table_in_row)*(1/$chr_in_memo))*3500);
-								 
-                    if($chr_in_comment)
-                      $font_size_comment=(int)(((1/$num_of_table_in_row)*(1/$chr_in_comment))*8000);
-								
-								
-						
-								
-                    if($disp=='1')
-                      $gift_groups=$menu_name=$memo="";
-								
-								
-							
-                    if($menu_name=="-")
-                      $font_size_menu_name=100;
-								
-                    if($comment1=="-")
-                      $font_size_comment1=100;
-							
-                    if($comment2=="-")
-                      $font_size_comment2=100;
-								
-                    if($font_size_fullname>100)
-                      $font_size_fullname=100;
-								
-                    if($font_size_comment>100)
-                      $font_size_comment=100;
-								
-								
-								
-                    if($font_size_menu_name>100)
-                      $font_size_menu_name=100;
-								
-                    if($font_size_memo>100)
-                      $font_size_memo=100;
-								
-                    if($font_size_comment>$font_size_fullname)
-                      $font_size_comment=$font_size_fullname;
-						
-							
-							
-                    if(array_key_exists($gift_groups,$group_menu_array))
-                      {
-                        $group_menu_array[$gift_groups]=$group_menu_array[$gift_groups]+1;
-                      }
-                    else
-                      {
-                        $group_menu_array[x]=$group_menu_array[x]+1;
-                      }
-                    if(array_key_exists($menu_name,$group_menu_array))
-                      {
-                        $group_menu_array[$menu_name]=$group_menu_array[$gift_groups]+1;
-                      }
-							
-                    if($seats_nums==0)
-                      {
-								
-                        $middle_string="";
-								
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard.png",$extra="guest/".$item_info['id']."/");
-                        //$middle_string.="<table><tr><td><span style=\"font-size:".$font_size_comment."%;\" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment1.png",$extra="guest/".$item_info['id']."/thumb2")."</span></td></tr><tr><td><span style=\"font-size:".$font_size_comment."%;\" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment2.png",$extra="guest/".$item_info['id']."/thumb2")."</span></td></tr><tr><td>";
-								
-                        //$middle_string.="<b style=\"font-size:".$font_size_fullname."%;\" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$item_info['id']."/thumb2")."</b></td></tr></table>";
-                        //52.63%
-                        $html2.="<td width=\"50%\">
-								<table  cellspadding=\"1\" ><tr>
-								
-								<td style=\" width:90%;text-align:left;\">".$middle_string."</td><td style=\"width:10%; \">&nbsp;</td>
-								</tr>
-								</table>
-								</td>";		
-								
-                      }
-                    else
-                      {
-								
-								
-                        $middle_string="";
-								
-								
-								
-								
-								        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard.png",$extra="guest/".$item_info['id']."/");
-                        //$middle_string.="<table><tr><td><span style=\"font-size:".$font_size_comment."%;\" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment1.png",$extra="guest/".$item_info['id']."/thumb2")."</span></td></tr><tr><td><span style=\"font-size:".$font_size_comment."%;\" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment2.png",$extra="guest/".$item_info['id']."/thumb2")."</span></td></tr><tr><td>";
-								
-                        //$middle_string.="<b style=\"font-size:".$font_size_fullname."%;\" >".$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$item_info['id']."/thumb2")."</b></td></tr></table>";
-                        //47.37%
-                        $html2.="<td  width=\"50%\">
-								<table  cellspadding=\"1\" ><tr>
-								<td   style=\"width:100%;text-align:left;\">".$middle_string."</td>
-								</tr>
-								</table>
-								</td>";
-                      }
-						
-                    $guest_num++;
-                  }
-                else
-                  {
-						
-                    $html2.="<td style=\"width:50%;height:40px;\" >&nbsp;</td>";
-						
-						
-                  }
-						
-						
-                if($seats_nums==1)
-                  $html2.="</tr>";
-						
-					
-                $seats_nums++;
-						
-                if($seats_nums==2)
-                  $seats_nums=0;				
-              }
-				
-				
-            if($disp=='1')
-              $guest_num="&nbsp;";
-            else
-              $guest_num ='【 '.$guest_num.'名 】';
-				
-			  				
-            if($seats_nums==1)
-              $html2.="<td></td></tr>";
-			
-            //テーブルの文字の調整のために空白を代入
-            $html.='<tr><td colspan="2" align="center">'.$tblname .'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>';
-            $html.=$html2;
+$html.='<tr><td align="center"  valign="middle" style="text-align:center;font-size:40px;">'.$main_guest[3].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[1].'</td><td align="center"  valign="middle" style="text-align:center;">'.$man_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[5].'</td><td align="center"  valign="middle" style="text-align:center;">'.$woman_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[2].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[4].'</td></tr></table>';
+	
+	
 
-            $html.="</table></td>";
-          }
-      }
+$html.='<table cellspacing="0" cellspadding="0" width="100%" style="font-size:'.$main_font_size.';">';
 
-    if($table_rows_hidden[0][countvalue]>0 && $pos=='left')
-      for($i=0;$i<$table_rows_hidden[0][countvalue];$i++)
-        {
-		
-          $html.='<td><table  cellspacing="4" cellspadding="4" ><tr><td colspan="2" align="center"></td></tr><tr><td width="'.$td_width.'" >&nbsp;</td><td width="'.$td_width.'" >&nbsp;sajdsadjasjdksajdjsajldk</td></tr></table></td>';
-        }	
-		
-    $html.="</tr></table></td></tr>";
-		
-	}
+$table_data = $obj->get_table_data_detail($user_id);
 
+$seat_num = $table_data["seat_num"];
+$seat_row = $seat_num/2;
+$table_heigth = ($seat_row+1)*20;
+for($i=0;$i<count($table_data["rows"]);++$i){
+  $row = $table_data["rows"][$i];
+  $width = 800/count($row["columns"]);
+  $html .= "<tr><td width:\"100%\"><table align=\"left\" width=\"100%\"><tr>";
+  for($j=0;$j<count($row["columns"]);++$j){
+    $column = $row["columns"][$j];
+    $column_num = $row['display_num'];
+    $table_name = $column["name"];
+    $table_id = $column["id"];
+    $visible = $column["visible"];
+    if($row["ralign"] == "C" && $column["display"] == 0 && !$visible) continue;
+    $html .= "<td><table cellspacing=\"0\" cellspadding=\"0\"><tr><td colspan=\"2\" align=\"center\">".$table_name."</td></tr>";
 
+    for($k=0;$k<$seat_row*2;++$k){
+      if($k%2==0) $html .= "<tr>";
+      $seat_detail = $column["seats"][$k];
+      $guest_id = $seat_detail["guest_id"];
+      $plate = "";
+      if($guest_id) $plate = "<img src=\"".$seat_detail["guest_detail"]["name_plate"]."\" />";
+      $html .= "<td style=\"width:50%;height:40px;\">".$plate."</td>";
+      if($k%2==1) $html .= "</tr>";
+    }
+    $html .= "</table></td>";
+  }
+  $html .= "</tr></table></td></tr>";
+}
 
-
-
-
-$html.="</table>";
-
-
-
-
-
+$html .="</table>";
 
 $samplefile="sam_".$plan_id."_".rand()."_".time().".txt";
- 
+//print $html;
+//exit;
+
+
 $handle = fopen("cache/".$samplefile, "x");
  
 if(fwrite($handle, $html)==true)
@@ -691,19 +350,9 @@ $pdf->writeHTML($utf8text, true, false, true, false, '');
 
 // ---------------------------------------------------------
 
-$date_array = explode('-', $user_info['party_day']);
-
-if($user_info['id']<10)
-$user_id_name="000".$user_info['id'];
-else if($user_info['id']<100)
-$user_id_name="00".$user_info['id'];
-else if($user_info['id']<1000)
-$user_id_name="0".$user_info['id'];
-
-$version = $obj->get_download_num($user_id,$_SESSION["adminid"]);
-
-$this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
 // Close and output PDF document
 // This method has several options, check the source code documentation for more information.
-$pdf->Output($this_name.'.pdf', 'D');
+$date = date("His");
+//$pdf->Output('sekijihyou'.$date.'.pdf', 'D');
+$pdf->Output('example_001.pdf', 'I');
 ?> 
