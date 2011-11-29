@@ -108,14 +108,11 @@ if(isset($user_id) && $user_id > 0)
     $post['party_day_with_time'] = $post['party_hour'].":".$post['party_minute'];
 
     if($post['current_room_id']!=$post['room_id'])
-      {
+    {
         $obj->DeleteRow("spssp_table_layout","user_id= ".(int)$user_id);
         $user_plan =  $obj->GetSingleRow("spssp_plan"," user_id=".(int)$user_id);
         $obj->DeleteRow("spssp_plan_details"," plan_id='".(int)$user_plan['id']."'");
-
-        $obj->DeleteRow("spssp_plan","user_id= ".(int)$user_id);
-
-      }
+    }
     unset($post['marriage_hour']);
     unset($post['marriage_minute']);
     unset($post['party_hour']);
