@@ -1326,8 +1326,8 @@ if($user_row['mukoyoshi']=='1'){
 					<input name="rename_table" type="radio" id="radio1" <?=$disp_option5?> value="1"  <?php if($user_plan_row['rename_table'] == "1") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
 					<input type="radio" name="rename_table" id="radio0" <?=$disp_option5?> value="0"  <?php if($user_plan_row['rename_table'] == "0") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
 			  <?php } else {?>
-					<input name="rename_table" type="radio" id="radio1" <?=$disp_option5?> value="1"  <?php if($_def_view=="") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
-					<input type="radio" name="rename_table" id="radio0" <?=$disp_option5?> value="0" <?php if($_def_view!="") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
+					<input name="rename_table" type="radio" id="radio1" <?=$disp_option5?> value="1"  <?php if($_def_view==!"") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
+					<input type="radio" name="rename_table" id="radio0" <?=$disp_option5?> value="0" <?php if($_def_view=="") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
 			  <?php }?>
             </td>
   </tr>
