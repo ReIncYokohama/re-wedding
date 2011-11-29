@@ -524,14 +524,14 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	  document.getElementById('marriage_hour').focus();
 	  return false;
     }
-	if(str4 > 23)
+	if(str4 > 23 && document.getElementById("marriage_day").value!='')
 	{
-	      alert("挙式時間は0から22の間で入力してください");
-		  document.getElementById('marriage_hour').focus();
-		  return false;
+	    alert("挙式時間は0から22の間で入力してください");
+		document.getElementById('marriage_hour').focus();
+		return false;
 	}
 
-	if(str4!="" && (str4 > 22 || str4 < 7))
+	if(str4!="" && (str4 > 22 || str4 < 7) && document.getElementById("marriage_day").value!='')
 	{
 		alert("挙式時間は7:00〜22:00の間で入力してください");
 		document.getElementById('marriage_hour').focus();
@@ -560,11 +560,15 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	  document.getElementById('marriage_minute').focus();
 	  return false;
    }
-   if(str4!="" && (str4 == 22 && str5 > 00))
+   if(str4!="" && (str4 == 22 && str5 > 00) && document.getElementById("marriage_day").value!='')
 	{
-	   alert("挙式時間は7:00～22:00の間で入力してください");
+	    alert("挙式時間は7:00～22:00の間で入力してください");
 		document.getElementById('marriage_minute').focus();
 		return false;
+	}
+	if (document.getElementById("marriage_day").value=='') {
+		document.getElementById("marriage_hour").value = "";
+		document.getElementById("marriage_minute").value = "";
 	}
 
 	if(document.getElementById("room_id").value=='')
@@ -982,8 +986,15 @@ include("inc/return_dbcon.inc.php");
               <td width="160" align="left" valign="middle" nowrap="nowrap" style="text-align:left;" >挙式日</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap" style="text-align:left;" >：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-
-					<input name="marriage_day" type="text" id="marriage_day" value="<?if($user_id>0) echo $obj->date_dashes_convert($user_row['marriage_day'])?>"  size="15" readonly="readonly" style="<?=$disp_option2?> <?=$disp_option3?> background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; padding-top:4px; padding-bottom:4px;" <?php if($disp_option2=="") echo 'class="datepicker" onclick="date_change()"'; ?> />
+					<?php 
+						if ($user_row['marriage_day'] == "0000-00-00") {
+							$_md = "";
+						}
+						else {
+							$_md = strftime('%Y/%m/%d',strtotime($user_row['marriage_day']));
+						}
+					?>
+					<input name="marriage_day" type="text" id="marriage_day" value="<?if($user_id>0) echo $_md; ?>"  size="15" readonly="readonly" style="<?=$disp_option2?> <?=$disp_option3?> background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; padding-top:4px; padding-bottom:4px;" <?php if($disp_option2=="") echo 'class="datepicker" onclick="date_change()"'; ?> />
 
 					<?php
 					//$marriage_day_array = explode("-",$user_row['marriage_day']);
@@ -996,6 +1007,11 @@ include("inc/return_dbcon.inc.php");
                 <td colspan="2" align="left" valign="middle" nowrap="nowrap">挙式時間&nbsp;　：
 				<?php
 				$marriage_time_array = explode(":",$user_row['marriage_day_with_time']);
+				
+				if ($user_row['marriage_day'] == "0000-00-00") {
+					$marriage_time_array[0] = "";
+					$marriage_time_array[1] = "";
+				}
 				?>
 				&nbsp; 
 				<input type="text" <?=$disp_option1?> style="width:17px;padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" name="marriage_hour" id="marriage_hour" value="<?=$marriage_time_array[0]?>"> :
