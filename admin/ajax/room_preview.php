@@ -47,7 +47,7 @@ else
             {
 //				$names[] = mb_substr($rt['name'], 0,1,'UTF-8');// 先頭の1文字
 				$nm=$objInfo->get_table_name($rt['name']);
-				$names[] = mb_substr($nm, 0,1,'UTF-8');// 先頭の1文字
+				$names[] = mb_substr($nm, 0,2,'UTF-8');// 先頭の1文字
             }
 
     ?>

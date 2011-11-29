@@ -168,8 +168,8 @@ function user_timeout() {
 	.tables p
 	{
 
+		margin-left:3px;
 		margin-top:5px;
-		margin-left:5px;
 
 	}
 
@@ -453,7 +453,7 @@ function user_timeout() {
                     <div class="tables" style="<?=$disp?>">
                         <p id="table_<?=$table_row['id']?>">
                         	<font style='font-size:75%' color="#ff0000"><?echo $ctm?></font>
-                            <font style='font-size:100%'><b  style="height:30px; line-height:30px;"> <?=mb_substr ($tblname, 0,1,'UTF-8');?></b></font>
+                            <font style='font-size:90%'><b  style="height:30px; line-height:30px;"> <?=mb_substr ($tblname, 0,2,'UTF-8');?></b></font>
                         </p>
                     </div>
 				<?php

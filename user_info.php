@@ -46,7 +46,8 @@ width:200px;
 
 	.tables p
 	{
-		margin-top:5px;
+		margin-left:-5px;
+		margin-top:6px;
 	}
 
 	.tables p a
@@ -261,7 +262,7 @@ width:200px;
       if($row["ralign"] == "C" && $column["display"] == 0 && !$visible) continue;
 ?>
       <div id="table<?=$table_id?>" class="tables" style="width:<?=$width;?>px;height:<?=$table_height?>px;float:left;<?php echo ($column["visible"])?"visibility:hidden":""?>;margin:2px;"><p>
-      <?php echo mb_substr ($column["name"], 0,1,'UTF-8');?></p>
+      <?php echo mb_substr ($column["name"], 0,2,'UTF-8');?></p>
 </div>
 <?
     }

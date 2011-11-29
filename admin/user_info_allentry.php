@@ -104,12 +104,14 @@ width:200px;
 		float:left;
 		margin:5px 5px;
 		background-image:url(img/circle_small.jpg);
+		background-repeat: no-repeat;
 
 	}
 
 	.tables p
 	{
-		margin-top:5px;
+		margin-left:-5px;
+		margin-top:7px;
 	}
 
 	.tables p a
@@ -1262,7 +1264,7 @@ if($user_row['mukoyoshi']=='1'){
                         }else{
                           $disp = "display:none";
                         }
-                        echo "<div class='tables' style='".$disp."'><p>".mb_substr ($tblname, 0,1,'UTF-8')."</p></div>";
+                        echo "<div class='tables' style='".$disp."'><p>".mb_substr ($tblname, 0,2,'UTF-8')."</p></div>";
                       }
                     echo "</div></div>";
                   }
