@@ -12,6 +12,13 @@ $user_id = (int)$_SESSION['userid'];
 if($user_id=="")
   $user_id = (int)$_GET['user_id'];
 
+$max_width = 1200;
+function get_center_table($max_width,$width,$html){
+  $margin = floor((100*(($max_width-$width)/$max_width))*10/2)/10;
+  $main_margin = floor((100-$margin*2)*10)/10;
+  return "<table><tr><td width=\"".$margin."%\"></td><td width=\"".$main_margin."%\">".$html."</td><td width=\"".$margin."%\"></td></tr></table>";
+}
+
 $plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
 
 $plan_row = $obj->GetSingleRow("spssp_plan"," id =".$plan_id);	
@@ -82,7 +89,7 @@ $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 //$pdf->SetAutoPageBreak(True, PDF_MARGIN_BOTTOM);
 $pdf->SetAutoPageBreak( true, 0);
 $pdf->SetHeaderMargin(0);
-$pdf->SetMargins(5,5,5);
+$pdf->SetMargins(8,5,8);
 
 //set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -283,15 +290,27 @@ $takasago_num = count($takasago_guests)+2;
 $main_guest = $obj->get_guestdata_in_takasago_for_small_pdf($user_id);
 $gift_table = $obj->get_gift_table_html($takasago_guests,$user_id);
 
-$html.='<table style="font-size:'.$main_font_size_top.';border:1px solid black; width:100%; padding:2px;margin:0px;">';
+
 
 $userArray = $obj->get_userdata($user_id);
 $man_image = $userArray[0]["fullname"];
 $woman_image = $userArray[1]["fullname"];
 
-$html.='<tr><td align="center"  valign="middle" style="text-align:center;font-size:40px;">'.$main_guest[3].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[1].'</td><td align="center"  valign="middle" style="text-align:center;">'.$man_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[5].'</td><td align="center"  valign="middle" style="text-align:center;">'.$woman_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[2].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[4].'</td></tr></table><br>';
-	
-	
+$viewSubArray = array($main_guest[3],$main_guest[1],$man_image,$main_guest[5],$woman_image,$main_guest[2],$main_guest[4]);
+$viewArray = array();
+for($i=0;$i<count($viewSubArray);++$i){
+  if($viewSubArray[$i] && $viewSubArray[$i] != "") array_push($viewArray,$viewSubArray[$i]);
+}
+$width = count($viewArray)*150;
+
+$subhtml='<table style="font-size:'.$main_font_size_top.';border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr>';
+
+for($i=0;$i<count($viewArray);++$i){
+  $subhtml .= '<td align="center"  valign="middle">'.$viewArray[$i].'</td>';
+}
+$subhtml .= '</tr></table><br>';
+
+$html .= get_center_table($max_width,$width,$subhtml);
 
 $html.='<table cellspacing="0" cellspadding="0" width="100%" style="font-size:'.$main_font_size.';">';
 
@@ -302,8 +321,8 @@ $seat_row = $seat_num/2;
 $table_heigth = ($seat_row+1)*20;
 for($i=0;$i<count($table_data["rows"]);++$i){
   $row = $table_data["rows"][$i];
-  $width = 800/count($row["columns"]);
-  $html .= "<tr><td width:\"100%\"><table align=\"left\" width=\"100%\"><tr>";
+  $width = 110*count($row["columns"])*2;
+  $html .= "<tr><td width:\"100%\"><table><tr>";
   for($j=0;$j<count($row["columns"]);++$j){
     $column = $row["columns"][$j];
     $column_num = $row['display_num'];
@@ -311,15 +330,15 @@ for($i=0;$i<count($table_data["rows"]);++$i){
     $table_id = $column["id"];
     $visible = $column["visible"];
     if($row["ralign"] == "C" && $column["display"] == 0 && !$visible) continue;
-    $html .= "<td><table cellspacing=\"1\" cellspadding=\"0\"><tr><td colspan=\"0\" align=\"center\">".$table_name."</td></tr>";
-
+    $html .= "<td><table cellspacing=\"0\" cellspadding=\"0\"><tr><td colspan=\"0\" align=\"center\">".$table_name."</td></tr>";
     for($k=0;$k<$seat_row*2;++$k){
       if($k%2==0) $html .= "<tr>";
+      $align = ($k%2==0)?"right":"left";
       $seat_detail = $column["seats"][$k];
       $guest_id = $seat_detail["guest_id"];
       $plate = "";
-      if($guest_id) $plate = "<img src=\"".$seat_detail["guest_detail"]["name_plate"]."\" />";
-      $html .= "<td style=\"width:50%;\">".$plate."</td>";
+      if($guest_id) $plate = "<img width=\"110\" src=\"".$seat_detail["guest_detail"]["name_plate"]."\" />";
+      $html .= "<td style=\"width:50%;\" align=\"".$align."\">".$plate."</td>";
       if($k%2==1) $html .= "</tr>";
     }
     $html .= "</table></td>";
