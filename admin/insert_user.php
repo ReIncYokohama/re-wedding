@@ -107,11 +107,14 @@ if(isset($user_id) && $user_id > 0)
     $post['marriage_day_with_time'] =  $post['marriage_hour'].":".$post['marriage_minute'];
     $post['party_day_with_time'] = $post['party_hour'].":".$post['party_minute'];
 
+    $current_room_id = $post['current_room_id'];
     if($post['current_room_id']!=$post['room_id'])
     {
         $obj->DeleteRow("spssp_table_layout","user_id= ".(int)$user_id);
         $user_plan =  $obj->GetSingleRow("spssp_plan"," user_id=".(int)$user_id);
         $obj->DeleteRow("spssp_plan_details"," plan_id='".(int)$user_plan['id']."'");
+
+        $obj->DeleteRow("spssp_plan","user_id= ".(int)$user_id);
     }
     unset($post['marriage_hour']);
     unset($post['marriage_minute']);
@@ -422,6 +425,7 @@ function get_font_size($font_type,$hotel_id){
         <input type="hidden" name="party_day_for_confirm" id="party_day_for_confirm" value="<?=$plan_party_day_for_confirm?>" />
         <input type="hidden" name="print_company" id="print_company" value="<?=$plan_print_company?>" />
         <input type="hidden" name="room_id" id="room_id" value="<?=$room_id?>" />
+        <input type="hidden" name="current_room_id" id="current_room_id" value="<?=$current_room_id?>" />
  </form>
  </div>
 <?php
