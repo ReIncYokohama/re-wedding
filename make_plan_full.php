@@ -226,8 +226,8 @@ body{
 }
 #make_plan_table{
 width: 965px;
-/*overflow:scroll;*/
-height:680px;
+/*overflow:scroll;
+height:680px;*/
 }
 .title_bar.main_plan{
  width:980px;
