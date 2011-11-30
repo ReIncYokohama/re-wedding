@@ -297,10 +297,9 @@ function getGaijis($gaiji_objs){
   $obj = new DataClass();
   for($i=0;$i<count($gaiji_objs);++$i){
     preg_match("/(.*?)\.(.*?)/",$gaiji_objs[$i]["gu_char_img"],$matches);
-    $data = $obj->GetSingleRow("spssp_gaizi_char_file", " gr_fname = ".$gaiji_objs[$i]["gu_char_img"]);
-    print_r($data);
-    exit;
-    array_push($returnArray,$matches[1]);
+    $data = $obj->GetSingleRow("spssp_gaizi_char_file", " gr_fname = \"".$gaiji_objs[$i]["gu_char_img"]."\"");
+    array_push($returnArray,$data["gr_managed_code"]);
+    //array_push($returnArray,$matches[1]);
   }
   mysql_connected(SQLHOST,SQLUSER,SQLPASSWORD,SQLDATABASE);
   return implode(",",$returnArray);
@@ -598,7 +597,7 @@ $this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
 //print_r($entityArrayGuests);
 //exit;
 
-//header("Content-Type: application/octet-stream");
-//header("Content-Disposition: attachment; filename=${this_name}.csv");
+header("Content-Type: application/octet-stream");
+header("Content-Disposition: attachment; filename=${this_name}.csv");
 echo $lines;
 ?>

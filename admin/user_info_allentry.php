@@ -110,7 +110,7 @@ width:200px;
 
 	.tables p
 	{
-		margin-left:-5px;
+		margin-left:0px;
 		margin-top:7px;
 	}
 
@@ -774,7 +774,7 @@ function m_win(url,windowname,width,height) {
   else height=window.screen.height;
   features+=", height="+height;
  }
- window.open(url,windowname,features);
+ window.showModalDialog(url,windowname,features);
 }
 // --></script>
 <div id="topnavi">
@@ -1280,7 +1280,11 @@ if($user_row['mukoyoshi']=='1'){
                         }else{
                           $disp = "display:none";
                         }
-                        echo "<div class='tables' style='".$disp."'><p>".mb_substr ($tblname, 0,2,'UTF-8')."</p></div>";
+                        $_nm2 = mb_substr($tblname, 0,2,'UTF-8');
+                        $_han = 1;
+                        if (preg_match("/^[a-zA-Z0-9]+$/", $_nm2)) $_han = 2; // 先頭の２文字が全て半角
+                        
+                        echo "<div class='tables' style='".$disp."'><p>".mb_substr ($tblname, 0,$_han,'UTF-8')."</p></div>";
                       }
                     echo "</div></div>";
                   }

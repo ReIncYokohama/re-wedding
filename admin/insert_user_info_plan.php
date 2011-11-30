@@ -52,13 +52,10 @@ $post['staff_id'] = (int)$_SESSION['adminid'];
 
 $user_plan =  $obj->GetSingleRow("spssp_plan"," user_id=".(int)$_GET['user_id']);
 
-
 $plan_dt = $obj->GetSingleRow("spssp_plan_details"," plan_id=".(int)$user_plan['id']." limit 0,1");
-
 
 if((int)$user_plan['user_id'] > 0 && empty($plan_dt))
 {
-
 	unset($post['creation_date']);
 
 	$party_day_for_confirm=$post['party_day_for_confirm'];
