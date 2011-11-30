@@ -97,11 +97,6 @@
 		}
 
 	}
-
-$closeWindow = "false";
-if($_GET["delete"]){
-  $closeWindow = "true";
-}
   
 ?>
 
@@ -274,10 +269,6 @@ var button_enable="<?=$button_enable?>";
 }
 function back_to_make_plan() {
   location.href = "cancel_default_plan.php";  
-}
-
-if(<?php echo $closeWindow;?>){
-  window.close();
 }
 
 function make_plan_check()
@@ -597,7 +588,7 @@ if($objInfo->get_editable_condition($plan_row))
 <?php
   }
 ?>
-<image src="img/btn_back_user.jpg" id="button" onclick="javascript:history.back();"/>
+<image src="img/btn_back_user.jpg" id="button" onclick="javascript:window.location = 'make_plan.php';"/>
             </div>
 			<?php
 
