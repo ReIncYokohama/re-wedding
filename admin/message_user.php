@@ -162,6 +162,7 @@ function m_win(url,windowname,width,height) {
 // window.open(url,windowname,features);
  window.showModalDialog(url,windowname,"dialogTop:400px; dialogLeft:600px; dialogwidth:"+width+"px; dialogheight:"+height+"px;");
 }
+
 // --></script>
 <div id="topnavi">
     <?php
