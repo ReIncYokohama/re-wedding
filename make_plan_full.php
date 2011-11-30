@@ -584,7 +584,7 @@ if($objInfo->get_editable_condition($plan_row))
 	{
 ?>
 <image src="img/btn_save_user.jpg" id="button" onclick="checkConfirm()"/>
-<image src="img/btn_cancel_user.jpg" id="button" onclick="back_to_make_plan()"/>
+<image src="img/btn_rollback_user.jpg" id="button" onclick="back_to_make_plan()"/>
 <?php
   }
 ?>
