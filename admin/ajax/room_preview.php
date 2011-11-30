@@ -47,8 +47,12 @@ else
             {
 //				$names[] = mb_substr($rt['name'], 0,1,'UTF-8');// 先頭の1文字
 				$nm=$objInfo->get_table_name($rt['name']);
-				$names[] = mb_substr($nm, 0,2,'UTF-8');// 先頭の1文字
-            }
+				$_nm2 = mb_substr($nm, 0,2,'UTF-8');
+				$_han = 1;
+				if (preg_match("/^[a-zA-Z0-9]+$/", $_nm2)) $_han = 2; // 先頭の２文字が全て半角
+
+				$names[] = mb_substr($nm, 0,$_han,'UTF-8'); // 先頭の1文字 or 2文字
+           }
 
     ?>
          <tr>

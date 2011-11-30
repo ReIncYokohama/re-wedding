@@ -453,7 +453,12 @@ function user_timeout() {
                     <div class="tables" style="<?=$disp?>">
                         <p id="table_<?=$table_row['id']?>">
                         	<font style='font-size:75%' color="#ff0000"><?echo $ctm?></font>
-                            <font style='font-size:90%'><b  style="height:30px; line-height:30px;"> <?=mb_substr ($tblname, 0,2,'UTF-8');?></b></font>
+                        	<?php 
+                        	$_nm2 = mb_substr($tblname, 0,2,'UTF-8');
+                        	$_han = 1;
+                        	if (preg_match("/^[a-zA-Z0-9]+$/", $_nm2)) $_han = 2; // 先頭の２文字が全て半角
+                        	?>
+                            <font style='font-size:90%'><b  style="height:30px; line-height:30px;"> <?=mb_substr ($tblname, 0,$_han,'UTF-8');?></b></font>
                         </p>
                     </div>
 				<?php
