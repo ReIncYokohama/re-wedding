@@ -59,7 +59,6 @@ $pdf->SetAuthor('Nicola Asuni');
 $pdf->SetTitle('TCPDF Example 006');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
-$pdf->SetMargins(5, 0,5);
 
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
@@ -83,6 +82,7 @@ $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 //$pdf->SetAutoPageBreak(True, PDF_MARGIN_BOTTOM);
 $pdf->SetAutoPageBreak( true, 0);
 $pdf->SetHeaderMargin(0);
+$pdf->SetMargins(5,5,5);
 
 //set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -276,7 +276,7 @@ $html.='<td width="40%">
 ';
 	
 $html.='</td>';
-$html.='</tr></table> ';
+$html.='</tr></table><br> ';
 
 $takasago_guests = $obj->get_guestdata_in_takasago($user_id);
 $takasago_num = count($takasago_guests)+2;
@@ -289,7 +289,7 @@ $userArray = $obj->get_userdata($user_id);
 $man_image = $userArray[0]["fullname"];
 $woman_image = $userArray[1]["fullname"];
 
-$html.='<tr><td align="center"  valign="middle" style="text-align:center;font-size:40px;">'.$main_guest[3].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[1].'</td><td align="center"  valign="middle" style="text-align:center;">'.$man_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[5].'</td><td align="center"  valign="middle" style="text-align:center;">'.$woman_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[2].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[4].'</td></tr></table>';
+$html.='<tr><td align="center"  valign="middle" style="text-align:center;font-size:40px;">'.$main_guest[3].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[1].'</td><td align="center"  valign="middle" style="text-align:center;">'.$man_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[5].'</td><td align="center"  valign="middle" style="text-align:center;">'.$woman_image.'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[2].'</td><td align="center"  valign="middle" style="text-align:center;">'.$main_guest[4].'</td></tr></table><br>';
 	
 	
 
@@ -311,7 +311,7 @@ for($i=0;$i<count($table_data["rows"]);++$i){
     $table_id = $column["id"];
     $visible = $column["visible"];
     if($row["ralign"] == "C" && $column["display"] == 0 && !$visible) continue;
-    $html .= "<td><table cellspacing=\"0\" cellspadding=\"0\"><tr><td colspan=\"2\" align=\"center\">".$table_name."</td></tr>";
+    $html .= "<td><table cellspacing=\"1\" cellspadding=\"0\"><tr><td colspan=\"0\" align=\"center\">".$table_name."</td></tr>";
 
     for($k=0;$k<$seat_row*2;++$k){
       if($k%2==0) $html .= "<tr>";
@@ -319,7 +319,7 @@ for($i=0;$i<count($table_data["rows"]);++$i){
       $guest_id = $seat_detail["guest_id"];
       $plate = "";
       if($guest_id) $plate = "<img src=\"".$seat_detail["guest_detail"]["name_plate"]."\" />";
-      $html .= "<td style=\"width:50%;height:40px;\">".$plate."</td>";
+      $html .= "<td style=\"width:50%;\">".$plate."</td>";
       if($k%2==1) $html .= "</tr>";
     }
     $html .= "</table></td>";

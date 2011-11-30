@@ -1,4 +1,5 @@
 <?php
+
 @session_start();
 include_once("../admin/inc/include_class_files.php");
 include_once("../admin/inc/class_data.dbo.php");
@@ -21,7 +22,6 @@ else
 {
 	exit;
 }
-
 
 /*$entityArray2 = array(" HotelName , WeddingDate , WeddingTime , WeddingVenues , ReceptionDate, ReceptionTime , ReceptionHall , GroomName,  fullPhoneticGroom , BrideFullName , BrideFullPhonetic , Categories, ProductName ,  Printsize,tableArrangement , JIs_num, DataOutputTime , PlannerName , LayoutColumns , TableLayoutStages , Colortable , Max , NumberAttendance "); */
 
@@ -296,7 +296,7 @@ function getGaijis($gaiji_objs){
   mysql_connected(GAIJI_SQLHOST,GAIJI_SQLUSER,GAIJI_SQLPASSWORD,GAIJI_SQLDATABASE);
   $obj = new DataClass();
   for($i=0;$i<count($gaiji_objs);++$i){
-    preg_match("/(.*?)\.(.*?)/",$gaiji_objs[$i]["gu_char_img"],$matches);
+    //preg_match("/(.*?)\.(.*?)/",$gaiji_objs[$i]["gu_char_img"],$matches);
     $data = $obj->GetSingleRow("spssp_gaizi_char_file", " gr_fname = \"".$gaiji_objs[$i]["gu_char_img"]."\"");
     array_push($returnArray,$data["gr_managed_code"]);
     //array_push($returnArray,$matches[1]);
@@ -304,6 +304,27 @@ function getGaijis($gaiji_objs){
   mysql_connected(SQLHOST,SQLUSER,SQLPASSWORD,SQLDATABASE);
   return implode(",",$returnArray);
 }
+
+//gaiji 関連の関数
+function setStrGaijis($str,$gaiji_objs){
+  $returnArray = array();
+  //mysql_connected(GAIJI_SQLHOST,GAIJI_SQLUSER,GAIJI_SQLPASSWORD,GAIJI_SQLDATABASE);
+  //$obj = new DataClass();
+  
+  $strArray = explode("＊",$str);
+
+  for($i=0;$i<count($gaiji_objs);++$i){
+    preg_match("/(.*?)\.(.*?)/",$gaiji_objs[$i]["gu_char_img"],$matches);
+  print $str;
+  exit;
+    //$data = $obj->GetSingleRow("spssp_gaizi_char_file", " gr_fname = \"".$gaiji_objs[$i]["gu_char_img"]."\"");
+    array_push($returnArray,$data["gr_managed_code"]);
+    //array_push($returnArray,$matches[1]);
+  }
+  mysql_connected(SQLHOST,SQLUSER,SQLPASSWORD,SQLDATABASE);
+  return implode(",",$returnArray);
+}
+
 
 
 $o=1;$cl22 = "";
@@ -365,7 +386,7 @@ foreach($usertblrows as $tblRows)
 		$cl22[] = "$value";
 
 		//FullName
-		$value = chop($guest_info['last_name']."  ".$guest_info['first_name']);
+		$value = chop($guest_info['last_name']." ".$guest_info['first_name']);
 		$cl22[] = "$value";
 
 		//FullName gaiji
@@ -380,7 +401,7 @@ foreach($usertblrows as $tblRows)
 
 		//com1 com2
 		if($guest_info['comment1']&&$guest_info['comment2'])
-			$value = chop($guest_info['comment1']."△ ".$guest_info['comment2']);
+			$value = chop($guest_info['comment1'].'△'.$guest_info['comment2']);
 		elseif($guest_info['comment1'])
 			$value = chop($guest_info['comment1']);
 		elseif($guest_info['comment2'])
@@ -410,21 +431,20 @@ foreach($usertblrows as $tblRows)
 
 		//LastName	外字
 		$value = chop($guest_info['last_name']);
-		$cl22[] = "$value";
-
+		$cl22[] = setStrGaijis($value,$lastname_gaijis);
     
 		//FirstName	 外字名
 		$value = chop($guest_info['first_name']);
-		$cl22[] = "$value";
+		$cl22[] = setStrGaijis($value,$firstname_gaijis);
 
 
 		//外字姓名FullName
-		$value = chop($guest_info['last_name']."  ".$guest_info['first_name']);
-		$cl22[] = "$value";
+		$value = chop($guest_info['last_name']." ".$guest_info['first_name']);
+		$cl22[] = setStrGaijis($value,$gaiji_name_arr);
 
 		//com1 com2
 		if($guest_info['comment1']&&$guest_info['comment2'])
-			$value = chop($guest_info['comment1']."△ ".$guest_info['comment2']);
+			$value = chop($guest_info['comment1'].'△'.$guest_info['comment2']);
 		elseif($guest_info['comment1'])
 			$value = chop($guest_info['comment1']);
 		elseif($guest_info['comment2'])
@@ -439,6 +459,7 @@ foreach($usertblrows as $tblRows)
 	$o++;
 }
 	$guest_own_info = $obj->GetAllRowsByCondition("spssp_guest","(self=1 or guest_type!=0) and stage=1 and user_id=".(int)$user_id);
+  
 	//echo "<pre>";print_r($guest_own_info);
 	$xxx=1;
 	foreach($guest_own_info as $own_info)
@@ -495,7 +516,7 @@ foreach($usertblrows as $tblRows)
 
 
 		//FullName
-		$value = chop($own_info['last_name']."  ".$own_info['first_name']);
+		$value = chop($own_info['last_name']." ".$own_info['first_name']);
 		$own_array[] = "$value";
 
 		//FullName gaiji
@@ -514,7 +535,7 @@ foreach($usertblrows as $tblRows)
 
 		//com1 com2
 		if($own_info['comment1']&&$own_info['comment2'])
-			$value = chop($own_info['comment1']."△ ".$own_info['comment2']);
+			$value = chop($own_info['comment1'].'△'.$own_info['comment2']);
 		elseif($own_info['comment1'])
 			$value = chop($own_info['comment1']);
 		elseif($own_info['comment2'])
@@ -546,20 +567,21 @@ foreach($usertblrows as $tblRows)
 
 		//LastName	外字姓
 		$value = chop($own_info['last_name']);
-		$own_array[] = "$value";
+		//$own_array[] = "$value";
+		$own_array[] = setStrGaijis($value,$lastname_gaijis);
 
 		//FirstName	 外字名
 		$value = chop($own_info['first_name']);
-		$own_array[] = "$value";
+		$own_array[] = setStrGaijis($value,$firstname_gaijis);
 
 
 		//外字姓名FullName
-		$value = chop($own_info['last_name']."  ".$own_info['first_name']);
-		$own_array[] = "$value";
+		$value = chop($own_info['last_name']." ".$own_info['first_name']);
+		$own_array[] = setStrGaijis($value,$gaiji_name_arr);
 
 		//com1 com2
 		if($own_info['comment1']&&$own_info['comment2'])
-			$value = chop($own_info['comment1']."△ ".$own_info['comment2']);
+			$value = chop($own_info['comment1'].'△'.$own_info['comment2']);
 		elseif($own_info['comment1'])
 			$value = chop($own_info['comment1']);
 		elseif($own_info['comment2'])

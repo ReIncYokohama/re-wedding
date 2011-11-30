@@ -262,7 +262,7 @@ class DataClass extends DBO{
     $infoobj = new InformationClass();
 
     foreach($guests as $guest){
-      $returnArray[$guest["stage_guest"]] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$guest['id']);
+      $returnArray[$guest["stage_guest"]] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$guest['id']);
     }
     return $returnArray;
   }
