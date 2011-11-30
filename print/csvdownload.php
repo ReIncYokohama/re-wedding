@@ -306,23 +306,15 @@ function getGaijis($gaiji_objs){
 }
 
 //gaiji 関連の関数
-function setStrGaijis($str,$gaiji_objs){
-  $returnArray = array();
-  //mysql_connected(GAIJI_SQLHOST,GAIJI_SQLUSER,GAIJI_SQLPASSWORD,GAIJI_SQLDATABASE);
-  //$obj = new DataClass();
-  
+function setStrGaijis($str,$gaiji_objs){  
   $strArray = explode("＊",$str);
-
+  $returnStr = "";
   for($i=0;$i<count($gaiji_objs);++$i){
     preg_match("/(.*?)\.(.*?)/",$gaiji_objs[$i]["gu_char_img"],$matches);
-  print $str;
-  exit;
-    //$data = $obj->GetSingleRow("spssp_gaizi_char_file", " gr_fname = \"".$gaiji_objs[$i]["gu_char_img"]."\"");
-    array_push($returnArray,$data["gr_managed_code"]);
-    //array_push($returnArray,$matches[1]);
+    $returnStr .= $strArray[0].$matches[1];
   }
-  mysql_connected(SQLHOST,SQLUSER,SQLPASSWORD,SQLDATABASE);
-  return implode(",",$returnArray);
+  $returnStr .= $strArray[count($strArray)-1];
+  return $returnStr;
 }
 
 
