@@ -774,7 +774,7 @@ function m_win(url,windowname,width,height) {
   else height=window.screen.height;
   features+=", height="+height;
  }
- window.open(url,windowname,features);
+ window.showModalDialog(url,windowname,features);
 }
 // --></script>
 <div id="topnavi">
