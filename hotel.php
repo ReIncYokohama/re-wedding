@@ -86,7 +86,8 @@ if(!$$hotel_sqlhost_val){
 
 				$class=($i%2==0)?"box5":"box6";
 		?>
-	  <form action="../hotel<?php echo (int)$hotel['hotel_code']?>/admin/index.php" name="fm<?=(int)$hotel['hotel_code']?>" target="_blank"  method="post">
+<!-- 	  <form action="../hotel<?php echo (int)$hotel['hotel_code']?>/admin/index.php" name="fm<?=(int)$hotel['hotel_code']?>" target="_blank"  method="post"> -->
+	  <form action="../<?php echo $hotel['url_name']?>/admin/index.php" name="fm<?=(int)$hotel['hotel_code']?>" target="_blank"  method="post">
       <div class="<?=$class?>">
         <table border="0" align="center" cellpadding="1" cellspacing="1">
           <tr align="center">
