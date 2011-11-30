@@ -770,7 +770,7 @@ if($editable)
     <td width="90" align="right" nowrap="nowrap">区分：</td>
     <td width="100" align="left"><select id="guest_type" name="guest_type" tabindex=7 style="width:80px; padding-top:3px; padding-bottom:3px;border-style:inset;" <?php if($guest_row['self']==1){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
 					<?php
-          if($edit && count($gg_arr)==0) echo "<option selected value=''></option>";
+          if($edit && count($gg_arr)==0) echo "<option selected value=''></option>"; else echo "<option selected value='&nbsp;'></option>";
 						foreach($guest_types as $guest_type)
 						{
 							if($guest_row['guest_type'] == $guest_type['id'])
@@ -821,7 +821,7 @@ if($editable)
 
 								 if($guest_row['self']==1){$access= "disabled";}
 								echo "<select id='gift_group' tabindex=11 name='gift_group_id' style='width:80px; padding-top:3px; padding-bottom:3px; border-style:inset;' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
-                if($edit && count($gg_arr)==0) echo "<option selected value=''></option>";
+                if($edit && count($gg_arr)==0) echo "<option selected value=''></option>"; else echo "<option selected value='&nbsp;'></option>";
 								foreach($gift_groups as $gg)
 								{
                   if($gg["name"]=="") continue;
