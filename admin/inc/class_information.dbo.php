@@ -537,7 +537,10 @@ json
 	  $sql = "delete from spssp_admin_messages where user_id=".$uid; 				mysql_query($sql);
 	  $sql = "delete from spssp_change_log where user_id=".$uid; 					mysql_query($sql);
 	  $sql = "delete from spssp_clicktime where user_id=".$uid; 					mysql_query($sql);
+	  
+	  $sql = "delete spssp_item_value from spssp_item_value inner join spssp_gift on spssp_item_value.item_id = spssp_gift.id where spssp_gift.user_id=".$uid; mysql_query($sql);	  
 	  $sql = "delete from spssp_gift where user_id=".$uid; 						mysql_query($sql);
+
 	  $sql = "delete from spssp_gift_group where user_id=".$uid; 					mysql_query($sql);
 	  $sql = "delete from spssp_gift_group_relation where user_id=".$uid; 		mysql_query($sql);
 	  $sql = "delete from spssp_guest where user_id=".$uid; 						mysql_query($sql);
