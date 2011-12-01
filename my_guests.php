@@ -725,7 +725,7 @@ if($editable)
     <td width="90" align="right" nowrap="nowrap">敬称<font color="red">*</font>：</td>
     <td width="173" align="left"><select id="respect_id" name="respect_id" tabindex=4 style="width:70px; padding-top:3px; padding-bottom:3px;border-style: inset;" <?php if($guest_row['self']==1){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
 			      <?php
-          if($guest_row["respect_id"]=="") echo "<option value=''></option>";
+          			if((int)$get['gid']>0 && $guest_row["respect_id"]=="") echo "<option value=''></option>";
 					foreach($respects as $respect)
 					{
 						if($guest_row['respect_id'] == $respect['id'])
@@ -822,17 +822,17 @@ if($editable)
 
 								 if($guest_row['self']==1){$access= "disabled";}
 								echo "<select id='gift_group' tabindex=11 name='gift_group_id' style='width:80px; padding-top:3px; padding-bottom:3px; border-style:inset;' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
-                if($edit && count($gg_arr)==0) echo "<option selected value=''></option>"; else echo "<option selected value='&nbsp;'></option>";
+				                if($edit && count($gg_arr)==0) echo "<option selected value=''></option>"; else echo "<option selected value='&nbsp;'></option>";
 								foreach($gift_groups as $gg)
 								{
-                  if($gg["name"]=="") continue;
+                  				if($gg["name"]=="") continue;
 									$selected = (in_array($gg['id'],$gg_arr))?"selected":"";
 									echo "<option ".$selected." value='".$gg['id']."' >".$gg['name']."</option>";
 								}
 								echo "</select>";
 							?></td>
-    <td width="90" align="right" nowrap="nowrap">料理<font color="red">*</font>：</td>
-    <td width="120" align="left"><?php
+							    <td width="90" align="right" nowrap="nowrap">料理<font color="red">*</font>：</td>
+							    <td width="120" align="left"><?php
                             	$menus = $obj->GetAllRowsByCondition(" spssp_menu_group "," user_id=".$user_id);
 								if((int)$_GET['gid'])
 								$guest_menus = $obj->GetAllRowsByCondition(" spssp_guest_menu "," user_id=".$user_id." and guest_id=".$_GET['gid']);
@@ -851,7 +851,7 @@ if($editable)
 
 								foreach($menus as $m)
 								{
-                  if($m['name']=="") continue;
+                  				if($m['name']=="") continue;
 									$selected = (in_array($m['id'],$gm_arr))?"selected":"";
 									echo "<option ".$selected." value='".$m['id']."' >".$m['name']."</option>";
 								}

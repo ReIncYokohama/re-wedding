@@ -99,13 +99,13 @@ if(isset($gift_group) && $gift_group != '')
     mysql_query($query_string);
   }
   
-if(isset($menu_grp) && $menu_grp != '')
-  {
+//if(isset($menu_grp) && $menu_grp != '')
+//  {
     $query_string="delete from spssp_guest_menu where guest_id = '".$guest_id."' and user_id = '".$user_id."'";
     mysql_query($query_string);
     $query_string="INSERT INTO spssp_guest_menu (guest_id,menu_id,user_id) VALUES ('".$guest_id."','".$menu_grp."','".$user_id."');";
     mysql_query($query_string);
-  }
+//  }
 
 
 if(!$self){
