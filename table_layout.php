@@ -286,8 +286,9 @@ function user_timeout() {
 			}
 			else
 			{
-				$name_input=$default_layout_title;
-				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
+				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='"."&nbsp;&nbsp;&nbsp;"."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
+//				$name_input=$default_layout_title;
+//				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
 			}
 			?></div>
 			　　　　　</td>
@@ -358,6 +359,10 @@ function user_timeout() {
 		{
 			echo "<div id='user_layoutname'  style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$layoutname."</div>";
 		}
+		else {
+			echo "<div id='user_layoutname'  style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>"."&nbsp;&nbsp;&nbsp;"."</div>";
+		}
+/*
 		elseif($default_layout_title!="")
 		{
 			echo "<div id='default_layout_title' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$default_layout_title."</div>";
@@ -370,7 +375,7 @@ function user_timeout() {
 			  </tr>
 			</table>';
 		}
-
+*/
 		echo "<div id='input_user_layoutname' style='display:none;'>
 		<form action='table_layout.php' method='post'>
 		<input type='hidden' name='user_layout_title' value='user_layout_title'>
