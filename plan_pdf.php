@@ -777,12 +777,12 @@ foreach($tblrows as $tblrow)
                   {
                     $keyvalue=mb_substr($key, 0, 1,'UTF-8');
 				
-                    $html.="<td style=\" border:1px solid black;\">".$keyvalue."</td>";	
+                    $html.="<td style=\" border:1px solid black;\" width=\"14\" >".$keyvalue."</td>";	
                   }
                 $html.="</tr><tr>";
                 foreach($group_menu_array as $key=>$value)
                   {
-                    $html.="<td style=\" border:1px solid black;\">".$value."</td>";	
+                    $html.="<td style=\" border:1px solid black;\" width=\"14\">".$value."</td>";	
                   }
                 $html.="</tr></table></td>";
 			
