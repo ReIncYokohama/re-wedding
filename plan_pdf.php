@@ -436,8 +436,10 @@ $gift_table = $obj->get_gift_table_html($takasago_guests,$user_id);
 
 
 $userArray = $obj->get_userdata($user_id);
-$man_image = $userArray[0]["fullname"];
-$woman_image = $userArray[1]["fullname"];
+$userGuestArray = $obj->get_guestdata_in_host_for_pdf($user_id);
+
+$man_image = $userGuestArray[0];
+$woman_image = $userGuestArray[1];
 
 
 $viewSubArray = array($main_guest[3],$main_guest[1],$man_image,$main_guest[5],$woman_image,$main_guest[2],$main_guest[4]);
@@ -446,8 +448,9 @@ for($i=0;$i<count($viewSubArray);++$i){
   if($viewSubArray[$i] && $viewSubArray[$i] != "") array_push($viewArray,$viewSubArray[$i]);
 }
 $width = count($viewArray)*150;
+$gift_table = get_center_table((count($viewArray)-1)*200,190,$gift_table);
 
-$subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td style="font-size:30px;">高砂【 '.$takasago_num.'名 】</td><td colspan="'.(count($viewArray)-1).'">'.$gift_table.'</td></tr><tr>';
+$subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td style="font-size:30px;" align="center">高砂【 '.$takasago_num.'名 】</td><td colspan="'.(count($viewArray)-1).'">'.$gift_table.'</td></tr><tr>';
 
 for($i=0;$i<count($viewArray);++$i){
   $subhtml .= '<td align="center"  valign="middle">'.$viewArray[$i].'</td>';
