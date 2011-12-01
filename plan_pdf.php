@@ -104,7 +104,7 @@ $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 //$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 $pdf->SetAutoPageBreak( true, 0);
 $pdf->SetHeaderMargin(0);
-$pdf->SetMargins(4,3,4);
+$pdf->SetMargins(8,8,8);
 
 //set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -220,7 +220,7 @@ include("admin/inc/return_dbcon.inc.php");
 $html.='<table style="font-size:'.$main_font_size_top.';"><tr>';
 
 /* 引出物　商品数　開始 */
-$html.='<td width="31%"><table><tr><td><table><tr><td style="text-align:right;border:1px solid black;" colspan="2" height="12"  width="100" >グループ</td>';
+$html.='<td width="35%"><table><tr><td><table><tr><td style="text-align:right;border:1px solid black;" colspan="2" height="12"  width="100" >グループ</td>';
 
 $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_id);
 $gift_rows = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".$user_id);
@@ -355,7 +355,7 @@ $marrige_day_text = '<tr style="text-align:left;font-size:35px;">
                                                                                                                                                                               </tr>';
 
 
-$html.='<td width="38%">
+$html.='<td width="35%">
 	<table>
 				<tr>
 					<td align="left"  valign="middle" style="text-align:center;" colspan="3">

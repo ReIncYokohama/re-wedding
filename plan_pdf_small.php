@@ -89,7 +89,7 @@ $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 //$pdf->SetAutoPageBreak(True, PDF_MARGIN_BOTTOM);
 $pdf->SetAutoPageBreak( true, 0);
 $pdf->SetHeaderMargin(0);
-$pdf->SetMargins(4,3,4);
+$pdf->SetMargins(8,8,8);
 
 //set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -203,7 +203,7 @@ include("admin/inc/return_dbcon.inc.php");
 $html.='<table style="font-size:'.$main_font_size_top.';"><tr>';
 
 /* 引出物　商品数　開始 */
-$html.='<td width="31%">';
+$html.='<td width="35%">';
 $html.='</td>';
 	
 $male_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male'");
@@ -255,7 +255,7 @@ $marrige_day_text = '<tr style="text-align:left;font-size:35px;">
                                                                                                                                                                               </tr>';
 
 
-$html.='<td width="38%">
+$html.='<td width="40%">
 	<table>
 				<tr>
 					<td align="left"  valign="middle" style="text-align:center;" colspan="3">
