@@ -11,11 +11,11 @@ $obj = new DataClass();
 $objInfo = new InformationClass();
 $user_id = (int)$_SESSION['userid'];
 
+$max_width = 1500;
+
 if($user_id=="")
   $user_id = (int)$_GET['user_id'];
 
-
-$max_width = 1200;
 function get_center_table($max_width,$width,$html){
   $margin = floor((100*(($max_width-$width)/$max_width))*10/2)/10;
   $main_margin = floor((100-$margin*2)*10)/10;
@@ -35,8 +35,9 @@ $plan_row = $obj->GetSingleRow("spssp_plan"," id =".$plan_id);
 $PDF_PAGE_FORMAT_USER=PDF_PAGE_FORMAT;
 $PDF_PAGE_ORIENTATION_USER=PDF_PAGE_ORIENTATION;
 
-if($plan_row['print_size'] == 1)
+if($plan_row['print_size'] == 1){
   $PDF_PAGE_FORMAT_USER="A3";
+}
 if($plan_row['print_size'] == 2)
   $PDF_PAGE_FORMAT_USER="B4";
 
