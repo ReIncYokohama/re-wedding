@@ -249,36 +249,39 @@ if($user_info['marriage_day'] &&  $user_info['marriage_day'] != "0000-00-00"){
   $marriage_day = strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['marriage_day'])));
   $marriage_day_with_time = date("H時i分",strtotime($user_info['marriage_day_with_time']));
 }
-$marrige_day_text = '<tr>
-					<td align="left"  valign="middle" style="text-align:center;font-size:40px;">挙式日時　&nbsp;&nbsp;'.$marriage_day.'  '.$marriage_day_with_time.'&nbsp;&nbsp;&nbsp;会場'.$party_room_info[name].' </td>
+
+$marrige_day_text = '<tr style="text-align:left;font-size:35px;">
+					<td align="left" width="80"  valign="middle">挙式日時</td><td width="160" >'.$marriage_day.'  '.$marriage_day_with_time.'</td><td width="300">会場'.$party_room_info[name].' </td>
                                                                                                                                                                               </tr>';
 
-$html.='<td width="40%">
+
+$html.='<td width="38%">
 	<table>
 				<tr>
-					<td align="left"  valign="middle" style="text-align:center;">
+					<td align="left"  valign="middle" style="text-align:center;" colspan="3">
 		
 '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="pdf_hikidemono_head.png",$extra="/").'
 			</td>
 				</tr>
+        <tr><td colspan="3"></td></tr>
 				'.$marrige_day_text.'
-				<tr>
-					<td align="left"  valign="middle" style="text-align:center;font-size:40px;">披露宴日時　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['party_day']))).'  '.date("H時i分",strtotime($user_info['party_day_with_time'])).'&nbsp;&nbsp;&nbsp;会場'.$room_info[name].' </td>
+				<tr style="text-align:left;font-size:35px;">
+					<td width="80" align="left"  valign="middle">披露宴日時</td><td width="160">'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['party_day']))).'  '.date("H時i分",strtotime($user_info['party_day_with_time'])).'</td><td width="300">会場'.$room_info[name].' </td>
 				</tr>
-				<tr>
-					<td align="left"  valign="middle" style="text-align:center;">作成日時　&nbsp;&nbsp;'.date('Y年n月j日  H時i分').'&nbsp;&nbsp;&nbsp;&nbsp;
+        <tr><td colspan="3"></td></tr>
+				<tr style="text-align:left;font-size:25px;">
+					<td align="left"  valign="middle" style="text-align:center;">作成日時</td><td>'.date('Y年n月j日  H時i分').'</td><td>
 					スタッフ名 '.$staff_name.'
 					</td>
 				</tr>
 
-				<tr>
-					<td align="left"  valign="middle" style="text-align:center;">席次表本発注締切日　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($confirm_date_main))).' 
+				<tr style="text-align:left;font-size:25px;">
+					<td align="left"  valign="middle" style="text-align:center;">制限開始日</td><td colspan="2">'.strftime('%Y年%m月%d日',strtotime(jp_decode($confirm_date_main))).' 
 					</td>
 				</tr>
 			</table>
 		
-</td><td width="30%" style="font-size:15px;">
-';
+</td><td width="15%" style="font-size:15px;">';
 	
 $html.='</td>';
 $html.='</tr></table><br> ';
