@@ -161,7 +161,7 @@ function get_image_name_plate($last_name,$first_name,$comment1="",$comment2="",
                               $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect=""){
 
   $comment_max_fontsize = "8";
-  $name_max_fontsize = "12";
+  $name_max_fontsize = "11";
 
   $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
   $width_px = "150";
@@ -184,7 +184,7 @@ function get_image_name_plate_data($image,$width_px,$first_left,
                          $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
                                    $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect=""){
   $comment_max_fontsize = "8";
-  $name_max_fontsize = "12";
+  $name_max_fontsize = "11";
 
   $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
   
@@ -205,14 +205,14 @@ function get_image_name_plate_data($image,$width_px,$first_left,
 
   $gaiji_name_arr = array_merge((array)$gaiji_last_name_arr, (array)$gaiji_first_name_arr);
   $name_for_fontsize = $name.$respect;
-  $name_fontsize = get_image_font_size($name_max_fontsize,$name,$font,$width_px,
+  $name_fontsize = get_image_font_size($name_max_fontsize,$name_for_fontsize,$font,$width_px,
                                        $gaiji_name_arr);
   
   $nowLeft = gaiji_imagettftext($image,$name_fontsize,0,$first_left,45,$col_t,$font,$name,$gaiji_name_arr);
 
-  if(mb_strlen($respect,"utf-8") <= 3){
+  if(mb_strlen($respect,"utf-8") <= 1){
     gaiji_imagettftext($image,$name_fontsize,0,$nowLeft,45,$col_t,$font,$respect,array());
-  }else if(mb_strlen($respect,"utf-8")>4){
+  }else if(mb_strlen($respect,"utf-8")>1){
     gaiji_imagettftext($image,$name_fontsize,0,$nowLeft,45,$col_t,$font,$respect,array(),50);
   }
   
@@ -224,9 +224,9 @@ function get_image_name_plate_data2($image,$width_px,$first_left,
                                    $last_name,$first_name,$comment1="",$comment2="",
                          $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
                                    $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect=""){
-  $comment_max_fontsize = "10";
+  $comment_max_fontsize = "8";
   $comment_min_fontsize = "5";
-  $name_max_fontsize = "12";
+  $name_max_fontsize = "11";
 
   $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
   
@@ -278,14 +278,14 @@ function get_image_name_plate_data2($image,$width_px,$first_left,
   }
   $gaiji_name_arr = array_merge((array)$gaiji_last_name_arr, (array)$gaiji_first_name_arr);
   $name_for_fontsize = $name.$respect;
-  $name_fontsize = get_image_font_size($name_max_fontsize,$name,$font,$width_px,
+  $name_fontsize = get_image_font_size($name_max_fontsize,$name_for_fontsize,$font,$width_px,
                                        $gaiji_name_arr);
   
   $nowLeft = gaiji_imagettftext($image,$name_fontsize,0,$first_left,45,$col_t,$font,$name,$gaiji_name_arr);
 
-  if(mb_strlen($respect,"utf-8") <= 3){
+  if(mb_strlen($respect,"utf-8") <= 1){
     gaiji_imagettftext($image,$name_fontsize,0,$nowLeft,45,$col_t,$font,$respect,array());
-  }else if(mb_strlen($respect,"utf-8")>4){
+  }else if(mb_strlen($respect,"utf-8")>1){
     gaiji_imagettftext($image,$name_fontsize,0,$nowLeft,45,$col_t,$font,$respect,array(),50);
   }
   
@@ -298,7 +298,7 @@ function get_image_name_plate_full($last_name,$first_name,$comment1="",$comment2
                               $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect=""){
 
   $comment_max_fontsize = "8";
-  $name_max_fontsize = "12";
+  $name_max_fontsize = "11";
 
   $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
   $width_px = "170";
@@ -328,7 +328,7 @@ function get_image_name_plate_full2($last_name,$first_name,$comment1="",$comment
                               $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect=""){
 
   $comment_max_fontsize = "8";
-  $name_max_fontsize = "12";
+  $name_max_fontsize = "11";
 
   $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
   $width_px = "200";

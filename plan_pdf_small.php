@@ -89,7 +89,7 @@ $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 //$pdf->SetAutoPageBreak(True, PDF_MARGIN_BOTTOM);
 $pdf->SetAutoPageBreak( true, 0);
 $pdf->SetHeaderMargin(0);
-$pdf->SetMargins(8,5,8);
+$pdf->SetMargins(3,1,3);
 
 //set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -133,9 +133,7 @@ if($plan_criteria <= 0)
 	}
 	
 	
-$cats =	$obj->GetAllRowsByCondition('spssp_guest_category',' user_id='.$user_id);
-	
-	
+$cats =	$obj->GetAllRowsByCondition('spssp_guest_category',' user_id='.$user_id);	
 	
 $user_info = $obj->GetSingleRow("spssp_user"," id=".$user_id);
 	
@@ -205,7 +203,7 @@ include("admin/inc/return_dbcon.inc.php");
 $html.='<table style="font-size:'.$main_font_size_top.';"><tr>';
 
 /* 引出物　商品数　開始 */
-$html.='<td width="25%">';
+$html.='<td width="31%">';
 $html.='</td>';
 	
 $male_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male'");
@@ -279,7 +277,7 @@ $html.='<td width="40%">
 				</tr>
 			</table>
 		
-</td><td width="25%" style="font-size:15px;">
+</td><td width="30%" style="font-size:15px;">
 ';
 	
 $html.='</td>';
@@ -287,14 +285,13 @@ $html.='</tr></table><br> ';
 
 $takasago_guests = $obj->get_guestdata_in_takasago($user_id);
 $takasago_num = count($takasago_guests)+2;
-$main_guest = $obj->get_guestdata_in_takasago_for_small_pdf($user_id);
-$gift_table = $obj->get_gift_table_html($takasago_guests,$user_id);
-
-
+$main_guest = $obj->get_guestdata_in_takasago_for_small_pdf($user_id,110);
 
 $userArray = $obj->get_userdata($user_id);
-$man_image = $userArray[0]["fullname"];
-$woman_image = $userArray[1]["fullname"];
+$userGuestArray = $obj->get_guestdata_in_host_for_small_pdf($user_id);
+
+$man_image = $userGuestArray[0];
+$woman_image = $userGuestArray[1];
 
 $viewSubArray = array($main_guest[3],$main_guest[1],$man_image,$main_guest[5],$woman_image,$main_guest[2],$main_guest[4]);
 $viewArray = array();
