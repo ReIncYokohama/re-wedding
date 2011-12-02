@@ -470,8 +470,8 @@ function m_win(url,windowname,width,height) {
     else height=window.screen.height;
     features+=", height="+height;
   }
-//  window.open(url,windowname,features);
-  window.showModalDialog(url,windowname,"dialogTop:400px; dialogLeft:600px; dialogwidth:"+width+"px; dialogheight:"+height+"px;");
+  window.open(url,windowname,features);
+//  window.showModalDialog(url,windowname,"dialogTop:400px; dialogLeft:600px; dialogwidth:"+width+"px; dialogheight:"+height+"px;");
 }
 
 var now_action = null;
@@ -681,7 +681,8 @@ if($editable)
 
     <div id="newgustform" style="width:873px; margin:auto; min-height:100px; padding-top:5px; display:block">
     ■ 招待者名を入力のうえ、各項目の情報を入力してください。<br />
-    　<font color="red">*</font>の付いた項目は必須です。
+    　<font color="red">*</font>の付いた項目は必須です。<br />
+ 　 		リストに更新内容が反映されない場合は、ブラウザの更新ボタンを押してください。<br />
     <?php 
     if ($optionValue!="") $op = "&option=".$optionValue;
     ?>
