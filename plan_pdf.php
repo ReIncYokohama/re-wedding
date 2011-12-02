@@ -432,12 +432,12 @@ $html.='</td></tr></table> <br/>';
 
 $takasago_guests = $obj->get_guestdata_in_takasago($user_id);
 $takasago_num = count($takasago_guests)+2;
-$main_guest = $obj->get_guestdata_in_takasago_for_pdf($user_id);
+$main_guest = $obj->get_guestdata_in_takasago_for_pdf($user_id,160);
 $gift_table = $obj->get_gift_table_html($takasago_guests,$user_id);
 
 
 $userArray = $obj->get_userdata($user_id);
-$userGuestArray = $obj->get_guestdata_in_host_for_pdf($user_id);
+$userGuestArray = $obj->get_guestdata_in_host_for_pdf($user_id,160);
 
 $man_image = $userGuestArray[0];
 $woman_image = $userGuestArray[1];
@@ -518,7 +518,7 @@ foreach($tblrows as $tblrow)
         $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
         $tblname = $table_row["name"];
         $table_num = mb_strlen($tblname,"utf-8");
-        $font_size = ($table_num>5)?"7":"10";
+        $font_size = ($table_num>4)?"7":"10";
 
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
@@ -590,149 +590,26 @@ foreach($tblrows as $tblrow)
 							
 							
                     $border="1px solid black;";
-							
-                    $menu_name="";
-							
-                    $guest_gifts = $obj->GetAllRowsByCondition("spssp_guest_gift "," user_id=".$user_id." and guest_id='".$item_info['id']."'");
-							
-                    if($guest_gifts)
-                      $gift_groups = $obj->GetSingleData("spssp_gift_group","name"," id='".$guest_gifts['0']['group_id']."'");
-							
-							
-                    $guest_menu_id = $obj->GetSingleData("spssp_guest_menu ","menu_id"," user_id=".$user_id." and guest_id='".$item_info['id']."' limit 1");
-							
-						
-                    if($guest_menu_id > 0)
-                      {
-                        $menu_name = $obj->GetSingleData(" spssp_menu_group ", "name", " id=".$guest_menu_id." and user_id = ".$user_id);
-                      }
-							
-                    if($disp=='1')
-                      $border="none";
-							
-                    /*if($item_info['comment1']=="")
-                      $item_info['comment1']="-";
-							
-                      if($item_info['comment2']=="")
-                      $item_info['comment2']="-";*/
-							
-                    $comment=$item_info['comment1']." ".$item_info['comment2'];
-							
-                    $comment1=$item_info['comment1'];
-							
-                    $comment2=$item_info['comment2'];
-							
-							
-                    $memo=$item_info['memo'];
-							
-                    $full_name=$item_info['first_name']." ".$item_info['last_name']." ".$rspct;
-                    $chr_in_comment1=mb_strlen($comment1,"utf-8");
-                    $chr_in_comment2=mb_strlen($comment2,"utf-8");
-							
-                    if($chr_in_comment1>=$chr_in_comment2)
-                      $chr_in_comment=$chr_in_comment1;
-                    else
-                      $chr_in_comment=$chr_in_comment2;
-							
-							
-							
-                    $chr_in_fullname=mb_strlen($full_name,"utf-8");
-							
-                    $chr_in_menu_name=mb_strlen($menu_name,"utf-8");
-							
-                    $chr_in_memo=mb_strlen($memo,"utf-8");
-							
-							
-                    if($chr_in_fullname){
-                      //8000
-                      //$font_size_fullname=(int)(((1/$num_of_table_in_row)*(1/$chr_in_fullname))*4000);
-                      $font_size_fullname=30;
-                    }
-                    if($chr_in_menu_name)
-                      //$font_size_menu_name=(int)(((1/$num_of_table_in_row)*(1/$chr_in_menu_name))*2000);
-                      $font_size_menu_name=30;
-                    
-                    if($chr_in_memo)
-                      //3500
-                      //$font_size_memo=(int)(((1/$num_of_table_in_row)*(1/$chr_in_memo))*2000);
-                      $font_size_memo=30;
-								 
-                    if($chr_in_comment)
-                      //$font_size_comment=(int)(((1/$num_of_table_in_row)*(1/$chr_in_comment))*4000);
-                      $font_size_comment=30;
-								
-						
-								
-                    if($disp=='1')
-                      $gift_groups=$menu_name=$memo="";
-								
-								
-							
-                    if($menu_name=="-")
-                      $font_size_menu_name=30;
-								
-                    if($comment1=="-")
-                      $font_size_comment1=30;
-							
-                    if($comment2=="-")
-                      $font_size_comment2=30;
-								
-                    if($font_size_fullname>30)
-                      $font_size_fullname=30;
-								
-                    if($font_size_comment>30)
-                      $font_size_comment=30;
-								
-								
-								
-								
-								
-                    if($font_size_menu_name>30)
-                      $font_size_menu_name=30;
-								
-                    if($font_size_memo>30)
-                      $font_size_memo=30;
-								
-                    if($font_size_comment>$font_size_fullname)
-                      $font_size_comment=$font_size_fullname;
-								
-								
-							
-								
-						
-							
-							
-                    if(array_key_exists($gift_groups,$group_menu_array))
-                      {
-                        $group_menu_array[$gift_groups]=$group_menu_array[$gift_groups]+1;
-                      }
-                    else
-                      {
-                        $group_menu_array[x]=$group_menu_array[x]+1;
-                      }
-                    if($menu_name)
-                      {
-                        $group_menu_array['子']=$group_menu_array['子']+1;
-                      }
-							
+							              
                     if($seats_nums==0)
                       {
                         $middle_string="";
 								
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/");
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
                 
                         //52.63
-                        $html2.="<td width=\"50%\" >".$middle_string."
+                        $html2.="<td width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
 								</td>";
+
                       }
                     else
                       {
 								
                         $middle_string="";
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/");
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
 						
                         //47.37
-                        $html2.="<td  width=\"50%\" style=\"height:20px;\">".$middle_string."
+                        $html2.="<td  width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
 								</td>";
                       }
 						
@@ -760,7 +637,7 @@ foreach($tblrows as $tblrow)
               $guest_num="&nbsp;";
               $tblname = "";
           }else
-              $guest_num ='【 '.$guest_num.'名 】';
+              $guest_num ='【'.$guest_num.'名】';
             
             if($seats_nums==1)
               $html2.="<td></td></tr>";
@@ -800,13 +677,12 @@ foreach($tblrows as $tblrow)
       }
 
     if($pos == "center" && $table_width != 100)
-		  $html.="</tr></table></td><td width=\"".((100-$table_width)/2)."%\" ></td></tr>";
+		  $html.="</tr></table></td><td width=\"".((100-$table_width)/2)."%\" ></td></tr><tr><td></td></tr>";
     else
-      $html.="</tr></table></td></tr>";
+      $html.="</tr></table></td></tr><tr><td></td></tr>";
 	}
 
 $html.="</table>";
-
 
 $samplefile="sam_".$plan_id."_".rand()."_".time().".txt";
  
@@ -832,5 +708,5 @@ $pdf->writeHTML($utf8text, true, false, true, false, '');
 $date_array = explode('-', $user_info['party_day']);
 $this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
 $pdf->Output($this_name.'.pdf', 'I');
-//print $html;
+
 ?> 

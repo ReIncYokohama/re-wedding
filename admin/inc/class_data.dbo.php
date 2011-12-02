@@ -295,7 +295,6 @@ class DataClass extends DBO{
 
     for($i=0;$i<count($guestArray);++$i){
       $guest = $this->get_guest_data_detail($guestArray[$i],$user_id,$plan_id);
-
       $returnArray[$i] = "<img src=\"".$infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$guest['id'],$width,"src")."\"   width=\"".$width."\" />";
     }
     return $returnArray;

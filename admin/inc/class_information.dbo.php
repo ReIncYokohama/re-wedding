@@ -303,7 +303,7 @@ class InformationClass extends DBO
 			return false;
 		}
 	}
-function get_user_name_image_or_src_from_user_side( $user_id ,$hotel_id , $name ,$extra="",$width = 100 , $opt = false )
+function get_user_name_image_or_src_from_user_side( $user_id ,$hotel_id , $name ,$extra="",$width , $opt = false )
 	{
 		 $file = sprintf("%s/user_name/%d/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$name);
 
@@ -318,7 +318,7 @@ function get_user_name_image_or_src_from_user_side( $user_id ,$hotel_id , $name 
 				return $file;
 			else if($extra)
 			{
-
+        if($width) return "<img src=\"".$file."\" width=\"".$width."\" />";
 				return "<img src=\"".$file."\" />";
 			}
 			else
