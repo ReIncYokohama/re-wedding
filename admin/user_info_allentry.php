@@ -864,7 +864,7 @@ include("inc/return_dbcon.inc.php");
         <?php } ?>
         </h2>
 　 <?php if (preg_match("/red/", $disp_option4)) echo '<font color="red">*</font>の付いた項目は必須です。' ?> <br />
-　 		お客様氏名を更新時、上部のお客様氏名に更新内容が反映されない場合は、ブラウザの更新ボタンを押してください。<br /><br />
+		　お客様氏名を更新時、上部のお客様氏名に更新内容が反映されない場合は、ブラウザの更新ボタンを押してください。 <br /> <br />
 		<?php
 		//echo "<pre>";
 		//print_r($user_row);
