@@ -37,6 +37,7 @@ $admin_code = $hotel_dbo->getAdminCode($hotel_code);
 if($_POST['hotel_name'])
 	{
 		unset($post['email_confirm']);
+		$post['url_name'] = "hotel".(int)$post['hotel_code'];
 		$hid = $obj->InsertData("super_spssp_hotel", $post);
 
     $hotel_code = $_POST["hotel_code"];
