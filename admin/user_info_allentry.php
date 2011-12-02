@@ -863,7 +863,8 @@ include("inc/return_dbcon.inc.php");
         	<div style="width:400px;"><font color="#2052A3"><strong>お客様新規登録</strong></font></div>
         <?php } ?>
         </h2>
-　 <?php if (preg_match("/red/", $disp_option4)) echo '<font color="red">*</font>の付いた項目は必須です。' ?> <br /><br />
+　 <?php if (preg_match("/red/", $disp_option4)) echo '<font color="red">*</font>の付いた項目は必須です。' ?> <br />
+　 		リストに更新内容が反映されない場合は、ブラウザの更新ボタンを押してください。<br /><br />
 		<?php
 		//echo "<pre>";
 		//print_r($user_row);
