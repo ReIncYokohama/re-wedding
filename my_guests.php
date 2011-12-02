@@ -41,7 +41,6 @@ $message_class = new MessageClass();
 
 switch($_SESSION["adminid"]){
   case 0:
-    exit;
     $message_class->finish_message_csv_import_for_user($user_id);
     break;
   default:
