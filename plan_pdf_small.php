@@ -291,7 +291,7 @@ $takasago_num = count($takasago_guests)+2;
 $main_guest = $obj->get_guestdata_in_takasago_for_small_pdf($user_id,110);
 
 $userArray = $obj->get_userdata($user_id);
-$userGuestArray = $obj->get_guestdata_in_host_for_small_pdf($user_id);
+$userGuestArray = $obj->get_guestdata_in_host_for_small_pdf($user_id,110);
 
 $man_image = $userGuestArray[0];
 $woman_image = $userGuestArray[1];
@@ -343,7 +343,7 @@ for($i=0;$i<count($table_data["rows"]);++$i){
     }
     $html .= "</table></td>";
   }
-  $html .= "</tr></table></td></tr>";
+  $html .= "</tr></table></td></tr><tr><td></td></tr>";
 }
 
 $html .="</table>";
