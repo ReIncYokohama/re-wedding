@@ -186,7 +186,7 @@ else if((int)$user_plan['user_id'] > 0 && !empty($plan_dt))
 	$confirm_date= mktime(0, 0, 0, $month, $day-$post['final_proof'], $year);
 
 	$arr['confirm_date'] = date("Y-m-d", $confirm_date);
-
+	
 	$arr['product_name'] = $post['product_name'];
 	$arr['dowload_options'] = $post['dowload_options'];
 	$arr['rename_table']=$post['rename_table'];
