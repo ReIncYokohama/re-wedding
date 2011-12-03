@@ -61,30 +61,23 @@
 		{
 			if($plan_info['print_company']>0)
 			{
+				unset($post);
+				$post['order']=1;
+				$post['admin_to_pcompany']=1;
+				$post['ul_print_com_times']=0;
+				$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
+				
+				unset($post);
+				$post['state']=date("Y/m/d");
+				$obj->UpdateData('spssp_user',$post,"id=".$user_id);
+
+				/*unset($post);
+				$post['msg_type']=0;
+				$obj->UpdateData('spssp_message',$post," msg_type=1 and user_id=".$user_id);*/
+
+				$kari_hachu = $objMsg->clicktime_entry_return( "kari_hachu", $user_id ); // UCHIDA EDIT 11/08/16 クリック日付を記録
+
 				$res = $objMail->process_mail_user_suborder($user_id,$plan_info['print_company'], $_hotel_name);
-				if($res==6)
-				{
-					unset($post);
-					$post['order']=1;
-					$post['admin_to_pcompany']=1;
-					$post['ul_print_com_times']=0;
-					$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
-					
-					unset($post);
-					$post['state']=date("Y/m/d");
-					$obj->UpdateData('spssp_user',$post,"id=".$user_id);
-
-					/*unset($post);
-					$post['msg_type']=0;
-					$obj->UpdateData('spssp_message',$post," msg_type=1 and user_id=".$user_id);*/
-
-					$kari_hachu = $objMsg->clicktime_entry_return( "kari_hachu", $user_id ); // UCHIDA EDIT 11/08/16 クリック日付を記録
-
-				}
-				else if($res==28)
-				{
-					$err=28;
-				}
 			}
 			else
 			{
@@ -105,33 +98,27 @@
 		{
 			if($plan_info['print_company']>0)
 			{
+				$post['admin_to_pcompany']=3;
+				$post['gift_daylimit']=3;
+
+				$post['order']=2;
+				$post['dl_print_com_times']=0;
+				$post['ul_print_com_times']=1;
+				$post['gift_daylimit']=3;
+				$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
+
+				$sekiji = (int)$get['sekiji'];
+				$sekifuda = (int)$get['sekifuda'];
+				$sql = "update spssp_plan set day_limit_1_to_print_com=".$sekiji.", day_limit_2_to_print_com=".$sekifuda." where user_id=".(int)$user_id;
+				mysql_query($sql);
+				
+				/*unset($post);
+				$post['msg_type']=0;
+				$obj->UpdateData('spssp_message',$post," msg_type=2 and user_id=".$user_id);*/
+
+				$hon_hachu = $objMsg->clicktime_entry_return( "hon_hachu", $user_id ); // UCHIDA EDIT 11/08/16 クリック日付を記録
+
 				$res = $objMail->process_mail_user_print_request($user_id,$plan_info['print_company'], $_hotel_name);
-				if($res==6)
-				{
-					$post['admin_to_pcompany']=3;
-					$post['gift_daylimit']=3;
-
-					$post['order']=2;
-					$post['dl_print_com_times']=0;
-					$post['ul_print_com_times']=1;
-					$post['gift_daylimit']=3;
-					$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
-
-					$sekiji = (int)$get['sekiji'];
-					$sekifuda = (int)$get['sekifuda'];
-					$sql = "update spssp_plan set day_limit_1_to_print_com=".$sekiji.", day_limit_2_to_print_com=".$sekifuda." where user_id=".(int)$user_id;
-					mysql_query($sql);
-					
-					/*unset($post);
-					$post['msg_type']=0;
-					$obj->UpdateData('spssp_message',$post," msg_type=2 and user_id=".$user_id);*/
-
-					$hon_hachu = $objMsg->clicktime_entry_return( "hon_hachu", $user_id ); // UCHIDA EDIT 11/08/16 クリック日付を記録
-				}
-				else if($res==28)
-				{
-					$err=28;
-				}
 			}
 			else
 			{
