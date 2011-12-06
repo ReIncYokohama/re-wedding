@@ -24,3 +24,4 @@ $memo3 = $_GET["memo3"];
 
 make_name_plate_right_view("テ＊","テスト","コメント1","コメント2",array(dirname(__file__)."/../gaiji-image/img_ans/FAB1.png"),array(),array(),array(),array(0x00,0x00,0x00),"様");
 
+//test amin
