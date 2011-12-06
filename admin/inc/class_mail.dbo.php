@@ -1,5 +1,6 @@
 <?php
 include_once('dbcon.inc.php');
+include_once(dirname(__file__)."/../../app/ext/Utils/email.php");
 class MailClass extends MessageClass
 {
 
@@ -57,6 +58,7 @@ html;
 
 			if($staff_info['email']!="" && $staff_info['email']!="0")
 			{
+        
 					$res = $this :: mail_to($to = $staff_info['email'], $subject , $mailbody = $user_suborder_mail_body);
 
 					if($res==1){ return  $mes = 6;/*success*/ }else{ return  $err = 28;/*error*/}
@@ -733,35 +735,13 @@ html;
 	}
 	function mail_to( $to , $subject , $mailbody )
 	{
-
-		/*echo $to."<br>";
-		echo $subject."<br>";
-		echo $mailbody."<br>";
-		echo "<br><br>";*/
-
-
-		$header='From:'."Wedding-Plus"."<info@wedding-plus.net>"." \r\n";
-		$header.='Content-Type:text/plain; charset=utf-8'."\r\n";
-		//$header1.= "Cc: k.okubo@re-inc.jp\r\n";
-
-
-		$subject = base64_encode(mb_convert_encoding($subject,"JIS","UTF8"));
-		$usersubject = '=?ISO-2022-JP?B?'.$subject.'?=';
-
-		$user_body=$mailbody;
-
-		///////MAIL TO USER /////////////
-		if(@mail($to, $usersubject, $user_body, $header))
-		{
-			return 1;
-		}
-		else
-		{
-			return 2;
-		}
-
-
-
+    //emailのエラー処理をどうするか書かれていない。
+    $email = new Email($to,$subject,$mailbody);
+    $email->from = "info@wedding-plus.net";
+    $email->fromName = "Wedding Plus";
+    $email->noneFromName = true;
+    $email->send();
+    return 1;
 	}
 
 	function process_mail_user_newentry($user_id, $print_company_id, $plan_product_name, $dowload_options, $print_size, $print_type, $hotel_name, $room_id)
