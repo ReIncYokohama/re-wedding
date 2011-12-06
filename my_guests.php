@@ -41,7 +41,7 @@ $message_class = new MessageClass();
 
 switch($_SESSION["adminid"]){
   case 0:
-    exit;
+    //exit;
     $message_class->finish_message_csv_import_for_user($user_id);
     break;
   default:
@@ -51,7 +51,7 @@ switch($_SESSION["adminid"]){
     break;
 
 }
-
+//echo "test";
 include("admin/inc/main_dbcon.inc.php");
 $respects = $obj->GetAllRow(" spssp_respect"." order by display_order DESC ");
 
@@ -471,8 +471,8 @@ function m_win(url,windowname,width,height) {
     else height=window.screen.height;
     features+=", height="+height;
   }
-//  window.open(url,windowname,features);
-  window.showModalDialog(url,windowname,"dialogTop:400px; dialogLeft:600px; dialogwidth:"+width+"px; dialogheight:"+height+"px;");
+ window.open(url,windowname,features);
+  //window.showModalDialog(url,windowname,"dialogTop:400px; dialogLeft:600px; dialogwidth:"+width+"px; dialogheight:"+height+"px;");
 }
 
 var now_action = null;

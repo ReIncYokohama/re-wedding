@@ -26,8 +26,9 @@ $from = $_GET['from'];
 		if($busho_item_value != ""){
       $results2 = get_busho_sub($busho_item_value,$search_item);
     }
-		else
+		else {
 		$results2 = get_gaizi_char_file($search_item);
+		}
 		//echo "<pre>";
 		//print_r($results2);
 		//exit;
@@ -125,6 +126,12 @@ $from = $_GET['from'];
     {
         document.get_busho_form.submit();
     }
+	/*function getbusho_form_submit()
+    {
+        $("#search_item").val();
+        $("#busho_item_id").val();
+		$("#search_item").val();
+    }*/
     function select_busho_sub(from,img,sjis_id,gsid,gsid_group)
     {
       //$("#gaiji_busho_id").attr("value",gid );
@@ -140,7 +147,7 @@ $from = $_GET['from'];
         //var gaiji_busho = $("#gaiji_busho_id").val();
         var gr_uqidx = $("#gr_uqidx_id").val();
         var gaiji_sjis_id = $("#gr_sjis_id").val();
-        window.opener.get_gaiji_value(from,gr_fname,gaiji_sjis_id,gr_uqidx);
+		window.opener.get_gaiji_value(from,gr_fname,gaiji_sjis_id,gr_uqidx);
         window.close();
     }
 	function getbusho_group_form_submit()
@@ -153,6 +160,7 @@ $from = $_GET['from'];
 		$("#search_item").val($("#text").val());
 		
 	}
+	window.name="modalWin";
     </script>
 </head>
 
@@ -227,8 +235,8 @@ if(is_array($results2))
 <div style="width:160;height:359px;position:relative; overflow:auto;" id="gaizi_busho_div_id">
 
 <!--ブラウザは非対応です-->
-<form action="palette.php?from=<?=$from?>" method="post" name="get_busho_form">
-<input type="hidden" name="get_busho" value="get_busho">
+<form action="palette.php?from=<?=$from?>" method="post" name="get_busho_form" target="modalWin">
+<input type="hidden" name="get_busho" id="get_busho" value="get_busho">
 <input type="hidden" name="search_item" id="search_item" value="<?=$search_item?>">
 <input type="hidden"  id="busho_item_id" name="busho_item_value" value="">
 </form>
@@ -293,6 +301,7 @@ if(is_array($results))
 <a href="#">
 <img src="img/seach2_off.jpg" id="seach2" alt="似た漢字を検索"  onclick="getbusho_group_form_submit();" />
 </a>
+<!--input type="image" src="img/seach2_off.jpg" /-->
 </form>
 <a href="palette.php?from=<?=$from?>&action=clear">
 <img src="img/clear_off.jpg" id="clear" alt="クリア" /></a>
