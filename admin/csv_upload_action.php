@@ -269,8 +269,8 @@ _EOT_;
   $email = new Email($admin_email,$title,$body);
   $email->from = "info@wedding-plus.net";
   $email->fromName = "Wedding Plus";
+  $email->noneFromName = true;
   $email->send();
-
 }
 
 //印刷会社さんにメール
@@ -309,6 +309,7 @@ _EOT_;
 $email = new Email($mail,$title,$body);
 $email->from = "info@wedding-plus.net";
 $email->fromName = "Wedding Plus";
+$email->noneFromName = true;
 $email->send();
 
 }

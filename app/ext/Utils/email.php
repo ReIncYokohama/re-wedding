@@ -7,6 +7,7 @@ class Email{
   public $to;
   public $from;
   public $fromName;
+  public $noneFromName = false;
   public function __construct($to,$subject,$body){
     $this->to = $to;
     $this->subject = $subject;
@@ -16,8 +17,12 @@ class Email{
     mb_language("ja");
     mb_internal_encoding("UTF-8");
     if($this->fromName and $this->from){
-      //$mailFrom = "From: " . mb_encode_mimeheader (mb_convert_encoding($this->fromName,"ISO-2022-JP","UTF8")) . "<" . $this->from . ">";
-      $mailFrom = "From: " . mb_encode_mimeheader (mb_convert_encoding($this->fromName,"ISO-2022-JP","UTF8"));
+      if($this->noneFromName){
+        $mailFrom = "From: " . mb_encode_mimeheader (mb_convert_encoding($this->fromName,"ISO-2022-JP","UTF8"));        
+      }else{
+        $mailFrom = "From: " . mb_encode_mimeheader (mb_convert_encoding($this->fromName,"ISO-2022-JP","UTF8")) . "<" . $this->from . ">";
+      }
+
       mb_send_mail($this->to,$this->subject,$this->body,$mailFrom);
     }else{
       mb_send_mail($this->to,$this->subject,$this->body);
