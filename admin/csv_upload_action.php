@@ -60,6 +60,8 @@ if(!$user_id) return;
 $user_row = $obj->GetSingleRow("spssp_user"," id='$user_id'");
 $user_plan_row = $obj->GetSingleRow("spssp_plan"," user_id=$user_id");
 
+$plan_id = $user_plan_row["id"];
+
 if(!$force){
   //正規表現
   $error = false;
@@ -227,9 +229,6 @@ for($i=0;$i<count($csv);++$i){
                   array(),array(),array(),array());
 }
 
-//csvアップロード時のログを記録
-$obj->set_log_csv_guest();
-
 $man_last_name = $user_row["man_lastname"];
 $woman_last_name = $user_row["woman_lastname"];
 $party_date = $obj->japanyDateFormate_for_mail($user_row['party_day']);
@@ -319,6 +318,9 @@ csv uploadのログを残す
 */
 $message_class = new MessageClass();
 $message_class->new_message_csv_import($user_id);
+
+//csvアップロード時のログを記録
+$obj->set_log_csv_guest($user_id,$plan_id);
 
 ?>
 

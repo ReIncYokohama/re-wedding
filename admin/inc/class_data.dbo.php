@@ -117,6 +117,17 @@ class DataClass extends DBO{
     return $table_data;
   }
   
+  //招待客情報あり
+  //以下を追加
+  //rows 0 columns 0 seats 0 guest_id,table_id,guest_detail
+  //                 name
+  //guests
+  public function get_table_data_detail_with_hikidemono($user_id){
+    $table_data = $this->get_table_data_detail($user_id);
+    
+    return $table_data;
+  }
+  
   public function get_seat_detail($seat_id,$plan_id){
     return $this->GetSingleRow("spssp_plan_details"," seat_id=".$seat_id." and plan_id = ".$plan_id);
   }
@@ -389,6 +400,7 @@ class DataClass extends DBO{
     //$data_rows = $this->getRowsByQuery("select * from spssp_change_log where user_id = $user_id and( guest_id in (select id from spssp_guest where user_id = $user_id)) or type= 3 order by date ASC");
     
     $returnArray = array();
+
     foreach($data_rows as $row)
     {
       $line = array();
@@ -453,10 +465,10 @@ class DataClass extends DBO{
     }
   }
   
-  public function set_log_csv_guest(){
+  public function set_log_csv_guest($user_id,$plan_id){
     $update_array = array();
     $update_array['date']=date("Y-m-d H:i:s");
-    $update_array['user_id']=$_SESSION["userid"];
+    $update_array['user_id']=$user_id;
     $update_array['admin_id']=$_SESSION["super_user"]?10000:$_SESSION["adminid"];
     $update_array['type']=5;
     $update_array['plan_id']=$plan_id;
