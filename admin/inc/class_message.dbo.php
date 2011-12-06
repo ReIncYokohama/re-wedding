@@ -560,16 +560,19 @@ hotel  1のとき、ホテルユーザ用のお知らせ。0のとき、ユー�
 
     $text = "";
     for($i=0;$i<count($logs_arr);++$i){
-      $plan_info = $this->GetSingleRow("spssp_plan"," user_id = ".$logs_arr[$i]["user_id"]);
-      //staff_id
-      if($plan_info["staff_id"]==$_SESSION["staff_id"]) continue;
-      $user_info = $this->GetSingleRow("spssp_user"," id = ".$logs_arr[$i]["user_id"]);
-      $man_name = $this->get_user_name_image_or_src($user_info['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
-      $woman_name = $this->get_user_name_image_or_src($user_info['id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
-      $party_day = $this->getMonthAndDate($user_info["party_day"]);
-      $text .= "<li><a href='user_dashboard.php?user_id=".$logs_arr[$i]["user_id"]."' target='_blank'>".$party_day
-        ." ".$man_name."・".$woman_name
-        ."様の招待客リストデータがアップロードされました。</a></li>";
+//      $plan_info = $this->GetSingleRow("spssp_plan"," user_id = ".$logs_arr[$i]["user_id"]);  // spssp_planのstaff_idは信用できない
+	    $user_info = $this->GetSingleRow("spssp_user"," id = ".$logs_arr[$i]["user_id"]);
+    	//staff_id
+//      if($plan_info["staff_id"]==$_SESSION["staff_id"]) {
+      if($user_info["stuff_id"]==$_SESSION["staff_id"]) {
+//	      $user_info = $this->GetSingleRow("spssp_user"," id = ".$logs_arr[$i]["user_id"]);
+	      $man_name = $this->get_user_name_image_or_src($user_info['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
+	      $woman_name = $this->get_user_name_image_or_src($user_info['id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
+	      $party_day = $this->getMonthAndDate($user_info["party_day"]);
+	      $text .= "<li><a href='user_dashboard.php?user_id=".$logs_arr[$i]["user_id"]."' target='_blank'>".$party_day
+	        ." ".$man_name."・".$woman_name
+	        ."様の招待客リストデータがアップロードされました。</a></li>";
+	      }
     }
     return $text;
   }

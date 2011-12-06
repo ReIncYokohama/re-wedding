@@ -235,7 +235,9 @@ $woman_last_name = $user_row["woman_lastname"];
 $party_date = $obj->japanyDateFormate_for_mail($user_row['party_day']);
 
 //ホテル管理者と新郎新婦にメール
-$admin_row = $obj->GetSingleRow("spssp_admin"," permission='333'");
+$staff_id = $user_row["stuff_id"];
+$admin_row = $obj->GetSingleRow("spssp_admin"," id='".$staff_id."'");
+
 $admin_email = $admin_row["email"];
 $admin_name = $admin_row["name"];
 

@@ -238,8 +238,7 @@ else
 								$dMsg = strftime('%m月%d日',strtotime($last_login['logout_time']));
 								echo$dMsg;
 							}else {
-								$dMsg = strftime('%m月%d日',strtotime($last_login['login_time']));
-								echo "<font color='#888888'>$dMsg</font>";
+								echo "ログイン中";
 							}
 					   	}
 						?>

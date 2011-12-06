@@ -338,7 +338,7 @@ unset($_SESSION['msg']);
 				<td>
 
                 <?php if($_SESSION['user_type']==333){?>
-                <input name="num_gift_items" <?=$ro?> type="text" onlyNumeric="i" id="num_gift_items" size="10" maxlength='1' style="border-style: inset;" value="<?=$gift_criteria_data_row[0]['num_gift_items']?>" /> &nbsp;種類（最大7種類まで）
+                <input name="num_gift_items" <?=$ro?> type="text" onlyNumeric="i" id="num_gift_items" size="10" maxlength='1' style="text-align:right;border-style: inset;" value="<?=$gift_criteria_data_row[0]['num_gift_items']?>" /> &nbsp;種類（最大7種類まで）
                 <?
 				}else{
 					?>
@@ -353,7 +353,7 @@ unset($_SESSION['msg']);
 				<td>：</td>
 				<td>
                 <?php if($_SESSION['user_type']==333){?>
-                <input name="num_gift_groups" <?=$ro?> type="text"  onlyNumeric="i" id="num_gift_groups" size="10" maxlength='1' style="border-style: inset;" value="<?=$gift_criteria_data_row[0]['num_gift_groups']?>"  />
+                <input name="num_gift_groups" <?=$ro?> type="text"  onlyNumeric="i" id="num_gift_groups" size="10" maxlength='1' style="text-align:right;border-style: inset;" value="<?=$gift_criteria_data_row[0]['num_gift_groups']?>"  />
 					&nbsp;グループ（最大7グループまで）
                 <?
 				}else{
@@ -373,7 +373,7 @@ unset($_SESSION['msg']);
 			foreach($data_rows as $row)
 			{
                 if($_SESSION['user_type']==333){
-				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' style='border-style:inset' id='name".$xx."' ".$ro." name='name".$xx."' size='6' value='".$row['name']."'>";
+				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' style='text-align:right;border-style:inset' id='name".$xx."' ".$ro." name='name".$xx."' size='6' value='".$row['name']."'>";
 				}else{
 					echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'>".$row['name']."";
 				}
@@ -407,7 +407,7 @@ unset($_SESSION['msg']);
     <td width="10">：</td>
     <td>
     <?php if ($_SESSION['user_type']==333){?>
-    <input name="num_menu_groups" type="text" id="num_menu_groups" size="10" <?=$ro?> style="border-style: inset;" value="<?=$menu_criteria_data_row[0]['num_menu_groups']?>" />
+    <input name="num_menu_groups" type="text" id="num_menu_groups" size="10" <?=$ro?> style="text-align:right;border-style: inset;" value="<?=$menu_criteria_data_row[0]['num_menu_groups']?>" />
       種類(最大3種類まで)
       <?
 	}else{

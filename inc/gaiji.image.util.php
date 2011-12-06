@@ -74,6 +74,39 @@ function text_imagettftext($image,$insert_height,$angle,$left,$bottom,$color,$fo
 }
 
 
+function text_imagettftext_align_right($image,$insert_height,$angle,$left,$bottom,$color,$font,$text,$width_compression=100){
+  $fontsize = 15;
+  if($text == "") return 0;
+  
+  $text = mb_ereg_replace("　", " ", $text);
+  $image_arr = imagettfbbox($fontsize,$angle,$font,$text);
+  $height = $image_arr[1] - $image_arr[5];
+  $width = $image_arr[2] - $image_arr[0];
+  
+  //半角スペースが最後のとき、通常の倍の長さを取得している。
+  if(mb_substr($text,mb_strlen($text,"UTF-8")-1,1,"UTF-8") == " ") $width-=10;
+  $insert_width = $width*$insert_height/$height;
+  $im = imagecreatetruecolor($width,$height);
+  imagealphablending($im, false); 
+  imagesavealpha($im, true);
+
+  $white = ImageColorClosest($im, 255, 255, 255);
+  ImageColorTransparent($im, $white); 
+  imagefill($im,0,0,$white);
+
+  $im_image_arr = imagettftext($im,$fontsize,$angle,0,$height-2,$color,$font,$text);
+  $insert_width = $insert_width*$width_compression/100;
+  //$height = $im_image_arr[1] - $im_image_arr[5];
+  //$width = $im_image_arr[2] - $im_image_arr[0];
+  
+  imagecopyresampled($image,$im,$left-$insert_width,$bottom-$insert_height,0,0,
+                       $insert_width,$insert_height,
+                     $width,$height);
+  return $insert_width;
+}
+
+
+
 /* 
    
  */
@@ -113,6 +146,47 @@ function gaiji_imagettftext($image,$fontsize,$angle,$left,$bottom,$color,
   }
   return $nowLeft;
 }
+
+
+function gaiji_imagettftext_align_right($image,$fontsize,$angle,$right,$bottom,$color,
+                            $font,$str,$gaiji_image_url_arr=array(),$width_compression=100,$gaiji_str="＊"){
+  $str_not_gaiji_arr = explode($gaiji_str,$str);
+  $gaiji_num = count($str_not_gaiji_arr);
+  $str = mb_ereg_replace("　", " ", $str);
+
+  $image_arr = imagettfbbox($fontsize,$angle,$font,"あ".implode("",$str_not_gaiji_arr));
+  $height = $image_arr[1]-$image_arr[5];
+
+  $nowRight = $right;
+
+  for($i=$gaiji_num;$i>=0;--$i){
+    //$image_arr = imagettftext($image,$fontsize,$angle,$nowLeft,$bottom,$color,$font,$str_not_gaiji_arr[$i]);
+    //$text_width = $image_arr[2]-$image_arr[0];
+    $text_width = text_imagettftext_align_right($image,$height,$angle,$nowRight,$bottom,$color,$font,$str_not_gaiji_arr[$i],$width_compression);
+    $nowRight -= $text_width;
+    if($i!=$gaiji_num){
+      $gaiji = $gaiji_image_url_arr[count($gaiji_image_url_arr)-$i];
+      if(!$gaiji) continue;
+      list($gaiji_image_width,$gaiji_image_height) = getimagesize($gaiji);
+      $gaiji_image = imagecreatefrompng($gaiji);
+      $gaiji_image_insert_width = (int)($gaiji_image_width*$height/$gaiji_image_height);
+      $leftTop = $bottom-$height+1;
+      //高さの調整のために2px足している
+      //横幅調整のために1px足した。
+      imagealphablending($gaiji_image, false); 
+      imagesavealpha($gaiji_image, true);
+      
+      imagecopyresampled($image,$gaiji_image,$nowRight-0.5-$gaiji_image_insert_width,$leftTop-1,0,0,
+                       $gaiji_image_insert_width,$height+1,
+                       $gaiji_image_width,$gaiji_image_height);
+      
+      $nowRight -= $gaiji_image_insert_width;
+    }
+
+  }
+  return $nowRight;
+}
+
 
 function gaiji_imagettftext_tategaki($image,$fontsize,$angle,$left,$top,$color,$font,$str,$gaiji_image_url="",$gaiji_str="＊"){
   if(!$str or $str == "") return 0;

@@ -369,10 +369,10 @@ html;
 		$print_company_upload_link = $this :: get_print_company_upload_link( $user_info['id'] , $print_company_info['id'] );
 
 		if($user_plan_info['print_size']==1){$print_size="A3";}elseif($user_plan_info['print_size']==2){$print_size="B4";}
-		if($user_plan_info['dowload_options']==1){$dowload_options="席次表";}elseif($user_plan_info['dowload_options']==2){$dowload_options="席札";}elseif($user_plan_info['dowload_options']==3){$dowload_options="席次表・席札";}
+		if($user_plan_info['dowload_options']==1){$dowload_options="席次表";$day_limit_1_to_print_com = "席次表部数：".$user_plan_info['day_limit_1_to_print_com']." 部";}
+		else if($user_plan_info['dowload_options']==2){$dowload_options="席札";$day_limit_2_to_print_com = "席札部数：".$user_plan_info['day_limit_2_to_print_com']." 部";}
+		else if($user_plan_info['dowload_options']==3){$dowload_options="席次表・席札";$day_limit_1_to_print_com = "席次表部数：".$user_plan_info['day_limit_1_to_print_com']." 部";$day_limit_2_to_print_com = "席札部数：".$user_plan_info['day_limit_2_to_print_com']." 部";}
 
-		if($user_plan_info['day_limit_1_to_print_com']!="0"){ $day_limit_1_to_print_com = "席次表部数：".$user_plan_info['day_limit_1_to_print_com']." 部";}
-		if($user_plan_info['day_limit_2_to_print_com']!="0"){ $day_limit_2_to_print_com = "席札部数：".$user_plan_info['day_limit_2_to_print_com']." 部";}
 		if($user_plan_info['print_type']==1){$print_type="横";}elseif($user_plan_info['print_type']==2){$print_type="縦";}
 
 		$party_day= $this :: japanyDateFormate_for_mail($user_info['party_day']);
@@ -398,10 +398,9 @@ html;
 商品名：{$user_plan_info['product_name']}
 サイズ：{$print_size}
 配置：{$print_type}
-{$day_limit_1_to_print_com}
-{$day_limit_2_to_print_com}
-担当者名：{$staff_info['name']}様
+{$day_limit_1_to_print_com} {$day_limit_2_to_print_com}
 
+担当者名：{$staff_info['name']}様
 
 以下のURLからデータをダウンロードし、印刷物の作成をお願いいたします。
 {$print_company_download_link}

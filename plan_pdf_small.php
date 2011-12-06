@@ -12,7 +12,7 @@ $user_id = (int)$_SESSION['userid'];
 if($user_id=="")
   $user_id = (int)$_GET['user_id'];
 
-$max_width = 1200;
+$max_width = 1500;
 function get_center_table($max_width,$width,$html){
   $margin = floor((100*(($max_width-$width)/$max_width))*10/2)/10;
   $main_margin = floor((100-$margin*2)*10)/10;
@@ -89,7 +89,7 @@ $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 //$pdf->SetAutoPageBreak(True, PDF_MARGIN_BOTTOM);
 $pdf->SetAutoPageBreak( true, 0);
 $pdf->SetHeaderMargin(0);
-$pdf->SetMargins(8,5,8);
+$pdf->SetMargins(8,8,8);
 
 //set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -133,9 +133,7 @@ if($plan_criteria <= 0)
 	}
 	
 	
-$cats =	$obj->GetAllRowsByCondition('spssp_guest_category',' user_id='.$user_id);
-	
-	
+$cats =	$obj->GetAllRowsByCondition('spssp_guest_category',' user_id='.$user_id);	
 	
 $user_info = $obj->GetSingleRow("spssp_user"," id=".$user_id);
 	
@@ -205,7 +203,7 @@ include("admin/inc/return_dbcon.inc.php");
 $html.='<table style="font-size:'.$main_font_size_top.';"><tr>';
 
 /* 引出物　商品数　開始 */
-$html.='<td width="25%">';
+$html.='<td width="35%">';
 $html.='</td>';
 	
 $male_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male'");
@@ -251,50 +249,52 @@ if($user_info['marriage_day'] &&  $user_info['marriage_day'] != "0000-00-00"){
   $marriage_day = strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['marriage_day'])));
   $marriage_day_with_time = date("H時i分",strtotime($user_info['marriage_day_with_time']));
 }
-$marrige_day_text = '<tr>
-					<td align="left"  valign="middle" style="text-align:center;font-size:40px;">挙式日時　&nbsp;&nbsp;'.$marriage_day.'  '.$marriage_day_with_time.'&nbsp;&nbsp;&nbsp;会場'.$party_room_info[name].' </td>
+
+$marrige_day_text = '<tr style="text-align:left;font-size:35px;">
+					<td align="left" width="80"  valign="middle">挙式日時</td><td width="160" >'.$marriage_day.'  '.$marriage_day_with_time.'</td><td width="300">会場'.$party_room_info[name].' </td>
                                                                                                                                                                               </tr>';
+
 
 $html.='<td width="40%">
 	<table>
 				<tr>
-					<td align="left"  valign="middle" style="text-align:center;">
+					<td align="left"  valign="middle" style="text-align:center;" colspan="3">
 		
 '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="pdf_hikidemono_head.png",$extra="/").'
 			</td>
 				</tr>
+        <tr><td colspan="3"></td></tr>
 				'.$marrige_day_text.'
-				<tr>
-					<td align="left"  valign="middle" style="text-align:center;font-size:40px;">披露宴日時　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['party_day']))).'  '.date("H時i分",strtotime($user_info['party_day_with_time'])).'&nbsp;&nbsp;&nbsp;会場'.$room_info[name].' </td>
+				<tr style="text-align:left;font-size:35px;">
+					<td width="80" align="left"  valign="middle">披露宴日時</td><td width="160">'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['party_day']))).'  '.date("H時i分",strtotime($user_info['party_day_with_time'])).'</td><td width="300">会場'.$room_info[name].' </td>
 				</tr>
-				<tr>
-					<td align="left"  valign="middle" style="text-align:center;">作成日時　&nbsp;&nbsp;'.date('Y年n月j日  H時i分').'&nbsp;&nbsp;&nbsp;&nbsp;
+        <tr><td colspan="3"></td></tr>
+				<tr style="text-align:left;font-size:25px;">
+					<td align="left"  valign="middle" style="text-align:center;">作成日時</td><td>'.date('Y年n月j日  H時i分').'</td><td>
 					スタッフ名 '.$staff_name.'
 					</td>
 				</tr>
 
-				<tr>
-					<td align="left"  valign="middle" style="text-align:center;">席次表本発注締切日　&nbsp;&nbsp;'.strftime('%Y年%m月%d日',strtotime(jp_decode($confirm_date_main))).' 
+				<tr style="text-align:left;font-size:25px;">
+					<td align="left"  valign="middle" style="text-align:center;">制限開始日</td><td colspan="2">'.strftime('%Y年%m月%d日',strtotime(jp_decode($confirm_date_main))).' 
 					</td>
 				</tr>
 			</table>
 		
-</td><td width="25%" style="font-size:15px;">
-';
+</td><td width="15%" style="font-size:15px;">';
 	
 $html.='</td>';
 $html.='</tr></table><br> ';
 
 $takasago_guests = $obj->get_guestdata_in_takasago($user_id);
 $takasago_num = count($takasago_guests)+2;
-$main_guest = $obj->get_guestdata_in_takasago_for_small_pdf($user_id);
-$gift_table = $obj->get_gift_table_html($takasago_guests,$user_id);
-
-
+$main_guest = $obj->get_guestdata_in_takasago_for_small_pdf($user_id,110);
 
 $userArray = $obj->get_userdata($user_id);
-$man_image = $userArray[0]["fullname"];
-$woman_image = $userArray[1]["fullname"];
+$userGuestArray = $obj->get_guestdata_in_host_for_small_pdf($user_id,110);
+
+$man_image = $userGuestArray[0];
+$woman_image = $userGuestArray[1];
 
 $viewSubArray = array($main_guest[3],$main_guest[1],$man_image,$main_guest[5],$woman_image,$main_guest[2],$main_guest[4]);
 $viewArray = array();
@@ -343,7 +343,7 @@ for($i=0;$i<count($table_data["rows"]);++$i){
     }
     $html .= "</table></td>";
   }
-  $html .= "</tr></table></td></tr>";
+  $html .= "</tr></table></td></tr><tr><td></td></tr>";
 }
 
 $html .="</table>";
