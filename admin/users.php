@@ -375,8 +375,16 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
                         	<a href="javascript:void(0);" onclick="sortAction('spssp_admin.name asc');">▲</a>
                         	<a href="javascript:void(0);" onclick="sortAction('spssp_admin.name desc');">▼</a></span>
 						</td>
+<?php
+  if(!$IgnoreMessage){
+?>
                         <td width="60">メッセージ</td>
+<?php
+  }
+?>
+
 						<!--<td>ログイン</td>-->
+
                         <td width="80">最終アクセス</td>
                         <td width="60">&nbsp;</td>
                         <td width="40">席次表</td>
@@ -427,7 +435,14 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 						</td>
                     	<td width="60"><a href="user_info_allentry.php?user_id=<?=$row['id']?>&stuff_id=<?=$row['stuff_id']?>"><img src="img/common/customer_info.gif" border="0" /></a></td>
                         <td width="80"> <?=$row['name']?></td>
+<?php
+  if(!$IgnoreMessage){
+?>
                         <td width="60"> <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'], $row['stuff_id']);?> </td>
+  <?php
+  }
+?>
+
                         <!-- <td></td>-->
 					    <td width="80">
                        <?php
