@@ -176,6 +176,7 @@ class DataClass extends DBO{
   }
   
   public function get_guest_image_url($user_id,$guest_id,$name){
+    include_once(dirname(__file__)."/../../inc/gaiji.image.wedding.php");
     $hotel_id=1;
     $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
     return $user_folder."/guest/".$guest_id."/".$name;
