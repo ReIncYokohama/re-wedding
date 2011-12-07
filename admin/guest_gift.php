@@ -382,7 +382,7 @@ include("inc/return_dbcon.inc.php");
         <div style="margin-top:20px;">
 		<table width="50%" border="0" cellspacing="1" cellpadding="3">
 			 <tr>
-				<td width="182" valign="middle"><a href="../plan_pdf_small.php" target="_blank"><img src="img/common/order/seat_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a></td>
+				<td width="182" valign="middle"><a href="../plan_pdf_small.php?user_id=<?=$user_id?>" target="_blank"><img src="img/common/order/seat_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a></td>
 					<td width="50" rowspan="3" align="center" valign="middle" style="font-size:16pt"><img src="img/common/arrow_1to2.gif" alt="矢印" width="32" height="59" border="0" /></td>
 			<?php
 				$isGrey=false;
@@ -536,7 +536,9 @@ include("inc/return_dbcon.inc.php");
 		<div style="margin-top:20px;">
         <table width="50%" border="0" cellspacing="1" cellpadding="3">
 			  <tr>
-				<td width="182" valign="middle"><a href="../plan_pdf.php" target="_blank"><img src="img/common/order/gift_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a></td>
+				<td width="182" valign="middle">
+          <a href="../plan_pdf.php?user_id=<?=$user_id?>" target="_blank"><img src="img/common/order/gift_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a>
+        </td>
 					<td width="50" align="center" valign="middle" style="font-size:16pt"><img src="img/common/arrow_1to1.gif" alt="矢印" width="32" height="7" border="0" /></td>
 			<?php
 				if($plan_info['gift_daylimit']>=3)
