@@ -594,7 +594,6 @@ foreach($usertblrows as $tblRows)
 	$line = mb_convert_encoding("$cl21", "SJIS", "UTF8");
 	$lines .= $line;
 
-
 $date_array = explode('-', $user_info['party_day']);
 
 if($user_info['id']<10)
@@ -606,7 +605,7 @@ $user_id_name="0".$user_info['id'];
 
 //csvのダウンロードの際のカウント方法はプラス1000で
 $version = $obj->get_download_num($user_id,$_SESSION["adminid"]+1000);
-$this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
+$this_name = $HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
 $this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
 //exit;
 
