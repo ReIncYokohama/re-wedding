@@ -345,7 +345,14 @@ include("inc/return_dbcon.inc.php");
 		</div>
         </h4>
 	  <div   style="width:800px;"><div class="navi"><a href="user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi01.jpg" class="on" onMouseOver="this.src='img/common/navi01_over.jpg'"onMouseOut="this.src='img/common/navi01.jpg'" /></a></div>
+<?php
+  if(!$IgnoreMessage){
+?>
       <div class="navi"><a href="message_user.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi02.jpg" class="on" onMouseOver="this.src='img/common/navi02_over.jpg'"onMouseOut="this.src='img/common/navi02.jpg'" /></a></div>
+  <?php
+  }
+?>
+
       <div class="navi">
       	
       		<img src="img/common/navi04_on.jpg" />
