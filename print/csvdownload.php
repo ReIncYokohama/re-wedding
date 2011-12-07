@@ -46,24 +46,22 @@ $ver++;
 $sql = "update spssp_user set zip1 = ".$ver." where id = $user_id";
 $result = mysql_query($sql);
 
-if($plan_info['print_size']==1)
+$print_size ="";
+if($plan_info['print_size']==2)
+{
+	$print_size ="B4";
+}
+else if($plan_info['print_size']==1)
 {
 	$print_size ="A3";
+}
+$tableArrangement ="";
+if($plan_info['print_type']==1)
+{
 	$tableArrangement ="横";
 }
-else if($plan_info['print_size']==2)
+else if($plan_info['print_type']==2)
 {
-	$print_size ="A3";
-	$tableArrangement ="縦";
-}
-else if($plan_info['print_size']==3)
-{
-	$print_size ="A3";
-	$tableArrangement ="横";
-}
-else if($plan_info['print_size']==4)
-{
-	$print_size ="A3";
 	$tableArrangement ="縦";
 }
 ////////////////////////////////
@@ -202,10 +200,11 @@ foreach($tblrows as $tblrow)
 			$tblname = $table_row['name'];
 		}
 		//echo $table_row['table_id']."<br>";
-		$sql_check_guest ="select count(*) as count from spssp_plan_details as spd join spssp_default_plan_seat as sdps on spd.seat_id =  sdps.id where sdps.table_id = ".$table_row['table_id'];
-		$tbl_guest_num = $obj->getRowsByQuery($sql_check_guest);
+
+		//$sql_check_guest ="select count(*) as count from spssp_plan_details as spd join spssp_default_plan_seat as sdps on spd.seat_id =  sdps.id where sdps.table_id = ".$table_row['table_id'];
+		//$tbl_guest_num = $obj->getRowsByQuery($sql_check_guest);
 		//print_r($tbl_guest_num[0]);
-		if($tbl_guest_num[0]['count'] > 0)
+    if($table_row["display"]==1 and $table_row["visibility"] == 1)
 		{
 
 			$value = chop($z);
@@ -322,6 +321,10 @@ function setStrGaijis($str,$gaiji_objs){
 $o=1;$cl22 = "";
 foreach($usertblrows as $tblRows)
 {	//echo "<br>".$tblRows['table_id']."<br>";
+  if(!$tblRows["display"]==1 or !$tblRows["visibility"] == 1){
+    $o++;
+    continue;
+  }
 	$usertblrows = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id = ".(int)$tblRows['table_id']." order by id ASC");
 	//echo "<pre>";print_r($usertblrows);
 	$new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$tblRows['id']);
