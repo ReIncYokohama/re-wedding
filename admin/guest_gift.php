@@ -484,7 +484,7 @@ include("inc/return_dbcon.inc.php");
 -->
 			    </td>
 				<?php
-				if($plan_info['admin_to_pcompany']==3 && $plan_info['admin_to_pcompany']>0 &&$plan_info['ul_print_com_times']==1)
+                if(($plan_info['admin_to_pcompany']==3 && $plan_info['admin_to_pcompany']>0 &&$plan_info['ul_print_com_times']==1) || $isGrey)
 				{
 			?>
 				<td valign="middle"><img src="img/common/order/seat_order_greyed.gif" width="146" height="32" /></td>
