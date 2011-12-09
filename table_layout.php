@@ -277,7 +277,8 @@ function user_timeout() {
 			<?php
 			$_readonly="";
 			if (!$editable || $permission_table_edit['rename_table']==0) {
-				$_readonly=" readonly='readonly' style='border: #ffffff;'";
+//				$_readonly=" readonly='readonly' style='border: #ffffff;'";
+				$_readonly=" disabled='disabled' style='border:0px #ffffff none;'";
 			}
 			if($layoutname!="" && $layoutname!="null")
 			{
@@ -306,7 +307,13 @@ function user_timeout() {
 
            <td width="14" align="center" valign="middle" nowrap="nowrap"><strong><?=$k?></strong></td>
            <td width="104" nowrap="nowrap">
-		   <input name="tableName_<?=$k?>" type="text" id="tableId_<?=$k?>" value="<?=$user_table_row['name']?>" size="15" style="border-style: inset;" <?=$_readonly?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
+		   <?php
+			if($_readonly){
+				echo $user_table_row['name'];
+			}else{
+				printf("<input name=\"tableName_%d\" type=\"text\" id=\"tableId_%d>\" value=\"%s\" size=\"15\" style=\"border-style: inset;\" %s onChange=\"setChangeAction()\" onkeydown=\"keyDwonAction(event)\" onClick=\"clickAction()\"/>",$k,$k,$user_table_row['name'],$_readonly);
+			}
+		   ?>
 		   <input name="hiddenid_<?=$k?>" type="hidden" id="hiddenid_<?=$k?>" value="<?=$user_table_row['id']?>" size="15" />
 		   </td>
           <?php
