@@ -215,22 +215,27 @@ $(document).ready(function(){
 		var r=checkvalidity();
     });
 });
+
+/* delete-- 2011/12/08
 function checkvalidity()
 {
 	var password = $('#password').val();
 	var c = password.length;
 	if(c<6)
 	{
-		$('#password_msg').html("<font style='color:red;'>英数字6文字以上にしてください</font>");
+		$('#password_msg').html("<font style='color:red;'>英数字6文字以上にしてください。</font>");
 	}
 	else
 	{
-		$('#password_msg').html("<font style='color:red;'>英数字6文字以上にしてください</font>");
+//		$('#password_msg').html("<font style='color:red;'>英数字6文字以上にしてください。</font>");
+		$('#password_msg').html("");
 	}
 
     // All characters are numbers.
     return true;
 }
+*/
+
 function validForm()
 {
 	var name  = document.getElementById('name').value;
@@ -246,7 +251,8 @@ function validForm()
 	var permission=false;
 
 	var permission_old  = document.getElementById('permission_old').value;
-	var reg = /^[A-Za-z0-9]{1,15}$/;
+//	var reg = /^[A-Za-z0-9]{1,15}$/;
+	var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\\\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,15}$/; //2011/12/09 yamanaka
 	var reg2 = /^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/;
 	var flag = true;
 
@@ -295,13 +301,13 @@ function validForm()
 		var c = document.getElementById("password").value.length;
 		if(c<6)
 		{
-			alert("パスワードは英数字6文字以上にしてください");
+			alert("パスワードは英数字記号6文字以上にしてください");
 			document.getElementById('password').focus();
 			return false;
 		}
 	}
  	if(reg.test(password) == false) {
-		alert("パスワードは英数字で入力してください");
+		alert("パスワードは英数字記号で入力してください");
 		document.getElementById('password').focus();
 		return false;
 	 }
@@ -414,7 +420,8 @@ function validForm_staff()
 	var name_current  = document.getElementById('name_current').value;
 	var username_current  = document.getElementById('username_current').value;
 	var email_current  = document.getElementById('email_current').value;
-	var reg = /^[A-Za-z0-9]{1,15}$/;
+//	var reg = /^[A-Za-z0-9]{1,15}$/;
+	var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\\\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~\"\'\,]{1,15}$/;
 	var reg2 = /^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/;
 	var flag = true;
 	var com_email = document.getElementById('conf_email').value; // UCHIDA EDIT 11/07/25
@@ -525,7 +532,7 @@ function validForm_staff()
 		}
 	}
 	if(reg.test(password) == false) {
-		alert("パスワードは英数字で入力してください");
+		alert("パスワードは英数字記号で入力してください");
 		document.getElementById('password').focus();
 		return false;
 	 }
@@ -675,15 +682,17 @@ include("inc/return_dbcon.inc.php");
 				  <td align="left" nowrap="nowrap">：</td>
 					<td align="left" nowrap="nowrap">
 					<input name="username" type="text" id="ID" size="25" style="border-style: inset;" value="<?=$edit_data_rows['username']?>"/>
-					<input  type="hidden" id="username_current" size="20" value="<?=$edit_data_rows['username']?>" />    　
+					<input  type="hidden" id="username_current" size="20" value="<?=$edit_data_rows['username']?>" />
 	            	</td>
 				</tr>
 				<tr>
 				  <td align="left" valign="middle" nowrap="nowrap">パスワード<font color="red">*</font></td>
 			    <td align="left" valign="middle" nowrap="nowrap">：</td>
 					<td align="left" valign="middle" nowrap="nowrap">
-					<span id="password_msg" style="color:#FF0000;font-size:8px;">&nbsp;</span><br><input name="password" type="text" id="password" size="25" style="border-style: inset;" value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
-					<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください</span>
+					<input name="password" type="text" id="password" size="25" style="border-style: inset;" value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
+					<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください。<br>
+					記号は以下の文字が利用できます(! # $ % & ( ) * + - . \ / : ; < = > ? @ [ ] ^ _ ` { | } ~ \" ' ,)
+					</span>
 					</td>
 				</tr>
 				<tr>
@@ -863,7 +872,7 @@ include("inc/return_dbcon.inc.php");
 			    <td align="left" valign="middle" nowrap="nowrap">：</td>
 					<td align="left" valign="middle" nowrap="nowrap">
 				    <span id="password_msg" style="color:#FF0000;font-size:8px;">&nbsp;</span><br><input name="password" type="text" id="password" style="width:200px;padding:3px;" value="<?=$stuff_row['password']?>"  onblur="checkvalidity()"/><br>
-						<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください</span>
+						<span id="password_msg" style="color:#FF0000;font-size:8px;">半角英数字記号6文字以上にしてください。記号は以下の文字が利用できます(! # $ % & ( ) * + - . \ / : ; < = > ? @ [ ] ^ _ ` { | } ~)</span>
 					</td>
 				</tr>
 				<tr>
