@@ -222,12 +222,17 @@ $.get('ajax/front_admin_msg.php', function(data) {
         <div class="step_txt_2">お客様の婚礼情報です。</div>
         <div class="clear"></div>
       </div>
+<?php
+  if(!$IgnoreMessage){
+?>
       <div class="step_box">
         <div class="step"><a href="admin_messages.php"><img src="img/message_bt.jpg" alt="メッセージ" width="200" height="40" border="0" class="on" /></a></div>
         <div class="step_txt_2">ホテル担当者とメッセージの送受信ができます。 </div>
         <div class="clear"></div>
       </div>
-
+<?php
+  }
+?>
 
     </div>
     　<div class="clear"></div>
