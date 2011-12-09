@@ -14,7 +14,6 @@ $tab_hikidemono = true;
 	$data_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".(int)$_SESSION['userid']." order by id asc");
 
 	$data_rows_gift = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".(int)$_SESSION['userid']." order by id asc");
-	
 	$editable=$objInfo->get_editable_condition($plan_info);
   //登録後のメッセージの表示のフラグ
   $save_hikidemono = "false";
