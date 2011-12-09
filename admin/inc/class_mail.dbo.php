@@ -50,7 +50,7 @@ class MailClass extends MessageClass
 
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：wedding-plus@wedding-plus.net
+E-mail：info@wedding-plus.net
 URL：{$admin_link}
 
 
@@ -113,7 +113,7 @@ html;
 
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：wedding-plus@wedding-plus.net
+E-mail：info@wedding-plus.net
 URL：{$admin_link}
 
 html;
@@ -180,7 +180,7 @@ html;
 --------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：wedding-plus@wedding-plus.net
+E-mail：info@wedding-plus.net
 {$admin_link}
 
 html;
@@ -239,7 +239,7 @@ html;
 --------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：wedding-plus@wedding-plus.net
+E-mail：info@wedding-plus.net
 URL：{$user_link}
 
 html;
@@ -326,7 +326,7 @@ html;
 
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：wedding-plus@wedding-plus.net
+E-mail：info@wedding-plus.net
 
 html;
 
@@ -418,7 +418,7 @@ html;
 
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：wedding-plus@wedding-plus.net
+E-mail：info@wedding-plus.net
 
 html;
 
@@ -476,7 +476,7 @@ html;
 --------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：wedding-plus@wedding-plus.net
+E-mail：info@wedding-plus.net
 URL：{$admin_link}
 
 html;
@@ -539,7 +539,7 @@ html;
 --------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：wedding-plus@wedding-plus.net
+E-mail：info@wedding-plus.net
 URL：{$admin_link}
 
 html;
@@ -596,7 +596,7 @@ html;
 --------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：wedding-plus@wedding-plus.net
+E-mail：info@wedding-plus.net
 URL：{$user_link}
 
 html;
@@ -656,7 +656,7 @@ html;
 --------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：wedding-plus@wedding-plus.net
+E-mail：info@wedding-plus.net
 URL：{$admin_link}
 
 html;
@@ -713,7 +713,7 @@ html;
 --------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：wedding-plus@wedding-plus.net
+E-mail：info@wedding-plus.net
 URL：{$user_link}
 
 html;
@@ -796,7 +796,7 @@ html;
 -----------------------------------------------------------
 ウエディングプラス
 (株式会社サンプリンティングシステム)
-E-mail：wedding-plus@wedding-plus.net
+E-mail：info@wedding-plus.net
 
 html;
 		if($print_company_info['email']!="" && $print_company_info['email']!="0")
