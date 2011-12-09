@@ -632,7 +632,13 @@ include("inc/return_dbcon.inc.php");
                         　　</td>
                     	<td width="60" >詳細</td>
                         <td width="80" >スタッフ</td>
+<?php
+  if(!$IgnoreMessage){
+?>
                         <td width="60" >メッセージ</td>
+  <?php
+  }
+?>
                         <td width="80" >最終アクセス</td>
                         <td width="60" >&nbsp;</td>
                         <td width="40" >席次表</td>
@@ -692,7 +698,13 @@ include("inc/return_dbcon.inc.php");
                          <!--<td><?php //echo $obj->japanyDateFormate($row['party_day'] , $row['party_day_with_time'])?></td>-->
 
                         <td width="80"> <?=$staff_name?></td>
+<?php
+  if(!$IgnoreMessage){
+?>
                             <td width="60" > <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'],0);?> </td>
+  <?php
+  }
+?>
                         <td  width="80">
 						<?php
 // UCHIDA EDIT 11/08/03 'ログイン中' → ログイン時間

@@ -828,12 +828,18 @@ include("inc/return_dbcon.inc.php");
         	<div class="navi">
             	<img src="img/common/navi01_on.jpg"/>
             </div>
+<?php
+  if(!$IgnoreMessage){
+?>
         	<div class="navi">
             	<a href="message_user.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">
                 <img src="img/common/navi02.jpg" onMouseOver="this.src='img/common/navi02_over.jpg'"onMouseOut="this.src='img/common/navi02.jpg'" />
                 </a>
             </div>
-        	
+  <?php
+  }
+?>
+      	
             
             <div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">
             <img src="img/common/navi04.jpg" onMouseOver="this.src='img/common/navi04_over.jpg'"onMouseOut="this.src='img/common/navi04.jpg'" />

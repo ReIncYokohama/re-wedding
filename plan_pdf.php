@@ -394,7 +394,7 @@ $menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".(int)$u
 $num_groups = count($menu_groups);
 
 $totalsum='';
-$Noofguest = $obj->GetNumRows("spssp_guest","user_id=".(int)$_SESSION['userid']);
+$Noofguest = $obj->GetNumRows("spssp_guest","user_id=".$user_id);
 foreach($menu_groups as $mg)
 {
 	$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']." and guest_id<>0");

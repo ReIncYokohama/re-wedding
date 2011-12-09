@@ -345,7 +345,14 @@ include("inc/return_dbcon.inc.php");
 		</div>
         </h4>
 	  <div   style="width:800px;"><div class="navi"><a href="user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi01.jpg" class="on" onMouseOver="this.src='img/common/navi01_over.jpg'"onMouseOut="this.src='img/common/navi01.jpg'" /></a></div>
+<?php
+  if(!$IgnoreMessage){
+?>
       <div class="navi"><a href="message_user.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/navi02.jpg" class="on" onMouseOver="this.src='img/common/navi02_over.jpg'"onMouseOut="this.src='img/common/navi02.jpg'" /></a></div>
+  <?php
+  }
+?>
+
       <div class="navi">
       	
       		<img src="img/common/navi04_on.jpg" />
@@ -375,7 +382,7 @@ include("inc/return_dbcon.inc.php");
         <div style="margin-top:20px;">
 		<table width="50%" border="0" cellspacing="1" cellpadding="3">
 			 <tr>
-				<td width="182" valign="middle"><a href="../plan_pdf_small.php" target="_blank"><img src="img/common/order/seat_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a></td>
+				<td width="182" valign="middle"><a href="../plan_pdf_small.php?user_id=<?=$user_id?>" target="_blank"><img src="img/common/order/seat_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a></td>
 					<td width="50" rowspan="3" align="center" valign="middle" style="font-size:16pt"><img src="img/common/arrow_1to2.gif" alt="矢印" width="32" height="59" border="0" /></td>
 			<?php
 				$isGrey=false;
@@ -477,7 +484,7 @@ include("inc/return_dbcon.inc.php");
 -->
 			    </td>
 				<?php
-				if($plan_info['admin_to_pcompany']==3 && $plan_info['admin_to_pcompany']>0 &&$plan_info['ul_print_com_times']==1)
+                if(($plan_info['admin_to_pcompany']==3 && $plan_info['admin_to_pcompany']>0 &&$plan_info['ul_print_com_times']==1) || $isGrey)
 				{
 			?>
 				<td valign="middle"><img src="img/common/order/seat_order_greyed.gif" width="146" height="32" /></td>
@@ -529,7 +536,9 @@ include("inc/return_dbcon.inc.php");
 		<div style="margin-top:20px;">
         <table width="50%" border="0" cellspacing="1" cellpadding="3">
 			  <tr>
-				<td width="182" valign="middle"><a href="../plan_pdf.php" target="_blank"><img src="img/common/order/gift_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a></td>
+				<td width="182" valign="middle">
+          <a href="../plan_pdf.php?user_id=<?=$user_id?>" target="_blank"><img src="img/common/order/gift_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a>
+        </td>
 					<td width="50" align="center" valign="middle" style="font-size:16pt"><img src="img/common/arrow_1to1.gif" alt="矢印" width="32" height="7" border="0" /></td>
 			<?php
 				if($plan_info['gift_daylimit']>=3)

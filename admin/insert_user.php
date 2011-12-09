@@ -68,7 +68,7 @@ if(isset($user_id) && $user_id > 0)
     $gaizi_detail_sql = "delete from spssp_gaizi_detail_for_user where gu_id=" .$user_id. ";";
     mysql_query($gaizi_detail_sql);
 
- 	    unset($post['male_first_gaiji_img']);
+    unset($post['male_first_gaiji_img']);
 		unset($post['male_first_gaiji_gid']);
 		unset($post['male_first_gaiji_gsid']);
 		unset($post['male_last_gaiji_img']);
@@ -121,7 +121,7 @@ if(isset($user_id) && $user_id > 0)
     unset($post['party_hour']);
     unset($post['party_minute']);
 
-	unset($post['current_room_id']);
+  	unset($post['current_room_id']);
     unset($post['con_mail']);
     unset($post['layoutname']);
 
