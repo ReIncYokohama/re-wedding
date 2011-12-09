@@ -145,7 +145,9 @@ ime-mode: inactive;
 </style>
 <script type="text/javascript">
 //var reg = /^[A-Za-z0-9]{1,16}$/;
-var reg = /^[A-Za-z0-9]{1,32}$/; // UCHIDA EDIT 11/07/26
+//var reg = /^[A-Za-z0-9]{1,32}$/; // UCHIDA EDIT 11/07/26
+var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\\\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,32}$/; //2011/12/09 yamanaka
+
 function validForm()
 {
 	var userID  = document.getElementById('userID').value;
@@ -160,7 +162,7 @@ function validForm()
 		 return false;
 	}
 	if(reg.test(userID) == false) {
-		alert("ログインIDは半角英数字で入力してください");
+		alert("ログインIDは半角英数字記号で入力してください");
 		document.getElementById('userID').focus();
 		return false;
 	 }
@@ -172,7 +174,7 @@ function validForm()
 		 return false;
 	}
 	if(reg.test(password) == false) {
-		alert("パスワードは半角英数字で入力してください");
+		alert("パスワードは半角英数字記号で入力してください");
 		document.getElementById('password').focus();
 		return false;
 	 }
