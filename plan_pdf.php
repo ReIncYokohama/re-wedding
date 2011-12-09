@@ -595,7 +595,7 @@ foreach($tblrows as $tblrow)
                       {
                         $middle_string="";
 								
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
                 
                         //52.63
                         $html2.="<td width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
@@ -606,7 +606,7 @@ foreach($tblrows as $tblrow)
                       {
 								
                         $middle_string="";
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
 						
                         //47.37
                         $html2.="<td  width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
