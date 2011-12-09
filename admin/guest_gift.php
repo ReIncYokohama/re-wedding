@@ -559,6 +559,36 @@ include("inc/return_dbcon.inc.php");
 
 		</table>
 		</div>
+<br />
+<br />
+	  <div>
+		<h2>席次表の印刷イメージ</h2>
+		</div>
+
+<div style="margin-top:20px;">
+        <table width="50%" border="0" cellspacing="1" cellpadding="3">
+			 <tr>
+				    <?php 
+				    if ($obj->GetRowCount("spssp_plan"," admin_to_pcompany >= 2 and `ul_print_com_times` < 2 and `order` >= 1 and user_id=".$user_id) && $user_info['party_day'] >= date("Y-m-d")) {
+				    ?>
+				    	<td width="210" valign="middle"><a href="<?=substr($plan_info['p_company_file_up'], 3)?>" target="_blank"><img src="img/common/preview_print_bt_hotel.jpg" alt="席次表プレビュー" width="182" height="32" border="0" class="on"/></a></td>
+				    <?php 
+				    } 
+				    else { 
+				    ?>
+				    	<td width="210" valign="middle"><img src="img/common/preview_print_bt_hotel_gray.jpg" alt="席次表プレビュー" width="182" height="32" border="0" /></td>
+				    <?php 
+				    } ?>
+					<td width="10" valign="middle">　</td>
+					<td width="580" valign="middle"><p>印刷会社よりアップロードされた「席次表の印刷イメージ」がご確認いただけます。<br />※印刷会社よりアップロードされるまでは、ボタンは使用できません。</p></td>
+		  </tr>
+		</table>
+		</div>
+
+
+
+
+
 
 
 

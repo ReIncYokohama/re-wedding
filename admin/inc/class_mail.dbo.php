@@ -737,7 +737,7 @@ html;
 	{
     //emailのエラー処理をどうするか書かれていない。
     $email = new Email($to,$subject,$mailbody);
-    $email->from = "info@wedding-plus.net";
+    $email->from = "wedding-plus@wedding-plus.net";
     $email->fromName = "Wedding Plus";
     $email->noneFromName = true;
     $email->send();
