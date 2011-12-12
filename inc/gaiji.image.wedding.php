@@ -302,8 +302,8 @@ function get_image_name_plate_data3($image,$width_px,$first_left,
     $gaiji_comment_arr = array_merge((array)$gaiji_comment1_arr, (array)$gaiji_comment2_arr);
     gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,26,$col_t,$font,$comment,$gaiji_comment_arr);
   }else{
-    $first = mb_substr($comment,0,19,"utf-8");
-    $second = mb_substr($comment,20,20,"utf-8");
+    $first = mb_substr($comment,0,17,"utf-8");
+    $second = mb_substr($comment,18,20,"utf-8");
     $gaiji_comment_arr = array_merge((array)$gaiji_comment1_arr, (array)$gaiji_comment2_arr);
     $gaiji_first_num = substr_count($first,"＊");
     $gaiji_first_arr = array_slice($gaiji_comment_arr, 0, $gaiji_first_num);
