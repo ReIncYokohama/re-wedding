@@ -282,13 +282,17 @@ class InformationClass extends DBO
 		 if($extra)
 		 $file = sprintf("%s/user_name/%d/%s/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$extra,$name);
 
+
 		if(is_file($file))
 		{
+     
 			if($opt == "src")
 				return $file;
 			else if($extra)
 			{
-
+        if($height){
+          return "<img src=\"".$file."\" height='".$height."' />";
+        }
 			return "<img src=\"".$file."\" />";
 			}else if($height){
         $file = str_replace("../","",$file);
@@ -297,6 +301,7 @@ class InformationClass extends DBO
 			else
 			{
 				$file = str_replace("../","",$file);
+        exit;
 				return "<img src='../image.php?f=".$file."&w=".$width."' />";
 			}
 		}
