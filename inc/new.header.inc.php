@@ -115,6 +115,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
             	<div id="inform_user" style="text-align:center; font-size:15px; font-weight:bold; color:#006600;"></div>
                 <div class="logo"> 
                 <div><img src="img/logo.jpg" width="200" height="57" border="0" align="absbottom" />
+		<!-- header message -->
                 <font style="font-size:20px; font-weight:bold; margin-left:130px; color:#0099ff;"> <?php if ($__plan_info['order'] > 0 && $_SESSION['adminid'] > 0) echo "お客様が印刷イメージを依頼中です"; else if (!$__editable && $__jobend==false) echo "印刷イメージ依頼中のため編集できません"; else if (!$__editable && $__jobend==true) echo "印刷依頼済みのため編集できません"; ?></font>
                 </div>
 
