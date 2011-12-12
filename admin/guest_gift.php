@@ -544,9 +544,9 @@ include("inc/return_dbcon.inc.php");
 				if($plan_info['gift_daylimit']>=3)
 				{
 			?>
-				<td width="182" valign="middle"><img src="img/common/order/gift_processed_greyed.gif" width="146" height="32" /></td>
+				<td width="500" valign="middle"><img src="img/common/order/gift_processed_greyed.gif" width="146" height="32" /></td>
 				<?php }else{?>
-			  	<td width="146" valign="middle">
+			  	<td width="500" valign="middle">
 				<a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=daylimit_request&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>','引出物処理をします。宜しいですか？')">
 				<img src="img/common/order/gift_processed.gif" width="146" height="32" /></a></td>
 				<?php }?>
@@ -555,6 +555,25 @@ include("inc/return_dbcon.inc.php");
 						echo $hikide_zumi; // UCHIDA EDIT 11/08/16 クリック日付を表示
 					?>
 				</td>
+		  </tr>
+		  <tr><td>　</td></tr>
+		  <tr><td>　</td></tr>
+		  <tr>
+				    <?php 
+				    if ($obj->GetRowCount("spssp_plan"," admin_to_pcompany >= 2 and `ul_print_com_times` < 2 and `order` >= 1 and user_id=".$user_id) && $user_row['party_day'] >= date("Y-m-d")) {
+				    ?>
+				    	<td width="210" valign="middle"><a href="<? echo "../".substr($plan_info['p_company_file_up'], 3)?>" target="_blank"><img src="img/common/preview_print_bt_hotel.jpg" alt="席次表プレビュー" border="0" class="on"/></a></td>
+				    <?php 
+				    } 
+				    else { 
+				    ?>
+				    	<td width="210" valign="middle"><img src="img/common/preview_print_bt_hotel_gray.jpg" alt="席次表プレビュー" border="0" /></td>
+				    <?php 
+				    } ?>
+				    
+					<td width="580" valign="middle">　</td>
+					<td width="580" valign="middle"><p>印刷会社よりアップロードされた「席次表の印刷イメージ」がご確認いただけます。<br />※印刷会社よりアップロードされるまでは、ボタンは使用できません。</p></td>
+					 
 		  </tr>
 
 		</table>
