@@ -569,6 +569,7 @@ width:100px;
  }
 .guest_list_table .memo{
 width:100px;
+line-height:110%;
  }
 .guest_list_table .action{
 width:130px;
