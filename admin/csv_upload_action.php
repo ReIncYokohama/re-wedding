@@ -132,8 +132,8 @@ if(!$force){
     $last_name = $csv[$i][1];
     $first_name = $csv[$i][3];
     
-    $user_row = $obj->GetSingleRow("spssp_guest"," last_name = '$last_name' and first_name = '$first_name' and user_id = '$user_id'");
-    if($user_row){
+    $user_row2 = $obj->GetSingleRow("spssp_guest"," last_name = '$last_name' and first_name = '$first_name' and user_id = '$user_id'");
+    if($user_row2){
       $_SESSION["csv"] = $csv;
       $_SESSION["csv_user_id"] = $user_id;
       $same_user = true;
