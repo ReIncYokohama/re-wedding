@@ -398,7 +398,7 @@ $menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".(int)$u
 $num_groups = count($menu_groups);
 
 $totalsum='';
-$Noofguest = $obj->GetNumRows("spssp_guest","user_id=".(int)$_SESSION['userid']);
+$Noofguest = $obj->GetNumRows("spssp_guest","user_id=".$user_id);
 foreach($menu_groups as $mg)
 {
 	$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']." and guest_id<>0");
@@ -639,7 +639,7 @@ echo '</pre>';  exit;*/
                       {
                         $middle_string="";
 								
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
                 
                         //52.63
                         $html2.="<td width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
@@ -650,7 +650,7 @@ echo '</pre>';  exit;*/
                       {
 								
                         $middle_string="";
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
 						
                         //47.37
                         $html2.="<td  width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."

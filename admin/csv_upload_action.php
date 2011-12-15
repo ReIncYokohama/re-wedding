@@ -267,7 +267,7 @@ URL: $BASE_URL
 
 _EOT_;
   $email = new Email($admin_email,$title,$body);
-  $email->from = "info@wedding-plus.net";
+  $email->from = "wedding-plus@wedding-plus.net";
   $email->fromName = "Wedding Plus";
   $email->noneFromName = true;
   $email->send();
@@ -307,7 +307,7 @@ URL： $BASE_URL
 
 _EOT_;
 $email = new Email($mail,$title,$body);
-$email->from = "info@wedding-plus.net";
+$email->from = "wedding-plus@wedding-plus.net";
 $email->fromName = "Wedding Plus";
 $email->noneFromName = true;
 $email->send();

@@ -74,7 +74,8 @@ if((int)$user_plan['user_id'] > 0 && empty($plan_dt))
 	$obj->UpdateData("spssp_plan",$post," user_id=".$user_plan['user_id']);
 
 	echo "<script> alert('お客様挙式情報が更新されました'); </script>";
-	redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']);
+  redirect("load_user_image.php?user_id=".(int)$_GET['user_id']);
+	//redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']);
 }
 else if((int)$user_plan['user_id'] <= 0 && empty($plan_dt))
 {
@@ -171,7 +172,8 @@ else if((int)$user_plan['user_id'] <= 0 && empty($plan_dt))
 	else {
 		echo "<script> alert('お客様挙式情報が更新されました'); </script>";
 	}
-	redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']);
+	//redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']);
+  redirect("load_user_image.php?user_id=".(int)$_GET['user_id']);
 }
 else if((int)$user_plan['user_id'] > 0 && !empty($plan_dt))
 {
@@ -195,7 +197,8 @@ else if((int)$user_plan['user_id'] > 0 && !empty($plan_dt))
 	$arr['final_proof'] = $post['final_proof'];
 	$obj->UpdateData("spssp_plan",$arr," user_id=".$user_plan['user_id']);
 	echo "<script> alert('お客様挙式情報が更新されました'); </script>";
-	redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']);
+	//redirect("user_info_allentry.php?user_id=".(int)$_GET['user_id']);
+  redirect("load_user_image.php?user_id=".(int)$_GET['user_id']);
 }
 
 ?>

@@ -326,7 +326,7 @@ if(is_array($results))
 <div style="position: absolute; top: 65px; left: 56px; width: 150px;">
 	
 		<input type="hidden" name="search" value="search">
-	<input type="text" id="text" name="text" style="font-size:10pt"; "back ground-color:#ffffff"; onfocus="this.style.backgroundColor='#f9d4e5'" onblur="this.style.backgroundColor='#ffffff'; write_search_item();"  size="13 maxlength="10" value="<?=$search_item?>" />
+	<input type="text" id="text" name="text" style="font-size:10pt; ime-mode: active;" "back ground-color:#ffffff"; onfocus="this.style.backgroundColor='#f9d4e5'" onblur="this.style.backgroundColor='#ffffff'; write_search_item();"  size="13 maxlength="10" value="<?=$search_item?>" />
 <script type="text/javascript">
    document.getElementById('text').focus();
 </script>

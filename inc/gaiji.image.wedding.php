@@ -32,9 +32,9 @@ function make_name_plate_view($last_name,$first_name,$comment1="",$comment2="",
 }
 function make_name_plate_right_save($last_name,$first_name,$comment1="",$comment2="",
                          $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
-                              $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$file="file.png",$color = array(0x00,0x00,0x00),$respect = ""){
+                                    $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$file="file.png",$color = array(0x00,0x00,0x00),$respect = "",$groupNumber){
   $image = get_image_name_plate_right($last_name,$first_name,$comment1,$comment2,
-                                $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
+                                      $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect,$groupNumber);
 
   imagefilter($image, IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
   imagepng($image,$file);
@@ -43,9 +43,9 @@ function make_name_plate_right_save($last_name,$first_name,$comment1="",$comment
 
 function make_name_plate_right_view($last_name,$first_name,$comment1="",$comment2="",
                          $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
-                              $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect = ""){
+                                    $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect = "",$groupNumber){
   $image = get_image_name_plate_right($last_name,$first_name,$comment1,$comment2,
-                                $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
+                                      $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect,$groupNumber);
   imagefilter($image, IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
   header("Content-Type: image/png");
   imagepng($image);
@@ -71,8 +71,11 @@ function make_name_plate_full_save($last_name,$first_name,$comment1="",$comment2
   imagedestroy($image);
 
   //左側にコメント
-  $image = get_image_name_plate_full2($last_name,$first_name,$comment1,$comment2,$memo1,$memo2,$memo3,
-                                $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
+  /* $image = get_image_name_plate_full2($last_name,$first_name,$comment1,$comment2,$memo1,$memo2,$memo3,
+     $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);*/
+
+  $image = get_image_name_plate_right($last_name,$first_name,$memo3,$memo2, $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect,$memo1);
+  
   imagefilter($image, IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
   imagepng($image,$file2);
   imagedestroy($image);
@@ -81,9 +84,11 @@ function make_name_plate_full_save($last_name,$first_name,$comment1="",$comment2
 function make_name_plate_full_view($last_name,$first_name,$comment1="",$comment2="",$memo1,$memo2,$memo3,
                          $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
                               $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect = ""){
-  //$image = get_image_name_plate_full2($last_name,$first_name,$comment1,$comment2,$memo1,$memo2,$memo3,
-  $image = get_image_name_plate_full($last_name,$first_name,$comment1,$comment2,$memo1,$memo2,$memo3,
-  $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
+  
+  //$image = get_image_name_plate_full($last_name,$first_name,$comment1,$comment2,$memo1,$memo2,$memo3, $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
+  $image = get_image_name_plate_right($last_name,$first_name,$memo3,$memo2, $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect,$memo1);
+  
+  
   imagefilter($image, IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
   header("Content-Type: image/png");
   imagepng($image);
@@ -102,6 +107,7 @@ function make_text_save($text,$gaiji_arr = array(),$file="file.png",$fontsize=14
   imagepng($image,$file);
   imagedestroy($image);
 }
+
 function make_text_view($text,$gaiji_arr=array(),$fontsize=14,$width=150,$color = array(0x00,0x00,0x00)){
   $image = get_image_text($text,$gaiji_arr,$fontsize,$width,$color);
   imagefilter($image, IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
@@ -194,7 +200,7 @@ function get_image_name_plate($last_name,$first_name,$comment1="",$comment2="",
   imagefill($image,0,0,$col_g);
   
 
-  get_image_name_plate_data($image,$width_px,$first_left,
+  get_image_name_plate_data3($image,$width_px,$first_left,
                             $last_name,$first_name,$comment1,$comment2,
                          $gaiji_last_name_arr,$gaiji_first_name_arr,
                               $gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
@@ -204,9 +210,10 @@ function get_image_name_plate($last_name,$first_name,$comment1="",$comment2="",
 
 function get_image_name_plate_right($last_name,$first_name,$comment1="",$comment2="",
                          $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
-                              $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect=""){
-
+                                    $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect="",$groupNumber){
   $comment_max_fontsize = "8";
+  $comment_min_fontsize = "5";
+
   $name_max_fontsize = "11";
 
   $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
@@ -221,7 +228,7 @@ function get_image_name_plate_right($last_name,$first_name,$comment1="",$comment
   get_image_name_plate_data_right($image,$width_px,$width_px,
                             $last_name,$first_name,$comment1,$comment2,
                          $gaiji_last_name_arr,$gaiji_first_name_arr,
-                              $gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);
+                                  $gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect,$groupNumber);
   return $image;
 }
 
@@ -250,11 +257,69 @@ function get_image_name_plate_data($image,$width_px,$first_left,
   
   gaiji_imagettftext($image,$comment2_fontsize,0,$first_left,26,$col_t,$font,$comment2,$gaiji_comment2_arr);
 
+
+
   $gaiji_name_arr = array_merge((array)$gaiji_last_name_arr, (array)$gaiji_first_name_arr);
   $name_for_fontsize = $name.$respect;
-  $name_fontsize = get_image_font_size($name_max_fontsize,$name_for_fontsize,$font,$width_px,
+  if(mb_strlen($name,"utf-8")<9){
+    $name_fontsize = 11;
+  }else{
+    $name_fontsize = get_image_font_size($name_max_fontsize,$name_for_fontsize,$font,$width_px,
                                        $gaiji_name_arr);
+  }
+  $nowLeft = gaiji_imagettftext($image,$name_fontsize,0,$first_left,45,$col_t,$font,$name,$gaiji_name_arr);
+
+  if(mb_strlen($respect,"utf-8") <= 1){
+    gaiji_imagettftext($image,$name_fontsize,0,$nowLeft,45,$col_t,$font,$respect,array());
+  }else if(mb_strlen($respect,"utf-8")>1){
+    gaiji_imagettftext($image,$name_fontsize,0,$nowLeft,45,$col_t,$font,$respect,array(),50);
+  }
   
+  
+}
+
+//coment1 とcomment2を足し、サイズを調整する。
+function get_image_name_plate_data3($image,$width_px,$first_left,
+                                   $last_name,$first_name,$comment1="",$comment2="",
+                         $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
+                                    $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect=""){
+  $comment_min_fontsize = "5";
+  $comment_max_fontsize = "9";
+  $name_max_fontsize = "11";
+
+  $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
+  
+  $name = $last_name." ".$first_name." ";
+
+  $comment = $comment1." ".$comment2;
+  $comment_num = mb_strlen($comment,"utf-8");
+  if($comment_num<11){
+    /*$comment_fontsize = get_image_font_size($comment_max_fontsize,$comment,$font,$width_px,
+      $gaiji_comment2_arr);*/
+    $gaiji_comment_arr = array_merge((array)$gaiji_comment1_arr, (array)$gaiji_comment2_arr);
+    gaiji_imagettftext($image,$comment_max_fontsize,0,$first_left,26,$col_t,$font,$comment,$gaiji_comment_arr);
+  }else if($comment_num<21){
+    $gaiji_comment_arr = array_merge((array)$gaiji_comment1_arr, (array)$gaiji_comment2_arr);
+    gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,26,$col_t,$font,$comment,$gaiji_comment_arr);
+  }else{
+    $first = mb_substr($comment,0,17,"utf-8");
+    $second = mb_substr($comment,18,20,"utf-8");
+    $gaiji_comment_arr = array_merge((array)$gaiji_comment1_arr, (array)$gaiji_comment2_arr);
+    $gaiji_first_num = substr_count($first,"＊");
+    $gaiji_first_arr = array_slice($gaiji_comment_arr, 0, $gaiji_first_num);
+    $gaiji_second_arr = array_slice($gaiji_comment_arr, $gaiji_first_num-1);
+    gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,12,$col_t,$font,$first,$gaiji_first_arr);
+    gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,26,$col_t,$font,$second,$gaiji_second_arr);
+  }
+  
+  $gaiji_name_arr = array_merge((array)$gaiji_last_name_arr, (array)$gaiji_first_name_arr);
+  $name_for_fontsize = $name.$respect;
+  if(mb_strlen($name,"utf-8")<9){
+    $name_fontsize = 11;
+  }else{
+    $name_fontsize = get_image_font_size($name_max_fontsize,$name_for_fontsize,$font,$width_px,
+                                       $gaiji_name_arr);
+  }
   $nowLeft = gaiji_imagettftext($image,$name_fontsize,0,$first_left,45,$col_t,$font,$name,$gaiji_name_arr);
 
   if(mb_strlen($respect,"utf-8") <= 1){
@@ -270,49 +335,90 @@ function get_image_name_plate_data($image,$width_px,$first_left,
 function get_image_name_plate_data_right($image,$width_px,$first_right,
                                    $last_name,$first_name,$comment1="",$comment2="",
                          $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
-                                   $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect=""){
+                                         $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect="",$groupNumber){
   $comment_max_fontsize = "8";
+  $comment_min_fontsize = "5";
   $name_max_fontsize = "11";
 
   $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
-  
   $name = $last_name." ".$first_name." ";
-  
+
+
+
   if(!$comment1 || $comment1 == "") $comment1 = " ";
-  if($comment2 != ""){
+  if($comment1==" "){
+    $comment2_fontsize = $comment_max_fontsize;
+  }else if($comment2 != ""){
     $comment1_fontsize = get_image_font_size($comment_max_fontsize,$comment1,$font,$width_px,
                                            $gaiji_comment1_arr);
-    gaiji_imagettftext_align_right($image,$comment1_fontsize,0,$first_right,12,$col_t,$font,$comment1,$gaiji_comment1_arr);
+    if($comment1_fontsize == $comment_max_fontsize){
+      gaiji_imagettftext_align_right($image,$comment_max_fontsize,0,$first_right,15,$col_t,$font,$comment1,$gaiji_comment1_arr);
+    }else{
+      if($comment1_fontsize>$comment_min_fontsize){
+        gaiji_imagettftext_align_right($image,$comment_min_fontsize,0,$first_right,16,$col_t,$font,$comment1);
+      }else{
+        $str_num = mb_strlen($comment1,"utf8");
+        $split_num = ceil($str_num/2);
+        $second_num = $str_num-$split_num;
+        $first_str = mb_substr($comment1,0,$split_num,"utf8");
+        $second_str = mb_substr($comment1,$split_num,$second_num,"utf8");
+        gaiji_imagettftext_align_right($image,$comment_min_fontsize,0,$first_right,8,$col_t,$font,$first_str);
+        gaiji_imagettftext_align_right($image,$comment_min_fontsize,0,$first_right,16,$col_t,$font,$second_str);
+      }
+    }
+    $comment2_fontsize = $comment_min_fontsize;    
   }else{  
     $comment2 = $comment1;
+    $comment2_fontsize = $comment_max_fontsize;
   }
-  $comment2_fontsize = get_image_font_size($comment_max_fontsize,$comment2,$font,$width_px,
-                                           $gaiji_comment2_arr);
   
-  gaiji_imagettftext_align_right($image,$comment2_fontsize,0,$first_right,26,$col_t,$font,$comment2,$gaiji_comment2_arr);
+  $comment2_fontsize = get_image_font_size($comment2_fontsize,$comment2,$font,$width_px,
+                                           $gaiji_comment1_arr);
+  if($comment2_fontsize==$comment_max_fontsize){
+    gaiji_imagettftext_align_right($image,$comment_max_fontsize,0,$first_right,26,$col_t,$font,$comment2,$gaiji_comment2_arr);
+  }else{
+    if($comment2_fontsize>=$comment_min_fontsize){
+      gaiji_imagettftext_align_right($image,$comment_min_fontsize,0,$first_right,28,$col_t,$font,$comment2);
+    }else{
+      $str_num = mb_strlen($comment2,"utf8");
+      $split_num = ceil($str_num/2);
+      $second_num = $str_num-$split_num;
+      $first_str = mb_substr($comment2,0,$split_num,"utf8");
+      $second_str = mb_substr($comment2,$split_num,$second_num,"utf8");
+      gaiji_imagettftext_align_right($image,$comment_min_fontsize,0,$first_right,22,$col_t,$font,$first_str);
+      gaiji_imagettftext_align_right($image,$comment_min_fontsize,0,$first_right,30,$col_t,$font,$second_str);
+    }
+  }
 
-  $name_for_fontsize = $name.$respect;
-  $name_fontsize = get_image_font_size($name_max_fontsize,$name_for_fontsize,$font,$width_px,
+  $gaiji_name_arr = array_merge((array)$gaiji_last_name_arr, (array)$gaiji_first_name_arr);
+  if(mb_strlen($name,"utf-8")<9){
+    $name_fontsize = 11;
+  }else{
+    $name_for_fontsize = $name."あ";
+    if($groupNumber) $name_for_fontsize = $name_for_fontsize."あ";
+    $name_fontsize = get_image_font_size($name_max_fontsize,$name_for_fontsize,$font,$width_px,
                                        $gaiji_name_arr);
-
+  }
+  $nowRight = $first_right;
+  if($groupNumber){
+    $nowRight = gaiji_imagettftext_align_right($image,$name_fontsize,0,$first_right,45,$col_t,$font," ".$groupNumber,array());
+  }
   if(mb_strlen($respect,"utf-8") <= 1){
-    $nowRight = gaiji_imagettftext_align_right($image,$name_fontsize,0,$first_right,45,$col_t,$font,$respect,array());
+    $nowRight = gaiji_imagettftext_align_right($image,$name_fontsize,0,$nowRight,45,$col_t,$font,$respect,array());
   }else if(mb_strlen($respect,"utf-8")>1){
-    $nowRight = gaiji_imagettftext_align_right($image,$name_fontsize,0,$first_right,45,$col_t,$font,$respect,array(),50);
+    $nowRight = gaiji_imagettftext_align_right($image,$name_fontsize,0,$nowRight,45,$col_t,$font,$respect,array(),50);
   }
 
   $gaiji_name_arr = array_merge((array)$gaiji_last_name_arr, (array)$gaiji_first_name_arr);
   
   gaiji_imagettftext_align_right($image,$name_fontsize,0,$nowRight,45,$col_t,$font,$name,$gaiji_name_arr);
-  
-  
 }
 
 
 function get_image_name_plate_data2($image,$width_px,$first_left,
                                    $last_name,$first_name,$comment1="",$comment2="",
                          $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
-                                   $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect=""){
+                                    $gaiji_comment1_arr = array(),$gaiji_comment2_arr = array(),$color = array(0x00,0x00,0x00),$respect="",$groupNumber){
   $comment_max_fontsize = "8";
   $comment_min_fontsize = "5";
   $name_max_fontsize = "11";
@@ -365,10 +471,16 @@ function get_image_name_plate_data2($image,$width_px,$first_left,
       gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$second_str);
     }
   }
+
   $gaiji_name_arr = array_merge((array)$gaiji_last_name_arr, (array)$gaiji_first_name_arr);
   $name_for_fontsize = $name.$respect;
-  $name_fontsize = get_image_font_size($name_max_fontsize,$name_for_fontsize,$font,$width_px,
+
+  if(mb_strlen($name,"utf-8")<9){
+    $name_fontsize = 11;
+  }else{
+    $name_fontsize = get_image_font_size($name_max_fontsize,$name_for_fontsize,$font,$width_px,
                                        $gaiji_name_arr);
+  }
   
   $nowLeft = gaiji_imagettftext($image,$name_fontsize,0,$first_left,45,$col_t,$font,$name,$gaiji_name_arr);
 
@@ -388,10 +500,9 @@ function get_image_name_plate_full($last_name,$first_name,$comment1="",$comment2
   $name_max_fontsize = "11";
 
   $font = dirname(__FILE__)."/../fonts/msmincho.ttc";
-  $width_px = "170";
-  $memo_px = "30";
+  $width_px = "200";
   
-  $image = imagecreatetruecolor($width_px+$memo_px,45) or die("Cannot Initialize new GD image stream");
+  $image = imagecreatetruecolor($width_px,45) or die("Cannot Initialize new GD image stream");
   $col_g = imagecolorallocate($image,0xff,0xff,0xff);
   $col_t = imagecolorallocate($image,0x00,0x00,0x00);
   imagefill($image,0,0,$col_g);
@@ -399,15 +510,15 @@ function get_image_name_plate_full($last_name,$first_name,$comment1="",$comment2
   $first_left = 0;
 
   get_image_name_plate_data2($image,$width_px,$first_left,
-                            $last_name,$first_name,$memo3,$memo2,
+                            $memo1." ".$last_name,$first_name,$memo3,$memo2,
                          $gaiji_last_name_arr,$gaiji_first_name_arr,
                             array(),array(),$color,$respect);
   
   
-  $memo1_fontsize = get_image_font_size(12,$memo1,$font,$memo_px,
+  /* $memo1_fontsize = get_image_font_size(12,$memo1,$font,$memo_px,
                                         array());
   gaiji_imagettftext($image,$memo1_fontsize,0,150,45,$col_t,$font,$memo1,array());  
-  
+  */
   return $image;
 }
 function get_image_name_plate_full2($last_name,$first_name,$comment1="",$comment2="",$memo1="",$memo2="",$memo3="",

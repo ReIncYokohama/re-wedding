@@ -139,4 +139,5 @@ if(!$self){
   }
 }
 if ($timeoutCheck=="timeout")	redirect("logout.php");
-else 							redirect("my_guests.php?".$message."=true&page=".$_GET['guest_id']."&option=".$_GET['option']);
+else 							redirect("load_guest_image.php?message=".$message."&guest_id=".$guest_id."&option=".$_GET['option']."&user_id=".$user_id."&redirect=true");
+//redirect("my_guests.php?".$message."=true&page=".$_GET['guest_id']."&option=".$_GET['option']);

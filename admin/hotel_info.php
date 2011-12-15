@@ -266,7 +266,7 @@ include("inc/return_dbcon.inc.php");
 						  <tr>
 						    <td width="150" align="left">ホテルコード</td>
 							<td width="20" align="left"> ：</td>
-							<td width="1358"; style="padding:1px;>
+							<td width="1358"; style="padding:1px;">
 							<input type="hidden" name="hotel_code" id="hotel_code" value="<?=$hotel_row[hotel_code]?>"/>
 							<?=$hotel_row[hotel_code]?></td>
 						  </tr>
@@ -306,14 +306,14 @@ include("inc/return_dbcon.inc.php");
 							<td><input type="text" name="email" id="email" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " value="<?=$hotel_row[email]?>"/></td>
 						  </tr>
 						  <tr>
-						    <td align="left">招待者リストデータ削除日<?=$disp_option3?></td>
+						    <td align="left">招待者リストデータ削除日</td>
 							<td align="left">：</td>
-							<td><input name="delete_guest" type="text" id="delete_guest" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " size="5"   value="<?=$hotel_row[delete_guest]?>"/> ヶ月後</td>
+							<td><input name="delete_guest" type="text" id="delete_guest" readonly="readonly"; style="padding:0px;border-style: inset; border:#ffffff; " size="5"   value="<?=$hotel_row[delete_guest]?>"/> ヶ月後</td>
 						  </tr>
 						  <tr>
-						    <td align="left">挙式情報データ削除日<?=$disp_option3?></td>
+						    <td align="left">挙式情報データ削除日</td>
 							<td align="left"> ：</td>
-							<td><input name="delete_weeding" type="text" id="delete_weeding" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " size="5"   value="<?=$hotel_row[delete_weeding]?>"/> ヶ月後</td>
+							<td><input name="delete_weeding" type="text" id="delete_weeding" readonly="readonly"; style="padding:0px;border-style: inset; border:#ffffff; " size="5"   value="<?=$hotel_row[delete_weeding]?>"/> ヶ月後</td>
 						  </tr>
 
                             <tr>

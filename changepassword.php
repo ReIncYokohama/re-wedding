@@ -61,6 +61,7 @@ $(function(){
 	var oldPw  = document.getElementById('userID').value;
 	var newPw  = document.getElementById('password').value;
 	var rePw  = document.getElementById('repassword').value;
+	var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\\\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,15}$/; //2011/12/09 yamanaka
 
 	if(oldPw=='')
 	{
@@ -90,6 +91,16 @@ $(function(){
 	   document.getElementById('repassword').focus();
 	   return false;
 	}
+	if(reg.test(newPw) == false) {
+	　　alert("新しいパスワードは英数字記号で入力してください");
+	　　document.getElementById('repassword').focus();
+	　　return false;
+	 }
+	if(reg.test(rePw) == false) {
+	　　alert("確認用パスワードは英数字記号で入力してください");
+	　　document.getElementById('repassword').focus();
+	　　return false;
+	 }
 	if(newPw != rePw)
 	{
 	   alert("新しいパスワードが一致しません。新しいパスワードを再入力してください。");
@@ -142,6 +153,14 @@ $(function(){
 
    <form action="changepassword.php" method="post" name="login_form">
 		<table style="font-size:10px;" align="center" cellspacing="10" cellpadding="0" width="100%">
+
+			<tr>
+				<td width="300" align="right"></td>
+				<td><font color="red">半角英数字記号6文字以上で入力してください。以下の文字が利用できます。<br>
+! # $ % & ( ) * + - . \ / : ; < = > ? @ [ ] ^ _ ` { | } ~ " ' ,</font></td>
+			</tr>
+
+
 			<?
 			 if($_GET['mass'] >=1) {
 				if($_GET['mass'] == 1) {
