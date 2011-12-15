@@ -15,7 +15,7 @@ $objInfo = new InformationClass();
 <script language="javascript" type="text/javascript" src="../js/jquery.js"></script>
 </head>
 <body>
-ただいま招待者の画像データを更新しております。<br>
+ただいま新郎新婦名の画像データを更新しております。<br>
 自動的にもとの画面に戻ります。
 <?php
   $srcArray = array("thumb1/man_lastname.png","thumb1/woman_lastname.png","thumb1/man_fullname.png","thumb1/woman_fullname.png","guest_page.png");
