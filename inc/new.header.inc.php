@@ -50,9 +50,10 @@ $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
 <script type="text/javascript" src="tmp_js/cufon-yui.js"></script>
 <script type="text/javascript" src="tmp_js/arial.js"></script>
 <script type="text/javascript" src="tmp_js/cuf_run.js"></script>
-<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
-<link rel="stylesheet" href="css/base/jquery.ui.all.css">
 <script src="js/jquery-1.4.2.js"></script>
+<!--script language="javascript" type="text/javascript" src="js/jquery.js"></script-->
+<link rel="stylesheet" href="css/base/jquery.ui.all.css">
+<!--script src="js/jquery-1.4.2.js"></script-->
 <script src="js/external/jquery.bgiframe-2.1.1.js"></script>
 <script src="js/ui/jquery.ui.core.js"></script>
 <script src="js/ui/jquery.ui.widget.js"></script>
