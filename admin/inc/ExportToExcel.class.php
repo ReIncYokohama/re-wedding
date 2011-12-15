@@ -21,10 +21,11 @@ class ExportToExcel
 		//Typically, it will be an application or a document that must be opened in an application, such as a spreadsheet or word processor. 
 
 		header("Content-Disposition: attachment; filename=$excel_file_name");//with this extension of file name you tell what kind of file it is.
-		header("Pragma: no-cache");//Prevent Caching
-		header("Expires: 0");//Expires and 0 mean that the browser will not cache the page on your hard drive
-		
-	
+    
+    header("Cache-Control: public");
+    header("Pragma: public");
+		//header("Pragma: no-cache");//Prevent Caching
+		//header("Expires: 0");//Expires and 0 mean that the browser will not cache the page on your hard drive
 	
 	}
 	function exportWithQuery($qry,$excel_file_name,$conn)//to export with query
