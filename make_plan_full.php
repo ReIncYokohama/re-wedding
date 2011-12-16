@@ -392,7 +392,7 @@ direction: ltr;
 				$guest_type_sort=($_GET['guest_type_sort']=='desc' || $_GET['guest_type_sort']=='' )?"asc":"desc";
 				$guest_sex_sort=($_GET['guest_sex_sort']=='desc' || $_GET['guest_sex_sort']=='' )?"asc":"desc";
 				?>
-					<tr bgcolor="#666666" style="color:#FFFFFF"><th>No</th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=sex&guest_sex_sort=<?=$guest_sex_sort?>">郎婦↓</a></th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=guest_type&guest_type_sort=<?=$guest_type_sort?>">区分↓</a></th><th align="center">&nbsp;&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;</th><th align="left">卓名</th></tr>
+					<tr bgcolor="#666666" style="color:#FFFFFF"><th>No</th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=sex&guest_sex_sort=<?=$guest_sex_sort?>">郎婦↓</a></th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=guest_type&guest_type_sort=<?=$guest_type_sort?>">区分↓</a></th><th align="center">&nbsp;&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;</th><th nowrap="nowrap" align="left">卓名</th></tr>
 					<?php
 					$types_guest=array();
 					include("admin/inc/main_dbcon.inc.php");
