@@ -159,14 +159,17 @@
 						
 							
 							var tablediv = $(divid).parent("div").attr("id");
-							var tablename=$("#"+tablediv+" p b a  span").html();
+							
+							//var tablename=$("#"+tablediv+" p b a  span").html();
+							var tabledivtoken = tablediv.split("_");
+						        var tablename=$("#table_"+tabledivtoken[1]+" span").html();
 							var guest_id_table = groupid.split("_");
 							
 							
 							
 						
-							$("#tablename_"+guest_id_table[1]).html(tablename);
-							
+							$("#tablename_"+guest_id_table[1]).html(tablename.slice(0,2));
+						      
 						
 							var tablediv2 = $(draggedDivId).parent("div").attr("id");
 							var tablename2=$("#"+tablediv2+" p b a span").html();
@@ -207,10 +210,12 @@
 						var dropItemid = dropLidArr[1];
 						
 						var tablediv = $(divid).parent("div").attr("id");
-						var tablename=$("#"+tablediv+" p b a span").html();
+						//var tablename=$("#"+tablediv+" p b a span").html();
+						var tabledivtoken = tablediv.split("_");
+					        var tablename=$("#table_"+tabledivtoken[1]+" span").html();
 						var guest_id_table = groupid.split("_");
 						
-						$("#tablename_"+guest_id_table[1]).html(tablename);
+						$("#tablename_"+guest_id_table[1]).html(tablename.slice(0,2));
 						
 						
 						$("#tablename_"+dropItemid).html("");
@@ -242,10 +247,12 @@
 						draggedDivKey = draggedDivId.replace("#","");
 						
 						var tablediv = $(divid).parent("div").attr("id");
-						var tablename=$("#"+tablediv+" p b a span").html();
+						//var tablename=$("#"+tablediv+" p b a span").html();
+						var tabledivtoken = tablediv.split("_");
+					        var tablename=$("#table_"+tabledivtoken[1]+" span").html();
 						var guest_id_table = groupid.split("_");
 						
-						$("#tablename_"+guest_id_table[1]).html(tablename);
+						$("#tablename_"+guest_id_table[1]).html(tablename.slice(0,2));
 						
 						
 						
@@ -270,10 +277,12 @@
 
 						
 						var tablediv = $(divid).parent("div").attr("id");
-						var tablename=$("#"+tablediv+" p b a span").html();
+						//var tablename=$("#"+tablediv+" p b a span").html();
+						var tabledivtoken = tablediv.split("_");
+					        var tablename=$("#table_"+tabledivtoken[1]+" span").html();
 						var guest_id_table = groupid.split("_");
 						
-						$("#tablename_"+guest_id_table[1]).html(tablename);
+						$("#tablename_"+guest_id_table[1]).html(tablename.slice(0,2));
 						
 						
 						
