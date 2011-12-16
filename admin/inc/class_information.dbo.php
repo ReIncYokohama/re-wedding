@@ -242,19 +242,13 @@ class InformationClass extends DBO
 	}
 	function get_editable_condition($plan_info_array)
 	{
-//echo "session";
-//var_dump($_SESSION);
-//echo "info_array";
-//var_dump($plan_info_array);
-		if ($plan_info_array['order'] == 1 && $_SESSION['adminid'] > 0) {  // 追加仕様でホテルスタッフは仮発注時に編集可能
-			return true;
-		}
 		if ($plan_info_array['order'] == 1 && ($plan_info_array['admin_to_pcompany'] == 0 || $plan_info_array['admin_to_pcompany'] == 1)) {  // 追加仕様で「スタッフ画面：仮発注、ユーザ画面：印刷イメージ依頼」で編集不可
 			return false;
 		}
 		if($plan_info_array['admin_to_pcompany']==2) {
 			return true;
 		}
+		
 		if(($plan_info_array['order']<=3 && $plan_info_array['order']>0) || ($plan_info_array['order']==2 && $plan_info_array['admin_to_pcompany']==3))
 		{
 			return false;
@@ -286,17 +280,13 @@ class InformationClass extends DBO
 		 if($extra)
 		 $file = sprintf("%s/user_name/%d/%s/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$extra,$name);
 
-
 		if(is_file($file))
 		{
-     
 			if($opt == "src")
 				return $file;
 			else if($extra)
 			{
-        if($height){
-          return "<img src=\"".$file."\" height='".$height."' />";
-        }
+
 			return "<img src=\"".$file."\" />";
 			}else if($height){
         $file = str_replace("../","",$file);
@@ -305,7 +295,6 @@ class InformationClass extends DBO
 			else
 			{
 				$file = str_replace("../","",$file);
-        exit;
 				return "<img src='../image.php?f=".$file."&w=".$width."' />";
 			}
 		}

@@ -50,8 +50,9 @@ $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
 <script type="text/javascript" src="tmp_js/cufon-yui.js"></script>
 <script type="text/javascript" src="tmp_js/arial.js"></script>
 <script type="text/javascript" src="tmp_js/cuf_run.js"></script>
-<script src="js/jquery-1.4.2.js"></script>
+<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
 <link rel="stylesheet" href="css/base/jquery.ui.all.css">
+<script src="js/jquery-1.4.2.js"></script>
 <script src="js/external/jquery.bgiframe-2.1.1.js"></script>
 <script src="js/ui/jquery.ui.core.js"></script>
 <script src="js/ui/jquery.ui.widget.js"></script>
@@ -114,8 +115,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
             	<div id="inform_user" style="text-align:center; font-size:15px; font-weight:bold; color:#006600;"></div>
                 <div class="logo"> 
                 <div><img src="img/logo.jpg" width="200" height="57" border="0" align="absbottom" />
-		<!-- header message -->
-                <font style="font-size:20px; font-weight:bold; margin-left:130px; color:#0099ff;"> <?php if ($__plan_info['order'] > 0 && $_SESSION['adminid'] > 0) echo "お客様が印刷イメージを依頼中です"; else if (!$__editable && $__jobend==false) echo "印刷イメージ依頼中のため編集できません"; else if (!$__editable && $__jobend==true) echo "印刷依頼済みのため編集できません"; ?></font>
+                <font style="font-size:20px; font-weight:bold; margin-left:130px; color:#0099ff;"> <?php if (!$__editable && $__jobend==false) echo "印刷イメージ依頼中のため編集できません"; else if (!$__editable && $__jobend==true) echo "印刷依頼済みのため編集できません"; ?></font>
                 </div>
 
                 <div style="font-size:11px;height:12px;vertical-align:top;">
@@ -146,18 +146,11 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
                       ダウンロード</a></li>
                     <!--<li><a href="dummy.php">About Me</a></li>-->
                     <li  <?php echo ($tab_user_info==true)?"class='active'":"";?>><a href="user_info.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>お客様情報</a></li>
-<?php
-  if(!$IgnoreMessage){
-?>
                     <li <?php echo ($tab_message==true)?"class='active'":"";?>><a href="<?=$messege_url?>" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>メッセージ</a></li>
-<?php
-  }
-?>
                   </ul>
     		  </div>
   				<div class="clr"></div>
 			</div>
 		</div>
 	</div>
-
 	<div id="main_contents">
