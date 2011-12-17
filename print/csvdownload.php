@@ -615,5 +615,8 @@ $this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
 
 header("Content-Type: application/octet-stream");
 header("Content-Disposition: attachment; filename=${this_name}.csv");
+header("Cache-Control: public");
+header("Pragma: public");
+
 echo $lines;
 ?>

@@ -62,5 +62,8 @@ $lines .= $line;
 
 header("Content-Type: application/octet-stream");
 header("Content-Disposition: attachment; filename=${this_name}.csv");
+header("Cache-Control: public");
+header("Pragma: public");
+
 echo $lines;
 ?>
