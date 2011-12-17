@@ -242,15 +242,13 @@ class InformationClass extends DBO
 	}
 	function get_editable_condition($plan_info_array)
 	{
-		if ($plan_info_array['order'] == 1 && array_key_exists('staff_id',$_SESSION)) {  // 追加仕様でホテルスタッフは仮発注時に編集可能
-			return true;
-		}
 		if ($plan_info_array['order'] == 1 && ($plan_info_array['admin_to_pcompany'] == 0 || $plan_info_array['admin_to_pcompany'] == 1)) {  // 追加仕様で「スタッフ画面：仮発注、ユーザ画面：印刷イメージ依頼」で編集不可
 			return false;
 		}
 		if($plan_info_array['admin_to_pcompany']==2) {
 			return true;
 		}
+		
 		if(($plan_info_array['order']<=3 && $plan_info_array['order']>0) || ($plan_info_array['order']==2 && $plan_info_array['admin_to_pcompany']==3))
 		{
 			return false;
