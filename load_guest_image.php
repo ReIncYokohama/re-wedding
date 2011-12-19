@@ -39,7 +39,7 @@ $(window).load(function() {
     <?php
 
     if(!$_SESSION["tmp_url"]){
-      echo "sleep(2);";
+      echo "sleep(5);";
       $_SESSION["tmp_url"] = 'window.location.href="my_guests.php?'.$message.'=true&page='.$guest_id.'&option='.$option."\";";
       echo "window.location.reload();";
     }else{
