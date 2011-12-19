@@ -402,7 +402,7 @@ direction: ltr;
 <div class="make_plan_main_contents" id="con_area_ie">
   <div id="side_area" sytle="padding-right:0px;width:400px;">
   <div align="right" sytle="width:400px;"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
-  <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:hidden;overflow-y:visible;" >
+  <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:auto;overflow-y:visible;" >
 				<table width="98%">
 				<?php
 				$guest_type_sort=($_GET['guest_type_sort']=='desc' || $_GET['guest_type_sort']=='' )?"asc":"desc";
@@ -752,7 +752,7 @@ $layoutname = $tableData["layoutname"];
                     		?>
                         	<div class="tables" id="tid_<?=$table_row['id']?>" style=" <?=$disp?>margin-left:15px;" >
 
-                                <p align="center" style="text-align:center" id="table_<?=$table_row['id']?>">
+                                <p align="center" style="text-align:center" id="p_<?=$table_row['id']?>">
 
                                     <b>&nbsp;</b>
                                 </p>
