@@ -4,11 +4,11 @@
 include_once("../admin/inc/include_class_files.php");
 include_once("../admin/inc/class_data.dbo.php");
 
-
+/*
 if($_SESSION['printid'] =='')
 {
    redirect("index.php");exit;
-}
+}*/
 
 $obj = new DataClass();
 $objInfo = new InformationClass();
@@ -17,7 +17,7 @@ $get = $obj->protectXSS($_GET);
 
 //test
 $user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
-//$user_id = $_GET["user_id"];
+$user_id = $_GET["user_id"];
 
 if($user_id>0)
 {
@@ -128,11 +128,11 @@ foreach($entityArray as $key=>$values)
 }
 
 
-	$cl2 = implode(",",$cl);
-	$cl2 = $cl2."\n";
-	$line = mb_convert_encoding("$cl2", "SJIS", "UTF8");
-	$lines .= "\n";
-	$lines .= $line."\n"."\n";
+$cl2 = implode(",",$cl);
+$cl2 = $cl2."\n";
+$line = mb_convert_encoding("$cl2", "SJIS", "UTF8");
+$lines .= "\n";
+$lines .= $line."\n"."\n";
 
 $plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
 $plan_row = $obj->GetSingleRow("spssp_plan", " id =".$plan_id);
@@ -346,9 +346,19 @@ foreach($usertblrows as $tblRows)
 	{
 		$tblname = $tblRows['name'];
 	}
-	$z=1;
-	foreach($usertblrows as $usertbldata)
+	
+  $z=1;
+  $sort_usettblrows = array();
+  foreach($usertblrows as $data){
+    $index = ($z%2==1)?($z+1)/2:count($usertblrows)/2+$z/2;
+    $sort_usettblrows[(int)$index] = $data;
+    $z+=1;
+  }
+  $z=1;
+	for($i=1;$i<=count($sort_usettblrows);++$i)
 	{
+    $usertbldata = $sort_usettblrows[$i];
+    
 		//echo "<pre>";print_r($usertbldata);
 		$guesttblrows = $obj->getRowsByQuery("select * from spssp_plan_details where seat_id = ".(int)$usertbldata['id']." and plan_id = ".$plan_id." order by id ASC");
     //$guesttblrows = $obj->getRowsByQuery("select * from spssp_plan_details where seat_id = ".(int)$usertbldata['id']." order by id ASC");
@@ -358,8 +368,10 @@ foreach($usertblrows as $tblRows)
 		//TableNumber
 		if(!empty($guest_info))
 			$value = chop($o);
-		else
+		else{
+      $z+=1;
       continue;
+    }
 			//$value = chop("-1");
 
     $query_string = "SELECT * FROM spssp_gaizi_detail_for_guest WHERE guest_id = '".$guesttblrows[0]['guest_id']."'";
@@ -373,12 +385,14 @@ foreach($usertblrows as $tblRows)
 		$value = chop($tblname);
 		//$value = chop("table".$o);
 		$cl22[] = "$value";
+    
 		//SeatNumber
+    
 		$value = chop($z);//////"seat ".
 		$cl22[] = "$value";
 		if($z%$room_seats==0)
 		{
-			$z=1;
+			$z=0;
 		}
 
 		//LastName
@@ -616,11 +630,7 @@ $user_id_name="0".$user_info['id'];
 $version = $obj->get_download_num($user_id,$_SESSION["adminid"]+1000);
 $this_name = $HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
 $this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
-//exit;
 
-//echo "<pre>";
-//print_r($entityArrayGuests);
-//exit;
 
 header("Content-Type: application/octet-stream");
 header("Content-Disposition: attachment; filename=${this_name}.csv");
