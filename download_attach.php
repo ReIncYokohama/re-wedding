@@ -18,7 +18,8 @@ if ($fd = fopen ($fullPath, "r")) {
         header("Content-Disposition: filename=\"".$path_parts["basename"]."\"");
     }
     header("Content-length: $fsize");
-    header("Cache-control: private"); //use this to open files directly
+    header("Cache-Control: public");
+    header("Pragma: public");
     while(!feof($fd)) {
         $buffer = fread($fd, 2048);
         echo $buffer;
