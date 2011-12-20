@@ -47,7 +47,6 @@ function setDeleteGaiji(gaiji_obj){
       //if(event.keyCode==13) return;
       //alert(event.keyCode);
       nowGaijiIndex = $j(target).getForcusIndex();
-	  //alert(nowGaijiIndex);
           //alert(nowGaijiIndex);
       if(event.keyCode == 8){
         if(nowgaiji < gaiji){
@@ -106,9 +105,8 @@ function set_gaiji(name,target_ele,input_ele,img_ele,img,gid,gsid,img_link){
   if(!img_link) img_link = "..";
   var mark = "＊";
   var nametext = $("#"+target_ele).val();
-  //alert(img_ele+','+textNum);
   var textNum = text_num(nametext,mark,nowGaijiIndex);
-  //alert(textNum);
+  alert(textNum);
   var children = $j("#"+input_ele).children();
   var nowIndex = 0;
   for(var i=0;i<children.length;++i){
@@ -124,9 +122,7 @@ function set_gaiji(name,target_ele,input_ele,img_ele,img,gid,gsid,img_link){
   $j("#"+input_ele).appendIndex("<input type='hidden' name='"+name+"_gaiji_img["+nowIndex+"]' value='"+img+"'>",textNum*2);
   $j("#"+input_ele).appendIndex("<input type='hidden' name='"+name+"_gaiji_gid["+nowIndex+"]' value='"+gid+"'>",textNum*2);
   //$("#"+input_ele).appendIndex("<input type='hidden' name='"+name+"_gaiji_gsid["+nowIndex+"]' value='"+gsid+"'>",textNum*2);
-  //alert(img_ele+','+nowGaijiIndex);
   $j("#"+img_ele).appendIndex("<img src='"+img_link+"/gaiji-image/img_ans/"+img+"' wight='20' height='20'>",textNum);
-  //$j("#"+img_ele).appendIndex("<img src='"+img_link+"/gaiji-image/img_ans/"+img+"' wight='20' height='20'>",nowGaijiIndex);
 
   $j("#"+target_ele).attr("value", append_text(nametext,mark,nowGaijiIndex));
 }

@@ -751,7 +751,6 @@ $layoutname = $tableData["layoutname"];
                 }
                     		?>
                         	<div class="tables" id="tid_<?=$table_row['id']?>" style=" <?=$disp?>margin-left:15px;" >
-
                                 <p align="center" style="text-align:center" id="p_<?=$table_row['id']?>">
 
                                     <b>&nbsp;</b>

@@ -185,19 +185,9 @@ function append_text(parent,insert,index){
     return parent.substr(0,index)+insert+parent.substr(index);
 }
 function text_num(str,text,num){
-    //alert(str+','+text+','+num);
-	var returnnum = 0;
-	var i=0;
-	num = parseInt(num);
-	var t = text;
-    for(i;i<num;++i){
-        //alert('loop test');
-		var y = str[i];
-		if(str.charAt(i) == t) 
-		{
-			//alert('test');
-			returnnum=parseInt(returnnum)+1; 
-		}
+    var returnnum = 0;
+    for(var i=0;i<num;++i){
+        if(str[i]==text) ++returnnum; 
     }
     return returnnum;
 }
