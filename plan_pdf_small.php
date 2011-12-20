@@ -12,7 +12,7 @@ $user_id = (int)$_SESSION['userid'];
 if($user_id=="")
   $user_id = (int)$_GET['user_id'];
 
-$max_width = 1500;
+
 function get_center_table($max_width,$width,$html){
   $margin = floor((100*(($max_width-$width)/$max_width))*10/2)/10;
   $main_margin = floor((100-$margin*2)*10)/10;
@@ -31,11 +31,14 @@ if($plan_row['print_size'] == 1)
 if($plan_row['print_size'] == 2)
   $PDF_PAGE_FORMAT_USER="B4";
 
-if($plan_row['print_type'] == 1)
+if($plan_row['print_type'] == 1){
   $PDF_PAGE_ORIENTATION_USER="L";
-if($plan_row['print_type'] == 2)
+  $max_width = 1500;
+  $max_width_num = 39;
+}else if($plan_row['print_type'] == 2){{}
   $PDF_PAGE_ORIENTATION_USER="P";
-
+  $max_width = 900;
+}
 
 if($PDF_PAGE_ORIENTATION_USER=="P" && $PDF_PAGE_FORMAT_USER=="B4")
   {
@@ -87,7 +90,7 @@ $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 //set auto page breaks
 //$pdf->SetAutoPageBreak(True, PDF_MARGIN_BOTTOM);
-$pdf->SetAutoPageBreak( true, 0);
+$pdf->SetAutoPageBreak( false, 0);
 $pdf->SetHeaderMargin(0);
 $pdf->SetMargins(8,8,8);
 
@@ -316,6 +319,11 @@ $html.='<table cellspacing="0" cellspadding="0" width="100%" style="font-size:'.
 
 $table_data = $obj->get_table_data_detail($user_id);
 
+//rows[0]columns[0]seats[0]
+function get_table_html(){
+  
+}
+
 $seat_num = $table_data["seat_num"];
 $seat_row = $seat_num/2;
 $table_heigth = ($seat_row+1)*20;
@@ -348,9 +356,12 @@ for($i=0;$i<count($table_data["rows"]);++$i){
 
 $html .="</table>";
 
+
+
+
 $samplefile="sam_".$plan_id."_".rand()."_".time().".txt";
-//print $html;
-//exit;
+print $html;
+exit;
 
 
 $handle = fopen("cache/".$samplefile, "x");
