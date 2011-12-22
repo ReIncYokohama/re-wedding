@@ -3,21 +3,17 @@
 @session_start();
 include_once("../admin/inc/include_class_files.php");
 include_once("../admin/inc/class_data.dbo.php");
-
-/*
 if($_SESSION['printid'] =='')
 {
    redirect("index.php");exit;
-}*/
+}
 
 $obj = new DataClass();
 $objInfo = new InformationClass();
 $this_name = $HOTELID;
 $get = $obj->protectXSS($_GET);
 
-//test
 $user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
-$user_id = $_GET["user_id"];
 
 if($user_id>0)
 {
@@ -32,7 +28,6 @@ else
 
 $lines = mb_convert_encoding("headers\n", "SJIS", "UTF8");
 $entityArray2 = array("ホテル名,挙式日,挙式時間,挙式会場,披露宴日,披露宴時間,披露宴会場,新郎姓名,新郎姓名ふりがな,新婦姓名,新婦姓名ふりがな,商品区分,商品名,席次表サイズ,席次表配置,字形,データ出力日時,プランナー名,高砂卓名,卓レイアウト列数,卓レイアウト段数,卓色,一卓最大人数,合計人数");
-
 $entity=implode(",",$entityArray2);
 $entity = mb_convert_encoding("$entity", "SJIS", "UTF8");
 $lines .= <<<html
@@ -98,7 +93,9 @@ $default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," o
 
 $entityArray['HotelName']			= $hotel_name;
 $entityArray['WeddingDate']			= ($user_info['marriage_day']=="0000-00-00")?"":strftime('%Y年%m月%d日',strtotime($user_info['marriage_day']));
+
 $entityArray['WeddingTime']			= ($user_info['marriage_day_with_time']=="00:00:00")?"":mb_substr($user_info['marriage_day_with_time'],0,5);
+
 $entityArray['WeddingVenues']		= $party_room_info['name'];
 $entityArray['ReceptionDate']		= strftime('%Y年%m月%d日',strtotime($user_info['party_day']));
 $entityArray['ReceptionTime']		= mb_substr($user_info['party_day_with_time'],0,5);
@@ -170,6 +167,7 @@ $entityArraytable=implode(",",$entityArraytable);
 $entitytable = mb_convert_encoding("$entityArraytable", "SJIS", "UTF8");
 
 $lines .= mb_convert_encoding("tables\n", "SJIS", "UTF8");
+
 $lines .= <<<html
 $entitytable
 html;
@@ -279,6 +277,7 @@ $entityArrayGuests = array("テーブル番号,テーブル名,座席番号,姓,
 
 $entityArrayGuests=implode(",",$entityArrayGuests);
 $entityGuests = mb_convert_encoding($entityArrayGuests, "SJIS", "UTF8");
+
 $lines .= mb_convert_encoding("guests\n", "SJIS", "UTF8");
 $lines .= <<<html
 $entityGuests
@@ -385,9 +384,7 @@ foreach($usertblrows as $tblRows)
 		$value = chop($tblname);
 		//$value = chop("table".$o);
 		$cl22[] = "$value";
-    
 		//SeatNumber
-    
 		$value = chop($z);//////"seat ".
 		$cl22[] = "$value";
 		if($z%$room_seats==0)
@@ -630,7 +627,6 @@ $user_id_name="0".$user_info['id'];
 $version = $obj->get_download_num($user_id,$_SESSION["adminid"]+1000);
 $this_name = $HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
 $this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
-
 
 header("Content-Type: application/octet-stream");
 header("Content-Disposition: attachment; filename=${this_name}.csv");
