@@ -1,6 +1,8 @@
 <?php
 session_start();
-header("Content-type: text/html; charset=utf-8");
+
+//header("Content-type: text/html; charset=utf-8");
+
 include_once("admin/inc/dbcon.inc.php");
 include_once("admin/inc/class.dbo.php");
 

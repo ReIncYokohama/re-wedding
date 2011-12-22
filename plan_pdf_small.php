@@ -68,6 +68,9 @@ $pdf->SetTitle('TCPDF Example 006');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
+//文字列コピー禁止、編集禁止
+$pdf->SetProtection(array('copy'));
+
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
 

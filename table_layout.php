@@ -1,11 +1,12 @@
 <?php
-	include_once("admin/inc/class_information.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	$obj = new DBO();
-	$objInfo = new InformationClass();
-	$get = $obj->protectXSS($_GET);
-	$user_id = (int)$_SESSION['userid'];
-	include_once("inc/new.header.inc.php");
+include_once("admin/inc/class_information.dbo.php");
+include_once("inc/checklogin.inc.php");
+$obj = new DBO();
+$objInfo = new InformationClass();
+$get = $obj->protectXSS($_GET);
+$user_id = (int)$_SESSION['userid'];
+$tab_table_layout = true;
+include_once("inc/new.header.inc.php");
 
 	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
 	$num_layouts = $obj->GetNumRows("spssp_table_layout","user_id= ".(int)$user_id);

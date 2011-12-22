@@ -3,21 +3,17 @@
 @session_start();
 include_once("../admin/inc/include_class_files.php");
 include_once("../admin/inc/class_data.dbo.php");
-
-/*
 if($_SESSION['printid'] =='')
 {
    redirect("index.php");exit;
-}*/
+}
 
 $obj = new DataClass();
 $objInfo = new InformationClass();
 $this_name = $HOTELID;
 $get = $obj->protectXSS($_GET);
 
-//test
 $user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
-$user_id = $_GET["user_id"];
 
 if($user_id>0)
 {
@@ -170,6 +166,7 @@ $entityArraytable=implode(",",$entityArraytable);
 $entitytable = mb_convert_encoding("$entityArraytable", "SJIS", "UTF8");
 
 $lines .= mb_convert_encoding("tables\n", "SJIS", "UTF8");
+
 $lines .= <<<html
 $entitytable
 html;
@@ -279,6 +276,7 @@ $entityArrayGuests = array("テーブル番号,テーブル名,座席番号,姓,
 
 $entityArrayGuests=implode(",",$entityArrayGuests);
 $entityGuests = mb_convert_encoding($entityArrayGuests, "SJIS", "UTF8");
+
 $lines .= mb_convert_encoding("guests\n", "SJIS", "UTF8");
 $lines .= <<<html
 $entityGuests
@@ -385,9 +383,9 @@ foreach($usertblrows as $tblRows)
 		$value = chop($tblname);
 		//$value = chop("table".$o);
 		$cl22[] = "$value";
-    
+
 		//SeatNumber
-    
+
 		$value = chop($z);//////"seat ".
 		$cl22[] = "$value";
 		if($z%$room_seats==0)
@@ -630,7 +628,6 @@ $user_id_name="0".$user_info['id'];
 $version = $obj->get_download_num($user_id,$_SESSION["adminid"]+1000);
 $this_name = $HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
 $this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
-
 
 header("Content-Type: application/octet-stream");
 header("Content-Disposition: attachment; filename=${this_name}.csv");

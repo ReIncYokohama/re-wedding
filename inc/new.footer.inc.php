@@ -9,5 +9,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     		  Copyright (C) 株式会社サンプリンティングシステム  ALL Rights reserved.</div>
 	</div>
 </div>
+
+
 </body>
 </html>
