@@ -7,6 +7,7 @@ include_once("admin/inc/class_information.dbo.php");
 include_once("admin/inc/class_data.dbo.php");
 include_once("inc/gaiji.image.wedding.php");
 
+
 $obj = new DataClass();	
 $objInfo = new InformationClass();
 $user_id = (int)$_SESSION['userid'];
@@ -40,12 +41,13 @@ if($plan_row['print_size'] == 1){
   $PDF_PAGE_FORMAT_USER="A3";
 }
 if($plan_row['print_size'] == 2)
-  $PDF_PAGE_FORMAT_USER="B4";
+  $PDF_PAGE_FORMAT_USER="A3";
 
 if($plan_row['print_type'] == 1)
   $PDF_PAGE_ORIENTATION_USER="L";
 if($plan_row['print_type'] == 2)
   $PDF_PAGE_ORIENTATION_USER="P";
+
 
 //echo $PDF_PAGE_ORIENTATION_USER; exit;
 if($PDF_PAGE_ORIENTATION_USER=="P" && $PDF_PAGE_FORMAT_USER=="B4")
@@ -782,7 +784,7 @@ if(!empty($arr2)){
 		//print_r($arr2);
 		//echo '</pre>';
 	//echo count($arr2); exit;	
-	$html.="<tr><td colspan=\"2\" style=\"height:200px;\"></td></tr>";
+	$html.="<tr><td colspan=\"2\" style=\"height:170px;\"></td></tr>";
 	$html.= "<tr>";
 	$fg = count($arr2);
 	
@@ -2449,7 +2451,7 @@ echo '</pre>';  exit;*/
 $j=1; $k=0;	
 if(!empty($arr2)){
 	
-	$html.="<tr><td colspan=\"2\" style=\"height:".$height_f.";\"></td></tr>";
+	$html.="<tr><td colspan=\"2\" style=\"height:210px;\"></td></tr>";
 	
 	foreach($arr2 as $tblrow){
 		
