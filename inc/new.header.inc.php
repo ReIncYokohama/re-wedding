@@ -146,7 +146,12 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
                       ダウンロード</a></li>
                     <!--<li><a href="dummy.php">About Me</a></li>-->
                     <li  <?php echo ($tab_user_info==true)?"class='active'":"";?>><a href="user_info.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>お客様情報</a></li>
+
+<?php  if(!$IgnoreMessage){
+?>
                     <li <?php echo ($tab_message==true)?"class='active'":"";?>><a href="<?=$messege_url?>" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>メッセージ</a></li>
+                       <?php  }
+?>
                   </ul>
     		  </div>
   				<div class="clr"></div>
