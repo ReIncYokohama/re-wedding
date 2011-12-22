@@ -112,6 +112,7 @@
 <script type="text/javascript" src="tmp_js/arial.js"></script>
 <script type="text/javascript" src="tmp_js/cuf_run.js"></script>
 <link rel="stylesheet" href="css/base/jquery.ui.all.css">
+<!--script src="js/jquery-1.6.4.js"></script-->
 <script src="js/jquery-1.7.1.min.js"></script>
 <script src="js/external/jquery.bgiframe-2.1.1.js"></script>
 <script src="js/ui/jquery.ui.core.js"></script>
