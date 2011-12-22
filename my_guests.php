@@ -680,7 +680,7 @@ if($editable)
   {
     ?>
 
-    <div id="newgustform" style="width:873px; min-height:100px; padding-top:5px; display:block">
+    <div id="newgustform" style="width:873px; margin:auto;min-height:100px; padding-top:5px; display:block">
     ■ 招待者名を入力のうえ、各項目の情報を入力してください。<br />
     　<font color="red">*</font>の付いた項目は必須です。
     <?php 
@@ -689,7 +689,7 @@ if($editable)
       <form id="newguest" name="newguest" method="post" action="new_guest.php?page=<?=$_GET['page']?><?=$op?>">
 	 <input type="hidden" name="id" id="id" value="<?=$_GET['gid']?>" />
   
-<table width="873" border="0" cellspacing="0" cellpadding="0">
+<table width="873" border="0" cellspacing="2" cellpadding="2">
   <tr>
     <td width="90" align="right" valign="bottom" nowrap="nowrap">&nbsp;</td>
     <td width="100" align="left" valign="bottom">&nbsp;</td>
