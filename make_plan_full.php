@@ -207,7 +207,7 @@ if($objInfo->get_editable_condition($plan_row))
   width:1220px;
 }
 .make_plan_main_left{
-  width:270px;
+/*  width:270px;*/
   float:left;
 }
 .make_plan_main_right{
@@ -297,6 +297,22 @@ var button_enable="<?=$button_enable?>";
 		}
 	}
 }
+
+function confirmBack(){
+	if(edited_Flag==1){
+		if(confirm("内容が変更されています。保存しても宜しいですか？")){
+			$.post('ajax/insert_plan.php',{'make_plan':'true'}, function (data){
+					return true;
+				});
+		}else{
+			$.post('ajax/unset_plan.php',{'make_plan':'true'}, function (data){
+					return true;
+				});
+		}
+	}
+	window.location = 'make_plan.php';
+}
+
 </script>
 <style>
 .rows
@@ -385,8 +401,8 @@ direction: ltr;
 </div>
 
 <div class="make_plan_main_contents" id="con_area_ie">
-  <div id="side_area" sytle="padding-right:0px;width:350px;">
-  <div align="right"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
+  <div id="side_area" sytle="padding-right:0px;width:400px;">
+  <div align="right" sytle="width:400px;"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
   <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:auto;overflow-y:visible;" >
 				<table width="98%">
 				<?php
@@ -589,7 +605,7 @@ if($objInfo->get_editable_condition($plan_row))
 <?php
   }
 ?>
-<image src="img/btn_back_user.jpg" id="button" onclick="javascript:window.location = 'make_plan.php';"/>
+<image src="img/btn_back_user.jpg" id="button" onclick="confirmBack();"/>
             </div>
 			<?php
 
@@ -736,8 +752,7 @@ $layoutname = $tableData["layoutname"];
                 }
                     		?>
                         	<div class="tables" id="tid_<?=$table_row['id']?>" style=" <?=$disp?>margin-left:15px;" >
-
-                                <p align="center" style="text-align:center" id="table_<?=$table_row['id']?>">
+                                <p align="center" style="text-align:center" id="p_<?=$table_row['id']?>">
 
                                     <b>&nbsp;</b>
                                 </p>
