@@ -396,7 +396,7 @@ img{
 column
 ---------------------------------------------------------*/
 #contents_wrapper {
-	width:1070px;
+	width:1180px;
 	margin-right: auto;
 	margin-left: auto;
 }
@@ -406,7 +406,7 @@ column
 	margin-bottom: 10px;
 }
 #contents_right {
-	width:875px;
+	width:915px;
 	float: left;
 	padding-left: 20px;
 }
