@@ -240,12 +240,29 @@ class InformationClass extends DBO
 			return false;
 		}
 	}
+  function get_sekizihyo_edit_term($plan_info_array){
+    
+    //席次表編集期間を過ぎているかどうか判定
+    $user_row = $this->GetSingleRow("spssp_user"," id= ".$plan_info_array["user_id"]);
+    $dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $user_row["limitation_ranking"] , $flag=2 );
+    $dateArray = explode("/",$dateBeforeparty);
+    $limit_mktime = mktime(0,0,0,$dateArray[1],$dateArray[2],$dateArray[0]);
+    if($limit_mktime<mktime()){
+      return false;
+    }
+    return true;
+    
+  }
 	function get_editable_condition($plan_info_array)
 	{
 		/*if ($plan_info_array['order'] == 1 && $_SESSION['adminid'] > 0) {  // 追加仕様でホテルスタッフは仮発注時に編集可能
 
 			return true;
     }*/
+    if(!$this->get_sekizihyo_edit_term($plan_info_array)){
+      return false;
+    }
+
     if($plan_info_array['admin_to_pcompany']==2) {
 			return true;
 		}
