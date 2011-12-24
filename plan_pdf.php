@@ -73,16 +73,16 @@ if($PDF_PAGE_ORIENTATION_USER=="L" && $PDF_PAGE_FORMAT_USER=="A3")
     $main_font_size="40px";
     $main_font_size_top="28px";
     $main_font_size_count="18px";
-	$width_f = 280;
+	$width_f = 285;
 	$height_f = 250;
-	$height_f1 = 190;
+	$height_f1 = 210;
   }
 if($PDF_PAGE_ORIENTATION_USER=="P" && $PDF_PAGE_FORMAT_USER=="A3")
   {
     $main_font_size="30px";
     $main_font_size_top="20px";
     $main_font_size_count="13px";
-	$width_f = 280;
+	$width_f = 290;
 	$height_f = 250;
 	$height_f1 = 230;
   }
@@ -553,7 +553,7 @@ echo '</pre>';  exit;*/
 			$html.="<td width=\"150\" height=\"120\" align=\"center\"></td>";
 		}
 		
-		$html.="<td width=\"300\" align=\"center\"><table width=\"300\">";
+		$html.="<td width=\"300\" align=\"center\"><table width=\"340\">";
 		
 		
 		//if($table_width!=100)
@@ -601,7 +601,7 @@ echo '</pre>';  exit;*/
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=\"".$width_f."\" height=\"".$height_f1."\"><table width=\"100%\">";
+			$html.="<td width=\"370\" height=\"".$height_f1."\" style=\"width:370px;\"><table width=\"100%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -2179,7 +2179,7 @@ $html.="</table>";
 
 //$html.='<tr><td>&nbsp;</td><td>&nbsp;</td><td><table style="border:1px solid black;padding:10px;"><tr><td align="center"  valign="middle" style="text-align:center;">'.$layoutname.'</td></tr></table></td><td>&nbsp;</td><td>&nbsp;</td></tr></table><br/>';
 
-$html.='<table width="100%" style="font-size:'.$main_font_size.';" align="center" style="text-align:center">';
+$html.='<table width="100%" style="font-size:'.$main_font_size.';" align="center" style="text-align:center;">';
 
 $table_data = $obj->get_table_data_detail($user_id);
 
@@ -2234,9 +2234,9 @@ echo '</pre>';  exit;*/
       }
     
     if($table_width != 100)
-		  $html.="<td width=\"".$table_width."%\" align=\"center\" ><br/><br/><br/><table align=\"center\"  width=\"100%\"><tr>";
+		  $html.="<td width=\"".$table_width."%\" ><table  width=\"100%\"><tr>";
     else 
-      $html.="<td width=\"".$table_width."%\" align=\"center\" colspan=\"0\"><br/><br/><br/><table align=\"center\" width=\"100%\"><tr>";
+      $html.="<td width=\"".$table_width."%\" colspan=\"0\"><table width=\"100%\"><tr>";
 
     $number=0;
 	$k=1;	
@@ -2275,7 +2275,7 @@ echo '</pre>';  exit;*/
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=\"".$width_f."\" height=\"".$height_f1."\"><table width=\"85%\" style=\"margin-left:15%\">";
+			$html.="<td width=\"".$width_f."\" height=\"".$height_f1."\" style=\"width:".$width_f."px;\"><table width=\"100%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -2348,7 +2348,7 @@ echo '</pre>';  exit;*/
                       {
                         $middle_string="";
 								
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
                 
                         //52.63
                         $html2.="<td width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
@@ -2359,7 +2359,7 @@ echo '</pre>';  exit;*/
                       {
 								
                         $middle_string="";
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
 						
                         //47.37
                         $html2.="<td  width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
@@ -2451,7 +2451,7 @@ echo '</pre>';  exit;*/
 $j=1; $k=0;	
 if(!empty($arr2)){
 	
-	$html.="<tr><td colspan=\"2\" style=\"height:210px;\"></td></tr>";
+	$html.="<tr><td colspan=\"2\" style=\"height:100px;\"></td></tr>";
 	
 	foreach($arr2 as $tblrow){
 		
@@ -2495,9 +2495,9 @@ echo '</pre>';  exit;*/
       }
     
     if($table_width != 100)
-		  $html.="<td width=\"".$table_width."%\" align=\"center\" style=\"text-align:center;\" ><table align=\"center\"  style=\"width:290px;\"><tr>";
+		  $html.="<td width=\"".$table_width."%\" style=\"text-align:center;\" ><table  style=\"width:290px;\"><tr>";
     else 
-      $html.="<td width=\"".$table_width."%\" colspan=\"0\" align=\"center\" style=\"text-align:center;\" ><table align=\"center\"  style=\"width:290px;\"><tr>";
+      $html.="<td width=\"".$table_width."%\" colspan=\"0\" style=\"text-align:center;\" ><table  style=\"width:290px;\"><tr>";
 
     $number=0;
 	$k=1;	
@@ -2535,7 +2535,7 @@ echo '</pre>';  exit;*/
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=\"".$width_f."\" height=\"".$height_f."\"><table width=\"85%\" style=\"margin-left:15%\">";
+			$html.="<td width=\"".$width_f."\" height=\"".$height_f."\" style=\"width:".$width_f."px;\"><table width=\"100%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -2608,7 +2608,7 @@ echo '</pre>';  exit;*/
                       {
                         $middle_string="";
 								
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
                 
                         //52.63
                         $html2.="<td width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
@@ -2619,7 +2619,7 @@ echo '</pre>';  exit;*/
                       {
 								
                         $middle_string="";
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
 						
                         //47.37
                         $html2.="<td  width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
@@ -2629,6 +2629,7 @@ echo '</pre>';  exit;*/
                     $guest_num++;
                   }
                 else
+
                   {
 						
                     $html2.="<td style=\"width:50%;height:20px;\" >&nbsp;</td>";
@@ -2818,7 +2819,7 @@ echo '</pre>';  exit;*/
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=".$width_f." height=\"".$height_f."\"><table width=\"85%\" style=\"margin-left:15%\">";
+			$html.="<td width=\"".$width_f."\" height=\"".$height_f."\" style=\"width:".$width_f."px;\"><table width=\"100%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -2891,7 +2892,7 @@ echo '</pre>';  exit;*/
                       {
                         $middle_string="";
 								
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
                 
                         //52.63
                         $html2.="<td width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
@@ -2902,7 +2903,7 @@ echo '</pre>';  exit;*/
                       {
 								
                         $middle_string="";
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
 						
                         //47.37
                         $html2.="<td  width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
@@ -2912,6 +2913,7 @@ echo '</pre>';  exit;*/
                     $guest_num++;
                   }
                 else
+
                   {
 						
                     $html2.="<td style=\"width:50%;height:20px;\" >&nbsp;</td>";
@@ -3105,7 +3107,7 @@ echo '</pre>';  exit;*/
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=".$width_f." height=\"".$height_f."\"><table width=\"85%\" style=\"margin-left:15%\">";
+			$html.="<td width=\"".$width_f."\" height=\"".$height_f."\" style=\"width:".$width_f."px;\"><table width=\"100%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -3178,7 +3180,7 @@ echo '</pre>';  exit;*/
                       {
                         $middle_string="";
 								
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
                 
                         //52.63
                         $html2.="<td width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
@@ -3189,7 +3191,7 @@ echo '</pre>';  exit;*/
                       {
 								
                         $middle_string="";
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
 						
                         //47.37
                         $html2.="<td  width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
@@ -3199,6 +3201,7 @@ echo '</pre>';  exit;*/
                     $guest_num++;
                   }
                 else
+
                   {
 						
                     $html2.="<td style=\"width:50%;height:20px;\" >&nbsp;</td>";
@@ -3397,7 +3400,7 @@ echo '</pre>';  exit;*/
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=".$width_f." height=\"".$height_f."\"><table width=\"85%\" style=\"margin-left:15%\">";
+			$html.="<td width=\"".$width_f."\" height=\"".$height_f."\" style=\"width:".$width_f."px;\"><table width=\"100%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -3470,7 +3473,7 @@ echo '</pre>';  exit;*/
                       {
                         $middle_string="";
 								
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
                 
                         //52.63
                         $html2.="<td width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
@@ -3481,7 +3484,7 @@ echo '</pre>';  exit;*/
                       {
 								
                         $middle_string="";
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
 						
                         //47.37
                         $html2.="<td  width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
@@ -3491,6 +3494,7 @@ echo '</pre>';  exit;*/
                     $guest_num++;
                   }
                 else
+
                   {
 						
                     $html2.="<td style=\"width:50%;height:20px;\" >&nbsp;</td>";
@@ -3684,7 +3688,7 @@ echo '</pre>';  exit;*/
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=".$width_f." height=\"".$height_f."\"><table width=\"85%\" style=\"margin-left:15%\">";
+			$html.="<td width=\"".$width_f."\" height=\"".$height_f."\" style=\"width:".$width_f."px;\"><table width=\"100%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -3757,7 +3761,7 @@ echo '</pre>';  exit;*/
                       {
                         $middle_string="";
 								
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
                 
                         //52.63
                         $html2.="<td width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
@@ -3768,7 +3772,7 @@ echo '</pre>';  exit;*/
                       {
 								
                         $middle_string="";
-                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
 						
                         //47.37
                         $html2.="<td  width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
@@ -3778,6 +3782,7 @@ echo '</pre>';  exit;*/
                     $guest_num++;
                   }
                 else
+
                   {
 						
                     $html2.="<td style=\"width:50%;height:20px;\" >&nbsp;</td>";
