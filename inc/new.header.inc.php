@@ -32,7 +32,7 @@ $__plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['user
 $__editable=$objInfo->get_editable_condition($__plan_info);
 $__sekizihyo_edit_term = $objInfo->get_sekizihyo_edit_term($__plan_info);
 $__jobend=false;
-if ($__plan_info['admin_to_pcompany']==3) $__jobend=true;
+if ($__plan_info['admin_to_pcompany']==3 || $__plan_info['order']==2) $__jobend=true;
 ?>
 
 <?php
