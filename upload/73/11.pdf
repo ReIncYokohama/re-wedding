@@ -1,6 +1,0 @@
-   <a href="http://twitter.com/share" class="twitter-share-button"
-    data-url="http://dev.twitter.com/pages/tweet_button"
-    data-via="twitterapi"
-    data-text="#hello"
-    data-related="anywhere:The Javascript API"
-    data-count="vertical">Tweet</a>
