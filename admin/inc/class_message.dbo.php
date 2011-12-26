@@ -571,7 +571,7 @@ hotel  1のとき、ホテルユーザ用のお知らせ。0のとき、ユー�
 	      $man_name = $this->get_user_name_image_or_src($user_info['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
 	      $woman_name = $this->get_user_name_image_or_src($user_info['id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
 	      $party_day = $this->getMonthAndDate($user_info["party_day"]);
-	      $text .= "<li><a href='user_dashboard.php?user_id=".$logs_arr[$i]["user_id"]."' target='_blank'>".$party_day
+	      $text .= "<li><a href='user_dashboard.php?src=my_guests&user_id=".$logs_arr[$i]["user_id"]."' target='_blank'>".$party_day
 	        ." ".$man_name."・".$woman_name
 	        ."様の招待客リストデータがアップロードされました。</a></li>";
 	      }
