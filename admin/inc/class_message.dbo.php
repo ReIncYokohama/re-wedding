@@ -578,7 +578,7 @@ hotel  1のとき、ホテルユーザ用のお知らせ。0のとき、ユー�
     $results = $this->getRowsByQuery("select * from guest_csv_upload_log where hotel=1 and user_id=".$user_id);
     for($i=0;$i<count($results);++$i){
       $plan_info = $this->GetSingleRow("spssp_plan"," user_id = ".$results[$i]["user_id"]);
-      if($plan_info["staff_id"]==$_SESSION["staff_id"]) continue;
+      if($plan_info["staff_id"]!=$_SESSION["staff_id"]) continue;
       $this->UpdateData("guest_csv_upload_log",array("state" => 0)," id = '".$results[$i]["id"]."'");
     }
   }
