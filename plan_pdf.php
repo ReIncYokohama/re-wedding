@@ -36,12 +36,7 @@ $plan_row = $obj->GetSingleRow("spssp_plan"," id =".$plan_id);
 
 $PDF_PAGE_FORMAT_USER=PDF_PAGE_FORMAT;
 $PDF_PAGE_ORIENTATION_USER=PDF_PAGE_ORIENTATION;
-
-if($plan_row['print_size'] == 1){
-  $PDF_PAGE_FORMAT_USER="A3";
-}
-if($plan_row['print_size'] == 2)
-  $PDF_PAGE_FORMAT_USER="A3";
+$PDF_PAGE_FORMAT_USER="A3";
 
 if($plan_row['print_type'] == 1)
   $PDF_PAGE_ORIENTATION_USER="L";
@@ -131,7 +126,7 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 $pdf->setLanguageArray($l);
 
 // ---------------------------------------------------------
-$pdf->SetProtection(array("copy"));
+
 // set font
 //$pdf->SetFont('dejavusans', '', 10);
 //$pdf->SetFont('arialunicid0', '', 12);
