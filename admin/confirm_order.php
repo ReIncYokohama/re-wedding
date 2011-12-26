@@ -94,6 +94,12 @@ window.onkeydown = function(event) {
     <input type="button" value="キャンセル" name="submit" onClick="cl2('CANCEL')" onkeydown="if (event.keyCode == 13) { cl2('CANCEL'); }">
     <input type="hidden" name="update" value="update" />
     </form>
+<?php if ($busuu==1 || $busuu==3) { ?>
     <script type="text/javascript"> document.seki_input.sekiji.focus(); </script>
+<?php } 
+if ($busuu==2) {
+?>
+    <script type="text/javascript"> document.seki_input.sekifuda.focus(); </script>
+<?php } ?>
 </body>
 </html>
