@@ -312,7 +312,7 @@ function user_timeout() {
 			if($_readonly){
 				echo $user_table_row['name'];
 			}else{
-				printf("<input name=\"tableName_%d\" type=\"text\" id=\"tableId_%d>\" value=\"%s\" size=\"15\" style=\"border-style: inset;\" %s onChange=\"setChangeAction()\" onkeydown=\"keyDwonAction(event)\" onClick=\"clickAction()\"/>",$k,$k,$user_table_row['name'],$_readonly);
+				printf("<input name=\"tableName_%d\" type=\"text\" id=\"tableId_%d\" value=\"%s\" size=\"15\" style=\"border-style: inset;\" %s onChange=\"setChangeAction()\" onkeydown=\"keyDwonAction(event)\" onClick=\"clickAction()\"/>",$k,$k,$user_table_row['name'],$_readonly);
 			}
 		   ?>
 		   <input name="hiddenid_<?=$k?>" type="hidden" id="hiddenid_<?=$k?>" value="<?=$user_table_row['id']?>" size="15" />
