@@ -265,8 +265,7 @@ class MessageClass extends InformationClass
 		if($this :: sekiji_day_limit_over_check_for_all_users($user_id) && $user_plan_info['order'] < 2) // UCHIDA EDIT 11/08/15 印刷ＯＫまで締切日のメッセージを表示する
 		{
 			$msg_text .= "<div><a href='order.php'>".INFO_I."</a></div>";
-		}
-		if($this :: sekiji_day_limit_over_check_for_7days_all_users($user_id) && $user_plan_info['order'] < 2) // UCHIDA EDIT 11/08/15 印刷ＯＫまで７日前のメッセージを表示する
+		}elseif($this :: sekiji_day_limit_over_check_for_7days_all_users($user_id) && $user_plan_info['order'] < 2) // UCHIDA EDIT 11/08/15 印刷ＯＫまで７日前のメッセージを表示する
 		{
 			$msg_text .= "<div><a href='order.php'>".INFO_J."</a></div>";
 		}
@@ -317,13 +316,10 @@ class MessageClass extends InformationClass
 //		{
 			$link="";
 			if($user_plan_info['gift_daylimit']==0 || $user_plan_info['gift_daylimit']==2) { // UCHIDA EDIT 11/08/10 ０：初期値　２：メール送信済み
-
-				if($this :: proccesse_gift_day_limit_7_days($user_id)) { // 披露宴日７日前か
-					$link .= "<div><a href='order.php'>".INFO_K."</a></div>";
-				}
-
 				if($this :: proccesse_gift_day_limit($user_id)) { // 発注締切日を過ぎたか
 					$link .= "<div><a href='order.php'>".INFO_H."</a></div>";
+				}elseif($this :: proccesse_gift_day_limit_7_days($user_id)) { // 披露宴日７日前か
+					$link .= "<div><a href='order.php'>".INFO_K."</a></div>";
 				}
 			}
 			return $link;

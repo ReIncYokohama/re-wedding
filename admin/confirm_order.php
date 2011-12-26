@@ -51,12 +51,12 @@ function cl(vl){
 	}
 	if (busuu==2 || busuu==3) {
 		if (v2 == "") {
-			alert ("席札表印刷部数を入力してください");
+			alert ("席札印刷部数を入力してください");
 			document.seki_input.sekifuda.focus();
 			return false;
 		}
 		if (isNaN(v2) == true) {
-			alert ("席札表印刷部数には半角数字を入力してください");
+			alert ("席札印刷部数には半角数字を入力してください");
 			document.seki_input.sekifuda.focus();
 			return false;
 		}
@@ -84,7 +84,7 @@ window.onkeydown = function(event) {
  	<?php } 
  	if ($busuu==2 || $busuu==3) {
  	?>
- 	席札表印刷部数　:　
+ 	席札印刷部数　:　
  	<input type="text" name="sekifuda" id="sekifuda" style="width:100px; text-align:right;"/>　部<br />
  	<?php } ?>
  	<br />
@@ -94,6 +94,12 @@ window.onkeydown = function(event) {
     <input type="button" value="キャンセル" name="submit" onClick="cl2('CANCEL')" onkeydown="if (event.keyCode == 13) { cl2('CANCEL'); }">
     <input type="hidden" name="update" value="update" />
     </form>
+<?php if ($busuu==1 || $busuu==3) { ?>
     <script type="text/javascript"> document.seki_input.sekiji.focus(); </script>
+<?php } 
+if ($busuu==2) {
+?>
+    <script type="text/javascript"> document.seki_input.sekifuda.focus(); </script>
+<?php } ?>
 </body>
 </html>
