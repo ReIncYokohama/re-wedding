@@ -199,6 +199,10 @@ if($objInfo->get_editable_condition($plan_row))
 <script src="js/rp.js" type="text/javascript"></script>
 
 <style>
+html {
+  overflow-x: hidden;
+}
+
 .make_plan_main_contents{
   width:1220px;
 }
@@ -403,7 +407,7 @@ direction: ltr;
 <div class="make_plan_main_contents" id="con_area_ie">
   <div id="side_area" sytle="padding-right:0px;width:350px;">
   <div align="right"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
-  <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:auto;overflow-y:visible;" >
+  <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:hidden;overflow-y:scroll;" >
 				<table width="98%">
 				<?php
 				$guest_type_sort=($_GET['guest_type_sort']=='desc' || $_GET['guest_type_sort']=='' )?"asc":"desc";
