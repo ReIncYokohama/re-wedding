@@ -213,6 +213,11 @@ height:45px;
 <div class="cont_area">
 <div style="font-size:12px;">
 招待者リストをエクセル形式（.xls）でダウンロードできます。</div><br />
+<strong>データをご利用の場合のご注意</strong><br />
+ダウンロードされたデータに含まれる文字コードで、互換のない「外字」部分は＊に置き換えてあります。<br />
+データは個人情報にあたる内容を含みますので、管理には十分ご注意ください。<br />
+ダウンロードされたデータを使用することによって被ったトラブル、損失、損害については一切の責任を負いませんので、ご了承ください。<br />
+<br />
 <table width="700" border="0" cellspacing="1" cellpadding="3">
     <tr>
       <td valign="middle">
