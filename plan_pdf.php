@@ -7,6 +7,7 @@ include_once("admin/inc/class_information.dbo.php");
 include_once("admin/inc/class_data.dbo.php");
 include_once("inc/gaiji.image.wedding.php");
 
+
 $obj = new DataClass();	
 $objInfo = new InformationClass();
 $user_id = (int)$_SESSION['userid'];
@@ -40,12 +41,13 @@ if($plan_row['print_size'] == 1){
   $PDF_PAGE_FORMAT_USER="A3";
 }
 if($plan_row['print_size'] == 2)
-  $PDF_PAGE_FORMAT_USER="B4";
+  $PDF_PAGE_FORMAT_USER="A3";
 
 if($plan_row['print_type'] == 1)
   $PDF_PAGE_ORIENTATION_USER="L";
 if($plan_row['print_type'] == 2)
   $PDF_PAGE_ORIENTATION_USER="P";
+
 
 //echo $PDF_PAGE_ORIENTATION_USER; exit;
 if($PDF_PAGE_ORIENTATION_USER=="P" && $PDF_PAGE_FORMAT_USER=="B4")
@@ -53,24 +55,36 @@ if($PDF_PAGE_ORIENTATION_USER=="P" && $PDF_PAGE_FORMAT_USER=="B4")
     $main_font_size="20px";
     $main_font_size_top="15px";
     $main_font_size_count="9px";
+	$width_f = 190;
+	$height_f = 195;
+	$height_f1 = 185;
   }
 if($PDF_PAGE_ORIENTATION_USER=="L" && $PDF_PAGE_FORMAT_USER=="B4")
   {
     $main_font_size="30px";
     $main_font_size_top="20px";
     $main_font_size_count="13px";
+	$width_f = 225;
+	$height_f = 190;
+	$height_f1 = 180;
   }
 if($PDF_PAGE_ORIENTATION_USER=="L" && $PDF_PAGE_FORMAT_USER=="A3")
   {
     $main_font_size="40px";
     $main_font_size_top="28px";
     $main_font_size_count="18px";
+	$width_f = 280;
+	$height_f = 250;
+	$height_f1 = 190;
   }
 if($PDF_PAGE_ORIENTATION_USER=="P" && $PDF_PAGE_FORMAT_USER=="A3")
   {
     $main_font_size="30px";
     $main_font_size_top="20px";
     $main_font_size_count="13px";
+	$width_f = 280;
+	$height_f = 250;
+	$height_f1 = 230;
   }
 
 
@@ -481,21 +495,24 @@ if($PDF_PAGE_ORIENTATION_USER == "P"){
 
 //$html.='<tr><td>&nbsp;</td><td>&nbsp;</td><td><table style="border:1px solid black;padding:10px;"><tr><td align="center"  valign="middle" style="text-align:center;">'.$layoutname.'</td></tr></table></td><td>&nbsp;</td><td>&nbsp;</td></tr></table><br/>';
 
-$html.='<table width="100%" style="font-size:'.$main_font_size.';">';
+$html.='<table width="100%" style="font-size:'.$main_font_size.';" align="center">';
 
 $table_data = $obj->get_table_data_detail($user_id);
 
 $tblrows = $table_data["rows"];
 /*echo '<pre>';
-print_r($tblrows);
+print_r($tblrows[0]);
 echo '</pre>';  exit;*/
 $j = 1;
 $i=1;
 $arr2= array();
 $arr3= array();
 $arr4= array();
+$arr6= array();
+$arr5= array();
 $html.="<tr><td colspan=\"2\" style=\"height:20px;\"></td></tr>";
 	$html.= "<tr>";
+	$fg = count($tblrows);
 foreach($tblrows as $tblrow)
   {
 		
@@ -529,8 +546,14 @@ echo '</pre>';  exit;*/
 		if($table_width!=100)
       $hidden_table_width=((100-$table_width)/2);
 		
+		if($fg==1){
+			$html.="<td width=\"300\" height=\"120\" align=\"center\"></td>";
+		}
+		if($fg==2){
+			$html.="<td width=\"150\" height=\"120\" align=\"center\"></td>";
+		}
 		
-		$html.="<td width=\"300\"><table width=\"300\">";
+		$html.="<td width=\"300\" align=\"center\"><table width=\"300\">";
 		
 		
 		//if($table_width!=100)
@@ -546,9 +569,21 @@ echo '</pre>';  exit;*/
     $number=0;
 	$k=1;	
 		
-		$tblrow["columns"] = array_reverse($tblrow["columns"]);
+		//$tblrow["columns"] = array_reverse($tblrow["columns"]);
+		
+		$rtrt = array_chunk($tblrow["columns"], 5);
+		if(count($rtrt)>1){
+			$arr2[$j]['columns'] = $rtrt[1];
+		}
+		//echo '<pre>';
+		//print_r($arr2);
+		//echo '</pre>';
+		//echo count($arr2); exit;
+		
+		$aar1 = array();
+		$aar1["columns"] = array_reverse($rtrt[0]);
 		//$coun = count($tblrow["columns"]);
-		foreach($tblrow["columns"] as $table_row)
+		foreach($aar1["columns"] as $table_row)
       {
         $html.= "<tr>";
 		//$table_row = $tblrow["columns"][$p];
@@ -561,12 +596,12 @@ echo '</pre>';  exit;*/
         $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
         $tblname = $table_row["name"];
         $table_num = mb_strlen($tblname,"utf-8");
-        $font_size = ($table_num>4)?"7":"10";
+        $font_size = 7;
 
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=\"280\" height=\"230\"><table width=\"100%\">";
+			$html.="<td width=\"".$width_f."\" height=\"".$height_f1."\"><table width=\"100%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -745,9 +780,14 @@ $html.= "</tr>";
 	
 $j=0; $k=0;	
 if(!empty($arr2)){
-	
-	$html.="<tr><td colspan=\"2\" style=\"height:200px;\"></td></tr>";
+//echo '<pre>';
+		//print_r($arr2);
+		//echo '</pre>';
+	//echo count($arr2); exit;	
+	$html.="<tr><td colspan=\"2\" style=\"height:170px;\"></td></tr>";
 	$html.= "<tr>";
+	$fg = count($arr2);
+	
 	foreach($arr2 as $tblrow){
 		
 		
@@ -758,7 +798,7 @@ print_r($tblrow);
 echo '</pre>';  exit;*/
 	
 	if($j>3){
-		$arr4[] = $tblrow;
+		$arr55[] = $tblrow;
 		$j++;
 	} else {
 	
@@ -780,8 +820,15 @@ echo '</pre>';  exit;*/
 		if($table_width!=100)
       $hidden_table_width=((100-$table_width)/2);
 		
+		/*if($fg==1){
+			$html.="<td width=\"300\" height=\"120\" align=\"center\"></td>";
+		}
+		if($fg==2){
+			$html.="<td width=\"150\" height=\"120\" align=\"center\"></td>";
+		}*/
 		
-		$html.="<td><table>";
+		$html.="<td width=\"300\" align=\"center\"><table width=\"300\">";
+		//$html.="<td><table>";
 		
 		
 		//if($table_width!=100)
@@ -804,7 +851,7 @@ echo '</pre>';  exit;*/
         $html.= "<tr>";
 		//$table_row = $tblrow["columns"][$p];
 		if($k>5){
-			$arr2[$j]['columns'][] = $table_row;
+			$arr22[$j]['columns'][] = $table_row;
 			$k++;
 		} else {
 		
@@ -812,12 +859,12 @@ echo '</pre>';  exit;*/
         $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
         $tblname = $table_row["name"];
         $table_num = mb_strlen($tblname,"utf-8");
-        $font_size = ($table_num>4)?"7":"10";
+        $font_size = 7;
 
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=\"280\" height=\"230\"><table width=\"100%\">";
+			$html.="<td width=\"".$width_f."\" height=\"".$height_f."\"><table width=\"100%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -995,7 +1042,7 @@ echo '</pre>';  exit;*/
 	
 
 //3rd table
-$j=0; $k=0;
+$j=1; $k=0;
 if(!empty($arr3)){
 	//print_r($arr2);
 	//echo count($arr2[1]['columns']); exit;
@@ -1011,7 +1058,7 @@ if(!empty($arr3)){
 		$h='1200px';
 	}
 	
-	
+	$fg = count($arr3);
 	$html.="<tr><td colspan=\"2\" style=\"height:".$h.";\"></td></tr>";
 	$html.= "<tr>";
 	foreach($arr3 as $tblrow){
@@ -1020,11 +1067,11 @@ if(!empty($arr3)){
 		
 		
 /*echo '<pre>';
-print_r($tblrow);
+print_r($arr3);
 echo '</pre>';  exit;*/
 	
 	if($j>3){
-		$arr4[] = $tblrow;
+		$arr5[] = $tblrow;
 		$j++;
 	} else {
 	
@@ -1046,8 +1093,15 @@ echo '</pre>';  exit;*/
 		if($table_width!=100)
       $hidden_table_width=((100-$table_width)/2);
 		
+		/*if($fg==1){
+			$html.="<td width=\"300\" height=\"120\" align=\"center\"></td>";
+		}
+		if($fg==2){
+			$html.="<td width=\"150\" height=\"120\" align=\"center\"></td>";
+		}*/
 		
-		$html.="<td><table>";
+		$html.="<td width=\"300\" align=\"center\"><table width=\"300\">";
+		//$html.="<td><table>";
 		
 		
 		//if($table_width!=100)
@@ -1063,9 +1117,20 @@ echo '</pre>';  exit;*/
     $number=0;
 	$k=1;	
 		
-		$tblrow["columns"] = array_reverse($tblrow["columns"]);
+		//$tblrow["columns"] = array_reverse($tblrow["columns"]);
 		//$coun = count($tblrow["columns"]);
-		foreach($tblrow["columns"] as $table_row)
+		$rtrt = array_chunk($tblrow["columns"], 5);
+		if(count($rtrt)>1){
+			$arr4[$j]['columns'] = $rtrt[1];
+		}
+		//echo '<pre>';
+		//print_r($arr2);
+		//echo '</pre>';
+		//echo count($arr2); exit;
+		
+		$aar1 = array();
+		$aar1["columns"] = array_reverse($rtrt[0]);
+		foreach($aar1["columns"] as $table_row)
       {
         $html.= "<tr>";
 		//$table_row = $tblrow["columns"][$p];
@@ -1078,12 +1143,12 @@ echo '</pre>';  exit;*/
         $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
         $tblname = $table_row["name"];
         $table_num = mb_strlen($tblname,"utf-8");
-        $font_size = ($table_num>4)?"7":"10";
+        $font_size = 7;
 
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=\"280\" height=\"250\"><table width=\"100%\">";
+			$html.="<td width=\"".$width_f."\" height=\"".$height_f."\"><table width=\"100%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -1268,16 +1333,16 @@ if(!empty($arr4)){
 	
 	//echo count($arr3[0]); exit;
 	if(count($arr3[0])==1){
-		$h='700px';
+		$h='800px';
 	} else if(count($arr3[0])==2){
-		$h='430px';
+		$h='530px';
 	} else {
-		$h='130px';
+		$h='230px';
 	}
 	
 
-	
-	$html.="<tr><td colspan=\"2\" style=\"height:200px;\"></td></tr>";
+	$fg = count($arr4);
+	$html.="<tr><td colspan=\"2\" style=\"height:".$h.";\"></td></tr>";
 	$html.= "<tr>";
 	foreach($arr4 as $tblrow){
 		
@@ -1311,8 +1376,15 @@ echo '</pre>';  exit;*/
 		if($table_width!=100)
       $hidden_table_width=((100-$table_width)/2);
 		
+		/*if($fg==1){
+			$html.="<td width=\"300\" height=\"120\" align=\"center\"></td>";
+		}
+		if($fg==2){
+			$html.="<td width=\"150\" height=\"120\" align=\"center\"></td>";
+		}*/
 		
-		$html.="<td><table>";
+		$html.="<td width=\"300\" align=\"center\"><table width=\"300\">";
+		//$html.="<td><table>";
 		
 		
 		//if($table_width!=100)
@@ -1343,12 +1415,12 @@ echo '</pre>';  exit;*/
         $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
         $tblname = $table_row["name"];
         $table_num = mb_strlen($tblname,"utf-8");
-        $font_size = ($table_num>4)?"7":"10";
+        $font_size = 7;
 
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=\"280\" height=\"280\"><table width=\"100%\">";
+			$html.="<td width=\"".$width_f."\" height=\"".$height_f."\"><table width=\"100%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -1526,7 +1598,576 @@ echo '</pre>';  exit;*/
 	
 }
 	
+
+
+
+
+//3rd table
+$j=0; $k=0;
+if(!empty($arr5)){
+	//print_r($arr2);
+	//echo count($arr2[1]['columns']); exit;
+	if($ttt==5){
+		$h='230px';
+	} else if($ttt==2){
+		$h='960px';
+	} else if($ttt==3){
+		$h='720px';
+	} else if($ttt==4){
+		$h='480px';
+	} else {
+		$h='1200px';
+	}
 	
+	$fg = count($arr5);
+	$html.="<tr><td colspan=\"2\" style=\"height:".$h.";\"></td></tr>";
+	$html.= "<tr>";
+	foreach($arr5 as $tblrow){
+		
+		
+		
+		
+/*echo '<pre>';
+print_r($tblrow);
+echo '</pre>';  exit;*/
+	
+	if($j>3){
+		$arr8[] = $tblrow;
+		$j++;
+	} else {
+	
+	
+	$ralign = $tblrow["ralign"];
+		if($ralign == 'C')
+      {
+			  $table_width=((count($tblrow["columns"]) - $tblrow["num_none"])/count($tblrow["columns"]))*100;
+        $pos = 'center';
+        $num_of_table_in_row = $tblrow["display_num"];
+      }
+		else
+      {
+			  $num_of_table_in_row = count($tblrow["columns"]);
+        $pos = 'left';
+        $table_width = 100;
+        $num_of_table_in_row = count($tblrow["columns"]);
+      }
+		if($table_width!=100)
+      $hidden_table_width=((100-$table_width)/2);
+		
+		/*if($fg==1){
+			$html.="<td width=\"300\" height=\"120\" align=\"center\"></td>";
+		}
+		if($fg==2){
+			$html.="<td width=\"150\" height=\"120\" align=\"center\"></td>";
+		}*/
+		
+		$html.="<td width=\"300\" align=\"center\"><table width=\"300\">";
+		//$html.="<td><table>";
+		
+		
+		//if($table_width!=100)
+     // {
+        //$html.="<td  width=\"".$hidden_table_width."%\" style=\"\">&nbsp;</td>";
+     // }
+    
+   // if($table_width != 100)
+		 // $html.="<td width=\"".$table_width."%\" ><table align='".$pos."'  width=\"100%\"><tr>";
+   // else 
+     // $html.="<td width=\"".$table_width."%\" colspan=\"0\"><table align='".$pos."'  width=\"100%\"><tr>";
+
+    $number=0;
+	$k=1;	
+		
+		//$tblrow["columns"] = array_reverse($tblrow["columns"]);
+		//$coun = count($tblrow["columns"]);
+		$rtrt = array_chunk($tblrow["columns"], 5);
+		if(count($rtrt)>1){
+			$arr6[$j]['columns'] = $rtrt[1];
+		}
+		//echo '<pre>';
+		//print_r($arr2);
+		//echo '</pre>';
+		//echo count($arr2); exit;
+		
+		$aar1 = array();
+		$aar1["columns"] = array_reverse($rtrt[0]);
+		foreach($aar1["columns"] as $table_row)
+      {
+        $html.= "<tr>";
+		//$table_row = $tblrow["columns"][$p];
+		if($k>5){
+			$arr4[$j]['columns'][] = $table_row;
+			$k++;
+		} else {
+		
+		$number++;
+        $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
+        $tblname = $table_row["name"];
+        $table_num = mb_strlen($tblname,"utf-8");
+        $font_size = 7;
+
+        if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
+          {
+            //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
+			$html.="<td width=\"".$width_f."\" height=\"".$height_f."\"><table width=\"100%\">";
+            if($disp=='1')
+              $tblname="&nbsp;";
+            $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
+            $seats_nums=0;
+            $guest_num=0;
+            $html2="";
+				
+            foreach($group_menu_array as $key=>$value)
+              {
+                $group_menu_array[$key]=0;
+              }
+				
+            foreach($seats as $seat)
+              {
+                $key = $seat['id']."_input";
+					
+                $itemArray = explode("_", $_SESSION['cart'][$key]);
+                $item_info=array();
+                $edited_nums="";
+                $item="";
+                $submname='';
+                $item = $itemArray[1];
+                if($item!='')
+                  {
+						
+                    $item_info =  $obj->GetSingleRow("spssp_guest", " id=".$item." and id in(SELECT id FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest=0)");
+                    if($item_info)
+                      {
+                        $submname = $obj->GetSingleData("spssp_guest_sub_category ", "name"," id=".$item_info['sub_category_id']);
+							
+                        include("admin/inc/main_dbcon.inc.php");
+                        $rspct = $obj->GetSingleData("spssp_main.spssp_respect", "title"," id=".$item_info['respect_id']);
+                        include("admin/inc/return_dbcon.inc.php");
+                        $edited_nums = $obj->GetNumRows("spssp_guest", "edit_item_id='".$item_info['id']."' and user_id=".(int)$user_id);
+                      }
+                  }
+						
+						
+                if($edited_nums > 0)
+                  {
+                    $guest_editeds = $obj->GetSingleRow("spssp_guest", "edit_item_id=".$item_info['id']." and user_id=".(int)$user_id);
+                    $item_info['id']=$guest_editeds['id'];
+                    $item_info['sub_category_id']=$guest_editeds['sub_category_id'];
+                    $item_info['name']=$guest_editeds['name'];
+																					
+                  }
+						
+                if($disp=='1')
+                  $item_info['first_name']=$item_info['last_name']=$item_info['comment1']=$item_info['comment2']=$rspct="&nbsp;";
+						
+                if($seats_nums==0)
+                  {
+                    $html2.="<tr >";
+                    $style_table="text-align:left";
+                  }
+                else
+                  {
+                    $style_table="text-align:right";
+                  }
+						
+						
+                if($item_info['first_name']!='')
+                  {
+					
+							
+							
+                    $border="1px solid black;";
+							              
+                    if($seats_nums==0)
+                      {
+                        $middle_string="";
+								
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
+                
+                        //52.63
+                        $html2.="<td width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
+								</td>";
+
+                      }
+                    else
+                      {
+								
+                        $middle_string="";
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
+						
+                        //47.37
+                        $html2.="<td  width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
+								</td>";
+                      }
+						
+                    $guest_num++;
+                  }
+                else
+                  {
+						
+                    $html2.="<td style=\"width:50%;height:20px;\" >&nbsp;</td>";
+						
+						
+                  }
+						
+						
+                if($seats_nums==1)
+                  $html2.="</tr>";
+						
+					
+                $seats_nums++;
+						
+                if($seats_nums==2)
+                  $seats_nums=0;
+              }
+            if($disp=='1' || $table_row['display'] == 0){
+              $guest_num="&nbsp;";
+              $tblname = "";
+          }else
+              $guest_num ='【'.$guest_num.'名】';
+            
+            if($seats_nums==1)
+              $html2.="<td></td></tr>";
+			
+			
+			
+				
+            $html.='<tr><td  align="center" width="50%" style="font-size:'.$font_size.';">'.$tblname .$guest_num.'</td>';
+			
+            if($disp!='1' and $table_row['display'] != 0)
+              {
+                
+                $html.="<td  align=\"center\"  width=\"50%\"><table style=\"font-size:".$main_font_size_count.";\"><tr>";
+                foreach($group_menu_array as $key=>$value)
+                  {
+                    $keyvalue=mb_substr($key, 0, 1,'UTF-8');
+				
+                    $html.="<td style=\" border:1px solid black;\" width=\"14\" >".$keyvalue."</td>";	
+                  }
+                $html.="</tr><tr>";
+                foreach($group_menu_array as $key=>$value)
+                  {
+                    $html.="<td style=\" border:1px solid black;\" width=\"14\">".$value."</td>";	
+                  }
+                $html.="</tr></table></td>";
+			
+              }
+            else
+              $html.="<td  align=\"center\">&nbsp;</td>";
+			
+            $html.='</tr>';
+            $html.=$html2;	
+			
+			
+            $html.="</table></td>";
+          }
+      
+	  	$k++;
+	  
+	  }
+	  
+	  $html.= "</tr>";
+	  }
+
+    if($pos == "center" && $table_width != 100)
+		  $html.="</table></td>";
+    else
+      $html.="</table></td>";
+	
+	$j++;
+  }
+	
+	
+		
+		
+		
+	}
+	$html.= "</tr>";
+
+	
+}
+	
+//table 4
+
+$j=0; $k=0;
+if(!empty($arr6)){
+	
+	//echo count($arr3[0]); exit;
+	if(count($arr3[0])==1){
+		$h='800px';
+	} else if(count($arr3[0])==2){
+		$h='530px';
+	} else {
+		$h='230px';
+	}
+	
+
+	$fg = count($arr6);
+	$html.="<tr><td colspan=\"2\" style=\"height:".$h.";\"></td></tr>";
+	$html.= "<tr>";
+	foreach($arr6 as $tblrow){
+		
+		
+		
+		
+/*echo '<pre>';
+print_r($tblrow);
+echo '</pre>';  exit;*/
+	
+	if($j>3){
+		$arr4[] = $tblrow;
+		$j++;
+	} else {
+	
+	
+	$ralign = $tblrow["ralign"];
+		if($ralign == 'C')
+      {
+			  $table_width=((count($tblrow["columns"]) - $tblrow["num_none"])/count($tblrow["columns"]))*100;
+        $pos = 'center';
+        $num_of_table_in_row = $tblrow["display_num"];
+      }
+		else
+      {
+			  $num_of_table_in_row = count($tblrow["columns"]);
+        $pos = 'left';
+        $table_width = 100;
+        $num_of_table_in_row = count($tblrow["columns"]);
+      }
+		if($table_width!=100)
+      $hidden_table_width=((100-$table_width)/2);
+		
+		/*if($fg==1){
+			$html.="<td width=\"300\" height=\"120\" align=\"center\"></td>";
+		}
+		if($fg==2){
+			$html.="<td width=\"150\" height=\"120\" align=\"center\"></td>";
+		}*/
+		
+		$html.="<td width=\"300\" align=\"center\"><table width=\"300\">";
+		//$html.="<td><table>";
+		
+		
+		//if($table_width!=100)
+     // {
+        //$html.="<td  width=\"".$hidden_table_width."%\" style=\"\">&nbsp;</td>";
+     // }
+    
+   // if($table_width != 100)
+		 // $html.="<td width=\"".$table_width."%\" ><table align='".$pos."'  width=\"100%\"><tr>";
+   // else 
+     // $html.="<td width=\"".$table_width."%\" colspan=\"0\"><table align='".$pos."'  width=\"100%\"><tr>";
+
+    $number=0;
+	$k=1;	
+		
+		$tblrow["columns"] = array_reverse($tblrow["columns"]);
+		//$coun = count($tblrow["columns"]);
+		foreach($tblrow["columns"] as $table_row)
+      {
+        $html.= "<tr>";
+		//$table_row = $tblrow["columns"][$p];
+		if($k>5){
+			$arr2[$j]['columns'][] = $table_row;
+			$k++;
+		} else {
+		
+		$number++;
+        $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
+        $tblname = $table_row["name"];
+        $table_num = mb_strlen($tblname,"utf-8");
+        $font_size = 7;
+
+        if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
+          {
+            //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
+			$html.="<td width=\"".$width_f."\" height=\"".$height_f."\"><table width=\"100%\">";
+            if($disp=='1')
+              $tblname="&nbsp;";
+            $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
+            $seats_nums=0;
+            $guest_num=0;
+            $html2="";
+				
+            foreach($group_menu_array as $key=>$value)
+              {
+                $group_menu_array[$key]=0;
+              }
+				
+            foreach($seats as $seat)
+              {
+                $key = $seat['id']."_input";
+					
+                $itemArray = explode("_", $_SESSION['cart'][$key]);
+                $item_info=array();
+                $edited_nums="";
+                $item="";
+                $submname='';
+                $item = $itemArray[1];
+                if($item!='')
+                  {
+						
+                    $item_info =  $obj->GetSingleRow("spssp_guest", " id=".$item." and id in(SELECT id FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest=0)");
+                    if($item_info)
+                      {
+                        $submname = $obj->GetSingleData("spssp_guest_sub_category ", "name"," id=".$item_info['sub_category_id']);
+							
+                        include("admin/inc/main_dbcon.inc.php");
+                        $rspct = $obj->GetSingleData("spssp_main.spssp_respect", "title"," id=".$item_info['respect_id']);
+                        include("admin/inc/return_dbcon.inc.php");
+                        $edited_nums = $obj->GetNumRows("spssp_guest", "edit_item_id='".$item_info['id']."' and user_id=".(int)$user_id);
+                      }
+                  }
+						
+						
+                if($edited_nums > 0)
+                  {
+                    $guest_editeds = $obj->GetSingleRow("spssp_guest", "edit_item_id=".$item_info['id']." and user_id=".(int)$user_id);
+                    $item_info['id']=$guest_editeds['id'];
+                    $item_info['sub_category_id']=$guest_editeds['sub_category_id'];
+                    $item_info['name']=$guest_editeds['name'];
+																					
+                  }
+						
+                if($disp=='1')
+                  $item_info['first_name']=$item_info['last_name']=$item_info['comment1']=$item_info['comment2']=$rspct="&nbsp;";
+						
+                if($seats_nums==0)
+                  {
+                    $html2.="<tr >";
+                    $style_table="text-align:left";
+                  }
+                else
+                  {
+                    $style_table="text-align:right";
+                  }
+						
+						
+                if($item_info['first_name']!='')
+                  {
+					
+							
+							
+                    $border="1px solid black;";
+							              
+                    if($seats_nums==0)
+                      {
+                        $middle_string="";
+								
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
+                
+                        //52.63
+                        $html2.="<td width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
+								</td>";
+
+                      }
+                    else
+                      {
+								
+                        $middle_string="";
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
+						
+                        //47.37
+                        $html2.="<td  width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
+								</td>";
+                      }
+						
+                    $guest_num++;
+                  }
+                else
+                  {
+						
+                    $html2.="<td style=\"width:50%;height:20px;\" >&nbsp;</td>";
+						
+						
+                  }
+						
+						
+                if($seats_nums==1)
+                  $html2.="</tr>";
+						
+					
+                $seats_nums++;
+						
+                if($seats_nums==2)
+                  $seats_nums=0;
+              }
+            if($disp=='1' || $table_row['display'] == 0){
+              $guest_num="&nbsp;";
+              $tblname = "";
+          }else
+              $guest_num ='【'.$guest_num.'名】';
+            
+            if($seats_nums==1)
+              $html2.="<td></td></tr>";
+			
+			
+			
+				
+            $html.='<tr><td  align="center" width="50%" style="font-size:'.$font_size.';">'.$tblname .$guest_num.'</td>';
+			
+            if($disp!='1' and $table_row['display'] != 0)
+              {
+                
+                $html.="<td  align=\"center\"  width=\"50%\"><table style=\"font-size:".$main_font_size_count.";\"><tr>";
+                foreach($group_menu_array as $key=>$value)
+                  {
+                    $keyvalue=mb_substr($key, 0, 1,'UTF-8');
+				
+                    $html.="<td style=\" border:1px solid black;\" width=\"14\" >".$keyvalue."</td>";	
+                  }
+                $html.="</tr><tr>";
+                foreach($group_menu_array as $key=>$value)
+                  {
+                    $html.="<td style=\" border:1px solid black;\" width=\"14\">".$value."</td>";	
+                  }
+                $html.="</tr></table></td>";
+			
+              }
+            else
+              $html.="<td  align=\"center\">&nbsp;</td>";
+			
+            $html.='</tr>';
+            $html.=$html2;	
+			
+			
+            $html.="</table></td>";
+          }
+      
+	  	$k++;
+	  
+	  }
+	  
+	  $html.= "</tr>";
+	  }
+
+    if($pos == "center" && $table_width != 100)
+		  $html.="</table></td>";
+    else
+      $html.="</table></td>";
+	
+	$j++;
+  }
+	
+	
+		
+		
+		
+	}
+	$html.= "</tr>";
+
+	
+}
+	
+
+
+
+
+
+
+
+
+
 $html.="</table>";
 
 
@@ -1538,7 +2179,7 @@ $html.="</table>";
 
 //$html.='<tr><td>&nbsp;</td><td>&nbsp;</td><td><table style="border:1px solid black;padding:10px;"><tr><td align="center"  valign="middle" style="text-align:center;">'.$layoutname.'</td></tr></table></td><td>&nbsp;</td><td>&nbsp;</td></tr></table><br/>';
 
-$html.='<table width="100%" style="font-size:'.$main_font_size.';">';
+$html.='<table width="100%" style="font-size:'.$main_font_size.';" align="center" style="text-align:center">';
 
 $table_data = $obj->get_table_data_detail($user_id);
 
@@ -1551,6 +2192,8 @@ $i=1;
 $arr2= array();
 $arr3= array();
 $arr4= array();
+$arr6= array();
+$arr5= array();
 foreach($tblrows as $tblrow)
   {
 /*echo '<pre>';
@@ -1591,12 +2234,29 @@ echo '</pre>';  exit;*/
       }
     
     if($table_width != 100)
-		  $html.="<td width=\"".$table_width."%\" ><br/><br/><br/><table align='".$pos."'  width=\"100%\"><tr>";
+		  $html.="<td width=\"".$table_width."%\" align=\"center\" ><br/><br/><br/><table align=\"center\"  width=\"100%\"><tr>";
     else 
-      $html.="<td width=\"".$table_width."%\" colspan=\"0\"><br/><br/><br/><table align='".$pos."'  width=\"100%\"><tr>";
+      $html.="<td width=\"".$table_width."%\" align=\"center\" colspan=\"0\"><br/><br/><br/><table align=\"center\" width=\"100%\"><tr>";
 
     $number=0;
 	$k=1;	
+		
+		
+		$ccc = count($tblrow["columns"]);
+		if($ccc==1){
+			$html.="<td width=\"560\" style=\"text-align:center;\" height=\"100\"></td>";
+		}
+		if($ccc==2){
+			$html.="<td width=\"420\" style=\"text-align:center;\" height=\"100\"></td>";
+		}
+		
+		if($ccc==3){
+			$html.="<td width=\"280\" style=\"text-align:center;\" height=\"100\"></td>";
+		}
+		
+		if($ccc==4){
+			$html.="<td width=\"140\" style=\"text-align:center;\" height=\"100\"></td>";
+		}
 		
 		foreach($tblrow["columns"] as $table_row)
       {
@@ -1610,12 +2270,12 @@ echo '</pre>';  exit;*/
         $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
         $tblname = $table_row["name"];
         $table_num = mb_strlen($tblname,"utf-8");
-        $font_size = ($table_num>4)?"7":"10";
+        $font_size = 7;
 
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=\"270\" height=\"200\"><table width=\"100%\">";
+			$html.="<td width=\"".$width_f."\" height=\"".$height_f1."\"><table width=\"85%\" style=\"margin-left:15%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -1788,10 +2448,10 @@ echo '</pre>';  exit;*/
 	
 	// second table
 	
-$j=0; $k=0;	
+$j=1; $k=0;	
 if(!empty($arr2)){
 	
-	$html.="<tr><td colspan=\"2\" style=\"height:200px;\"></td></tr>";
+	$html.="<tr><td colspan=\"2\" style=\"height:210px;\"></td></tr>";
 	
 	foreach($arr2 as $tblrow){
 		
@@ -1803,7 +2463,7 @@ print_r($tblrow);
 echo '</pre>';  exit;*/
 	
 	if($j>3){
-		$arr4[] = $tblrow;
+		$arr10[] = $tblrow;
 		$j++;
 	} else {
 	
@@ -1835,18 +2495,34 @@ echo '</pre>';  exit;*/
       }
     
     if($table_width != 100)
-		  $html.="<td width=\"".$table_width."%\" ><table align='".$pos."'  width=\"100%\"><tr>";
+		  $html.="<td width=\"".$table_width."%\" align=\"center\" style=\"text-align:center;\" ><table align=\"center\"  style=\"width:290px;\"><tr>";
     else 
-      $html.="<td width=\"".$table_width."%\" colspan=\"0\"><table align='".$pos."'  width=\"100%\"><tr>";
+      $html.="<td width=\"".$table_width."%\" colspan=\"0\" align=\"center\" style=\"text-align:center;\" ><table align=\"center\"  style=\"width:290px;\"><tr>";
 
     $number=0;
 	$k=1;	
+		
+		/*$ccc = count($tblrow["columns"]);
+		if($ccc==1){
+			$html.="<td width=\"560\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		if($ccc==2){
+			$html.="<td width=\"420\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		
+		if($ccc==3){
+			$html.="<td width=\"280\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		
+		if($ccc==4){
+			$html.="<td width=\"140\" style=\"text-align:center;\" height=\"200\"></td>";
+		}*/
 		
 		foreach($tblrow["columns"] as $table_row)
       {
         
 		if($k>5){
-			$arr2[$j]['columns'][] = $table_row;
+			$arr10[$j]['columns'][] = $table_row;
 			$k++;
 		} else {
 		
@@ -1854,12 +2530,12 @@ echo '</pre>';  exit;*/
         $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
         $tblname = $table_row["name"];
         $table_num = mb_strlen($tblname,"utf-8");
-        $font_size = ($table_num>4)?"7":"10";
+        $font_size = 7;
 
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=\"280\" height=\"280\"><table width=\"100%\">";
+			$html.="<td width=\"".$width_f."\" height=\"".$height_f."\"><table width=\"85%\" style=\"margin-left:15%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -2037,16 +2713,25 @@ echo '</pre>';  exit;*/
 	
 
 //3rd table
-$j=0; $k=0;
+$j=1; $k=0;
 if(!empty($arr3)){
 	
-	
-	if(count($arr2)==1){
-		$h='700px';
-	} else if(count($arr2)==2){
-		$h='410px';
+	if($PDF_PAGE_FORMAT_USER=="A3"){
+		if(count($arr2)==1){
+			$h='800px';
+		} else if(count($arr2)==2){
+			$h='520px';
+		} else {
+			$h='240px';
+		}
 	} else {
-		$h='120px';
+		if(count($arr2)==1){
+			$h='750px';
+		} else if(count($arr2)==2){
+			$h='460px';
+		} else {
+			$h='170px';
+		}
 	}
 	$html.="<tr><td colspan=\"2\" style=\"height:".$h."\"></td></tr>";
 	
@@ -2060,7 +2745,7 @@ print_r($tblrow);
 echo '</pre>';  exit;*/
 	
 	if($j>3){
-		$arr4[] = $tblrow;
+		$arr5[] = $tblrow;
 		$j++;
 	} else {
 	
@@ -2099,6 +2784,23 @@ echo '</pre>';  exit;*/
     $number=0;
 	$k=1;	
 		
+		
+		/*$ccc = count($tblrow["columns"]);
+		if($ccc==1){
+			$html.="<td width=\"560\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		if($ccc==2){
+			$html.="<td width=\"420\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		
+		if($ccc==3){
+			$html.="<td width=\"280\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		
+		if($ccc==4){
+			$html.="<td width=\"140\" style=\"text-align:center;\" height=\"200\"></td>";
+		}*/
+		
 		foreach($tblrow["columns"] as $table_row)
       {
         
@@ -2111,12 +2813,12 @@ echo '</pre>';  exit;*/
         $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
         $tblname = $table_row["name"];
         $table_num = mb_strlen($tblname,"utf-8");
-        $font_size = ($table_num>4)?"7":"10";
+        $font_size = 7;
 
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=\"280\" height=\"280\"><table width=\"100%\">";
+			$html.="<td width=".$width_f." height=\"".$height_f."\"><table width=\"85%\" style=\"margin-left:15%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -2297,16 +2999,25 @@ echo '</pre>';  exit;*/
 	
 //table 4
 
-$j=0; $k=0;
+$j=1; $k=0;
 if(!empty($arr4)){
 	
-	
-	if(count($arr3)==1){
-		$h='700px';
-	} else if(count($arr3)==2){
-		$h='430px';
+	if($PDF_PAGE_FORMAT_USER=="A3"){
+		if(count($arr2)==1){
+			$h='800px';
+		} else if(count($arr2)==2){
+			$h='520px';
+		} else {
+			$h='240px';
+		}
 	} else {
-		$h='130px';
+		if(count($arr5)==1){
+			$h='800px';
+		} else if(count($arr5)==2){
+			$h='500px';
+		} else {
+			$h='230px';
+		}
 	}
 	
 	
@@ -2360,6 +3071,22 @@ echo '</pre>';  exit;*/
 
     $number=0;
 	$k=1;	
+		/*
+		$ccc = count($tblrow["columns"]);
+		if($ccc==1){
+			$html.="<td width=\"560\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		if($ccc==2){
+			$html.="<td width=\"420\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		
+		if($ccc==3){
+			$html.="<td width=\"280\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		
+		if($ccc==4){
+			$html.="<td width=\"140\" style=\"text-align:center;\" height=\"200\"></td>";
+		}*/
 		
 		foreach($tblrow["columns"] as $table_row)
       {
@@ -2373,12 +3100,12 @@ echo '</pre>';  exit;*/
         $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
         $tblname = $table_row["name"];
         $table_num = mb_strlen($tblname,"utf-8");
-        $font_size = ($table_num>4)?"7":"10";
+        $font_size = 7;
 
         if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
           {
             //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
-			$html.="<td width=\"280\"><table width=\"100%\">";
+			$html.="<td width=".$width_f." height=\"".$height_f."\"><table width=\"85%\" style=\"margin-left:15%\">";
             if($disp=='1')
               $tblname="&nbsp;";
             $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
@@ -2560,6 +3287,594 @@ echo '</pre>';  exit;*/
 }
 	
 	
+	
+	
+	
+	
+
+//5th table
+$j=1; $k=0;
+if(!empty($arr5)){
+	
+	if($PDF_PAGE_FORMAT_USER=="A3"){
+		if(count($arr2)==1){
+			$h='800px';
+		} else if(count($arr2)==2){
+			$h='520px';
+		} else {
+			$h='240px';
+		}
+	} else {
+		if(count($arr5)==1){
+			$h='800px';
+		} else if(count($arr5)==2){
+			$h='500px';
+		} else {
+			$h='230px';
+		}
+	}
+	$html.="<tr><td colspan=\"2\" style=\"height:".$h."\"></td></tr>";
+	
+	foreach($arr5 as $tblrow){
+		
+		
+		
+		
+/*echo '<pre>';
+print_r($tblrow);
+echo '</pre>';  exit;*/
+	
+	if($j>3){
+		$arr7[] = $tblrow;
+		$j++;
+	} else {
+	
+	
+	$ralign = $tblrow["ralign"];
+		if($ralign == 'C')
+      {
+			  $table_width=((count($tblrow["columns"]) - $tblrow["num_none"])/count($tblrow["columns"]))*100;
+        $pos = 'center';
+        $num_of_table_in_row = $tblrow["display_num"];
+      }
+		else
+      {
+			  $num_of_table_in_row = count($tblrow["columns"]);
+        $pos = 'left';
+        $table_width = 100;
+        $num_of_table_in_row = count($tblrow["columns"]);
+      }
+		if($table_width!=100)
+      $hidden_table_width=((100-$table_width)/2);
+		
+		
+		$html.="<tr >";
+		
+		
+		if($table_width!=100)
+      {
+        $html.="<td  width=\"".$hidden_table_width."%\" style=\"\">&nbsp;</td>";
+      }
+    
+    if($table_width != 100)
+		  $html.="<td width=\"".$table_width."%\" ><table align='".$pos."'  width=\"100%\"><tr>";
+    else 
+      $html.="<td width=\"".$table_width."%\" colspan=\"0\"><table align='".$pos."'  width=\"100%\"><tr>";
+
+    $number=0;
+	$k=1;	
+		
+		/*$ccc = count($tblrow["columns"]);
+		if($ccc==1){
+			$html.="<td width=\"560\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		if($ccc==2){
+			$html.="<td width=\"420\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		
+		if($ccc==3){
+			$html.="<td width=\"280\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		
+		if($ccc==4){
+			$html.="<td width=\"140\" style=\"text-align:center;\" height=\"200\"></td>";
+		}*/
+		
+		foreach($tblrow["columns"] as $table_row)
+      {
+        
+		if($k>5){
+			$arr6[$j]['columns'][] = $table_row;
+			$k++;
+		} else {
+		
+		$number++;
+        $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
+        $tblname = $table_row["name"];
+        $table_num = mb_strlen($tblname,"utf-8");
+        $font_size = 7;
+
+        if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
+          {
+            //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
+			$html.="<td width=".$width_f." height=\"".$height_f."\"><table width=\"85%\" style=\"margin-left:15%\">";
+            if($disp=='1')
+              $tblname="&nbsp;";
+            $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
+            $seats_nums=0;
+            $guest_num=0;
+            $html2="";
+				
+            foreach($group_menu_array as $key=>$value)
+              {
+                $group_menu_array[$key]=0;
+              }
+				
+            foreach($seats as $seat)
+              {
+                $key = $seat['id']."_input";
+					
+                $itemArray = explode("_", $_SESSION['cart'][$key]);
+                $item_info=array();
+                $edited_nums="";
+                $item="";
+                $submname='';
+                $item = $itemArray[1];
+                if($item!='')
+                  {
+						
+                    $item_info =  $obj->GetSingleRow("spssp_guest", " id=".$item." and id in(SELECT id FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest=0)");
+                    if($item_info)
+                      {
+                        $submname = $obj->GetSingleData("spssp_guest_sub_category ", "name"," id=".$item_info['sub_category_id']);
+							
+                        include("admin/inc/main_dbcon.inc.php");
+                        $rspct = $obj->GetSingleData("spssp_main.spssp_respect", "title"," id=".$item_info['respect_id']);
+                        include("admin/inc/return_dbcon.inc.php");
+                        $edited_nums = $obj->GetNumRows("spssp_guest", "edit_item_id='".$item_info['id']."' and user_id=".(int)$user_id);
+                      }
+                  }
+						
+						
+                if($edited_nums > 0)
+                  {
+                    $guest_editeds = $obj->GetSingleRow("spssp_guest", "edit_item_id=".$item_info['id']." and user_id=".(int)$user_id);
+                    $item_info['id']=$guest_editeds['id'];
+                    $item_info['sub_category_id']=$guest_editeds['sub_category_id'];
+                    $item_info['name']=$guest_editeds['name'];
+																					
+                  }
+						
+                if($disp=='1')
+                  $item_info['first_name']=$item_info['last_name']=$item_info['comment1']=$item_info['comment2']=$rspct="&nbsp;";
+						
+                if($seats_nums==0)
+                  {
+                    $html2.="<tr >";
+                    $style_table="text-align:left";
+                  }
+                else
+                  {
+                    $style_table="text-align:right";
+                  }
+						
+						
+                if($item_info['first_name']!='')
+                  {
+					
+							
+							
+                    $border="1px solid black;";
+							              
+                    if($seats_nums==0)
+                      {
+                        $middle_string="";
+								
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
+                
+                        //52.63
+                        $html2.="<td width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
+								</td>";
+
+                      }
+                    else
+                      {
+								
+                        $middle_string="";
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
+						
+                        //47.37
+                        $html2.="<td  width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
+								</td>";
+                      }
+						
+                    $guest_num++;
+                  }
+                else
+                  {
+						
+                    $html2.="<td style=\"width:50%;height:20px;\" >&nbsp;</td>";
+						
+						
+                  }
+						
+						
+                if($seats_nums==1)
+                  $html2.="</tr>";
+						
+					
+                $seats_nums++;
+						
+                if($seats_nums==2)
+                  $seats_nums=0;
+              }
+            if($disp=='1' || $table_row['display'] == 0){
+              $guest_num="&nbsp;";
+              $tblname = "";
+          }else
+              $guest_num ='【'.$guest_num.'名】';
+            
+            if($seats_nums==1)
+              $html2.="<td></td></tr>";
+			
+			
+			
+				
+            $html.='<tr><td  align="center" width="50%" style="font-size:'.$font_size.';">'.$tblname .$guest_num.'</td>';
+			
+            if($disp!='1' and $table_row['display'] != 0)
+              {
+                
+                $html.="<td  align=\"center\"  width=\"50%\"><table style=\"font-size:".$main_font_size_count.";\"><tr>";
+                foreach($group_menu_array as $key=>$value)
+                  {
+                    $keyvalue=mb_substr($key, 0, 1,'UTF-8');
+				
+                    $html.="<td style=\" border:1px solid black;\" width=\"14\" >".$keyvalue."</td>";	
+                  }
+                $html.="</tr><tr>";
+                foreach($group_menu_array as $key=>$value)
+                  {
+                    $html.="<td style=\" border:1px solid black;\" width=\"14\">".$value."</td>";	
+                  }
+                $html.="</tr></table></td>";
+			
+              }
+            else
+              $html.="<td  align=\"center\">&nbsp;</td>";
+			
+            $html.='</tr>';
+            $html.=$html2;	
+			
+			
+            $html.="</table></td>";
+          }
+      
+	  	$k++;
+	  
+	  }
+	  
+	  
+	  }
+
+    if($pos == "center" && $table_width != 100)
+		  $html.="</tr></table></td><td width=\"".((100-$table_width)/2)."%\" ></td></tr><tr><td></td></tr>";
+    else
+      $html.="</tr></table></td></tr><tr><td></td></tr>";
+	
+	$j++;
+  }
+	
+	
+		
+		
+		
+	}
+	
+	
+	
+	
+}
+	
+//table 6
+
+$j=1; $k=0;
+if(!empty($arr6)){
+	
+	if($PDF_PAGE_FORMAT_USER=="A3"){
+		if(count($arr2)==1){
+			$h='800px';
+		} else if(count($arr2)==2){
+			$h='520px';
+		} else {
+			$h='240px';
+		}
+	} else {
+		if(count($arr5)==1){
+			$h='800px';
+		} else if(count($arr5)==2){
+			$h='500px';
+		} else {
+			$h='230px';
+		}
+	}
+	
+	
+	$html.="<tr><td colspan=\"2\" style=\"height:".$h."\"></td></tr>";
+	
+	foreach($arr6 as $tblrow){
+		
+		
+		
+		
+/*echo '<pre>';
+print_r($tblrow);
+echo '</pre>';  exit;*/
+	
+	if($j>3){
+		$arr12[] = $tblrow;
+		$j++;
+	} else {
+	
+	
+	$ralign = $tblrow["ralign"];
+		if($ralign == 'C')
+      {
+			  $table_width=((count($tblrow["columns"]) - $tblrow["num_none"])/count($tblrow["columns"]))*100;
+        $pos = 'center';
+        $num_of_table_in_row = $tblrow["display_num"];
+      }
+		else
+      {
+			  $num_of_table_in_row = count($tblrow["columns"]);
+        $pos = 'left';
+        $table_width = 100;
+        $num_of_table_in_row = count($tblrow["columns"]);
+      }
+		if($table_width!=100)
+      $hidden_table_width=((100-$table_width)/2);
+		
+		
+		$html.="<tr >";
+		
+		
+		if($table_width!=100)
+      {
+        $html.="<td  width=\"".$hidden_table_width."%\" style=\"\">&nbsp;</td>";
+      }
+    
+    if($table_width != 100)
+		  $html.="<td width=\"".$table_width."%\" ><table align='".$pos."'  width=\"100%\"><tr>";
+    else 
+      $html.="<td width=\"".$table_width."%\" colspan=\"0\"><table align='".$pos."'  width=\"100%\"><tr>";
+
+    $number=0;
+	$k=1;	
+		
+		/*$ccc = count($tblrow["columns"]);
+		if($ccc==1){
+			$html.="<td width=\"560\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		if($ccc==2){
+			$html.="<td width=\"420\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		
+		if($ccc==3){
+			$html.="<td width=\"280\" style=\"text-align:center;\" height=\"200\"></td>";
+		}
+		
+		if($ccc==4){
+			$html.="<td width=\"140\" style=\"text-align:center;\" height=\"200\"></td>";
+		}*/
+		
+		foreach($tblrow["columns"] as $table_row)
+      {
+        
+		if($k>5){
+			$arr13[$j]['columns'][] = $table_row;
+			$k++;
+		} else {
+		
+		$number++;
+        $new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
+        $tblname = $table_row["name"];
+        $table_num = mb_strlen($tblname,"utf-8");
+        $font_size = 7;
+
+        if($ralign != "C" || $table_row["display"] != 0 || $table_row["visible"])
+          {
+            //$html.="<td width=\"".round(100/$num_of_table_in_row)."%\"><table width=\"100%\">";
+			$html.="<td width=".$width_f." height=\"".$height_f."\"><table width=\"85%\" style=\"margin-left:15%\">";
+            if($disp=='1')
+              $tblname="&nbsp;";
+            $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
+            $seats_nums=0;
+            $guest_num=0;
+            $html2="";
+				
+            foreach($group_menu_array as $key=>$value)
+              {
+                $group_menu_array[$key]=0;
+              }
+				
+            foreach($seats as $seat)
+              {
+                $key = $seat['id']."_input";
+					
+                $itemArray = explode("_", $_SESSION['cart'][$key]);
+                $item_info=array();
+                $edited_nums="";
+                $item="";
+                $submname='';
+                $item = $itemArray[1];
+                if($item!='')
+                  {
+						
+                    $item_info =  $obj->GetSingleRow("spssp_guest", " id=".$item." and id in(SELECT id FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest=0)");
+                    if($item_info)
+                      {
+                        $submname = $obj->GetSingleData("spssp_guest_sub_category ", "name"," id=".$item_info['sub_category_id']);
+							
+                        include("admin/inc/main_dbcon.inc.php");
+                        $rspct = $obj->GetSingleData("spssp_main.spssp_respect", "title"," id=".$item_info['respect_id']);
+                        include("admin/inc/return_dbcon.inc.php");
+                        $edited_nums = $obj->GetNumRows("spssp_guest", "edit_item_id='".$item_info['id']."' and user_id=".(int)$user_id);
+                      }
+                  }
+						
+						
+                if($edited_nums > 0)
+                  {
+                    $guest_editeds = $obj->GetSingleRow("spssp_guest", "edit_item_id=".$item_info['id']." and user_id=".(int)$user_id);
+                    $item_info['id']=$guest_editeds['id'];
+                    $item_info['sub_category_id']=$guest_editeds['sub_category_id'];
+                    $item_info['name']=$guest_editeds['name'];
+																					
+                  }
+						
+                if($disp=='1')
+                  $item_info['first_name']=$item_info['last_name']=$item_info['comment1']=$item_info['comment2']=$rspct="&nbsp;";
+						
+                if($seats_nums==0)
+                  {
+                    $html2.="<tr >";
+                    $style_table="text-align:left";
+                  }
+                else
+                  {
+                    $style_table="text-align:right";
+                  }
+						
+						
+                if($item_info['first_name']!='')
+                  {
+					
+							
+							
+                    $border="1px solid black;";
+							              
+                    if($seats_nums==0)
+                      {
+                        $middle_string="";
+								
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$item_info['id']."/",110);
+                
+                        //52.63
+                        $html2.="<td width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
+								</td>";
+
+                      }
+                    else
+                      {
+								
+                        $middle_string="";
+                        $middle_string .= $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guest/".$item_info['id']."/",110);
+						
+                        //47.37
+                        $html2.="<td  width=\"50%\" style=\"width:50%;height:20px;\">".$middle_string."
+								</td>";
+                      }
+						
+                    $guest_num++;
+                  }
+                else
+                  {
+						
+                    $html2.="<td style=\"width:50%;height:20px;\" >&nbsp;</td>";
+						
+						
+                  }
+						
+						
+                if($seats_nums==1)
+                  $html2.="</tr>";
+						
+					
+                $seats_nums++;
+						
+                if($seats_nums==2)
+                  $seats_nums=0;
+              }
+            if($disp=='1' || $table_row['display'] == 0){
+              $guest_num="&nbsp;";
+              $tblname = "";
+          }else
+              $guest_num ='【'.$guest_num.'名】';
+            
+            if($seats_nums==1)
+              $html2.="<td></td></tr>";
+			
+			
+			
+				
+            $html.='<tr><td  align="center" width="50%" style="font-size:'.$font_size.';">'.$tblname .$guest_num.'</td>';
+			
+            if($disp!='1' and $table_row['display'] != 0)
+              {
+                
+                $html.="<td  align=\"center\"  width=\"50%\"><table style=\"font-size:".$main_font_size_count.";\"><tr>";
+                foreach($group_menu_array as $key=>$value)
+                  {
+                    $keyvalue=mb_substr($key, 0, 1,'UTF-8');
+				
+                    $html.="<td style=\" border:1px solid black;\" width=\"14\" >".$keyvalue."</td>";	
+                  }
+                $html.="</tr><tr>";
+                foreach($group_menu_array as $key=>$value)
+                  {
+                    $html.="<td style=\" border:1px solid black;\" width=\"14\">".$value."</td>";	
+                  }
+                $html.="</tr></table></td>";
+			
+              }
+            else
+              $html.="<td  align=\"center\">&nbsp;</td>";
+			
+            $html.='</tr>';
+            $html.=$html2;	
+			
+			
+            $html.="</table></td>";
+          }
+      
+	  	$k++;
+	  
+	  }
+	  
+	  
+	  }
+
+    if($pos == "center" && $table_width != 100)
+		  $html.="</tr></table></td><td width=\"".((100-$table_width)/2)."%\" ></td></tr><tr><td></td></tr>";
+    else
+      $html.="</tr></table></td></tr><tr><td></td></tr>";
+	
+	$j++;
+  }
+	
+	
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 $html.="</table>";
 	
 	
@@ -2568,7 +3883,7 @@ $html.="</table>";
 	
 	
 }
-
+//echo $html; exit;
 $samplefile="sam_".$plan_id."_".rand()."_".time().".txt";
  
 $handle = fopen("cache/".$samplefile, "x");

@@ -296,6 +296,23 @@ var button_enable="<?=$button_enable?>";
 		}
 	}
 }
+
+function confirmBack(){
+	if(edited_Flag==1){
+		if(confirm("内容が変更されています。保存しても宜しいですか？")){
+			$.post('ajax/insert_plan.php',{'make_plan':'true'}, function (data){
+					return true;
+				});
+		}else{
+			$.post('ajax/unset_plan.php',{'make_plan':'true'}, function (data){
+					return true;
+				});
+		}
+	}
+	window.location = 'make_plan.php';
+}
+
+
 </script>
 <style>
 .rows
@@ -392,7 +409,7 @@ direction: ltr;
 				$guest_type_sort=($_GET['guest_type_sort']=='desc' || $_GET['guest_type_sort']=='' )?"asc":"desc";
 				$guest_sex_sort=($_GET['guest_sex_sort']=='desc' || $_GET['guest_sex_sort']=='' )?"asc":"desc";
 				?>
-					<tr bgcolor="#666666" style="color:#FFFFFF"><th>No</th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=sex&guest_sex_sort=<?=$guest_sex_sort?>">郎婦↓</a></th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=guest_type&guest_type_sort=<?=$guest_type_sort?>">区分↓</a></th><th align="center">&nbsp;&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;</th><th align="left">卓名</th></tr>
+					<tr bgcolor="#666666" style="color:#FFFFFF"><th>No</th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=sex&guest_sex_sort=<?=$guest_sex_sort?>">郎婦↓</a></th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=guest_type&guest_type_sort=<?=$guest_type_sort?>">区分↓</a></th><th align="center">&nbsp;&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;</th><th nowrap="nowrap" align="left">卓名</th></tr>
 					<?php
 					$types_guest=array();
 					include("admin/inc/main_dbcon.inc.php");
@@ -588,7 +605,7 @@ if($objInfo->get_editable_condition($plan_row))
 <?php
   }
 ?>
-<image src="img/btn_back_user.jpg" id="button" onclick="javascript:window.location = 'make_plan.php';"/>
+<image src="img/btn_back_user.jpg" id="button" onclick="confirmBack();"/>
             </div>
 			<?php
 
@@ -735,8 +752,7 @@ $layoutname = $tableData["layoutname"];
                 }
                     		?>
                         	<div class="tables" id="tid_<?=$table_row['id']?>" style=" <?=$disp?>margin-left:15px;" >
-
-                                <p align="center" style="text-align:center" id="table_<?=$table_row['id']?>">
+                                <p align="center" style="text-align:center" id="p_<?=$table_row['id']?>">
 
                                     <b>&nbsp;</b>
                                 </p>

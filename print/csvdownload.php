@@ -8,10 +8,12 @@ if($_SESSION['printid'] =='')
 {
    redirect("index.php");exit;
 }
+
 $obj = new DataClass();
 $objInfo = new InformationClass();
 $this_name = $HOTELID;
 $get = $obj->protectXSS($_GET);
+
 $user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
 
 if($user_id>0)
@@ -25,7 +27,8 @@ else
 
 /*$entityArray2 = array(" HotelName , WeddingDate , WeddingTime , WeddingVenues , ReceptionDate, ReceptionTime , ReceptionHall , GroomName,  fullPhoneticGroom , BrideFullName , BrideFullPhonetic , Categories, ProductName ,  Printsize,tableArrangement , JIs_num, DataOutputTime , PlannerName , LayoutColumns , TableLayoutStages , Colortable , Max , NumberAttendance "); */
 
-$entityArray2 = array("ホテル名,挙式日,挙式時間,挙式会場,披露宴日,披露宴時間,披露宴会場,新郎姓名,新郎姓名ふりがな,新婦姓名,新婦姓名ふりがな,商品区分,商品名,席次表サイズ,席次表配置,字形,データ出力日時,高砂卓名,プランナー名,卓レイアウト列数,卓レイアウト段数,卓色,一卓最大人数,合計人数");
+$lines = mb_convert_encoding("headers\n", "SJIS", "UTF8");
+$entityArray2 = array("ホテル名,挙式日,挙式時間,挙式会場,披露宴日,披露宴時間,披露宴会場,新郎姓名,新郎姓名ふりがな,新婦姓名,新婦姓名ふりがな,商品区分,商品名,席次表サイズ,席次表配置,字形,データ出力日時,プランナー名,高砂卓名,卓レイアウト列数,卓レイアウト段数,卓色,一卓最大人数,合計人数");
 
 $entity=implode(",",$entityArray2);
 $entity = mb_convert_encoding("$entity", "SJIS", "UTF8");
@@ -92,7 +95,7 @@ $default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," o
 
 $entityArray['HotelName']			= $hotel_name;
 $entityArray['WeddingDate']			= ($user_info['marriage_day']=="0000-00-00")?"":strftime('%Y年%m月%d日',strtotime($user_info['marriage_day']));
-$entityArray['WeddingTime']			= mb_substr($user_info['marriage_day_with_time'],0,5);
+$entityArray['WeddingTime']			= ($user_info['marriage_day_with_time']=="00:00:00")?"":mb_substr($user_info['marriage_day_with_time'],0,5);
 $entityArray['WeddingVenues']		= $party_room_info['name'];
 $entityArray['ReceptionDate']		= strftime('%Y年%m月%d日',strtotime($user_info['party_day']));
 $entityArray['ReceptionTime']		= mb_substr($user_info['party_day_with_time'],0,5);
@@ -106,14 +109,14 @@ $entityArray['ProductName']			= $plan_info['product_name'];
 $entityArray['Printsize']			= $print_size;
 $entityArray['tableArrangement']	= $tableArrangement;
 $entityArray['JIs_num']				= strtoupper($user_info['user_code']);
-$entityArray['DataOutputTime']		= date("Y年m月d日 g時i分");
-$entityArray['TakasagoName']		= ($layoutname!="" && $layoutname!="null")?$layoutname:$default_layout_title;
+$entityArray['DataOutputTime']		= date("Y年m月d日 g:i");
 $entityArray['PlannerName']			= $stuff_info['name'];
+$entityArray['TakasagoName']		= ($layoutname!="" && $layoutname!="null")?$layoutname:$default_layout_title;
 $entityArray['LayoutColumns']		= $plan_info['column_number'];
 $entityArray['TableLayoutStages']	= $plan_info['row_number'];
 $entityArray['Colortable']	        = "";
 $entityArray['Max']					= $plan_info['seat_number'];
-$entityArray['NumberAttendance']	= $plan_info['column_number']*$plan_info['row_number']*$plan_info['seat_number']+2;
+$entityArray['NumberAttendance']	= $obj->get_all_guests_num($user_id);
 
 $count = count($entityArray);
 foreach($entityArray as $key=>$values)
@@ -121,12 +124,11 @@ foreach($entityArray as $key=>$values)
 	$cl[] = "$values";
 }
 
-
-	$cl2 = implode(",",$cl);
-	$cl2 = $cl2."\n";
-	$line = mb_convert_encoding("$cl2", "SJIS", "UTF8");
-	$lines .= "\n";
-	$lines .= $line."\n"."\n";
+$cl2 = implode(",",$cl);
+$cl2 = $cl2."\n";
+$line = mb_convert_encoding("$cl2", "SJIS", "UTF8");
+$lines .= "\n";
+$lines .= $line."\n"."\n";
 
 $plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
 $plan_row = $obj->GetSingleRow("spssp_plan", " id =".$plan_id);
@@ -162,6 +164,9 @@ $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layo
 
 $entityArraytable=implode(",",$entityArraytable);
 $entitytable = mb_convert_encoding("$entityArraytable", "SJIS", "UTF8");
+
+$lines .= mb_convert_encoding("tables\n", "SJIS", "UTF8");
+
 $lines .= <<<html
 $entitytable
 html;
@@ -271,6 +276,8 @@ $entityArrayGuests = array("テーブル番号,テーブル名,座席番号,姓,
 
 $entityArrayGuests=implode(",",$entityArrayGuests);
 $entityGuests = mb_convert_encoding($entityArrayGuests, "SJIS", "UTF8");
+
+$lines .= mb_convert_encoding("guests\n", "SJIS", "UTF8");
 $lines .= <<<html
 $entityGuests
 html;
@@ -337,9 +344,19 @@ foreach($usertblrows as $tblRows)
 	{
 		$tblname = $tblRows['name'];
 	}
-	$z=1;
-	foreach($usertblrows as $usertbldata)
+	
+  $z=1;
+  $sort_usettblrows = array();
+  foreach($usertblrows as $data){
+    $index = ($z%2==1)?($z+1)/2:count($usertblrows)/2+$z/2;
+    $sort_usettblrows[(int)$index] = $data;
+    $z+=1;
+  }
+  $z=1;
+	for($i=1;$i<=count($sort_usettblrows);++$i)
 	{
+    $usertbldata = $sort_usettblrows[$i];
+    
 		//echo "<pre>";print_r($usertbldata);
 		$guesttblrows = $obj->getRowsByQuery("select * from spssp_plan_details where seat_id = ".(int)$usertbldata['id']." and plan_id = ".$plan_id." order by id ASC");
     //$guesttblrows = $obj->getRowsByQuery("select * from spssp_plan_details where seat_id = ".(int)$usertbldata['id']." order by id ASC");
@@ -349,8 +366,10 @@ foreach($usertblrows as $tblRows)
 		//TableNumber
 		if(!empty($guest_info))
 			$value = chop($o);
-		else
+		else{
+      $z+=1;
       continue;
+    }
 			//$value = chop("-1");
 
     $query_string = "SELECT * FROM spssp_gaizi_detail_for_guest WHERE guest_id = '".$guesttblrows[0]['guest_id']."'";
@@ -364,12 +383,14 @@ foreach($usertblrows as $tblRows)
 		$value = chop($tblname);
 		//$value = chop("table".$o);
 		$cl22[] = "$value";
+
 		//SeatNumber
+
 		$value = chop($z);//////"seat ".
 		$cl22[] = "$value";
 		if($z%$room_seats==0)
 		{
-			$z=1;
+			$z=0;
 		}
 
 		//LastName
@@ -607,13 +628,11 @@ $user_id_name="0".$user_info['id'];
 $version = $obj->get_download_num($user_id,$_SESSION["adminid"]+1000);
 $this_name = $HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
 $this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
-//exit;
-
-//echo "<pre>";
-//print_r($entityArrayGuests);
-//exit;
 
 header("Content-Type: application/octet-stream");
 header("Content-Disposition: attachment; filename=${this_name}.csv");
+header("Cache-Control: public");
+header("Pragma: public");
+
 echo $lines;
 ?>

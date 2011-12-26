@@ -240,15 +240,34 @@ class InformationClass extends DBO
 			return false;
 		}
 	}
+  function get_sekizihyo_edit_term($plan_info_array){
+    
+    //席次表編集期間を過ぎているかどうか判定
+    $user_row = $this->GetSingleRow("spssp_user"," id= ".$plan_info_array["user_id"]);
+    $dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $user_row["limitation_ranking"] , $flag=2 );
+    $dateArray = explode("/",$dateBeforeparty);
+    $limit_mktime = mktime(0,0,0,$dateArray[1],$dateArray[2],$dateArray[0]);
+    if($limit_mktime<mktime()){
+      return false;
+    }
+    return true;
+    
+  }
 	function get_editable_condition($plan_info_array)
 	{
+		/*if ($plan_info_array['order'] == 1 && $_SESSION['adminid'] > 0) {  // 追加仕様でホテルスタッフは仮発注時に編集可能
+
+			return true;
+    }*/
+    if(!$this->get_sekizihyo_edit_term($plan_info_array)){
+      return false;
+    }
 		if ($plan_info_array['order'] == 1 && ($plan_info_array['admin_to_pcompany'] == 0 || $plan_info_array['admin_to_pcompany'] == 1)) {  // 追加仕様で「スタッフ画面：仮発注、ユーザ画面：印刷イメージ依頼」で編集不可
 			return false;
 		}
-		if($plan_info_array['admin_to_pcompany']==2) {
+    if($plan_info_array['admin_to_pcompany']==2) {
 			return true;
 		}
-		
 		if(($plan_info_array['order']<=3 && $plan_info_array['order']>0) || ($plan_info_array['order']==2 && $plan_info_array['admin_to_pcompany']==3))
 		{
 			return false;
@@ -273,7 +292,7 @@ class InformationClass extends DBO
         //
         return $result_image_db_dir;
     }
-  function get_user_name_image_or_src( $user_id ,$hotel_id , $name ,$extra="",$width = 100 , $opt = false,$height = false )
+  function get_user_name_image_or_src( $user_id ,$hotel_id , $name ,$extra=false,$width = 100 , $opt = false,$height = false )
 	{
 		 $file = sprintf("%s/user_name/%d/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$name);
 
@@ -284,10 +303,13 @@ class InformationClass extends DBO
 		{
 			if($opt == "src")
 				return $file;
-			else if($extra)
+			else if($extra!==false)
 			{
+        if($height){
+          return "<img src=\"".$file."\" height=\"".$height."\"/>";
+        }
 
-			return "<img src=\"".$file."\" />";
+        return "<img src=\"".$file."\" />";
 			}else if($height){
         $file = str_replace("../","",$file);
 				return "<img src='../image.php?f=".$file."&h=".$height."' />";
