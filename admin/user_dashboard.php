@@ -13,7 +13,7 @@
 	$party_day = $user_info['party_day'];		
 	$ab = strtotime($party_day);
 	$limit_date = strtotime("+7 day",$ab);
-	
+
 	if($party_day=="" || time()>$limit_date)
 	{
 		redirect("manage.php");
@@ -41,10 +41,14 @@
 	if ($_SESSION["super_user"]==true) $user_log['admin_id']="10000".$user_log['admin_id'];
 	$id = $obj->InsertData("spssp_user_log", $user_log);
 	$_SESSION['user_log_id'] = $id;
-	
-	
-//	redirect("../dashboard.php");
+
+if($_GET["src"]=="my_guests"){
+  redirect("../login.php?src=my_guests");
+}else{
 	redirect("../login.php?src=admin");
+}
+//	redirect("../dashboard.php");
+
 	
 ?>
 	
