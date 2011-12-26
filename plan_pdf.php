@@ -131,7 +131,7 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 $pdf->setLanguageArray($l);
 
 // ---------------------------------------------------------
-
+$pdf->SetProtection(array("copy"));
 // set font
 //$pdf->SetFont('dejavusans', '', 10);
 //$pdf->SetFont('arialunicid0', '', 12);
