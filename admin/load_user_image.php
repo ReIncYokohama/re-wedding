@@ -20,7 +20,7 @@ $objInfo = new InformationClass();
 <?php
   $srcArray = array("thumb1/man_lastname.png","thumb1/woman_lastname.png","thumb1/man_fullname.png","thumb1/woman_fullname.png","guest_page.png");
 for($i=0;$i<count($srcArray);++$i){
-  echo $objInfo->get_user_name_image_or_src($user_id ,1, $srcArray[$i],"",1,"",10);
+  echo $objInfo->get_user_name_image_or_src($user_id ,1, $srcArray[$i],"",1,"",1);
 ?>
 <?php
 }
