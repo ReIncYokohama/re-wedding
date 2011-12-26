@@ -112,7 +112,6 @@
 <script type="text/javascript" src="tmp_js/arial.js"></script>
 <script type="text/javascript" src="tmp_js/cuf_run.js"></script>
 <link rel="stylesheet" href="css/base/jquery.ui.all.css">
-<!--script src="js/jquery-1.6.4.js"></script-->
 <script src="js/jquery-1.7.1.min.js"></script>
 <script src="js/external/jquery.bgiframe-2.1.1.js"></script>
 <script src="js/ui/jquery.ui.core.js"></script>
@@ -207,7 +206,7 @@ if($objInfo->get_editable_condition($plan_row))
   width:1220px;
 }
 .make_plan_main_left{
-/*  width:270px;*/
+  width:270px;
   float:left;
 }
 .make_plan_main_right{
@@ -313,6 +312,7 @@ function confirmBack(){
 	window.location = 'make_plan.php';
 }
 
+
 </script>
 <style>
 .rows
@@ -401,8 +401,8 @@ direction: ltr;
 </div>
 
 <div class="make_plan_main_contents" id="con_area_ie">
-  <div id="side_area" sytle="padding-right:0px;width:400px;">
-  <div align="right" sytle="width:400px;"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
+  <div id="side_area" sytle="padding-right:0px;width:350px;">
+  <div align="right"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
   <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:auto;overflow-y:visible;" >
 				<table width="98%">
 				<?php

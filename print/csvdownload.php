@@ -3,6 +3,7 @@
 @session_start();
 include_once("../admin/inc/include_class_files.php");
 include_once("../admin/inc/class_data.dbo.php");
+
 if($_SESSION['printid'] =='')
 {
    redirect("index.php");exit;
@@ -122,7 +123,6 @@ foreach($entityArray as $key=>$values)
 {
 	$cl[] = "$values";
 }
-
 
 $cl2 = implode(",",$cl);
 $cl2 = $cl2."\n";
