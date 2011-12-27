@@ -576,9 +576,9 @@ hotel  1のとき、ホテルユーザ用のお知らせ。0のとき、ユー�
   }
   public function finish_message_csv_import_for_hotel($user_id){
     $results = $this->getRowsByQuery("select * from guest_csv_upload_log where hotel=1 and user_id=".$user_id);
+    $plan_info = $this->GetSingleRow("spssp_plan"," user_id = ".$user_id);
+    if($plan_info["staff_id"]!=$_SESSION["staff_id"]) return;
     for($i=0;$i<count($results);++$i){
-      $plan_info = $this->GetSingleRow("spssp_plan"," user_id = ".$results[$i]["user_id"]);
-      if($plan_info["staff_id"]==$_SESSION["staff_id"]) continue;
       $this->UpdateData("guest_csv_upload_log",array("state" => 0)," id = '".$results[$i]["id"]."'");
     }
   }

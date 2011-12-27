@@ -882,11 +882,11 @@ class DataClass extends DBO{
     $data = $this->GetSingleRow("download_num"," user_id = '".(int)$user_id."' and admin_id = '".(int)$admin_id."'");
     if(!$data){
       $this->InsertData("download_num",array("num"=>1,"user_id" => (int)$user_id,"admin_id"=>(int)$admin_id));
-      return $this->get_num_in_digit(1,3);
+      return $this->get_num_in_digit(1,2);
     }else{
       $num = $data["num"]+1; 
       $this->UpdateData("download_num",array("num"=>$num)," id=".$data["id"]);
-      return $this->get_num_in_digit($num,3);
+      return $this->get_num_in_digit($num,2);
     }
   }
   public function get_num_in_digit($num,$digit){
