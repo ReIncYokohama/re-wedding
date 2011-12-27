@@ -239,7 +239,8 @@ function checkvalidity()
 function validForm()
 {
 	var name  = document.getElementById('name').value;
-	var ID  = document.getElementById('ID').value;
+//	var ID  = document.getElementById('ID').value;
+	var ID  = document.stuff_form.username.value;
 	var name_current  = document.getElementById('name_current').value;
 	var username_current  = document.getElementById('username_current').value;
 	var email_current  = document.getElementById('email_current').value;
@@ -255,7 +256,6 @@ function validForm()
 	var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\\\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,15}$/; //2011/12/09 yamanaka
 	var reg2 = /^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/;
 	var flag = true;
-
 	if(!name)
 	{
 		 alert("名前が未入力です");
@@ -703,7 +703,7 @@ include("inc/return_dbcon.inc.php");
 					<td align="left" valign="middle" nowrap="nowrap">
 					<input name="password" type="text" id="password" size="25" style="border-style: inset;" value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
 					<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください。<br>
-					記号は以下の文字が利用できます(! # $ % & ( ) * + - . \ / : ; < = > ? @ [ ] ^ _ ` { | } ~ \" ' ,)
+					記号は以下の文字が利用できます(! # $ % & ( ) * + - . \ / : ; < = > ? @ [ ] ^ _ ` { | } ~)
 					</span>
 					</td>
 				</tr>
