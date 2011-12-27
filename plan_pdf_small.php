@@ -12,7 +12,7 @@ $user_id = (int)$_SESSION['userid'];
 if($user_id=="")
   $user_id = (int)$_GET['user_id'];
 
-$max_width = 1500;
+
 function get_center_table($max_width,$width,$html){
   $margin = floor((100*(($max_width-$width)/$max_width))*10/2)/10;
   $main_margin = floor((100-$margin*2)*10)/10;
@@ -25,17 +25,18 @@ $plan_row = $obj->GetSingleRow("spssp_plan"," id =".$plan_id);
 
 $PDF_PAGE_FORMAT_USER=PDF_PAGE_FORMAT;
 $PDF_PAGE_ORIENTATION_USER=PDF_PAGE_ORIENTATION;
+$PDF_PAGE_FORMAT_USER="A3";
 
-if($plan_row['print_size'] == 1)
-  $PDF_PAGE_FORMAT_USER="A3";
-if($plan_row['print_size'] == 2)
-  $PDF_PAGE_FORMAT_USER="B4";
-
-if($plan_row['print_type'] == 1)
+if($plan_row['print_type'] == 1){
   $PDF_PAGE_ORIENTATION_USER="L";
-if($plan_row['print_type'] == 2)
+  $max_width = 1500;
+  $max_width_num = 39;
+  $flag_horizon = true;
+}else if($plan_row['print_type'] == 2){{}
   $PDF_PAGE_ORIENTATION_USER="P";
-
+  $max_width = 900;
+  $flag_horizon = false;
+}
 
 if($PDF_PAGE_ORIENTATION_USER=="P" && $PDF_PAGE_FORMAT_USER=="B4")
   {
@@ -67,6 +68,9 @@ $pdf->SetTitle('TCPDF Example 006');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
+//文字列コピー禁止、編集禁止
+$pdf->SetProtection(array('copy'));
+
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
 
@@ -87,7 +91,7 @@ $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 //set auto page breaks
 //$pdf->SetAutoPageBreak(True, PDF_MARGIN_BOTTOM);
-$pdf->SetAutoPageBreak( true, 0);
+$pdf->SetAutoPageBreak( false, 0);
 $pdf->SetHeaderMargin(0);
 $pdf->SetMargins(8,8,8);
 
@@ -312,60 +316,107 @@ $subhtml .= '</tr></table><br>';
 
 $html .= get_center_table($max_width,$width,$subhtml);
 
-$html.='<table cellspacing="0" cellspadding="0" width="100%" style="font-size:'.$main_font_size.';">';
+
 
 $table_data = $obj->get_table_data_detail($user_id);
 
-$seat_num = $table_data["seat_num"];
-$seat_row = $seat_num/2;
-$table_heigth = ($seat_row+1)*20;
-for($i=0;$i<count($table_data["rows"]);++$i){
-  $row = $table_data["rows"][$i];
-  $width = 110*count($row["columns"])*2;
-  $html .= "<tr><td width:\"100%\"><table><tr>";
-  for($j=0;$j<count($row["columns"]);++$j){
-    $column = $row["columns"][$j];
-    $column_num = $row['display_num'];
-    $table_name = $column["name"];
-    $table_id = $column["id"];
-    $visible = $column["visible"];
-    if($row["ralign"] == "C" && $column["display"] == 0 && !$visible) continue;
-    $html .= "<td><table cellspacing=\"0\" cellspadding=\"0\"><tr><td colspan=\"0\" align=\"center\">".$table_name."</td></tr>";
-    for($k=0;$k<$seat_row*2;++$k){
-      if($k%2==0) $html .= "<tr>";
-      $align = ($k%2==0)?"right":"left";
-      $seat_detail = $column["seats"][$k];
-      $guest_id = $seat_detail["guest_id"];
-      $plate = "";
-      if($guest_id) $plate = "<img width=\"110\" src=\"".$seat_detail["guest_detail"]["name_plate"]."\" />";
-      $html .= "<td style=\"width:50%;\" align=\"".$align."\">".$plate."</td>";
-      if($k%2==1) $html .= "</tr>";
+//rows[0]columns[0]seats[0]
+function get_table_html($rows,$main_font_size,$seat_num,$seat_row){
+  $html='<table cellspacing="0" cellspadding="0" width="100%" style="font-size:'.$main_font_size.';">';
+  for($i=0;$i<count($rows);++$i){
+    $row = $rows[$i];
+    $width = 110*count($row["columns"])*2;
+    $html .= "<tr><td width:\"100%\"><table><tr>";
+    for($j=0;$j<count($row["columns"]);++$j){
+      $column = $row["columns"][$j];
+      $table_name = $column["name"];
+      $table_id = $column["id"];
+      if($column["display"] == 0 && !$column["visible"]) continue;
+      if($column["display"] == 0){
+        $html .="<td></td>";
+        continue;
+      }
+      $html .= "<td><table cellspacing=\"0\" cellspadding=\"0\"><tr><td colspan=\"0\" align=\"center\">".$table_name."</td></tr>";
+
+      for($k=0;$k<$seat_row*2;++$k){
+        if($k%2==0) $html .= "<tr>";
+        $align = ($k%2==0)?"right":"left";
+        $seat_detail = $column["seats"][$k];
+        $guest_id = $seat_detail["guest_id"];
+        $plate = "";
+        if($guest_id) $plate = "<img width=\"110\" src=\"".$seat_detail["guest_detail"]["name_plate"]."\" />";
+        $html .= "<td style=\"width:50%;\" align=\"".$align."\">".$plate."</td>";
+        if($k%2==1) $html .= "</tr>";
+      }
+      $html .= "</table></td>";
     }
-    $html .= "</table></td>";
+    $html .= "</tr></table></td></tr><tr><td></td></tr>";
   }
-  $html .= "</tr></table></td></tr><tr><td></td></tr>";
+  $html .="</table>";
+  return $html;
 }
 
-$html .="</table>";
+$seat_num = $table_data["seat_num"];
+$seat_row = $seat_num/2;
 
-$samplefile="sam_".$plan_id."_".rand()."_".time().".txt";
-//print $html;
-//exit;
+function draw_html($plan_id,$html,$pdf){
 
+  $samplefile="sam_".$plan_id."_".rand()."_".time().".txt";
+  
+  $handle = fopen("cache/".$samplefile, "x");
+  
+  if(fwrite($handle, $html)==true)
+    {
+      fclose($handle);
+      $utf8text = file_get_contents("cache/".$samplefile, false);
+    }
+  
+  @unlink("cache/".$samplefile);
+  
+  $pdf->writeHTML($utf8text, true, false, true, false, '');
+}
 
-$handle = fopen("cache/".$samplefile, "x");
- 
-if(fwrite($handle, $html)==true)
-  {
-    fclose($handle);
-	
-    $utf8text = file_get_contents("cache/".$samplefile, false);
-	
+$page_arr = array();
+$rows_num = count($table_data["rows"]);
+$columns_num = count($table_data["rows"][0]["columns"]);
+if($flag_horizon){
+  $rows_config_num = 3;
+  $columns_config_num = 5;
+}else{
+  $rows_config_num = 5;
+  $columns_config_num = 3;
+}
+$page_rows_num = ceil($rows_num/$rows_config_num);
+$page_columns_num = ceil($columns_num/$columns_config_num);
+
+$index = 0;
+for($i=0;$i<$page_rows_num;++$i){
+  for($j=0;$j<$page_columns_num;++$j){
+    $rows_start = $i*$rows_config_num;
+    $rows_end = $rows_num<$rows_start+$rows_config_num?$rows_num:$rows_start+$rows_config_num;
+    $columns_start = $j*$columns_config_num;
+    $columns_end = $columns_num<$columns_start+$columns_config_num?$columns_num:$columns_start+$columns_config_num;
+    $page_arr[$index] = array();
+    for($k=$rows_start;$k<$rows_end;++$k){
+      $row = $table_data["rows"];
+      $row["columns"] = array();
+      for($l=$columns_start;$l<$columns_end;++$l){
+        array_push($row["columns"],$table_data["rows"][$k]["columns"][$l]);
+      }
+      array_push($page_arr[$index],$row);
+    }
+    $index+=1;
   }
+}
 
-@unlink("cache/".$samplefile);
 
-$pdf->writeHTML($utf8text, true, false, true, false, '');
+draw_html($plan_id,$html,$pdf);
+for($i=0;$i<count($page_arr);++$i){
+  $html = get_table_html($page_arr[$i],$main_font_size,$seat_num,$seat_row);
+  draw_html($plan_id,$html,$pdf);
+  if($i+1==count($page_arr)) break;
+  $pdf->addPage();
+}
 
 // ---------------------------------------------------------
 
@@ -373,5 +424,9 @@ $pdf->writeHTML($utf8text, true, false, true, false, '');
 // This method has several options, check the source code documentation for more information.
 $date = date("His");
 //$pdf->Output('sekijihyou'.$date.'.pdf', 'D');
-$pdf->Output('example_001.pdf', 'I');
+
+$user_id_name = $user_id;
+$date_array = explode('-', $user_info['party_day']);
+$this_name = "sekijihyo".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
+$pdf->Output($this_name.'.pdf', 'I');
 ?> 

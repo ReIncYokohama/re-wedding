@@ -1,5 +1,7 @@
 <?php
 session_start();
+header("Content-type: text/html; charset=utf-8");
+
 include_once("admin/inc/dbcon.inc.php");
 include_once("admin/inc/class.dbo.php");
 
@@ -31,6 +33,9 @@ include_once("inc/user_login_check.php");
 
 if ($_SESSION['regenerate_user_id']=="") {
 	redirect("logout.php");
+}
+else if ($_GET['src'] == "my_guests") {
+	redirect("my_guests.php");
 }
 else if ($_GET['src'] == "admin") {
 	redirect("dashboard.php");

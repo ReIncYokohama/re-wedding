@@ -38,8 +38,8 @@ $html .= '<tr>
 <td>名ふりがな</td>
 <td>敬称</td>
 <td> 区分</td>
-<td>肩書</td>
 <td>肩書１</td>
+<td>肩書２</td>
 <td>卓名</td>
 <td>引出物グループ</td>
 <td>料理</td>
@@ -56,7 +56,7 @@ for($i=0;$i<count($guestArray);++$i){
 <td>'.$guestArray[$i]['respect_text'].'</td>
 <td>'.$guestArray[$i]['guest_type_text'].'</td>
 <td>'.$guestArray[$i]['comment1'].'</td>
-<td>'.$guestArray[$i]['comment1'].'</td>
+<td>'.$guestArray[$i]['comment2'].'</td>
 <td>'.$guestArray[$i]['table_name'].'</td>
 <td>'.$guestArray[$i]['gift_group_text'].'</td>
 <td>'.$guestArray[$i]['menu_text'].'</td>

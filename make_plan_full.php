@@ -199,6 +199,10 @@ if($objInfo->get_editable_condition($plan_row))
 <script src="js/rp.js" type="text/javascript"></script>
 
 <style>
+html {
+  overflow-x: hidden;
+}
+
 .make_plan_main_contents{
   width:1220px;
 }
@@ -206,7 +210,7 @@ if($objInfo->get_editable_condition($plan_row))
   width:1220px;
 }
 .make_plan_main_left{
-/*  width:270px;*/
+  width:270px;
   float:left;
 }
 .make_plan_main_right{
@@ -312,6 +316,7 @@ function confirmBack(){
 	window.location = 'make_plan.php';
 }
 
+
 </script>
 <style>
 .rows
@@ -400,9 +405,9 @@ direction: ltr;
 </div>
 
 <div class="make_plan_main_contents" id="con_area_ie">
-  <div id="side_area" sytle="padding-right:0px;width:400px;">
-  <div align="right" sytle="width:400px;"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
-  <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:auto;overflow-y:visible;" >
+  <div id="side_area" sytle="padding-right:0px;width:350px;">
+  <div align="right"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
+  <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:hidden;overflow-y:scroll;" >
 				<table width="98%">
 				<?php
 				$guest_type_sort=($_GET['guest_type_sort']=='desc' || $_GET['guest_type_sort']=='' )?"asc":"desc";
@@ -745,13 +750,15 @@ $layoutname = $tableData["layoutname"];
                 }else if($num_first <= $table_row["column_order"] && $table_row["column_order"]<=$num_last){
 									$disp = 'visibility:hidden;';
                   $class = 'seat_droppable';
+                }else if($ralign == "N"){
+                  $disp = 'visibility:hidden;';
+                  $class = 'seat_droppable';
                 }else{
 									$disp = 'display:none;';
 									$class = 'droppable';
                 }
                     		?>
                         	<div class="tables" id="tid_<?=$table_row['id']?>" style=" <?=$disp?>margin-left:15px;" >
-
                                 <p align="center" style="text-align:center" id="p_<?=$table_row['id']?>">
 
                                     <b>&nbsp;</b>

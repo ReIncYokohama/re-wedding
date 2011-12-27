@@ -1,4 +1,5 @@
 <?php
+header("Content-type: text/html; charset=utf-8");
 include_once("inc/dbcon.inc.php");
 
 $id=$_GET['adminid']; // UCHIDA EDIT 11/08/17 ＩＤを再表示

@@ -226,6 +226,7 @@ class DataClass extends DBO{
         $last = $i+1;
       }
     }
+    
     for($i=0;$i<count($columns);++$i){
       if(($columns[$i]["align"] == "C" && $first-1<=$i && $last>$i && $columns[$i]["display"]!=1)||
          ($columns[$i]["align"] != "C" && $columns[$i]["display"]!=1)
@@ -268,6 +269,30 @@ class DataClass extends DBO{
     }
     return $guestArray;
   }
+  public function get_all_guests_num($user_id){
+    $plan_id = $this->get_plan_id($user_id);
+    $guestArray = $this->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." order by display_order DESC");
+    $num = 0;
+    for($i=0;$i<count($guestArray);++$i){
+      $guestArray[$i] = $this->get_guest_data_detail($guestArray[$i],$user_id,$plan_id);
+      if($guestArray[$i]["self"] == 1){
+        $num+=1;
+        continue;
+      }
+      if($guestArray[$i]["stage_guest"] == 1){
+        $num+=1;
+        continue;
+      }
+      if($guestArray[$i]["seat_id"] && $guestArray[$i]["seat_id"] != 0){
+        $num+=1;
+        continue;
+      }
+
+    }
+    //print_r($guestArray);    
+    return $num;
+
+  }                                     
 
   //高砂席のみ取得する
   public function get_guestdata_in_host($user_id){
@@ -347,6 +372,8 @@ class DataClass extends DBO{
     $seat_id = $this->get_seat_id($plan_id,$guest_detail["id"]);
     $table_id = $this->get_table_id_by_seat_id($seat_id);
     $table_name = $this->get_table_name($table_id,$user_id);
+    $guest_detail["table_id"] = $table_id;
+    $guest_detail["seat_id"] = $seat_id;
     $guest_detail["table_name"] = $table_name;
     $guest_detail["respect_text"] = $this->get_respect($guest_detail["respect_id"]);
     
@@ -856,11 +883,11 @@ class DataClass extends DBO{
     $data = $this->GetSingleRow("download_num"," user_id = '".(int)$user_id."' and admin_id = '".(int)$admin_id."'");
     if(!$data){
       $this->InsertData("download_num",array("num"=>1,"user_id" => (int)$user_id,"admin_id"=>(int)$admin_id));
-      return $this->get_num_in_digit(1,4);
+      return $this->get_num_in_digit(1,2);
     }else{
       $num = $data["num"]+1; 
       $this->UpdateData("download_num",array("num"=>$num)," id=".$data["id"]);
-      return $this->get_num_in_digit($num,4);
+      return $this->get_num_in_digit($num,2);
     }
   }
   public function get_num_in_digit($num,$digit){

@@ -224,6 +224,9 @@ if(is_array($results2))
 	
 	echo'</tr></table>';
 }
+if(is_array($results2) && count($results2)==0){
+  print "<br><div style='font-weight:bold;font-size:20px;margin-left:90px;'>該当なし</div>";
+}
 ?>
 </div>
    </div>
@@ -278,6 +281,8 @@ if(is_array($results))
 <?php
 	}
 }
+
+
 ?>
 
 </div>
