@@ -226,6 +226,7 @@ class DataClass extends DBO{
         $last = $i+1;
       }
     }
+    
     for($i=0;$i<count($columns);++$i){
       if(($columns[$i]["align"] == "C" && $first-1<=$i && $last>$i && $columns[$i]["display"]!=1)||
          ($columns[$i]["align"] != "C" && $columns[$i]["display"]!=1)

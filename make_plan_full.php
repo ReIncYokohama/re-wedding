@@ -750,6 +750,9 @@ $layoutname = $tableData["layoutname"];
                 }else if($num_first <= $table_row["column_order"] && $table_row["column_order"]<=$num_last){
 									$disp = 'visibility:hidden;';
                   $class = 'seat_droppable';
+                }else if($ralign == "N"){
+                  $disp = 'visibility:hidden;';
+                  $class = 'seat_droppable';
                 }else{
 									$disp = 'display:none;';
 									$class = 'droppable';

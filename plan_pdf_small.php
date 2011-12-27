@@ -331,8 +331,11 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row){
       $column = $row["columns"][$j];
       $table_name = $column["name"];
       $table_id = $column["id"];
-      $visible = $column["visible"];
-      if($row["ralign"] == "C" && $column["display"] == 0 && !$visible) continue;
+      if($column["display"] == 0 && !$column["visible"]) continue;
+      if($column["display"] == 0){
+        $html .="<td></td>";
+        continue;
+      }
       $html .= "<td><table cellspacing=\"0\" cellspadding=\"0\"><tr><td colspan=\"0\" align=\"center\">".$table_name."</td></tr>";
 
       for($k=0;$k<$seat_row*2;++$k){
@@ -421,5 +424,9 @@ for($i=0;$i<count($page_arr);++$i){
 // This method has several options, check the source code documentation for more information.
 $date = date("His");
 //$pdf->Output('sekijihyou'.$date.'.pdf', 'D');
-$pdf->Output('example_001.pdf', 'I');
+
+$user_id_name = $user_id;
+$date_array = explode('-', $user_info['party_day']);
+$this_name = "sekijihyo".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
+$pdf->Output($this_name.'.pdf', 'I');
 ?> 

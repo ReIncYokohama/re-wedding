@@ -3906,11 +3906,10 @@ $pdf->writeHTML($utf8text, true, false, true, false, '');
 // Close and output PDF document
 // This method has several options, check the source code documentation for more information.
 //$pdf->Output('example_001.pdf', 'I');
+$user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
-$this_name = "0001_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
+$this_name = "hikidemono".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
 $pdf->Output($this_name.'.pdf', 'I');
-
-
 
 
 
