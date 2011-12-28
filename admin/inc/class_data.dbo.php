@@ -119,12 +119,34 @@ class DataClass extends DBO{
   
   //招待客情報あり
   //以下を追加
-  //rows 0 columns 0 seats 0 guest_id,table_id,guest_detail
+  //rows 0 columns 0 seats 0 guest_id,table_id,guest_detail,guests
+  //                         guests_num
   //                 name
-  //guests
+  //
   public function get_table_data_detail_with_hikidemono($user_id){
     $table_data = $this->get_table_data_detail($user_id);
     
+    for($i=0;$i<count($table_data["rows"]);++$i){
+      $guests_num = 0;
+      $columns = $table_data["rows"][$i]["columns"];
+
+      for($j=0;$j<count($columns);++$j){
+        $column = $columns[$j];
+        $seats = $column["seats"];
+        $guests = array();
+        $menu_num = 0;
+        for($k=0;$k<count($seats);++$k){
+          if($seats[$k]["guest_id"]){
+            array_push($guests,$seats[$k]["guest_detail"]);
+            if($seats[$k]["guest_detail"]["menu_grp"]>0) $menu_num+=1;
+          }
+        }
+        $table_data["rows"][$i]["columns"][$j]["child_menu_num"] = $menu_num;
+        $table_data["rows"][$i]["columns"][$j]["guests"] = $guests;
+        $gifts = $this->get_gift_table($guests,$user_id);
+        $table_data["rows"][$i]["columns"][$j]["gifts"] = $gifts;
+      }
+    }
     return $table_data;
   }
   
@@ -172,6 +194,9 @@ class DataClass extends DBO{
   public function set_guest_property_value($guest_obj){
     $guest_obj["guest_type_value"] = $this->get_guest_type($guest_obj["guest_type"]);
     $guest_obj["name_plate"] = $this->get_guest_image_url($guest_obj["user_id"],$guest_obj["id"],"namecard.png");
+    $guest_obj["namecard_memo"] = $this->get_guest_image_url($guest_obj["user_id"],$guest_obj["id"],"namecard_memo.png");
+    $guest_obj["namecard_memo2"] = $this->get_guest_image_url($guest_obj["user_id"],$guest_obj["id"],"namecard_memo2.png");
+
     return $guest_obj;
   }
   

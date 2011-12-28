@@ -16,6 +16,7 @@ if($user_id=="")
 function get_center_table($max_width,$width,$html){
   $margin = floor((100*(($max_width-$width)/$max_width))*10/2)/10;
   $main_margin = floor((100-$margin*2)*10)/10;
+  if($max_width == $width) return "<table><tr><td width=\"100%\">".$html."</td></table>";
   return "<table><tr><td width=\"".$margin."%\"></td><td width=\"".$main_margin."%\">".$html."</td><td width=\"".$margin."%\"></td></tr></table>";
 }
 
@@ -359,8 +360,11 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row){
 $seat_num = $table_data["seat_num"];
 $seat_row = $seat_num/2;
 
-function draw_html($plan_id,$html,$pdf){
-
+function draw_html($plan_id,$html,$pdf,$num,$max_width){
+  if($num && $max_width){
+    $table_width = 300*$num;
+    $html = get_center_table($max_width,$table_width,$html);
+  }
   $samplefile="sam_".$plan_id."_".rand()."_".time().".txt";
   
   $handle = fopen("cache/".$samplefile, "x");
@@ -377,6 +381,7 @@ function draw_html($plan_id,$html,$pdf){
 }
 
 $page_arr = array();
+$page_arr_max_columns_num = array();
 $rows_num = count($table_data["rows"]);
 $columns_num = count($table_data["rows"][0]["columns"]);
 if($flag_horizon){
@@ -397,6 +402,7 @@ for($i=0;$i<$page_rows_num;++$i){
     $columns_start = $j*$columns_config_num;
     $columns_end = $columns_num<$columns_start+$columns_config_num?$columns_num:$columns_start+$columns_config_num;
     $page_arr[$index] = array();
+    $max_columns_num = 0;
     for($k=$rows_start;$k<$rows_end;++$k){
       $row = $table_data["rows"];
       $row["columns"] = array();
@@ -404,16 +410,17 @@ for($i=0;$i<$page_rows_num;++$i){
         array_push($row["columns"],$table_data["rows"][$k]["columns"][$l]);
       }
       array_push($page_arr[$index],$row);
+      if(count($row["columns"])>$max_columns_num) $max_columns_num = count($row["columns"]);
     }
+    $page_arr_max_columns_num[$index] = $max_columns_num;
     $index+=1;
   }
 }
 
-
 draw_html($plan_id,$html,$pdf);
 for($i=0;$i<count($page_arr);++$i){
   $html = get_table_html($page_arr[$i],$main_font_size,$seat_num,$seat_row);
-  draw_html($plan_id,$html,$pdf);
+  draw_html($plan_id,$html,$pdf,$page_arr_max_columns_num[$i],$max_width);
   if($i+1==count($page_arr)) break;
   $pdf->addPage();
 }
