@@ -561,7 +561,6 @@ $reqfilelen = strlen($reqfile);
 $current = substr( $requrl, 0, $urilen - $reqfilelen );
 //echo $requrl."<br/>".$current;
 
-
 define('ADMIN_LINK', BASE_URL."admin/");     			// AdminへのURL
 define('ADMIN_LINK_FOR_PRINT', BASE_URL."admin/");     // PrintへのAdminのURL
 define('MAIN_LINK', BASE_URL);         				// UserへのURL
