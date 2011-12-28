@@ -78,13 +78,14 @@ width:200px;
                 <td width="20%" align="left" valign="top" nowrap="nowrap">挙式日</td>
                 <td width="10%" style="text-align:center"><font color="#2052A3"></font>：</td>
                 <td width="70%"nowrap="nowrap" colspan="3" style="text-align:left">
-                	<?=$obj->japanyDateFormate($user_row['marriage_day']) ?>
+  <?=($user_row["marriage_day"]=="0000-00-00")?"":$obj->japanyDateFormate($user_row['marriage_day']) ?>
                 </td>
 			</tr>
 			<tr>
                 <td align="left" nowrap="nowrap">挙式時間</td>
                 <td style="text-align:center"><font color="#2052A3"></font>：</td>
-                <td nowrap="nowrap" colspan="3" style="text-align:left"><?=date("H:i",strtotime($user_row['marriage_day_with_time']))?>
+  <td nowrap="nowrap" colspan="3" style="text-align:left"> <?=($user_row["marriage_day_with_time"]=="00:00:00")?"":date("H:i",strtotime($user_row['marriage_day_with_time']))?>
+                                                                                                           
                 </td>
             </tr>
             <tr>
