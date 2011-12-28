@@ -466,7 +466,7 @@ foreach($usertblrows as $tblRows)
 		//外字姓名FullName
 		$value = s($guest_info['last_name']." ".$guest_info['first_name']);
 		$cl22[] = setStrGaijis($value,$gaiji_name_arr);
-    exit;
+
 		//com1 com2
 		if($guest_info['comment1']&&$guest_info['comment2'])
 			$value = s($guest_info['comment1'].'△'.$guest_info['comment2']);
@@ -549,7 +549,7 @@ foreach($usertblrows as $tblRows)
     $gaiji_name_arr = array_merge($lastname_gaijis,$firstname_gaijis);
 		$value = s(getGaijis($gaiji_name_arr));
 		$own_array[] = "$value";
-    exit;
+
 		//respect
     if($own_info["self"]==1){
       $respectname = "様";
