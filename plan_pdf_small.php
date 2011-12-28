@@ -210,9 +210,13 @@ $html.='<table style="font-size:'.$main_font_size_top.';"><tr>';
 /* 引出物　商品数　開始 */
 $html.='<td width="35%">';
 $html.='</td>';
-	
-$male_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male'");
-$female_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female'");
+
+
+$table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
+$male_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male' and stage_guest=1");
+$female_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female' and stage_guest=1");
+$male_guest_num = $table_data["man_num"]+$male_takasago_guest_num;
+$female_guest_num = $table_data["woman_num"]+$female_takasago_guest_num;
 $total_guest=$male_guest_num+$female_guest_num;
 $total_guest_with_bride=$total_guest+2;
 	
@@ -317,9 +321,6 @@ $subhtml .= '</tr></table><br>';
 
 $html .= get_center_table($max_width,$width,$subhtml);
 
-
-
-$table_data = $obj->get_table_data_detail($user_id);
 
 //rows[0]columns[0]seats[0]
 function get_table_html($rows,$main_font_size,$seat_num,$seat_row){

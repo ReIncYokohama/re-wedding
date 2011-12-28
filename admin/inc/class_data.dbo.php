@@ -89,6 +89,8 @@ class DataClass extends DBO{
   public function get_table_data_detail($user_id){
     $table_data = $this->get_table_data($user_id);
     $guest_rows = $this->getRowsByQuery("select * from spssp_guest where user_id = ".$user_id." and self!=1 and stage_guest=0");
+    $man_num = 0;
+    $woman_num = 0;
     for($i=0;$i<count($table_data["rows"]);++$i){
       $row = $table_data["rows"][$i];
       for($j=0;$j<count($row["columns"]);++$j){
@@ -106,6 +108,12 @@ class DataClass extends DBO{
               $guest_detail = $this->set_guest_property_value($guest_detail);
               $seats[$k]["guest_detail"] = $guest_detail;
               $guest_rows[$l]["unset"] = true;
+              $guest_rows[$l]["seat_id"] = $seat_detail["id"];
+              if($guest_detail["sex"] == "Male"){
+                ++$man_num;
+              }else{
+                ++$woman_num;
+              }
             }
           }
         }
@@ -114,9 +122,11 @@ class DataClass extends DBO{
     }
     $guest_rows = $this->set_guest_property_values($guest_rows);
     $table_data["guests"] = $guest_rows;
+    $table_data["man_num"] = $man_num;
+    $table_data["woman_num"] = $woman_num;
     return $table_data;
-  }
-  
+  }  
+
   //招待客情報あり
   //以下を追加
   //rows 0 columns 0 seats 0 guest_id,table_id,guest_detail,guests

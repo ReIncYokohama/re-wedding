@@ -274,14 +274,16 @@ $html.='<td  style="text-align:center;border:1px solid black;"  width="20">-</td
 	
 $html.='</table></td></tr>';
 
-if(count($gift_rows)!=0) $html.='<tr><td style="text-align:center; border:1px solid black;" width="16" rowspan="7" height="10">商品名</td>';
+$subhtml = "";
 $start=0;
+$have_gift = false;
 foreach($gift_rows as $gift)
 	{
 	if ($gift['name']!="") {
-		if($start!=0) $html.='<tr>';
+    $have_gift = true;
+		if($start!=0) $subhtml.='<tr>';
 		$start=1;
-	    $html.='<td style="text-align:right;border:1px solid black;" height="10" width="84">'.$gift['name'].'</td>';
+	    $subhtml.='<td style="text-align:right;border:1px solid black;" height="10" width="84">'.$gift['name'].'</td>';
 	
 			$num_gifts = 0;
 			foreach($group_rows as $grp)
@@ -312,21 +314,26 @@ foreach($gift_rows as $gift)
 		            unset($groups);
 		          }
 					
-		        $html.='<td style="text-align:center;border:1px solid black;" width="20">'.$htm.'</td>';
+		        $subhtml.='<td style="text-align:center;border:1px solid black;" width="20">'.$htm.'</td>';
 	      	}
 	      }
 	      $num_reserve = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift["id"]);
 	      $num_gifts += $num_reserve;
-	      $html.='<td style="text-align:center;border:1px solid black;" width="20">'.$num_reserve.'</td>';
-	      $html.='<td style="text-align:center;border:1px solid black;" width="20">'.$num_gifts.'</td>';
-	      $html.='</tr>';
+	      $subhtml.='<td style="text-align:center;border:1px solid black;" width="20">'.$num_reserve.'</td>';
+	      $subhtml.='<td style="text-align:center;border:1px solid black;" width="20">'.$num_gifts.'</td>';
+	      $subhtml.='</tr>';
 		}
 	}
 	//$html.='</tr>';
 	/* 引出物　商品数　終了 */
-	
-$male_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male'");
-$female_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female'");
+if($have_gift) $html.='<tr><td style="text-align:center; border:1px solid black;" width="16" rowspan="7" height="10">商品名</td>'.$subhtml;
+
+$table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
+$male_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male' and stage_guest=1");
+$female_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female' and stage_guest=1");
+$male_guest_num = $table_data["man_num"]+$male_takasago_guest_num;
+$female_guest_num = $table_data["woman_num"]+$female_takasago_guest_num;
+
 $total_guest=$male_guest_num+$female_guest_num;
 $total_guest_with_bride=$total_guest+2;
 	
@@ -475,11 +482,9 @@ for($i=0;$i<count($viewArray);++$i){
   $subhtml .= '<td align="center"  valign="middle">'.$viewArray[$i].'</td>';
 }
 $subhtml .= '</tr></table>';
-//echo get_center_table($max_width,$width,$subhtml); exit;
 $html .= get_center_table($max_width,$width,$subhtml);
 
 //引き出物画像の表示
-$table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
 
 //rows[0]columns[0]seats[0]
 function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_num){
@@ -597,7 +602,6 @@ for($i=0;$i<$page_rows_num;++$i){
     $index+=1;
   }
 }
-
 
 draw_html($plan_id,$html,$pdf);
 for($i=0;$i<count($page_arr);++$i){
