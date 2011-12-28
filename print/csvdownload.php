@@ -24,14 +24,18 @@ else
 {
 	exit;
 }
-
+function s($text){
+  $text = chop($text);
+  if($text=="") return "";
+  return mb_convert_encoding($text,"SJIS","UTF8");
+}
 /*$entityArray2 = array(" HotelName , WeddingDate , WeddingTime , WeddingVenues , ReceptionDate, ReceptionTime , ReceptionHall , GroomName,  fullPhoneticGroom , BrideFullName , BrideFullPhonetic , Categories, ProductName ,  Printsize,tableArrangement , JIs_num, DataOutputTime , PlannerName , LayoutColumns , TableLayoutStages , Colortable , Max , NumberAttendance "); */
 
-$lines = mb_convert_encoding("headers\n", "SJIS", "UTF8");
+$lines = s("headers\n", "SJIS", "UTF8");
 $entityArray2 = array("ホテル名,挙式日,挙式時間,挙式会場,披露宴日,披露宴時間,披露宴会場,新郎姓名,新郎姓名ふりがな,新婦姓名,新婦姓名ふりがな,商品区分,商品名,席次表サイズ,席次表配置,字形,データ出力日時,プランナー名,高砂卓名,卓レイアウト列数,卓レイアウト段数,卓色,一卓最大人数,合計人数");
 
 $entity=implode(",",$entityArray2);
-$entity = mb_convert_encoding("$entity", "SJIS", "UTF8");
+$entity = s($entity);
 $lines .= <<<html
 $entity
 html;
@@ -111,7 +115,8 @@ $entityArray['tableArrangement']	= $tableArrangement;
 $entityArray['JIs_num']				= strtoupper($user_info['user_code']);
 $entityArray['DataOutputTime']		= date("Y年m月d日 g:i");
 $entityArray['PlannerName']			= $stuff_info['name'];
-$entityArray['TakasagoName']		= ($layoutname!="" && $layoutname!="null")?$layoutname:$default_layout_title;
+
+$entityArray['TakasagoName']		= ($layoutname)?($layoutname=="null")?"":$layoutname:$default_layout_title;
 $entityArray['LayoutColumns']		= $plan_info['column_number'];
 $entityArray['TableLayoutStages']	= $plan_info['row_number'];
 $entityArray['Colortable']	        = "";
@@ -124,9 +129,10 @@ foreach($entityArray as $key=>$values)
 	$cl[] = "$values";
 }
 
+$lines .= "\n";
 $cl2 = implode(",",$cl);
 $cl2 = $cl2."\n";
-$line = mb_convert_encoding("$cl2", "SJIS", "UTF8");
+$line = s($cl2);
 $lines .= "\n";
 $lines .= $line."\n";
 
@@ -183,10 +189,10 @@ foreach($tblrows as $tblrow)
 	else if($ralign=='L'){$pos = "左寄せ";}
 	else if($ralign=='N'){$pos = "そのまま";}
 	//CENTER//RIGHT//LEFT
-	//$value = chop($tblrow['row_order']);
+	//$value = s($tblrow['row_order']);
 	//$cl[] = "\"$value\"";
 
-	$value = chop($pos);
+	$value = s($pos);
 	$cl[] = "$value";
 
 	$table_rows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".(int)$user_id." and row_order=".$tblrow['row_order']." order by  column_order asc");
@@ -212,24 +218,24 @@ foreach($tblrows as $tblrow)
     if($table_row["display"]==1 and $table_row["visibility"] == 1)
 		{
 
-			$value = chop($z);
+			$value = s($z);
 			$cl[] = "$value";
 
-			$value = chop($tblname);
+			$value = s($tblname);
 			$cl[] = "$value";
 
-			$value = chop("");
+			$value = s("");
 			$cl[] = "$value";
 		}
 		else
 		{
-			$value = chop("-1");
+			$value = s("-1");
 			$cl[] = "$value";
 
-			$value = chop("");
+			$value = s("");
 			$cl[] = "$value";
 
-			$value = chop("");
+			$value = s("");
 			$cl[] = "$value";
 		}
 
@@ -241,7 +247,7 @@ foreach($tblrows as $tblrow)
 	{
 		for($y=0;$y<$z;$y++)
 		{
-			$value = chop($c11[$y][$k]);
+			$value = s($c11[$y][$k]);
 			$c3[$y] = "$value";
 
 		}
@@ -263,7 +269,7 @@ foreach($tblrows as $tblrow)
 	}
 
 
-	$line = mb_convert_encoding("$cl2", "SJIS", "UTF8");
+	$line = $cl2;
 
 	$lines .= $line;
 
@@ -313,11 +319,14 @@ function getGaijis($gaiji_objs){
 
 //gaiji 関連の関数
 function setStrGaijis($str,$gaiji_objs){  
-  $strArray = explode("＊",$str);
+  $strArray = explode(s("＊"),$str);
   $returnStr = "";
   for($i=0;$i<count($gaiji_objs);++$i){
     preg_match("/(.*?)\.(.*?)/",$gaiji_objs[$i]["gu_char_img"],$matches);
-    $returnStr .= $strArray[0].$matches[1];
+    $first = substr($matches[1],0,2);
+    $second = substr($matches[1],2,2);
+    $data = pack("c*",hexdec($first),hexdec($second));
+    $returnStr .= $strArray[$i].$data;
   }
   $returnStr .= $strArray[count($strArray)-1];
   return $returnStr;
@@ -365,12 +374,12 @@ foreach($usertblrows as $tblRows)
 		//echo "<pre>";print_r($guest_info);
 		//TableNumber
 		if(!empty($guest_info))
-			$value = chop($o);
+			$value = s($o);
 		else{
       $z+=1;
       continue;
     }
-			//$value = chop("-1");
+			//$value = s("-1");
 
     $query_string = "SELECT * FROM spssp_gaizi_detail_for_guest WHERE guest_id = '".$guesttblrows[0]['guest_id']."'";
     $firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=0 order by gu_char_position");
@@ -380,13 +389,13 @@ foreach($usertblrows as $tblRows)
 
 		$cl22[] = "\n$value";
 		//TableName
-		$value = chop($tblname);
-		//$value = chop("table".$o);
+		$value = s($tblname);
+		//$value = s("table".$o);
 		$cl22[] = "$value";
 
 		//SeatNumber
 
-		$value = chop($z);//////"seat ".
+		$value = s($z);//////"seat ".
 		$cl22[] = "$value";
 		if($z%$room_seats==0)
 		{
@@ -394,77 +403,77 @@ foreach($usertblrows as $tblRows)
 		}
 
 		//LastName
-		$value = chop($guest_info['last_name']);
+		$value = s($guest_info['last_name']);
 		$cl22[] = "$value";
 
 		//FirstName
-		$value = chop($guest_info['first_name']);
+		$value = s($guest_info['first_name']);
 		$cl22[] = "$value";
 
 		//FullName
-		$value = chop($guest_info['last_name']." ".$guest_info['first_name']);
+		$value = s($guest_info['last_name']." ".$guest_info['first_name']);
 		$cl22[] = "$value";
 
 		//FullName gaiji
     $gaiji_name_arr = array_merge($lastname_gaijis,$firstname_gaijis);
-		$value = chop(getGaijis($gaiji_name_arr));
+		$value = s(getGaijis($gaiji_name_arr));
 		$cl22[] = "$value";
 
 		//respect
     $respectname = $obj->get_respect($guest_info["respect_id"]);
-		$value = chop($respectname);
+		$value = s($respectname);
 		$cl22[] = "$value";
 
 		//com1 com2
 		if($guest_info['comment1']&&$guest_info['comment2'])
-			$value = chop($guest_info['comment1'].'△'.$guest_info['comment2']);
+			$value = s($guest_info['comment1'].'△'.$guest_info['comment2']);
 		elseif($guest_info['comment1'])
-			$value = chop($guest_info['comment1']);
+			$value = s($guest_info['comment1']);
 		elseif($guest_info['comment2'])
-			$value = chop($guest_info['comment2']);
+			$value = s($guest_info['comment2']);
     else $value = "";
 
 		$cl22[] = "$value";
 
 		//com1 com2
     $gaiji_comment_arr = array_merge($comment1_gaijis,$comment2_gaijis);
-		$value = chop(getGaijis($gaiji_comment_arr));
+		$value = s(getGaijis($gaiji_comment_arr));
 		$cl22[] = "$value";
 
 		// sex グループ
 		if($guest_info['sex']=="Male")
-			$value = chop("新郎側");
+			$value = s("新郎側");
 		elseif($guest_info['sex']=="Female")
-			$value = chop("新婦側");
+			$value = s("新婦側");
     else $value = "";
 
 		$cl22[] = "$value";
 
 		//guest-type 区分
 		$guest_type = $obj->GetSingleData("spssp_guest_type", "name","id=".$guest_info['guest_type']);
-		$value = chop($guest_type);
+		$value = s($guest_type);
 		$cl22[] = "$value";
 
 		//LastName	外字
-		$value = chop($guest_info['last_name']);
+		$value = s($guest_info['last_name']);
 		$cl22[] = setStrGaijis($value,$lastname_gaijis);
-    
+
 		//FirstName	 外字名
-		$value = chop($guest_info['first_name']);
+		$value = s($guest_info['first_name']);
 		$cl22[] = setStrGaijis($value,$firstname_gaijis);
 
 
 		//外字姓名FullName
-		$value = chop($guest_info['last_name']." ".$guest_info['first_name']);
+		$value = s($guest_info['last_name']." ".$guest_info['first_name']);
 		$cl22[] = setStrGaijis($value,$gaiji_name_arr);
-
+    exit;
 		//com1 com2
 		if($guest_info['comment1']&&$guest_info['comment2'])
-			$value = chop($guest_info['comment1'].'△'.$guest_info['comment2']);
+			$value = s($guest_info['comment1'].'△'.$guest_info['comment2']);
 		elseif($guest_info['comment1'])
-			$value = chop($guest_info['comment1']);
+			$value = s($guest_info['comment1']);
 		elseif($guest_info['comment2'])
-			$value = chop($guest_info['comment2']);
+			$value = s($guest_info['comment2']);
     else $value = "";
 
 		$cl22[] = "$value";
@@ -481,7 +490,7 @@ foreach($usertblrows as $tblRows)
 	foreach($guest_own_info as $own_info)
 	{
 		//TableNumber
-		$value = chop(0);
+		$value = s(0);
 		/*if($xxx==2)
 			$own_array[] = "\n\"$value\"";
 		else
@@ -511,97 +520,98 @@ foreach($usertblrows as $tblRows)
     }
 
 		//TableName
-		//$value = chop($tblname);
+		//$value = s($tblname);
 		if(!empty($plan_info['layoutname']))
-			$value = chop($plan_info['layoutname']);
+			$value = s($plan_info['layoutname']);
 		else
-			$value = chop($default_layout_title);
+			$value = s($default_layout_title);
+    if($value=="null") $value = "";
 		$own_array[] = "$value";
 
 		//SeatNumber
-		$value = chop($xxx);/////////"seat ".
+		$value = s($xxx);/////////"seat ".
 		$own_array[] = "$value";
 
 		//LastName
-		$value = chop($own_info['last_name']);
+		$value = s($own_info['last_name']);
 		$own_array[] = "$value";
 
 		//FirstName
-		$value = chop($own_info['first_name']);
+		$value = s($own_info['first_name']);
 		$own_array[] = "$value";
 
 
 		//FullName
-		$value = chop($own_info['last_name']." ".$own_info['first_name']);
+		$value = s($own_info['last_name']." ".$own_info['first_name']);
 		$own_array[] = "$value";
 
 		//FullName gaiji
     $gaiji_name_arr = array_merge($lastname_gaijis,$firstname_gaijis);
-		$value = chop(getGaijis($gaiji_name_arr));
+		$value = s(getGaijis($gaiji_name_arr));
 		$own_array[] = "$value";
-
+    exit;
 		//respect
     if($own_info["self"]==1){
       $respectname = "様";
     }else{
       $respectname = $obj->get_respect($own_info["respect_id"]);
     }
-		$value = chop($respectname);
+		$value = s($respectname);
 		$own_array[] = "$value";
 
 		//com1 com2
 		if($own_info['comment1']&&$own_info['comment2'])
-			$value = chop($own_info['comment1'].'△'.$own_info['comment2']);
+			$value = s($own_info['comment1'].'△'.$own_info['comment2']);
 		elseif($own_info['comment1'])
-			$value = chop($own_info['comment1']);
+			$value = s($own_info['comment1']);
 		elseif($own_info['comment2'])
-			$value = chop($own_info['comment2']);
+			$value = s($own_info['comment2']);
     else $value = "";
 
 		$own_array[] = "$value";
 
 		//com1 com2
     $gaiji_comment_arr = array_merge($comment1_gaijis,$comment2_gaijis);
-		$value = chop(getGaijis($gaiji_comment_arr));
+		$value = s(getGaijis($gaiji_comment_arr));
 		$cl22[] = "$value";
 
 		$own_array[] = "$value";
 
 		// sex グループ
 		if($own_info['sex']=="Male")
-			$value = chop("新郎側");
+			$value = s("新郎側");
 		elseif($own_info['sex']=="Female")
-			$value = chop("新婦側");
+			$value = s("新婦側");
     else $value = "";
 
 		$own_array[] = "$value";
 
 		//guest-type 区分
 		$guest_type = $obj->GetSingleData("spssp_guest_type", "name","id=".$own_info['guest_type']);
-		$value = chop($guest_type);
+		$value = s($guest_type);
 		$own_array[] = "$value";
 
 		//LastName	外字姓
-		$value = chop($own_info['last_name']);
+		$value = s($own_info['last_name']);
 		//$own_array[] = "$value";
 		$own_array[] = setStrGaijis($value,$lastname_gaijis);
 
 		//FirstName	 外字名
-		$value = chop($own_info['first_name']);
+		$value = s($own_info['first_name']);
 		$own_array[] = setStrGaijis($value,$firstname_gaijis);
 
 
 		//外字姓名FullName
-		$value = chop($own_info['last_name']." ".$own_info['first_name']);
+		$value = s($own_info['last_name']." ".$own_info['first_name']);
 		$own_array[] = setStrGaijis($value,$gaiji_name_arr);
 
 		//com1 com2
 		if($own_info['comment1']&&$own_info['comment2'])
-			$value = chop($own_info['comment1'].'△'.$own_info['comment2']);
+			$value = s($own_info['comment1'].'△'.$own_info['comment2']);
 		elseif($own_info['comment1'])
-			$value = chop($own_info['comment1']);
+			$value = s($own_info['comment1']);
 		elseif($own_info['comment2'])
-			$value = chop($own_info['comment2']);
+			$value = s($own_info['comment2']);
     else $value = "";
 
 		$own_array[] = "$value";
@@ -612,7 +622,7 @@ foreach($usertblrows as $tblRows)
 	$cl23_2 = implode(",",$own_array);
 	$cl23 = implode(",",$cl22);
 	$cl21 =$cl23_2.",".$cl23;
-	$line = mb_convert_encoding("$cl21", "SJIS", "UTF8");
+$line = $cl21;
 	$lines .= $line;
 
 $date_array = explode('-', $user_info['party_day']);
