@@ -1,7 +1,4 @@
 <?php
-session_start();
-require_once("admin/inc/include_class_files.php");
-include_once("inc/checklogin.inc.php");
 include_once("admin/inc/dbcon.inc.php");
 require_once('tcpdf/config/lang/eng.php');
 require_once('tcpdf/tcpdf.php');
@@ -472,7 +469,7 @@ for($i=0;$i<count($viewSubArray);++$i){
 $width = count($viewArray)*150;
 $gift_table = get_center_table((count($viewArray)-1)*200,190,$gift_table);
 
-$subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td style="font-size:30px;" align="center">高砂【 '.$takasago_num.'名 】</td><td colspan="'.(count($viewArray)-1).'">'.$gift_table.'</td></tr><tr>';
+$subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td style="font-size:25px;" align="center">高砂【 '.$takasago_num.'名 】</td><td colspan="'.(count($viewArray)-1).'">'.$gift_table.'</td></tr><tr>';
 
 for($i=0;$i<count($viewArray);++$i){
   $subhtml .= '<td align="center"  valign="middle">'.$viewArray[$i].'</td>';
@@ -515,7 +512,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
       $gift_tr2 .= '<td height="9" style="text-align:center;border:1px solid black;font-size:17px;" >'.$column["child_menu_num"]."</td></tr>";
       $gift_table .= $gift_tr1.$gift_tr2.'</table>';
       
-      $subhtml .= "<td><table cellspacing=\"0\" cellspadding=\"0\" width=\"300\"><tr><td align=\"center\">".$table_name."[".count($column["guests"])."名(".$column["child_menu_num"]."名)]</td><td>".$gift_table."</td></tr><tr style=\"font-size:10px;\"><td></td></tr>";
+      $subhtml .= "<td><table cellspacing=\"0\" cellspadding=\"0\" width=\"300\"><tr><td align=\"center\" style=\"font-size:25px;\">".$table_name."[".count($column["guests"])."(".$column["child_menu_num"].")名]</td><td>".$gift_table."</td></tr><tr style=\"font-size:10px;\"><td></td></tr>";
        
       for($k=0;$k<$seat_row*2;++$k){
         if($k%2==0) $subhtml .= "<tr>";
