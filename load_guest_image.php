@@ -4,6 +4,8 @@ $user_id = $_GET["user_id"];
 $guest_id = $_GET["guest_id"];
 $option = $_GET["option"];
 $message = $_GET["message"];
+require_once("admin/inc/class_information.dbo.php");
+$objInfo = new InformationClass();
 
 //redirect("my_guests.php?".$message."=true&page=".$guest_id."&option=".$_GET['option']);
 ?>
@@ -21,8 +23,8 @@ $message = $_GET["message"];
 <?php
 $srcArray = array("thumb1/comment1.png","thumb1/comment2.png","thumb1/guest_fullname_only.png");
 for($i=0;$i<count($srcArray);++$i){
+  echo $objInfo->get_user_name_image_or_src($user_id ,1, "guest/".$guest_id."/".$srcArray[$i],"",1,"",1);
 ?>
-<image height="1" width="1" src="name_image/hotel1/user_name/<?php echo $user_id;?>/guest/<?php echo $guest_id;?>/<?php echo $srcArray[$i];?>"/>
 <?php
 }
 ?>
@@ -43,7 +45,7 @@ $(window).load(function() {
       $_SESSION["tmp_url"] = 'window.location.href="my_guests.php?'.$message.'=true&page='.$guest_id.'&option='.$option."\";";
       echo "window.location.reload();";
     }else{
-      echo $_SESSION["tmp_url"];
+      //echo $_SESSION["tmp_url"];
       $_SESSION["tmp_url"] = null;
     }
     

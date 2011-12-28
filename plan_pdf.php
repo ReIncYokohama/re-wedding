@@ -418,14 +418,13 @@ $subhtml = '<table  style="font-size:'.($main_font_size_top).';"><tr><td colspan
 $menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".(int)$user_id);
 $num_groups = count($menu_groups);
 
-$totalsum='';
-$Noofguest = $obj->GetNumRows("spssp_guest","user_id=".$user_id);
+$totalsum=0;
 foreach($menu_groups as $mg)
 {
 	$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']." and guest_id<>0");
 	$totalsum +=$num_menu_guest;
 }
-$subhtml.='<tr><td style="text-align:center;border:1px solid black;" width="100" height="10">大人</td><td style="text-align:center;border:1px solid black;" width="100">'.($Noofguest-$totalsum).'</td></tr>';
+$subhtml.='<tr><td style="text-align:center;border:1px solid black;" width="100" height="10">大人</td><td style="text-align:center;border:1px solid black;" width="100">'.($total_guest-$totalsum).'</td></tr>';
 
 $guest_without_menu=$total_guest;
 $group_menu_array['子']=0;
