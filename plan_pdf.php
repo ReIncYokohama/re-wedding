@@ -517,7 +517,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
       $gift_tr2 .= '<td height="9" style="text-align:center;border:1px solid black;font-size:17px;" >'.$column["child_menu_num"]."</td></tr>";
       $gift_table .= $gift_tr1.$gift_tr2.'</table>';
       
-      $subhtml .= "<td><table cellspacing=\"0\" cellspadding=\"0\" width=\"300\"><tr><td align=\"center\" style=\"font-size:25px;\">".$table_name."[".count($column["guests"])."(".$column["child_menu_num"].")名]</td><td>".$gift_table."</td></tr><tr style=\"font-size:10px;\"><td></td></tr>";
+      $subhtml .= "<td><table cellspacing=\"0\" cellspadding=\"0\" width=\"300\"><tr><td align=\"center\" style=\"font-size:25px;\">".$table_name."[".(count($column["guests"])-$column["child_menu_num"])."+".$column["child_menu_num"]."名]</td><td>".$gift_table."</td></tr><tr style=\"font-size:10px;\"><td></td></tr>";
        
       for($k=0;$k<$seat_row*2;++$k){
         if($k%2==0) $subhtml .= "<tr>";
