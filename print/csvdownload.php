@@ -128,7 +128,7 @@ $cl2 = implode(",",$cl);
 $cl2 = $cl2."\n";
 $line = mb_convert_encoding("$cl2", "SJIS", "UTF8");
 $lines .= "\n";
-$lines .= $line."\n"."\n";
+$lines .= $line."\n";
 
 $plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
 $plan_row = $obj->GetSingleRow("spssp_plan", " id =".$plan_id);
