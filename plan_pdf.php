@@ -421,17 +421,16 @@ $num_groups = count($menu_groups);
 $totalsum=0;
 foreach($menu_groups as $mg)
 {
-	$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']." and guest_id<>0");
+	$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']);
 	$totalsum +=$num_menu_guest;
 }
-$subhtml.='<tr><td style="text-align:center;border:1px solid black;" width="100" height="10">大人</td><td style="text-align:center;border:1px solid black;" width="100">'.($total_guest-$totalsum).'</td></tr>';
+$subhtml.='<tr><td style="text-align:center;border:1px solid black;" width="100" height="10">大人</td><td style="text-align:center;border:1px solid black;" width="100">'.($total_guest_with_bride-$totalsum).'</td></tr>';
 
-$guest_without_menu=$total_guest;
+$guest_without_menu=$total_guest_with_bride;
 $group_menu_array['子']=0;
 foreach($menu_groups as $mg)
 	{
 		$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']);
-		$guest_without_menu=$guest_without_menu-$num_menu_guest;
 		if ($mg['name']!="") {
 		    $subhtml.='<tr>
 		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.$mg['name'].'</td>
@@ -446,7 +445,7 @@ foreach($menu_groups as $mg)
 	
 $subhtml.='<tr>
       <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" height="10">合計</td>
-      <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" height="10">'.$total_guest.'</td>
+      <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" height="10">'.$total_guest_with_bride.'</td>
     </tr>';	
 	
 $subhtml.='</table>';
