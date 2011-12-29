@@ -45,7 +45,7 @@ $(window).load(function() {
       $_SESSION["tmp_url"] = 'window.location.href="my_guests.php?'.$message.'=true&page='.$guest_id.'&option='.$option."\";";
       echo "window.location.reload();";
     }else{
-      //echo $_SESSION["tmp_url"];
+      echo $_SESSION["tmp_url"];
       $_SESSION["tmp_url"] = null;
     }
     
