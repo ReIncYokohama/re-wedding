@@ -11,7 +11,7 @@ $obj = new DataClass();
 $objInfo = new InformationClass();
 $user_id = (int)$_SESSION['userid'];
 
-if($user_id=="" || $_GET["user_id"])
+if($_GET["user_id"])
   $user_id = (int)$_GET['user_id'];
 
 

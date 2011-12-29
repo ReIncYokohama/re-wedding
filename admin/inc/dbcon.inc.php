@@ -561,10 +561,18 @@ $reqfilelen = strlen($reqfile);
 $current = substr( $requrl, 0, $urilen - $reqfilelen );
 //echo $requrl."<br/>".$current;
 
+
+define('ADMIN_LINK', $requrl."/admin/");           // AdminへのURL566  
+define('ADMIN_LINK_FOR_PRINT', $current."/admin/");     // PrintへのAdminのURL567  
+define('MAIN_LINK', $current."/");                 // UserへのURL568  
+define('PRINT_COMPANY_LINK', $current."/print/");       // PrintへのURL
+
+/*
 define('ADMIN_LINK', BASE_URL."admin/");           // AdminへのURL  566
 define('ADMIN_LINK_FOR_PRINT', BASE_URL."admin/");     // PrintへのAdminのURL  567
 define('MAIN_LINK', BASE_URL);                 // UserへのURL  568
 define('PRINT_COMPANY_LINK', BASE_URL."print/");       // PrintへのURL
+*/
 
 define('STAFF_LOGIN_FILENAME','./_staff_login.log');	// スタッフログイン管理ファイル
 define('STAFF_LOGIN_TIMEOUT','1200'); 					// スタッフタイムアウト２０分=1200　単位：秒 (無操作でログイン可能になる時間)
