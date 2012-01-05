@@ -612,9 +612,17 @@ include_once("class.dbo.php");
 include("main_dbcon.inc.php");
 $obj = new DBO();
 $hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData("super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-$message_display = $obj->GetSingleData("super_spssp_hotel ", " message_display ", " hotel_code=".$hcode);
+$hotel_row = $obj->GetSingleRow("super_spssp_hotel ", " hotel_code=".$hcode);
+$hotel_name =$hotel_row["hotel_name"];
+$message_display = $hotel_row["message_display"];
+$hotel_id = $hotel_row["id"];
 $IgnoreMessage = !$message_display;
+
+$maintenance_arr = $obj->GetAllRowsByCondition("spssp_maintenance ", " display=1");
+
+foreach($maintenance_arr as $maintenance){
+  if(in_array($hotel_id,explode(",",$maintenance["hotel_ids"]))) $Maintenance = $maintenance;
+}
 include("return_dbcon.inc.php");
 
 
