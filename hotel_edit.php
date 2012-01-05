@@ -127,6 +127,15 @@ if($_POST["hotel_name"])
               ヶ月後</td>
           </tr>
           <tr>
+            <td align="right">メッセージ機能の表示<span class="txtred">*</span></td>
+            <td>：</td>
+            <td>
+              <input type="radio" name="message_display" value="1" <?php echo $hotel_row["message_display"]?"checked":"";?>>表示
+              <input type="radio" name="message_display" value="0" <?php echo $hotel_row["message_display"]?"":"checked";?>>非表示
+            </td>
+          </tr>
+
+          <tr>
             <td colspan="3" align="right">&nbsp;</td>
           </tr>
           <tr>
