@@ -83,7 +83,7 @@ font-weight:normal;
 
   <tr>
     <td width="40" valign="middle" nowrap="nowrap">
-      <input type="checkbox" name="hotels" value="1"/>&nbsp;All
+      <input type="checkbox" id="hotel_all_check" name="hotels" value="1" onclick="all_check();"/>&nbsp;All
     </td>
     <td width="100" align="right" valign="middle" nowrap="nowrap">&nbsp;</td>
     <td width="20" align="left" valign="middle" nowrap="nowrap">&nbsp;</td>
@@ -96,7 +96,7 @@ foreach($hotelArray as $hotel){
 ?>
   <tr>
     <td valign="middle" nowrap="nowrap">
-     <input type="checkbox" name="hotels[]" value="<?=$hotel["id"]?>" <?php echo ($key)?"checked":"";?>/>
+     <input type="checkbox" class="hotel_checkbox" name="hotels[]" value="<?=$hotel["id"]?>" <?php echo ($key)?"checked":"";?>/>
     </td>
     <td width="100" align="right" valign="middle" nowrap="nowrap"><?=$hotel["hotel_code"]?></td>
     <td width="20" align="left" valign="middle" nowrap="nowrap">&nbsp;</td>
@@ -168,76 +168,12 @@ function save(){
 function clear_form(){
   location.href = "?";
 }
-/*function add_supper_message()
-{
-	$j(".new_super_message").toggle("slow");
-	$j("#edit_sp").val('');
-}*/
-function save_super_message()
-{
-	var title = $j("#super_title").val()
-	var desc = $j("#super_description").val();
-	if(title == '')
-	{
-		alert("タイトルが未入力です");
-		$j("#super_title").focus();
-		return false;
-	}
-	if(desc == '')
-	{
-		alert("本文が未入力です");
-		$j("#super_description").focus();
-		return false;
-	}
 
-
+function all_check(){
+  if(!$j("#hotel_all_check").attr("checked")){
+    $j(".hotel_checkbox").attr('checked',false);
+  }else{
+    $j(".hotel_checkbox").attr('checked',true);
+  }
 }
-/*function cancel_super_message()
-{
-	$j("#edit_sp").val('');
-	$j(".new_super_message").fadeOut(500);
-}
-*/
-function view_dsc_super(id)
-{
-	$j("#super_desc_"+id).toggle();
-
-}
-function edit_super_msg(id)
-{
-
-	var mid = id;
-	$j.post('manage.php',{'ajax':'ajax','id':mid}, function(data){
-
-		$j("#edit_sp").val(id);
-		$j("#save_super").val('');
-		var arr = data.split(",");
-		$j("#super_title").val(arr[0]);
-		$j("#super_description").val(arr[1]);
-		$j("#super_desc_"+id).fadeOut(100);
-		$j(".new_super_message").fadeIn(500);
-	});
-
-
-}
-
-function viewMsg(id)
-{
-	$j.post('ajax/view_user_message.php', {'id':id},function(data) {
-
-	});
-
-	user_a_id= $j("#desc_"+id+" input").val();
-
-	$j("#desc_"+id).dialog("open");
-
-}
-
-
-function clearSubmit()
-{
-   document.getElementById('super_title').value='';
-   document.getElementById('super_description').value='';
-}
-
 </script>
