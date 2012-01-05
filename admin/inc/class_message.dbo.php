@@ -1,4 +1,4 @@
-[<?php
+<?php
 include_once("class_information.dbo.php");
 
 class MessageClass extends InformationClass
