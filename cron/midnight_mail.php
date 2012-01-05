@@ -15,7 +15,7 @@ $objMsg = new MessageClass();
 $query_string="SELECT * FROM spssp_user where party_day >= '".date("Y-m-d")."' order by party_day asc;";
 $data_rows=mysql_query($query_string);
 
-if (DEBUG!=NULL) echo "ミッドナイトメール　：　".$hotel_name." :  ID=".$HOTELID." : ".date("Y-m-d")."path ".__FILE__."<br />\n";
+if (DEBUG!=NULL) echo "ミッドナイトメール　：　".$hotel_name." :  ID=".$HOTELID." : ".date("Y-m-d H:i")."path ".__FILE__."<br />\n";
 if (DEBUG!=NULL) echo "-------------------------------------<br />\n";
 
 while($row=mysql_fetch_array($data_rows))
