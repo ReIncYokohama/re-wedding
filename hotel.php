@@ -87,7 +87,6 @@ if(!$$hotel_sqlhost_val){
 
 				$class=($i%2==0)?"box5":"box6";
 		?>
-<!-- 	  <form action="../hotel<?php echo (int)$hotel['hotel_code']?>/admin/index.php" name="fm<?=(int)$hotel['hotel_code']?>" target="_blank"  method="post"> -->
 	  <form action="../<?php echo $hotel['url_name']?>/admin/index.php" name="fm<?=(int)$hotel['hotel_code']?>" target="_blank"  method="post">
       <div class="<?=$class?>">
         <table border="0" align="center" cellpadding="1" cellspacing="1">
@@ -99,7 +98,7 @@ if(!$$hotel_sqlhost_val){
 <!-- UCHIDA EDIT 11/08/11 デモ用に登録したホテルＩＤでホテル画面に遷移させる -->
 <!--             <td><a href="#"><img src="img/common/hotel_display.png" width="61" height="17" alt="ホテル画面" /></a></td> -->
             <td>
-<!-- 			<a href="../hotel<?php echo (int)$hotel['hotel_code']?>/admin/index.php?key=<?=md5($hotel['email'])?>"><img src="img/common/hotel_display.png" width="61" height="17" alt="ホテル画面" /></a> -->
+<!-- 			<a href="../<?php echo (int)$hotel['url_name']?>/admin/index.php?key=<?=md5($hotel['email'])?>"><img src="img/common/hotel_display.png" width="61" height="17" alt="ホテル画面" /></a> -->
  			<a href="javascript:void(0);" onClick="hotelSubmit(<?=(int)$hotel['hotel_code']?>);"><img src="img/common/hotel_display.png" width="61" height="17" alt="ホテル画面" /></a>
 			</td>
 
