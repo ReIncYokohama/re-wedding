@@ -270,9 +270,10 @@ include_once('dbcon.inc.php');
 				if($result)
 				{
 					return mysql_insert_id();
-				}
-				else 
-				return 0;
+				}else{
+          print mysql_error();
+            return 0;
+        }
 			}
 			else
 			return 0;
@@ -301,6 +302,7 @@ include_once('dbcon.inc.php');
 				}
 				else
 				{
+          print mysql_error();
 					return false;
 				}				
 			}

@@ -60,14 +60,15 @@ if(!$$hotel_sqlhost_val){
 
       <p>&nbsp;</p>
       <div class="subtitle">　ホテル一覧</div>
+      
       <div class="box4">
         <table border="0" align="center" cellpadding="1" cellspacing="1">
           <tr align="center">
-            <td><p>ホテルコード&#13;</p></td>
-            <td><p>ホテル名&#13;</p></td>
-            <td>詳細・編集</td>
-            <td>ホテル画面へ</td>
-            <td>削除</td>
+            <td valign="middle" nowrap="nowrap"><p>ホテルコード&#13;</p></td>
+            <td valign="middle" nowrap="nowrap"><p>ホテル名&#13;</p></td>
+            <td valign="middle" nowrap="nowrap">詳細・編集</td>
+            <td valign="middle" nowrap="nowrap">ホテル画面へ</td>
+            <td valign="middle" nowrap="nowrap">削除</td>
           </tr>
         </table>
       </div>
@@ -116,6 +117,9 @@ if(!$$hotel_sqlhost_val){
 
     </div>
   </div>
+
+
+
 <?php
   	include_once("inc/sidebar.inc.php");
 	include_once("inc/footer.inc.php");

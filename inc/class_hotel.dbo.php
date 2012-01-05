@@ -26,6 +26,15 @@ class HotelDBO extends DBO
     $str = $this->getStr($hotel_code,8);
     return "AA".$str;
   }
+  public function getHotelArray(){
+    $hotel_list = $this->GetAllRowsByCondition(" super_spssp_hotel ","1=1");
+    return $hotel_list;
+  }
+  public function getMaintenanceArray(){
+    $list = $this->GetAllRowsByCondition(" spssp_maintenance ","1=1");
+    return $list;
+  }
+
 }
 
 
