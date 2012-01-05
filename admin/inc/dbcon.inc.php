@@ -573,7 +573,6 @@ define('ADMIN_LINK_FOR_PRINT', BASE_URL."admin/");     // PrintへのAdminのURL
 define('MAIN_LINK', BASE_URL);                 // UserへのURL  568
 define('PRINT_COMPANY_LINK', BASE_URL."print/");       // PrintへのURL
 
-
 define('STAFF_LOGIN_FILENAME','./_staff_login.log');	// スタッフログイン管理ファイル
 define('STAFF_LOGIN_TIMEOUT','1200'); 					// スタッフタイムアウト２０分=1200　単位：秒 (無操作でログイン可能になる時間)
 define('USER_LOGIN_TIMEOUT','1200'); 					// ユーザタイムアウト２０分=1200　単位：秒 (無操作でログイン可能になる時間)
@@ -609,6 +608,7 @@ define('INFO_I', '席次表の印刷締切日を過ぎております。至急�
 define('INFO_J', '席次表の印刷締切日が近づいております。早めにご確認をお願いします。');
 define('INFO_K', '引出物の締切日が近づいております。早めにご確認をお願いします。');
 
+<<<<<<< HEAD
 include_once("class.dbo.php");
 include("main_dbcon.inc.php");
 $obj = new DBO();
@@ -617,6 +617,8 @@ $hotel_name = $obj->GetSingleData("super_spssp_hotel ", " hotel_name ", " hotel_
 $message_display = $obj->GetSingleData("super_spssp_hotel ", " message_display ", " hotel_code=".$hcode);
 $IgnoreMessage = !$message_display;
 include("return_dbcon.inc.php");
+=======
+>>>>>>> maint
 
 
 ?>
