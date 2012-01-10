@@ -470,9 +470,11 @@ for($i=0;$i<$page_rows_num;++$i){
 
 draw_html($plan_id,$html,$pdf);
 for($i=0;$i<count($page_arr);++$i){
+  if($page_arr_max_columns_num[$i]==0) continue;
   $html = get_table_html($page_arr[$i],$main_font_size,$seat_num,$seat_row,$page_arr_max_columns_num[$i]);
   draw_html($plan_id,$html,$pdf,$page_arr_max_columns_num[$i],$max_width);
   if($i+1==count($page_arr)) break;
+  if($i+2==count($page_arr) && $page_arr_max_columns_num[$i+1]==0) break;
   $pdf->addPage();
 }
 

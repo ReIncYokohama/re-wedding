@@ -2,8 +2,8 @@
 /*ini_set('display_errors', 1);
 error_reporting(E_ALL);*/
 
-include("inc/dbcon.inc.php");
-include("inc/class.dbo.php");
+require_once("inc/dbcon.inc.php");
+require_once("inc/class.dbo.php");
 $obj = new DBO();
 $get = $obj->protectXSS($_GET);
 
