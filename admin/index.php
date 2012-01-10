@@ -74,7 +74,7 @@ else
 <script language="javascript" type="text/javascript">
 //var reg = /^[A-Za-z0-9]{1,16}$/;
 //var reg = /^[A-Za-z0-9]{1,32}$/; // UCHIDA EDIT 11/07/26
-var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\\\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,32}$/;//2011/12/09 yamanaka
+var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\d\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,32}$/;//2011/12/09 yamanaka
 function login_admin()
 {
 	var adminid = $("#adminid").val();
