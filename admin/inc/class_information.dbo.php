@@ -266,7 +266,7 @@ class InformationClass extends DBO
 
 			return true;
     }*/
-    if(!$this->get_sekizihyo_edit_term($plan_info_array)　&& !$this->is_admin()){
+    if(!$this->get_sekizihyo_edit_term($plan_info_array)&&!$this->is_admin()){
       return false;
     }
 		if ($plan_info_array['order'] == 1 && ($plan_info_array['admin_to_pcompany'] == 0 || $plan_info_array['admin_to_pcompany'] == 1)) {  // 追加仕様で「スタッフ画面：仮発注、ユーザ画面：印刷イメージ依頼」で編集不可
