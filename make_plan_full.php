@@ -2,6 +2,7 @@
 	include_once("admin/inc/class_information.dbo.php");
 	include_once("admin/inc/class_data.dbo.php");
 	include_once("inc/checklogin.inc.php");
+
   //$obj = new DataClass();
   $obj = new DataClass();
 	$objInfo = new InformationClass();
@@ -595,6 +596,7 @@ direction: ltr;
 
   <div class="make_plan_main_right">
   	<form action="insert_default_plan.php?user_id=<?=(int)$user_id?>&plan_id=<?=$plan_id?>" method="post" id="insert_plan" name="insert_plan">
+<input type="hidden" name="query" value="<?php echo $_SERVER["QUERY_STRING"];?>">
   			 <div align="right">
 <?php
 if($objInfo->get_editable_condition($plan_row))
