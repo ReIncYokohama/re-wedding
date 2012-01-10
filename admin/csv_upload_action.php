@@ -206,8 +206,7 @@ for($i=0;$i<count($csv);++$i){
   $data["furigana_last"] = $csv[$i][2];
   $data["first_name"] = check_sjis($csv[$i][3]);
   $data["furigana_first"] = $csv[$i][4];
-  $data["respect_id"] = $respects[0]["id"];
-  $respect_title = $respects[0]["title"];
+  if(!$csv[$i][5] || $csv[$i][5] == "") $csv[$i][5]="なし";
   for($j=0;$j<count($respects);++$j){
     if($respects[$j]["title"] == $csv[$i][5]){
       $data["respect_id"] = $respects[$j]["id"];
@@ -215,6 +214,7 @@ for($i=0;$i<count($csv);++$i){
       break;
     }
   }
+  if($respect_title=="なし") $respect_title = "";
   
   $data["comment1"] = check_sjis($csv[$i][6]);
   $data["comment2"] = check_sjis($csv[$i][7]);

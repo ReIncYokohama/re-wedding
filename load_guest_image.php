@@ -1,10 +1,10 @@
 <?php
-session_start();
 $user_id = $_GET["user_id"];
 $guest_id = $_GET["guest_id"];
 $option = $_GET["option"];
 $message = $_GET["message"];
 require_once("admin/inc/class_information.dbo.php");
+session_start();
 $objInfo = new InformationClass();
 
 //redirect("my_guests.php?".$message."=true&page=".$guest_id."&option=".$_GET['option']);
@@ -23,7 +23,7 @@ $objInfo = new InformationClass();
 <?php
 $srcArray = array("thumb1/comment1.png","thumb1/comment2.png","thumb1/guest_fullname_only.png");
 for($i=0;$i<count($srcArray);++$i){
-  echo $objInfo->get_user_name_image_or_src($user_id ,1, "guest/".$guest_id."/".$srcArray[$i],"",1,"",1);
+  echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,1,$srcArray[$i],"guest/".$guest_id,1,"",1);
 ?>
 <?php
 }

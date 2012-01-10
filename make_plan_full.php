@@ -199,10 +199,6 @@ if($objInfo->get_editable_condition($plan_row))
 <script src="js/rp.js" type="text/javascript"></script>
 
 <style>
-html {
-  overflow-x: hidden;
-}
-
 .make_plan_main_contents{
   width:1220px;
 }
