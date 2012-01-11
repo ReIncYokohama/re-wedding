@@ -1,7 +1,6 @@
 <?php
 include_once("admin/inc/dbcon.inc.php");
-require_once('tcpdf/config/lang/eng.php');
-require_once('tcpdf/tcpdf.php');
+require_once('pdf.php');
 include_once("admin/inc/class.dbo.php");
 include_once("admin/inc/class_information.dbo.php");
 include_once("admin/inc/class_data.dbo.php");
@@ -13,7 +12,6 @@ $user_id = (int)$_SESSION['userid'];
 
 if($_GET["user_id"])
   $user_id = (int)$_GET['user_id'];
-
 
 function get_center_table($max_width,$width,$html){
   $margin = floor((100*(($max_width-$width)/$max_width))*10/2)/10;
@@ -34,11 +32,6 @@ $plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
 
 $plan_row = $obj->GetSingleRow("spssp_plan"," id =".$plan_id);
 
-
-$PDF_PAGE_FORMAT_USER=PDF_PAGE_FORMAT;
-$PDF_PAGE_ORIENTATION_USER=PDF_PAGE_ORIENTATION;
-$PDF_PAGE_FORMAT_USER="A3";
-
 if($plan_row['print_type'] == 1){
   $PDF_PAGE_ORIENTATION_USER="L";
   $max_width = 1500;
@@ -50,103 +43,8 @@ if($plan_row['print_type'] == 1){
   $flag_horizon = false;
 }
 
-//echo $PDF_PAGE_ORIENTATION_USER; exit;
-if($PDF_PAGE_ORIENTATION_USER=="P" && $PDF_PAGE_FORMAT_USER=="B4")
-  {
-    $main_font_size="20px";
-    $main_font_size_top="15px";
-    $main_font_size_count="9px";
-	$width_f = 190;
-	$height_f = 195;
-	$height_f1 = 185;
-  }
-if($PDF_PAGE_ORIENTATION_USER=="L" && $PDF_PAGE_FORMAT_USER=="B4")
-  {
-    $main_font_size="30px";
-    $main_font_size_top="20px";
-    $main_font_size_count="13px";
-	$width_f = 225;
-	$height_f = 190;
-	$height_f1 = 180;
-  }
-if($PDF_PAGE_ORIENTATION_USER=="L" && $PDF_PAGE_FORMAT_USER=="A3")
-  {
-    $main_font_size="40px";
-    $main_font_size_top="28px";
-    $main_font_size_count="18px";
-	$width_f = 285;
-	$height_f = 250;
-	$height_f1 = 210;
-  }
-if($PDF_PAGE_ORIENTATION_USER=="P" && $PDF_PAGE_FORMAT_USER=="A3")
-  {
-    $main_font_size="30px";
-    $main_font_size_top="20px";
-    $main_font_size_count="13px";
-	$width_f = 290;
-	$height_f = 250;
-	$height_f1 = 230;
-  }
-
-
-	
-	
-$pdf = new TCPDF($PDF_PAGE_ORIENTATION_USER, PDF_UNIT, $PDF_PAGE_FORMAT_USER, true, 'UTF-8', false);
-
-// set document information
-$pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Nicola Asuni');
-$pdf->SetTitle('TCPDF Example 006');
-$pdf->SetSubject('TCPDF Tutorial');
-$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
-
-//headerとfooterを非表示
-$pdf->setPrintHeader(false);
-$pdf->setPrintFooter(false);
-
-// set default header data
-//$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING);
-
-// set header and footer fonts
-$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-// set default monospaced font
-$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-//set margins
-//$pdf->SetMargins(PDF_MARGIN_LEFT, 15, PDF_MARGIN_RIGHT);
-//$pdf->SetHeaderMargin(0);
-//$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-//set auto page breaks
-//$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-$pdf->SetAutoPageBreak( true, 0);
-$pdf->SetHeaderMargin(0);
-$pdf->SetMargins(8,8,8);
-
-//set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-//set some language-dependent strings
-$pdf->setLanguageArray($l);
-
-$pdf->SetProtection(array("copy"));
-// ---------------------------------------------------------
-
-// set font
-//$pdf->SetFont('dejavusans', '', 10);
-//$pdf->SetFont('arialunicid0', '', 12);
-$pdf->SetFont('arialunicid0', '', 9);
-// add a page
-$pdf->AddPage();
-/////////////////end of for pdf///////////////////
-	
-	
+$pdf = new MyPdf($plan_row['print_type']);	
 //include_once("inc/header.inc.php");
-
-$get = $obj->protectXSS($_GET);
-	
 	
 $user_layout = $obj->GetNumRows("spssp_table_layout"," user_id= $user_id");
 if($user_layout <= 0)
@@ -199,37 +97,6 @@ $num_tables = $room_rows * $room_tables;
 	
 $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id = ".(int)$user_id);
 
-unset($_SESSION['cart']);
-$itemids = array();
-if(isset($_SESSION['cart']))
-	{
-		
-	}
-else
-	{
-		$plan_details_row = $obj->GetAllRow("spssp_plan_details"," plan_id=".$plan_id);
-		if(!empty($plan_details_row))
-      {
-        foreach($plan_details_row as $pdr)
-          {
-            $skey= $pdr['seat_id'].'_input';
-            $sval = '#'.$pdr['seat_id'].'_'.$pdr['guest_id'];
-            $_SESSION['cart'][$skey]=$sval;
-          }
-      }
-	}
-if(isset($_SESSION['cart']))
-	{
-		foreach($_SESSION['cart'] as $item)
-      {
-        if($item)
-          {
-            $itemArr = explode("_",$item);
-            $itemids[] = $itemArr[1];
-          }
-      }
-
-	}
 include("admin/inc/main_dbcon.inc.php");
 $respects = $obj->GetAllRow("spssp_main.spssp_respect");
 include("admin/inc/return_dbcon.inc.php");
@@ -514,8 +381,8 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
       $gift_tr1 .= '<td height="9" style="text-align:center;border:1px solid black;font-size:17px;" >子</td></tr>';
       $gift_tr2 .= '<td height="9" style="text-align:center;border:1px solid black;font-size:17px;" >'.$column["child_menu_num"]."</td></tr>";
       $gift_table .= $gift_tr1.$gift_tr2.'</table>';
-      
-      $subhtml .= "<td><table cellspacing=\"0\" cellspadding=\"0\" width=\"300\"><tr><td align=\"center\" style=\"font-size:25px;\">".$table_name."[".(count($column["guests"])-$column["child_menu_num"])."+".$column["child_menu_num"]."名]</td><td>".$gift_table."</td></tr><tr style=\"font-size:10px;\"><td></td></tr>";
+      $numText = ($column["child_menu_num"]==0)?count($column["guests"]):(count($column["guests"])-$column["child_menu_num"])."+".$column["child_menu_num"];
+      $subhtml .= "<td><table cellspacing=\"0\" cellspadding=\"0\" width=\"300\"><tr><td align=\"center\" style=\"font-size:25px;\">".$table_name."[".$numText."名]</td><td>".$gift_table."</td></tr><tr style=\"font-size:10px;\"><td></td></tr>";
        
       for($k=0;$k<$seat_row*2;++$k){
         if($k%2==0) $subhtml .= "<tr>";
@@ -603,9 +470,11 @@ for($i=0;$i<$page_rows_num;++$i){
 
 draw_html($plan_id,$html,$pdf);
 for($i=0;$i<count($page_arr);++$i){
+  if($page_arr_max_columns_num[$i]==0) continue;
   $html = get_table_html($page_arr[$i],$main_font_size,$seat_num,$seat_row,$page_arr_max_columns_num[$i]);
   draw_html($plan_id,$html,$pdf,$page_arr_max_columns_num[$i],$max_width);
   if($i+1==count($page_arr)) break;
+  if($i+2==count($page_arr) && $page_arr_max_columns_num[$i+1]==0) break;
   $pdf->addPage();
 }
 

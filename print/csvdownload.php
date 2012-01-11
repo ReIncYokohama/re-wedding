@@ -15,6 +15,7 @@ $this_name = $HOTELID;
 $get = $obj->protectXSS($_GET);
 
 $user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
+//$user_id = $_GET["user_id"];
 
 if($user_id>0)
 {
@@ -31,7 +32,8 @@ function s($text){
 }
 /*$entityArray2 = array(" HotelName , WeddingDate , WeddingTime , WeddingVenues , ReceptionDate, ReceptionTime , ReceptionHall , GroomName,  fullPhoneticGroom , BrideFullName , BrideFullPhonetic , Categories, ProductName ,  Printsize,tableArrangement , JIs_num, DataOutputTime , PlannerName , LayoutColumns , TableLayoutStages , Colortable , Max , NumberAttendance "); */
 
-$lines = s("headers\n", "SJIS", "UTF8");
+$lines = s("header", "SJIS", "UTF8");
+$lines .= "\n";
 $entityArray2 = array("ホテル名,挙式日,挙式時間,挙式会場,披露宴日,披露宴時間,披露宴会場,新郎姓名,新郎姓名ふりがな,新婦姓名,新婦姓名ふりがな,商品区分,商品名,席次表サイズ,席次表配置,字形,データ出力日時,プランナー名,高砂卓名,卓レイアウト列数,卓レイアウト段数,卓色,一卓最大人数,合計人数");
 
 $entity=implode(",",$entityArray2);
@@ -129,7 +131,6 @@ foreach($entityArray as $key=>$values)
 	$cl[] = "$values";
 }
 
-$lines .= "\n";
 $cl2 = implode(",",$cl);
 $cl2 = $cl2."\n";
 $line = s($cl2);
@@ -170,7 +171,7 @@ $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layo
 
 $entityArraytable=implode(",",$entityArraytable);
 $entitytable = mb_convert_encoding("$entityArraytable", "SJIS", "UTF8");
-
+$lines .= "\n";
 $lines .= mb_convert_encoding("tables\n", "SJIS", "UTF8");
 
 $lines .= <<<html
@@ -314,7 +315,7 @@ function getGaijis($gaiji_objs){
     //array_push($returnArray,$matches[1]);
   }
   mysql_connected(SQLHOST,SQLUSER,SQLPASSWORD,SQLDATABASE);
-  return implode(",",$returnArray);
+  return implode(" ",$returnArray);
 }
 
 //gaiji 関連の関数
@@ -468,15 +469,17 @@ foreach($usertblrows as $tblRows)
 		$cl22[] = setStrGaijis($value,$gaiji_name_arr);
 
 		//com1 com2
-		if($guest_info['comment1']&&$guest_info['comment2'])
+		if($guest_info['comment1']&&$guest_info['comment2']){
+      $comment_gaijis = array_merge($comment1_gaijis,$comment2_gaijis);
 			$value = s($guest_info['comment1'].'△'.$guest_info['comment2']);
-		elseif($guest_info['comment1'])
+      $cl22[] = setStrGaijis($value,$comment_gaijis);
+		}elseif($guest_info['comment1']){
 			$value = s($guest_info['comment1']);
-		elseif($guest_info['comment2'])
+      $cl22[] = setStrGaijis($value,$comment1_gaijis);
+		}elseif($guest_info['comment2']){
 			$value = s($guest_info['comment2']);
-    else $value = "";
-
-		$cl22[] = "$value";
+      $cl22[] = setStrGaijis($value,$comment2_gaijis);
+    }else $cl22[] = "";
 
 		$guest_info="";
 		$z++;
@@ -606,15 +609,17 @@ foreach($usertblrows as $tblRows)
 		$own_array[] = setStrGaijis($value,$gaiji_name_arr);
 
 		//com1 com2
-		if($own_info['comment1']&&$own_info['comment2'])
-			$value = s($own_info['comment1'].'△'.$own_info['comment2']);
-		elseif($own_info['comment1'])
-			$value = s($own_info['comment1']);
-		elseif($own_info['comment2'])
-			$value = s($own_info['comment2']);
-    else $value = "";
-
-		$own_array[] = "$value";
+		if($guest_info['comment1']&&$guest_info['comment2']){
+      $comment_gaijis = array_merge($comment1_gaijis,$comment2_gaijis);
+			$value = s($guest_info['comment1'].'△'.$guest_info['comment2']);
+      $own_array[] = setStrGaijis($value,$comment_gaijis);
+		}elseif($guest_info['comment1']){
+			$value = s($guest_info['comment1']);
+      $own_array[] = setStrGaijis($value,$comment1_gaijis);
+		}elseif($guest_info['comment2']){
+			$value = s($guest_info['comment2']);
+      $own_array[] = setStrGaijis($value,$comment2_gaijis);
+    }else $own_array[] = "";
 
 		$xxx++;
 	}

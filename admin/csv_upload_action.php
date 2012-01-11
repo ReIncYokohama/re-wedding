@@ -76,7 +76,7 @@ if(!$force){
     if(!$csv[$i] || implode("",$csv[$i])=="") continue;
     $thisMessageArray = $obj->check_user_data(
       array("last_name"=>$csv[$i][1],"first_name"=>$csv[$i][3],"furigana_last"=>$csv[$i][2],
-      "furigana_first"=>$csv[$i][4],"respect"=>$csv[$i][5],"sex"=>$csv[$i][0]),$i);
+            "furigana_first"=>$csv[$i][4],"respect"=>$csv[$i][5],"sex"=>$csv[$i][0]),$i);
     $messageArray = array_merge($messageArray,$thisMessageArray);
   }
   if(count($messageArray)>0) $error = true;
@@ -195,13 +195,13 @@ $user_folder_base = $user_folder_base."/";
 for($i=0;$i<count($csv);++$i){
   $csv[$i] = $obj->protectXSS($csv[$i]);
 
-  if($csv[$i][0] == "") continue;
   $data = array();
   if($csv[$i][0] == "新婦"){
     $data["sex"] = "Female";
   }else{
     $data["sex"] = "Male";
   } 
+  if($csv[$i][0] == "") $data["sex"] = null;
   $data["last_name"] = check_sjis($csv[$i][1]);
   $data["furigana_last"] = $csv[$i][2];
   $data["first_name"] = check_sjis($csv[$i][3]);
