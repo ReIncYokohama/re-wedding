@@ -194,6 +194,9 @@ $user_folder_base = $user_folder_base."/";
 
 for($i=0;$i<count($csv);++$i){
   $csv[$i] = $obj->protectXSS($csv[$i]);
+  
+  //データが空白の場合、カラムの代入をしない。
+  if($csv[$i][0] == "" && (!$csv[$i][1] || $csv[$i][1] == "")) continue;
 
   $data = array();
   if($csv[$i][0] == "新婦"){
@@ -206,12 +209,23 @@ for($i=0;$i<count($csv);++$i){
   $data["furigana_last"] = $csv[$i][2];
   $data["first_name"] = check_sjis($csv[$i][3]);
   $data["furigana_first"] = $csv[$i][4];
-  if(!$csv[$i][5] || $csv[$i][5] == "") $csv[$i][5]="なし";
+  $haveRespect = false;
   for($j=0;$j<count($respects);++$j){
     if($respects[$j]["title"] == $csv[$i][5]){
       $data["respect_id"] = $respects[$j]["id"];
       $respect_title = $respects[$j]["title"];
+      $haveRespect = true;
       break;
+    }
+  }
+  if(!$haveRespect){
+    $csv[$i][5] = "なし";
+    for($j=0;$j<count($respects);++$j){
+      if($respects[$j]["title"] == $csv[$i][5]){
+        $data["respect_id"] = $respects[$j]["id"];
+        $respect_title = $respects[$j]["title"];
+        break;
+      }
     }
   }
   if($respect_title=="なし") $respect_title = "";
