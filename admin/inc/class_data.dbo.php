@@ -912,6 +912,7 @@ class DataClass extends DBO{
     include_once(dirname(__file__)."/class_information.dbo.php");
     $infoobj = new InformationClass();
     $editable=$infoobj->get_editable_condition($plan_info);
+    return $editable;
     if($permission_table_edit==1 && $editable) return true; else return false;
   }
   public function get_download_num($user_id,$admin_id){
