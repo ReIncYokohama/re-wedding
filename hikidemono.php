@@ -108,8 +108,6 @@ $tab_hikidemono = true;
 			}
 	}*/
 
-
-
 ?>
 <style>
 .guests_area_L2 {

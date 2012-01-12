@@ -255,13 +255,12 @@ class InformationClass extends DBO
   }
 	function get_editable_condition($plan_info_array)
 	{
-	$click_info = $this->get_clicktime_info($user_id);
+	$click_info = $this->get_clicktime_info($plan_info_array['user_id']);
 	$pd = strptime($click_info['print_irai'],"%Y-%m-%d %H:%M:%S");
 	$pidate = mktime($pd[tm_hour],$pd[tm_min],$pd[tm_sec],$pd[tm_mon]+1,$pd[tm_mday],$pd[tm_year] + 1900);
 	if(!preg_match('/.*\/(\d*).PDF$/', $plan_info_array['p_company_file_up'] , $matches)){
 		$matches = array("1");
 	}
-
 		/*if ($plan_info_array['order'] == 1 && $_SESSION['adminid'] > 0) {  // 追加仕様でホテルスタッフは仮発注時に編集可能
 
 			return true;
@@ -273,7 +272,7 @@ class InformationClass extends DBO
 			return false;
 		}
 //    if($plan_info_array['admin_to_pcompany']==2) {
-    if($plan_info_array['admin_to_pcompany']==2 && $pidate > $matches[1]) {
+    if($plan_info_array['admin_to_pcompany']==2 && $pidate < $matches[1]) {
 			return true;
 		}
 		if(($plan_info_array['order']<=3 && $plan_info_array['order']>0) || ($plan_info_array['order']==2 && $plan_info_array['admin_to_pcompany']==3))
