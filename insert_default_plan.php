@@ -107,7 +107,7 @@
 		if($lastids > 0)
 		{
 			//echo "here";
-			redirect($php_file."?msg=4");
+			redirect($php_file."?msg=4&".$_POST["query"]);
 		}
 		else
 		{

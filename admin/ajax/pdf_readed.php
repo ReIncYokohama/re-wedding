@@ -6,7 +6,8 @@
     $filename = $_GET['filename'];
     $v = $_GET['vset'];
 
-//    $objinfo->pdf_readed($user_id, $v);
+    $objinfo->pdf_readed($user_id, $v);
+//    $objinfo->pdf_readed($user_id, $v); maint
 
     redirect("../".$filename);
 ?>

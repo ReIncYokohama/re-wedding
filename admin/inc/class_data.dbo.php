@@ -89,6 +89,8 @@ class DataClass extends DBO{
   public function get_table_data_detail($user_id){
     $table_data = $this->get_table_data($user_id);
     $guest_rows = $this->getRowsByQuery("select * from spssp_guest where user_id = ".$user_id." and self!=1 and stage_guest=0");
+    $man_num = 0;
+    $woman_num = 0;
     for($i=0;$i<count($table_data["rows"]);++$i){
       $row = $table_data["rows"][$i];
       for($j=0;$j<count($row["columns"]);++$j){
@@ -106,6 +108,12 @@ class DataClass extends DBO{
               $guest_detail = $this->set_guest_property_value($guest_detail);
               $seats[$k]["guest_detail"] = $guest_detail;
               $guest_rows[$l]["unset"] = true;
+              $guest_rows[$l]["seat_id"] = $seat_detail["id"];
+              if($guest_detail["sex"] == "Male"){
+                ++$man_num;
+              }else{
+                ++$woman_num;
+              }
             }
           }
         }
@@ -114,17 +122,41 @@ class DataClass extends DBO{
     }
     $guest_rows = $this->set_guest_property_values($guest_rows);
     $table_data["guests"] = $guest_rows;
+    $table_data["man_num"] = $man_num;
+    $table_data["woman_num"] = $woman_num;
     return $table_data;
-  }
-  
+  }  
+
   //招待客情報あり
   //以下を追加
-  //rows 0 columns 0 seats 0 guest_id,table_id,guest_detail
+  //rows 0 columns 0 seats 0 guest_id,table_id,guest_detail,guests
+  //                         guests_num
   //                 name
-  //guests
+  //
   public function get_table_data_detail_with_hikidemono($user_id){
     $table_data = $this->get_table_data_detail($user_id);
     
+    for($i=0;$i<count($table_data["rows"]);++$i){
+      $guests_num = 0;
+      $columns = $table_data["rows"][$i]["columns"];
+
+      for($j=0;$j<count($columns);++$j){
+        $column = $columns[$j];
+        $seats = $column["seats"];
+        $guests = array();
+        $menu_num = 0;
+        for($k=0;$k<count($seats);++$k){
+          if($seats[$k]["guest_id"]){
+            array_push($guests,$seats[$k]["guest_detail"]);
+            if($seats[$k]["guest_detail"]["menu_grp"]>0) $menu_num+=1;
+          }
+        }
+        $table_data["rows"][$i]["columns"][$j]["child_menu_num"] = $menu_num;
+        $table_data["rows"][$i]["columns"][$j]["guests"] = $guests;
+        $gifts = $this->get_gift_table($guests,$user_id);
+        $table_data["rows"][$i]["columns"][$j]["gifts"] = $gifts;
+      }
+    }
     return $table_data;
   }
   
@@ -172,6 +204,9 @@ class DataClass extends DBO{
   public function set_guest_property_value($guest_obj){
     $guest_obj["guest_type_value"] = $this->get_guest_type($guest_obj["guest_type"]);
     $guest_obj["name_plate"] = $this->get_guest_image_url($guest_obj["user_id"],$guest_obj["id"],"namecard.png");
+    $guest_obj["namecard_memo"] = $this->get_guest_image_url($guest_obj["user_id"],$guest_obj["id"],"namecard_memo.png");
+    $guest_obj["namecard_memo2"] = $this->get_guest_image_url($guest_obj["user_id"],$guest_obj["id"],"namecard_memo2.png");
+
     return $guest_obj;
   }
   
@@ -226,6 +261,7 @@ class DataClass extends DBO{
         $last = $i+1;
       }
     }
+    
     for($i=0;$i<count($columns);++$i){
       if(($columns[$i]["align"] == "C" && $first-1<=$i && $last>$i && $columns[$i]["display"]!=1)||
          ($columns[$i]["align"] != "C" && $columns[$i]["display"]!=1)
@@ -268,6 +304,30 @@ class DataClass extends DBO{
     }
     return $guestArray;
   }
+  public function get_all_guests_num($user_id){
+    $plan_id = $this->get_plan_id($user_id);
+    $guestArray = $this->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." order by display_order DESC");
+    $num = 0;
+    for($i=0;$i<count($guestArray);++$i){
+      $guestArray[$i] = $this->get_guest_data_detail($guestArray[$i],$user_id,$plan_id);
+      if($guestArray[$i]["self"] == 1){
+        $num+=1;
+        continue;
+      }
+      if($guestArray[$i]["stage_guest"] == 1){
+        $num+=1;
+        continue;
+      }
+      if($guestArray[$i]["seat_id"] && $guestArray[$i]["seat_id"] != 0){
+        $num+=1;
+        continue;
+      }
+
+    }
+    //print_r($guestArray);    
+    return $num;
+
+  }                                     
 
   //高砂席のみ取得する
   public function get_guestdata_in_host($user_id){
@@ -347,6 +407,8 @@ class DataClass extends DBO{
     $seat_id = $this->get_seat_id($plan_id,$guest_detail["id"]);
     $table_id = $this->get_table_id_by_seat_id($seat_id);
     $table_name = $this->get_table_name($table_id,$user_id);
+    $guest_detail["table_id"] = $table_id;
+    $guest_detail["seat_id"] = $seat_id;
     $guest_detail["table_name"] = $table_name;
     $guest_detail["respect_text"] = $this->get_respect($guest_detail["respect_id"]);
     
@@ -850,17 +912,18 @@ class DataClass extends DBO{
     include_once(dirname(__file__)."/class_information.dbo.php");
     $infoobj = new InformationClass();
     $editable=$infoobj->get_editable_condition($plan_info);
+    return $editable;
     if($permission_table_edit==1 && $editable) return true; else return false;
   }
   public function get_download_num($user_id,$admin_id){
     $data = $this->GetSingleRow("download_num"," user_id = '".(int)$user_id."' and admin_id = '".(int)$admin_id."'");
     if(!$data){
       $this->InsertData("download_num",array("num"=>1,"user_id" => (int)$user_id,"admin_id"=>(int)$admin_id));
-      return $this->get_num_in_digit(1,4);
+      return $this->get_num_in_digit(1,2);
     }else{
       $num = $data["num"]+1; 
       $this->UpdateData("download_num",array("num"=>$num)," id=".$data["id"]);
-      return $this->get_num_in_digit($num,4);
+      return $this->get_num_in_digit($num,2);
     }
   }
   public function get_num_in_digit($num,$digit){

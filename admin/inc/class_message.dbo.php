@@ -13,6 +13,33 @@ class MessageClass extends InformationClass
 			return $this :: get_admin_side_user_list_new_status_notification_when_ordered($user_id);
 
 	}
+	function send_day_limit_message($user_id){
+		if($this :: sekiji_day_limit_over_check_for_all_users($user_id))
+		{
+      if($this :: sekiji_user_day_over_email_send_for_today_check($user_id) && $this :: GetRowCount("spssp_plan"," `order` < 2 and user_id=".$user_id) )
+        {
+          if ($msg!="") echo $user_id." : [Mail Send 8, 10 ]<br />\n";
+          $objMail = new MailClass();
+          $objMail -> sekiji_day_limit_over_admin_notification_mail($user_id);//mail 8=>admin
+          $objMail -> sekiji_day_limit_over_user_notification_mail($user_id);//mail 10=>user
+        }
+		}
+  }
+	function send_hikidemono_day_limit_message($user_id){
+		$objMail = new MailClass();
+		$user_plan_info = $this :: get_user_plan_info($user_id);
+		if($user_plan_info['gift_daylimit']==0) {
+			if ($this :: proccesse_gift_day_limit($user_id)) { // 発注締切日を過ぎたか
+				if ($msg!="") echo $user_id." : [Mail Send 9, 11 ]<br />\n";
+				$objMail -> hikidemono_day_limit_over_admin_notification_mail($user_id); //mail  9=>Stuff
+				$objMail -> hikidemono_day_limit_over_user_notification_mail($user_id);  //mail 11=>user
+				// UCHIDA EDIT 11/08/10 メール９，１１の送信を記録
+				unset($post);
+				$post['gift_daylimit']=2;
+				$this->UpdateData('spssp_plan',$post," user_id=".$user_id);
+			}
+		}
+  }
 // UCHIDA EDIT 11/08/15 締切日が過ぎていても、アクションがあればアイコンを表示する
 	function get_admin_side_user_list_new_status_notification_when_ordered($user_id)
 	{
@@ -22,13 +49,6 @@ class MessageClass extends InformationClass
 
 // UCHIDA EDIT 11/08/17 本発注されていれば、メールの送信は行わない
 //			if($this :: sekiji_user_day_over_email_send_for_today_check($user_id) )
-			if($this :: sekiji_user_day_over_email_send_for_today_check($user_id) && $this :: GetRowCount("spssp_plan"," `order` < 2 and user_id=".$user_id) )
-			{
-				if ($msg!="") echo $user_id." : [Mail Send 8, 10 ]<br />\n";
-				$objMail = new MailClass();
-				$objMail -> sekiji_day_limit_over_admin_notification_mail($user_id);//mail 8=>admin
-				$objMail -> sekiji_day_limit_over_user_notification_mail($user_id);//mail 10=>user
-			}
 			$msg_opt = "<img src='img/common/msg/untreated.gif' border = '0'>";
 		}
 
@@ -93,19 +113,6 @@ class MessageClass extends InformationClass
 		$objMail = new MailClass();
 		$user_plan_info = $this :: get_user_plan_info($user_id);
 
-		if($user_plan_info['gift_daylimit']==0) {
-			if ($this :: proccesse_gift_day_limit($user_id)) { // 発注締切日を過ぎたか
-				if ($msg!="") echo $user_id." : [Mail Send 9, 11 ]<br />\n";
-				$objMail -> hikidemono_day_limit_over_admin_notification_mail($user_id); //mail  9=>Stuff
-				$objMail -> hikidemono_day_limit_over_user_notification_mail($user_id);  //mail 11=>user
-				// UCHIDA EDIT 11/08/10 メール９，１１の送信を記録
-				unset($post);
-				$post['gift_daylimit']=2;
-				$this->UpdateData('spssp_plan',$post," user_id=".$user_id);
-
-			}
-		}
-
 //		if($user_plan_info['gift_daylimit']==2)
 //		{
 //			if($this :: proccesse_gift_day_limit($user_id))
@@ -163,7 +170,8 @@ class MessageClass extends InformationClass
 				$dl = $dl | 0x00; // 0x200;
 				$msg_text  = "<div id=msg_hide1>";
 				$msg_text .= "<a href=ajax/pdf_readed.php?user_id=".$user_id."&filename=".$user_plan_info[p_company_file_up]."&vset=".$dl." target=_blank";
-//				$msg_text .= " onclick='hide_this(\"msg_hide1\");'";
+        //maintでは隠されていた
+				$msg_text .= " onclick='hide_this(\"msg_hide1\");'";
 				$msg_text .= ">";
 				$msg_text .= $party_day." ".$user_name." ".INFO_B."</a></div>";
 			}
@@ -264,8 +272,7 @@ class MessageClass extends InformationClass
 		if($this :: sekiji_day_limit_over_check_for_all_users($user_id) && $user_plan_info['order'] < 2) // UCHIDA EDIT 11/08/15 印刷ＯＫまで締切日のメッセージを表示する
 		{
 			$msg_text .= "<div><a href='order.php'>".INFO_I."</a></div>";
-		}
-		if($this :: sekiji_day_limit_over_check_for_7days_all_users($user_id) && $user_plan_info['order'] < 2) // UCHIDA EDIT 11/08/15 印刷ＯＫまで７日前のメッセージを表示する
+		}elseif($this :: sekiji_day_limit_over_check_for_7days_all_users($user_id) && $user_plan_info['order'] < 2) // UCHIDA EDIT 11/08/15 印刷ＯＫまで７日前のメッセージを表示する
 		{
 			$msg_text .= "<div><a href='order.php'>".INFO_J."</a></div>";
 		}
@@ -281,7 +288,8 @@ class MessageClass extends InformationClass
 				$href = $user_plan_info['p_company_file_up'];
 				$msg_text  = "<div id=msg_hide1>";
 				$msg_text .= "<a href=admin/ajax/pdf_readed.php?user_id=".$user_id."&filename=".$href."&vset=".$dl." target=_blank";
-//				$msg_text .= " onclick='hide_this(\"msg_hide1\");'>";
+//				$msg_text .= " onclick='hide_this(\"msg_hide1\");'>"; maint
+				$msg_text .= " onclick='hide_this(\"msg_hide1\");'";
 				$msg_text .= ">";
 				$msg_text .= INFO_C."</a></div>";
 			}
@@ -315,13 +323,10 @@ class MessageClass extends InformationClass
 //		{
 			$link="";
 			if($user_plan_info['gift_daylimit']==0 || $user_plan_info['gift_daylimit']==2) { // UCHIDA EDIT 11/08/10 ０：初期値　２：メール送信済み
-
-				if($this :: proccesse_gift_day_limit_7_days($user_id)) { // 披露宴日７日前か
-					$link .= "<div><a href='order.php'>".INFO_K."</a></div>";
-				}
-
 				if($this :: proccesse_gift_day_limit($user_id)) { // 発注締切日を過ぎたか
 					$link .= "<div><a href='order.php'>".INFO_H."</a></div>";
+				}elseif($this :: proccesse_gift_day_limit_7_days($user_id)) { // 披露宴日７日前か
+					$link .= "<div><a href='order.php'>".INFO_K."</a></div>";
 				}
 			}
 			return $link;
@@ -569,7 +574,7 @@ hotel  1のとき、ホテルユーザ用のお知らせ。0のとき、ユー�
 	      $man_name = $this->get_user_name_image_or_src($user_info['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
 	      $woman_name = $this->get_user_name_image_or_src($user_info['id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
 	      $party_day = $this->getMonthAndDate($user_info["party_day"]);
-	      $text .= "<li><a href='user_dashboard.php?user_id=".$logs_arr[$i]["user_id"]."' target='_blank'>".$party_day
+	      $text .= "<li><a href='user_dashboard.php?src=my_guests&user_id=".$logs_arr[$i]["user_id"]."' target='_blank'>".$party_day
 	        ." ".$man_name."・".$woman_name
 	        ."様の招待客リストデータがアップロードされました。</a></li>";
 	      }
@@ -578,9 +583,9 @@ hotel  1のとき、ホテルユーザ用のお知らせ。0のとき、ユー�
   }
   public function finish_message_csv_import_for_hotel($user_id){
     $results = $this->getRowsByQuery("select * from guest_csv_upload_log where hotel=1 and user_id=".$user_id);
+    $plan_info = $this->GetSingleRow("spssp_plan"," user_id = ".$user_id);
+    if($plan_info["staff_id"]!=$_SESSION["staff_id"]) return;
     for($i=0;$i<count($results);++$i){
-      $plan_info = $this->GetSingleRow("spssp_plan"," user_id = ".$results[$i]["user_id"]);
-      if($plan_info["staff_id"]==$_SESSION["staff_id"]) continue;
       $this->UpdateData("guest_csv_upload_log",array("state" => 0)," id = '".$results[$i]["id"]."'");
     }
   }

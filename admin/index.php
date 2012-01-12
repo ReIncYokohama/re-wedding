@@ -1,4 +1,5 @@
 <?php
+header("Content-type: text/html; charset=utf-8");
 include_once("inc/dbcon.inc.php");
 
 $id=$_GET['adminid']; // UCHIDA EDIT 11/08/17 ＩＤを再表示
@@ -73,7 +74,7 @@ else
 <script language="javascript" type="text/javascript">
 //var reg = /^[A-Za-z0-9]{1,16}$/;
 //var reg = /^[A-Za-z0-9]{1,32}$/; // UCHIDA EDIT 11/07/26
-var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\\\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,32}$/;//2011/12/09 yamanaka
+var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\d\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,32}$/;//2011/12/09 yamanaka
 function login_admin()
 {
 	var adminid = $("#adminid").val();
@@ -181,7 +182,9 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
       		<tr><td align="center" style="font-size:14;"><?php echo $weddingVersion; ?></td></tr>
 		</table>
 	<div id="login_area">
+
   <?
+   if(!$Maintenance){
 			if($_GET['action']=='failed')
 	{
 		echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください"); </script>';
@@ -209,6 +212,14 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
       </tr>
     </table>
   </form>
+<?php 
+   }else{
+?>
+<h3><?=$Maintenance["title"]?></h3>
+       <div><?php echo preg_replace ('/(((<(["\'][^"\']*["\']|[^>])*>).*?)\n|\n)/', '$2<br>', $Maintenance["description"]);?></div>
+<?
+   }
+?>
 </div><div class="clr"></div>
 <div><img src="../img/bar_recommended.jpg" /></div><div>
 

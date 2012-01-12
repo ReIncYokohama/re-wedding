@@ -239,7 +239,8 @@ function checkvalidity()
 function validForm()
 {
 	var name  = document.getElementById('name').value;
-	var ID  = document.getElementById('ID').value;
+//	var ID  = document.getElementById('ID').value;
+	var ID  = document.stuff_form.username.value;
 	var name_current  = document.getElementById('name_current').value;
 	var username_current  = document.getElementById('username_current').value;
 	var email_current  = document.getElementById('email_current').value;
@@ -252,10 +253,9 @@ function validForm()
 
 	var permission_old  = document.getElementById('permission_old').value;
 //	var reg = /^[A-Za-z0-9]{1,15}$/;
-	var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\\\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,15}$/; //2011/12/09 yamanaka
+	var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\d\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,15}$/; //2011/12/09 yamanaka
 	var reg2 = /^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/;
 	var flag = true;
-
 	if(!name)
 	{
 		 alert("名前が未入力です");
@@ -276,20 +276,26 @@ function validForm()
 		 document.getElementById('ID').focus();
 		 return false;
 	}
-	else if($.inArray(ID,idArray)!=-1 && username_current!=ID)
+	if($.inArray(ID,idArray)!=-1 && username_current!=ID)
 	{
 		alert("ログインIDが既に登録されています");
 		document.getElementById('ID').focus();
 		return false;
 	}
-	else
+	if(ID.length > 15)
 	{
-		 if(reg.test(ID) == false) {
-		 	alert("ログインIDは英数字で入力してください");
+			alert("ログインIDは15文字以内で入力してください");
 			document.getElementById('ID').focus();
-		 	return false;
-		 }
+			return false;
 	}
+	
+	
+	if(reg.test(ID) == false) {
+		alert("ログインIDは半角英数字記号で入力してください");
+		document.getElementById('ID').focus();
+		return false;
+	}
+	
 	if(!password)
 	{
 		 alert("パスワードが未入力です");
@@ -301,13 +307,19 @@ function validForm()
 		var c = document.getElementById("password").value.length;
 		if(c<6)
 		{
-			alert("パスワードは英数字記号6文字以上にしてください");
+			alert("パスワードは6文字以上で入力してください");
+			document.getElementById('password').focus();
+			return false;
+		}
+		if(c>15)
+		{
+			alert("パスワードは15文字以内で入力してください");
 			document.getElementById('password').focus();
 			return false;
 		}
 	}
  	if(reg.test(password) == false) {
-		alert("パスワードは英数字記号で入力してください");
+		alert("パスワードは半角英数字記号で入力してください");
 		document.getElementById('password').focus();
 		return false;
 	 }
@@ -691,7 +703,7 @@ include("inc/return_dbcon.inc.php");
 					<td align="left" valign="middle" nowrap="nowrap">
 					<input name="password" type="text" id="password" size="25" style="border-style: inset;" value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
 					<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください。<br>
-					記号は以下の文字が利用できます(! # $ % & ( ) * + - . \ / : ; < = > ? @ [ ] ^ _ ` { | } ~ \" ' ,)
+					記号は以下の文字が利用できます(! # $ % & ( ) * + - . \ / : ; < = > ? @ [ ] ^ _ ` { | } ~)
 					</span>
 					</td>
 				</tr>
