@@ -26,6 +26,9 @@ function get_right_table($max_width,$width,$html){
   return "<table><tr><td width=\"".$margin."%\"></td><td width=\"".$main_margin."%\">".$html."</td></tr></table>";
 }
 
+$main_font_size="20px";
+$main_font_size_top="20px";
+$main_font_size2="20px";
 
 
 $plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
