@@ -95,11 +95,11 @@ window.onkeydown = function(event) {
     <input type="hidden" name="update" value="update" />
     </form>
 <?php if ($busuu==1 || $busuu==3) { ?>
-    <script type="text/javascript"> document.seki_input.sekiji.focus(); </script>
+    <script type="text/javascript"> document.getElementById("sekiji").focus(); </script>
 <?php } 
 if ($busuu==2) {
 ?>
-    <script type="text/javascript"> document.seki_input.sekifuda.focus(); </script>
+    <script type="text/javascript"> document.getElementById("sekifuda").focus(); </script>
 <?php } ?>
 </body>
 </html>
