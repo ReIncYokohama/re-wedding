@@ -455,7 +455,7 @@ include("inc/return_dbcon.inc.php");
 					<?php }
 					if($plan_info['dowload_options']==2)
 					{ ?>
-						■席札表印刷部数<br>
+						■席札印刷部数<br>
 		    <input type="text" id="daylimit_2" name="day_limit_2" size="3" maxlength="3" value="<?=$dayLimit_2?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
 		    部
 		    		<br>
@@ -467,7 +467,7 @@ include("inc/return_dbcon.inc.php");
 			<input type="text" id="daylimit_1" name="day_limit_1" size="3" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
 			部
 					<br><br>
-						■席札表印刷部数
+						■席札印刷部数
 					<br>
 					<input type="text" id="daylimit_2" name="day_limit_2" size="3" maxlength="3" value="<?=$dayLimit_2?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
 					部
@@ -498,7 +498,7 @@ include("inc/return_dbcon.inc.php");
 							echo "<br />";
 							if ($plan_info['dowload_options']==1 || $plan_info['dowload_options']==3) echo "席次表印刷部数 ".$dayLimit_1." 部";
 							echo "　";
-							if ($plan_info['dowload_options']==2 || $plan_info['dowload_options']==3) echo "席札表印刷部数 ".$dayLimit_2." 部";
+							if ($plan_info['dowload_options']==2 || $plan_info['dowload_options']==3) echo "席札印刷部数 ".$dayLimit_2." 部";
 						}
 					?>
 				</td>

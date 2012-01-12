@@ -255,17 +255,25 @@ class InformationClass extends DBO
   }
 	function get_editable_condition($plan_info_array)
 	{
+	$click_info = $this->get_clicktime_info($user_id);
+	$pd = strptime($click_info['print_irai'],"%Y-%m-%d %H:%M:%S");
+	$pidate = mktime($pd[tm_hour],$pd[tm_min],$pd[tm_sec],$pd[tm_mon]+1,$pd[tm_mday],$pd[tm_year] + 1900);
+	if(!preg_match('/.*\/(\d*).PDF$/', $plan_info_array['p_company_file_up'] , $matches)){
+		$matches = array("1");
+	}
+
 		/*if ($plan_info_array['order'] == 1 && $_SESSION['adminid'] > 0) {  // 追加仕様でホテルスタッフは仮発注時に編集可能
 
 			return true;
     }*/
-    if(!$this->get_sekizihyo_edit_term($plan_info_array)){
+    if(!$this->get_sekizihyo_edit_term($plan_info_array)&&!$this->is_admin()){
       return false;
     }
 		if ($plan_info_array['order'] == 1 && ($plan_info_array['admin_to_pcompany'] == 0 || $plan_info_array['admin_to_pcompany'] == 1)) {  // 追加仕様で「スタッフ画面：仮発注、ユーザ画面：印刷イメージ依頼」で編集不可
 			return false;
 		}
-    if($plan_info_array['admin_to_pcompany']==2) {
+//    if($plan_info_array['admin_to_pcompany']==2) {
+    if($plan_info_array['admin_to_pcompany']==2 && $pidate > $matches[1]) {
 			return true;
 		}
 		if(($plan_info_array['order']<=3 && $plan_info_array['order']>0) || ($plan_info_array['order']==2 && $plan_info_array['admin_to_pcompany']==3))
@@ -578,6 +586,22 @@ json
 	    	
 	  $sql = "delete from spssp_user where id=".$uid;								mysql_query($sql);
   }
+
+	public function is_super_user(){
+		if($_SESSION["super_user"] == true){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public function is_admin(){
+		if((int)$_SESSION["adminid"] > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 }//END OF CLASS_InformationClass
 ?>

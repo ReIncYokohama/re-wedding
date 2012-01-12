@@ -172,6 +172,16 @@ function confirmAction(urls , msg)
 						$isGrey=false;
 						if($plan_info['order']>0) $isGrey=true;
 						if ($plan_info['admin_to_pcompany']==2) $isGrey=false;
+// add 20111228 start PDFのタイムスタンプが印刷イメージ依頼のタイムスタンプよりも古ければ、依頼ボタンをグレーアウトする。
+						$pd = strptime($click_info['print_irai'],"%Y-%m-%d %H:%M:%S");
+						$pidate = mktime($pd[tm_hour],$pd[tm_min],$pd[tm_sec],$pd[tm_mon]+1,$pd[tm_mday],$pd[tm_year] + 1900);
+						if(!preg_match('/.*\/(\d*).PDF$/', $plan_info['p_company_file_up'] , $matches)){
+							$matches = array("1");
+						}
+						if($plan_info['admin_to_pcompany']==2){
+							if($pidate > $matches[1]) $isGrey=true;
+						}
+// added 20111228
 						if($isGrey==true)
 						{
 					?>

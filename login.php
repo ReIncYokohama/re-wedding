@@ -15,7 +15,11 @@ if(!isset($_SESSION['userid'])) {
 	$query_string = "SELECT * from spssp_user WHERE BINARY user_id= '".$userID."' and BINARY password = '".$password."'";
 	$result = mysql_query( $query_string );
 	$row = mysql_fetch_array($result);
-	
+	//ｒログインID,Passなしの挙動を追加
+	if(!row){
+		echo '<script type="text/javascript"> alert("お客様のＩＤ利用期限日が過ぎております\\nログインが必要な場合は、ホテル担当者にお問い合わせください"); </script>';
+		redirect("logout.php");exit;
+	}
 	// お客様ID利用期限日によるログイン制限
 	$_limit = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='user_id_limit'");
 	$_lm = (int)$_limit;
@@ -23,7 +27,7 @@ if(!isset($_SESSION['userid'])) {
 	$_limitDate = strtotime("+".$_lm." day",$_pday);
 //	echo $_lm." : ".$_pday." : ".$_limitDate." : ".strtotime(date("Y-m-d"));exit;
 	if ($_limitDate<strtotime(date("Y-m-d"))) { // お客様ID利用期限日を過ぎた
-		echo '<script type="text/javascript"> alert("お客様のＩＤ利用期限日が過ぎております\\nログインが必要な場合は、ホテル担当者にお問い合わせください"); </script>';
+		echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\n正しいログインIDとパスワードを入力してください。"); </script>';
 		redirect("logout.php");exit;
 	}
 	$_SESSION['userid'] = $row['id'];

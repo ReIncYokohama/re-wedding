@@ -76,7 +76,7 @@ if(!$force){
     if(!$csv[$i] || implode("",$csv[$i])=="") continue;
     $thisMessageArray = $obj->check_user_data(
       array("last_name"=>$csv[$i][1],"first_name"=>$csv[$i][3],"furigana_last"=>$csv[$i][2],
-      "furigana_first"=>$csv[$i][4],"respect"=>$csv[$i][5],"sex"=>$csv[$i][0]),$i);
+            "furigana_first"=>$csv[$i][4],"respect"=>$csv[$i][5],"sex"=>$csv[$i][0]),$i);
     $messageArray = array_merge($messageArray,$thisMessageArray);
   }
   if(count($messageArray)>0) $error = true;
@@ -194,27 +194,41 @@ $user_folder_base = $user_folder_base."/";
 
 for($i=0;$i<count($csv);++$i){
   $csv[$i] = $obj->protectXSS($csv[$i]);
+  
+  //データが空白の場合、カラムの代入をしない。
+  if($csv[$i][0] == "" && (!$csv[$i][1] || $csv[$i][1] == "")) continue;
 
-  if($csv[$i][0] == "") continue;
   $data = array();
   if($csv[$i][0] == "新婦"){
     $data["sex"] = "Female";
   }else{
     $data["sex"] = "Male";
   } 
+  if($csv[$i][0] == "") $data["sex"] = null;
   $data["last_name"] = check_sjis($csv[$i][1]);
   $data["furigana_last"] = $csv[$i][2];
   $data["first_name"] = check_sjis($csv[$i][3]);
   $data["furigana_first"] = $csv[$i][4];
-  $data["respect_id"] = $respects[0]["id"];
-  $respect_title = $respects[0]["title"];
+  $haveRespect = false;
   for($j=0;$j<count($respects);++$j){
     if($respects[$j]["title"] == $csv[$i][5]){
       $data["respect_id"] = $respects[$j]["id"];
       $respect_title = $respects[$j]["title"];
+      $haveRespect = true;
       break;
     }
   }
+  if(!$haveRespect){
+    $csv[$i][5] = "なし";
+    for($j=0;$j<count($respects);++$j){
+      if($respects[$j]["title"] == $csv[$i][5]){
+        $data["respect_id"] = $respects[$j]["id"];
+        $respect_title = $respects[$j]["title"];
+        break;
+      }
+    }
+  }
+  if($respect_title=="なし") $respect_title = "";
   
   $data["comment1"] = check_sjis($csv[$i][6]);
   $data["comment2"] = check_sjis($csv[$i][7]);

@@ -45,7 +45,7 @@ width:100px;
   vertical-align:top;
 }
 .littlebox{
-height:20px;
+/*height:20px;*/
 }
 </style>
 <script src="../js/noConflict.js" type="text/javascript"></script>

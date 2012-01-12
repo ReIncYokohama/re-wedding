@@ -253,7 +253,7 @@ function validForm()
 
 	var permission_old  = document.getElementById('permission_old').value;
 //	var reg = /^[A-Za-z0-9]{1,15}$/;
-	var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\\\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,15}$/; //2011/12/09 yamanaka
+	var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\d\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,15}$/; //2011/12/09 yamanaka
 	var reg2 = /^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/;
 	var flag = true;
 	if(!name)

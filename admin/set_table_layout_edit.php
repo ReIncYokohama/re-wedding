@@ -1,6 +1,7 @@
 <?php
-include("inc/dbcon.inc.php");
-include("inc/class.dbo.php");
+require_once("inc/dbcon.inc.php");
+require_once("inc/class.dbo.php");
+
 $obj = new DBO();
 $get = $obj->protectXSS($_GET);
 require_once("inc/include_class_files.php");

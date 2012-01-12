@@ -561,18 +561,17 @@ $reqfilelen = strlen($reqfile);
 $current = substr( $requrl, 0, $urilen - $reqfilelen );
 //echo $requrl."<br/>".$current;
 
-
+/*
 define('ADMIN_LINK', $requrl."/admin/");           // AdminへのURL566  
 define('ADMIN_LINK_FOR_PRINT', $current."/admin/");     // PrintへのAdminのURL567  
 define('MAIN_LINK', $current."/");                 // UserへのURL568  
 define('PRINT_COMPANY_LINK', $current."/print/");       // PrintへのURL
+*/
 
-/*
 define('ADMIN_LINK', BASE_URL."admin/");           // AdminへのURL  566
 define('ADMIN_LINK_FOR_PRINT', BASE_URL."admin/");     // PrintへのAdminのURL  567
 define('MAIN_LINK', BASE_URL);                 // UserへのURL  568
 define('PRINT_COMPANY_LINK', BASE_URL."print/");       // PrintへのURL
-*/
 
 define('STAFF_LOGIN_FILENAME','./_staff_login.log');	// スタッフログイン管理ファイル
 define('STAFF_LOGIN_TIMEOUT','1200'); 					// スタッフタイムアウト２０分=1200　単位：秒 (無操作でログイン可能になる時間)
@@ -609,6 +608,22 @@ define('INFO_I', '席次表の印刷締切日を過ぎております。至急�
 define('INFO_J', '席次表の印刷締切日が近づいております。早めにご確認をお願いします。');
 define('INFO_K', '引出物の締切日が近づいております。早めにご確認をお願いします。');
 
+include_once("class.dbo.php");
+include("main_dbcon.inc.php");
+$obj = new DBO();
+$hcode=$HOTELID;
+$hotel_row = $obj->GetSingleRow("super_spssp_hotel ", " hotel_code=".$hcode);
+$hotel_name =$hotel_row["hotel_name"];
+$message_display = $hotel_row["message_display"];
+$hotel_id = $hotel_row["id"];
+$IgnoreMessage = !$message_display;
+
+$maintenance_arr = $obj->GetAllRowsByCondition("spssp_maintenance ", " display=1");
+
+foreach($maintenance_arr as $maintenance){
+  if(in_array($hotel_id,explode(",",$maintenance["hotel_ids"]))) $Maintenance = $maintenance;
+}
+include("return_dbcon.inc.php");
 
 
 ?>
