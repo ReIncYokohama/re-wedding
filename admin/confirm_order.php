@@ -94,12 +94,16 @@ window.onkeydown = function(event) {
     <input type="button" value="キャンセル" name="submit" onClick="cl2('CANCEL')" onkeydown="if (event.keyCode == 13) { cl2('CANCEL'); }">
     <input type="hidden" name="update" value="update" />
     </form>
+<script type="text/javascript">
+  window.onload=function(){
 <?php if ($busuu==1 || $busuu==3) { ?>
-    <script type="text/javascript"> document.getElementById("sekiji").focus(); </script>
+       document.getElementById("sekiji").focus(); 
 <?php } 
 if ($busuu==2) {
 ?>
-    <script type="text/javascript"> document.getElementById("sekifuda").focus(); </script>
+     document.getElementById("sekifuda").focus(); 
 <?php } ?>
+  }
+</script>
 </body>
 </html>
