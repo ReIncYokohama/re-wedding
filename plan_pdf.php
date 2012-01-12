@@ -17,7 +17,7 @@ function get_center_table($max_width,$width,$html){
   $margin = floor((100*(($max_width-$width)/$max_width))*10/2)/10;
   $main_margin = floor((100-$margin*2)*10)/10;
   if($max_width == $width) return $html;
-  return "<table><tr><td width=\"".$margin."%\"></td><td width=\"".$main_margin."%\">".$html."</td><td width=\"".$margin."%\"></td></tr></table>";
+  return "<table cellspacing=\"0\" cellspadding=\"0\"><tr><td width=\"".$margin."%\"></td><td width=\"".$main_margin."%\">".$html."</td><td width=\"".$margin."%\"></td></tr></table>";
 }
 
 function get_right_table($max_width,$width,$html){
@@ -26,6 +26,9 @@ function get_right_table($max_width,$width,$html){
   return "<table><tr><td width=\"".$margin."%\"></td><td width=\"".$main_margin."%\">".$html."</td></tr></table>";
 }
 
+$main_font_size="20px";
+$main_font_size_top="20px";
+$main_font_size2="20px";
 
 
 $plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
@@ -353,36 +356,37 @@ $html .= get_center_table($max_width,$width,$subhtml);
 
 //rows[0]columns[0]seats[0]
 function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_num){
-  $html='<table cellspacing="0" cellspadding="0" style="font-size:'.$main_font_size.';">';
+  $html='<table cellspacing="0" cellspadding="0" style="font-size:16px;">';
+  $haveRow = false;
   for($i=0;$i<count($rows);++$i){
     $row = $rows[$i];
     $html .= "<tr><td width:\"100%\">";
-    $subhtml = "<table><tr>";
+    $subhtml = "<table cellspacing=\"0\" cellspadding=\"0\" style=\"font-size:1px;\"><tr>";
     $active_columns_num = 0;
     for($j=0;$j<count($row["columns"]);++$j){
       $column = $row["columns"][$j];
       $table_name = $column["name"];
       $table_id = $column["id"];
       if($column["display"] == 0 && !$column["visible"]) continue;
+      $haveRow = true;
       if($column["display"] == 0){
         $subhtml .="<td></td>";
         $active_columns_num += 1;
         continue;
       }
-      
       $gifts = $column["gifts"];
-      $gift_table = '<table>';
+      $gift_table = "<table cellspadding=\"0\" cellspacing=\"0\" style=\"font-size:16px;\">";
       $gift_tr1 = "<tr>";
       $gift_tr2 = "<tr>";
       for($k=0;$k<count($gifts);++$k){
-        $gift_tr1 .= '<td height="9" style="text-align:center;border:1px solid black;font-size:17px;" >'.$gifts[$k]["name"]."</td>";
-        $gift_tr2 .= '<td height="9" style="text-align:center;border:1px solid black;font-size:17px;" >'.$gifts[$k]["num"]."</td>";
+        $gift_tr1 .= '<td height="9" style="text-align:center;border:1px solid black;font-size:16px;" >'.$gifts[$k]["name"]."</td>";
+        $gift_tr2 .= '<td height="9" style="text-align:center;border:1px solid black;font-size:16px;" >'.$gifts[$k]["num"]."</td>";
       }
-      $gift_tr1 .= '<td height="9" style="text-align:center;border:1px solid black;font-size:17px;" >子</td></tr>';
-      $gift_tr2 .= '<td height="9" style="text-align:center;border:1px solid black;font-size:17px;" >'.$column["child_menu_num"]."</td></tr>";
+      $gift_tr1 .= '<td height="9" style="text-align:center;border:1px solid black;font-size:16px;" >子</td></tr>';
+      $gift_tr2 .= '<td height="9" style="text-align:center;border:1px solid black;font-size:16px;" >'.$column["child_menu_num"]."</td></tr>";
       $gift_table .= $gift_tr1.$gift_tr2.'</table>';
       $numText = ($column["child_menu_num"]==0)?count($column["guests"]):(count($column["guests"])-$column["child_menu_num"])."+".$column["child_menu_num"];
-      $subhtml .= "<td><table cellspacing=\"0\" cellspadding=\"0\" width=\"300\"><tr><td align=\"center\" style=\"font-size:25px;\">".$table_name."[".$numText."名]</td><td>".$gift_table."</td></tr><tr style=\"font-size:10px;\"><td></td></tr>";
+      $subhtml .= "<td><table cellspacing=\"0\" cellspadding=\"0\" width=\"300\" style=\"font-size:16px;\"><tr><td align=\"center\" style=\"font-size:25px;\">".$table_name."[".$numText."名]</td><td>".$gift_table."</td></tr><tr style=\"font-size:10px;\"><td></td></tr>";
        
       for($k=0;$k<$seat_row*2;++$k){
         if($k%2==0) $subhtml .= "<tr>";
@@ -405,6 +409,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
     //$html .= $subhtml."</td></tr><tr><td></td></tr>";
   }
   $html .="</table>";
+  if(!$haveRow) return "";
   return $html;
 }
 
@@ -437,6 +442,7 @@ $rows_num = count($table_data["rows"]);
 $columns_num = count($table_data["rows"][0]["columns"]);
 if($flag_horizon){
   $rows_config_num = 3;
+  if($plan_row["seat_number"]<=10) $rows_config_num = 4;
   $columns_config_num = 5;
 }else{
   $rows_config_num = 5;
@@ -470,12 +476,9 @@ for($i=0;$i<$page_rows_num;++$i){
 
 draw_html($plan_id,$html,$pdf);
 for($i=0;$i<count($page_arr);++$i){
-  if($page_arr_max_columns_num[$i]==0) continue;
   $html = get_table_html($page_arr[$i],$main_font_size,$seat_num,$seat_row,$page_arr_max_columns_num[$i]);
+  if($html != "" && $i != 0) $pdf->addPage();
   draw_html($plan_id,$html,$pdf,$page_arr_max_columns_num[$i],$max_width);
-  if($i+1==count($page_arr)) break;
-  if($i+2==count($page_arr) && $page_arr_max_columns_num[$i+1]==0) break;
-  $pdf->addPage();
 }
 
 // ---------------------------------------------------------

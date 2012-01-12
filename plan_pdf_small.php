@@ -317,14 +317,14 @@ $subhtml='<table style="font-size:'.$main_font_size_top.';border:1px solid black
 for($i=0;$i<count($viewArray);++$i){
   $subhtml .= '<td align="center"  valign="middle">'.$viewArray[$i].'</td>';
 }
-$subhtml .= '</tr></table><br>';
+$subhtml .= '</tr></table>';
 
 $html .= get_center_table($max_width,$width,$subhtml);
 
-
 //rows[0]columns[0]seats[0]
 function get_table_html($rows,$main_font_size,$seat_num,$seat_row){
-  $html='<table cellspacing="0" cellspadding="0" width="100%" style="font-size:'.$main_font_size.';">';
+  $html='<table cellspacing="0" cellspadding="0" style="font-size:27px;">';
+  $haveRow = false;
   for($i=0;$i<count($rows);++$i){
     $row = $rows[$i];
     $width = 110*count($row["columns"])*2;
@@ -334,11 +334,12 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row){
       $table_name = $column["name"];
       $table_id = $column["id"];
       if($column["display"] == 0 && !$column["visible"]) continue;
+      $haveRow = true;
       if($column["display"] == 0){
         $html .="<td></td>";
         continue;
       }
-      $html .= "<td><table cellspacing=\"0\" cellspadding=\"0\"><tr><td colspan=\"0\" align=\"center\">".$table_name."</td></tr>";
+      $html .= "<td><table cellspacing=\"0\" cellspadding=\"0\"><tr><td align=\"center\">".$table_name."</td></tr>";
 
       for($k=0;$k<$seat_row*2;++$k){
         if($k%2==0) $html .= "<tr>";
@@ -355,6 +356,8 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row){
     $html .= "</tr></table></td></tr><tr><td></td></tr>";
   }
   $html .="</table>";
+  if(!$haveRow) return "";
+  
   return $html;
 }
 
@@ -385,8 +388,10 @@ $page_arr = array();
 $page_arr_max_columns_num = array();
 $rows_num = count($table_data["rows"]);
 $columns_num = count($table_data["rows"][0]["columns"]);
+
 if($flag_horizon){
   $rows_config_num = 3;
+  if($plan_row["seat_number"]<=10) $rows_config_num = 4;
   $columns_config_num = 5;
 }else{
   $rows_config_num = 5;
@@ -421,9 +426,8 @@ for($i=0;$i<$page_rows_num;++$i){
 draw_html($plan_id,$html,$pdf);
 for($i=0;$i<count($page_arr);++$i){
   $html = get_table_html($page_arr[$i],$main_font_size,$seat_num,$seat_row);
+  if($html != "" && $i != 0) $pdf->addPage();
   draw_html($plan_id,$html,$pdf,$page_arr_max_columns_num[$i],$max_width);
-  if($i+1==count($page_arr)) break;
-  $pdf->addPage();
 }
 
 // ---------------------------------------------------------
