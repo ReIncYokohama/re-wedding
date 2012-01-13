@@ -357,6 +357,7 @@ $html .= get_center_table($max_width,$width,$subhtml);
 //rows[0]columns[0]seats[0]
 function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_num){
   $html='<table cellspacing="0" cellspadding="0" style="font-size:'.$main_font_size.';">';
+  $haveRow = false;
   for($i=0;$i<count($rows);++$i){
     $row = $rows[$i];
     $html .= "<tr><td width:\"100%\">";
@@ -367,6 +368,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
       $table_name = $column["name"];
       $table_id = $column["id"];
       if($column["display"] == 0 && !$column["visible"]) continue;
+      $haveRow = true;
       if($column["display"] == 0){
         $subhtml .="<td></td>";
         $active_columns_num += 1;
@@ -407,6 +409,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
     $html .= get_center_table($max_width,$width,$subhtml)."</td></tr><tr><td></td></tr>";
     //$html .= $subhtml."</td></tr><tr><td></td></tr>";
   }
+  if(!$haveRow) return "";
   $html .="</table>";
   return $html;
 }
@@ -473,12 +476,9 @@ for($i=0;$i<$page_rows_num;++$i){
 
 draw_html($plan_id,$html,$pdf);
 for($i=0;$i<count($page_arr);++$i){
-  if($page_arr_max_columns_num[$i]==0) continue;
   $html = get_table_html($page_arr[$i],$main_font_size,$seat_num,$seat_row,$page_arr_max_columns_num[$i]);
+  if($html != "" && $i != 0) $pdf->addPage();
   draw_html($plan_id,$html,$pdf,$page_arr_max_columns_num[$i],$max_width);
-  if($i+1==count($page_arr)) break;
-  if($i+2==count($page_arr) && $page_arr_max_columns_num[$i+1]==0) break;
-  $pdf->addPage();
 }
 
 // ---------------------------------------------------------
