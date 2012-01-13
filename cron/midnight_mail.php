@@ -20,7 +20,8 @@ if (DEBUG!=NULL) echo "-------------------------------------<br />\n";
 
 while($row=mysql_fetch_array($data_rows))
 	{
- 		//$ret = $objMsg->send_day_limit_message($row['id']);
+    if (DEBUG!=NULL) echo "send mail spssp_userのid = ".$row["id"]."\n";
+ 		$ret = $objMsg->send_day_limit_message($row['id']);
 		if ($ret != NULL && DEBUG!=NULL) echo $row['id']." : ".$row['party_day']." : ".$row['man_lastname']." : ".$row['woman_lastname']." : ".$row['mail']." : ".$ret."<br />\n";
 		$ret = $objMsg->send_hikidemono_day_limit_message($row['id']);
 		if ($ret != NULL && DEBUG!=NULL) echo $row['id']." : ".$row['party_day']." : ".$row['man_lastname']." : ".$row['woman_lastname']." : ".$row['mail']." : ".$ret."<br />\n";
