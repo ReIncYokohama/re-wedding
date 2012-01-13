@@ -109,7 +109,7 @@ class DataClass extends DBO{
               $seats[$k]["guest_detail"] = $guest_detail;
               $guest_rows[$l]["unset"] = true;
               $guest_rows[$l]["seat_id"] = $seat_detail["id"];
-              if($guest_detail["sex"] == "Male"){
+              if($guest_detail["sex"] != "Female"){
                 ++$man_num;
               }else{
                 ++$woman_num;
@@ -955,6 +955,14 @@ class DataClass extends DBO{
       $nameTr .= "<td align=\"center\" style=\" border:1px solid black;\">".$gift_table[$i]["name"]."</td>";
       $numTr .= "<td align=\"center\"  style=\" border:1px solid black;\">".$gift_table[$i]["num"]."</td>";
     }
+    $menu_num = 0;
+    for($i=0;$i<count($guestDetailArray);++$i){
+      if($guestDetailArray[$i]["menu_grp"]>0){
+        ++$menu_num;
+      }
+    }
+    $nameTr .= "<td align=\"center\" style=\" border:1px solid black;\">子</td>";
+    $numTr .= "<td align=\"center\"  style=\" border:1px solid black;\">".$menu_num."</td>";
     $nameTr .= "</tr>";
     $numTr .= "</tr>";
     $html.= $nameTr.$numTr."</table>";
