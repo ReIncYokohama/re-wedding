@@ -314,7 +314,7 @@ class DataClass extends DBO{
         $num+=1;
         continue;
       }
-      if($guestArray[$i]["stage_guest"] == 1){
+      if($guestArray[$i]["stage_guest"] == 1 && $guestArray[$i]["stage_guest"] > 0){
         $num+=1;
         continue;
       }
