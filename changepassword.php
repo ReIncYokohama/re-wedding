@@ -61,7 +61,7 @@ $(function(){
 	var oldPw  = document.getElementById('userID').value;
 	var newPw  = document.getElementById('password').value;
 	var rePw  = document.getElementById('repassword').value;
-	var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\\\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,15}$/; //2011/12/09 yamanaka
+	var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\d\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,15}$/; //2011/12/09 yamanaka
 
 	if(oldPw=='')
 	{
@@ -81,13 +81,13 @@ $(function(){
 	   document.getElementById('repassword').focus();
 	   return false;
 	}
-	if (newPw.length<6) {
-	   alert("新しいパスワードは英数字6文字以上で入力してください");
+	if (newPw.length<6 || newPw.length>15) {
+	   alert("新しいパスワードは英数字6文字以上15文字以内で入力してください");
 	   document.getElementById('repassword').focus();
 	   return false;
 	}
-	if (rePw.length<6) {
-	   alert("確認用パスワードは英数字6文字以上で入力してください");
+	if (rePw.length<6 || rePw.length>15) {
+	   alert("確認用パスワードは英数字6文字以上15文字以内で入力してください");
 	   document.getElementById('repassword').focus();
 	   return false;
 	}
@@ -157,7 +157,7 @@ $(function(){
 			<tr>
 				<td width="300" align="right"></td>
 				<td><font color="red">半角英数字記号6文字以上で入力してください。以下の文字が利用できます。<br>
-! # $ % & ( ) * + - . \ / : ; < = > ? @ [ ] ^ _ ` { | } ~ " ' ,</font></td>
+! # $ % & ( ) * + - . \ / : ; < = > ? @ [ ] ^ _ ` { | } ~</font></td>
 			</tr>
 
 
