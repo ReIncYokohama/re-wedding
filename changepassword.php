@@ -152,7 +152,8 @@ $(function(){
   <div class="cont_area">
 
    <form action="changepassword.php" method="post" name="login_form">
-		<table style="font-size:10px;" align="center" cellspacing="10" cellpadding="0" width="100%">
+		<!--table style="font-size:10px;" align="center" cellspacing="10" cellpadding="0" width="100%"-->
+		<table align="center" cellspacing="10" cellpadding="0" width="100%">
 
 			<tr>
 				<td width="300" align="right"></td>
