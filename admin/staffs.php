@@ -702,7 +702,8 @@ include("inc/return_dbcon.inc.php");
 			    <td align="left" valign="middle" nowrap="nowrap">：</td>
 					<td align="left" valign="middle" nowrap="nowrap">
 					<input name="password" type="text" id="password" size="25" style="border-style: inset;" value="<?=$edit_data_rows['password']?>"  onblur="checkvalidity()"/><br>
-					<span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください。<br>
+					<!--span id="password_msg" style="color:#FF0000;font-size:8px;">英数字6文字以上にしてください。<br-->
+					<span id="password_msg" style="color:#FF0000;">英数字6文字以上にしてください。<br>
 					記号は以下の文字が利用できます(! # $ % & ( ) * + - . \ / : ; < = > ? @ [ ] ^ _ ` { | } ~)
 					</span>
 					</td>
