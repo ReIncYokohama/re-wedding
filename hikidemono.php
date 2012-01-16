@@ -124,8 +124,16 @@ $tab_hikidemono = true;
     if(<?php echo $save_hikidemono;?>) alert("引出物グループが保存されました");
 	});
 
-function validForm()
+function validForm(gift_cnt)
 {
+	var reg = /^[0-9]{1,}$/;
+	for(var i=1;i<=gift_cnt;i++){
+		var tgt = "yobisu_" + i;
+		if(reg.test(document.getElementById(tgt).value) == false) {
+			alert("予備数は半角数字で入力してください");
+			return false;
+		}
+	}
 	for(var i=0;i<7;i++)
 	{
 		if (!isCheckedById("group_"+i))
@@ -362,10 +370,11 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 		<?php
 
 		$i=0;
-
+		$gift_cnt = 0;
 		foreach($gift_rows as $gift)
 		{
 			if($gift['name']!="") {
+			$gift_cnt++;
 			?>
             <tr height="20px" <?php if($i%2==0){?>style="background:#FFFFFF"<?php }else{?>style="background:#ECF4FB"<?php }?>>
 			<td align="center" style="text-align:center"><b><?=$gift['name'];?></b></td>
@@ -420,7 +429,7 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 				}
 			?></div>
             </td>
-			<td align="center"><input type="text" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right;border-style:inset;" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+			<td align="center"><input type="text" id="yobisu_<?=$gift['id']?>" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right;border-style:inset;" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
 
             </tr>
 			<?php
@@ -434,7 +443,7 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 		if($editable)
 		{?>
 			&nbsp;<br />
-			<a href="javascript:void(0)" onclick="validForm();" name="sub">
+			<a href="javascript:void(0)" onclick="validForm(<?=$gift_cnt?>);" name="sub">
         	<img src="img/btn_save_user.jpg" border="0" /></a>　
             <a href="hikidemono.php" name="cancel">
         	<img src="img/btn_rollback_user.jpg" border="0" />
