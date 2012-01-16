@@ -199,17 +199,15 @@ foreach($gift_rows as $gift)
 if($have_gift) $html.='<tr><td style="text-align:center; border:1px solid black;" width="16" rowspan="7" height="10">商品名</td>'.$subhtml;
 
 $table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
-$male_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male' and stage_guest=1");
-$female_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female' and stage_guest=1");
-$male_guest_num = $table_data["man_num"]+$male_takasago_guest_num;
-$female_guest_num = $table_data["woman_num"]+$female_takasago_guest_num;
-
+$male_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male' and stage=1 and stage_guest>0");
+$female_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female' and stage=1 and stage_guest>0");
+$male_guest_num = $table_data["man_num"];
+$female_guest_num = $table_data["woman_num"];
 $total_guest=$male_guest_num+$female_guest_num;
-$total_guest_with_bride=$total_guest+2;
-	
+$total_guest_with_bride=$total_guest+2+$male_takasago_guest_num+$female_takasago_guest_num;
+
 $woman_lastname=$user_info['woman_lastname'];
 $man_lastname=$user_info['man_lastname'];
-
 
 $html.='</table></td>';
 
@@ -237,7 +235,7 @@ function get_gaiji_arr($gaijis){
 $man_lastname_gaiji_pathArray = array();
 $woman_lastname_gaiji_pathArray = array();
 
-make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaijis,$woman_lastname,$woman_lastname_gaijis,$male_guest_num,$female_guest_num);
+make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaijis,$woman_lastname,$woman_lastname_gaijis,$male_guest_num,$female_guest_num,$total_guest_with_bride);
 
 $marriage_day = "";
 $marriage_day_with_time = "";
@@ -324,17 +322,22 @@ $html .= get_right_table(500,200,$subhtml);
 $html.='</td></tr></table> <br/>';
 
 $takasago_guests = $obj->get_guestdata_in_takasago($user_id);
+$takasago_menu_num = 0;
+for($i=0;$i<count($takasago_guests);++$i){
+  if($takasago_guests[$i]["menu_grp"]>0){
+    ++$takasago_menu_num;
+  }
+}
+
 $takasago_num = count($takasago_guests)+2;
 $main_guest = $obj->get_guestdata_in_takasago_for_pdf($user_id,160);
 $gift_table = $obj->get_gift_table_html($takasago_guests,$user_id);
-
 
 $userArray = $obj->get_userdata($user_id);
 $userGuestArray = $obj->get_guestdata_in_host_for_pdf($user_id,160);
 
 $man_image = $userGuestArray[0];
 $woman_image = $userGuestArray[1];
-
 
 $viewSubArray = array($main_guest[3],$main_guest[1],$man_image,$main_guest[5],$woman_image,$main_guest[2],$main_guest[4]);
 $viewArray = array();
@@ -344,7 +347,8 @@ for($i=0;$i<count($viewSubArray);++$i){
 $width = count($viewArray)*150;
 $gift_table = get_center_table((count($viewArray)-1)*200,190,$gift_table);
 
-$subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td style="font-size:25px;" align="center">高砂【 '.$takasago_num.'名 】</td><td colspan="'.(count($viewArray)-1).'">'.$gift_table.'</td></tr><tr>';
+$takasago_num_text = ($takasago_menu_num!=0)?($takasago_num-$takasago_menu_num)."+".$takasago_menu_num:$takasago_menu_num;
+$subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td style="font-size:25px;" align="center">高砂【 '.$takasago_num_text.'名 】</td><td colspan="'.(count($viewArray)-1).'">'.$gift_table.'</td></tr><tr>';
 
 for($i=0;$i<count($viewArray);++$i){
   $subhtml .= '<td align="center"  valign="middle">'.$viewArray[$i].'</td>';
@@ -357,6 +361,7 @@ $html .= get_center_table($max_width,$width,$subhtml);
 //rows[0]columns[0]seats[0]
 function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_num){
   $html='<table cellspacing="0" cellspadding="0" style="font-size:'.$main_font_size.';">';
+  $haveRow = false;
   for($i=0;$i<count($rows);++$i){
     $row = $rows[$i];
     $html .= "<tr><td width:\"100%\">";
@@ -367,6 +372,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
       $table_name = $column["name"];
       $table_id = $column["id"];
       if($column["display"] == 0 && !$column["visible"]) continue;
+      $haveRow = true;
       if($column["display"] == 0){
         $subhtml .="<td></td>";
         $active_columns_num += 1;
@@ -407,6 +413,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
     $html .= get_center_table($max_width,$width,$subhtml)."</td></tr><tr><td></td></tr>";
     //$html .= $subhtml."</td></tr><tr><td></td></tr>";
   }
+  if(!$haveRow) return "";
   $html .="</table>";
   return $html;
 }
@@ -473,12 +480,9 @@ for($i=0;$i<$page_rows_num;++$i){
 
 draw_html($plan_id,$html,$pdf);
 for($i=0;$i<count($page_arr);++$i){
-  if($page_arr_max_columns_num[$i]==0) continue;
   $html = get_table_html($page_arr[$i],$main_font_size,$seat_num,$seat_row,$page_arr_max_columns_num[$i]);
+  if($html != "" && $i != 0) $pdf->addPage();
   draw_html($plan_id,$html,$pdf,$page_arr_max_columns_num[$i],$max_width);
-  if($i+1==count($page_arr)) break;
-  if($i+2==count($page_arr) && $page_arr_max_columns_num[$i+1]==0) break;
-  $pdf->addPage();
 }
 
 // ---------------------------------------------------------
@@ -490,6 +494,6 @@ $date = date("His");
 
 $user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
-$this_name = "sekijihyo".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
+$this_name = "hikidemono".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
 $pdf->Output($this_name.'.pdf', 'I');
 ?> 

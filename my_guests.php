@@ -727,7 +727,6 @@ if($editable)
     <td width="90" align="right" nowrap="nowrap">敬称<font color="red">*</font>：</td>
     <td width="173" align="left"><select id="respect_id" name="respect_id" tabindex=4 style="width:70px; padding-top:3px; padding-bottom:3px;border-style: inset;" <?php if($guest_row['self']==1){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
 			      <?php
-          if($guest_row["respect_id"]=="") echo "<option value=''></option>";
 					foreach($respects as $respect)
 					{
 						if($guest_row['respect_id'] == $respect['id'])

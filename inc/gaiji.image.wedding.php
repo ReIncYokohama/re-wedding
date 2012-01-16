@@ -943,7 +943,7 @@ function set_arr($arr)
   if(is_array($arr)) return $arr;
   return array();
 }
-function make_pdf_guest_info($user_id,$man_last_name,$man_lastname_gaiji_pathArray,$woman_last_name,$woman_lastname_gaiji_pathArray,$man_guest_sum,$woman_guest_sum){
+function make_pdf_guest_info($user_id,$man_last_name,$man_lastname_gaiji_pathArray,$woman_last_name,$woman_lastname_gaiji_pathArray,$man_guest_sum,$woman_guest_sum,$sum){
   $hotel_id=1;
   $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
   @mkdir($user_folder);
@@ -951,7 +951,6 @@ function make_pdf_guest_info($user_id,$man_last_name,$man_lastname_gaiji_pathArr
 
   $gaiji_arr = array_merge((array)$man_lastname_gaiji_pathArray, (array)$woman_lastname_gaiji_pathArray);
   $guest_sum = $man_guest_sum+$woman_guest_sum;
-  $sum = $guest_sum+2;
   make_text_save("新郎様側:".$man_last_name."家  列席者数：".$man_guest_sum."名様  新婦様側:".
                  $woman_last_name."家  列席者数：".$woman_guest_sum."名様 列席者数合計：".
                  $guest_sum."名様  合計人数：".$sum."名様  "

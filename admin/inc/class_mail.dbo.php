@@ -1,5 +1,6 @@
 <?php
 include_once('dbcon.inc.php');
+include_once('class_message.dbo.php');
 include_once(dirname(__file__)."/../../app/ext/Utils/email.php");
 class MailClass extends MessageClass
 {
@@ -524,7 +525,7 @@ html;
 		//$user_male_respect_info = $this :: get_user_respect_info($user_info['man_respect_id']);
 		//$user_femaile_respect_info = $this :: get_user_respect_info($user_info['woman_respect_id']);
 
-		$admin_link = ADMIN_LINK ;
+		$admin_link = ADMIN_LINK;
 
 		$party_date_array=explode("-",$user_info['party_day']);
 		$party_day00=$party_date_array[1]."/".$party_date_array[2];

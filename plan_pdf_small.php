@@ -213,12 +213,12 @@ $html.='</td>';
 
 
 $table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
-$male_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male' and stage_guest=1");
-$female_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female' and stage_guest=1");
-$male_guest_num = $table_data["man_num"]+$male_takasago_guest_num;
-$female_guest_num = $table_data["woman_num"]+$female_takasago_guest_num;
+$male_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male' and stage=1 and stage_guest>0");
+$female_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female' and stage=1 and stage_guest>0");
+$male_guest_num = $table_data["man_num"];
+$female_guest_num = $table_data["woman_num"];
 $total_guest=$male_guest_num+$female_guest_num;
-$total_guest_with_bride=$total_guest+2;
+$total_guest_with_bride=$total_guest+2+$male_takasago_guest_num+$female_takasago_guest_num;
 	
 $woman_lastname=$user_info['woman_lastname'];
 $man_lastname=$user_info['man_lastname'];
@@ -250,7 +250,7 @@ function get_gaiji_arr($gaijis){
 $man_lastname_gaiji_pathArray = array();
 $woman_lastname_gaiji_pathArray = array();
 
-make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaijis,$woman_lastname,$woman_lastname_gaijis,$male_guest_num,$female_guest_num);
+make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaijis,$woman_lastname,$woman_lastname_gaijis,$male_guest_num,$female_guest_num,$total_guest_with_bride);
 
 $marriage_day = "";
 $marriage_day_with_time = "";
@@ -325,6 +325,7 @@ $html .= get_center_table($max_width,$width,$subhtml);
 //rows[0]columns[0]seats[0]
 function get_table_html($rows,$main_font_size,$seat_num,$seat_row){
   $html='<table cellspacing="0" cellspadding="0" width="100%" style="font-size:'.$main_font_size.';">';
+  $haveRow = false;
   for($i=0;$i<count($rows);++$i){
     $row = $rows[$i];
     $width = 110*count($row["columns"])*2;
@@ -334,6 +335,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row){
       $table_name = $column["name"];
       $table_id = $column["id"];
       if($column["display"] == 0 && !$column["visible"]) continue;
+      $haveRow = true;
       if($column["display"] == 0){
         $html .="<td></td>";
         continue;
@@ -354,6 +356,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row){
     }
     $html .= "</tr></table></td></tr><tr><td></td></tr>";
   }
+  if(!$haveRow) return "";
   $html .="</table>";
   return $html;
 }
@@ -421,9 +424,8 @@ for($i=0;$i<$page_rows_num;++$i){
 draw_html($plan_id,$html,$pdf);
 for($i=0;$i<count($page_arr);++$i){
   $html = get_table_html($page_arr[$i],$main_font_size,$seat_num,$seat_row);
+  if($html != "" && $i != 0) $pdf->addPage();
   draw_html($plan_id,$html,$pdf,$page_arr_max_columns_num[$i],$max_width);
-  if($i+1==count($page_arr)) break;
-  $pdf->addPage();
 }
 
 // ---------------------------------------------------------
