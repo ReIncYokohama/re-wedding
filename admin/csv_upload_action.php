@@ -256,6 +256,7 @@ $admin_name = $admin_row["name"];
 
 $BASE_URL = BASE_URL;
 $title = "［ウエディングプラス］招待客リストデータがアップロードされました";
+if($admin_row["subcription_mail"]==1) $admin_email = false;
 
 if($admin_email){
 
@@ -296,6 +297,7 @@ $printing_company_mail = "kubonagarei@gmail.com";
 */
 
 $mail = $user_row["mail"];
+if($user_row["subcription_mail"]==1) $mail = false;
 
 $title = "［ウエディングプラス］招待客リストデータが追加されました。";
 if($mail){
