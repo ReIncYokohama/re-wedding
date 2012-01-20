@@ -16,6 +16,8 @@ class Email{
   public function send(){
     mb_language("ja");
     mb_internal_encoding("UTF-8");
+    $this->body = mb_convert_kana($this->body,"KV","utf8");
+    $this->subject = mb_convert_kana($this->subject,"KV","utf8");
     if($this->fromName and $this->from){
       $mailFrom = "From: " . mb_encode_mimeheader (mb_convert_encoding($this->fromName,"JIS","UTF8")) . "<" . $this->from . ">";
       mb_send_mail($this->to,$this->subject,$this->body,$mailFrom);
