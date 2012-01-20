@@ -184,7 +184,6 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 	<div id="login_area">
 
   <?
-   if(!$Maintenance){
 			if($_GET['action']=='failed')
 	{
 		echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください"); </script>';
@@ -213,7 +212,7 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
     </table>
   </form>
 <?php 
-   }else{
+   if($Maintenance){
 ?>
 <h3><?=$Maintenance["title"]?></h3>
        <div><?php echo preg_replace ('/(((<(["\'][^"\']*["\']|[^>])*>).*?)\n|\n)/', '$2<br>', $Maintenance["description"]);?></div>

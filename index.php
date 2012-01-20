@@ -217,9 +217,6 @@ $(function(){
 			</table>
             <div id="login_area">
 
-  <?php
-   if(!$Maintenance){
-?>
 こちらからログインしてください。<br />
 ログインID、パスワードを忘れた方は、ホテル担当者へお問い合わせください。<br />
 <br />
@@ -244,7 +241,7 @@ $(function(){
 	<a href="forgetPassword.php"><b>パスワードを忘れた場合はこちら</b></a><br /><br />
 	※メールアドレスを未登録のお客様は、<br />　ホテル担当者へお問い合わせください。<br />
   <?php
-   }else{
+   if($Maintenance){
      ?>
 <h3><?=$Maintenance["title"]?></h3>
        <div><?php echo preg_replace ('/(((<(["\'][^"\']*["\']|[^>])*>).*?)\n|\n)/', '$2<br>', $Maintenance["description"]);?></div>
