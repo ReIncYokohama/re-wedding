@@ -285,7 +285,9 @@ function user_timeout() {
 			{
 				$name_input=$layoutname;
 				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
-			}
+			}else if($default_layout_title!=""){
+        echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='".$default_layout_title."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
+      }
 			else
 			{
 				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='"."&nbsp;&nbsp;&nbsp;"."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
@@ -360,13 +362,21 @@ function user_timeout() {
       $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
       $num_tables = $obj->getSingleData("spssp_plan", "column_number"," user_id= $user_id");
       $rw_width = (int)($num_tables* 51);
+      $layout_rows = $obj->GetAllRowsByCondition("spssp_table_layout"," plan_id=".$user_plan_row['id']);
 			?>
 			<div>
 	<?php
+      
+      $num_layouts = $obj->GetNumRows("spssp_table_layout"," default_plan_id=".$user_plan_row['id']);
+
+      $default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
+
 		if($layoutname!="" && $layoutname!="null")
 		{
 			echo "<div id='user_layoutname'  style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$layoutname."</div>";
-		}
+		}else if($default_layout_title!=""){
+      echo "<div id='user_layoutname'  style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$default_layout_title."</div>";
+    }
 		else {
 			echo "<div id='user_layoutname'  style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>"."&nbsp;&nbsp;&nbsp;"."</div>";
 		}
