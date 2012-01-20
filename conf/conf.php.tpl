@@ -1,20 +1,15 @@
 <?php
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 64382511c28799ae195af7dca3a4bb2a83b38419
 //HTTP_HOSTがlocalhostの場合用
 $localhost_sqlhost = "localhost";
 $localhost_sqluser = "root";
 $localhost_sqlpassword = "";
 $localhost_sqldatabase = "spssp";
-<<<<<<< HEAD
 //個々のホテルごとdata
 $hotel_sqlhost = "localhost";
-$hotel_sqluser = "dev2_hotel1";
-$hotel_sqlpassword = "dev2_123456";
-$hotel_sqldatabase = "dev2_hotel1";
+$hotel_sqluser = "wplus_hotel3_2";
+$hotel_sqlpassword = "wph3_123456";
+$hotel_sqldatabase = "wplus_hotel3_2";
 
 
 //gaijiのHTTP_HOSTがlocalhostの場合用
@@ -31,77 +26,15 @@ $hotel_gaiji_sqldatabase = "wplus_hotel1_2";
 //共通のデータ
 $main_sqlhost = "localhost";
 $main_sqluser = "wplus_main";
-$main_sqlpassword = "wp_123456";                                                                                                                                                            
+$main_sqlpassword = "re123456";                                                                                                                                                            
 $main_sqldatabase = "wplus_main";
 //ホテルID
-$HOTELID = "0001";
-=======
+$HOTELID = "0003";
 
-//共通のデータ
-$main_sqlhost = "localhost";
-$main_sqluser = "dev2_main";
-$main_sqlpassword = "re123456";
-$main_sqldatabase = "dev2_main";
+define("BASE_URL","http://www.wedding-plus.net/demo/demo2/hotel3/");
+define("BASE_PATH","/demo/demo2/hotel3/");
 
-//hotel1
+$BASE_URL = "http://www.wedding-plus.net/demo/demo2/hotel3/";
+$BASE_PATH = "/demo/demo2/hotel3/";
 
-$hotel1_sqlhost = "localhost";
-$hotel1_sqluser = "wplus_hotel1";
-$hotel1_sqlpassword = "wph1_123456";
-$hotel1_sqldatabase = "wplus_hotel1";
-
-//hotel2
-$hotel2_sqlhost = "localhost";
-$hotel2_sqluser = "wplus_hotel2";
-$hotel2_sqlpassword = "wph2_123456";
-$hotel2_sqldatabase = "wplus_hotel2";
-
-//hotel3
-$hotel3_sqlhost = "localhost";
-$hotel3_sqluser = "wplus_hotel3";
-$hotel3_sqlpassword = "wph4_123456";
-$hotel3_sqldatabase = "wplus_hotel3";
-
-//hotel4
-$hotel4_sqlhost = "localhost";
-$hotel4_sqluser = "wplus_hotel4";
-$hotel4_sqlpassword = "wph4_123456";
-$hotel4_sqldatabase = "wplus_hotel4";
-
-//hotel5
-$hotel5_sqlhost = "localhost";
-$hotel5_sqluser = "wplus_hotel5";
-$hotel5_sqlpassword = "re123456";
-$hotel5_sqldatabase = "wplus_hotel5";
-
-//hotel6
-$hotel6_sqlhost = "localhost";
-$hotel6_sqluser = "wplus_hotel6";
-$hotel6_sqlpassword = "re123456";
-$hotel6_sqldatabase = "wplus_hotel6";
-
-//hotel7
-$hotel7_sqlhost = "localhost";
-$hotel7_sqluser = "wplus_hotel7";
-$hotel7_sqlpassword = "re123456";
-$hotel7_sqldatabase = "wplus_hotel7";
-
-//hotel8
-$hotel8_sqlhost = "localhost";
-$hotel8_sqluser = "wplus_hotel8";
-$hotel8_sqlpassword = "re123456";
-$hotel8_sqldatabase = "wplus_hotel8";
-
-//hotel9
-$hotel9_sqlhost = "localhost";
-$hotel9_sqluser = "wplus_hotel9";
-$hotel9_sqlpassword = "re123456";
-$hotel9_sqldatabase = "wplus_hotel9";
-
-//hotel10
-$hotel10_sqlhost = "localhost";
-$hotel10_sqluser = "wplus_hotel10";
-$hotel10_sqlpassword = "re123456";
-$hotel10_sqldatabase = "wplus_hotel10";
-
->>>>>>> 64382511c28799ae195af7dca3a4bb2a83b38419
+//$IgnoreMessage = true;
