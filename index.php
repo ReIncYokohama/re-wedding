@@ -38,9 +38,8 @@ margin:0 auto;
 height:400px;
 }
 #login_BOX{
-
 margin:30px auto;
-width:500px;
+width:680px;
 }
 #login_midashi
 {
@@ -213,13 +212,10 @@ $(function(){
 		        <img src="../img/logo_wp.jpg" width="269" height="77" />
 		        </td></tr>
 	      		<tr><td>&nbsp;</td></tr>
-	      		<tr><td align="center" style="font-size:20;"><?php echo $weddingVersion; ?></td></tr>
+	      		<tr><td align="center" style="font-size:10pt;"><?php echo $weddingVersion; ?></td></tr>
 			</table>
             <div id="login_area">
 
-  <?php
-   if(!$Maintenance){
-?>
 こちらからログインしてください。<br />
 ログインID、パスワードを忘れた方は、ホテル担当者へお問い合わせください。<br />
 <br />
@@ -244,7 +240,7 @@ $(function(){
 	<a href="forgetPassword.php"><b>パスワードを忘れた場合はこちら</b></a><br /><br />
 	※メールアドレスを未登録のお客様は、<br />　ホテル担当者へお問い合わせください。<br />
   <?php
-   }else{
+   if($Maintenance){
      ?>
 <h3><?=$Maintenance["title"]?></h3>
        <div><?php echo preg_replace ('/(((<(["\'][^"\']*["\']|[^>])*>).*?)\n|\n)/', '$2<br>', $Maintenance["description"]);?></div>
@@ -256,6 +252,35 @@ $(function(){
 	</div>
 
 	<div class="clr"></div>
+    
+        <div>
+    <table width="100%" bgcolor="#696969" cellspacing="0" cellpadding="0">
+    <tr>
+    <td>
+     <table width="100%" cellpadding="20" cellspacing="1">
+     <tr bgcolor="#ffffff">
+     <td width="100%" ><strong>定期メンテナンスのお知らせ</strong><br /><br />日頃はウエディングプラスシステムをご利用いただき、誠にありがとうございます。<br /><br />
+
+この度、下記の内容でシステムメンテナンスを実施させて頂きます。<br />
+メンテナンス時間帯はウエディングプラスシステムをご利用いただくことができませんので予めご了承ください。<br />
+
+ご不便をおかけいたしますが、何卒ご理解いただきますようお願い申し上げます。<br /><br />
+
+
+作業予定 ： 2012年1月31日(火) 10:00～14:00</td>
+     </tr>
+     </table>
+    </td>
+    </tr>
+    </table>
+
+
+    
+    </div>
+    <br />
+    
+	<div class="clr"></div>
+    
 	  <div><img src="img/bar_recommended.jpg" /></div><div>
 
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 Start -->
@@ -278,9 +303,9 @@ $(function(){
       <strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
       ・Internet Explorer ７～9<br />
 ・FireFox 7／8 <br />
-・Google Chrome 14.0~ </div>
-  <div id="foot_right"><strong>●Mac OS Ｘ 10.4~</strong><br />
-    ・Safari 5.0~<br />
+・Google Chrome 14.0以上 </div>
+  <div id="foot_right"><strong>●Mac OS Ｘ 10.4以上</strong><br />
+    ・Safari 5.0以上<br />
 ・FireFox 7／8</div>
 	    <div class="clr"></div>
 	    </div>

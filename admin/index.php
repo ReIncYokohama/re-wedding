@@ -109,6 +109,7 @@ function login_admin()
 body{
 	font: normal 11px "メイリオ","Meiryo","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","Osaka","Osaka－等幅", Osaka-mono, monospace,"ＭＳ Ｐゴシック","MS P Gothic", sans-serif;
 	}
+
 #logo {
 	float: left;
 	margin-top: 80px;
@@ -142,7 +143,7 @@ width:1000px;
 }
 #foot_left {
 	float: left; /* SEKIDUKA ADD 11/08/12 */
-	width: 269px;
+	width: 230px;
 	text-align: left;
 	vertical-align:top;
 }
@@ -179,12 +180,11 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 	        <img src="../img/logo_wp.jpg" width="269" height="77" />
 	        </td></tr>
       		<tr><td>&nbsp;</td></tr>
-      		<tr><td align="center" style="font-size:14;"><?php echo $weddingVersion; ?></td></tr>
+      		<tr><td align="center" style="font-size:10pt;"><?php echo $weddingVersion; ?></td></tr>
 		</table>
 	<div id="login_area">
 
   <?
-   if(!$Maintenance){
 			if($_GET['action']=='failed')
 	{
 		echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください"); </script>';
@@ -213,14 +213,43 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
     </table>
   </form>
 <?php 
-   }else{
+   if($Maintenance){
 ?>
 <h3><?=$Maintenance["title"]?></h3>
        <div><?php echo preg_replace ('/(((<(["\'][^"\']*["\']|[^>])*>).*?)\n|\n)/', '$2<br>', $Maintenance["description"]);?></div>
 <?
    }
 ?>
-</div><div class="clr"></div>
+</div>
+
+	<div class="clr"></div>
+    
+        <div>
+    <table width="100%" bgcolor="#696969" cellspacing="0" cellpadding="0">
+    <tr>
+    <td>
+     <table width="100%" cellpadding="20" cellspacing="1">
+     <tr bgcolor="#ffffff">
+     <td width="100%" style="font-size:8pt;"><strong>定期メンテナンスのお知らせ</strong><br /><br />日頃はウエディングプラスシステムをご利用いただき、誠にありがとうございます。<br /><br />
+
+この度、下記の内容でシステムメンテナンスを実施させて頂きます。<br />
+メンテナンス時間帯はウエディングプラスシステムをご利用いただくことができませんので予めご了承ください。<br />
+
+ご不便をおかけいたしますが、何卒ご理解いただきますようお願い申し上げます。<br /><br />
+
+
+作業予定 ： 2012年1月31日(火) 10:00～14:00</td>
+     </tr>
+     </table>
+    </td>
+    </tr>
+    </table>
+
+    </div>
+    <br />
+    
+	<div class="clr"></div>  
+
 <div><img src="../img/bar_recommended.jpg" /></div><div>
 
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 Start -->
@@ -231,7 +260,7 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 <table width="269" border="0" cellpadding="2" cellspacing="0" title="SSLサーバ証明書導入の証 グローバルサインのサイトシール">
 <tr>
 <td width="269" align="center" valign="top"> <span id="ss_img_wrapper_115-57_image_ja">
-<a href="http://jp.globalsign.com/" target="_blank"> <img alt="SSL グローバルサインのサイトシール" border="0" id="ss_jpn2_gif" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_115-57_ja.gif">
+<a href="http://jp.globalsign.com/" target="_blank"> <img src="//seal.globalsign.com/SiteSeal/images/gs_noscript_115-57_ja.gif" alt="SSL グローバルサインのサイトシール" width="32" height="32" border="0" id="ss_jpn2_gif">
 </a>
 </span><br>
 <script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gs_image_115-57_ja.js" defer="defer"></script> <a href="https://www.sslcerts.jp/" target="_blank" style="color:#000000; text-decoration:none; font:bold 12px 'ＭＳ ゴシック',sans-serif; letter-spacing:.5px; text-align:center; margin:0px; padding:0px;">SSLとは?</a>
@@ -242,9 +271,9 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
     <div id="foot_center"><strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
       ・Internet Explorer ７～9<br />
 ・FireFox 7／8 <br />
-・Google Chrome 14.0~ </div>
-  <div id="foot_right"><strong>●Mac OS Ｘ 10.4~</strong><br />
-    ・Safari 5.0~<br />
+・Google Chrome 14.0以上 </div>
+  <div id="foot_right"><strong>●Mac OS Ｘ 10.4以上</strong><br />
+    ・Safari 5.0以上<br />
 ・FireFox 7／8</div>
 	    <div class="clr"></div>
 	    </div>
@@ -252,7 +281,7 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
 <br />
 	<!-- UCHIDA EDIT 11/07/26 -->
-	<script type="text/javascript"> document.login_form.adminid.focus(); </script>
+<script type="text/javascript"> document.login_form.adminid.focus(); </script>
 
 <?php
 	include_once("inc/new.footer.inc.php");
