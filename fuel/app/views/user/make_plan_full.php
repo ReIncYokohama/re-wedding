@@ -1,0 +1,2 @@
+makeplanfull
+<?php echo $test;?>

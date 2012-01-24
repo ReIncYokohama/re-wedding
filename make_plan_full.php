@@ -1,67 +1,40 @@
 <?php
-	include_once("admin/inc/class_information.dbo.php");
-	include_once("admin/inc/class_data.dbo.php");
-	include_once("inc/checklogin.inc.php");
+include_once("admin/inc/class_information.dbo.php");
+include_once("admin/inc/class_data.dbo.php");
+include_once("inc/checklogin.inc.php");
 
-  //$obj = new DataClass();
-  $obj = new DataClass();
-	$objInfo = new InformationClass();
-	$get = $obj->protectXSS($_GET);
-	$user_id = (int)$_SESSION['userid'];
+//include_once("fuel/load_fuel.php");
+include_once("fuel/load_classes.php");
 
-	$user_layout = $obj->GetNumRows("spssp_table_layout"," user_id= $user_id");
+$obj = new DataClass();
+$objInfo = new InformationClass();
+$get = $obj->protectXSS($_GET);
 
-	$user_info = $obj->GetSingleRow("spssp_user"," id=".$user_id);
-	if($user_layout <= 0)
-	{
-		redirect('table_layout.php?err=13');
-	}
-	$user_guest = $obj->GetNumRows("spssp_guest"," user_id= $user_id");
-	if($user_guest <= 0)
-	{
-		redirect('my_guests.php?err=14');
-	}
+//編集が終わっていない項目を
+$user_id = Core_Session::get_user_id();
+if(!Model_Tablelayout::exist($user_id)){
+  Response::redirect("table_layout.php?err=13");
+}
+if(!Model_Guest::exist($user_id)){
+  Response::redirect("table_layout.php?err=14");
+}
+$plan = Model_Plan::find_obj_by_user_id($user_id);
 
-	$plan_criteria = $obj->GetNumRows("spssp_plan"," user_id= $user_id");
-	if($plan_criteria <= 0)
-	{
-		redirect('table_layout.php?err=15');
-	}
+if(!$plan){
+  Response::redirect("table_layout.php?err=15");
+}
+$plan_id = $plan->id;
+$plan_row = $plan->to_array();
 
+if($plan->authority_rename_table()) $button_enable=true; else $button_enable=false;
 
-	$plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
+$room_seats = $plan_row['seat_number'];
 
-	$plan_row = $obj->GetSingleRow("spssp_plan", " id =".$plan_id);
+$tblrows = Model_Tablelayout::find_rows_distinct_order($user_id);
 
-	$permission_table_edit = $obj->GetSingleData("spssp_plan", "rename_table"," user_id =".$user_id);
-	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".$user_id);
-	$editable=$objInfo->get_editable_condition($plan_info);
-	if($permission_table_edit==1 && $editable) $button_enable=true; else $button_enable=false;
+$itemids = array();
 
-	$room_rows = $plan_row['row_number'];
-
-	$row_width = $row_width-6;
-
-	$table_width = (int)($row_width/2);
-	$table_width = $table_width-6;
-
-	$room_tables = $plan_row['column_number'];
-	$room_width = (int)(215*(int)$room_tables)."px";
-
-
-	$row_width = (int)(213*$room_tables);
-	$content_width = ($row_width+235).'px';
-
-	$room_seats = $plan_row['seat_number'];
-
-	$num_tables = $room_rows * $room_tables;
-
-	$tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id = ".(int)$user_id);
-
-
-	$itemids = array();
-
-	$num_rowws = $obj->GetNumRows("spssp_plan_details"," plan_id=".$plan_id);
+$num_rowws = $obj->GetNumRows("spssp_plan_details"," plan_id=".$plan_id);
 
 	$plan_details_row = $obj->GetAllRowsByCondition("spssp_plan_details"," plan_id=".$plan_id);
 
@@ -96,7 +69,6 @@
 				$itemids[] = $itemArr[1];
 			}
 		}
-
 	}
   
 ?>
