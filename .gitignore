@@ -24,3 +24,6 @@ cache/*
 _uaLog/*
 .htaccess
 .htpasswd
+
+#fuel
+fuel/app/logs/*
