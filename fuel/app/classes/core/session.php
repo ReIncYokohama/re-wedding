@@ -1,9 +1,13 @@
 <?php
 
 class Core_Session{
-  static public function get(){
-    return $_SESSION;
+  static public function __get($key){
+    return $_SESSION[$key];
   }
+  static public function __set($key,$data){
+    $_SESSION[$key] = $data;
+  }
+
   static public function get_user_id(){
     return $_SESSION["userid"];
   }
@@ -14,6 +18,8 @@ class Core_Session{
 			return false;
 		}
   }
-
+  static public function set_seat_data(){
+    
+  }
 }
 
