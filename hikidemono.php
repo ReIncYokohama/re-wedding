@@ -127,7 +127,7 @@ $tab_hikidemono = true;
 function validForm(gift_cnt)
 {
 	var reg = /^[0-9]{1,}$/;
-	for(var i=1;i<=gift_cnt;i++){
+	for(var i=0;i<gift_cnt;i++){
 		var tgt = "yobisu_" + i;
 		if(reg.test(document.getElementById(tgt).value) == false) {
 			alert("予備数は半角数字で入力してください");
@@ -429,7 +429,7 @@ $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_i
 				}
 			?></div>
             </td>
-			<td align="center"><input type="text" id="yobisu_<?=$gift['id']?>" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right;border-style:inset;" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+			<td align="center"><input type="text" id="yobisu_<?=$i?>" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right;border-style:inset;" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
 
             </tr>
 			<?php
