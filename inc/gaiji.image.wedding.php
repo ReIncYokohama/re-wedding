@@ -830,7 +830,7 @@ function make_guest_images($user_id,$guest_id,$last_name,$first_name,$comment1,$
   //pdf用の画像を生成。
   $savefile = sprintf("%s/user_name/%d/%s/%d/%s",get_image_db_directory($hotel_id),$user_id,"guest",$guest_id,"namecard.png");
   make_name_plate_save($last_name,$first_name,$comment1,$comment2,
-                       $lastname_gaiji_pathArray,$firstname_gaiji_pathArrays,
+                       $lastname_gaiji_pathArray,$firstname_gaiji_pathArray,
                        $comment1_gaiji_pathArray,$comment2_gaiji_pathArray,$savefile,$colorArray,$respect);
 
   //引き出物を含んだ画像を作成
@@ -843,7 +843,7 @@ function make_guest_images($user_id,$guest_id,$last_name,$first_name,$comment1,$
   $savefile2 = sprintf("%s/user_name/%d/%s/%d/%s",get_image_db_directory($hotel_id),$user_id,"guest",$guest_id,"namecard_memo2.png");
 
   make_name_plate_full_save($last_name,$first_name,$comment1,$comment2,$gift_name,$menu_name,$memo,
-                       $lastname_gaiji_pathArray,$firstname_gaiji_pathArrays,
+                       $lastname_gaiji_pathArray,$firstname_gaiji_pathArray,
                             $comment1_gaiji_pathArray,$comment2_gaiji_pathArray,$savefile,$savefile2,$colorArray,$respect,$comment1.$comment2,$comment_gaiji_pathArray);
 }
 
