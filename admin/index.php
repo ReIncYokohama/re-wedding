@@ -212,15 +212,12 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
       </tr>
     </table>
   </form>
-<?php 
-   if($Maintenance){
-?>
-<h3><?=$Maintenance["title"]?></h3>
-       <div><?php echo preg_replace ('/(((<(["\'][^"\']*["\']|[^>])*>).*?)\n|\n)/', '$2<br>', $Maintenance["description"]);?></div>
-<?
-   }
-?>
+
 </div>
+
+  <?php
+   if($Maintenance){
+     ?>
 
 	<div class="clr"></div>
     
@@ -230,22 +227,21 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
     <td>
      <table width="100%" cellpadding="20" cellspacing="1">
      <tr bgcolor="#ffffff">
-     <td width="100%" style="font-size:8pt;"><strong>定期メンテナンスのお知らせ</strong><br /><br />日頃はウエディングプラスシステムをご利用いただき、誠にありがとうございます。<br /><br />
-
-この度、下記の内容でシステムメンテナンスを実施させて頂きます。<br />
-メンテナンス時間帯はウエディングプラスシステムをご利用いただくことができませんので予めご了承ください。<br />
-
-ご不便をおかけいたしますが、何卒ご理解いただきますようお願い申し上げます。<br /><br />
-
-
-作業予定 ： 2012年1月31日(火) 10:00～14:00</td>
+     <td width="100%" style="font-size:8pt;" ><strong><?=$Maintenance["title"]?></strong><br />
+       <div><?php echo preg_replace ('/(((<(["\'][^"\']*["\']|[^>])*>).*?)\n|\n)/', '$2<br>', $Maintenance["description"]);?></div>
      </tr>
      </table>
     </td>
     </tr>
     </table>
 
+
+    
     </div>
+<?
+
+   }
+?>
     <br />
     
 	<div class="clr"></div>  

@@ -239,17 +239,11 @@ $(function(){
 </form>
 	<a href="forgetPassword.php"><b>パスワードを忘れた場合はこちら</b></a><br /><br />
 	※メールアドレスを未登録のお客様は、<br />　ホテル担当者へお問い合わせください。<br />
+
+	</div>
   <?php
    if($Maintenance){
      ?>
-<h3><?=$Maintenance["title"]?></h3>
-       <div><?php echo preg_replace ('/(((<(["\'][^"\']*["\']|[^>])*>).*?)\n|\n)/', '$2<br>', $Maintenance["description"]);?></div>
-<?
-
-   }
-?>
-
-	</div>
 
 	<div class="clr"></div>
     
@@ -259,15 +253,8 @@ $(function(){
     <td>
      <table width="100%" cellpadding="20" cellspacing="1">
      <tr bgcolor="#ffffff">
-     <td width="100%" ><strong>定期メンテナンスのお知らせ</strong><br /><br />日頃はウエディングプラスシステムをご利用いただき、誠にありがとうございます。<br /><br />
-
-この度、下記の内容でシステムメンテナンスを実施させて頂きます。<br />
-メンテナンス時間帯はウエディングプラスシステムをご利用いただくことができませんので予めご了承ください。<br />
-
-ご不便をおかけいたしますが、何卒ご理解いただきますようお願い申し上げます。<br /><br />
-
-
-作業予定 ： 2012年1月31日(火) 10:00～14:00</td>
+     <td width="100%" ><strong><?=$Maintenance["title"]?></strong><br />
+       <div><?php echo preg_replace ('/(((<(["\'][^"\']*["\']|[^>])*>).*?)\n|\n)/', '$2<br>', $Maintenance["description"]);?></div>
      </tr>
      </table>
     </td>
@@ -277,6 +264,12 @@ $(function(){
 
     
     </div>
+<?
+
+   }
+?>
+
+
     <br />
     
 	<div class="clr"></div>
