@@ -2,6 +2,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <?php
+
 include_once("inc/class_information.dbo.php");
 include_once("inc/checklogin.inc.php");
 require_once("inc/imageclass.inc.php");
@@ -132,15 +133,19 @@ if(isset($user_id) && $user_id > 0)
     $guest_array['last_name']=$post['man_lastname'];
     $guest_array['furigana_last']=$post['man_furi_lastname'];
     $guest_array['furigana_first']=$post['man_furi_firstname'];
-    
-    $obj->UpdateData("spssp_guest",$guest_array," user_id=".$user_id." and sex='Male' and self=1");
 
+    $man_guest_row = $obj->GetSingleRow(" spssp_guest"," user_id=".$user_id." and sex='Male' and self=1");
+    $man_guest_id = $man_guest_row["id"];
+    $obj->UpdateData("spssp_guest",$guest_array," id=".$man_guest_id);
+    
     $guest_array2['first_name']=$post['woman_firstname'];
     $guest_array2['last_name']=$post['woman_lastname'];
     $guest_array2['furigana_last']=$post['woman_furi_lastname'];
     $guest_array2['furigana_first']=$post['woman_furi_firstname'];
     
-    $obj->UpdateData("spssp_guest",$guest_array2," user_id=".$user_id." and sex='Female' and self=1");
+    $woman_guest_row = $obj->GetSingleRow(" spssp_guest"," user_id=".$user_id." and sex='Female' and self=1");
+    $woman_guest_id = $woman_guest_row["id"];
+    $obj->UpdateData("spssp_guest",$guest_array2," id=".$woman_guest_id);
     
     set_user_gaiji_position($user_id,$post["man_firstname"],0,$_POST["male_first_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["man_lastname"],1,$_POST["male_last_gaiji_img"],$_POST["male_last_gaiji_gsid"]);
@@ -149,6 +154,17 @@ if(isset($user_id) && $user_id > 0)
 
     //外字およびpdf生成に必要なファイルの作成
     make_user_images($user_id,$post["man_lastname"],$post["man_firstname"],$post["woman_lastname"],$post["woman_firstname"],$_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],$_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"]);
+
+
+    //ゲストとして新郎を登録
+    make_guest_images($user_id,$man_guest_id,$post["man_lastname"],$post["man_firstname"],"","","様",
+                      $_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],array(),array());
+
+    //ゲストとして新婦を登録    
+    make_guest_images($user_id,$woman_guest_id,$post["woman_lastname"],$post["woman_firstname"],"","","様",
+                      $_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"],array(),array());
+    
+
 
 	$menu_groups = $obj->GetAllRowsByCondition("spssp_gift","user_id=".$user_id);
 	$count_item = count($gift_post);
@@ -250,6 +266,7 @@ else
     //ゲストとして新郎を登録
     make_guest_images($user_id,$man_guest_id,$post["man_lastname"],$post["man_firstname"],"","","様",
                       $_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],array(),array());
+
 
     $guest_array2['first_name']=$post['woman_firstname'];
     $guest_array2['last_name']=$post['woman_lastname'];
