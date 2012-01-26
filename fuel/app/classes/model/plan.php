@@ -1,6 +1,7 @@
 <?php
 class Model_Plan extends Model_Crud{
   static $_table_name = "spssp_plan";
+  public $cart;
   public function authority_rename_table(){
     $editable = $this->editable();
     if($this->rename_table==1 && $editable) return true;
@@ -35,4 +36,22 @@ class Model_Plan extends Model_Crud{
     $plan = static::find_by_user_id($user_id);
     return new static($plan[0]);
   }
+
+  public function get_seat_data_in_session(){
+    $seat_data = Core_Session::get_seat_data();
+    if(!$seat_data){
+      $plan_details = Model_Plandetails::find_by_plan_id($this->id);
+      $seat_data = array();
+      foreach($plan_details as $pdr)
+        {
+          $skey= $pdr['seat_id'].'_input';
+          $sval = '#'.$pdr['seat_id'].'_'.$pdr['guest_id'];
+          $seat_data[$skey]=$sval;
+        }
+      Core_Session::set_seat_data($seat_data);
+    }
+    return $seat_data;
+  }
+  
+  
 }

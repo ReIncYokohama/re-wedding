@@ -18,8 +18,16 @@ class Core_Session{
 			return false;
 		}
   }
-  static public function set_seat_data(){
+  static public function get_seat_data(){
+    if(isset($_SESSION['cart'])){
+      return $_SESSION["cart"];
+    }
+    return false;
+  }
+  static public function set_seat_data($arr){
+    $_SESSION["cart"] = $arr;
     
   }
+
 }
 
