@@ -51,16 +51,25 @@ foreach($cart as $item)
 $guest_type_sort=($_GET['guest_type_sort']=='desc' || $_GET['guest_type_sort']=='' )?"asc":"desc";
 $guest_sex_sort=($_GET['guest_sex_sort']=='desc' || $_GET['guest_sex_sort']=='' )?"asc":"desc";
 
-DB::instance("madmin");
-print "test";
-exit;
+$guest_types = Model_Guesttype::find_all_to_array();
 
-$types_guest=array();
-include("admin/inc/main_dbcon.inc.php");
-$guest_types = $obj->GetAllRow( "spssp_guest_type");
+//fuelのdbを使わないとき、databaseが切り替わってします。
 include("admin/inc/return_dbcon.inc.php");
 
-  
+
+$types_guest=array();
+foreach($guest_types as $types)
+  {
+    $types_guest[$types['id']]=$types['name'];
+  }
+$no=0;
+if($_GET[sortby]=="")
+  $guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by id");
+else if($_GET[sortby]=="sex")
+  $guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by sex ".$_GET['guest_sex_sort']);
+else if($_GET[sortby]=="guest_type")
+  $guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by guest_type ".$_GET['guest_type_sort']);
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -361,22 +370,6 @@ direction: ltr;
 				<table width="98%">
 					<tr bgcolor="#666666" style="color:#FFFFFF"><th>No</th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=sex&guest_sex_sort=<?=$guest_sex_sort?>">郎婦↓</a></th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=guest_type&guest_type_sort=<?=$guest_type_sort?>">区分↓</a></th><th align="center">&nbsp;&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;</th><th nowrap="nowrap" align="left">卓名</th></tr>
 					<?php
-					$types_guest=array();
-					include("admin/inc/main_dbcon.inc.php");
-					$guest_types = $obj->GetAllRow( "spssp_guest_type");
-
-					include("admin/inc/return_dbcon.inc.php");
-					foreach($guest_types as $types)
-					{
-					$types_guest[$types['id']]=$types['name'];
-					}
-					$no=0;
-				if($_GET[sortby]=="")
-				$guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by id");
-				else if($_GET[sortby]=="sex")
-				$guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by sex ".$_GET['guest_sex_sort']);
-				else if($_GET[sortby]=="guest_type")
-				$guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by guest_type ".$_GET['guest_type_sort']);
 
 				foreach($guests as $guest)
 						{
