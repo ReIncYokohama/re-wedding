@@ -1,43 +1,43 @@
 <?php
 
 
-/* widthã®å¤§ãã•ã‚’è¿”ã™
-   gaijiã¯fontã®heightã«å¤§ãã•ã‚’èª¿æ•´ã™ã‚‹ã€‚
+/* width‚Ì‘å‚«‚³‚ğ•Ô‚·
+   gaiji‚Ífont‚Ìheight‚É‘å‚«‚³‚ğ’²®‚·‚éB
  */
-function get_image_text_width($fontsize,$str,$fontfile,$gaiji_image_url_arr = array(),$gaiji_str = "ï¼Š"
+function get_image_text_width($fontsize,$str,$fontfile,$gaiji_image_url_arr = array(),$gaiji_str = "–"
                               ,$angle = 0
                               ){
-  //ç©ºç™½ã‚’[ã‚]ã«ç½®ãæ›ãˆã¦å¹…ã‚’è¨ˆç®—ã™ã‚‹ã€‚
-  //ã‚‚ã†å°‘ã—ä¸å¯§ã«ç©ºç™½ã®èª¿æ•´ã‚’è¡Œã†ã“ã¨ã‚‚å¯èƒ½ã€‚
-  $str = str_replace(" ","ã",$str);
+  //‹ó”’‚ğ[‚ ]‚É’u‚«Š·‚¦‚Ä•‚ğŒvZ‚·‚éB
+  //‚à‚¤­‚µ’š”J‚É‹ó”’‚Ì’²®‚ğs‚¤‚±‚Æ‚à‰Â”\B
+  $str = str_replace(" ","‚­",$str);
   $str_not_gaiji_arr = explode($gaiji_str,$str);
   $gaiji_num = count($str_not_gaiji_arr)-1;
   $str_not_gaiji = implode("",$str_not_gaiji_arr);
   
-  $image_arr = imagettfbbox($fontsize,$angle,$fontfile,"ã‚".$str_not_gaiji);
+  $image_arr = imagettfbbox($fontsize,$angle,$fontfile,"‚ ".$str_not_gaiji);
   $height = $image_arr[1]-$image_arr[5];
-  //å¤§ãã•ãŒåˆã‚ãªã„ã®ã§ä¸€æ™‚çš„ã«æ–‡å­—æ•°ã‚’å¢—ã‚„ã™ã“ã¨ã§å¯¾å¿œã€‚
+  //‘å‚«‚³‚ª‡‚í‚È‚¢‚Ì‚Åˆê“I‚É•¶š”‚ğ‘‚â‚·‚±‚Æ‚Å‘Î‰B
   if(mb_strlen($str,"UTF-8")>8){
-    $image_arr = imagettfbbox($fontsize,$angle,$fontfile,"ã‚ã‚ã‚".$str_not_gaiji);
+    $image_arr = imagettfbbox($fontsize,$angle,$fontfile,"‚ ‚ ‚ ".$str_not_gaiji);
   }else{
     $image_arr = imagettfbbox($fontsize,$angle,$fontfile,$str_not_gaiji); 
   }
   
   $width = $image_arr[2]-$image_arr[0];
   $width_sum = $width;
-  //ã‚¤ãƒ¡ãƒ¼ã‚¸ãŒãªã„ã¨ãã«ã‚¨ãƒ©ãƒ¼å‡¦ç†ã‚’å…¥ã‚ŒãŸã„ã€‚
+  //ƒCƒ[ƒW‚ª‚È‚¢‚Æ‚«‚ÉƒGƒ‰[ˆ—‚ğ“ü‚ê‚½‚¢B
   for($i=0;$i<$gaiji_num;++$i){
     if(!$gaiji_image_url_arr[$i]) continue;
     list($gaiji_image_width,$gaiji_image_height) = getimagesize($gaiji_image_url_arr[$i]);
     $width_sum += $gaiji_image_width*$height/$gaiji_image_height;
   }
   
-  //æ–‡å­—ãŒåˆ‡ã‚Œãªã„ã‚ˆã†ã«ä½™è£•ã‚’æŒã£ã¦ä½œæˆ
+  //•¶š‚ªØ‚ê‚È‚¢‚æ‚¤‚É—]—T‚ğ‚Á‚Äì¬
   return $width_sum;
 }
 
 function get_image_text_height($fontsize,$font,$text,$angle=0){
-  $image_arr = imagettfbbox($fontsize,$angle,$font,"ã‚".$text);
+  $image_arr = imagettfbbox($fontsize,$angle,$font,"‚ ".$text);
   $height = $image_arr[1]-$image_arr[5];
   return $height;
 }
@@ -46,12 +46,12 @@ function text_imagettftext($image,$insert_height,$angle,$left,$bottom,$color,$fo
   $fontsize = 15;
   if($text == "") return 0;
   
-  $text = mb_ereg_replace("ã€€", " ", $text);
+  $text = mb_ereg_replace("@", " ", $text);
   $image_arr = imagettfbbox($fontsize,$angle,$font,$text);
   $height = $image_arr[1] - $image_arr[5];
   $width = $image_arr[2] - $image_arr[0];
   
-  //åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ãŒæœ€å¾Œã®ã¨ãã€é€šå¸¸ã®å€ã®é•·ã•ã‚’å–å¾—ã—ã¦ã„ã‚‹ã€‚
+  //”¼ŠpƒXƒy[ƒX‚ªÅŒã‚Ì‚Æ‚«A’Êí‚Ì”{‚Ì’·‚³‚ğæ“¾‚µ‚Ä‚¢‚éB
   if(mb_substr($text,mb_strlen($text,"UTF-8")-1,1,"UTF-8") == " ") $width-=10;
   $insert_width = $width*$insert_height/$height;
   $im = imagecreatetruecolor($width,$height);
@@ -78,12 +78,12 @@ function text_imagettftext_align_right($image,$insert_height,$angle,$left,$botto
   $fontsize = 15;
   if($text == "") return 0;
   
-  $text = mb_ereg_replace("ã€€", " ", $text);
+  $text = mb_ereg_replace("@", " ", $text);
   $image_arr = imagettfbbox($fontsize,$angle,$font,$text);
   $height = $image_arr[1] - $image_arr[5];
   $width = $image_arr[2] - $image_arr[0];
   
-  //åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ãŒæœ€å¾Œã®ã¨ãã€é€šå¸¸ã®å€ã®é•·ã•ã‚’å–å¾—ã—ã¦ã„ã‚‹ã€‚
+  //”¼ŠpƒXƒy[ƒX‚ªÅŒã‚Ì‚Æ‚«A’Êí‚Ì”{‚Ì’·‚³‚ğæ“¾‚µ‚Ä‚¢‚éB
   if(mb_substr($text,mb_strlen($text,"UTF-8")-1,1,"UTF-8") == " ") $width-=10;
   $insert_width = $width*$insert_height/$height;
   $im = imagecreatetruecolor($width,$height);
@@ -112,12 +112,12 @@ function text_imagettftext_align_right($image,$insert_height,$angle,$left,$botto
  */
 
 function gaiji_imagettftext($image,$fontsize,$angle,$left,$bottom,$color,
-                            $font,$str,$gaiji_image_url_arr=array(),$width_compression=100,$gaiji_str="ï¼Š"){
+                            $font,$str,$gaiji_image_url_arr=array(),$width_compression=100,$gaiji_str="–"){
   $str_not_gaiji_arr = explode($gaiji_str,$str);
   $gaiji_num = count($str_not_gaiji_arr);
-  $str = mb_ereg_replace("ã€€", " ", $str);
+  $str = mb_ereg_replace("@", " ", $str);
 
-  $image_arr = imagettfbbox($fontsize,$angle,$font,"ã‚".implode("",$str_not_gaiji_arr));
+  $image_arr = imagettfbbox($fontsize,$angle,$font,"‚ ".implode("",$str_not_gaiji_arr));
   $height = $image_arr[1]-$image_arr[5];
 
   $nowLeft = $left;
@@ -132,8 +132,8 @@ function gaiji_imagettftext($image,$fontsize,$angle,$left,$bottom,$color,
       $gaiji_image = imagecreatefrompng($gaiji_image_url_arr[$i]);
       $gaiji_image_insert_width = (int)($gaiji_image_width*$height/$gaiji_image_height);
       $leftTop = $bottom-$height+1;
-      //é«˜ã•ã®èª¿æ•´ã®ãŸã‚ã«2pxè¶³ã—ã¦ã„ã‚‹
-      //æ¨ªå¹…èª¿æ•´ã®ãŸã‚ã«1pxè¶³ã—ãŸã€‚
+      //‚‚³‚Ì’²®‚Ì‚½‚ß‚É2px‘«‚µ‚Ä‚¢‚é
+      //‰¡•’²®‚Ì‚½‚ß‚É1px‘«‚µ‚½B
       imagealphablending($gaiji_image, false); 
       imagesavealpha($gaiji_image, true);
 
@@ -149,12 +149,12 @@ function gaiji_imagettftext($image,$fontsize,$angle,$left,$bottom,$color,
 
 
 function gaiji_imagettftext_align_right($image,$fontsize,$angle,$right,$bottom,$color,
-                            $font,$str,$gaiji_image_url_arr=array(),$width_compression=100,$gaiji_str="ï¼Š"){
+                            $font,$str,$gaiji_image_url_arr=array(),$width_compression=100,$gaiji_str="–"){
   $str_not_gaiji_arr = explode($gaiji_str,$str);
   $gaiji_num = count($str_not_gaiji_arr);
-  $str = mb_ereg_replace("ã€€", " ", $str);
+  $str = mb_ereg_replace("@", " ", $str);
 
-  $image_arr = imagettfbbox($fontsize,$angle,$font,"ã‚".implode("",$str_not_gaiji_arr));
+  $image_arr = imagettfbbox($fontsize,$angle,$font,"‚ ".implode("",$str_not_gaiji_arr));
   $height = $image_arr[1]-$image_arr[5];
 
   $nowRight = $right;
@@ -165,14 +165,15 @@ function gaiji_imagettftext_align_right($image,$fontsize,$angle,$right,$bottom,$
     $text_width = text_imagettftext_align_right($image,$height,$angle,$nowRight,$bottom,$color,$font,$str_not_gaiji_arr[$i],$width_compression);
     $nowRight -= $text_width;
     if($i!=$gaiji_num){
-      $gaiji = $gaiji_image_url_arr[count($gaiji_image_url_arr)-$i];
-      if(!$gaiji) continue;
+      $gaiji = $gaiji_image_url_arr[$i-1];
+      //$gaiji = $gaiji_image_url_arr[count($gaiji_image_url_arr)-$i];
+      //if(!$gaiji) continue;
       list($gaiji_image_width,$gaiji_image_height) = getimagesize($gaiji);
       $gaiji_image = imagecreatefrompng($gaiji);
       $gaiji_image_insert_width = (int)($gaiji_image_width*$height/$gaiji_image_height);
       $leftTop = $bottom-$height+1;
-      //é«˜ã•ã®èª¿æ•´ã®ãŸã‚ã«2pxè¶³ã—ã¦ã„ã‚‹
-      //æ¨ªå¹…èª¿æ•´ã®ãŸã‚ã«1pxè¶³ã—ãŸã€‚
+      //‚‚³‚Ì’²®‚Ì‚½‚ß‚É2px‘«‚µ‚Ä‚¢‚é
+      //‰¡•’²®‚Ì‚½‚ß‚É1px‘«‚µ‚½B
       imagealphablending($gaiji_image, false); 
       imagesavealpha($gaiji_image, true);
       
@@ -188,10 +189,10 @@ function gaiji_imagettftext_align_right($image,$fontsize,$angle,$right,$bottom,$
 }
 
 
-function gaiji_imagettftext_tategaki($image,$fontsize,$angle,$left,$top,$color,$font,$str,$gaiji_image_url="",$gaiji_str="ï¼Š"){
+function gaiji_imagettftext_tategaki($image,$fontsize,$angle,$left,$top,$color,$font,$str,$gaiji_image_url="",$gaiji_str="–"){
   if(!$str or $str == "") return 0;
 
-  $image_arr = imagettfbbox($fontsize,$angle,$font,"ã‚");
+  $image_arr = imagettfbbox($fontsize,$angle,$font,"‚ ");
   $height = $image_arr[1]-$image_arr[5];
   
   if($str == $gaiji_str){
@@ -199,8 +200,8 @@ function gaiji_imagettftext_tategaki($image,$fontsize,$angle,$left,$top,$color,$
     $gaiji_image = imagecreatefrompng($gaiji_image_url);
     $gaiji_image_insert_width = (int)($gaiji_image_width*$height/$gaiji_image_height);
 
-    //é«˜ã•ã®èª¿æ•´ã®ãŸã‚ã«2pxè¶³ã—ã¦ã„ã‚‹
-    //æ¨ªå¹…èª¿æ•´ã®ãŸã‚ã«1pxè¶³ã—ãŸã€‚
+    //‚‚³‚Ì’²®‚Ì‚½‚ß‚É2px‘«‚µ‚Ä‚¢‚é
+    //‰¡•’²®‚Ì‚½‚ß‚É1px‘«‚µ‚½B
     
     imagecopyresampled($image,$gaiji_image,$left,$leftTop-1,0,0,
                        $gaiji_image_i1nsert_width,$height+1,
@@ -211,7 +212,7 @@ function gaiji_imagettftext_tategaki($image,$fontsize,$angle,$left,$top,$color,$
     $height = $image_arr[1]-$image_arr[5];
     $width = $image_arr[2]-$image_arr[0];
     $bottom = $top+$height;
-    if($str == "ã€…"){
+    if($str == "X"){
       $text_width = text_imagettftext($image,$height,$angle,$left+3,$bottom,$color,$font,$str);
     }else if(ctype_lower($str)){
       if($fontsize<10){
@@ -228,10 +229,10 @@ function gaiji_imagettftext_tategaki($image,$fontsize,$angle,$left,$top,$color,$
 
 
 
-/*æŒ‡å®šã•ã‚ŒãŸwidthã«ã‚ã†å½¢ã§ãƒ•ã‚©ãƒ³ãƒˆã®å¤§ãã•ã‚’èª¿ç¯€ã—ã€ãã®ãƒ•ã‚©ãƒ³ãƒˆã®ã‚µã‚¤ã‚ºã‚’è¿”ã™ã€‚
+/*w’è‚³‚ê‚½width‚É‚ ‚¤Œ`‚ÅƒtƒHƒ“ƒg‚Ì‘å‚«‚³‚ğ’²ß‚µA‚»‚ÌƒtƒHƒ“ƒg‚ÌƒTƒCƒY‚ğ•Ô‚·B
  */
 function get_image_font_size($maxfontsize,$str,$fontfile,$width,$gaiji_image_url_arr = array(),
-                             $gaiji_str = "ï¼Š",$angle = 0){
+                             $gaiji_str = "–",$angle = 0){
   $fontsize = $maxfontsize;
   $nowWidth = get_image_text_width($fontsize,$str,$fontfile,$gaiji_image_url_arr,$gaiji_str,$angle);
 
@@ -243,7 +244,7 @@ function get_image_font_size($maxfontsize,$str,$fontfile,$width,$gaiji_image_url
 }
 
 
-function error_include_gaiji($str,$gaiji_str = "ï¼Š"){
+function error_include_gaiji($str,$gaiji_str = "–"){
   $str_not_gaiji_arr = explode($gaiji_str,$str);
   if($str_not_gaiji_arr<=1) return true;
   return false;
