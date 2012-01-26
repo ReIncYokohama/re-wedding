@@ -117,7 +117,13 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
             	<div id="inform_user" style="text-align:center; font-size:15px; font-weight:bold; color:#006600;"></div>
                 <div class="logo"> 
                 <div><img src="img/logo.jpg" width="200" height="57" border="0" align="absbottom" />
-  <font style="display:inline;font-size:20px; font-weight:bold; margin-left:130px; color:#0099ff;"> <?php if(!$__editable && $__jobend==true) echo "印刷依頼済みのため編集できません"; else if(!$__sekizihyo_edit_term && !$__is_admin) echo "席次表編集利用制限日が過ぎています"; else if ($_SESSION['adminid'] > 0 && !$__editable) echo "お客様が印刷イメージを依頼中です";else if(!$__editable) echo "印刷イメージ依頼中のため編集できません"; ?></font>
+  <font style="display:inline;font-size:20px; font-weight:bold; margin-left:130px; color:#0099ff;"> 
+<?php
+ if(!$__editable && $__jobend==true) echo "印刷依頼済みのため編集できません";
+ else if ($_SESSION['adminid'] > 0 && !$__editable) echo "お客様が印刷イメージを依頼中です";
+ else if(!$__editable) echo "印刷イメージ依頼中のため編集できません"; 
+ else if(!$__sekizihyo_edit_term && !$__is_admin) echo "席次表編集利用制限日が過ぎています";
+?></font>
                 </div>
 
                 <div style="font-size:11px;height:12px;vertical-align:top;">

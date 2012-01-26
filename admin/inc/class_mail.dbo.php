@@ -211,6 +211,9 @@ html;
 
 		$print_company_info = $this :: get_printing_company_info($print_company_id);
 		$user_info = $this :: get_user_info($user_id);
+		if($user_info['subcription_mail'] == 1){
+			return;
+		}
 		//$user_male_respect_info = $this :: get_user_respect_info($user_info['man_respect_id']);
 		//$user_femaile_respect_info = $this :: get_user_respect_info($user_info['woman_respect_id']);
 		$staff_info = $this :: get_user_staff_info($user_info['stuff_id']);
@@ -582,6 +585,9 @@ html;
 		*/
 
 		$user_info = $this :: get_user_info($user_id);
+		if($user_info['subcription_mail'] == 1){
+			return;
+		}
 		//$user_male_respect_info = $this :: get_user_respect_info($user_info['man_respect_id']);
 		//$user_femaile_respect_info = $this :: get_user_respect_info($user_info['woman_respect_id']);
 
@@ -699,6 +705,9 @@ html;
 		*/
 
 		$user_info = $this :: get_user_info($user_id);
+		if($user_info['subcription_mail'] == 1){
+			return;
+		}
 		//$user_male_respect_info = $this :: get_user_respect_info($user_info['man_respect_id']);
 		//$user_femaile_respect_info = $this :: get_user_respect_info($user_info['woman_respect_id']);
 
@@ -827,3 +836,5 @@ html;
 	}
 }//END OF CLASS_MAIL
 ?>
+
+

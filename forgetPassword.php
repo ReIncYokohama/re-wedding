@@ -10,9 +10,12 @@
 		{
 			echo '<script type="text/javascript"> alert("メールアドレスが未入力です"); </script>';
 		}
-		else
+		else 
 		{
 			$dataRow = $obj->GetSingleRow("spssp_user"," 	mail = '".$_POST['email']."'");
+			if($dataRow['subcription_mail'] == 1){
+				echo '<script type="text/javascript"> alert("このメールアドレスは受信を拒否されています"); </script>';
+			}
 			if($dataRow['mail'] == "" || !isset($dataRow['mail']))
 			{
 				echo '<script type="text/javascript"> alert("メールアドレスが違います"); </script>';
