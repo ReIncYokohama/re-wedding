@@ -624,6 +624,3 @@ foreach($maintenance_arr as $maintenance){
   if(in_array($hotel_id,explode(",",$maintenance["hotel_ids"]))) $Maintenance = $maintenance;
 }
 include("return_dbcon.inc.php");
-
-
-?>

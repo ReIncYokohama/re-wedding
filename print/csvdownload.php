@@ -1,17 +1,13 @@
 <?php
 
-header("Content-Type: application/octet-stream");
-header("Content-Disposition: attachment; filename=${this_name}.csv");
-header("Cache-Control: public");
-header("Pragma: public");
 
 @session_start();
-include_once("../admin/inc/include_class_files.php");
+include_once("../admin/inc/class_information.dbo.php");
 include_once("../admin/inc/class_data.dbo.php");
 
 if($_SESSION['printid'] =='')
 {
-  redirect("index.php");exit;
+  //redirect("index.php");exit;
 }
 
 $obj = new DataClass();
@@ -19,8 +15,8 @@ $objInfo = new InformationClass();
 $this_name = $HOTELID;
 $get = $obj->protectXSS($_GET);
 
-$user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
-//$user_id = $_GET["user_id"];
+//$user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
+$user_id = $_GET["user_id"];
 
 if($user_id>0)
 {
@@ -644,10 +640,17 @@ $user_id_name="00".$user_info['id'];
 else if($user_info['id']<1000)
 $user_id_name="0".$user_info['id'];
 
+header("Content-Type: application/octet-stream");
+header("Cache-Control: public");
+header("Pragma: public");
+
 //csvのダウンロードの際のカウント方法はプラス1000で
 $version = $obj->get_download_num($user_id,$_SESSION["adminid"]+1000);
 $this_name = $HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
 $this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
 
+
+header("Content-Disposition: attachment; filename=${this_name}.csv");
+
+
 echo $lines;
-?>

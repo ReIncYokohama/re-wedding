@@ -659,5 +659,3 @@ error_code dbcon.inc.phpで定義している。
   }
 		
 	}
-
-?>
