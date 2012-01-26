@@ -644,10 +644,10 @@ $version = $obj->get_download_num($user_id,$_SESSION["adminid"]+1000);
 $this_name = $HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
 $this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
 
+header("Pragma: public");
 header("Content-Type: application/octet-stream");
 header("Content-Disposition: attachment; filename=${this_name}.csv");
-header("Cache-Control: public");
-header("Pragma: public");
+
 
 echo $lines;
 ?>
