@@ -707,7 +707,7 @@ if($editable)
     <td width="173" align="left" valign="bottom">&nbsp;</td>
   </tr>
   <tr>
-    <td width="90" align="right" nowrap="nowrap">新郎新婦側<font color="red">*</font>：</td>
+    <td width="90" align="right" nowrap="nowrap">新郎新婦側：</td>
     <td width="100" align="left"><select id="sex" name="sex" style="width:80px; padding-top:3px; padding-bottom:3px;border-style:inset;" <?php if($guest_row['self']==1){echo "disabled";}?> tabindex=1 onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
       <?php if($guest_row["sex"]=="") echo "<option value=''></option>";?>
       <option value="Male" <?php if($guest_row['sex']=="Male"){ echo "Selected='Selected'"; }?> >新郎側</option>
