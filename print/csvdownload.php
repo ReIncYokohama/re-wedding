@@ -7,7 +7,7 @@ include_once("../admin/inc/class_data.dbo.php");
 
 if($_SESSION['printid'] =='')
 {
-  //redirect("index.php");exit;
+  redirect("index.php");exit;
 }
 
 $obj = new DataClass();
@@ -15,8 +15,8 @@ $objInfo = new InformationClass();
 $this_name = $HOTELID;
 $get = $obj->protectXSS($_GET);
 
-//$user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
-$user_id = $_GET["user_id"];
+$user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
+//$user_id = $_GET["user_id"];
 
 if($user_id>0)
 {
