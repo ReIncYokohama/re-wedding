@@ -96,8 +96,10 @@ class DataClass extends DBO{
       for($j=0;$j<count($row["columns"]);++$j){
         $colum = $row["columns"][$j];
         if(!$colum) continue;
+        if($colum["display"]==0) continue;
         $row["columns"][$j]["name"] = $this->get_table_name($row["columns"][$j]["table_id"],$user_id);
         $seats = $this->getRowsByQuery("select * from spssp_default_plan_seat where table_id = ".$colum["table_id"]." order by id asc");
+
         for($k=0;$k<count($seats);++$k){
           $seat_detail = $this->get_seat_detail($seats[$k]["id"],$table_data["plan_id"]);
           for($l=0;$l<count($guest_rows);++$l){
