@@ -91,6 +91,7 @@ class DataClass extends DBO{
     $guest_rows = $this->getRowsByQuery("select * from spssp_guest where user_id = ".$user_id." and self!=1 and stage_guest=0");
     $man_num = 0;
     $woman_num = 0;
+    $table_data["plot_guests"] = array();
     for($i=0;$i<count($table_data["rows"]);++$i){
       $row = $table_data["rows"][$i];
       for($j=0;$j<count($row["columns"]);++$j){
@@ -116,6 +117,7 @@ class DataClass extends DBO{
               }else{
                 ++$woman_num;
               }
+              array_push($table_data["plot_guests"],$guest_rows[$l]);
             }
           }
         }
@@ -137,7 +139,7 @@ class DataClass extends DBO{
   //
   public function get_table_data_detail_with_hikidemono($user_id){
     $table_data = $this->get_table_data_detail($user_id);
-    
+    $table_data["menu_table"] = $this->get_menu_table($table_data["plot_guests"],$user_id);
     for($i=0;$i<count($table_data["rows"]);++$i){
       $guests_num = 0;
       $columns = $table_data["rows"][$i]["columns"];
@@ -791,6 +793,12 @@ class DataClass extends DBO{
     $menu_name = $this->GetSingleData(" spssp_menu_group ", "name", " id='".$menu_group_id."' and user_id = ".$user_id);
     return $menu_name;
   }
+  //メニューグループのデータをテキストで返す。
+  public function get_menu_groups($user_id){
+    $menu_arr = $this->getRowsByQuery(" select * from spssp_menu_group where user_id = ".$user_id);
+    return $menu_arr;
+  }
+
   //座席の種類をテキストで返す。
   public function get_seat_type($seat_type_id){
     return ($seat_type_id==0)?"招待席":"高砂席";
@@ -947,6 +955,23 @@ class DataClass extends DBO{
     }
     return $returnArray;
   }
+
+  //name,num
+  public function get_menu_table($guestDetailArray,$user_id){
+    $menuGroups = $this->get_menu_groups($user_id);
+    $returnArray = array();
+    for($i=0;$i<count($menuGroups);++$i){
+      $num = 0;
+      $name = $menuGroups[$i]["name"];
+      if($name=="") continue;
+      for($j=0;$j<count($guestDetailArray);++$j){
+        if($guestDetailArray[$j]["menu_grp"] == $menuGroups[$i]["id"]) ++$num;
+      }
+      array_push($returnArray,array("name"=>$name,"num"=>$num));
+    }
+    return $returnArray;
+  }
+
   public function get_gift_table_html($guestDetailArray,$user_id){
     $gift_table = $this->get_gift_table($guestDetailArray,$user_id);
     $html = "<table>";

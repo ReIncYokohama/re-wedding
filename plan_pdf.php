@@ -199,6 +199,7 @@ foreach($gift_rows as $gift)
 if($have_gift) $html.='<tr><td style="text-align:center; border:1px solid black;" width="16" rowspan="7" height="10">商品名</td>'.$subhtml;
 
 $table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
+
 $male_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male' and stage=1 and stage_guest>0");
 $female_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female' and stage=1 and stage_guest>0");
 $male_guest_num = $table_data["man_num"];
@@ -283,34 +284,28 @@ $html.='<td width="32%">
 
 $subhtml = '<table  style="font-size:'.($main_font_size_top).';"><tr><td colspan="2" style="text-align:center;border:1px solid black;" width="200" height="10"><b>料理数</b></td></tr>';
 
+
 $menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".(int)$user_id);
 $num_groups = count($menu_groups);
 
+
 $totalsum=0;
-foreach($menu_groups as $mg)
+foreach($table_data["menu_table"] as $menus)
 {
-	$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']);
-	$totalsum +=$num_menu_guest;
+	$totalsum +=$menus["num"];
 }
 $subhtml.='<tr><td style="text-align:center;border:1px solid black;" width="100" height="10">大人</td><td style="text-align:center;border:1px solid black;" width="100">'.($total_guest_with_bride-$totalsum).'</td></tr>';
 
 $guest_without_menu=$total_guest_with_bride;
 $group_menu_array['子']=0;
-foreach($menu_groups as $mg)
-	{
-		$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']);
-		if ($mg['name']!="") {
-		    $subhtml.='<tr>
-		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.$mg['name'].'</td>
-		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.$num_menu_guest.'</td>
-		    </tr>';	
-		}
-	}
-//$html.='<tr>
-//     <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" >×</td>      
-//      <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" >'.$guest_without_menu.'</td>
-//    </tr>';	
-	
+foreach($table_data["menu_table"] as $menus)
+{
+  $subhtml.='<tr>
+		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.$menus['name'].'</td>
+		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.$menus["num"].'</td>
+		    </tr>';
+}
+
 $subhtml.='<tr>
       <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" height="10">合計</td>
       <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" height="10">'.$total_guest_with_bride.'</td>
