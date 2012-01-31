@@ -4,19 +4,23 @@ class Model_Guesttype extends Model_Crud{
   static $_connection = "madmin";
   static $_result;
 
-  static public function find_all_to_array(){
+  static public function get_models(){
     if(static::$_result){
       return static::$_result;
     }
-    /*
-    $guest_types = static::find_all();
-    $returnArray = array();
-    foreach($guest_types as $guest_type){
-      array_push($returnArray,$guest_type->to_array());
-    }
-    return $returnArray;
-    */
-    static::$_result = Db::query("select * from ".static::$_table_name)->execute(static::$_connection)->as_array();
+    static::$_result = static::find_all();
     return static::$_result;
   }
+
+  static public function hash($key,$value_key){
+    $guest_type_models = static::get_models();
+    $arr = Core_Arr::func($guest_type_models,"to_array");
+    $returnArr = array();
+    foreach($arr as $obj)
+      {
+        $returnArr[$obj['id']]=$obj['name'];
+      }
+    return $returnArr;
+  }
+  
 }

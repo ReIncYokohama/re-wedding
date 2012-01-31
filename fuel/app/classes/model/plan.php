@@ -38,6 +38,7 @@ class Model_Plan extends Model_Crud{
   }
 
   public function get_seat_data_in_session(){
+    if($this->_seat_data) return $this->_seat_data;
     $seat_data = Core_Session::get_seat_data();
     if(!$seat_data){
       $plan_details = Model_Plandetails::find_by_plan_id($this->id);
@@ -50,8 +51,25 @@ class Model_Plan extends Model_Crud{
         }
       Core_Session::set_seat_data($seat_data);
     }
+    $this->_seat_data = $seat_data;
     return $seat_data;
   }
-  
+  //for make_plan_full
+  public function get_seat_data_ids(){
+    $cart = $this->get_seat_data_in_session();
+    $itemids = array();
+    $seatids = array();
+
+    foreach($cart as $item)
+      {
+        if($item)
+          {
+            $itemArr = explode("_",$item);
+            $seatids[]=str_replace("#","",$itemArr[0]);
+            $itemids[] = $itemArr[1];
+          }
+      }
+    return array($itemids,$seatids);
+  }
   
 }

@@ -22,53 +22,35 @@ $plan = Model_Plan::find_obj_by_user_id($user_id);
 if(!$plan){
   Response::redirect("table_layout.php?err=15");
 }
+
+
 $plan_id = $plan->id;
 $plan_row = $plan->to_array();
-
 
 //席次表編集画面の編集ができるかどうかチェック
 if($plan->authority_rename_table()) $button_enable=true; else $button_enable=false;
 
 $room_seats = $plan_row['seat_number'];
 
+// task memo
 $tblrows = Model_Tablelayout::find_rows_distinct_order($user_id);
 
+//sessionのみに保存されている席情報を保存する。
 $cart = $plan->get_seat_data_in_session();
+list($itemids,$seatids) = $plan->get_seat_data_ids();
 
-$itemids = array();
-$seatids = array();
-foreach($cart as $item)
-  {
-    if($item)
-			{
-				$itemArr = explode("_",$item);
-        
-				$seatids[]=str_replace("#","",$itemArr[0]);
-				$itemids[] = $itemArr[1];
-			}
-  }
-
-$guest_type_sort=($_GET['guest_type_sort']=='desc' || $_GET['guest_type_sort']=='' )?"asc":"desc";
-$guest_sex_sort=($_GET['guest_sex_sort']=='desc' || $_GET['guest_sex_sort']=='' )?"asc":"desc";
-
-$guest_types = Model_Guesttype::find_all_to_array();
+//guest_typeのidがkeyでnameがvalue
+$types_guest = Model_Guesttype::hash("id","name");
 
 //fuelのdbを使わないとき、databaseが切り替わってします。
 include("admin/inc/return_dbcon.inc.php");
 
+//guestをソートするためのキーをGETから取得
+$sort_property = Model_Guest::get_sort_property();
 
-$types_guest=array();
-foreach($guest_types as $types)
-  {
-    $types_guest[$types['id']]=$types['name'];
-  }
-$no=0;
-if($_GET[sortby]=="")
-  $guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by id");
-else if($_GET[sortby]=="sex")
-  $guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by sex ".$_GET['guest_sex_sort']);
-else if($_GET[sortby]=="guest_type")
-  $guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by guest_type ".$_GET['guest_type_sort']);
+//takasago席でないゲストをソートして取得。
+$guest_models = Model_Guest::find_by_not_takasago($user_id,array($sort_property["sortby"]=>$sort_property["direction"]));
+$guests = Core_Arr::func($guest_models,"to_array");
 
 ?>
 
@@ -368,7 +350,7 @@ direction: ltr;
   <div align="right"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
   <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:hidden;overflow-y:scroll;" >
 				<table width="98%">
-					<tr bgcolor="#666666" style="color:#FFFFFF"><th>No</th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=sex&guest_sex_sort=<?=$guest_sex_sort?>">郎婦↓</a></th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=guest_type&guest_type_sort=<?=$guest_type_sort?>">区分↓</a></th><th align="center">&nbsp;&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;</th><th nowrap="nowrap" align="left">卓名</th></tr>
+					<tr bgcolor="#666666" style="color:#FFFFFF"><th>No</th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=sex&direction=<?=$sort_property["sex_direction"]?>">郎婦↓</a></th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=guest_type&direction=<?=$sort_property["guest_type_direction"]?>">区分↓</a></th><th align="center">&nbsp;&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;</th><th nowrap="nowrap" align="left">卓名</th></tr>
 					<?php
 
 				foreach($guests as $guest)
@@ -730,9 +712,9 @@ if($index % 2 == 1){
 ;" >
                                         <?php
                                         $key = $seat['id']."_input";
-                                        if(isset($_SESSION['cart'][$key]) && $_SESSION['cart'][$key] != '')
+                                        if(isset($cart[$key]) && $cart[$key] != '')
                                         {
-                                            $itemArray = explode("_", $_SESSION['cart'][$key]);
+                                            $itemArray = explode("_", $cart[$key]);
 
                                             $item = $itemArray[1];
                                             $item_info =  $obj->GetSingleRow("spssp_guest", " id=".$item." and id in(SELECT id FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest=0)");
