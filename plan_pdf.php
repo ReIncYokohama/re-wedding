@@ -348,13 +348,12 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
       $table_name = $column["name"];
       $table_id = $column["id"];
       if($column["display"] == 0 && !$column["visible"]) continue;
-      $haveRow = true;
       if($column["display"] == 0){
         $subhtml .="<td></td>";
         $active_columns_num += 1;
         continue;
       }
-      
+      $haveRow = true;
       $gifts = $column["gifts"];
       $gift_table = '<table>';
       $gift_tr1 = "<tr>";

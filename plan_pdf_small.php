@@ -335,11 +335,11 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row){
       $table_name = $column["name"];
       $table_id = $column["id"];
       if($column["display"] == 0 && !$column["visible"]) continue;
-      $haveRow = true;
       if($column["display"] == 0){
         $html .="<td></td>";
         continue;
       }
+      $haveRow = true;
       $html .= "<td><table cellspacing=\"0\" cellspadding=\"0\"><tr><td colspan=\"0\" align=\"center\">".$table_name."</td></tr>";
 
       for($k=0;$k<$seat_row*2;++$k){
