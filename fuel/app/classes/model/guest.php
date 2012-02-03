@@ -47,6 +47,22 @@ class Model_Guest extends Model_Crud{
     return $return_arr;
   }
   
+  static public function find_by_takasago($user_id){
+    $guests_takasago = Model_Guest::find(array(
+      "where" => array(
+        array("user_id","=",$user_id),
+        array("stage_guest",">",0)
+      ),
+      "order_by" => "stage_guest"
+    ));
+    $guests_self = Model_Guest::find(array(
+      "where" => array(
+        array("user_id","=",$user_id),
+        array("self", "=","1" )
+      )
+    ));
+    return array_merge($guests_takasago,$guests_self);
+  }
   
   
 }

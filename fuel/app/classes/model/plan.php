@@ -34,9 +34,9 @@ class Model_Plan extends Model_Crud{
   }
   static public function find_obj_by_user_id($user_id){
     $plan = static::find_by_user_id($user_id);
-    return new static($plan[0]);
+    return new static($plan);
   }
-
+  
   public function get_seat_data_in_session(){
     if($this->_seat_data) return $this->_seat_data;
     $seat_data = Core_Session::get_seat_data();
@@ -72,4 +72,20 @@ class Model_Plan extends Model_Crud{
     return array($itemids,$seatids);
   }
   
+  function get_tables(){
+    if($this->_tables) return $this->_tables;
+    $table_arr = Model_Tablelayout::find_by_user_id($this->user_id);
+    $this->_tables = $table_arr;
+    return $table_arr;
+  }
+  
+  function get_layoutname(){
+    $layoutname = $this->layoutname;
+    if($layoutname == ""){
+      $option = Model_Option::find_one_by_option_name("default_layout_title");
+      $layoutname = $option->option_value;
+    }
+    if($layoutname=="null") $layoutname = "";
+    return $layoutname;
+  }
 }

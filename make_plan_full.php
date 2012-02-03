@@ -17,7 +17,7 @@ if(!Model_Tablelayout::exist($user_id)){
 if(!Model_Guest::exist($user_id)){
   Response::redirect("table_layout.php?err=14");
 }
-$plan = Model_Plan::find_obj_by_user_id($user_id);
+$plan = Model_Plan::find_one_by_user_id($user_id);
 
 if(!$plan){
   Response::redirect("table_layout.php?err=15");
@@ -417,8 +417,6 @@ direction: ltr;
 
 							$name_length2 = mb_strlen($guest_comment,"utf-8");
 
-
-
 							if($name_length >8)
 							{
 								if($name_length >=8 && $name_length <= 12)
@@ -693,7 +691,7 @@ $layoutname = $tableData["layoutname"];
                                 $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
 
 
-                
+
 								$rowspan=ceil(count($seats)/4);
 								$j=1;
 								$jor=0;
