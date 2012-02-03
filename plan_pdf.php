@@ -204,7 +204,7 @@ function get_gaiji_arr($gaijis){
 $man_lastname_gaiji_pathArray = array();
 $woman_lastname_gaiji_pathArray = array();
 
-make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaijis,$woman_lastname,$woman_lastname_gaijis,$male_guest_num,$female_guest_num,$total_guest_with_bride);
+make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaijis,$woman_lastname,$woman_lastname_gaijis,$male_guest_num,$female_guest_num,$total_guest,$total_guest_with_bride);
 
 $marriage_day = "";
 $marriage_day_with_time = "";
@@ -256,22 +256,30 @@ $menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".(int)$u
 $num_groups = count($menu_groups);
 
 $totalsum=0;
-foreach($menu_groups as $mg)
+foreach($attend_guests as $guest)
 {
-	$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']);
-	$totalsum +=$num_menu_guest;
+  if($guest["menu_grp"]>0){
+    ++$totalsum;
+  }  
 }
+
 $subhtml.='<tr><td style="text-align:center;border:1px solid black;" width="100" height="10">大人</td><td style="text-align:center;border:1px solid black;" width="100">'.($total_guest_with_bride-$totalsum).'</td></tr>';
 
 $guest_without_menu=$total_guest_with_bride;
-$group_menu_array['子']=0;
+
 foreach($menu_groups as $mg)
 	{
-		$num_menu_guest = $obj->GetNumRows("spssp_guest_menu","user_id=$user_id and menu_id=".$mg['id']);
+    $menu_num = 0;
+    foreach($attend_guests as $guest)
+      {
+        if($guest["menu_grp"]==$mg["id"]){
+          ++$menu_num;
+        }  
+      }
 		if ($mg['name']!="") {
 		    $subhtml.='<tr>
 		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.$mg['name'].'</td>
-		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.$num_menu_guest.'</td>
+		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.$menu_num.'</td>
 		    </tr>';	
 		}
 	}
