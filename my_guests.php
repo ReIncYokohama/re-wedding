@@ -1240,6 +1240,7 @@ if($guest["sex"] == "Male"){
 		}
 		?>
         </table>
+        <div>※商品数は、招待者リストに登録されている数となります。</div>
         <br /><br />
         ■ 料理数 <br />
         <table width="180" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999" style="padding-top:1px">
@@ -1272,6 +1273,7 @@ if($guest["sex"] == "Male"){
 	echo'<tr><td   bgcolor="#ffffff" align="center" >合計</td><td  bgcolor="#FFFFFF" align="center" >'.$Noofguest.'</td></tr>';
    ?>
 </table>
+<div>※料理数は、招待者リストに登録されている数となります。</div>
       </div>
       <div class="guests_area_R">■ 引出物　グループ内容
         <table width="243" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999">
