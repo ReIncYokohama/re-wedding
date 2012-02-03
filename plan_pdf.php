@@ -290,7 +290,6 @@ $subhtml.='</table>';
 $html .= get_right_table(500,200,$subhtml);
 $html.='</td></tr></table> <br/>';
 
-$takasago_guests = $obj->get_guestdata_in_takasago($user_id);
 $takasago_menu_num = 0;
 for($i=0;$i<count($takasago_guests);++$i){
   if($takasago_guests[$i]["menu_grp"]>0){
@@ -298,7 +297,7 @@ for($i=0;$i<count($takasago_guests);++$i){
   }
 }
 
-$takasago_num = count($takasago_guests)+2;
+$takasago_num = count($takasago_guests);
 $main_guest = $obj->get_guestdata_in_takasago_for_pdf($user_id,160);
 $gift_table = $obj->get_gift_table_html($takasago_guests,$user_id);
 

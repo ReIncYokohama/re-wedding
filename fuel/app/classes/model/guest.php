@@ -61,6 +61,7 @@ class Model_Guest extends Model_Crud{
         array("self", "=","1" )
       )
     ));
+    if(!$guests_takasago) return $guests_self;
     return array_merge($guests_takasago,$guests_self);
   }
   
