@@ -104,7 +104,6 @@ $html.='<td width="35%"><table><tr><td><table>';
 $guest_models_takasago = Model_Guest::find_by_takasago($user_id);
 $takasago_guests = Core_Arr::func($guest_models_takasago,"to_array");
 
-
 $attend_guests = array_merge($takasago_guests,$table_data["attend_guests"]);
 $gift_table = $obj->get_gift_table($attend_guests,$user_id);
 
@@ -173,8 +172,8 @@ $male_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_
 $female_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female' and stage=1 and stage_guest>0");
 $male_guest_num = $table_data["man_num"];
 $female_guest_num = $table_data["woman_num"];
-$total_guest=$male_guest_num+$female_guest_num;
-$total_guest_with_bride=$total_guest+2+$male_takasago_guest_num+$female_takasago_guest_num;
+$total_guest=$table_data["attend_num"];
+$total_guest_with_bride=$total_guest+count($takasago_guests);
 
 $woman_lastname=$user_info['woman_lastname'];
 $man_lastname=$user_info['man_lastname'];
