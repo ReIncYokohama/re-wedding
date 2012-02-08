@@ -1,17 +1,20 @@
 <?php
 include_once("admin/inc/dbcon.inc.php");
-require_once('tcpdf/config/lang/eng.php');
-require_once('tcpdf/tcpdf.php');
+require_once('pdf.php');
+include_once("admin/inc/class.dbo.php");
 include_once("admin/inc/class_data.dbo.php");
 include_once("admin/inc/class_information.dbo.php");
 include_once("inc/gaiji.image.wedding.php");
 
+include_once("fuel/load_classes.php");
+
 $obj = new DataClass();
 $objInfo = new InformationClass();
-$user_id = (int)$_SESSION['userid'];
-if($user_id=="")
-  $user_id = (int)$_GET['user_id'];
 
+$user_id = Core_Session::get_user_id();
+
+if($_GET["user_id"] && Core_Session::is_admin())
+  $user_id = (int)$_GET['user_id'];
 
 function get_center_table($max_width,$width,$html){
   $margin = floor((100*(($max_width-$width)/$max_width))*10/2)/10;
@@ -20,125 +23,34 @@ function get_center_table($max_width,$width,$html){
   return "<table><tr><td width=\"".$margin."%\"></td><td width=\"".$main_margin."%\">".$html."</td><td width=\"".$margin."%\"></td></tr></table>";
 }
 
-$plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
+$main_font_size="20px";
+$main_font_size_top="20px";
+$main_font_size2="20px";
 
-$plan_row = $obj->GetSingleRow("spssp_plan"," id =".$plan_id);	
-
-$PDF_PAGE_FORMAT_USER=PDF_PAGE_FORMAT;
-$PDF_PAGE_ORIENTATION_USER=PDF_PAGE_ORIENTATION;
-$PDF_PAGE_FORMAT_USER="A3";
+$plan = Model_Plan::find_one_by_user_id($user_id);
+$plan_id = $plan->id;
+$plan_row = $plan->to_array();
 
 if($plan_row['print_type'] == 1){
-  $PDF_PAGE_ORIENTATION_USER="L";
   $max_width = 1500;
   $max_width_num = 39;
   $flag_horizon = true;
 }else if($plan_row['print_type'] == 2){{}
-  $PDF_PAGE_ORIENTATION_USER="P";
   $max_width = 900;
   $flag_horizon = false;
 }
 
-if($PDF_PAGE_ORIENTATION_USER=="P" && $PDF_PAGE_FORMAT_USER=="B4")
-  {
-    $main_font_size="20px";
-    $main_font_size2="20px";
-  }
-if($PDF_PAGE_ORIENTATION_USER=="L" && $PDF_PAGE_FORMAT_USER=="B4")
-  {
-    $main_font_size="30px";
-    $main_font_size2="30px";
-  }
-if($PDF_PAGE_ORIENTATION_USER=="L" && $PDF_PAGE_FORMAT_USER=="A3")
-  {
-    $main_font_size="40px";
-    $main_font_size2="40px";
-  }
-if($PDF_PAGE_ORIENTATION_USER=="P" && $PDF_PAGE_FORMAT_USER=="A3")
-  {
-    $main_font_size="30px";
-    $main_font_size2="30px";
-  }
-	
-$pdf = new TCPDF($PDF_PAGE_ORIENTATION_USER, PDF_UNIT, $PDF_PAGE_FORMAT_USER, true, 'UTF-8', false);
+$pdf = new MyPdf($plan_row['print_type']);
 
-// set document information
-$pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Nicola Asuni');
-$pdf->SetTitle('TCPDF Example 006');
-$pdf->SetSubject('TCPDF Tutorial');
-$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
-
-//文字列コピー禁止、編集禁止
-$pdf->SetProtection(array('copy'));
-
-$pdf->setPrintHeader(false);
-$pdf->setPrintFooter(false);
-
-// set default header data
-//$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING);
-
-// set header and footer fonts
-$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-// set default monospaced font
-$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-//set margins
-//$pdf->SetMargins(PDF_MARGIN_LEFT, 15, PDF_MARGIN_RIGHT);
-//$pdf->SetHeaderMargin(0);
-//$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-//set auto page breaks
-//$pdf->SetAutoPageBreak(True, PDF_MARGIN_BOTTOM);
-$pdf->SetAutoPageBreak( false, 0);
-$pdf->SetHeaderMargin(0);
-$pdf->SetMargins(8,8,8);
-
-//set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-//set some language-dependent strings
-$pdf->setLanguageArray($l);
-
-// ---------------------------------------------------------
-
-// set font
-//$pdf->SetFont('dejavusans', '', 10);
-//$pdf->SetFont('arialunicid0', '', 12);
-$pdf->SetFont('arialunicid0', '', 9);
-// add a page
-$pdf->AddPage();
-/////////////////end of for pdf///////////////////
-	
-	
-	
-	
-//include_once("inc/header.inc.php");
-
-$get = $obj->protectXSS($_GET);
-	
-	
-$user_layout = $obj->GetNumRows("spssp_table_layout"," user_id= $user_id");
-if($user_layout <= 0)
-	{
-		redirect('table_layout.php?err=13');
-	}
-$user_guest = $obj->GetNumRows("spssp_guest"," user_id= $user_id");
-if($user_guest <= 0)
-	{
-		redirect('my_guests.php?err=14');
-	}
-	
-$plan_criteria = $obj->GetNumRows("spssp_plan"," user_id= $user_id");
-if($plan_criteria <= 0)
-	{
-		redirect('table_layout.php?err=15');
-	}
-	
-	
-$cats =	$obj->GetAllRowsByCondition('spssp_guest_category',' user_id='.$user_id);	
+if(!Model_Tablelayout::exist($user_id)){
+  Response::redirect("table_layout.php?err=13");
+}
+if(!Model_Guest::exist($user_id)){
+  Response::redirect("table_layout.php?err=14");
+}
+if(!$plan){
+  Response::redirect("table_layout.php?err=15");
+}
 	
 $user_info = $obj->GetSingleRow("spssp_user"," id=".$user_id);
 	
@@ -169,37 +81,6 @@ $num_tables = $room_rows * $room_tables;
 	
 $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id = ".(int)$user_id);
 
-unset($_SESSION['cart']);
-$itemids = array();
-if(isset($_SESSION['cart']))
-	{
-		
-	}
-else
-	{
-		$plan_details_row = $obj->GetAllRow("spssp_plan_details"," plan_id=".$plan_id);
-		if(!empty($plan_details_row))
-      {
-        foreach($plan_details_row as $pdr)
-          {
-            $skey= $pdr['seat_id'].'_input';
-            $sval = '#'.$pdr['seat_id'].'_'.$pdr['guest_id'];
-            $_SESSION['cart'][$skey]=$sval;
-          }
-      }
-	}
-if(isset($_SESSION['cart']))
-	{
-		foreach($_SESSION['cart'] as $item)
-      {
-        if($item)
-          {
-            $itemArr = explode("_",$item);
-            $itemids[] = $itemArr[1];
-          }
-      }
-
-	}
 include("admin/inc/main_dbcon.inc.php");
 $respects = $obj->GetAllRow("spssp_main.spssp_respect");
 include("admin/inc/return_dbcon.inc.php");
@@ -211,15 +92,14 @@ $html.='<table style="font-size:'.$main_font_size_top.';"><tr>';
 $html.='<td width="35%">';
 $html.='</td>';
 
-
 $table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
 $male_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male' and stage=1 and stage_guest>0");
 $female_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female' and stage=1 and stage_guest>0");
 $male_guest_num = $table_data["man_num"];
 $female_guest_num = $table_data["woman_num"];
-$total_guest=$male_guest_num+$female_guest_num;
-$total_guest_with_bride=$total_guest+2+$male_takasago_guest_num+$female_takasago_guest_num;
-	
+$total_guest=$table_data["attend_num"];
+$total_guest_with_bride=$total_guest+count($takasago_guests);
+
 $woman_lastname=$user_info['woman_lastname'];
 $man_lastname=$user_info['man_lastname'];
 
@@ -231,12 +111,9 @@ $year = $party_date_array[0];
 $confirm_date= mktime(0, 0, 0, $month, $day-7, $year);
 $confirm_date_main=date("Y-m-d", $confirm_date);
 $query_string = "SELECT * FROM spssp_gaizi_detail_for_user WHERE gu_id = $user_id";
-
 //$man_firstname_gaijis = getGaijiPathArray(get_gaiji_arr($obj->getRowsByQuery($query_string." and gu_trgt_type=0")));
-
 $man_lastname_gaijis = getGaijiPathArray(get_gaiji_arr($obj->getRowsByQuery($query_string." and gu_trgt_type=1")));
 //$woman_firstname_gaijis = getGaijiPathArray(get_gaiji_arr($obj->getRowsByQuery($query_string." and gu_trgt_type=2")));
-
 $woman_lastname_gaijis = getGaijiPathArray(get_gaiji_arr($obj->getRowsByQuery($query_string." and gu_trgt_type=3")));
 
 function get_gaiji_arr($gaijis){
@@ -250,7 +127,7 @@ function get_gaiji_arr($gaijis){
 $man_lastname_gaiji_pathArray = array();
 $woman_lastname_gaiji_pathArray = array();
 
-make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaijis,$woman_lastname,$woman_lastname_gaijis,$male_guest_num,$female_guest_num,$total_guest_with_bride);
+make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaijis,$woman_lastname,$woman_lastname_gaijis,$male_guest_num,$female_guest_num,$total_guest,$total_guest_with_bride);
 
 $marriage_day = "";
 $marriage_day_with_time = "";

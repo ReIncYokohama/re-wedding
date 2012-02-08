@@ -167,6 +167,7 @@ foreach($gift_rows as $gift)
   }
 	/* 引出物　商品数　終了 */
 if($have_gift) $html.='<tr><td style="text-align:center; border:1px solid black;" width="16" rowspan="7" height="10">商品名</td>'.$subhtml;
+$html.='</table></td>';
 
 $male_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male' and stage=1 and stage_guest>0");
 $female_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female' and stage=1 and stage_guest>0");
@@ -177,8 +178,6 @@ $total_guest_with_bride=$total_guest+count($takasago_guests);
 
 $woman_lastname=$user_info['woman_lastname'];
 $man_lastname=$user_info['man_lastname'];
-
-$html.='</table></td>';
 
 $party_day_for_confirm=$user_info['party_day'];
 $party_date_array=explode("-",$party_day_for_confirm);
