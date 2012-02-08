@@ -550,13 +550,13 @@ if($objInfo->get_editable_condition($plan_row))
 			foreach($guests_bride as $witness_bride)
 			{
 				$main_guest[$witness_bride[stage_guest]]=$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$witness_bride['id']."/thumb1");
-
+        $main_guest_tooltip[$witness_bride[stage_guest]]=$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="namecard.png",$extra="guest/".$witness_bride['id']."/");
 			}
 for($i=0;$i<6;++$i){
   if(!$main_guest[$i]){
-    $main_guest[$i] = '<td align="center"  valign="middle" style="text-align:center; padding:7px;width:100px;"></td>';
+    $main_guest[$i] = '<td align="center" class="tooltip" title="'.$main_guest_tooltip[$i].'" valign="middle" style="text-align:center; padding:7px;width:100px;"></td>';
   }else{
-    $main_guest[$i] = '<td align="center"  valign="middle" style="text-align:center; padding:7px;width:100px;">'.$main_guest[$i].'</td>';
+    $main_guest[$i] = '<td align="center" class="tooltip" title="'.$main_guest_tooltip[$i].'" valign="middle" style="text-align:center; padding:7px;width:100px;">'.$main_guest[$i].'</td>';
     
   }
 }

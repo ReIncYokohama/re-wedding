@@ -115,7 +115,7 @@ $tr2 = '<tr><td style="text-align:right;border:1px solid black;" colspan="2" hei
 
 $sum = 0;
 foreach($gift_table as $grp){
-  $tr1.='<td  style="text-align:center;border:1px solid black;"  width="20">'.$grp['name'].'</td>';
+  $tr1.='<td  style="text-align:center;border:1px solid black;"  width="20">'.mb_convert_kana($grp['name'],"K","utf8").'</td>';
   $tr2.='<td  style="text-align:center;border:1px solid black;"  width="20">'.$grp['num'].'</td>';
   $sum += $grp["num"];
 }
@@ -139,7 +139,7 @@ foreach($gift_rows as $gift)
     if($gift["name"]=="") continue;
     $have_gift = true;
 		if($start!=0) $subhtml.='<tr>';
-    $subhtml.='<td style="text-align:right;border:1px solid black;" height="10" width="84">'.$gift['name'].'</td>';
+    $subhtml.='<td style="text-align:right;border:1px solid black;" height="10" width="84">'.mb_convert_kana($gift['name'],"K","utf8").'</td>';
 
     $start = 1;
     $num_gifts = 0;
@@ -277,7 +277,7 @@ foreach($menu_groups as $mg)
       }
 		if ($mg['name']!="") {
 		    $subhtml.='<tr>
-		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.$mg['name'].'</td>
+		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.mb_convert_kana($mg['name'],"K","utf8").'</td>
 		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.$menu_num.'</td>
 		    </tr>';	
 		}
