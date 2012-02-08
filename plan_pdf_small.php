@@ -92,6 +92,9 @@ $html.='<table style="font-size:'.$main_font_size_top.';"><tr>';
 $html.='<td width="35%">';
 $html.='</td>';
 
+$guest_models_takasago = Model_Guest::find_by_takasago($user_id);
+$takasago_guests = Core_Arr::func($guest_models_takasago,"to_array");
+
 $table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
 $male_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male' and stage=1 and stage_guest>0");
 $female_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female' and stage=1 and stage_guest>0");
