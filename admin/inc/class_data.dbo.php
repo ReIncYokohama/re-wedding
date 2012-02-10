@@ -91,18 +91,19 @@ class DataClass extends DBO{
     $guest_rows = $this->getRowsByQuery("select * from spssp_guest where user_id = ".$user_id." and self!=1 and stage_guest=0");
     $man_num = 0;
     $woman_num = 0;
-    $table_data["plot_guests"] = array();
+    $attend_num = 0;
+    $attend_guests = array();
     for($i=0;$i<count($table_data["rows"]);++$i){
       $row = $table_data["rows"][$i];
       for($j=0;$j<count($row["columns"]);++$j){
         $colum = $row["columns"][$j];
         if(!$colum) continue;
-        if($colum["display"] == 0) continue;
-        
+        if($colum["display"]==0) continue;
         $row["columns"][$j]["name"] = $this->get_table_name($row["columns"][$j]["table_id"],$user_id);
         $seats = $this->getRowsByQuery("select * from spssp_default_plan_seat where table_id = ".$colum["table_id"]." order by id asc");
         for($k=0;$k<count($seats);++$k){
           $seat_detail = $this->get_seat_detail($seats[$k]["id"],$table_data["plan_id"]);
+          if(!$seat_detail["guest_id"]) continue;
           for($l=0;$l<count($guest_rows);++$l){
             if($guest_rows[$l]["id"] == $seat_detail["guest_id"]){
               $guest_detail = $this->GetSingleRow("spssp_guest"," id=".$seat_detail["guest_id"]." and self!=1 and stage_guest=0 and user_id=".$user_id);
@@ -112,12 +113,13 @@ class DataClass extends DBO{
               $seats[$k]["guest_detail"] = $guest_detail;
               $guest_rows[$l]["unset"] = true;
               $guest_rows[$l]["seat_id"] = $seat_detail["id"];
-              if($guest_detail["sex"] != "Female"){
+              if($guest_detail["sex"] == "Male"){
                 ++$man_num;
-              }else{
+              }else if($guest_detail["sex"] == "Female"){
                 ++$woman_num;
               }
-              array_push($table_data["plot_guests"],$guest_rows[$l]);
+              ++$attend_num;
+              array_push($attend_guests,$guest_rows[$l]);
             }
           }
         }
@@ -126,8 +128,10 @@ class DataClass extends DBO{
     }
     $guest_rows = $this->set_guest_property_values($guest_rows);
     $table_data["guests"] = $guest_rows;
+    $table_data["attend_guests"] = $attend_guests;
     $table_data["man_num"] = $man_num;
     $table_data["woman_num"] = $woman_num;
+    $table_data["attend_num"] = $attend_num;
     return $table_data;
   }  
 
@@ -183,6 +187,7 @@ class DataClass extends DBO{
         $colum = $row["columns"][$j];
         if(!$colum) continue;
           $seat_detail = $this->get_seat_detail($seats[$k]["id"],$table_data["plan_id"]);
+          if(!$seat_detail["guest_id"]) continue;
           for($l=0;$l<count($guest_rows);++$l){
             if($guest_rows[$l]["id"] == $seat_detail["guest_id"]){
               $guest_detail = $this->GetSingleRow("spssp_guest"," id=".$seat_detail["guest_id"]." and self!=1 and stage_guest=0 and user_id=".$user_id);
@@ -951,7 +956,7 @@ class DataClass extends DBO{
         if($guestDetailArray[$j]["gift_group_id"] == $giftGroups[$i]["id"]) ++$num;
       }
       if($name=="" and $num == 0) continue;
-      array_push($returnArray,array("name"=>$name,"num"=>$num));
+      array_push($returnArray,array("name"=>$name,"num"=>$num,"id"=>$giftGroups[$i]["id"]));
     }
     return $returnArray;
   }

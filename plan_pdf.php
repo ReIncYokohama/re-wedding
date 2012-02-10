@@ -6,11 +6,14 @@ include_once("admin/inc/class_information.dbo.php");
 include_once("admin/inc/class_data.dbo.php");
 include_once("inc/gaiji.image.wedding.php");
 
+include_once("fuel/load_classes.php");
+
 $obj = new DataClass();
 $objInfo = new InformationClass();
-$user_id = (int)$_SESSION['userid'];
 
-if($_GET["user_id"])
+$user_id = Core_Session::get_user_id();
+
+if($_GET["user_id"] && Core_Session::is_admin())
   $user_id = (int)$_GET['user_id'];
 
 function get_center_table($max_width,$width,$html){
@@ -31,48 +34,33 @@ $main_font_size_top="20px";
 $main_font_size2="20px";
 
 
-$plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
-
-$plan_row = $obj->GetSingleRow("spssp_plan"," id =".$plan_id);
+$plan = Model_Plan::find_one_by_user_id($user_id);
+$plan_id = $plan->id;
+$plan_row = $plan->to_array();
 
 if($plan_row['print_type'] == 1){
-  $PDF_PAGE_ORIENTATION_USER="L";
   $max_width = 1500;
   $max_width_num = 39;
   $flag_horizon = true;
 }else if($plan_row['print_type'] == 2){{}
-  $PDF_PAGE_ORIENTATION_USER="P";
   $max_width = 900;
   $flag_horizon = false;
 }
 
-$pdf = new MyPdf($plan_row['print_type']);	
-//include_once("inc/header.inc.php");
-	
-$user_layout = $obj->GetNumRows("spssp_table_layout"," user_id= $user_id");
-if($user_layout <= 0)
-	{
-		redirect('table_layout.php?err=13');
-	}
-$user_guest = $obj->GetNumRows("spssp_guest"," user_id= $user_id");
-if($user_guest <= 0)
-	{
-		redirect('my_guests.php?err=14');
-	}
-	
-$plan_criteria = $obj->GetNumRows("spssp_plan"," user_id= $user_id");
-if($plan_criteria <= 0)
-	{
-		redirect('table_layout.php?err=15');
-	}
-	
-	
-$cats =	$obj->GetAllRowsByCondition('spssp_guest_category',' user_id='.$user_id);
-	
-	
-	
+$pdf = new MyPdf($plan_row['print_type']);
+
+if(!Model_Tablelayout::exist($user_id)){
+  Response::redirect("table_layout.php?err=13");
+}
+if(!Model_Guest::exist($user_id)){
+  Response::redirect("table_layout.php?err=14");
+}
+if(!$plan){
+  Response::redirect("table_layout.php?err=15");
+}
+
 $user_info = $obj->GetSingleRow("spssp_user"," id=".$user_id);
-	
+
 $room_info=$obj->GetSingleRow("spssp_room"," id =".$user_info['room_id']);
 $party_room_info=$obj->GetSingleRow("spssp_party_room"," id =".$user_info['party_room_id']);
 	
@@ -100,117 +88,96 @@ $num_tables = $room_rows * $room_tables;
 	
 $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id = ".(int)$user_id);
 
+$table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
+
 include("admin/inc/main_dbcon.inc.php");
 $respects = $obj->GetAllRow("spssp_main.spssp_respect");
 include("admin/inc/return_dbcon.inc.php");
 
-
-$html.='<table style="font-size:'.$main_font_size_top.';"><tr>';
-
+$html.='<table style="font-size:20px;"><tr>';
 /* 引出物　商品数　開始 */
-$html.='<td width="35%"><table><tr><td><table><tr><td style="text-align:right;border:1px solid black;" colspan="2" height="10"  width="100" >グループ</td>';
+$html.='<td width="35%"><table><tr><td><table>';
+
+//$group_rows = Model_Giftgroup::find_by_user_id($user_id);
+//$guests = 
+
+$guest_models_takasago = Model_Guest::find_by_takasago($user_id);
+$takasago_guests = Core_Arr::func($guest_models_takasago,"to_array");
+
+$attend_guests = array_merge($takasago_guests,$table_data["attend_guests"]);
+$gift_table = $obj->get_gift_table($attend_guests,$user_id);
 
 $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_id);
 $gift_rows = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".$user_id);
-foreach($group_rows as $grp)
-	{
-	
-		$group_menu_array[$grp['name']]=0;
-		if ($grp['name']!="") 
-			$html.='<td  style="text-align:center;border:1px solid black;"  width="20">'.$grp['name'].'</td>';
-	}
 
-$group_menu_array[x]=0;
-$html.='<td  style="text-align:center;border:1px solid black;"  width="20">予備</td>
+$tr1 = '<tr><td style="text-align:right;border:1px solid black;" colspan="2" height="10"  width="100" >グループ</td>';
+$tr2 = '<tr><td style="text-align:right;border:1px solid black;" colspan="2" height="10"  width="100" >グループ数</td>';
+
+$sum = 0;
+foreach($gift_table as $grp){
+  $tr1.='<td  style="text-align:center;border:1px solid black;"  width="20">'.mb_convert_kana($grp['name'],"K","utf8").'</td>';
+  $tr2.='<td  style="text-align:center;border:1px solid black;"  width="20">'.$grp['num'].'</td>';
+  $sum += $grp["num"];
+}
+
+$tr1.='<td  style="text-align:center;border:1px solid black;"  width="20">予備</td>
 	<td  style="text-align:center;border:1px solid black;"  width="20">合計</td>
   	</tr>';
-          
-$html.='<tr>
-            <td colspan="2" style="text-align:right;border:1px solid black;"  height="10"  width="100">グループ数</td>';
-           
-$total = 0;
-foreach($group_rows as $grp)
-  {
-  	if ($grp['name']!="") {
-	    $num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp['id']);
-	    $total += $num_guests_groups;
-	    $html.='<td style="text-align:center;border:1px solid black;" width="20" height="10">'.$num_guests_groups.'</td>';
-  	}
-  }
-			
-$html.='<td  style="text-align:center;border:1px solid black;"  width="20">-</td>
-            <td style="text-align:center;border:1px solid black;" width="20">'.$total.'</td>
-          </tr>';
+$tr2.='<td  style="text-align:center;border:1px solid black;"  width="20">-</td>
+	<td  style="text-align:center;border:1px solid black;"  width="20">'.$sum.'</td>
+  	</tr>';
 	
-$html.='</table></td></tr>';
+$html.= $tr1.$tr2.'</table></td></tr>';
+
+
 
 $subhtml = "";
 $start=0;
 $have_gift = false;
 foreach($gift_rows as $gift)
 	{
-	if ($gift['name']!="") {
+    if($gift["name"]=="") continue;
     $have_gift = true;
 		if($start!=0) $subhtml.='<tr>';
-		$start=1;
-	    $subhtml.='<td style="text-align:right;border:1px solid black;" height="10" width="84">'.$gift['name'].'</td>';
-	
-			$num_gifts = 0;
-			foreach($group_rows as $grp)
-	        {
-	      	if ($grp['name']!="") {
-		        $gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
-		        $guest_gift_num = $obj->GetNumRows("spssp_guest_gift","user_id=".$user_id." and group_id=".$grp["id"]);
-		        
-		        $gift_arr = explode("|",$gift_ids);
-		        $groups = array();
-		        if(in_array($gift['id'],$gift_arr))
-		          {
-		            $htm = $guest_gift_num;
-		            array_push($groups,$grp['id']);
-		          }
-		        else
-		          {
-		            $htm = '0';
-		          }
-		        $num_gifts_in_group = 0;
-		        if(!empty($groups))
-		          {
-		            foreach($groups as $grp)
-		              {
-		                $num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp);
-		                $num_gifts += $num_guests_groups;
-		              }
-		            unset($groups);
-		          }
-					
-		        $subhtml.='<td style="text-align:center;border:1px solid black;" width="20">'.$htm.'</td>';
-	      	}
-	      }
-	      $num_reserve = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift["id"]);
-	      $num_gifts += $num_reserve;
-	      $subhtml.='<td style="text-align:center;border:1px solid black;" width="20">'.$num_reserve.'</td>';
-	      $subhtml.='<td style="text-align:center;border:1px solid black;" width="20">'.$num_gifts.'</td>';
-	      $subhtml.='</tr>';
-		}
-	}
-	//$html.='</tr>';
+    $subhtml.='<td style="text-align:right;border:1px solid black;" height="10" width="84">'.mb_convert_kana($gift['name'],"K","utf8").'</td>';
+
+    $start = 1;
+    $num_gifts = 0;
+    foreach($gift_table as $grp){
+      $gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
+      $gift_arr = explode("|",$gift_ids);
+      if(in_array($gift['id'],$gift_arr))
+        {
+          $htm = $grp["num"];
+          $num_gifts += $grp["num"];
+        }
+      else
+        {
+          $htm = '0';
+        }
+      $subhtml.='<td style="text-align:center;border:1px solid black;" width="20">'.$htm.'</td>';
+    }
+
+    $num_reserve = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift["id"]);
+    $num_gifts += $num_reserve;
+    $subhtml.='<td style="text-align:center;border:1px solid black;" width="20">'.$num_reserve.'</td>';
+    $subhtml.='<td style="text-align:center;border:1px solid black;" width="20">'.$num_gifts.'</td>';
+    $subhtml.='</tr>';
+    
+  }
 	/* 引出物　商品数　終了 */
 if($have_gift) $html.='<tr><td style="text-align:center; border:1px solid black;" width="16" rowspan="7" height="10">商品名</td>'.$subhtml;
-
-$table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
+$html.='</table></td>';
 
 $male_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Male' and stage=1 and stage_guest>0");
 $female_takasago_guest_num = $obj->GetNumRows("spssp_guest","user_id=".(int)$user_id." and sex='Female' and stage=1 and stage_guest>0");
 $male_guest_num = $table_data["man_num"];
 $female_guest_num = $table_data["woman_num"];
-$total_guest=$male_guest_num+$female_guest_num;
-$total_guest_with_bride=$total_guest+2+$male_takasago_guest_num+$female_takasago_guest_num;
+$total_guest=$table_data["attend_num"];
+$total_guest_with_bride=$total_guest+count($takasago_guests);
 
 $woman_lastname=$user_info['woman_lastname'];
 $man_lastname=$user_info['man_lastname'];
-
-$html.='</table></td>';
 
 $party_day_for_confirm=$user_info['party_day'];
 $party_date_array=explode("-",$party_day_for_confirm);
@@ -236,7 +203,7 @@ function get_gaiji_arr($gaijis){
 $man_lastname_gaiji_pathArray = array();
 $woman_lastname_gaiji_pathArray = array();
 
-make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaijis,$woman_lastname,$woman_lastname_gaijis,$male_guest_num,$female_guest_num,$total_guest_with_bride);
+make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaijis,$woman_lastname,$woman_lastname_gaijis,$male_guest_num,$female_guest_num,$total_guest,$total_guest_with_bride);
 
 $marriage_day = "";
 $marriage_day_with_time = "";
@@ -290,21 +257,33 @@ $num_groups = count($menu_groups);
 
 
 $totalsum=0;
-foreach($table_data["menu_table"] as $menus)
+foreach($attend_guests as $guest)
 {
-	$totalsum +=$menus["num"];
+  if($guest["menu_grp"]>0){
+    ++$totalsum;
+  }  
 }
+
 $subhtml.='<tr><td style="text-align:center;border:1px solid black;" width="100" height="10">大人</td><td style="text-align:center;border:1px solid black;" width="100">'.($total_guest_with_bride-$totalsum).'</td></tr>';
 
 $guest_without_menu=$total_guest_with_bride;
-$group_menu_array['子']=0;
-foreach($table_data["menu_table"] as $menus)
-{
-  $subhtml.='<tr>
-		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.$menus['name'].'</td>
-		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.$menus["num"].'</td>
-		    </tr>';
-}
+
+foreach($menu_groups as $mg)
+	{
+    $menu_num = 0;
+    foreach($attend_guests as $guest)
+      {
+        if($guest["menu_grp"]==$mg["id"]){
+          ++$menu_num;
+        }  
+      }
+		if ($mg['name']!="") {
+		    $subhtml.='<tr>
+		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.mb_convert_kana($mg['name'],"K","utf8").'</td>
+		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.$menu_num.'</td>
+		    </tr>';	
+		}
+	}	
 
 $subhtml.='<tr>
       <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" height="10">合計</td>
@@ -316,7 +295,6 @@ $subhtml.='</table>';
 $html .= get_right_table(500,200,$subhtml);
 $html.='</td></tr></table> <br/>';
 
-$takasago_guests = $obj->get_guestdata_in_takasago($user_id);
 $takasago_menu_num = 0;
 for($i=0;$i<count($takasago_guests);++$i){
   if($takasago_guests[$i]["menu_grp"]>0){
@@ -324,7 +302,7 @@ for($i=0;$i<count($takasago_guests);++$i){
   }
 }
 
-$takasago_num = count($takasago_guests)+2;
+$takasago_num = count($takasago_guests);
 $main_guest = $obj->get_guestdata_in_takasago_for_pdf($user_id,160);
 $gift_table = $obj->get_gift_table_html($takasago_guests,$user_id);
 
@@ -342,7 +320,7 @@ for($i=0;$i<count($viewSubArray);++$i){
 $width = count($viewArray)*150;
 $gift_table = get_center_table((count($viewArray)-1)*200,190,$gift_table);
 
-$takasago_num_text = ($takasago_menu_num!=0)?($takasago_num-$takasago_menu_num)."+".$takasago_menu_num:$takasago_menu_num;
+$takasago_num_text = ($takasago_menu_num!=0)?($takasago_num-$takasago_menu_num)."+".$takasago_menu_num:$takasago_num;
 $subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td style="font-size:25px;" align="center">高砂【 '.$takasago_num_text.'名 】</td><td colspan="'.(count($viewArray)-1).'">'.$gift_table.'</td></tr><tr>';
 
 for($i=0;$i<count($viewArray);++$i){
@@ -367,13 +345,12 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
       $table_name = $column["name"];
       $table_id = $column["id"];
       if($column["display"] == 0 && !$column["visible"]) continue;
-      $haveRow = true;
       if($column["display"] == 0){
         $subhtml .="<td></td>";
         $active_columns_num += 1;
         continue;
       }
-      
+      $haveRow = true;
       $gifts = $column["gifts"];
       $gift_table = '<table>';
       $gift_tr1 = "<tr>";

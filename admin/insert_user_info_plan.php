@@ -132,7 +132,7 @@ else if((int)$user_plan['user_id'] <= 0 && empty($plan_dt))
 
 				$lo_arr['plan_id'] = $plan_row['id'];
 				$lo_arr['table_id'] = $tr['id'];
-
+        $lo_arr['align'] = "C";
 				$lo_arr['visibility'] = 1;
 				$lo_arr['row_order'] = $i;
 				$lo_arr['column_order'] = $j;

@@ -25,12 +25,26 @@ return array(
 		'caching'      => false,
 		'profiling'    => false,
 	),
+	'madmin' => array(
+    'type'=>"mysql",
+		'connection'  => array(
+      'hostname'       => 'localhost',
+      'database'       => 'wplus_main',
+      'username'       => 'wplus_main',
+      'password'       => 're123456',
+			'persistent' => false,
+		),
+		'table_prefix' => '',
+		'charset'      => 'utf8',
+		'caching'      => false,
+		'profiling'    => false,
+	),
 
 	'redis' => array(
 		'default' => array(
 			'hostname'  => '127.0.0.1',
 			'port'      => 6379,
 		)
-	),
+	)
 
 );

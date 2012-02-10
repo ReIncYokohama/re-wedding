@@ -9,66 +9,7 @@ include_once("fuel/load_classes.php");
 $obj = new DataClass();
 $objInfo = new InformationClass();
 $get = $obj->protectXSS($_GET);
-
-	$user_id = (int)$_SESSION['userid'];
-
-	$user_layout = $obj->GetNumRows("spssp_table_layout"," user_id= $user_id");
-
-	$user_info = $obj->GetSingleRow("spssp_user"," id=".$user_id);
-	if($user_layout <= 0)
-	{
-		redirect('table_layout.php?err=13');
-	}
-	$user_guest = $obj->GetNumRows("spssp_guest"," user_id= $user_id");
-	if($user_guest <= 0)
-	{
-		redirect('my_guests.php?err=14');
-	}
-
-	$plan_criteria = $obj->GetNumRows("spssp_plan"," user_id= $user_id");
-	if($plan_criteria <= 0)
-	{
-		redirect('table_layout.php?err=15');
-	}
-
-
-	$plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
-
-	$plan_row = $obj->GetSingleRow("spssp_plan", " id =".$plan_id);
-
-	$permission_table_edit = $obj->GetSingleData("spssp_plan", "rename_table"," user_id =".$user_id);
-	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".$user_id);
-	$editable=$objInfo->get_editable_condition($plan_info);
-	if($permission_table_edit==1 && $editable) $button_enable=true; else $button_enable=false;
-
-	$room_rows = $plan_row['row_number'];
-
-	$row_width = $row_width-6;
-
-	$table_width = (int)($row_width/2);
-	$table_width = $table_width-6;
-
-	$room_tables = $plan_row['column_number'];
-	$room_width = (int)(215*(int)$room_tables)."px";
-
-
-	$row_width = (int)(213*$room_tables);
-	$content_width = ($row_width+235).'px';
-
-	$room_seats = $plan_row['seat_number'];
-
-	$num_tables = $room_rows * $room_tables;
-
-	$tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id = ".(int)$user_id);
-
-
-	$itemids = array();
-
-	$num_rowws = $obj->GetNumRows("spssp_plan_details"," plan_id=".$plan_id);
-
-
-/*
-//編集が終わっていない項目を
+//編集が終わっていない項目があれば、その項目のあるページに移動
 $user_id = Core_Session::get_user_id();
 if(!Model_Tablelayout::exist($user_id)){
   Response::redirect("table_layout.php?err=13");
@@ -76,58 +17,41 @@ if(!Model_Tablelayout::exist($user_id)){
 if(!Model_Guest::exist($user_id)){
   Response::redirect("table_layout.php?err=14");
 }
-$plan = Model_Plan::find_obj_by_user_id($user_id);
+$plan = Model_Plan::find_one_by_user_id($user_id);
 
 if(!$plan){
   Response::redirect("table_layout.php?err=15");
 }
+
+
 $plan_id = $plan->id;
 $plan_row = $plan->to_array();
 
+//席次表編集画面の編集ができるかどうかチェック
 if($plan->authority_rename_table()) $button_enable=true; else $button_enable=false;
 
 $room_seats = $plan_row['seat_number'];
 
+// task memo
 $tblrows = Model_Tablelayout::find_rows_distinct_order($user_id);
 
-$itemids = array();
-*/
-$plan_details_row = $obj->GetAllRowsByCondition("spssp_plan_details"," plan_id=".$plan_id);
+//sessionのみに保存されている席情報を保存する。
+$cart = $plan->get_seat_data_in_session();
+list($itemids,$seatids) = $plan->get_seat_data_ids();
 
-	if(isset($_SESSION['cart']))
-	{
+//guest_typeのidがkeyでnameがvalue
+$types_guest = Model_Guesttype::hash("id","name");
 
-	}
-	else if(!empty($plan_details_row))
-	{
-		$i=0;
-		foreach($plan_details_row as $pdr)
-		{
+//fuelのdbを使わないとき、databaseが切り替わってします。
+include("admin/inc/return_dbcon.inc.php");
 
-			$i++;
-			$skey= $pdr['seat_id'].'_input';
-			$sval = '#'.$pdr['seat_id'].'_'.$pdr['guest_id'];
-			$_SESSION['cart'][$skey]=$sval;
-		}
-	}
+//guestをソートするためのキーをGETから取得
+$sort_property = Model_Guest::get_sort_property();
 
+//takasago席でないゲストをソートして取得。
+$guest_models = Model_Guest::find_by_not_takasago($user_id,array($sort_property["sortby"]=>$sort_property["direction"]));
+$guests = Core_Arr::func($guest_models,"to_array");
 
-
-	if(isset($_SESSION['cart']))
-	{
-		foreach($_SESSION['cart'] as $item)
-		{
-			if($item)
-			{
-				$itemArr = explode("_",$item);
-
-				$seatids[]=str_replace("#","",$itemArr[0]);
-				$itemids[] = $itemArr[1];
-			}
-		}
-
-	}
-  
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -219,7 +143,7 @@ $(function() {
 <script src="js/jquery.treeview.js" type="text/javascript"></script>
 <link href="css/drag_n_drop.css" type="text/css" rel="stylesheet">
 <?php
-if($objInfo->get_editable_condition($plan_row))
+  if($plan->editable())
 	{
 ?>
 <script src="js/drag_n_drop.js" type="text/javascript"></script>
@@ -419,15 +343,6 @@ direction: ltr;
     <div class="title_bar_txt_L">席次表を編集</div>
 <div class="clear"></div></div>
 <div class="cont_area"  align="center">
-<!--
-<?php
-
-	if(isset($_GET['err']) && $_GET['err'] !='')
-	{
-		$obj->GetErrorMsg((int)$_GET['err']);
-	}
-
-  ?>-->
 </div>
 
 <div class="make_plan_main_contents" id="con_area_ie">
@@ -435,28 +350,8 @@ direction: ltr;
   <div align="right"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
   <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:hidden;overflow-y:scroll;" >
 				<table width="98%">
-				<?php
-				$guest_type_sort=($_GET['guest_type_sort']=='desc' || $_GET['guest_type_sort']=='' )?"asc":"desc";
-				$guest_sex_sort=($_GET['guest_sex_sort']=='desc' || $_GET['guest_sex_sort']=='' )?"asc":"desc";
-				?>
-					<tr bgcolor="#666666" style="color:#FFFFFF"><th>No</th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=sex&guest_sex_sort=<?=$guest_sex_sort?>">郎婦↓</a></th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=guest_type&guest_type_sort=<?=$guest_type_sort?>">区分↓</a></th><th align="center">&nbsp;&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;</th><th nowrap="nowrap" align="left">卓名</th></tr>
+					<tr bgcolor="#666666" style="color:#FFFFFF"><th>No</th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=sex&direction=<?=$sort_property["sex_direction"]?>">郎婦↓</a></th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=guest_type&direction=<?=$sort_property["guest_type_direction"]?>">区分↓</a></th><th align="center">&nbsp;&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;</th><th nowrap="nowrap" align="left">卓名</th></tr>
 					<?php
-					$types_guest=array();
-					include("admin/inc/main_dbcon.inc.php");
-					$guest_types = $obj->GetAllRow( "spssp_guest_type");
-
-					include("admin/inc/return_dbcon.inc.php");
-					foreach($guest_types as $types)
-					{
-					$types_guest[$types['id']]=$types['name'];
-					}
-					$no=0;
-				if($_GET[sortby]=="")
-				$guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by id");
-				else if($_GET[sortby]=="sex")
-				$guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by sex ".$_GET['guest_sex_sort']);
-				else if($_GET[sortby]=="guest_type")
-				$guests = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and id not in (select edit_item_id from spssp_guest where user_id=".(int)$user_id.") and self!=1 and stage_guest=0 order by guest_type ".$_GET['guest_type_sort']);
 
 				foreach($guests as $guest)
 						{
@@ -521,8 +416,6 @@ direction: ltr;
 							$name_length = mb_strlen($gname,"utf-8");
 
 							$name_length2 = mb_strlen($guest_comment,"utf-8");
-
-
 
 							if($name_length >8)
 							{
@@ -657,13 +550,13 @@ if($objInfo->get_editable_condition($plan_row))
 			foreach($guests_bride as $witness_bride)
 			{
 				$main_guest[$witness_bride[stage_guest]]=$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$witness_bride['id']."/thumb1");
-
+        $main_guest_tooltip[$witness_bride[stage_guest]]=$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="namecard.png",$extra="guest/".$witness_bride['id']."/");
 			}
 for($i=0;$i<6;++$i){
   if(!$main_guest[$i]){
-    $main_guest[$i] = '<td align="center"  valign="middle" style="text-align:center; padding:7px;width:100px;"></td>';
+    $main_guest[$i] = '<td align="center" class="tooltip" title="'.$main_guest_tooltip[$i].'" valign="middle" style="text-align:center; padding:7px;width:100px;"></td>';
   }else{
-    $main_guest[$i] = '<td align="center"  valign="middle" style="text-align:center; padding:7px;width:100px;">'.$main_guest[$i].'</td>';
+    $main_guest[$i] = '<td align="center" class="tooltip" title="'.$main_guest_tooltip[$i].'" valign="middle" style="text-align:center; padding:7px;width:100px;">'.$main_guest[$i].'</td>';
     
   }
 }
@@ -798,7 +691,7 @@ $layoutname = $tableData["layoutname"];
                                 $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
 
 
-                
+
 								$rowspan=ceil(count($seats)/4);
 								$j=1;
 								$jor=0;
@@ -817,9 +710,9 @@ if($index % 2 == 1){
 ;" >
                                         <?php
                                         $key = $seat['id']."_input";
-                                        if(isset($_SESSION['cart'][$key]) && $_SESSION['cart'][$key] != '')
+                                        if(isset($cart[$key]) && $cart[$key] != '')
                                         {
-                                            $itemArray = explode("_", $_SESSION['cart'][$key]);
+                                            $itemArray = explode("_", $cart[$key]);
 
                                             $item = $itemArray[1];
                                             $item_info =  $obj->GetSingleRow("spssp_guest", " id=".$item." and id in(SELECT id FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest=0)");

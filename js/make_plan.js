@@ -123,6 +123,7 @@ _Data.prototype = {
       for(var j=0;j<columns.length;++j){
         var table_id = columns[j]["id"];
         var seats = columns[j]["seats"];
+        if(!seats) continue;
         for(var k=0;k<seats.length;++k){
           var elementName = "#table"+table_id+" .seat"+k;
           if(this.mode == "replace"){

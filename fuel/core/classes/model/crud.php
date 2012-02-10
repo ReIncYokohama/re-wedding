@@ -98,6 +98,8 @@ class Model_Crud extends \Model implements \Iterator, \ArrayAccess {
 
 		if ($result !== null)
 		{
+
+
 			return current($result);
 		}
 
