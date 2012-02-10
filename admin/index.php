@@ -264,15 +264,13 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 </tr>
 </table>
 </div>
-    <div id="foot_center"><strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
-      ・Internet Explorer ７～9<br />
-・FireFox 7／8 <br />
-・Google Chrome 14.0以上 </div>
-  <div id="foot_right"><strong>●Mac OS Ｘ 10.4以上</strong><br />
-    ・Safari 5.0以上<br />
-・FireFox 7／8</div>
-	    <div class="clr"></div>
-	    </div>
+
+<?php
+	include_once("inc/browser.php");
+?>
+<div class="clr"></div>
+</div>
+
 </div>
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
 <br />

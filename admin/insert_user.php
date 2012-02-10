@@ -133,6 +133,7 @@ if(isset($user_id) && $user_id > 0)
     $guest_array['last_name']=$post['man_lastname'];
     $guest_array['furigana_last']=$post['man_furi_lastname'];
     $guest_array['furigana_first']=$post['man_furi_firstname'];
+    $guest_array['comment1']="新郎";
 
     $man_guest_row = $obj->GetSingleRow(" spssp_guest"," user_id=".$user_id." and sex='Male' and self=1");
     $man_guest_id = $man_guest_row["id"];
@@ -142,6 +143,7 @@ if(isset($user_id) && $user_id > 0)
     $guest_array2['last_name']=$post['woman_lastname'];
     $guest_array2['furigana_last']=$post['woman_furi_lastname'];
     $guest_array2['furigana_first']=$post['woman_furi_firstname'];
+    $guest_array2['comment1']="新婦";
     
     $woman_guest_row = $obj->GetSingleRow(" spssp_guest"," user_id=".$user_id." and sex='Female' and self=1");
     $woman_guest_id = $woman_guest_row["id"];
@@ -261,6 +263,7 @@ else
     $guest_array['self']=1;
     $guest_array['stage']=1;
     $guest_array['user_id']=$last_id;
+    $guest_array['comment1']="新郎";
     $man_guest_id = $obj->InsertData("spssp_guest",$guest_array);
 
     //ゲストとして新郎を登録
@@ -276,6 +279,7 @@ else
     $guest_array2['sex']='Female';
     $guest_array2['self']=1;
     $guest_array2['stage']=1;
+    $guest_array2['comment1']="新婦";
     $guest_array2['user_id']=$last_id;
     $woman_guest_id = $obj->InsertData("spssp_guest",$guest_array2);
     //ゲストとして新婦を登録    
