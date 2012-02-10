@@ -293,13 +293,13 @@ $(function(){
 </table>
 </div>
     <div id="foot_center">
-      <strong>●Windows XP ／ Vista ／ 7</strong></strong><br />
-      ・Internet Explorer ７～9<br />
-・FireFox 7／8 <br />
+      <strong>●Windows XP/／ Vista/／ 7</strong></strong><br />
+      ・Internet Explorer 7～9<br />
+・FireFox 7以上 <br />
 ・Google Chrome 14.0以上 </div>
-  <div id="foot_right"><strong>●Mac OS Ｘ 10.4以上</strong><br />
+  <div id="foot_right"><strong>●Mac O XＸ 10.4以上</strong><br />
     ・Safari 5.0以上<br />
-・FireFox 7／8</div>
+・FireFox 7以上</div>
 	    <div class="clr"></div>
 	    </div>
 </div>
