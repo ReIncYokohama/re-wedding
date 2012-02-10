@@ -204,13 +204,13 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 </tr>
 </table>
 </div>
-    <div id="foot_center"> <strong>●Windows XP ／ Vista ／ 7</strong><br />
-      ・Internet Explorer ７～9<br />
-・FireFox 7／8 <br />
-・Google Chrome 14.0~ </div>
-  <div id="foot_right"><strong>●Mac OS Ｘ 10.4~</strong><br />
-    ・Safari 5.0~<br />
-・FireFox 7／8</div>
+<div id="foot_center"><strong>Window XP/Vista/7 </strong><br />
+&nbsp;&middot;Internet Explorer 7以上<br />
+&nbsp;&middot;FireFox 7以上 <br />
+&nbsp;&middot;Google Chrome 14.0以上 </div>
+  <div id="foot_right"><strong>Mac OS X 10.4以上</strong><br />
+&nbsp;&middot;Safari 5.0以上<br />
+&nbsp;&middot;FireFox 7以上</div>
 	    <div class="clr"></div>
 	    </div>
 </div>
