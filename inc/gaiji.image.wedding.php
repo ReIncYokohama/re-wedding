@@ -70,6 +70,12 @@ function make_name_plate_full_save($last_name,$first_name,$comment1="",$comment2
   imagepng($image,$file);
   imagedestroy($image);
 
+  $image = get_image_name_plate_full($last_name,$first_name,$comment1,$comment2,$memo1,$memo2,$memo3,
+                                     $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect,$comment,$comment_arr);
+  imagefilter($image, IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
+  imagepng($image,$file2);
+  imagedestroy($image);
+
   //左側にコメント
   /* $image = get_image_name_plate_full2($last_name,$first_name,$comment1,$comment2,$memo1,$memo2,$memo3,
      $gaiji_last_name_arr,$gaiji_first_name_arr,$gaiji_comment1_arr,$gaiji_comment2_arr,$color,$respect);*/
