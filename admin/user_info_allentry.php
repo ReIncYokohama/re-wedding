@@ -571,6 +571,13 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 		document.getElementById("marriage_minute").value = "";
 	}
 
+	if(document.getElementById("product_name").value=='')
+	{
+		alert("商品名は必須項目です。");
+		document.getElementById('product_name').focus();
+		return false;
+	}
+
 	if(document.getElementById("room_id").value=='')
 	{
 //		alert("必須項目は必ず入力してください。");
