@@ -223,7 +223,7 @@ class DataClass extends DBO{
     include_once(dirname(__file__)."/../../inc/gaiji.image.wedding.php");
     $hotel_id=1;
     $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
-    return $user_folder."/guest/".$guest_id."/".$name;
+    return $user_folder."guest/".$guest_id."/".$name;
   }
   public function get_guest_detail($user_id,$guest_id){
     $guest_detail = $this->GetSingleRow("spssp_guest"," id=".$guest_id." and user_id=".$user_id);
@@ -404,7 +404,6 @@ class DataClass extends DBO{
     foreach($guests as $guest){
       $returnArray[$guest["stage_guest"]] = "<img src=\"".$infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard.png",$extra="guest/".$guest['id'],100,"src")."\"   width=\"".$width."\" />";
     }
-
     return $returnArray;
   }
 

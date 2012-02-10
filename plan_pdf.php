@@ -224,12 +224,12 @@ $html.='<td width="32%">
 '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="pdf_hikidemono_head.png",$extra="/").'
 			</td>
 				</tr>
-        <tr><td colspan="3"></td></tr>
+        <!--<tr><td colspan="3"></td></tr>-->
 				'.$marrige_day_text.'
 				<tr style="text-align:left;font-size:35px;">
 					<td width="80" align="left"  valign="middle">披露宴日時</td><td width="160">'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['party_day']))).'  '.date("H時i分",strtotime($user_info['party_day_with_time'])).'</td><td width="300">会場'.$room_info[name].' </td>
 				</tr>
-        <tr><td colspan="3"></td></tr>
+        <!--<tr><td colspan="3"></td></tr>-->
 				<tr style="text-align:left;font-size:25px;">
 					<td align="left"  valign="middle" style="text-align:center;">作成日時</td><td>'.date('Y年n月j日  H時i分').'</td><td>
 					スタッフ名 '.$staff_name.'
@@ -293,7 +293,7 @@ $subhtml.='<tr>
 $subhtml.='</table>';
 
 $html .= get_right_table(500,200,$subhtml);
-$html.='</td></tr></table> <br/>';
+$html.='</td></tr></table> <!--<br/>-->';
 
 $takasago_menu_num = 0;
 for($i=0;$i<count($takasago_guests);++$i){
@@ -303,11 +303,11 @@ for($i=0;$i<count($takasago_guests);++$i){
 }
 
 $takasago_num = count($takasago_guests);
-$main_guest = $obj->get_guestdata_in_takasago_for_pdf($user_id,160);
+$main_guest = $obj->get_guestdata_in_takasago_for_pdf($user_id,130);
 $gift_table = $obj->get_gift_table_html($takasago_guests,$user_id);
 
 $userArray = $obj->get_userdata($user_id);
-$userGuestArray = $obj->get_guestdata_in_host_for_pdf($user_id,160);
+$userGuestArray = $obj->get_guestdata_in_host_for_pdf($user_id,130);
 
 $man_image = $userGuestArray[0];
 $woman_image = $userGuestArray[1];
@@ -371,8 +371,13 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
         $seat_detail = $column["seats"][$k];
         $guest_id = $seat_detail["guest_id"];
         $plate = "";
-        if($guest_id && $k%2==0) $plate = "<img width=\"110\" src=\"".$seat_detail["guest_detail"]["namecard_memo"]."\" />";
-        if($guest_id && $k%2==1) $plate = "<img width=\"110\" src=\"".$seat_detail["guest_detail"]["namecard_memo2"]."\" />";
+        if(is_file($seat_detail["guest_detail"]["namecard_memo"])){
+          $plate = "<img width=\"130\" src=\"".$seat_detail["guest_detail"]["namecard_memo"]."\" />";
+        }else{
+          $plate = "<div width=\"130\" height = \"33\"></div>";
+        }
+        //
+        //if($guest_id && $k%2==1) $plate = "<img width=\"110\" src=\"".$seat_detail["guest_detail"]["namecard_memo2"]."\" />";
         $subhtml .= "<td colspan=\"2\" style=\"width:50%;\" align=\"".$align."\">".$plate."</td>";
         if($k%2==1) $subhtml .= "</tr>";
       }
@@ -449,7 +454,6 @@ for($i=0;$i<$page_rows_num;++$i){
     $index+=1;
   }
 }
-
 draw_html($plan_id,$html,$pdf);
 for($i=0;$i<count($page_arr);++$i){
   $html = get_table_html($page_arr[$i],$main_font_size,$seat_num,$seat_row,$page_arr_max_columns_num[$i]);
@@ -467,5 +471,6 @@ $date = date("His");
 $user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
 $this_name = "hikidemono".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
-$pdf->Output($this_name.'.pdf', 'D');
+//$pdf->Output($this_name.'.pdf',"D");
+$pdf->Output($this_name.'.pdf');
 ?> 
