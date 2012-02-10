@@ -2,6 +2,10 @@
 include_once("../admin/inc/dbcon.inc.php");
 include_once("../admin/inc/class.dbo.php");
 include_once("../inc/gaiji.image.wedding.php");
+include_once("../inc/gaiji.image.wedding.php");
+//fuelのパッケージがcommandの場合うまく働かないため直接指定。
+include_once(dirname(__FILE__)."/../fuel/app/classes/core/image.php");
+$_SERVER["SCRIPT_FILENAME"] = __FILE__;
 
 $obj = new DBO();
 

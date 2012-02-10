@@ -23,6 +23,8 @@ class Model_Guest extends Model_Crud{
     ));
     return $guests;
   }
+  
+  //get変数のsortbyおよびdirectionを調査して返す。
   //sortby id,sex,guest_type
   //direction asc,desc
   static public function get_sort_property(){
@@ -65,5 +67,7 @@ class Model_Guest extends Model_Crud{
     return array_merge($guests_takasago,$guests_self);
   }
   
-  
+  public function get_image($image_name){
+    return Core_Image::get_guest_image_dir_relative($this->user_id,$this->id).$image_name;
+  }
 }

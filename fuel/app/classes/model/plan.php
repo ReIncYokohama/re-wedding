@@ -2,7 +2,15 @@
 class Model_Plan extends Model_Crud{
   static $_table_name = "spssp_plan";
   public $cart;
-
+  
+  public $_user;
+  
+  public function get_user(){
+    if($this->_user) return $_user;
+    $this->_user = Model_User::find_by_pk($this->user_id);
+    return $this->_user;
+  }
+  
   public function authority_rename_table(){
     $editable = $this->editable();
     if($this->rename_table==1 && $editable) return true;
@@ -100,4 +108,25 @@ class Model_Plan extends Model_Crud{
     if($layoutname=="null") $layoutname = "";
     return $layoutname;
   }
+  
+  function get_takasago_guest_obj(){
+    $takasago_arr = Model_Guest::find_by_takasago($this->user_id);
+    $obj = array();
+    $mukoyoshi = $this->get_user()->mukoyoshi;
+    for($i=0;$i<count($takasago_arr);++$i){
+      $takasago = $takasago_arr[$i];
+      if($takasago->self==1){
+        if((!$mukoyoshi && $takasago["sex"] == "Male") || ($mukoyoshi && $takasago["sex"]=="Female")){
+          $obj["left"] = $takasago;
+        }
+        if((!$mukoyoshi && $takasago["sex"] == "Female") || ($mukoyoshi && $takasago["sex"]=="Male")){
+          $obj["right"] = $takasago;
+        }
+      }else{
+        $obj[$takasago->stage_guest] = $takasago;
+      }
+    }
+    return $obj;
+  }
+
 }

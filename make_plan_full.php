@@ -544,34 +544,26 @@ if($objInfo->get_editable_condition($plan_row))
 
 
 
-			$main_guest=array();
-			$guests_bride = $obj->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest!='0' and stage_guest!='' order by display_order DESC");
-
-			foreach($guests_bride as $witness_bride)
-			{
-				$main_guest[$witness_bride[stage_guest]]=$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guest/".$witness_bride['id']."/thumb1");
-        $main_guest_tooltip[$witness_bride[stage_guest]]=$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="namecard.png",$extra="guest/".$witness_bride['id']."/");
-			}
-for($i=0;$i<6;++$i){
-  if(!$main_guest[$i]){
-    $main_guest[$i] = '<td align="center" class="tooltip" title="'.$main_guest_tooltip[$i].'" valign="middle" style="text-align:center; padding:7px;width:100px;"></td>';
-  }else{
-    $main_guest[$i] = '<td align="center" class="tooltip" title="'.$main_guest_tooltip[$i].'" valign="middle" style="text-align:center; padding:7px;width:100px;">'.$main_guest[$i].'</td>';
-    
-  }
+$takasago_guest_obj = $plan->get_takasago_guest_obj();
+foreach($takasago_guest_obj as $guest){
+  $namecard_url = $guest->get_image("namecard.png");
+  $fullname_url = $guest->get_image("thumb1/guest_fullname.png");  
+  $guest->_td_html = '<td align="center" class="tooltip" title="<image src=\''.
+    $namecard_url.
+    '\'>" valign="middle" style="text-align:center; padding:7px;width:100px;"><image src="'.
+    $fullname_url.
+    '"></td>';
 }
-$takasago1 = ($user_info["mukoyoshi"])?"woman":"man";
-$takasago2 = ($user_info["mukoyoshi"])?"man":"woman";
 
-			$html.='
+$html.='
 <table align="center" cellspacing="2"><tr>
-'.$main_guest[3].'
-'.$main_guest[1].'
-<td align="center"  valign="middle" style="width:100px;text-align:center;padding:7px; ">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago1}_fullname.png",$extra="thumb1").'</td>
-'.$main_guest[5].'
-<td align="center"  valign="middle" style="width:100px;text-align:center; padding:7px;">'.$objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="${takasago2}_fullname.png",$extra="thumb1").'</td>
-'.$main_guest[2].'
-'.$main_guest[4].'
+'.($takasago_guest_obj[3]?$takasago_guest_obj[3]->_td_html:"").'
+'.($takasago_guest_obj[1]?$takasago_guest_obj[1]->_td_html:"").'
+'.($takasago_guest_obj["left"]?$takasago_guest_obj["left"]->_td_html:"").'
+'.($takasago_guest_obj[5]?$takasago_guest_obj[5]->_td_html:"").'
+'.($takasago_guest_obj["right"]?$takasago_guest_obj["right"]->_td_html:"").'
+'.($takasago_guest_obj[2]?$takasago_guest_obj[2]->_td_html:"").'
+'.($takasago_guest_obj[4]?$takasago_guest_obj[4]->_td_html:"").'
 </tr></table>';
 
 $tableData = $obj->get_table_data($user_id);
