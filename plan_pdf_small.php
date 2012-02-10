@@ -13,7 +13,7 @@ $objInfo = new InformationClass();
 
 $user_id = Core_Session::get_user_id();
 
-if($_GET["user_id"] && Core_Session::is_admin())
+if($_GET["user_id"] && (Core_Session::is_admin() || $_SESSION["printid"]>0))
   $user_id = (int)$_GET['user_id'];
 
 function get_center_table($max_width,$width,$html){
