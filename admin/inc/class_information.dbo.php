@@ -1,16 +1,12 @@
 <?php
 include_once(dirname(__file__).'/dbcon.inc.php');
 include_once(dirname(__file__)."/class.dbo.php");
+include_once(dirname(__file__)."/../../fuel/load_classes.php");
 class InformationClass extends DBO
 {
-
-	public function InformationClass()
-	{
-
-	}
 	function get_admin_info($admin_id)
 	{
-		return $admin_info = $this->GetSingleRow("spssp_admin"," id=".$admin_id);
+    return Model_Admin::find_by_pk($admin_id);
 	}
 	function get_printing_company_info($print_company_id)
 	{
@@ -40,8 +36,6 @@ class InformationClass extends DBO
 	}
 	function get_date_with_supplyed_flag_difference( $date, $num_of_day, $flag=1 )
 	{
-		//$flag=1=plus.............$flag=2=minus
-
 		$day = strftime('%d',strtotime($date));
 		$month = strftime('%m',strtotime($date));
 		$year = strftime('%Y',strtotime($date));
@@ -240,49 +234,15 @@ class InformationClass extends DBO
 			return false;
 		}
 	}
-  function get_sekizihyo_edit_term($plan_info_array){
-    
-    //席次表編集期間を過ぎているかどうか判定
-    $user_row = $this->GetSingleRow("spssp_user"," id= ".$plan_info_array["user_id"]);
-    $dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $user_row["limitation_ranking"] , $flag=2 );
-    $dateArray = explode("/",$dateBeforeparty);
-    $limit_mktime = mktime(0,0,0,$dateArray[1],$dateArray[2],$dateArray[0]);
-    if($limit_mktime<mktime()){
-      return false;
-    }
-    return true;
-    
+  //席次表編集期間を過ぎているかどうか判定
+  //old function::you must use this function (fuel/app/model/user past_deadline_sekijihyo)
+  function get_sekizihyo_edit_term($plan_arr){
+    return Model_User::past_deadline_sekijihyo($plan_arr["user_id"]);
   }
-	function get_editable_condition($plan_info_array)
+	function get_editable_condition($plan_arr)
 	{
-	$click_info = $this->get_clicktime_info($plan_info_array['user_id']);
-	$pd = strptime($click_info['print_irai'],"%Y-%m-%d %H:%M:%S");
-	$pidate = mktime($pd[tm_hour],$pd[tm_min],$pd[tm_sec],$pd[tm_mon]+1,$pd[tm_mday],$pd[tm_year] + 1900);
-	if(!preg_match('/.*\/(\d*).PDF$/', $plan_info_array['p_company_file_up'] , $matches)){
-		$matches = array("1");
-	}
-		/*if ($plan_info_array['order'] == 1 && $_SESSION['adminid'] > 0) {  // 追加仕様でホテルスタッフは仮発注時に編集可能
-
-			return true;
-    }*/
-    if(!$this->get_sekizihyo_edit_term($plan_info_array)&&!$this->is_admin()){
-      return false;
-    }
-		if ($plan_info_array['order'] == 1 && ($plan_info_array['admin_to_pcompany'] == 0 || $plan_info_array['admin_to_pcompany'] == 1)) {  // 追加仕様で「スタッフ画面：仮発注、ユーザ画面：印刷イメージ依頼」で編集不可
-			return false;
-		}
-//    if($plan_info_array['admin_to_pcompany']==2) {
-    if($plan_info_array['admin_to_pcompany']==2 && $pidate < $matches[1]) {
-			return true;
-		}
-		if(($plan_info_array['order']<=3 && $plan_info_array['order']>0) || ($plan_info_array['order']==2 && $plan_info_array['admin_to_pcompany']==3))
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+    $plan = Model_Plan::find_one_by_user_id($plan_arr["user_id"]);
+    return $plan->editable();
 	}
 
 	function get_image_db_directory($hotel_id){
@@ -419,10 +379,9 @@ function get_user_name_image_or_src_from_user_side_make_plan( $user_id ,$hotel_i
 		}
 	}
 
-// UCHIDA EDIT 11/08/16
 	function get_clicktime_info($user_id)
 	{
-		return $clicktime_info = $this->GetSingleRow("spssp_clicktime"," user_id=".$user_id);
+    return Model_Clicktime::find_by_user_id($this->user_id);
 	}
 
 	function update_clicktime_info($type, $dt, $user_id)
