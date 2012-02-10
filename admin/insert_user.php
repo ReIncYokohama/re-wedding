@@ -156,14 +156,12 @@ if(isset($user_id) && $user_id > 0)
 
     //外字およびpdf生成に必要なファイルの作成
     make_user_images($user_id,$post["man_lastname"],$post["man_firstname"],$post["woman_lastname"],$post["woman_firstname"],$_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],$_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"]);
-
-
     //ゲストとして新郎を登録
-    make_guest_images($user_id,$man_guest_id,$post["man_lastname"],$post["man_firstname"],"","","様",
+    make_guest_images($user_id,$man_guest_id,$post["man_lastname"],$post["man_firstname"],$guest_array["comment1"],"","様",
                       $_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],array(),array());
 
     //ゲストとして新婦を登録    
-    make_guest_images($user_id,$woman_guest_id,$post["woman_lastname"],$post["woman_firstname"],"","","様",
+    make_guest_images($user_id,$woman_guest_id,$post["woman_lastname"],$post["woman_firstname"],$guest_array2["comment1"],"","様",
                       $_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"],array(),array());
     
 
@@ -267,7 +265,7 @@ else
     $man_guest_id = $obj->InsertData("spssp_guest",$guest_array);
 
     //ゲストとして新郎を登録
-    make_guest_images($user_id,$man_guest_id,$post["man_lastname"],$post["man_firstname"],"","","様",
+    make_guest_images($user_id,$man_guest_id,$post["man_lastname"],$post["man_firstname"],$guest_array["comment1"],"","様",
                       $_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],array(),array());
 
 
@@ -283,7 +281,7 @@ else
     $guest_array2['user_id']=$last_id;
     $woman_guest_id = $obj->InsertData("spssp_guest",$guest_array2);
     //ゲストとして新婦を登録    
-    make_guest_images($user_id,$woman_guest_id,$post["woman_lastname"],$post["woman_firstname"],"","","様",
+    make_guest_images($user_id,$woman_guest_id,$post["woman_lastname"],$post["woman_firstname"],$guest_array2["comment1"],"","様",
                       $_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"],array(),array());
 
     if(isset($last_id) && $last_id!="" && $last_id >0)

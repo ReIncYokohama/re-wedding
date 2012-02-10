@@ -478,7 +478,7 @@ direction: ltr;
 					?>
 					<tr bgcolor="<?=$bgcolor?>">
 					<td><?=$no?></td>
-					<td><?=($guest['sex']=='Male')?"新郎":"新婦";?></td>
+              <td><?=($guest['sex']=='Male')?"新郎":(($guest['sex']=='Female')?"新婦":"");?></td>
 					<td><?=$types_guest[$guest['guest_type']];?></td>
 
 					<td width="90" align="center" style="text-align:left;">
