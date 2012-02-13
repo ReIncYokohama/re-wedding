@@ -1,9 +1,10 @@
 <?php
 
-
 @session_start();
 include_once("../admin/inc/class_information.dbo.php");
 include_once("../admin/inc/class_data.dbo.php");
+include_once("../fuel/load_classes.php");
+
 
 if($_SESSION['printid'] =='')
 {
@@ -49,6 +50,7 @@ $room_info =  $obj->GetSingleRow("spssp_room", " id=".$user_info['room_id']);
 $party_room_info =  $obj->GetSingleRow("spssp_party_room", " id=".$user_info['party_room_id']);
 $plan_info =  $obj->GetSingleRow("spssp_plan", " user_id=".$user_id);
 $default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
+$table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
 
 $ver = $user_info['zip1'];
 $ver++;
@@ -124,7 +126,11 @@ $entityArray['LayoutColumns']		= $plan_info['column_number'];
 $entityArray['TableLayoutStages']	= $plan_info['row_number'];
 $entityArray['Colortable']	        = "";
 $entityArray['Max']					= $plan_info['seat_number'];
-$entityArray['NumberAttendance']	= $obj->get_all_guests_num($user_id);
+
+$total_guest=count($table_data["attend_guests"]);
+$guest_models_takasago = Model_Guest::find_by_takasago($user_id);
+$takasago_guests = Core_Arr::func($guest_models_takasago,"to_array");
+$entityArray['NumberAttendance']	= $total_guest+count($takasago_guests);
 
 $count = count($entityArray);
 foreach($entityArray as $key=>$values)
