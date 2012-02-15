@@ -371,7 +371,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
         $seat_detail = $column["seats"][$k];
         $guest_id = $seat_detail["guest_id"];
         $plate = "";
-        if(is_file($seat_detail["guest_detail"]["namecard_memo"])){
+        if($seat_detail["guest_detail"]){
           $plate = "<img width=\"130\" src=\"".$seat_detail["guest_detail"]["namecard_memo"]."\" />";
         }else{
           $plate = "<div width=\"130\" height = \"33\"></div>";
