@@ -368,7 +368,7 @@ class DataClass extends DBO{
 
 
   //高砂席のみ取得する
-  public function get_guestdata_in_host_for_pdf($user_id,$width=110){
+  public function get_guestdata_in_host_for_pdf($user_id,$width=130){
     $plan_id = $this->get_plan_id($user_id);
     $guestArray = $this->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and self=1 order by sex DESC");
     $returnArray = array();
@@ -384,7 +384,7 @@ class DataClass extends DBO{
   }
 
 
-  public function get_guestdata_in_takasago_for_pdf($user_id){
+  public function get_guestdata_in_takasago_for_pdf($user_id,$width=130){
     $returnArray = array();
     $guests = $this->get_guestdata_in_takasago($user_id);
 
@@ -392,7 +392,7 @@ class DataClass extends DBO{
     $infoobj = new InformationClass();
 
     foreach($guests as $guest){
-      $returnArray[$guest["stage_guest"]] = "<img src=\"".$infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guests/".$guest['id'],$width,"src")."\" width=\"".$width."\" />";
+      $returnArray[$guest["stage_guest"]] = "<img src=\"".$infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guests/".$guest['id'],$width,"src")."\" width=\"".$width."\" />";
     }
     return $returnArray;
   }
