@@ -362,21 +362,24 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
       $gift_tr2 .= '<td height="9" style="text-align:center;border:1px solid black;font-size:17px;" >'.$column["child_menu_num"]."</td></tr>";
       $gift_table .= $gift_tr1.$gift_tr2.'</table>';
       $numText = ($column["child_menu_num"]==0)?count($column["guests"]):(count($column["guests"])-$column["child_menu_num"])."+".$column["child_menu_num"];
+
+      $gift_table = get_center_table(220,180,$gift_table);      
       $subhtml .= "<td><table cellspacing=\"0\" cellspadding=\"0\" width=\"300\"><tr><td align=\"center\" style=\"font-size:25px;\">".$table_name."[".$numText."名]</td><td>".$gift_table."</td></tr><tr style=\"font-size:10px;\"><td></td></tr>";
-       
+
       for($k=0;$k<$seat_row*2;++$k){
         if($k%2==0) $subhtml .= "<tr>";
         $align = ($k%2==0)?"right":"left";
         $seat_detail = $column["seats"][$k];
         $guest_id = $seat_detail["guest_id"];
         $plate = "";
-        if($seat_detail["guest_detail"]){
+        if($guest_id && $k%2==0){
           $plate = "<img width=\"130\" src=\"".$seat_detail["guest_detail"]["namecard_memo"]."\" />";
+        }else if($guest_id && $k%2==1){
+          $plate = "<img width=\"110\" src=\"".$seat_detail["guest_detail"]["namecard_memo2"]."\" />";
         }else{
           $plate = "<div width=\"130\" height = \"33\"></div>";
         }
-        //
-        //if($guest_id && $k%2==1) $plate = "<img width=\"110\" src=\"".$seat_detail["guest_detail"]["namecard_memo2"]."\" />";
+
         $subhtml .= "<td colspan=\"2\" style=\"width:50%;\" align=\"".$align."\">".$plate."</td>";
         if($k%2==1) $subhtml .= "</tr>";
       }
