@@ -3,6 +3,7 @@ session_start();
 include_once("admin/inc/dbcon.inc.php");
 include_once("inc/checklogin.inc.php");
 include_once("admin/inc/class_information.dbo.php");
+
 $pos = strpos($_SERVER[SCRIPT_URL], "make_plan.php");
 if($pos===false)
 $make_plan="";

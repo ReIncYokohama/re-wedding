@@ -214,14 +214,12 @@ if($user_info['marriage_day'] &&  $user_info['marriage_day'] != "0000-00-00"){
 $marrige_day_text = '<tr style="text-align:left;font-size:35px;">
 					<td align="left" width="80"  valign="middle">挙式日時</td><td width="160" >'.$marriage_day.'  '.$marriage_day_with_time.'</td><td width="300">会場'.$party_room_info[name].' </td>
                                                                                                                                                                               </tr>';
-
-
 $html.='<td width="32%">
 	<table>
 				<tr>
 					<td align="left"  valign="middle" style="text-align:center;" colspan="3">
 		
-'.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="pdf_hikidemono_head.png",$extra="/").'
+'.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="pdf_hikidemono_head.png",$extra="").'
 			</td>
 				</tr>
         <!--<tr><td colspan="3"></td></tr>-->
@@ -254,7 +252,6 @@ $subhtml = '<table  style="font-size:'.($main_font_size_top).';"><tr><td colspan
 
 $menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".(int)$user_id);
 $num_groups = count($menu_groups);
-
 
 $totalsum=0;
 foreach($attend_guests as $guest)
@@ -313,10 +310,12 @@ $man_image = $userGuestArray[0];
 $woman_image = $userGuestArray[1];
 
 $viewSubArray = array($main_guest[3],$main_guest[1],$man_image,$main_guest[5],$woman_image,$main_guest[2],$main_guest[4]);
+
 $viewArray = array();
 for($i=0;$i<count($viewSubArray);++$i){
   if($viewSubArray[$i] && $viewSubArray[$i] != "") array_push($viewArray,$viewSubArray[$i]);
 }
+
 $width = count($viewArray)*150;
 $gift_table = get_center_table((count($viewArray)-1)*200,190,$gift_table);
 
@@ -326,6 +325,7 @@ $subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;marg
 for($i=0;$i<count($viewArray);++$i){
   $subhtml .= '<td align="center"  valign="middle">'.$viewArray[$i].'</td>';
 }
+
 $subhtml .= '</tr></table>';
 $html .= get_center_table($max_width,$width,$subhtml);
 
@@ -455,6 +455,7 @@ for($i=0;$i<$page_rows_num;++$i){
   }
 }
 draw_html($plan_id,$html,$pdf);
+
 for($i=0;$i<count($page_arr);++$i){
   $html = get_table_html($page_arr[$i],$main_font_size,$seat_num,$seat_row,$page_arr_max_columns_num[$i]);
   if($html != "" && $i != 0) $pdf->addPage();

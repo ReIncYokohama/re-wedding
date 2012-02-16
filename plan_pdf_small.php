@@ -173,14 +173,15 @@ $html.='<td width="40%">
 </td><td width="15%" style="font-size:15px;">';
 	
 $html.='</td>';
-$html.='</tr></table><br> ';
+$html.='</tr></table><br>';
 
 $takasago_guests = $obj->get_guestdata_in_takasago($user_id);
 $takasago_num = count($takasago_guests)+2;
-$main_guest = $obj->get_guestdata_in_takasago_for_small_pdf($user_id,110);
+$main_guest = $obj->get_guestdata_in_takasago_for_small_pdf($user_id,130);
+
 
 $userArray = $obj->get_userdata($user_id);
-$userGuestArray = $obj->get_guestdata_in_host_for_small_pdf($user_id,110);
+$userGuestArray = $obj->get_guestdata_in_host_for_small_pdf($user_id,130);
 
 $man_image = $userGuestArray[0];
 $woman_image = $userGuestArray[1];
@@ -197,7 +198,7 @@ $subhtml='<table style="font-size:'.$main_font_size_top.';border:1px solid black
 for($i=0;$i<count($viewArray);++$i){
   $subhtml .= '<td align="center"  valign="middle">'.$viewArray[$i].'</td>';
 }
-$subhtml .= '</tr></table><br>';
+$subhtml .= '</tr></table>';
 
 $html .= get_center_table($max_width,$width,$subhtml);
 
@@ -228,7 +229,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row){
         $seat_detail = $column["seats"][$k];
         $guest_id = $seat_detail["guest_id"];
         $plate = "";
-        if($guest_id) $plate = "<img width=\"110\" src=\"".$seat_detail["guest_detail"]["name_plate"]."\" />";
+        if($guest_id) $plate = "<img width=\"130\" src=\"".$seat_detail["guest_detail"]["name_plate"]."\" />";
         $html .= "<td style=\"width:50%;\" align=\"".$align."\">".$plate."</td>";
         if($k%2==1) $html .= "</tr>";
       }
@@ -318,5 +319,7 @@ $date = date("His");
 $user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
 $this_name = "sekijihyo".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
-$pdf->Output($this_name.'.pdf', 'D');
+//$pdf->Output($this_name.'.pdf', 'D');
+$pdf->Output($this_name.'.pdf');
 ?> 
+

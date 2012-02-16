@@ -1,7 +1,7 @@
 <?php
 include_once(dirname(__FILE__)."/gaiji.image.util.php");
 include_once(dirname(__FILE__)."/../admin/inc/class_data.dbo.php");
-include_once(dirname(__FILE__)."/../fuel/load_class.php");
+include_once(dirname(__FILE__)."/../fuel/load_classes.php");
 
 /*name_plate
 ########################
@@ -1120,9 +1120,7 @@ function set_arr($arr)
   return array();
 }
 function make_pdf_guest_info($user_id,$man_last_name,$man_lastname_gaiji_pathArray,$woman_last_name,$woman_lastname_gaiji_pathArray,$man_guest_sum,$woman_guest_sum,$guest_sum,$sum){
-  $hotel_id=1;
-  $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
-  @mkdir($user_folder);
+  $user_folder = Core_Image::get_user_image_dir($user_id);
   $colorArray = array(0x00,0x00,0x00);
   $gaiji_arr = array_merge((array)$man_lastname_gaiji_pathArray, (array)$woman_lastname_gaiji_pathArray);
   make_text_save("新郎様側:".$man_last_name."家  列席者数：".$man_guest_sum."名様  新婦様側:".

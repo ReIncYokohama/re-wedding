@@ -259,13 +259,11 @@ class InformationClass extends DBO
         //
         return $result_image_db_dir;
     }
-  function get_user_name_image_or_src( $user_id ,$hotel_id , $name ,$extra=false,$width = 100 , $opt = false,$height = false )
+  function get_user_name_image_or_src( $user_id ,$hotel_id , $name ,$extra="",$width = 100 , $opt = false,$height = false )
 	{
-		 $file = sprintf("%s/user_name/%d/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$name);
-
-		 if($extra)
-		 $file = sprintf("%s/user_name/%d/%s/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$extra,$name);
-
+    if($extra==".") $extra = "";
+    if($extra!="") $extra .= "/";
+    $file = Core_Image::get_user_image_dir_relative($user_id).$extra.$name;
 		if(is_file($file))
 		{
 			if($opt == "src")
@@ -273,10 +271,9 @@ class InformationClass extends DBO
 			else if($extra!==false)
 			{
         if($height){
-          return "<img src=\"".$file."\" height=\"".$height."\"/>";
+          return "<img src='".$file."' height=\"".$height."\" />";
         }
-
-        return "<img src=\"".$file."\" />";
+        return "<img src='".$file."' />";
 			}else if($height){
         $file = str_replace("../","",$file);
 				return "<img src='../image.php?f=".$file."&h=".$height."' />";
@@ -294,89 +291,17 @@ class InformationClass extends DBO
 	}
 function get_user_name_image_or_src_from_user_side( $user_id ,$hotel_id , $name ,$extra="",$width , $opt = false )
 	{
-		 $file = sprintf("%s/user_name/%d/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$name);
-
-		 if($extra)
-		 $file = sprintf("%s/user_name/%d/%s/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$extra,$name);
-
-		 $file = str_replace("../","",$file);
-
-		 if(is_file($file))
-		 {
-			if($opt == "src")
-				return $file;
-			else if($extra)
-			{
-        if($width) return "<img src=\"".$file."\" width=\"".$width."\" />";
-				return "<img src=\"".$file."\" />";
-			}
-			else
-			{
-				return "<img src='image.php?f=".$file."&w=".$width."' />";
-			}
-		}
-		else
-		{
-			return false;
-		}
+    return $this->get_user_name_image_or_src($user_id,$hotel_id,$name,$extra,$width,$opt);
 	}
 
 	function get_user_name_image_or_src_from_ajax( $user_id ,$hotel_id , $name ,$extra="",$width = 100 , $opt = false )
 	{
-		 $file = sprintf("%s/user_name/%d/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$name);
-
-		 if($extra)
-		 $file = sprintf("%s/user_name/%d/%s/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$extra,$name);
-
-		 $file1 = str_replace("../","../../",$file);
-
-		 if(is_file($file1))
-		 {
-			if($opt == "src")
-				return $file;
-			else if($extra)
-			{
-
-				return "<img src=\"".$file."\" />";
-			}
-			else
-			{
-				return "<img src='image.php?f=".$file."&w=".$width."' />";
-			}
-		}
-		else
-		{
-			return false;
-		}
+    return $this->get_user_name_image_or_src($user_id,$hotel_id,$name,$extra,$width,$opt);
 	}
 
 function get_user_name_image_or_src_from_user_side_make_plan( $user_id ,$hotel_id , $name ,$extra="",$width = 100 , $opt = false )
 	{
-		 $file = sprintf("%s/user_name/%d/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$name);
-
-		 if($extra)
-		 $file = sprintf("%s/user_name/%d/%s/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$extra,$name);
-
-		 $file = str_replace("../","",$file);
-
-		 if(is_file($file))
-		 {
-			if($opt == "src")
-				return $file;
-			else if($extra)
-			{
-
-				return "<img src='".$file."' />";
-			}
-			else
-			{
-				return "<img src='image.php?f=".$file."&w=".$width."' />";
-			}
-		}
-		else
-		{
-			return false;
-		}
+    return $this->get_user_name_image_or_src($user_id,$hotel_id,$name,$extra,$width,$opt=true);
 	}
 
 	function get_clicktime_info($user_id)

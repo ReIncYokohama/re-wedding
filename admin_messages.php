@@ -1,26 +1,25 @@
 <?php
-	include_once("admin/inc/dbcon.inc.php");
-	include_once("admin/inc/class.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	$obj = new DBO();
-	$get = $obj->protectXSS($_GET);
-	$user_id = (int)$_SESSION['userid'];
+include_once("admin/inc/dbcon.inc.php");
+include_once("admin/inc/class.dbo.php");
+include_once("inc/checklogin.inc.php");
+$obj = new DBO();
+$get = $obj->protectXSS($_GET);
+$user_id = (int)$_SESSION['userid'];
 
 //tabの切り替え
 $tab_message = true;
 
+include_once("inc/new.header.inc.php");
 
-	include_once("inc/new.header.inc.php");
+$table='spssp_admin_messages';
+$where = " user_id='".$user_id."'";
+$data_per_page=5;
+$current_page=(int)$_GET['page'];
+$redirect_url = 'admin_messages.php?page='.$current_page;
 
-	$table='spssp_admin_messages';
-	$where = " user_id='".$user_id."'";
-	$data_per_page=5;
-	$current_page=(int)$_GET['page'];
-	$redirect_url = 'admin_messages.php?page='.$current_page;
+$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
 
-	$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
-
-	$is_stuff = $_SESSION['userid_admin'];
+$is_stuff = $_SESSION['userid_admin'];
 ?>
 <script type="text/javascript">
 function view_adminitem(id,no,is_stuff){
