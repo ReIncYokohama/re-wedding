@@ -5,7 +5,6 @@ include_once("admin/inc/class.dbo.php");
 include_once("admin/inc/class_information.dbo.php");
 include_once("admin/inc/class_data.dbo.php");
 include_once("inc/gaiji.image.wedding.php");
-
 include_once("fuel/load_classes.php");
 
 $obj = new DataClass();

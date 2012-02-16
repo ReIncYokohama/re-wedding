@@ -1,24 +1,26 @@
 <?php
-	require_once("inc/class.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	include_once("inc/new.header.inc.php");
-	$obj = new DBO();
+require_once("inc/class.dbo.php");
+include_once("inc/checklogin.inc.php");
+include_once("inc/new.header.inc.php");
+include_once("../fuel/load_classes.php");
 
-	if($_SESSION['user_type'] == 222)
+$obj = new DBO();
+
+if($_SESSION['user_type'] == 222)
 	{
 		$btn_disp = " display:none";
 		$ro = " readonly='readonly'";
 	}
-	else
+else
 	{
 		$btn_disp = "";
 		$ro = "";
 	}
 
-	$get = $obj->protectXSS($_GET);
-	$post = $obj->protectXSS($_POST);
+$get = $obj->protectXSS($_GET);
+$post = $obj->protectXSS($_POST);
 
-	$gift_criteria_num = $obj->GetNumRows("spssp_gift_criteria"," 1=1");
+$gift_criteria_num = $obj->GetNumRows("spssp_gift_criteria"," 1=1");
 
 
 	if($post['update']=="update" || $post['insert']=="insert")
@@ -125,22 +127,20 @@ function isInteger(id, kind_msg){
     // All characters are numbers.
     return true;
 }
-var reg1 = /^[0-9]$/; // UCHIDA EDIT 11/08/01
+var reg_number = /^[0-9]$/; // UCHIDA EDIT 11/08/01
 function validForm(x)
 {
 	var num_gift_groups  = document.getElementById('num_gift_groups').value;
 	var num_gift_items  = document.getElementById('num_gift_items').value;
-//	var order_deadline  = document.getElementById('order_deadline').value;
 	var num_menu_groups  = document.getElementById('num_menu_groups').value;
-	$r_flg = 0;
-// UCHIDA EDIT 11/08/01 入力チェック追加
-// AKIKUSA EDIT 11/08/19 2種類以上のエラーの場合の処理を追加
+  
+	r_flg = 0;
 	if(!num_gift_items || num_gift_items == 0)
 	{
 		 alert("引出物商品数を入力してください");
 		 document.getElementById('num_gift_items').focus();
 		 $('#num_gift_items').val(numgiftitems);
-//		 return false;
+     r_flg = 1;
 	}
 	else
 	{
@@ -149,69 +149,75 @@ function validForm(x)
 			 alert("引出物商品数の上限は7種類までです");
 			 document.getElementById('num_gift_items').focus();
 			 $('#num_gift_items').val(numgiftitems);
-			 $r_flg = 1;
-//			 return false;
+			 r_flg = 1;
 		}
-		if(reg1.test(num_gift_items) == false)
+		if(reg_number.test(num_gift_items) == false)
 		{
-			 if($r_flg == 0)
+			 if(r_flg == 0)
 			 {
-			 alert("引出物商品数は半角数字で入力してください");
-			 document.getElementById('num_gift_items').focus();
+         alert("引出物商品数は半角数字で入力してください");
+         document.getElementById('num_gift_items').focus();
 			 }
 			 $('#num_gift_items').val(numgiftitems);
-			 $r_flg = 1;
-//			 return false;
+			 r_flg = 1;
 		}
 	}
 	if(!num_gift_groups || num_gift_groups == 0)
 	{
-		 if($r_flg == 0)
+		 if(r_flg == 0)
 		 {
 		 alert("引出物グループ数を入力してください");
 		 document.getElementById('num_gift_groups').focus();
 		 }
 		 $('#num_gift_groups').val(numgiftgroups);
-		 $r_flg = 1;
-//		 return false;
+		 r_flg = 1;
 	}
 	else
 	{
 		if(num_gift_groups>7)
 		{
-			 if($r_flg == 0)
+			 if(r_flg == 0)
 			 {
-			 alert("引出物グループ数の上限は７グループまでです");
-			 document.getElementById('num_gift_groups').focus();
+         alert("引出物グループ数の上限は７グループまでです");
+         document.getElementById('num_gift_groups').focus();
 			 }
 			 $('#num_gift_groups').val(numgiftgroups);
-			 $r_flg = 1;
-//			 return false;
+			 r_flg = 1;
 		}
-		if(reg1.test(num_gift_groups) == false)
+		if(reg_number.test(num_gift_groups) == false)
 		{
-			 if($r_flg == 0)
+			 if(r_flg == 0)
 			 {
 			 alert("引出物グループ数は半角数字で入力してください");
 			 document.getElementById('num_gift_groups').focus();
 			 }
 			 $('#num_gift_groups').val(numgiftgroups);
-			 $r_flg = 1;
-//			 return false;
+			 r_flg = 1;
 		}
 	}
-  for($i=1;$i<=7;++$i){
-    $value = $("#name"+$i).val();
-    if(String($value).length>2){
+  var group_num = 0;
+  var last_i;
+  for(i=1;i<=7;++i){
+    value = $("#name"+i).val();
+    if(String(value).length>0){
+      ++group_num;
+      last_i = i;
+    }
+    if(String(value).length>2){
       alert("グループ記号は２文字以内で入力してください。");
-      $r_flg = 1;
-      document.getElementById('name'+$i).focus();
+      r_flg = 1;
+      document.getElementById('name'+i).focus();
     }
   }
+  if(group_num>num_gift_groups){
+    alert("引出物グループ数以上の記号が入力されています。");
+    r_flg = 1;
+    document.getElementById('name'+last_i).focus();
+  }
 
-	if($r_flg == 1)
+	if(r_flg == 1)
 	{
-	return false;
+    return false;
 	}
 	checkGroupForm(x);
 }
@@ -234,7 +240,7 @@ function validForm2()
 			 document.getElementById('num_menu_groups').focus();
 			 return false;
 		}
-		if(reg1.test(num_menu_groups) == false)
+		if(reg_number.test(num_menu_groups) == false)
 		{
 			 alert("子供料理数は半角数字で入力してください");
 			 document.getElementById('num_menu_groups').focus();
@@ -242,11 +248,9 @@ function validForm2()
 			 return false;
 		}
 	}
-//	document.menu_criteria_form.submit();
 	document.gift_criteria_form.submit();
 }
 // UCHIDA EDIT 11/08/09 半角英数字１文字のみ有効に設定
-//var gReg = /^[A-Za-z0-9]$/;
 var gReg = /[!-~A-Za-z0-9ｦ-ﾝ]$/;
 function checkGroupForm(x)
 {	//alert(x);
