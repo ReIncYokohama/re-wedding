@@ -34,8 +34,6 @@ function get_left_table($max_width,$width,$html){
   return "<table><tr><td width=\"".$main_margin."%\">".$html."</td><td width=\"".$margin."%\"></td></tr></table>";
 }
 
-
-
 $main_font_size="20px";
 $main_font_size_top="20px";
 $main_font_size2="20px";
@@ -66,7 +64,8 @@ if(!$plan){
   Response::redirect("table_layout.php?err=15");
 }
 
-$user_info = $obj->GetSingleRow("spssp_user"," id=".$user_id);
+$user = Model_User::find_by_pk($user_id);
+$user_info = $user->to_array();
 
 $room_info=$obj->GetSingleRow("spssp_room"," id =".$user_info['room_id']);
 $party_room_info=$obj->GetSingleRow("spssp_party_room"," id =".$user_info['party_room_id']);
@@ -186,13 +185,8 @@ $total_guest_with_bride=$total_guest+count($takasago_guests);
 $woman_lastname=$user_info['woman_lastname'];
 $man_lastname=$user_info['man_lastname'];
 
-$party_day_for_confirm=$user_info['party_day'];
-$party_date_array=explode("-",$party_day_for_confirm);
-$day = $party_date_array[2];
-$month = $party_date_array[1];
-$year = $party_date_array[0];
-$confirm_date= mktime(0, 0, 0, $month, $day-7, $year);
-$confirm_date_main=date("Y-m-d", $confirm_date);
+$deadline_sekijihyo = $user->output_deadline_sekijihyo2();
+
 $query_string = "SELECT * FROM spssp_gaizi_detail_for_user WHERE gu_id = $user_id";
 //$man_firstname_gaijis = getGaijiPathArray(get_gaiji_arr($obj->getRowsByQuery($query_string." and gu_trgt_type=0")));
 $man_lastname_gaijis = getGaijiPathArray(get_gaiji_arr($obj->getRowsByQuery($query_string." and gu_trgt_type=1")));
@@ -236,13 +230,13 @@ $html.='<td width="32%">
 				</tr>
         <!--<tr><td colspan="3"></td></tr>-->
 				<tr style="text-align:left;font-size:25px;">
-					<td align="left"  valign="middle" style="text-align:center;">作成日時</td><td>'.date('Y年n月j日  H時i分').'</td><td>
+					<td align="left"  valign="middle" style="text-align:center;">作成日時</td><td>'.Core_Date::forge()->format("%Y年%m月%d日 %H:%M").'</td><td>
 					スタッフ名 '.$staff_name.'
 					</td>
 				</tr>
 
 				<tr style="text-align:left;font-size:25px;">
-					<td align="left"  valign="middle" style="text-align:center;">制限開始日</td><td colspan="2">'.strftime('%Y年%m月%d日',strtotime(jp_decode($confirm_date_main))).' 
+					<td align="left"  valign="middle" style="text-align:center;">制限開始日</td><td colspan="2">'.$deadline_sekijihyo.' 
 					</td>
 				</tr>
 			</table>

@@ -1,25 +1,30 @@
 <?php
-	require_once("inc/include_class_files.php");
-	include_once("inc/checklogin.inc.php");
-	include_once("inc/new.header.inc.php");
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
+include_once("inc/new.header.inc.php");
+include_once("../fuel/load_classes.php");
 
-	$obj = new DBO();
-	$objInfo = new InformationClass();
-	$objMsg = new MessageClass(); // UCHIDA EDIT 11/08/18 曜日表示のため
+$obj = new DBO();
+$objInfo = new InformationClass();
+$objMsg = new MessageClass(); // UCHIDA EDIT 11/08/18 曜日表示のため
 
-	$get = $obj->protectXSS($_GET);
-	$user_id = (int)$get['user_id'];
-	$stuff_id = (int)$get['stuff_id'];
+$get = $obj->protectXSS($_GET);
+$user_id = (int)$get['user_id'];
+$stuff_id = (int)$get['stuff_id'];
+
+if($user_id>0){
+  $updating = true;
+}else{
+  $updating = false;
+}
 
 if($user_id>0) {
-	$user_row = $obj->GetSingleRow("spssp_user"," id= $user_id");
-
-	$query_string = "SELECT * FROM spssp_gaizi_detail_for_user WHERE gu_id = '$user_id'";
-	$man_firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=0");
-	$man_lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=1");
-	$woman_firstname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=2");
-	$woman_lastname_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=3");
-
+  $user = Model_User::find_by_pk($user_id);
+  $user_row = $user->to_array();
+  
+  list($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis) 
+    = $user->get_gaiji_arr();
+  
 	function getGaijis($gaiji_objs){
 		 $returnImage = "";
 		 for($i=0;$i<count($gaiji_objs);++$i){
@@ -53,23 +58,14 @@ if($user_id>0) {
 
 	$query_string="SELECT * FROM spssp_room where (status=1 or id=".$user_row['room_id'].")   ORDER BY display_order ASC ;";
 	$rooms = $obj->getRowsByQuery($query_string);
-
-	//$rooms = $obj->GetAllRow("spssp_room");
-	$staff_name = $obj->GetSingleData("spssp_admin", "name"," id=".$user_row['stuff_id']);
-
-	$All_staffs = $obj->GetAllRowsByCondition("spssp_admin"," `permission` != '111' ORDER BY `permission` DESC");
-
-	$room_name = $obj->GetSingleData("spssp_user", "room_name"," id=".$user_id);
-
-	if($room_name=="")
-	$room_name = $obj->GetSingleData("spssp_room", "name"," id=".$user_row['room_id']);
-	//print_r($user_row);
-	$room_plan_rows = $obj->GetAllRowsByCondition("spssp_default_plan"," room_id=".$user_row['room_id']);
-
-	$user_plan_row = $obj->GetSingleRow("spssp_plan"," user_id= $user_id");
-	$user_plan_row_count = $obj->GetRowCount("spssp_plan"," user_id= $user_id");
-
-	$room_row = $obj->GetSingleRow("spssp_room"," id= ".$user_row['room_id']);
+  
+	$staff_name = $user->get_staffname();
+	$All_staffs = Model_Admin::get_staffs();
+  
+  $room_name = $user->get_room_name();
+  $plan = Model_Plan::find_one_by_user_id($user_id);
+	$user_plan_row = $plan->to_array();
+  $room_row = $user->get_room()->to_array();
 
 	$disp_option1 = "";
 	$disp_option2 = "";
@@ -88,7 +84,7 @@ else {
 	$disp_option4 = '<font color="red">*</font>';
 	$query_string="SELECT * FROM spssp_room where status=1 ORDER BY display_order ASC ;";
 	$rooms = $obj->getRowsByQuery($query_string);
-	$All_staffs = $obj->GetAllRowsByCondition("spssp_admin"," `permission` != '111' ORDER BY `permission` DESC");
+  $All_staffs = Model_Admin::get_staffs();
 }
 
 ?>
@@ -1433,27 +1429,24 @@ if($user_row['mukoyoshi']=='1'){
               <td width="160" align="left" valign="middle" nowrap="nowrap">本発注締切日<?=$disp_option4?> </td>
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-                	<?php
-                	if ($user_id>0) {
-						$confirm_day_num = $user_row['confirm_day_num'];
-						$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $confirm_day_num , $flag=2 );
-			            $weekname = $objMsg->get_youbi_name($dateBeforeparty);
-						echo $dateBeforeparty.$weekname." 披露宴日 ";
-                	}
-                	else {
-                		$confirm_day_num = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
-                		if ($confirm_day_num == "") $confirm_day_num = "0";
-                	}
-                	?>
-					<?php if ($user_id>0) { ?>
-				  <input type="text" name="confirm_day_num" id="confirm_day_num" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$confirm_day_num?>" /> 日前
-					<?php } else {
-						$confirm_day_num    = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
-                		if ($confirm_day_num == "") $confirm_day_num = "0";
-						?>
-						披露宴日&nbsp;
-						<input type="text" name="confirm_day_num" id="confirm_day_num" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$confirm_day_num?>" /> 日前
-					<?php } ?>
+
+<?php
+//本発注締切日
+if($updating){
+  $date = $user->output_deadline_honhatyu();
+  echo $date." 披露宴日 ";
+?>
+<input type="text" name="confirm_day_num" id="confirm_day_num" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$user->confirm_day_num?>" /> 日前
+<?php
+}else{  
+  $confirm_day_num = Model_Option::get_confirm_day_num();
+?>
+披露宴日&nbsp;
+<input type="text" name="confirm_day_num" id="confirm_day_num" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$confirm_day_num?>" /> 日前
+<?php
+}
+?>
+
 			  <input type="hidden" value="<?=$user_row['party_day']?>" name="party_day_for_confirm" />	</td>
             </tr>
             <tr>
@@ -1461,26 +1454,22 @@ if($user_row['mukoyoshi']=='1'){
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
 
-				<?php
-				if ($user_id>0) {
-					$limitation_ranking = $user_row['limitation_ranking'];
-					$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $limitation_ranking , $flag=2 );
-					$weekname = $objMsg->get_youbi_name( $dateBeforeparty );
-				}
-				else {
-					$limitation_ranking = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");
-				}
-				if ($limitation_ranking == "") $limitation_ranking = "0";
-				if($user_id>0) {
-					echo $dateBeforeparty.$weekname." 披露宴日 ";
-				?>
-				<input type="text" name="limitation_ranking" id="limitation_ranking" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$limitation_ranking?>" /> 日前
-				<?php } 
-				else { ?>
-					披露宴日&nbsp;
-					<input type="text" name="limitation_ranking" id="limitation_ranking" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$limitation_ranking?>" /> 日前
-				<?php } ?>
-				
+<?php
+//席次表締切日
+if($updating){
+  $date = $user->output_deadline_sekijihyo();
+  echo $date." 披露宴日 ";
+?>
+<input type="text" name="limitation_ranking" id="limitation_ranking" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$user->limitation_ranking?>" /> 日前
+<?php
+}else{  
+  $deadline_sekijihyo = Model_Option::get_deadline_sekijihyo();
+?>
+披露宴日&nbsp;
+<input type="text" name="limitation_ranking" id="limitation_ranking" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$deadline_sekijihyo?>" /> 日前
+<?php
+}
+?>				
 				</td>
 
             </tr>
