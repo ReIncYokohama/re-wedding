@@ -179,19 +179,6 @@ if(!$force){
   }
 }
 
-$hotel_id=1;
-//$user_folder_base = sprintf("../%s",get_image_db_directory($hotel_id));
-$user_folder_base = get_image_db_directory($hotel_id);
-@mkdir($user_folder_base);
-$user_folder_base .= "/user_name";
-@mkdir($user_folder_base);
-$user_folder_base = $user_folder_base."/".$user_id;
-@mkdir($user_folder_base);
-$colorArray = array(0x00,0x00,0x00);
-//if($_POST["stage"] == 1) $colorArray = array(255,0,0);
-$user_folder_base = $user_folder_base."/";
-@mkdir($user_folder_base."/guest");
-
 for($i=0;$i<count($csv);++$i){
   $csv[$i] = $obj->protectXSS($csv[$i]);
   
@@ -235,10 +222,7 @@ for($i=0;$i<count($csv);++$i){
   $data["user_id"] = $user_id;
   
   $guest_id = $obj->InsertData("spssp_guest",$data);
-  @mkdir($user_folder_base."/guest/".$guest_id);
-  @mkdir($user_folder_base."/guest/".$guest_id."/thumb1");
-  @mkdir($user_folder_base."/guest/".$guest_id."/thumb2");
-  
+
   make_guest_images($user_id,$guest_id,$data["last_name"],$data["first_name"],$data["comment1"],$data["comment2"],$respect_title,
                   array(),array(),array(),array());
 }
