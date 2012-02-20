@@ -379,7 +379,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
         }else if($guest_id && $k%2==1){
           $plate = "<img width=\"130\" src=\"".$seat_detail["guest_detail"]["namecard_memo2"]."\" />";
         }else{
-          $plate = "<div width=\"130\" height = \"33\"></div>";
+          $plate = "<img width=\"130\" src=\"images/blank.png\" />";
         }
 
         $subhtml .= "<td colspan=\"2\" style=\"width:50%;\" align=\"".$align."\">".$plate."</td>";
@@ -476,6 +476,6 @@ $date = date("His");
 $user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
 $this_name = "hikidemono".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
-$pdf->Output($this_name.'.pdf',"D");
-//$pdf->Output($this_name.'.pdf');
+//$pdf->Output($this_name.'.pdf',"D");
+$pdf->Output($this_name.'.pdf');
 ?> 
