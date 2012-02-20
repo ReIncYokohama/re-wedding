@@ -5,11 +5,10 @@ include_once("../admin/inc/class_information.dbo.php");
 include_once("../admin/inc/class_data.dbo.php");
 include_once("../fuel/load_classes.php");
 
-
 if($_SESSION['printid'] =='')
 {
   redirect("index.php");exit;
-}
+  }
 
 $obj = new DataClass();
 $objInfo = new InformationClass();
@@ -44,7 +43,9 @@ $lines .= <<<html
 $entity
 html;
 
-$user_info =  $obj->GetSingleRow("spssp_user", " id=".$user_id);
+$user = Model_User::find_by_pk($user_id);
+$user_info = $user->to_array();
+
 $stuff_info =  $obj->GetSingleRow("spssp_admin", " id=".$user_info['stuff_id']);
 $room_info =  $obj->GetSingleRow("spssp_room", " id=".$user_info['room_id']);
 $party_room_info =  $obj->GetSingleRow("spssp_party_room", " id=".$user_info['party_room_id']);
@@ -493,7 +494,12 @@ foreach($usertblrows as $tblRows)
 	}
 	$o++;
 }
-	$guest_own_info = $obj->GetAllRowsByCondition("spssp_guest","(self=1 or guest_type!=0) and stage=1 and user_id=".(int)$user_id);
+$order = 'desc';
+if($user->mukoyoshi) $order = '';
+$self_arr = $obj->GetAllRowsByCondition("spssp_guest","self=1  and user_id=".(int)$user_id.' order by sex '.$order);
+	$takasago_arr = $obj->GetAllRowsByCondition("spssp_guest","self!=1 and stage=1 and user_id=".(int)$user_id);
+$guest_own_info = array_merge($self_arr,$takasago_arr);
+  
   
 	//echo "<pre>";print_r($guest_own_info);
 	$xxx=1;

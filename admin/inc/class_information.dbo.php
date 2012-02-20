@@ -271,9 +271,9 @@ class InformationClass extends DBO
 			else if($extra!==false)
 			{
         if($height){
-          return "<img src='".$file."' height=\"".$height."\" />";
+          return "<img src=\"".$file."\" height=\"".$height."\" />";
         }
-        return "<img src='".$file."' />";
+        return "<img src=\"".$file."\" />";
 			}else if($height){
         $file = str_replace("../","",$file);
 				return "<img src='../image.php?f=".$file."&h=".$height."' />";

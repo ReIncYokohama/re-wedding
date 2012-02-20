@@ -310,6 +310,13 @@ $userGuestArray = $obj->get_guestdata_in_host_for_pdf($user_id,130);
 $man_image = $userGuestArray[0];
 $woman_image = $userGuestArray[1];
 
+$mukoyoshi = $user->mukoyoshi;
+if($mukoyoshi){
+  $man_image_o = $man_image;
+  $man_image = $woman_image;
+  $woman_image = $man_image_o;
+}
+
 $viewSubArray = array($main_guest[3],$main_guest[1],$man_image,$main_guest[5],$woman_image,$main_guest[2],$main_guest[4]);
 
 $viewArray = array();
@@ -379,7 +386,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
         }else if($guest_id && $k%2==1){
           $plate = "<img width=\"130\" src=\"".$seat_detail["guest_detail"]["namecard_memo2"]."\" />";
         }else{
-          $plate = "<div width=\"130\" height = \"33\"></div>";
+          $plate = "<img width=\"130\" src=\"images/blank.png\" />";
         }
 
         $subhtml .= "<td colspan=\"2\" style=\"width:50%;\" align=\"".$align."\">".$plate."</td>";

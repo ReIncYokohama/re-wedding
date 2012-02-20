@@ -683,9 +683,9 @@ function get_image_name_plate_data5($image,$width_px,$first_left,
   $name = $last_name." ".$first_name." ";
   $comment_max_size = 16;
   
-  $none_comment1 = (!$comment1 || $comment1 == "")?true:false;
-  $none_comment2 = (!$comment2 || $comment2 == "")?true:false;
-  $none_comment3 = (!$comment3 || $comment3 == "")?true:false;
+  $none_comment1 = (!$comment1 || $comment1 == "" || $comment1 == ' ')?true:false;
+  $none_comment2 = (!$comment2 || $comment2 == "" || $comment2 == ' ')?true:false;
+  $none_comment3 = (!$comment3 || $comment3 == "" || $comment3 == ' ')?true:false;
   
   if(!$none_comment1 && !$none_comment2 && !$none_comment3){
     $comment1 = mb_substr($comment1,0,$comment_max_size,"utf8");
