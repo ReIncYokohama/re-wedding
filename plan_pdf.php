@@ -310,6 +310,13 @@ $userGuestArray = $obj->get_guestdata_in_host_for_pdf($user_id,130);
 $man_image = $userGuestArray[0];
 $woman_image = $userGuestArray[1];
 
+$mukoyoshi = $user->mukoyoshi;
+if($mukoyoshi){
+  $man_image_o = $man_image;
+  $man_image = $woman_image;
+  $woman_image = $man_image_o;
+}
+
 $viewSubArray = array($main_guest[3],$main_guest[1],$man_image,$main_guest[5],$woman_image,$main_guest[2],$main_guest[4]);
 
 $viewArray = array();
@@ -476,6 +483,6 @@ $date = date("His");
 $user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
 $this_name = "hikidemono".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
-//$pdf->Output($this_name.'.pdf',"D");
-$pdf->Output($this_name.'.pdf');
+$pdf->Output($this_name.'.pdf',"D");
+//$pdf->Output($this_name.'.pdf');
 ?> 
