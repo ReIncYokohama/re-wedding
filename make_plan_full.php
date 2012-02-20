@@ -808,11 +808,7 @@ if($index % 2 == 1){
 
 													?>
 													<a href="javascript:void(0)" id="ahref_<?=$seat['id']?>" style="color:black; display:block;" class="tooltip" title="<image src='<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="namecard.png",$extra="guests/".$item_info['id']."/");?>'>">												
-                          <image src="
-													<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guests/".$item_info['id']."/thumb2");?>"/>
-
-                                      				 </a>
-
+                          <image src="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guests/".$item_info['id']."/thumb2");?>"/></a>
                                                </div>
 											  </div>
 
