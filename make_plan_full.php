@@ -489,7 +489,7 @@ direction: ltr;
 								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_<?=$guest['id']?>" class="tooltip" title="<span style='font-size:14px'><image src='<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name='namecard.png',$extra='guests/'.$guest['id'].'/');?>'></span>" >
 								<input type="hidden" value="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="full_comment.png",$extra="guests/".$guest['id']."/thumb1");?>" class="comeent1_hidden" />
 								<input type="hidden" value="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guests/".$guest['id']."/thumb1");?>" class="guest_name_hidden" />
-              <image src='<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guests/".$guest['id']."/thumb2");?>'>
+              <image src='<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guests/".$guest['id']."/thumb2");?>' />
 								</a>
 							</div>
 
@@ -543,11 +543,7 @@ $takasago_guest_obj = $plan->get_takasago_guest_obj();
 foreach($takasago_guest_obj as $guest){
   $namecard_url = $guest->get_image("namecard.png");
   $fullname_url = $guest->get_image("thumb1/guest_fullname.png");  
-  $guest->_td_html = '<td align="center" class="tooltip" title="<image src=\''.
-    $namecard_url.
-    '\'>" valign="middle" style="text-align:center; padding:7px;width:100px;"><image src="'.
-    $fullname_url.
-    '"></td>';
+  $guest->_td_html = '<td align="center" class="tooltip" title="<image src=\''.$namecard_url.'\'>" valign="middle" style="text-align:center; padding:7px;width:100px;"><image src="'.$fullname_url.'"></td>';
 }
 
 $html.='
