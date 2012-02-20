@@ -51,8 +51,9 @@ if(!Model_Guest::exist($user_id)){
 if(!$plan){
   Response::redirect("table_layout.php?err=15");
 }
-	
-$user_info = $obj->GetSingleRow("spssp_user"," id=".$user_id);
+
+$user = Model_User::find_by_pk($user_id);
+$user_info = $user->to_array();
 	
 $room_info=$obj->GetSingleRow("spssp_room"," id =".$user_info['room_id']);
 $party_room_info=$obj->GetSingleRow("spssp_party_room"," id =".$user_info['party_room_id']);
@@ -187,6 +188,7 @@ $man_image = $userGuestArray[0];
 $woman_image = $userGuestArray[1];
 
 $mukoyoshi = $user->mukoyoshi;
+
 if($mukoyoshi){
   $man_image_o = $man_image;
   $man_image = $woman_image;

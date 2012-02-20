@@ -498,8 +498,8 @@ $order = 'desc';
 if($user->mukoyoshi) $order = '';
 $self_arr = $obj->GetAllRowsByCondition("spssp_guest","self=1  and user_id=".(int)$user_id.' order by sex '.$order);
 	$takasago_arr = $obj->GetAllRowsByCondition("spssp_guest","self!=1 and stage=1 and user_id=".(int)$user_id);
+if(!$takasago_arr) $takasago_arr = array();
 $guest_own_info = array_merge($self_arr,$takasago_arr);
-  
   
 	//echo "<pre>";print_r($guest_own_info);
 	$xxx=1;
