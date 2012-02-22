@@ -121,8 +121,8 @@ $tr2 = '<tr><td style="text-align:right;border:1px solid black;" colspan="2" hei
 
 $sum = 0;
 foreach($gift_table as $grp){
-  $tr1.='<td  style="text-align:center;border:1px solid black;"  width="20">'.mb_convert_kana($grp['name'],"K","utf8").'</td>';
-  $tr2.='<td  style="text-align:center;border:1px solid black;"  width="20">'.$grp['num'].'</td>';
+  $tr1.='<td  style="text-align:center;border:1px solid black;" width="20">'.mb_convert_kana($grp['name'],"K","utf8").'</td>';
+  $tr2.='<td  style="text-align:center;border:1px solid black;" width="20">'.$grp['num'].'</td>';
   $sum += $grp["num"];
 }
 
@@ -291,7 +291,7 @@ $subhtml.='<tr>
 $subhtml.='</table>';
 
 $html .= get_right_table(500,200,$subhtml);
-$html.='</td></tr></table> <!--<br/>-->';
+$html.='</td></tr></table>';
 
 $takasago_menu_num = 0;
 for($i=0;$i<count($takasago_guests);++$i){
@@ -469,7 +469,8 @@ draw_html($plan_id,$html,$pdf);
 
 for($i=0;$i<count($page_arr);++$i){
   $html = get_table_html($page_arr[$i],$main_font_size,$seat_num,$seat_row,$page_arr_max_columns_num[$i]);
-  if($html != "" && $i != 0) $pdf->addPage();
+  if($html =="") continue;
+  if($html != "" && $i != 0 && count($page_arr) != 1) $pdf->addPage();
   draw_html($plan_id,$html,$pdf,$page_arr_max_columns_num[$i],$max_width);
 }
 
@@ -483,6 +484,6 @@ $date = date("His");
 $user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
 $this_name = "hikidemono".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
-$pdf->Output($this_name.'.pdf',"D");
-//$pdf->Output($this_name.'.pdf');
+//$pdf->Output($this_name.'.pdf',"D");
+$pdf->Output($this_name.'.pdf');
 ?> 
