@@ -487,8 +487,8 @@ direction: ltr;
 					 <div  id="tst" style="padding:0;width:100%;text-align:left;">
 							<div class="<?=$class?>" id="item_<?=$guest['id']?>"  style="width:100px; padding:0;text-align:left;">
 								<a href="javascript:void(0)" style="color:black; display:block;" id="tip_<?=$guest['id']?>" class="tooltip" title="<span style='font-size:14px'><image src='<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name='namecard.png',$extra='guests/'.$guest['id'].'/');?>'></span>" >
-								<input type="hidden" value="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="full_comment.png",$extra="guests/".$guest['id']."/thumb1");?>" class="comeent1_hidden" />
-								<input type="hidden" value="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guests/".$guest['id']."/thumb1");?>" class="guest_name_hidden" />
+								<input type="hidden" value="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="full_comment.png",$extra="guests/".$guest['id'],"/thumb1");?>" class="comeent1_hidden" />
+								<input type="hidden" value="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guests/".$guest['id'],"/thumb1");?>" class="guest_name_hidden" />
               <image src='<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guests/".$guest['id']."/thumb2");?>' />
 								</a>
 							</div>

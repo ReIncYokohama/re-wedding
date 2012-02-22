@@ -327,7 +327,6 @@
 				
 					//var text2=text.replace("font-size:","font-size:14px; font-name: ");
 					
-					 
 						 
 					var newtext=text1+"<br>"+text2;
 						
