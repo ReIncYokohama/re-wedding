@@ -7,7 +7,7 @@ include_once("../fuel/load_classes.php");
 
 if($_SESSION['printid'] =='')
 {
-  redirect("index.php");exit;
+  //redirect("index.php");exit;
   }
 
 $obj = new DataClass();
@@ -15,8 +15,8 @@ $objInfo = new InformationClass();
 $this_name = $HOTELID;
 $get = $obj->protectXSS($_GET);
 
-$user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
-//$user_id = $_GET["user_id"];
+//$user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
+$user_id = $_GET["user_id"];
 
 if($user_id>0)
 {
@@ -24,7 +24,7 @@ if($user_id>0)
 }
 else
 {
-	exit;
+	//exit;
 }
 function s($text){
   $text = chop($text);
@@ -210,15 +210,16 @@ foreach($tblrows as $tblrow)
 	{
 		$new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
 
-		if(isset($new_name_row) && $new_name_row['id'] !='')
-		{
-			$tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-			$tblname = $tblname_row['name'];
-		}
-		else
-		{
-			$tblname = $table_row['name'];
-		}
+    if($table_row['name']!='')
+      {
+        $tblname = $table_row['name'];
+      }
+    elseif(is_array($new_name_row) && $new_name_row['id'] !='')
+      {
+        $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
+        $tblname = $tblname_row['name'];
+      }
+
 		//echo $table_row['table_id']."<br>";
 
 		//$sql_check_guest ="select count(*) as count from spssp_plan_details as spd join spssp_default_plan_seat as sdps on spd.seat_id =  sdps.id where sdps.table_id = ".$table_row['table_id'];
@@ -353,16 +354,15 @@ foreach($usertblrows as $tblRows)
 	$usertblrows = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id = ".(int)$tblRows['table_id']." order by id ASC");
 	//echo "<pre>";print_r($usertblrows);
 	$new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$tblRows['id']);
-	if(isset($new_name_row) && $new_name_row['id'] !='')
-	{
-		$tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-		$tblname = $tblname_row['name'];
-	}
-	else
-	{
-		$tblname = $tblRows['name'];
-	}
-	
+    if($tblRows['name']!='')
+      {
+        $tblname = $tblRows['name'];
+      }
+    elseif(is_array($new_name_row) && $new_name_row['id'] !='')
+      {
+        $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
+        $tblname = $tblname_row['name'];
+      }	
   $z=1;
   $sort_usettblrows = array();
   foreach($usertblrows as $data){
