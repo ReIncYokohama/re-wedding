@@ -53,10 +53,14 @@ class Model_Plan extends Model_Crud{
     if(!$seat_data){
       $plan_details = Model_Plandetails::find_by_plan_id($this->id);
       $seat_data = array();
-      foreach($plan_details as $pdr)
+      foreach($plan_details as $plandetail)
         {
-          $skey= $pdr['seat_id'].'_input';
-          $sval = '#'.$pdr['seat_id'].'_'.$pdr['guest_id'];
+          /*         $seat = Model_Seat::find_by_pk($plandetail["seat_id"]);
+          $table = Model_Table::find_by_pk($seat->table_id);
+          $user_table = Model_Usertable::find_one_by(array(array("table_id","=",$table->id),array("user_id","=",$this->user_id)));
+          if($user_table->display != 1) continue;*/
+          $skey= $plandetail['seat_id'].'_input';
+          $sval = '#'.$plandetail['seat_id'].'_'.$plandetail['guest_id'];
           $seat_data[$skey]=$sval;
         }
       Core_Session::set_seat_data($seat_data);
@@ -69,7 +73,6 @@ class Model_Plan extends Model_Crud{
     $cart = $this->get_seat_data_in_session();
     $itemids = array();
     $seatids = array();
-
     foreach($cart as $item)
       {
         if($item)

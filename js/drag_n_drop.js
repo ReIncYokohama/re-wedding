@@ -305,8 +305,7 @@
 					 
 					var comment1hidden=$("#abc_"+key+" div a .comeent1_hidden").val();
 					
-					var text1="<span  style='font-size:14px'>"+comment1hidden+"</span>";					
-					 
+					var text1="<span  style='font-size:14px'>"+comment1hidden+"</span>";					 
 						 
 					var newtext=text1;
 						
