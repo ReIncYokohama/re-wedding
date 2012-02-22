@@ -141,7 +141,7 @@ if($user_info['marriage_day'] &&  $user_info['marriage_day'] != "0000-00-00"){
 }
 
 $marrige_day_text = '<tr style="text-align:left;font-size:35px;">
-					<td align="left" width="80"  valign="middle">挙式日時</td><td width="160" >'.$marriage_day.'  '.$marriage_day_with_time.'</td><td width="300">会場'.$party_room_info[name].' </td>
+					<td align="left" width="80"  valign="middle">挙式日時</td><td width="160" >'.$marriage_day.'  '.$marriage_day_with_time.'</td><td width="300">会場&nbsp;&nbsp;'.$party_room_info[name].' </td>
                                                                                                                                                                               </tr>';
 
 
@@ -156,7 +156,7 @@ $html.='<td width="40%">
         <tr><td colspan="3"></td></tr>
 				'.$marrige_day_text.'
 				<tr style="text-align:left;font-size:35px;">
-					<td width="80" align="left"  valign="middle">披露宴日時</td><td width="160">'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['party_day']))).'  '.date("H時i分",strtotime($user_info['party_day_with_time'])).'</td><td width="300">会場'.$room_info[name].' </td>
+					<td width="80" align="left"  valign="middle">披露宴日時</td><td width="160">'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['party_day']))).'  '.date("H時i分",strtotime($user_info['party_day_with_time'])).'</td><td width="300">会場&nbsp;&nbsp;'.$room_info[name].' </td>
 				</tr>
         <tr><td colspan="3"></td></tr>
 				<tr style="text-align:left;font-size:25px;">
