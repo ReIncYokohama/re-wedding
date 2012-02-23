@@ -2,7 +2,8 @@
 class Core_Date extends Date{
   //今日の日付からx日と比較する
   public function past_date($day=0){
-    if(time()+DAY*$day<$this->timestamp) return true;
+    $date = getdate();
+    if(mktime(0,0,0,$date["mon"],$date["mday"],$date["year"])+Core_Date::DAY*$day<$this->timestamp) return true;
     return false;
   }
   public function get_wday(){
