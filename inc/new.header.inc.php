@@ -10,30 +10,29 @@ $make_plan="";
 else
 $make_plan=" onclick=\"return make_plan_check();\" ";
 
-$usert_id = $_SESSION['userid'];
+$user_id = Core_Session::get_user_id();
+
 $obj = new DBO();
 $objInfo = new InformationClass();
 
-//$last_log_date = $obj->GetSingleData("spssp_user_log", "max(login_time) lt ","user_id=".$usert_id);*/
+$query_string = "SELECT * from spssp_user_log WHERE user_id= '".$user_id."' and admin_id='0' order by id desc limit 0,2";
 
-	$query_string = "SELECT * from spssp_user_log WHERE user_id= '".$usert_id."' and admin_id='0' order by id desc limit 0,2";
-
-	$resultl = mysql_query( $query_string );
-	$row1 = mysql_fetch_array($resultl);
-	if ($row1['logout_time']=="0000-00-00 00:00:00" || $row1['login_time']==$row1['logout_time']) $row1 = mysql_fetch_array($resultl);
-	$_SESSION['lastlogintime'] =$row1['login_time'];
-
-
+$resultl = mysql_query( $query_string );
+$row1 = mysql_fetch_array($resultl);
+if ($row1['logout_time']=="0000-00-00 00:00:00" || $row1['login_time']==$row1['logout_time']) $row1 = mysql_fetch_array($resultl);
+$_SESSION['lastlogintime'] =$row1['login_time'];
 
 $last_log_date = str_replace("-", "/",$_SESSION['lastlogintime']);
 
 if ($_SESSION['userid_admin']) $messege_url="admin_messages.php"; else $messege_url="user_messages.php";
 
-$__plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
-$__editable=$objInfo->get_editable_condition($__plan_info);
+$plan = Model_Plan::find_one_by_user_id($user_id);
+$__plan_info = $plan->to_array();
+
+$__editable=$plan->editable();
 $__sekizihyo_edit_term = Model_User::past_deadline_sekijihyo($user_id);
 $__jobend=false;
-$__is_admin = $objInfo->is_admin();
+$__is_admin = Core_Session::is_admin();
 if ($__plan_info['admin_to_pcompany']==3 || $__plan_info['order']==2) $__jobend=true;
 ?>
 
@@ -121,14 +120,15 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   <font style="display:inline;font-size:20px; font-weight:bold; margin-left:130px; color:#0099ff;"> 
 <?php
  if(!$__editable && $__jobend==true) echo "印刷依頼済みのため編集できません";
+ else if($__sekizihyo_edit_term && !$__is_admin) echo "席次表編集利用制限日が過ぎています";
  else if ($_SESSION['adminid'] > 0 && !$__editable) echo "お客様が印刷イメージを依頼中です";
  else if(!$__editable) echo "印刷イメージ依頼中のため編集できません"; 
- else if(!$__sekizihyo_edit_term && !$__is_admin) echo "席次表編集利用制限日が過ぎています";
+
 ?></font>
                 </div>
 
                 <div style="font-size:11px;height:12px;vertical-align:top;">
-    			<?php  echo $objInfo->get_user_name_image_or_src_from_user_side($usert_id ,$hotel_id=1, $name="guest_page.png",$extra=".");?>
+    			<?php  echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_page.png",$extra=".");?>
 				</div>
                 </div>
                 <div id="head_right">

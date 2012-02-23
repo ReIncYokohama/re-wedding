@@ -23,7 +23,6 @@ if(!$plan){
   Response::redirect("table_layout.php?err=15");
 }
 
-
 $plan_id = $plan->id;
 $plan_row = $plan->to_array();
 
@@ -411,69 +410,8 @@ direction: ltr;
 								$guest['sub_category_id']=$guest_edited['sub_category_id'];
 								$guest['name']=$guest_edited['name'];
 							}
-							$gname = $guest['first_name']."sada ".$guest['last_name']." ".$rsp;
+
 							$guest_comment=$guest['comment1']."&nbsp;".$guest['comment2'];
-							$name_length = mb_strlen($gname,"utf-8");
-
-							$name_length2 = mb_strlen($guest_comment,"utf-8");
-
-							if($name_length >8)
-							{
-								if($name_length >=8 && $name_length <= 12)
-								{
-									$fsize = '68%';
-
-								}
-								else if($name_length >=12 && $name_length <= 14)
-								{
-									$fsize = '60%';
-
-								}
-								else if($name_length >=15 && $name_length <= 17)
-								{
-									$fsize = '50%';
-
-								}
-								else if($name_length >=18 && $name_length <= 20)
-								{
-									$fsize = '45%';
-
-								}
-								else if($name_length >=21 && $name_length <= 23)
-								{
-									$fsize = '40%';
-
-								}
-								else if($name_length >=24 && $name_length <= 26)
-								{
-									$fsize = '35%';
-
-								}
-								else if($name_length >=27 && $name_length <= 29)
-								{
-									$fsize = '30%';
-
-								}
-								else if($name_length >=30 && $name_length <= 40)
-								{
-									$fsize ='25%';
-
-								}
-								else if($name_length >=41 && $name_length <= 50)
-								{
-									$fsize ='20%';
-
-								}
-								else
-								{
-									$fsize ='15%';
-
-								}
-							}
-							else
-							{
-								$fsize = '85%';
-							}
 
 					?>
 					<tr bgcolor="<?=$bgcolor?>">
@@ -692,6 +630,7 @@ if($index % 2 == 1){
 ;" >
                                         <?php
                                         $key = $seat['id']."_input";
+
                                         if(isset($cart[$key]) && $cart[$key] != '')
                                         {
                                             $itemArray = explode("_", $cart[$key]);
@@ -734,83 +673,20 @@ if($index % 2 == 1){
 ;">
 
 													<?php
-													$gname=$item_info['first_name']." ".$item_info['last_name']." ".$rspct;
 													$guest_comment=$item_info['comment1']."&nbsp;".$item_info['comment2'];
-
-
-
-													if($gname)
-													{
-														$name_length = mb_strlen($gname,"utf-8");
-														$name_length2 = mb_strlen($guest_comment,"utf-8");
-
-
-
-																if($name_length >8)
-																{
-																	if($name_length >=8 && $name_length <= 12)
-																	{
-																		$fsize = '68%';
-
-																	}
-																	else if($name_length >=12 && $name_length <= 14)
-																	{
-																		$fsize = '60%';
-
-																	}
-																	else if($name_length >=15 && $name_length <= 17)
-																	{
-																		$fsize = '50%';
-
-																	}
-																	else if($name_length >=18 && $name_length <= 20)
-																	{
-																		$fsize = '45%';
-
-																	}
-																	else if($name_length >=21 && $name_length <= 23)
-																	{
-																		$fsize = '40%';
-
-																	}
-																	else if($name_length >=24 && $name_length <= 26)
-																	{
-																		$fsize = '35%';
-
-																	}
-																	else if($name_length >=27 && $name_length <= 29)
-																	{
-																		$fsize = '30%';
-
-																	}
-																	else if($name_length >=30 && $name_length <= 40)
-																	{
-																		$fsize ='25%';
-
-																	}
-																	else if($name_length >=41 && $name_length <= 50)
-																	{
-																		$fsize ='20%';
-
-																	}
-																	else
-																	{
-																		$fsize ='15%';
-
-																	}
-																}
-																else
-																{
-																	$fsize = '85%';
-																}
-														}
-
 													?>
 													<a href="javascript:void(0)" id="ahref_<?=$seat['id']?>" style="color:black; display:block;" class="tooltip" title="<image src='<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="namecard.png",$extra="guests/".$item_info['id']."/");?>'>">												
+<?php
+                             if($item_info["id"]){
+?>
 								<input type="hidden" value="<image src='<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="namecard.png",$extra="guests/".$item_info['id']."/");?>'>" class="comeent1_hidden" />
 
 
-                          <image src="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guests/".$item_info['id']."/thumb2");?>"/></a>
+                          <image src="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guests/".$item_info['id']."/thumb2");?>"/>
+<?php
+                             }
+?>
+</a>
                                                </div>
 											  </div>
 
