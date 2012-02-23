@@ -127,6 +127,7 @@ $(function() {
         }
         moveCount++;
    });
+    $(".tooltip").tipTip();
 });
 </script>
 
