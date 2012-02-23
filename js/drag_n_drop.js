@@ -110,18 +110,13 @@
 						//var text=$(dropDivUl+" div a").html();
 						
 						var comment1hidden=$(dropDivUl+" div a .comeent1_hidden").val();
-						//var comment2hidden=$(dropDivUl+" div a .comeent2_hidden").val();
-						var guest_name_hidden=$(dropDivUl+" div a .guest_name_hidden").val();
-						
-						
-						
 						
 						var text1="<span  style='font-size:14px'>"+comment1hidden+"</span>";
-						var text2="<span  style='font-size:14px'>test"+guest_name_hidden+"</span>";
+
 						
 					 
 						 
-						var newtext=text1+"<br>"+text2;
+						var newtext=text1;
 						
 						
 					
@@ -309,27 +304,10 @@
 					 var text=$("#abc_"+key+" div a").html();
 					 
 					var comment1hidden=$("#abc_"+key+" div a .comeent1_hidden").val();
-					//var comment2hidden=$("#abc_"+key+" div a .comeent2_hidden").val();
 					
-					var guest_name_hidden=$("#abc_"+key+" div a .guest_name_hidden").val();
-						
-						
-						
-						
-					var text1="<span  style='font-size:14px'>"+comment1hidden+"</span>";
-					var text2="<span  style='font-size:14px'>"+guest_name_hidden+"</span>";
-					
-					
-					//var text1="<span  style='font-size:14px'>"+comment1hidden+"&nbsp;"+comment2hidden+"</span>";
-					 
-					//var textArray = text.split("<br>");
-					
-				
-					//var text2=text.replace("font-size:","font-size:14px; font-name: ");
-					
-					 
+					var text1="<span  style='font-size:14px'>"+comment1hidden+"</span>";					 
 						 
-					var newtext=text1+"<br>"+text2;
+					var newtext=text1;
 						
 					
 					 
@@ -388,13 +366,6 @@
 									
 									
 									var sample_div='<div style="position:fixed; opacity:.5; border:1px solid #A2A78C; background:white;top:'+positionDragTop+'px;left:'+positionDragLeft+'px;" id="copy_div">'+spandiv+'<div>';
-									
-								
-									
-									
-									
-									
-									
 								
 									var position1 =$("#guests_conatiner").offset();
 									

@@ -253,7 +253,7 @@ $(function(){
     <td>
      <table width="100%" cellpadding="20" cellspacing="1">
      <tr bgcolor="#ffffff">
-     <td width="100%" ><strong><?=$Maintenance["title"]?></strong><br />
+     <td width="100%" ><strong><?=$Maintenance["title"]?></strong><br /><br />
        <div><?php echo preg_replace ('/(((<(["\'][^"\']*["\']|[^>])*>).*?)\n|\n)/', '$2<br>', $Maintenance["description"]);?></div>
      </tr>
      </table>

@@ -18,24 +18,12 @@ else
 {
 	redirect("index.php?msg=3");exit;
 }
-	$printCompany_id = $_SESSION['printid'];
+$printCompany_id = $_SESSION['printid'];
 
-	$user_info = $objInfo->get_user_info($user_id);
-	$mailDate=$user_info['state'];
-	$limitDate=date("Y/m/d",strtotime("-10 day")); //今から１０日前の日付
-	$uploadOK=false;
-	if ($mailDate > $limitDate) $uploadOK=true;
-	
-	if($uploadOK==true) {
-		unset($post);
-		$post['ul_print_com_times'] = 1;
-		$res = $obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
-	 }
-	 else
-	 {
-	 	echo "<script> alert('アップロード期限の１０日を過ぎております'); </script>";
-	 	redirect("index.php?msg=3");exit;
-	 }
+$user_info = $objInfo->get_user_info($user_id);
+unset($post);
+$post['ul_print_com_times'] = 1;
+$res = $obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 
 if(isset($_POST['sub']))
 {
@@ -46,7 +34,7 @@ if(isset($_POST['sub']))
 	@mkdir($basepath,0777);
 
 	$filename= basename($_FILES["upfile"]["name"]);
-
+  
 	if(!empty($filename))
 	{
 		$ext = strtoupper(end(explode(".", $filename)));
@@ -54,17 +42,15 @@ if(isset($_POST['sub']))
 		if($message)
 		{
 			unset($post);
-//			$post['ul_print_com_times'] = $user_plan_info['ul_print_com_times'] - 1;
 			$post['p_company_file_up']=$message;
 			$post['admin_to_pcompany']=2;
+			$post['order']=0;
 			$res = $obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
+
 			if($res)
 			{
 				$objMail->printCompany_upload_admin_notification_mail($user_id,$printCompany_id);
 				$objMail->printCompany_upload_user_notification_mail($user_id,$printCompany_id);
-
-				//this call of function reset this whole  user's order and admin process system
-				//$objInfo->reset_guest_gift_page_and_user_orders_conditions($user_id,$flag=2);
 			}
 			$message =1;
 		}

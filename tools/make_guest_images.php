@@ -1,9 +1,12 @@
 <?php
 include_once("../admin/inc/dbcon.inc.php");
-include_once("../admin/inc/class.dbo.php");
+include_once("../admin/inc/class_data.dbo.php");
 include_once("../inc/gaiji.image.wedding.php");
+//fuelのパッケージがcommandの場合うまく働かないため直接指定。
+include_once(dirname(__FILE__)."/../fuel/app/classes/core/image.php");
+$_SERVER["SCRIPT_FILENAME"] = __FILE__;
 
-$obj = new DBO();
+$obj = new DataClass();
 
 $guests = $obj->GetAllRow("spssp_guest");
 include("../admin/inc/main_dbcon.inc.php");
@@ -34,6 +37,7 @@ foreach($guests as $guest){
         {
           $guest_respect = $respect['title'];
         }
+      if($guest_respect=="なし") $guest_respect = "";
     }
   //外字の画像を生成する。
   make_guest_images($guest["user_id"],$guest["id"],$guest["last_name"],$guest["first_name"],$guest["comment1"],$guest["comment2"],$guest_respect,

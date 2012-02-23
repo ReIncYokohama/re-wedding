@@ -5,11 +5,10 @@ include_once("../admin/inc/class_information.dbo.php");
 include_once("../admin/inc/class_data.dbo.php");
 include_once("../fuel/load_classes.php");
 
-
 if($_SESSION['printid'] =='')
 {
   redirect("index.php");exit;
-}
+  }
 
 $obj = new DataClass();
 $objInfo = new InformationClass();
@@ -44,7 +43,9 @@ $lines .= <<<html
 $entity
 html;
 
-$user_info =  $obj->GetSingleRow("spssp_user", " id=".$user_id);
+$user = Model_User::find_by_pk($user_id);
+$user_info = $user->to_array();
+
 $stuff_info =  $obj->GetSingleRow("spssp_admin", " id=".$user_info['stuff_id']);
 $room_info =  $obj->GetSingleRow("spssp_room", " id=".$user_info['room_id']);
 $party_room_info =  $obj->GetSingleRow("spssp_party_room", " id=".$user_info['party_room_id']);
@@ -209,15 +210,16 @@ foreach($tblrows as $tblrow)
 	{
 		$new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
 
-		if(isset($new_name_row) && $new_name_row['id'] !='')
-		{
-			$tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-			$tblname = $tblname_row['name'];
-		}
-		else
-		{
-			$tblname = $table_row['name'];
-		}
+    if($table_row['name']!='')
+      {
+        $tblname = $table_row['name'];
+      }
+    elseif(is_array($new_name_row) && $new_name_row['id'] !='')
+      {
+        $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
+        $tblname = $tblname_row['name'];
+      }
+
 		//echo $table_row['table_id']."<br>";
 
 		//$sql_check_guest ="select count(*) as count from spssp_plan_details as spd join spssp_default_plan_seat as sdps on spd.seat_id =  sdps.id where sdps.table_id = ".$table_row['table_id'];
@@ -352,16 +354,15 @@ foreach($usertblrows as $tblRows)
 	$usertblrows = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id = ".(int)$tblRows['table_id']." order by id ASC");
 	//echo "<pre>";print_r($usertblrows);
 	$new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$tblRows['id']);
-	if(isset($new_name_row) && $new_name_row['id'] !='')
-	{
-		$tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-		$tblname = $tblname_row['name'];
-	}
-	else
-	{
-		$tblname = $tblRows['name'];
-	}
-	
+    if($tblRows['name']!='')
+      {
+        $tblname = $tblRows['name'];
+      }
+    elseif(is_array($new_name_row) && $new_name_row['id'] !='')
+      {
+        $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
+        $tblname = $tblname_row['name'];
+      }	
   $z=1;
   $sort_usettblrows = array();
   foreach($usertblrows as $data){
@@ -493,7 +494,12 @@ foreach($usertblrows as $tblRows)
 	}
 	$o++;
 }
-	$guest_own_info = $obj->GetAllRowsByCondition("spssp_guest","(self=1 or guest_type!=0) and stage=1 and user_id=".(int)$user_id);
+$order = 'desc';
+if($user->mukoyoshi) $order = '';
+$self_arr = $obj->GetAllRowsByCondition("spssp_guest","self=1  and user_id=".(int)$user_id.' order by sex '.$order);
+	$takasago_arr = $obj->GetAllRowsByCondition("spssp_guest","self!=1 and stage=1 and user_id=".(int)$user_id);
+if(!$takasago_arr) $takasago_arr = array();
+$guest_own_info = array_merge($self_arr,$takasago_arr);
   
 	//echo "<pre>";print_r($guest_own_info);
 	$xxx=1;

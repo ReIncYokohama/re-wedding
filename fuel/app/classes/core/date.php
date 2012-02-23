@@ -1,8 +1,14 @@
 <?php
 class Core_Date extends Date{
-  //¡“ú‚Ì“ú•t‚©‚çx“ú‚Æ”äŠr‚·‚é
+  //ä»Šæ—¥ã®æ—¥ä»˜ã‹ã‚‰xæ—¥ã¨æ¯”è¼ƒã™ã‚‹
   public function past_date($day=0){
-    if(time()+DAY*$day<$this->timestamp) return true;
+    $date = getdate();
+    if(mktime(0,0,0,$date["mon"],$date["mday"],$date["year"])+Core_Date::DAY*$day<$this->timestamp) return true;
     return false;
+  }
+  public function get_wday(){
+    $wday = date("w",$this->timestamp);
+    $day = array("æ—¥", "æœˆ", "ç«", "æ°´", "æœ¨", "é‡‘", "åœŸ");
+    return $day[$wday];
   }
 }

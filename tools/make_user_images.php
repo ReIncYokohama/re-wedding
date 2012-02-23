@@ -2,6 +2,9 @@
 include_once("../admin/inc/dbcon.inc.php");
 include_once("../admin/inc/class.dbo.php");
 include_once("../inc/gaiji.image.wedding.php");
+//fuelのパッケージがcommandの場合うまく働かないため直接指定。
+include_once(dirname(__FILE__)."/../fuel/app/classes/core/image.php");
+$_SERVER["SCRIPT_FILENAME"] = __FILE__;
 
 $obj = new DBO();
 
@@ -18,7 +21,6 @@ function get_gaiji_ima_arr($gaijis){
 foreach($users as $user){
   $user_respect = "";
   echo $user["id"].":".$user["man_lastname"];
-  
   $query_string = "SELECT * FROM spssp_gaizi_detail_for_user where gu_id = ".$user["id"];
   $man_firstname_gaijis = getObjectArrayToArray($obj->getRowsByQuery($query_string." and gu_trgt_type=0 order by gu_char_position"),"gu_char_img");
   $man_lastname_gaijis = getObjectArrayToArray($obj->getRowsByQuery($query_string." and gu_trgt_type=1 order by gu_char_position"),"gu_char_img");

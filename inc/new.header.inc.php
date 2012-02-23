@@ -3,6 +3,7 @@ session_start();
 include_once("admin/inc/dbcon.inc.php");
 include_once("inc/checklogin.inc.php");
 include_once("admin/inc/class_information.dbo.php");
+
 $pos = strpos($_SERVER[SCRIPT_URL], "make_plan.php");
 if($pos===false)
 $make_plan="";
@@ -30,7 +31,7 @@ if ($_SESSION['userid_admin']) $messege_url="admin_messages.php"; else $messege_
 
 $__plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
 $__editable=$objInfo->get_editable_condition($__plan_info);
-$__sekizihyo_edit_term = $objInfo->get_sekizihyo_edit_term($__plan_info);
+$__sekizihyo_edit_term = Model_User::past_deadline_sekijihyo($user_id);
 $__jobend=false;
 $__is_admin = $objInfo->is_admin();
 if ($__plan_info['admin_to_pcompany']==3 || $__plan_info['order']==2) $__jobend=true;
