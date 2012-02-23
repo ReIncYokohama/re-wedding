@@ -607,13 +607,9 @@ $layoutname = $tableData["layoutname"];
 
                             	<?php
 
-
                                 //echo $disp;
                                 $seats = $obj->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_row['table_id']." order by id asc limit 0,$room_seats");
 
-
-
-								$rowspan=ceil(count($seats)/4);
 								$j=1;
 								$jor=0;
                                 foreach($seats as $seat)
@@ -638,11 +634,6 @@ if($index % 2 == 1){
 
                                             $item = $itemArray[1];
                                             $item_info =  $obj->GetSingleRow("spssp_guest", " id=".$item." and id in(SELECT id FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest=0)");
-
-											include("admin/inc/main_dbcon.inc.php");
-                                            $rspct = $obj->GetSingleData(" spssp_respect", "title"," id=".$item_info['respect_id']);
-											include("admin/inc/return_dbcon.inc.php");
-                                            //echo $item_info['id'].'<br>';
                                             $edited_nums = $obj->GetNumRows("spssp_guest", "edit_item_id=".$item_info['id']." and user_id=".(int)$user_id." and id in(SELECT id FROM `spssp_guest` WHERE  self!=1 and stage_guest=0)");
                                             //echo '<p>'.$edited_nums.'</p>';
 
@@ -662,32 +653,34 @@ if($index % 2 == 1){
 										<div id="abc_<?=$seat['id']?>" class="gallery ui-helper-reset ui-helper-clearfix">
 
 
-											<div class="ui-widget-content ui-corner-tr" id="item_<?=$item_info['id']?>"   style="width:80px; height:30px;border:0;background-color:
+											<div class="ui-widget-content ui-corner-tr" id="item_<?=$item_info['id']?>"   style="width:80px; 
 <?php
 //座席表の色の指定
-if($index % 2 == 1){
-  echo "#F5F8E5";
+if(!$item_info["id"]){
+  
+}else if($index % 2 == 1){
+  echo "height:30px;border:0;background-color:#F5F8E5;";
 }else{
-  echo "#e5b9b9";
+  echo "height:30px;border:0;background-color:#e5b9b9;";
 }
 ?>
-;">
+">
+<?php
+                             if($item_info["id"]){
+?>
 
 													<?php
 													$guest_comment=$item_info['comment1']."&nbsp;".$item_info['comment2'];
 													?>
 													<a href="javascript:void(0)" id="ahref_<?=$seat['id']?>" style="color:black; display:block;" class="tooltip" title="<image src='<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="namecard.png",$extra="guests/".$item_info['id']."/");?>'>">												
-<?php
-                             if($item_info["id"]){
-?>
 								<input type="hidden" value="<image src='<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="namecard.png",$extra="guests/".$item_info['id']."/");?>'>" class="comeent1_hidden" />
 
-
                           <image src="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guests/".$item_info['id']."/thumb2");?>"/>
+</a>
 <?php
                              }
 ?>
-</a>
+
                                                </div>
 											  </div>
 
