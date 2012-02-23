@@ -44,7 +44,7 @@ if(isset($_POST['sub']))
 			unset($post);
 			$post['p_company_file_up']=$message;
 			$post['admin_to_pcompany']=2;
-			$post['order']=0;
+			$post['order']=3;
 			$res = $obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 
 			if($res)
