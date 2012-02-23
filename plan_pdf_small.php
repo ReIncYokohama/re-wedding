@@ -153,12 +153,10 @@ $html.='<td width="40%">
 '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="pdf_hikidemono_head.png",$extra="/").'
 			</td>
 				</tr>
-        <tr><td colspan="3"></td></tr>
 				'.$marrige_day_text.'
 				<tr style="text-align:left;font-size:35px;">
 					<td width="80" align="left"  valign="middle">披露宴日時</td><td width="160">'.strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['party_day']))).'  '.date("H時i分",strtotime($user_info['party_day_with_time'])).'</td><td width="300">会場&nbsp;&nbsp;'.$room_info[name].' </td>
 				</tr>
-        <tr><td colspan="3"></td></tr>
 				<tr style="text-align:left;font-size:25px;">
 					<td align="left"  valign="middle" style="text-align:center;">作成日時</td><td>'.date('Y年n月j日  H時i分').'</td><td>
 					スタッフ名 '.$staff_name.'
@@ -174,7 +172,7 @@ $html.='<td width="40%">
 </td><td width="15%" style="font-size:15px;">';
 	
 $html.='</td>';
-$html.='</tr></table><br>';
+$html.='</tr></table>';
 
 $takasago_guests = $obj->get_guestdata_in_takasago($user_id);
 $takasago_num = count($takasago_guests)+2;
