@@ -28,7 +28,7 @@ class Model_Plan extends Model_Crud{
   //印刷依頼を受けている
   public function editable(){
     if(Model_User::past_deadline_sekijihyo($this->user_id) && !Core_Session::is_admin()) return false;
-    if ($this->order == 1 && ($this->admin_to_pcompany == 0 || $this->admin_to_pcompany == 1)) return false;
+    if(!$this->pre_ordering()) return false;
     
     if($this->admin_to_pcompany==2) return true;
 
@@ -40,6 +40,10 @@ class Model_Plan extends Model_Crud{
 		{
 			return true;
 		}
+  }
+  public function pre_ordering(){
+    if ($this->order == 1 && ($this->admin_to_pcompany == 0 || $this->admin_to_pcompany == 1)) return false;  
+    return true;
   }
   
   static public function find_obj_by_user_id($user_id){
