@@ -289,9 +289,9 @@ class InformationClass extends DBO
 			return false;
 		}
 	}
-function get_user_name_image_or_src_from_user_side( $user_id ,$hotel_id , $name ,$extra="",$width , $opt = false )
+  function get_user_name_image_or_src_from_user_side( $user_id ,$hotel_id , $name ,$extra="",$width , $opt = false,$height )
 	{
-    return $this->get_user_name_image_or_src($user_id,$hotel_id,$name,$extra,$width,$opt);
+    return $this->get_user_name_image_or_src($user_id,$hotel_id,$name,$extra,$width,$opt,$height);
 	}
 
 	function get_user_name_image_or_src_from_ajax( $user_id ,$hotel_id , $name ,$extra="",$width = 100 , $opt = false )
