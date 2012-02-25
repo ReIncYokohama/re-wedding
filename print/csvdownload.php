@@ -501,16 +501,11 @@ $self_arr = $obj->GetAllRowsByCondition("spssp_guest","self=1  and user_id=".(in
 if(!$takasago_arr) $takasago_arr = array();
 $guest_own_info = array_merge($self_arr,$takasago_arr);
   
-	//echo "<pre>";print_r($guest_own_info);
 	$xxx=1;
 	foreach($guest_own_info as $own_info)
 	{
 		//TableNumber
 		$value = s(0);
-		/*if($xxx==2)
-			$own_array[] = "\n\"$value\"";
-		else
-			$own_array[] = "\"$value\"";*/
 		$own_array[] = "\n$value";
 
     if($own_info["self"] == 1){
@@ -546,6 +541,26 @@ $guest_own_info = array_merge($self_arr,$takasago_arr);
 
 		//SeatNumber
 		$value = s($xxx);/////////"seat ".
+    if($own_info["self"]!=1){
+      switch($own_info["stage_guest"]){
+        case "1":
+          $value = s(4);
+          break;
+        case "2":
+          $value = s(5);
+          break;
+        case "3":
+          $value = s(6);
+          break;
+        case "4":
+          $value = s(7);
+          break;
+        case "5":
+          $value = s(3);
+          break;
+      }
+    }
+
 		$own_array[] = "$value";
 
 		//LastName
