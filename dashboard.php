@@ -18,7 +18,8 @@ $user_data = $obj->GetSingleRow("spssp_user", " id=".$user_id);
 $fullTime = $user_data['party_day']." ".$user_data['party_day_with_time'];
 $party_date = new DateTime($fullTime);
 $time = $party_date->getTimestamp();
-$day = ($time - time())/(60*60*24);
+$date = getdate();
+$day = ($time - mktime(0,0,0,$date["mon"],$date["mday"],$date["year"]))/(60*60*24);
 $limit_day = floor($day);
 
 $date= $party_date->format('Y/m/d h:i A');
