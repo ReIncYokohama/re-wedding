@@ -465,11 +465,11 @@ class MessageClass extends InformationClass
 	}
 // UCHIDA EDIT 11/08/16 クリック日付を記録
 	function clicktime_entry_return( $type, $user_id ) {
-
-		$click_info = $this::get_clicktime_info($user_id);
+    $click_info = $this ->GetSingleRow("spssp_clicktime"," user_id=".$user_id);
+    
 		unset($post);
+    $time = time();
 		$dt = date("Y-m-d H:i:s");
-
 		switch ($type) {
 	    case "print_irai":
 	    	$target = $click_info['print_irai'];
@@ -484,8 +484,8 @@ class MessageClass extends InformationClass
 			$post['hikide_irai']=$dt;
 	    	break;
 		case "kari_hachu":
-	    	$target = $click_info['kari_hachu'];
-			$post['kari_hachu']=$dt;
+      $target = $click_info['kari_hachu'];
+        $post['kari_hachu']=$dt;
 	    	break;
 	    case "hon_hachu":
 	    	$target = $click_info['hon_hachu'];
@@ -504,6 +504,7 @@ class MessageClass extends InformationClass
 			$result=mysql_query($sql);
 		}
 		else {
+
 			$this::update_clicktime_info($type, $dt, $user_id);
 		}
 
