@@ -497,9 +497,12 @@ foreach($usertblrows as $tblRows)
 $order = 'desc';
 if($user->mukoyoshi) $order = '';
 $self_arr = $obj->GetAllRowsByCondition("spssp_guest","self=1  and user_id=".(int)$user_id.' order by sex '.$order);
-	$takasago_arr = $obj->GetAllRowsByCondition("spssp_guest","self!=1 and stage=1 and user_id=".(int)$user_id);
+$takasago_arr = $obj->GetAllRowsByCondition("spssp_guest","self!=1 and stage=1 and user_id=".(int)$user_id." and stage_guest = 5");
 if(!$takasago_arr) $takasago_arr = array();
 $guest_own_info = array_merge($self_arr,$takasago_arr);
+$takasago_arr = $obj->GetAllRowsByCondition("spssp_guest","self!=1 and stage=1 and user_id=".(int)$user_id." and stage_guest < 5 order by stage_guest");
+if(!$takasago_arr) $takasago_arr = array();
+$guest_own_info = array_merge($guest_own_info,$takasago_arr);
   
 	$xxx=1;
 	foreach($guest_own_info as $own_info)
