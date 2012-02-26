@@ -81,10 +81,10 @@ class InformationClass extends DBO
 
 		// UCHIDA EDIT 11/08/16 リセットでは席次印刷の時間のみ消去
 		unset($post);
-		$post['print_irai']=NULL;
-		$post['print_ok']=NULL;
-		$post['kari_hachu']=NULL;
-		$post['hon_hachu']=NULL;
+		//$post['print_irai']=NULL;
+		//$post['print_ok']=NULL;
+		//$post['kari_hachu']=NULL;
+		//$post['hon_hachu']=NULL;
 		$this->UpdateData('spssp_clicktime',$post,"user_id=".$user_id);
 	}
 	function get_user_id_md5($md5_user_id)
