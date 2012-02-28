@@ -443,7 +443,6 @@ function get_image_name_plate_data_right($image,$width_px,$first_left,
   gaiji_imagettftext_align_right($image,$name_fontsize,0,$nowRight,45,$col_t,$font,$name,$gaiji_name_arr);
 }
 
-
 function get_image_name_plate_data2($image,$width_px,$first_left,
                                    $last_name,$first_name,$comment1="",$comment2="",
                          $gaiji_last_name_arr = array(),$gaiji_first_name_arr = array(),
@@ -692,29 +691,28 @@ function get_image_name_plate_data5($image,$width_px,$first_left,
     $comment2 = mb_substr($comment2,0,$comment_max_size,"utf8");
     $comment3 = mb_substr($comment3,0,$comment_max_size,"utf8");
 
-    gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,10,$col_t,$font,$comment1,$gaiji_comment1_arr);
-    gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment2,$gaiji_comment2_arr);
+    gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,10,$col_t,$font,$comment1,array());
+    gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment2,array());
     gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3,$gaiji_comment3_arr);
   }else if($none_comment1 && !$none_comment2 && !$none_comment3){
     if(mb_strlen($comment2,"utf8") > $comment_max_size){
       $comment2_2 = mb_substr($comment2,$comment_max_size,$comment_max_size,"utf8");
       $comment2 = mb_substr($comment2,0,$comment_max_size,"utf8");
       $comment3 = mb_substr($comment3,0,$comment_max_size,"utf8");
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,10,$col_t,$font,$comment2,$gaiji_comment3_arr);
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment2_2,$gaiji_comment3_arr);
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3,$gaiji_comment2_arr);
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,10,$col_t,$font,$comment2,array());
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment2_2,array());
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3,$gaiji_comment3_arr);
     }else if(mb_strlen($comment3,"utf8") > $comment_max_size){
       $comment2 = mb_substr($comment2,0,$comment_max_size,"utf8");
-      $comment3_2 = mb_substr($comment3,$comment_max_size,$comment_max_size,"utf8");
-      $comment3 = mb_substr($comment3,0,$comment_max_size,"utf8");
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,10,$col_t,$font,$comment2,$gaiji_comment3_arr);
+      list($comment3_2,$comment3,$gaiji_comment3_arr2,$gaiji_comment3_arr) = get_gaiji_image_split2($comment3,$gaiji_comment3_arr,$comment_max_size);
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,10,$col_t,$font,$comment2,array());
       gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment3,$gaiji_comment3_arr);
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3_2,$gaiji_comment2_arr);
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3_2,$gaiji_comment3_arr2);
     }else{
       $comment2 = mb_substr($comment2,0,$comment_max_size,"utf8");
       $comment3 = mb_substr($comment3,0,$comment_max_size,"utf8");
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment2,$gaiji_comment3_arr);
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3,$gaiji_comment2_arr);
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment2,array());
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3,$gaiji_comment3_arr);
       
     }
   }else if(!$none_comment1 && $none_comment2 && !$none_comment3){
@@ -724,21 +722,18 @@ function get_image_name_plate_data5($image,$width_px,$first_left,
       $comment3 = mb_substr($comment3,0,$comment_max_size,"utf8");
       gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,10,$col_t,$font,$comment1,array());
       gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment1_2,array());
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3,$gaiji_comment2_arr);
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3,$gaiji_comment3_arr);
     }else if(mb_strlen($comment3,"utf8") > $comment_max_size){
       $comment1 = mb_substr($comment1,0,$comment_max_size,"utf8");
-      $comment3_2 = mb_substr($comment3,$comment_max_size,$comment_max_size,"utf8");
-      $comment3 = mb_substr($comment3,0,$comment_max_size,"utf8");
+      list($comment3_2,$comment3,$gaiji_comment3_arr2,$gaiji_comment3_arr) = get_gaiji_image_split2($comment3,$gaiji_comment3_arr,$comment_max_size);
       gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,10,$col_t,$font,$comment1,array());
-      //外字が含まれているか含まれている場合はそれをarrayから外す。
       gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment3,$gaiji_comment3_arr);
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3_2,$gaiji_comment3_arr);
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3_2,$gaiji_comment3_arr2);
     }else{
       $comment1 = mb_substr($comment1,0,$comment_max_size,"utf8");
       $comment3 = mb_substr($comment3,0,$comment_max_size,"utf8");
       gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment1,array());
       gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3,$gaiji_comment3_arr);
-      
     }
   }else if(!$none_comment1 && !$none_comment2 && $none_comment3){
     if(mb_strlen($comment1,"utf8") > $comment_max_size){
@@ -747,7 +742,7 @@ function get_image_name_plate_data5($image,$width_px,$first_left,
       $comment2 = mb_substr($comment2,0,$comment_max_size,"utf8");
       gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,10,$col_t,$font,$comment1,array());
       gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment1_2,array());
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment2,$gaiji_comment2_arr);
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment2,array());
     }else if(mb_strlen($comment2,"utf8") > $comment_max_size){
       $comment1 = mb_substr($comment1,0,$comment_max_size,"utf8");
       $comment2_2 = mb_substr($comment2_2,0,$comment_max_size,"utf8");
@@ -764,20 +759,17 @@ function get_image_name_plate_data5($image,$width_px,$first_left,
     }
   }else if($none_comment1 && $none_comment2 && !$none_comment3){
     if(mb_strlen($comment3,"utf8") > $comment_max_size*2){
-      $comment_3 = mb_substr($comment3,$comment_max_size*2,$comment_max_size,"utf8");
-      $comment_2 = mb_substr($comment3,$comment_max_size,$comment_max_size,"utf8");
-      $comment_1 = mb_substr($comment3,0,$comment_max_size,"utf8");
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,10,$col_t,$font,$comment_1,array());
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment_2,array());
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment_3,array());
+      list($comment_3,$comment_2,$comment_1,$gaiji_comment3_arr3,$gaiji_comment3_arr2,$gaiji_comment3_arr) = 
+        get_gaiji_image_split3($comment3,$gaiji_comment3_arr,$comment_max_size);
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,10,$col_t,$font,$comment_1,$gaiji_comment3_arr);
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment_2,$gaiji_comment3_arr2);
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment_3,$gaiji_comment3_arr3);
     }else if(mb_strlen($comment3,"utf8") > $comment_max_size){
-      $comment_2 = mb_substr($comment3,$comment_max_size,$comment_max_size,"utf8");
-      $comment_1 = mb_substr($comment3,0,$comment_max_size,"utf8");
-
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment_1,array());
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment_2,array());
+      list($comment_2,$comment_1,$gaiji_comment3_arr2,$gaiji_comment3_arr) = get_gaiji_image_split2($comment3,$gaiji_comment3_arr,$comment_max_size);
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment_1,$gaiji_comment3_arr2);
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment_2,$gaiji_comment3_arr);
     }else{
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3,array());
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3,$gaiji_comment3_arr);
     }
   }else if($none_comment1 && !$none_comment2 && $none_comment3){
     if(mb_strlen($comment2,"utf8") > $comment_max_size*2){
@@ -832,6 +824,30 @@ function get_image_name_plate_data5($image,$width_px,$first_left,
     gaiji_imagettftext($image,$name_fontsize,0,$nowLeft,50,$col_t,$font,$respect,array(),50);
   }
   
+}
+
+//list($comment_2,$comment_1,$comment_2_gaiji_arr,$comment_1_gaiji_arr) = 
+function get_gaiji_image_split2($comment,$comment_arr,$comment_max_size){
+  $comment_2 = mb_substr($comment,$comment_max_size,$comment_max_size,"utf8");
+  $comment_1 = mb_substr($comment,0,$comment_max_size,"utf8");
+  $comment_2_gaiji_num = mb_substr_count($comment_2,"＊",'utf8');
+  $comment_1_gaiji_num = mb_substr_count($comment_1,"＊",'utf8');
+  $comment_2_gaiji_arr = array_slice($comment_arr,$comment_1_gaiji_num,$comment_2_gaiji_num);
+  $comment_1_gaiji_arr = array_slice($comment_arr,0,$comment_1_gaiji_num);  
+  return array($comment_2,$comment_1,$comment_2_gaiji_arr,$comment_1_gaiji_arr);
+}
+
+function get_gaiji_image_split3($comment,$comment_arr,$comment_max_size){
+  $comment_3 = mb_substr($comment,$comment_max_size*2,$comment_max_size,"utf8");
+  $comment_2 = mb_substr($comment,$comment_max_size,$comment_max_size,"utf8");
+  $comment_1 = mb_substr($comment,0,$comment_max_size,"utf8");
+  $comment_3_gaiji_num = mb_substr_count($comment_3,"＊",'utf8');
+  $comment_2_gaiji_num = mb_substr_count($comment_2,"＊",'utf8');
+  $comment_1_gaiji_num = mb_substr_count($comment_1,"＊",'utf8');
+  $comment_3_gaiji_arr = array_slice($comment_arr,$comment_1_gaiji_num+$comment_2_gaiji_num,$comment_3_gaiji_num);
+  $comment_2_gaiji_arr = array_slice($comment_arr,$comment_1_gaiji_num,$comment_2_gaiji_num);
+  $comment_1_gaiji_arr = array_slice($comment_arr,0,$comment_1_gaiji_num);
+  return array($comment_3,$comment_2,$comment_1,$comment_3_gaiji_arr,$comment_2_gaiji_arr,$comment_1_gaiji_arr);
 }
 
 
