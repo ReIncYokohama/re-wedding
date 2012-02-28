@@ -220,10 +220,12 @@ class DataClass extends DBO{
   }
   
   public function get_guest_image_url($user_id,$guest_id,$name){
-    include_once(dirname(__file__)."/../../inc/gaiji.image.wedding.php");
-    $hotel_id=1;
-    $user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
-    return $user_folder."/guest/".$guest_id."/".$name;
+    $path = Core_Image::get_guest_image_dir_relative($user_id,$guest_id);
+    return $path.$name;
+    //include_once(dirname(__file__)."/../../inc/gaiji.image.wedding.php");
+    //$hotel_id=1;
+    //$user_folder = sprintf("%s/user_name/%d/",get_image_db_directory($hotel_id),$user_id);
+    //return $user_folder."guest/".$guest_id."/".$name;
   }
   public function get_guest_detail($user_id,$guest_id){
     $guest_detail = $this->GetSingleRow("spssp_guest"," id=".$guest_id." and user_id=".$user_id);
@@ -359,14 +361,14 @@ class DataClass extends DBO{
 
     for($i=0;$i<count($guestArray);++$i){
       $guest = $this->get_guest_data_detail($guestArray[$i],$user_id,$plan_id);
-      $returnArray[$i] = "<img src=\"".$infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard.png",$extra="guest/".$guest['id'],$width,"src")."\" width=\"".$width."\"  />";
+      $returnArray[$i] = "<img src=\"".$infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard.png",$extra="guests/".$guest['id'],$width,"src")."\" width=\"".$width."\"  />";
     }
     return $returnArray;
   }
 
 
   //高砂席のみ取得する
-  public function get_guestdata_in_host_for_pdf($user_id,$width=110){
+  public function get_guestdata_in_host_for_pdf($user_id,$width=130){
     $plan_id = $this->get_plan_id($user_id);
     $guestArray = $this->getRowsByQuery("SELECT * FROM `spssp_guest` WHERE user_id=".$user_id." and self=1 order by sex DESC");
     $returnArray = array();
@@ -376,13 +378,13 @@ class DataClass extends DBO{
 
     for($i=0;$i<count($guestArray);++$i){
       $guest = $this->get_guest_data_detail($guestArray[$i],$user_id,$plan_id);
-      $returnArray[$i] = "<img src=\"".$infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$guest['id'],$width,"src")."\"   width=\"".$width."\" />";
+      $returnArray[$i] = "<img src=\"".$infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guests/".$guest['id'],$width,"src")."\"   width=\"".$width."\" />";
     }
     return $returnArray;
   }
 
 
-  public function get_guestdata_in_takasago_for_pdf($user_id){
+  public function get_guestdata_in_takasago_for_pdf($user_id,$width=130){
     $returnArray = array();
     $guests = $this->get_guestdata_in_takasago($user_id);
 
@@ -390,7 +392,7 @@ class DataClass extends DBO{
     $infoobj = new InformationClass();
 
     foreach($guests as $guest){
-      $returnArray[$guest["stage_guest"]] = $infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo2.png",$extra="guest/".$guest['id']);
+      $returnArray[$guest["stage_guest"]] = "<img src=\"".$infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard_memo.png",$extra="guests/".$guest['id'],$width,"src")."\" width=\"".$width."\" />";
     }
     return $returnArray;
   }
@@ -402,9 +404,8 @@ class DataClass extends DBO{
     $infoobj = new InformationClass();
 
     foreach($guests as $guest){
-      $returnArray[$guest["stage_guest"]] = "<img src=\"".$infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard.png",$extra="guest/".$guest['id'],100,"src")."\"   width=\"".$width."\" />";
+      $returnArray[$guest["stage_guest"]] = "<img src=\"".$infoobj->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="namecard.png",$extra="guests/".$guest['id'],$width,"src")."\"   width=\"".$width."px\" />";
     }
-
     return $returnArray;
   }
 

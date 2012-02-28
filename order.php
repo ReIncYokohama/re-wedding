@@ -25,16 +25,15 @@
 		SPSSP_MESSAGE TABLE FOR THE FIELD "msg_type"
 		1 => WHEN USER SENDS SUB-ORDER TO THE ADMIN
 		2 => WHEN USER SENDS PRINT REQUEST TO THE ADMIN
-
 	*/
 	/*
 		Hints : FROM USER[HERE] SIDE
 		SPSSP_PLAN TABLE FOR THE FIELD "order"
 		1 => WHEN USER SENDS SUB-ORDER TO THE ADMIN
 		2 => WHEN USER SENDS PRINT REQUEST TO THE ADMIN
-
+    
 	*/
-
+  
 	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".$user_id);
 
 // UCHIDA EDIT 11/08/16 クリック日付を取得
@@ -48,19 +47,13 @@
 
 		if($plan_info['print_company']>0)
 		{
-			$res = 1;//$objMsg -> user_suborder_admin_notification_message($user_id);
-			if($res==1)
-			{
-				$res = $objMail->user_suborder_mail_to_admin($user_id,$plan_info['print_company']);
-				unset($post);
-				$post['order']=1;
-				$obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
-
-				$print_irai = $objMsg->clicktime_entry_return( "print_irai", $user_id ); // UCHIDA EDIT 11/08/16 クリック日付を記録
-
-				redirect("order.php?msg=5");
-			}
-			else if($res==2){$err=29;}
+      $res = $objMail->user_suborder_mail_to_admin($user_id,$plan_info['print_company']);
+      
+      unset($post);
+      $post['order']=1;
+      $obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
+      $print_irai = $objMsg->clicktime_entry_return( "print_irai", $user_id );
+      redirect("order.php?msg=5");
 		}
 		else
 		{
@@ -72,26 +65,20 @@
 	{
 		if($plan_info['print_company']>0)
 		{
-			$res = 1;//$objMsg -> user_print_request_admin_notification_message($user_id);
-			if($res==1)
-			{
-				$objMail->user_print_request_mail_to_admin($user_id,$plan_info['print_company']);
-
-				unset($post);
-				$post['order']=2;
-				$post['dl_print_com_times']=0;
-				$post['ul_print_com_times']=0;
-				$obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
-
-				unset($post);
-				$post['print_ok']=date("Y-m-d H:i:s");
-				$obj->UpdateData('spssp_clicktime',$post," user_id=".$user_id);
-
-				$print_ok = $objMsg->clicktime_entry_return( "print_ok", $user_id ); // UCHIDA EDIT 11/08/16 クリック日付を記録
-
-				redirect("order.php?msg=10");
-			}
-			else if($res==2){$err=29;}
+      $objMail->user_print_request_mail_to_admin($user_id,$plan_info['print_company']);
+      unset($post);
+      $post['order']=2;
+      $post['dl_print_com_times']=0;
+      $post['ul_print_com_times']=0;
+      $obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
+      
+      unset($post);
+      $post['print_ok']=date("Y-m-d H:i:s");
+      $obj->UpdateData('spssp_clicktime',$post," user_id=".$user_id);
+        
+      $print_ok = $objMsg->clicktime_entry_return( "print_ok", $user_id );
+      
+      redirect("order.php?msg=10");
 		}
 		else
 		{
@@ -100,25 +87,20 @@
 	}
 	if($get['action'] == "daylimit_over_request")
 	{
-		$res = 1;//$objMsg ->user_gift_daylimit_request_admin_notification_message($user_id);
-		if($res==1)
-		{
-			$objMail->process_mail_user_gift_daylimit_request($user_id);
-
-			unset($post);
-			$post['gift_daylimit']=1;
-
-			$obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
-
-			unset($post);
-			$post['hikide_irai']=date("Y-m-d H:i:s");
-			$obj->UpdateData('spssp_clicktime',$post," user_id=".$user_id);
-
-			$hikide_irai = $objMsg->clicktime_entry_return( "hikide_irai", $user_id ); // UCHIDA EDIT 11/08/16 クリック日付を記録
-
-			redirect("order.php?msg=10");
-		}
-		else if($res==2){$err=29;}
+    $objMail->process_mail_user_gift_daylimit_request($user_id);
+    
+    unset($post);
+    $post['gift_daylimit']=1;
+    
+    $obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
+    
+    unset($post);
+    $post['hikide_irai']=date("Y-m-d H:i:s");
+    $obj->UpdateData('spssp_clicktime',$post," user_id=".$user_id);
+    
+    $hikide_irai = $objMsg->clicktime_entry_return( "hikide_irai", $user_id ); // UCHIDA EDIT 11/08/16 クリック日付を記録
+    
+    redirect("order.php?msg=10");
 
 	}
 
@@ -218,7 +200,8 @@ function confirmAction(urls , msg)
 					<td width="28%" valign="middle"><a href="plan_pdf_small.php" target="_blank"><img src="img/order/preview_sekiji_bt.jpg" alt="席次表プレビュー" width="200" height="40" border="0" class="on" /></a></td>
 					<td width="5%" valign="middle" style="font-size:16pt" >→</td>
 					<?php
-						if($plan_info['order']<=3 && $plan_info['order']>1)
+//admin_to_pcompanyを追加
+						if($plan_info["admin_to_pcompany"] != 2 && $plan_info['order']<=3 && $plan_info['order']>1)
 						{
 					?>
 					<td width="20%" valign="middle"><img src="img/order/print_bt_greyed.jpg" class="on"/></td>

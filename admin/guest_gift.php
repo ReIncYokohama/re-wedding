@@ -50,7 +50,6 @@
 	$kari_hachu = $objMsg->clicktime_format($click_info['kari_hachu']);
 	$hon_hachu = $objMsg->clicktime_format($click_info['hon_hachu']);
 	$hikide_zumi = $objMsg->clicktime_format($click_info['hikide_zumi']);
-
 	$_hotel_name=$get['hotel_name']; // UCHIDA EDIT 11/08/19 GETでホテル名を取得
 
 	if($get['action']=="allow")
@@ -61,6 +60,8 @@
 		{
 			if($plan_info['print_company']>0)
 			{
+				$kari_hachu = $objMsg->clicktime_entry_return( "kari_hachu", $user_id ); // UCHIDA EDIT 11/08/16 クリック日付を記録
+        
 				unset($post);
 				$post['order']=1;
 				$post['admin_to_pcompany']=1;
@@ -70,12 +71,6 @@
 				unset($post);
 				$post['state']=date("Y/m/d");
 				$obj->UpdateData('spssp_user',$post,"id=".$user_id);
-
-				/*unset($post);
-				$post['msg_type']=0;
-				$obj->UpdateData('spssp_message',$post," msg_type=1 and user_id=".$user_id);*/
-
-				$kari_hachu = $objMsg->clicktime_entry_return( "kari_hachu", $user_id ); // UCHIDA EDIT 11/08/16 クリック日付を記録
 
 				$res = $objMail->process_mail_user_suborder($user_id,$plan_info['print_company'], $_hotel_name);
 			}

@@ -56,12 +56,13 @@ class MessageClass extends InformationClass
 		{
 			$msg_opt = "<img src='img/common/msg/provisional_order.gif' border = '0'>";
 		}
-		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and `order` >= 1 and user_id=".$user_id) )
+		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and user_id=".$user_id) )
 		{
 			$msg_opt = "<img src='img/common/msg/up.gif' border = '0'>";
 		}
-		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 3 and `order` >= 1 and user_id=".$user_id) )
+		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 3 and user_id=".$user_id) )
 		{
+
 			$msg_opt = "<img src='img/common/msg/processed.gif' border = '0' alt='processed'>";
 		}
 		else if( $this :: GetRowCount("spssp_plan"," `order` = 2 and user_id=".$user_id) )
@@ -163,7 +164,7 @@ class MessageClass extends InformationClass
 			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".$user_name."  ".INFO_A."</a></li>";
 		}
 
-		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and `order` = 1 and user_id=".$user_id) )
+		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and user_id=".$user_id) )
 		{
 			$dl = $user_plan_info['dl_print_com_times'];
 			if (($dl & 0x200) == 0x00) {// UCHIDA EDIT 11/08/15 スタッフがPDF表示を行っていないか
@@ -280,7 +281,7 @@ class MessageClass extends InformationClass
 		{
 			$msg_text .= "";
 		}
-		if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and `order` = 1 and user_id=".$user_id) )
+		if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and user_id=".$user_id) )
 		{
 			$dl = $user_plan_info['dl_print_com_times'];
 			if (($dl & 0x100) == 0x000) { // UCHIDA EDIT 11/08/15 ユーザがPDF表示を行っていないか
@@ -464,11 +465,11 @@ class MessageClass extends InformationClass
 	}
 // UCHIDA EDIT 11/08/16 クリック日付を記録
 	function clicktime_entry_return( $type, $user_id ) {
-
-		$click_info = $this::get_clicktime_info($user_id);
+    $click_info = $this ->GetSingleRow("spssp_clicktime"," user_id=".$user_id);
+    
 		unset($post);
+    $time = time();
 		$dt = date("Y-m-d H:i:s");
-
 		switch ($type) {
 	    case "print_irai":
 	    	$target = $click_info['print_irai'];
@@ -483,8 +484,8 @@ class MessageClass extends InformationClass
 			$post['hikide_irai']=$dt;
 	    	break;
 		case "kari_hachu":
-	    	$target = $click_info['kari_hachu'];
-			$post['kari_hachu']=$dt;
+      $target = $click_info['kari_hachu'];
+        $post['kari_hachu']=$dt;
 	    	break;
 	    case "hon_hachu":
 	    	$target = $click_info['hon_hachu'];
@@ -503,6 +504,7 @@ class MessageClass extends InformationClass
 			$result=mysql_query($sql);
 		}
 		else {
+
 			$this::update_clicktime_info($type, $dt, $user_id);
 		}
 

@@ -354,7 +354,7 @@ height:30px;
 			  <table width="800" border="0" cellspacing="1" cellpadding="3">
 				  <tr>
 				    <?php 
-				    if ($obj->GetRowCount("spssp_plan"," admin_to_pcompany >= 2 and `ul_print_com_times` < 2 and `order` >= 1 and user_id=".$user_id) && $user_info['party_day'] >= date("Y-m-d")) {
+				    if ($obj->GetRowCount("spssp_plan"," admin_to_pcompany >= 2 and `ul_print_com_times` < 2 and user_id=".$user_id." order by id") && $user_info['party_day'] >= date("Y-m-d")) {
 				    ?>
 				    	<td width="210" valign="middle"><a href="<?=substr($plan_info['p_company_file_up'], 3)?>" target="_blank"><img src="img/order/preview_print_bt.jpg" alt="席次表プレビュー" width="200" height="40" border="0" class="on"/></a></td>
 				    <?php 

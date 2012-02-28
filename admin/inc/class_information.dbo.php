@@ -1,16 +1,12 @@
 <?php
 include_once(dirname(__file__).'/dbcon.inc.php');
 include_once(dirname(__file__)."/class.dbo.php");
+include_once(dirname(__file__)."/../../fuel/load_classes.php");
 class InformationClass extends DBO
 {
-
-	public function InformationClass()
-	{
-
-	}
 	function get_admin_info($admin_id)
 	{
-		return $admin_info = $this->GetSingleRow("spssp_admin"," id=".$admin_id);
+    return Model_Admin::find_by_pk($admin_id);
 	}
 	function get_printing_company_info($print_company_id)
 	{
@@ -40,8 +36,6 @@ class InformationClass extends DBO
 	}
 	function get_date_with_supplyed_flag_difference( $date, $num_of_day, $flag=1 )
 	{
-		//$flag=1=plus.............$flag=2=minus
-
 		$day = strftime('%d',strtotime($date));
 		$month = strftime('%m',strtotime($date));
 		$year = strftime('%Y',strtotime($date));
@@ -87,10 +81,10 @@ class InformationClass extends DBO
 
 		// UCHIDA EDIT 11/08/16 リセットでは席次印刷の時間のみ消去
 		unset($post);
-		$post['print_irai']=NULL;
-		$post['print_ok']=NULL;
-		$post['kari_hachu']=NULL;
-		$post['hon_hachu']=NULL;
+		//$post['print_irai']=NULL;
+		//$post['print_ok']=NULL;
+		//$post['kari_hachu']=NULL;
+		//$post['hon_hachu']=NULL;
 		$this->UpdateData('spssp_clicktime',$post,"user_id=".$user_id);
 	}
 	function get_user_id_md5($md5_user_id)
@@ -240,49 +234,15 @@ class InformationClass extends DBO
 			return false;
 		}
 	}
-  function get_sekizihyo_edit_term($plan_info_array){
-    
-    //席次表編集期間を過ぎているかどうか判定
-    $user_row = $this->GetSingleRow("spssp_user"," id= ".$plan_info_array["user_id"]);
-    $dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $user_row["limitation_ranking"] , $flag=2 );
-    $dateArray = explode("/",$dateBeforeparty);
-    $limit_mktime = mktime(0,0,0,$dateArray[1],$dateArray[2],$dateArray[0]);
-    if($limit_mktime<mktime()){
-      return false;
-    }
-    return true;
-    
+  //席次表編集期間を過ぎているかどうか判定
+  //old function::you must use this function (fuel/app/model/user past_deadline_sekijihyo)
+  function get_sekizihyo_edit_term($plan_arr){
+    return Model_User::past_deadline_sekijihyo($plan_arr["user_id"]);
   }
-	function get_editable_condition($plan_info_array)
+	function get_editable_condition($plan_arr)
 	{
-	$click_info = $this->get_clicktime_info($plan_info_array['user_id']);
-	$pd = strptime($click_info['print_irai'],"%Y-%m-%d %H:%M:%S");
-	$pidate = mktime($pd[tm_hour],$pd[tm_min],$pd[tm_sec],$pd[tm_mon]+1,$pd[tm_mday],$pd[tm_year] + 1900);
-	if(!preg_match('/.*\/(\d*).PDF$/', $plan_info_array['p_company_file_up'] , $matches)){
-		$matches = array("1");
-	}
-		/*if ($plan_info_array['order'] == 1 && $_SESSION['adminid'] > 0) {  // 追加仕様でホテルスタッフは仮発注時に編集可能
-
-			return true;
-    }*/
-    if(!$this->get_sekizihyo_edit_term($plan_info_array)&&!$this->is_admin()){
-      return false;
-    }
-		if ($plan_info_array['order'] == 1 && ($plan_info_array['admin_to_pcompany'] == 0 || $plan_info_array['admin_to_pcompany'] == 1)) {  // 追加仕様で「スタッフ画面：仮発注、ユーザ画面：印刷イメージ依頼」で編集不可
-			return false;
-		}
-//    if($plan_info_array['admin_to_pcompany']==2) {
-    if($plan_info_array['admin_to_pcompany']==2 && $pidate < $matches[1]) {
-			return true;
-		}
-		if(($plan_info_array['order']<=3 && $plan_info_array['order']>0) || ($plan_info_array['order']==2 && $plan_info_array['admin_to_pcompany']==3))
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+    $plan = Model_Plan::find_one_by_user_id($plan_arr["user_id"]);
+    return $plan->editable();
 	}
 
 	function get_image_db_directory($hotel_id){
@@ -299,13 +259,11 @@ class InformationClass extends DBO
         //
         return $result_image_db_dir;
     }
-  function get_user_name_image_or_src( $user_id ,$hotel_id , $name ,$extra=false,$width = 100 , $opt = false,$height = false )
+  function get_user_name_image_or_src( $user_id ,$hotel_id , $name ,$extra="",$width = 100 , $opt = false,$height = false )
 	{
-		 $file = sprintf("%s/user_name/%d/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$name);
-
-		 if($extra)
-		 $file = sprintf("%s/user_name/%d/%s/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$extra,$name);
-
+    if($extra==".") $extra = "";
+    if($extra!="") $extra .= "/";
+    $file = Core_Image::get_user_image_dir_relative($user_id).$extra.$name;
 		if(is_file($file))
 		{
 			if($opt == "src")
@@ -313,9 +271,8 @@ class InformationClass extends DBO
 			else if($extra!==false)
 			{
         if($height){
-          return "<img src=\"".$file."\" height=\"".$height."\"/>";
+          return "<img src=\"".$file."\" height=\"".$height."\" />";
         }
-
         return "<img src=\"".$file."\" />";
 			}else if($height){
         $file = str_replace("../","",$file);
@@ -332,97 +289,24 @@ class InformationClass extends DBO
 			return false;
 		}
 	}
-function get_user_name_image_or_src_from_user_side( $user_id ,$hotel_id , $name ,$extra="",$width , $opt = false )
+  function get_user_name_image_or_src_from_user_side( $user_id ,$hotel_id , $name ,$extra="",$width , $opt = false,$height )
 	{
-		 $file = sprintf("%s/user_name/%d/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$name);
-
-		 if($extra)
-		 $file = sprintf("%s/user_name/%d/%s/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$extra,$name);
-
-		 $file = str_replace("../","",$file);
-
-		 if(is_file($file))
-		 {
-			if($opt == "src")
-				return $file;
-			else if($extra)
-			{
-        if($width) return "<img src=\"".$file."\" width=\"".$width."\" />";
-				return "<img src=\"".$file."\" />";
-			}
-			else
-			{
-				return "<img src='image.php?f=".$file."&w=".$width."' />";
-			}
-		}
-		else
-		{
-			return false;
-		}
+    return $this->get_user_name_image_or_src($user_id,$hotel_id,$name,$extra,$width,$opt,$height);
 	}
 
 	function get_user_name_image_or_src_from_ajax( $user_id ,$hotel_id , $name ,$extra="",$width = 100 , $opt = false )
 	{
-		 $file = sprintf("%s/user_name/%d/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$name);
-
-		 if($extra)
-		 $file = sprintf("%s/user_name/%d/%s/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$extra,$name);
-
-		 $file1 = str_replace("../","../../",$file);
-
-		 if(is_file($file1))
-		 {
-			if($opt == "src")
-				return $file;
-			else if($extra)
-			{
-
-				return "<img src=\"".$file."\" />";
-			}
-			else
-			{
-				return "<img src='image.php?f=".$file."&w=".$width."' />";
-			}
-		}
-		else
-		{
-			return false;
-		}
+    return $this->get_user_name_image_or_src($user_id,$hotel_id,$name,$extra,$width,$opt);
 	}
 
 function get_user_name_image_or_src_from_user_side_make_plan( $user_id ,$hotel_id , $name ,$extra="",$width = 100 , $opt = false )
 	{
-		 $file = sprintf("%s/user_name/%d/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$name);
-
-		 if($extra)
-		 $file = sprintf("%s/user_name/%d/%s/%s",$this :: get_image_db_directory($hotel_id),(int)$user_id,$extra,$name);
-
-		 $file = str_replace("../","",$file);
-
-		 if(is_file($file))
-		 {
-			if($opt == "src")
-				return $file;
-			else if($extra)
-			{
-
-				return "<img src='".$file."' />";
-			}
-			else
-			{
-				return "<img src='image.php?f=".$file."&w=".$width."' />";
-			}
-		}
-		else
-		{
-			return false;
-		}
+    return $this->get_user_name_image_or_src($user_id,$hotel_id,$name,$extra,$width,$opt=true);
 	}
 
-// UCHIDA EDIT 11/08/16
 	function get_clicktime_info($user_id)
 	{
-		return $clicktime_info = $this->GetSingleRow("spssp_clicktime"," user_id=".$user_id);
+    return Model_Clicktime::find_by_user_id($this->user_id);
 	}
 
 	function update_clicktime_info($type, $dt, $user_id)

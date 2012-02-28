@@ -14,25 +14,17 @@ $login_rows = $obj->GetAllRowsByCondition("spssp_user_log", " user_id=".$user_id
 $admin_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$user_id." ORDER BY login_time DESC");
 
 $user_data = $obj->GetSingleRow("spssp_user", " id=".$user_id);
-//print_r($user_data);
-
-	//$fullTime = $user_data['marriage_day']." ".$user_data['marriage_day_with_time'];
-	//$marriage_date = new DateTime($fullTime);
-	//$date= $marriage_date->format('Y/m/d h:i A');
 
 $fullTime = $user_data['party_day']." ".$user_data['party_day_with_time'];
-$party_date = new DateTime($fullTime);$date= $party_date->format('Y/m/d h:i A');
+$party_date = new DateTime($fullTime);
+$time = $party_date->getTimestamp();
+$date = getdate();
+$day = ($time - mktime(0,0,0,$date["mon"],$date["mday"],$date["year"]))/(60*60*24);
+$limit_day = floor($day);
 
-$date2= $party_date->format('Y/m/d h:i');
-$date3= date('Y/m/d h:i');
+$date= $party_date->format('Y/m/d h:i A');
 
 
-/*exit;
-$date = date("m/d/Y h:i A",mktime($fullTime));
-
-echo "<h1>".$fullTime ." $user_id  $date   ////  03/15/2011 05:00 PM <h1>";*/
-
-//$user_room_data = $obj->GetSingleRow("spssp_party_room", " id=".$user_data['party_room_id']);
 $roomName = $obj->GetSingleData("spssp_room","name"," id = ".$user_data["room_id"]);
 
 //tabの切り替え
@@ -61,7 +53,6 @@ function japanyDateFormateForDashboard($rawTime, $time_24h=0) {
 		$time = strftime('%I時%M分',strtotime($time_24h));
 		echo $day_TJ[$keys_T[0]].$time;
 	}
-	//print_r($keys);g:i a
 }
 
 ?>
@@ -73,12 +64,10 @@ function japanyDateFormateForDashboard($rawTime, $time_24h=0) {
             <table width="500" border="0" cellspacing="1" cellpadding="0">
                 <tr>
                 <td width="105" nowrap="nowrap"><font size="3">披露宴日時：</font></td>
-<!--                 <td width="237" class="bridal_info_txt01"><?=$obj->japanyDateFormate($user_data['party_day'],$user_data['party_day_with_time'])?></td> UCHIDA EDIT 11/08/09 -->
                 <td width="392" nowrap="nowrap" ><font size="3"><?=japanyDateFormateForDashboard($user_data['party_day'],$user_data['party_day_with_time'])?></font></td>
                 </tr>
                 <tr>
                 <td nowrap="nowrap"><font size="3">披露宴会場：</font></td>
-<!--                 <td class="bridal_info_txt01"><?=$roomName;?></td> UCHIDA EDIT 11/08/09 -->
                 <td nowrap="nowrap"><font size="3"><?=$roomName;?></font></td>
                 </tr>
             </table>
@@ -88,42 +77,18 @@ function japanyDateFormateForDashboard($rawTime, $time_24h=0) {
         </div>
         <div id="ready_to_date" >
         <?php
-if($date2>$date3){
-	echo "披露宴まで";
-	}else{
-	echo "";
-		}
+  if($limit_day>0){
+    echo "披露宴日まで".$limit_day."日";
+  }else if($limit_day==0){
+    echo "披露宴日当日です";
+  }else{
+    echo "披露宴は終了しました";
+  }
         ?>
-
-
-		<script language="JavaScript">
-		//TargetDate = "03/15/2011 05:00 PM";
-		TargetDate = "<?php echo $date;?>";
-		BackColor = "white";
-		ForeColor = "#FFB3D9";
-		CountActive = true;
-		CountStepper = -1;
-		LeadingZero = true;
-//		DisplayFormat = ' %%D%% %%H%% %%M%%';//%%S%% // UCHIDA EDIT 11/08/09 日付のみの表示に変更
-
-		DisplayFormat = ' %%D%%'; // %%M%% %%S%%
-		FinishMessage = "披露宴は終了しました";
-		</script>
-		<script language="JavaScript" src="js/wcount_data/countdown.js"></script>
 		</div>
 	<div class="clear"></div>
 
 <script type="text/javascript">
-/*$(document).ready(function() {
-
-$.get('ajax/front_admin_msg.php', function(data) {
-
-  $('#whatsnew_area').html(data);
-
-});
-
-
-});*/
 
  var title=$("title");
  $(title).html("ホーム - ウエディングプラス");
