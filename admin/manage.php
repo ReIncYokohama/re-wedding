@@ -1,6 +1,7 @@
 <?php
 require_once("inc/include_class_files.php");
 include_once("inc/checklogin.inc.php");
+include_once("../fuel/load_classes.php");
 
 $obj = new DBO();
 $objMsg = new MessageClass();
@@ -8,18 +9,11 @@ $objinfo = new InformationClass();
 $post = $obj->protectXSS($_POST);
 $get = $obj->protectXSS($_GET);
 
-	if(isset($post['ajax']) && $post['ajax'] != '' && $post['id'] != '')
-	{
-		$super_msg_row = $obj->GetSingleRow("spssp_super_message", "id=".(int)$post['id']);
-		$des = str_replace('<br />','',$super_msg_row['description']);
-		echo $super_msg_row['title'].','.$des;
-		exit;
-	}
+include_once("inc/new.header.inc.php");
 
-	include_once("inc/new.header.inc.php");
+$stuff_id = (int)$_SESSION['adminid'];
 
-	$stuff_id = (int)$_SESSION['adminid'];
-	if($_SESSION['user_type'] == 222 || $_SESSION['user_type'] == 333)
+if($_SESSION['user_type'] == 222 || $_SESSION['user_type'] == 333)
 	{
 		$stuff_users = $obj->GetAllRowsByCondition("spssp_user", "stuff_id=".(int)$_SESSION['adminid']);
 
