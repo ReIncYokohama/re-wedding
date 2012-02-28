@@ -3,12 +3,15 @@ include_once("admin/inc/class_information.dbo.php");
 include_once("admin/inc/class_data.dbo.php");
 include_once("inc/checklogin.inc.php");
 
+include_once("fuel/load_classes.php");
+
 $obj = new DataClass();
 $obj_data = new DataClass();
 
 $objInfo = new InformationClass();
 $get = $obj->protectXSS($_GET);
-$user_id = (int)$_SESSION['userid'];
+
+$user_id = Core_Session::get_user_id();
 
 //tabの切り替え
 $tab_my_guests = true;
@@ -197,6 +200,7 @@ $(document).ready(function(){
   $('html, body').animate({scrollTop: '200px'}, 500);
 
 }
+
 function stage_enebeled()
 {
   var stage_guest_current=document.getElementById('stage_guest_current').value;
@@ -205,13 +209,13 @@ function stage_enebeled()
     {
       $('#stage_guest').val(stage_guest_current);
       document.getElementById('stage_guest').disabled=false;
-
+      $("#first_takasago_seat").remove();
     }
   else
     {
       $('#stage_guest').val("");
+      $("#first_takasago_seat").show();
       document.getElementById('stage_guest').disabled=true;
-
     }
 	changeAction = true;
 	resetTimeOut();
@@ -866,7 +870,7 @@ if($editable)
                             </select></td>
     <td width="90" align="right" nowrap="nowrap">高砂席名：                              <input type="hidden" id="stage_guest_current" value="<?=$guest_row[stage_guest]?>" ></td>
     <td width="173" align="left"><select id="stage_guest" tabindex=14 name="stage_guest" style="width:120px; padding-top:3px; padding-bottom:3px;border-style:inset;" <?php if($guest_row['self']==1 || $guest_row['stage']!="1"){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
-                              <option value="">選択してください</option>
+                              <option id="first_takasago_seat" value="">選択してください</option>
                               <?php
 							$stage_guest_1 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=1");
 							$stage_guest_2 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=2");
