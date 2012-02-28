@@ -309,12 +309,8 @@ function get_image_name_plate_data3($image,$width_px,$first_left,
     $gaiji_comment_arr = array_merge((array)$gaiji_comment1_arr, (array)$gaiji_comment2_arr);
     gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,26,$col_t,$font,$comment,$gaiji_comment_arr);
   }else{
-    $first = mb_substr($comment,0,15,"utf-8");
-    $second = mb_substr($comment,16,15,"utf-8");
     $gaiji_comment_arr = array_merge((array)$gaiji_comment1_arr, (array)$gaiji_comment2_arr);
-    $gaiji_first_num = substr_count($first,"＊");
-    $gaiji_first_arr = array_slice($gaiji_comment_arr, 0, $gaiji_first_num);
-    $gaiji_second_arr = array_slice($gaiji_comment_arr, $gaiji_first_num-1);
+    list($second,$first,$gaiji_second_arr,$gaiji_first_arr) = get_gaiji_image_split2($comment,$gaiji_comment_arr,15);
     gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,12,$col_t,$font,$first,$gaiji_first_arr);
     gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,26,$col_t,$font,$second,$gaiji_second_arr);
   }
@@ -766,8 +762,8 @@ function get_image_name_plate_data5($image,$width_px,$first_left,
       gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment_3,$gaiji_comment3_arr3);
     }else if(mb_strlen($comment3,"utf8") > $comment_max_size){
       list($comment_2,$comment_1,$gaiji_comment3_arr2,$gaiji_comment3_arr) = get_gaiji_image_split2($comment3,$gaiji_comment3_arr,$comment_max_size);
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment_1,$gaiji_comment3_arr2);
-      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment_2,$gaiji_comment3_arr);
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment_1,$gaiji_comment3_arr);
+      gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment_2,$gaiji_comment3_arr2);
     }else{
       gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3,$gaiji_comment3_arr);
     }
@@ -833,7 +829,7 @@ function get_gaiji_image_split2($comment,$comment_arr,$comment_max_size){
   $comment_2_gaiji_num = mb_substr_count($comment_2,"＊",'utf8');
   $comment_1_gaiji_num = mb_substr_count($comment_1,"＊",'utf8');
   $comment_2_gaiji_arr = array_slice($comment_arr,$comment_1_gaiji_num,$comment_2_gaiji_num);
-  $comment_1_gaiji_arr = array_slice($comment_arr,0,$comment_1_gaiji_num);  
+  $comment_1_gaiji_arr = array_slice($comment_arr,0,$comment_1_gaiji_num);
   return array($comment_2,$comment_1,$comment_2_gaiji_arr,$comment_1_gaiji_arr);
 }
 
