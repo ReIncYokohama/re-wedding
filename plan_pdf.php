@@ -324,8 +324,9 @@ for($i=0;$i<count($viewSubArray);++$i){
   if($viewSubArray[$i] && $viewSubArray[$i] != "") array_push($viewArray,$viewSubArray[$i]);
 }
 
-$width = count($viewArray)*150;
-$gift_table = get_center_table((count($viewArray)-1)*200,190,$gift_table);
+$width = count($viewArray)*140;
+if($width>$max_width) $width = $max_width;
+$gift_table = get_center_table((count($viewArray)-1)*150,150,$gift_table);
 
 $takasago_num_text = ($takasago_menu_num!=0)?($takasago_num-$takasago_menu_num)."+".$takasago_menu_num:$takasago_num;
 $subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td style="font-size:25px;" align="center">高砂【 '.$takasago_num_text.'名 】</td><td colspan="'.(count($viewArray)-1).'">'.$gift_table.'</td></tr><tr>';
@@ -335,7 +336,7 @@ for($i=0;$i<count($viewArray);++$i){
 }
 
 $subhtml .= '</tr></table>';
-$html .= get_center_table($max_width,$width,$subhtml);
+$html .= get_center_table($max_width+100,$width,$subhtml);
 
 //引き出物画像の表示
 

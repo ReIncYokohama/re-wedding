@@ -198,7 +198,9 @@ $viewArray = array();
 for($i=0;$i<count($viewSubArray);++$i){
   if($viewSubArray[$i] && $viewSubArray[$i] != "") array_push($viewArray,$viewSubArray[$i]);
 }
-$width = count($viewArray)*150;
+$width = count($viewArray)*140;
+if($width>$max_width) $width = $max_width;
+
 
 $subhtml='<table style="font-size:'.$main_font_size_top.';border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr>';
 
@@ -207,7 +209,7 @@ for($i=0;$i<count($viewArray);++$i){
 }
 $subhtml .= '</tr></table>';
 
-$html .= get_center_table($max_width,$width,$subhtml);
+$html .= get_center_table($max_width+100,$width,$subhtml);
 
 
 //rows[0]columns[0]seats[0]
