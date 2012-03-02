@@ -1484,7 +1484,7 @@ if($updating){
 					$company_results = $obj->getRowsByQuery($sql_company);
 					?>
 					<?php if ($disp_option1=="") { ?>
-					<select name="print_company" id="print_company" style="border-style: inset;">
+					<select name="print_company" id="print_company" style="border-style: inset;width:220px;">
 						<?php foreach($company_results as $company){?>
 						<option value="<?=$company['id']?>" <?php if($user_plan_row['print_company']==$company['id']){echo "selected='selected'";}?> ><?=$company['company_name']?></option>
 						<?php }?>
