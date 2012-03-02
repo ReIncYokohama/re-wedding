@@ -4,7 +4,7 @@ include_once(dirname(__file__)."/class.dbo.php");
 include_once(dirname(__file__)."/../../fuel/load_classes.php");
 class DataClass extends DBO{
   public function DataClass()
-  {
+ {
   }
   
   public function set_guest_data_update($set_obj,$user_id,$guest_id,$admin_id){
@@ -634,8 +634,7 @@ class DataClass extends DBO{
     $table_details=$this->getSingleRow("spssp_default_plan_table"," id=".$table_id." limit 1");
     $tbl_row = $this->getSingleRow("spssp_table_layout"," table_id=".$table_id." and user_id=".$user_id." limit 1");
     $new_name_row = $this->getSingleRow("spssp_user_table"," default_table_id=".$tbl_row['id']." and user_id=".$user_id." limit 1");
-    
-    if(!empty($new_name_row))
+    if(empty($new_name_row))
       {
         $tblname = $this->getSingleData("spssp_tables_name","name","id=".$new_name_row['table_name_id']);    
       }

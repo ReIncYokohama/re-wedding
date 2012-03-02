@@ -1,6 +1,8 @@
 <?php
 include_once("admin/inc/class_information.dbo.php");
 include_once("inc/checklogin.inc.php");
+include_once("fuel/load_classes.php");
+
 $obj = new DBO();
 $objInfo = new InformationClass();
 $get = $obj->protectXSS($_GET);
@@ -9,12 +11,14 @@ $tab_table_layout = true;
 $TITLE = "テーブルの配置 - ウエディングプラス";
 include_once("inc/new.header.inc.php");
 
-	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
-	$num_layouts = $obj->GetNumRows("spssp_table_layout","user_id= ".(int)$user_id);
+$plan = Model_Plan::find_one_by_user_id($user_id);
+$plan_info = $plan->to_array();
 
-	$editable=$objInfo->get_editable_condition($plan_info);
+$num_layouts = $obj->GetNumRows("spssp_table_layout","user_id= ".(int)$user_id);
 
-	if($_POST['user_layout_title']="user_layout_title")
+$editable=$objInfo->get_editable_condition($plan_info);
+
+if($_POST['user_layout_title']="user_layout_title")
 	{
 		unset($_POST['user_layout_title']);
 		unset($_POST['submit']);
@@ -27,7 +31,7 @@ if($_POST['ajax']=="ajax")
 		$obj->UpdateData("spssp_plan",$_POST," user_id=".$user_id);
 		exit;
 	}
-// UCHIDA EDIT 11/08/03 披露宴会場名の取得
+
 	$user_data = $obj->GetSingleRow("spssp_user", " id=".$user_id);
 	$rooms = $obj->GetAllRow("spssp_room");
 

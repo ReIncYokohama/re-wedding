@@ -2,13 +2,18 @@
 @session_start();
 include_once("admin/inc/class_data.dbo.php");
 include_once("inc/checklogin.inc.php");
+include_once("fuel/load_classes.php");
 
 $obj = new DataClass();
 $get = $obj->protectXSS($_GET);
-$user_id = (int)$_SESSION['userid'];
 
-$user_info =  $obj->GetSingleRow("spssp_user", " id=".$user_id);
-$plan_info =  $obj->GetSingleRow("spssp_plan", " user_id=".$user_id);
+$user_id = Core_Session::get_user_id();
+
+$user = Model_User::find_by_pk($user_id);
+$user_info = $user->to_array();
+$plan = Model_Plan::find_one_by_user_id($user_id);
+$plan_info = $plan->to_array();
+
 $default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
 
 $plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
