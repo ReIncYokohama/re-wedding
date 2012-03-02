@@ -518,6 +518,12 @@ function validForm_staff()
 			document.getElementById('password').focus();
 			return false;
 		}
+		if(c>15)
+		{
+			alert("パスワードは15文字以内で入力してください");
+			document.getElementById('password').focus();
+			return false;
+		}
 	}
 	if(reg.test(password) == false) {
 		alert("パスワードは英数字記号で入力してください");
