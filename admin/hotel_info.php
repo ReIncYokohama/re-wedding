@@ -119,17 +119,25 @@ font-weight:normal;
 RE_EMAIL   = new RegExp(/^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/);
 function validForm()
 {
+	var postcode = document.getElementById('zipcode').value;
 	if($j("#name").val() =='')
 	{
 	     alert("ホテル名が未入力です");
 		 $j("#name").focus();
 		 return false;
 	}
-	if($j("#zipcode").val() =='')
-	{
-	     alert("郵便番号が未入力です");
-		 $j("#zipcode").focus();
-		 return false;
+	if (postcode.length != 0) {
+		if( postcode.match( /[^0-9\s-]+/ ) ) {
+				alert("郵便番号は半角数字と'-'だけで入力してください");
+        $j("#zipcode").focus();
+				return false;
+		}
+		if (postcode.length !=8) {
+			alert("郵便番号は'123-4567'の形式で入力してください");
+      $j("#zipcode").focus();
+
+			return false;
+		}
 	}
 	if($j("#address1").val() =='')
 	{
@@ -278,7 +286,7 @@ include("inc/return_dbcon.inc.php");
 						  <tr>
 						    <td align="left">郵便番号<?=$disp_option3?></td>
 							<td align="left">：</td>
-							<td><input name="zipcode" type="text" id="zipcode" style="padding:0px;border-style: inset; <?=$disp_option2?> " size="10" maxlength="7" value="<?=$hotel_row[zip]?>"/></td>
+							<td><input name="zipcode" type="text" id="zipcode" style="padding:0px;border-style: inset; <?=$disp_option2?> " size="10" maxlength="8" value="<?=$hotel_row[zip]?>"/>（例　231-0000）</td>
 						  </tr>
 						  <tr>
 						    <td align="left">住所1<?=$disp_option3?></td>
@@ -293,7 +301,7 @@ include("inc/return_dbcon.inc.php");
 						  <tr>
 						    <td align="left">電話番号<?=$disp_option3?></td>
 							<td align="left">：</td>
-							<td><input type="text" name="tel" id="tel" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " value="<?=$hotel_row[phone]?>" /></td>
+							<td><input type="text" name="tel" id="tel" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " value="<?=$hotel_row[phone]?>" />（例　0451111111)</td>
 						  </tr>
 						  <tr>
 						    <td align="left">担当者<?=$disp_option3?></td>
