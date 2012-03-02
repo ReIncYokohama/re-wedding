@@ -95,10 +95,7 @@ if(!$$hotel_sqlhost_val){
             <td><p><?=$hotel['hotel_name']?>&#13;</p></td>
             <td><a href="hotel_edit.php?id=<?=$hotel['id']?>"> <img src="img/common/btn_edit02.png" alt="詳細・編集" width="57" height="17" /></a></td>
 
-<!-- UCHIDA EDIT 11/08/11 デモ用に登録したホテルＩＤでホテル画面に遷移させる -->
-<!--             <td><a href="#"><img src="img/common/hotel_display.png" width="61" height="17" alt="ホテル画面" /></a></td> -->
             <td>
-<!-- 			<a href="../<?php echo (int)$hotel['url_name']?>/admin/index.php?key=<?=md5($hotel['email'])?>"><img src="img/common/hotel_display.png" width="61" height="17" alt="ホテル画面" /></a> -->
  			<a href="javascript:void(0);" onClick="hotelSubmit(<?=(int)$hotel['hotel_code']?>);"><img src="img/common/hotel_display.png" width="61" height="17" alt="ホテル画面" /></a>
 			</td>
 
