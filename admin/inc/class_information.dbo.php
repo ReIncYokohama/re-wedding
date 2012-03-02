@@ -321,6 +321,7 @@ function get_user_name_image_or_src_from_user_side_make_plan( $user_id ,$hotel_i
 	    	break;
 	    case "hikide_irai":
 			$post['hikide_irai']=$dt;
+      break;
 	    case "kari_hachu":
 			$post['kari_hachu']=$dt;
 	    	break;

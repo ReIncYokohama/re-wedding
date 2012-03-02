@@ -87,8 +87,6 @@
 	if($get['action']=="print_request")
 	{
 
-//		if($obj->GetRowCount("spssp_plan"," `order` = 2 and user_id=".$user_id) >0 )
-//		if($obj->GetRowCount("spssp_plan"," `order` >= 1 and user_id=".$user_id) >0 )
 		if($obj->GetRowCount("spssp_plan"," `order` >= 0 and user_id=".$user_id) >0 )
 		{
 			if($plan_info['print_company']>0)
@@ -136,7 +134,7 @@
 			$post['gift_daylimit']=3;
 			$res = $obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 
-			$hikide_zumi = $objMsg->clicktime_entry_return( "hikide_zumi", $user_id ); // UCHIDA EDIT 11/08/16 クリック日付を記録
+			$hikide_zumi = $objMsg->clicktime_entry_return( "hikide_zumi", $user_id );
 
 			if($res)
 			{
@@ -221,18 +219,6 @@ height:25px;
 function validForm_1()
 {
 
-	/*var daylimit_1  = document.getElementById('daylimit_1').value;
-	var daylimit_2  = document.getElementById('daylimit_2').value;
-
-
-	var flag = true;
-	if(!daylimit_1)
-	{
-		 alert("タイトルが未入力です");
-		 document.getElementById('daylimit_1').focus();
-		 return false;
-	}*/
-
 	document.day_limit_form.submit();
 }
 function validForm_2()
@@ -289,19 +275,16 @@ function m_win(url,windowname,width,height) {
   features+=", height="+height;
  }
  window.open(url,windowname,features);
-// window.showModalDialog(url,windowname,"dialogTop:400px; dialogLeft:600px; dialogwidth:"+width+"px; dialogheight:"+height+"px;");
 }
 
 // --></script>
 <div id="topnavi">
-<!--
-// UCHIDA EDIT 11/08/17 ホテル名をメール送信で利用するため移動
+
 <?php
 include("inc/main_dbcon.inc.php");
 $hcode=$HOTELID;
 $hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
 ?>
--->
 <h1><?=$hotel_name?></h1>
 <?
 include("inc/return_dbcon.inc.php");
@@ -325,9 +308,6 @@ include("inc/return_dbcon.inc.php");
 
     </div>
     <h4>
-	<!-- UCHIDA EDIT 11/08/04
-        <div style="width:600px"><a href="users.php">お客様一覧</a> &raquo; <a href="user_info.php?user_id=<?=$user_id?>">お客様挙式情報</a> &raquo; 席次表・引出物発注</div>
-	-->
 		<div style="width:600px">
 		<?php
 		if($stuff_id==0) {
@@ -370,7 +350,6 @@ include("inc/return_dbcon.inc.php");
       <br />
 
 
-<!-- 	<div id="message_BOX"  style="width:800px;"> UCHIDA EDIT 11/08/10 -->
 	<div style="width:800px;">
 		<h2>①席次表・席札　発注</h2>
 		席次表の仮発注、本発注、依頼解除ができます。
@@ -393,7 +372,7 @@ include("inc/return_dbcon.inc.php");
 				<?php }?>
 				<td width="300">
 					<?php
-						echo $kari_hachu; // UCHIDA EDIT 11/08/16 クリック日付を表示
+						echo $kari_hachu;
 					?>
 				</td>
 				<td  width="80">&nbsp;</td>
@@ -406,77 +385,8 @@ include("inc/return_dbcon.inc.php");
             </tr>
 
 
-
-
-<!-- 		<div style="margin-top:20px;">
-		<table width="50%" border="0" cellspacing="1" cellpadding="3">
-			  <tr>
-				<td width="20%" valign="middle">
-					■席次表印刷部数<br>
-					<form action="guest_gift.php?user_id=<?=$user_id?>" method="POST" name="day_linit_form_1">
-						<input type="text" id="daylimit" name="day_limit_1" size="1" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;">
-						<input type="submit" value="保存" onclick="validForm_1();">
-					</form>
-				</td>
-			<?php
-				if($plan_info['admin_to_pcompany']==1 && $plan_info['admin_to_pcompany']>0)
-				{
-			?>
-				<td width="24%" valign="middle"><img src="img/common/order/seat_paper_order_greyed.gif" /></td>
-				<?php }else{?>
-			  	<td width="24%" valign="middle"><a href="#"><img src="img/common/order/seat_paper_order.gif" /></a></td>
-				<?php }?>
-			  </tr>
-
-		</table>
-        </div> -->
-
-
-
 			  <tr>
 				<td width="182" valign="middle">
-  <!--
-					<form action="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>" method="POST" name="day_limit_form">
-					<input type="hidden" name="gift_day_limit" value="gift_day_limit">
-
-					<?php
-					if($plan_info['dowload_options']==1)
-					{ ?>
-						■席次表印刷部数<br>
-			<input type="text" id="daylimit_1" name="day_limit_1" size="3" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
-			部
-					<br><br>
-					<br>
-					<?php }
-					if($plan_info['dowload_options']==2)
-					{ ?>
-						■席札印刷部数<br>
-		    <input type="text" id="daylimit_2" name="day_limit_2" size="3" maxlength="3" value="<?=$dayLimit_2?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
-		    部
-		    		<br>
-		    		<br>
-					<?php }
-					if($plan_info['dowload_options']==3)
-					{ ?>
-						■席次表印刷部数<br>
-			<input type="text" id="daylimit_1" name="day_limit_1" size="3" maxlength="3" value="<?=$dayLimit_1?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
-			部
-					<br><br>
-						■席札印刷部数
-					<br>
-					<input type="text" id="daylimit_2" name="day_limit_2" size="3" maxlength="3" value="<?=$dayLimit_2?>" style="height:30px;font-size:18px;font-weight:bold;text-align:right;">
-					部
-					<br><br>
-				<?php	}
-
-					?>
-					<?php
-					if($plan_info['dowload_options']>0)
-					{ ?>
-					<a href="javascript:void(0);" onclick="validForm_1();"><img src="img/common/btn_save.jpg" alt="保存"></a>
-				<?php }?>
-					</form>
--->
 			    </td>
 				<?php
                 if(($plan_info['admin_to_pcompany']==3 && $plan_info['admin_to_pcompany']>0 &&$plan_info['ul_print_com_times']==1) || $isGrey)
@@ -488,7 +398,7 @@ include("inc/return_dbcon.inc.php");
 				<?php }?>
  				<td>
 					<?php
-						echo $hon_hachu; // UCHIDA EDIT 11/08/16 クリック日付を表示
+						echo $hon_hachu;
 						if ($hon_hachu!="") {
 							echo "<br />";
 							if ($plan_info['dowload_options']==1 || $plan_info['dowload_options']==3) echo "席次表印刷部数 ".$dayLimit_1." 部";
@@ -523,7 +433,6 @@ include("inc/return_dbcon.inc.php");
 		</table>
 </div>
 
-<!-- 		<div style="border-top:1px solid #3681CB;padding:5px; width:800px;"> UCHIDA EDIT 11/08/10 -->
 		<div>
 			<h2>②引出物発注</h2>
 			お客様からの引出物発注を確認後は、引出物処理済ボタンをクリックしてください。

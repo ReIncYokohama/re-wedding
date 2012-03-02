@@ -504,7 +504,6 @@ class MessageClass extends InformationClass
 			$result=mysql_query($sql);
 		}
 		else {
-
 			$this::update_clicktime_info($type, $dt, $user_id);
 		}
 
