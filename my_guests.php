@@ -214,7 +214,7 @@ function stage_enebeled()
   else
     {
       $('#stage_guest').val("");
-      $("#first_takasago_seat").show();
+      $("#stage_guest").prepend("<option id=\"first_takasago_seat\" value=\"\">選択してください</option>");
       document.getElementById('stage_guest').disabled=true;
     }
 	changeAction = true;
