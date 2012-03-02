@@ -1,16 +1,16 @@
 <?php
-	include_once("admin/inc/dbcon.inc.php");
-	include_once("admin/inc/class.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	$obj = new DBO();
-	$get = $obj->protectXSS($_GET);
-	$user_id = (int)$_SESSION['userid'];
+include_once("admin/inc/dbcon.inc.php");
+include_once("admin/inc/class.dbo.php");
+include_once("inc/checklogin.inc.php");
+$obj = new DBO();
+$get = $obj->protectXSS($_GET);
+$user_id = (int)$_SESSION['userid'];
 
 //tabの切り替え
 $tab_message = true;
 
-
-	include_once("inc/new.header.inc.php");
+$TITLE = "メッセージ受信 - ウエディングプラス";
+include_once("inc/new.header.inc.php");
 
 	$table='spssp_admin_messages';
 	$where = " user_id='".$user_id."'";
@@ -56,8 +56,6 @@ function to_downloadfile(url) {
 	window.location=url;
 }
 
-	 var title=$("title");
- $(title).html("メッセージ受信 - ウエディングプラス");
 </script>
 <div id="main_contents" class="displayBox">
   <div class="title_bar">

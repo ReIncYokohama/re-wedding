@@ -11,7 +11,7 @@ $table_data = $obj->get_table_data($user_id);
 
 //tabの切り替え
 $tab_user_info = true;
-
+$TITLE = "お客様情報 - ウエディングプラス";
 include("inc/new.header.inc.php");
 
 $user_row = $obj->GetSingleRow("spssp_user"," id= $user_id");
@@ -21,9 +21,6 @@ $user_plan_row = $obj->GetSingleRow("spssp_plan"," user_id= $user_id");
 $staff_name = $obj->GetSingleData("spssp_admin", "name"," id=".$user_row['stuff_id']);
 ?>
 <script>
-
-var title=$("title");
-$(title).html("お客様情報 - ウエディングプラス");
 
 $(function(){
 	

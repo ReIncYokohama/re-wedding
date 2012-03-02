@@ -3,6 +3,8 @@
 require_once("admin/inc/class.dbo.php");
 include_once("admin/inc/dbcon.inc.php");
 include_once("inc/checklogin.inc.php");
+
+$TITLE = "お客様画面アクセスログ - お客様情報 - ウエディングプラス";
 include("inc/new.header.inc.php");
 $obj = new DBO();
 
@@ -32,9 +34,6 @@ $obj = new DBO();
 ?>
 
 <script>
-
-	var title=$("title");
- $(title).html("お客様画面アクセスログ - お客様情報 - ウエディングプラス");
 
 $(function(){
 		$("ul#menu li").removeClass();

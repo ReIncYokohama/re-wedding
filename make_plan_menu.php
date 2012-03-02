@@ -25,6 +25,7 @@
 		redirect('table_layout.php?err=15');
 	}
 
+$TITLE = "席次表編集 - 席次表 - ウエディングプラス";
 	include_once("inc/new.header.inc.php");
 
 	$plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
@@ -128,9 +129,6 @@ if($objInfo->get_editable_condition($plan_row))
 
 
 <script type="text/javascript">
-var title=$("title");
- $(title).html("席次表編集 - 席次表 - ウエディングプラス");
-
 $(function(){
 
 $("ul#menu li").removeClass();

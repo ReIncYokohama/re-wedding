@@ -5,7 +5,9 @@
 	$obj = new DBO();
 	$get = $obj->protectXSS($_GET);
 	$user_id = (int)$_SESSION['userid'];
-	include_once("inc/new.header.inc.php");
+
+$TITLE = "メッセージ送信 - ウエディングプラス";
+include_once("inc/new.header.inc.php");
 
 
 	$num=$obj->GetNumRows("spssp_message", " user_id=".(int)$user_id);
@@ -237,9 +239,6 @@ function confirmDelete(urls)
 		$("ul#menu li").removeClass();
 		$("ul#menu li:eq(8)").addClass("active");
 	});
-
- var title=$("title");
- $(title).html("メッセージ送信 - ウエディングプラス");
 
  function button1_onclick() {
 		document.msg_form.upfile.click();

@@ -11,7 +11,8 @@
   //tabの切り替え
   $tab_order = true;
 
-	include_once("inc/new.header.inc.php");
+$TITLE = "発注 - ウエディングプラス";
+include_once("inc/new.header.inc.php");
 
 	/*
 		Hints : FROM ADMIN SIDE
@@ -106,8 +107,6 @@
 
 ?>
 <script>
-var title=$("title");
- $(title).html("発注 - ウエディングプラス");
 
 $(function(){
 

@@ -1,11 +1,13 @@
 <?php
-	include_once("admin/inc/dbcon.inc.php");
-	include_once("admin/inc/class.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	$obj = new DBO();
-	$get = $obj->protectXSS($_GET);
-	$user_id = (int)$_SESSION['userid'];
-	include_once("inc/new.header.inc.php");
+include_once("admin/inc/dbcon.inc.php");
+include_once("admin/inc/class.dbo.php");
+include_once("inc/checklogin.inc.php");
+$obj = new DBO();
+$get = $obj->protectXSS($_GET);
+$user_id = (int)$_SESSION['userid'];
+
+$TITLE = "パスワード変更 - ウエディングプラス";
+include_once("inc/new.header.inc.php");
 
 	if(trim($_POST['password'])!=="" && trim($_POST['userID'])!='')
 		{
@@ -49,9 +51,6 @@ $(function(){
 		$("ul#menu li").removeClass();
 
 	});
-
- var title=$("title");
- $(title).html("パスワード変更 - ウエディングプラス");
 
 </script>
 <script type="text/javascript" language="javascript">

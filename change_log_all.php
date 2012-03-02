@@ -4,6 +4,8 @@
 require_once("admin/inc/class.dbo.php");
 include_once("admin/inc/dbcon.inc.php");
 include_once("inc/checklogin.inc.php");
+
+$TITLE = "席次表データ修正ログ - お客様情報 - ウエディングプラス";
 include("inc/new.header.inc.php");
 include_once("admin/inc/class_data.dbo.php");
 
@@ -14,10 +16,6 @@ $dataObj = new DataClass;
 $logArray = $dataObj->get_all_log($user_id);
 
 ?>
-<script>
-var title=$("title");
-$(title).html("席次表データ修正ログ - お客様情報 - ウエディングプラス");
-</script>
 
 <style>
 .datepickerControl table

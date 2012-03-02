@@ -35,9 +35,7 @@ $__sekizihyo_edit_term = Model_User::past_deadline_sekijihyo($user_id);
 $__jobend=false;
 $__is_admin = Core_Session::is_admin();
 if ($__plan_info['admin_to_pcompany']==3 || $__plan_info['order']==2) $__jobend=true;
-?>
 
-<?php
 $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
 
 ?>
@@ -47,7 +45,7 @@ $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title></title>
+  <title><?php echo $TITLE;?></title>
 
 <link href="css/tmpl.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="tmp_js/cufon-yui.js"></script>

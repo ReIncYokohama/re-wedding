@@ -15,7 +15,7 @@ $user_id = Core_Session::get_user_id();
 
 //tabの切り替え
 $tab_my_guests = true;
-
+$TITLE = "招待者リストの作成 - ウエディングプラス";
 include_once("inc/new.header.inc.php");
 
 $message = "";
@@ -220,8 +220,6 @@ function stage_enebeled()
 	changeAction = true;
 	resetTimeOut();
 }
-var title=$("title");
-$(title).html("招待者リストの作成 - ウエディングプラス");
 
 function gsearch()
 {

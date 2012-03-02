@@ -30,6 +30,7 @@ $roomName = $obj->GetSingleData("spssp_room","name"," id = ".$user_data["room_id
 //tabの切り替え
 $tab_home = true;
 
+$TITLE = "ホーム - ウエディングプラス";
 include("inc/new.header.inc.php");
 
 // UCHIDA EDIT 11/08/09　フォーマトの変更があったので、japanyDateFormateをコピーす修正
@@ -87,13 +88,6 @@ function japanyDateFormateForDashboard($rawTime, $time_24h=0) {
         ?>
 		</div>
 	<div class="clear"></div>
-
-<script type="text/javascript">
-
- var title=$("title");
- $(title).html("ホーム - ウエディングプラス");
-</script>
-
 	<div class="title_bar">
     	<div class="title_bar_txt_L">お知らせ</div>
     	<!--<div class="title_bar_txt_R"><a href="admin_messages.php">＞メッセージ画面</a></div>-->

@@ -26,7 +26,9 @@
 //tabの切り替え
 $tab_download = true;
 
-	include_once("inc/new.header.inc.php");
+
+$TITLE = "招待者リストダウンロード - ウエディングプラス";
+include_once("inc/new.header.inc.php");
 
 	$cats =	$obj->GetAllRowsByCondition('spssp_guest_category',' user_id='.$user_id);
 
@@ -94,9 +96,6 @@ $tab_download = true;
 <link href="css/drag_n_drop.css" type="text/css" rel="stylesheet">
 
 <script type="text/javascript">
-
-var title=$("title");
- $(title).html("招待者リストダウンロード - ウエディングプラス");
 
 $(function(){
 

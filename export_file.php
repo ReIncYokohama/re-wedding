@@ -1,4 +1,4 @@
-<?php
+x<?php
 @session_start();
 include_once("admin/inc/class_data.dbo.php");
 include_once("inc/checklogin.inc.php");

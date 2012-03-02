@@ -1,15 +1,17 @@
 <?php
-	include_once("admin/inc/class_information.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	$obj = new DBO();
-	$objInfo = new InformationClass();
-	$get = $obj->protectXSS($_GET);
-	$user_id = (int)$_SESSION['userid'];
+include_once("admin/inc/class_information.dbo.php");
+include_once("inc/checklogin.inc.php");
+$obj = new DBO();
+$objInfo = new InformationClass();
+$get = $obj->protectXSS($_GET);
+$user_id = (int)$_SESSION['userid'];
 
 //tabの切り替え
 $tab_hikidemono = true;
 
-	include_once("inc/new.header.inc.php");
+$TITLE = "引出物・料理の登録 - ウエディングプラス";
+include_once("inc/new.header.inc.php");
+
 	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
 	$data_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".(int)$_SESSION['userid']." order by id asc");
 
@@ -116,10 +118,6 @@ $tab_hikidemono = true;
 }
 </style>
 <script type="text/javascript">
-
- var title=$("title");
- $(title).html("引出物・料理の登録 - ウエディングプラス");
-
 	$(function(){
     if(<?php echo $save_hikidemono;?>) alert("引出物グループが保存されました");
 	});

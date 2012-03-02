@@ -6,6 +6,7 @@ $objInfo = new InformationClass();
 $get = $obj->protectXSS($_GET);
 $user_id = (int)$_SESSION['userid'];
 $tab_table_layout = true;
+$TITLE = "テーブルの配置 - ウエディングプラス";
 include_once("inc/new.header.inc.php");
 
 	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
@@ -45,8 +46,6 @@ if($_POST['ajax']=="ajax")
 <link href="css/choose_plan.css" rel="stylesheet" type="text/css" />
 
 <script>
- var title=$("title");
- $(title).html("テーブルの配置 - ウエディングプラス");
 $(function(){
 
 $("ul#menu li").removeClass();

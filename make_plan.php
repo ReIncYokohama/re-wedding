@@ -27,9 +27,9 @@
 
 
   //tabの切り替え
-  $tab_make_plan = true;
-
-	include_once("inc/new.header.inc.php");
+$tab_make_plan = true;
+$TITLE = "席次表編集 - 席次表 - ウエディングプラス";
+include_once("inc/new.header.inc.php");
 
 	$plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
 
@@ -149,10 +149,6 @@ function m_win(url,windowname,width,height) {
  }
  window.open(url,windowname,features);
   }
-
-
-var title=$("title");
- $(title).html("席次表編集 - 席次表 - ウエディングプラス");
 
 $(function(){
 
