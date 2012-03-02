@@ -961,7 +961,7 @@ class DataClass extends DBO{
     }
     return $returnArray;
   }
-
+  
   //name,num
   public function get_menu_table($guestDetailArray,$user_id){
     $menuGroups = $this->get_menu_groups($user_id);
