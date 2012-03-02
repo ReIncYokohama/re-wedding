@@ -539,9 +539,9 @@ include("inc/return_dbcon.inc.php");
 				if($plan_info['gift_daylimit']>=3)
 				{
 			?>
-				<td width="500" valign="middle"><img src="img/common/order/gift_processed_greyed.gif" width="146" height="32" /></td>
+				<td width="182" valign="middle"><img src="img/common/order/gift_processed_greyed.gif" width="146" height="32" /></td>
 				<?php }else{?>
-			  	<td width="500" valign="middle">
+			  	<td width="182" valign="middle">
 				<a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=daylimit_request&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>','引出物処理をします。宜しいですか？')">
 				<img src="img/common/order/gift_processed.gif" width="146" height="32" /></a></td>
 				<?php }?>
@@ -566,8 +566,8 @@ include("inc/return_dbcon.inc.php");
 				    <?php 
 				    } ?>
 				    
-					<td width="580" valign="middle">　</td>
-					<td width="580" valign="middle"><p>印刷会社よりアップロードされた「席次表の印刷イメージ」がご確認いただけます。<br />※印刷会社よりアップロードされるまでは、ボタンは使用できません。</p></td>
+					<td valign="middle">　</td>
+					<td colspan="2" valign="middle"><p>印刷会社よりアップロードされた「席次表の印刷イメージ」がご確認いただけます。<br />※印刷会社よりアップロードされるまでは、ボタンは使用できません。</p></td>
 					 
 		  </tr>
 

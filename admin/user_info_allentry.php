@@ -814,10 +814,10 @@ include("inc/return_dbcon.inc.php");
 		<?php
 		if($user_id>0) {
 			if($stuff_id==0) {
-	            echo '<a href="manage.php">ＴＯＰ</a> &raquo; お客様挙式情報 &raquo; お挙式情報・各種設定';
+	            echo '<a href="manage.php">ＴＯＰ</a> &raquo; お客様挙式情報 &raquo; 挙式情報・各種設定';
 			}
 			else {
-	            echo '<a href="users.php">管理者用お客様一覧</a> &raquo; お客様挙式情報 &raquo; お挙式情報・各種設定';
+	            echo '<a href="users.php">管理者用お客様一覧</a> &raquo; お客様挙式情報 &raquo; 挙式情報・各種設定';
 			}
 		}
 		else {
