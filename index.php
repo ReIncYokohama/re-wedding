@@ -205,18 +205,17 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 </table>
 </div>
 <div id="foot_center"><strong>Window XP/Vista/7 </strong><br />
-&nbsp;&middot;Internet Explorer 7以上<br />
-&nbsp;&middot;FireFox 7以上 <br />
-&nbsp;&middot;Google Chrome 14.0以上 </div>
-  <div id="foot_right"><strong>Mac OS X 10.4以上</strong><br />
-&nbsp;&middot;Safari 5.0以上<br />
-&nbsp;&middot;FireFox 7以上</div>
+&nbsp;&middot;Internet Explorer 7~<br />
+&nbsp;&middot;FireFox 7~ <br />
+&nbsp;&middot;Google Chrome 14.0~ </div>
+  <div id="foot_right"><strong>Mac OS X 10.4~</strong><br />
+&nbsp;&middot;Safari 5.0~<br />
+&nbsp;&middot;FireFox 7~</div>
 	    <div class="clr"></div>
 	    </div>
 </div>
 <!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
 
-	<!-- UCHIDA EDIT 11/07/26 -->
 	<script type="text/javascript"> document.login_form.adminid.focus(); </script>
 
 <div align="center">
