@@ -29,26 +29,21 @@ class MessageClass extends InformationClass
 		$objMail = new MailClass();
 		$user_plan_info = $this :: get_user_plan_info($user_id);
 		if($user_plan_info['gift_daylimit']==0) {
-			if ($this :: proccesse_gift_day_limit($user_id)) { // 発注締切日を過ぎたか
+			if ($this :: proccesse_gift_day_limit($user_id)) {
 				if ($msg!="") echo $user_id." : [Mail Send 9, 11 ]<br />\n";
-				$objMail -> hikidemono_day_limit_over_admin_notification_mail($user_id); //mail  9=>Stuff
-				$objMail -> hikidemono_day_limit_over_user_notification_mail($user_id);  //mail 11=>user
-				// UCHIDA EDIT 11/08/10 メール９，１１の送信を記録
+				$objMail -> hikidemono_day_limit_over_admin_notification_mail($user_id);
+				$objMail -> hikidemono_day_limit_over_user_notification_mail($user_id);
 				unset($post);
 				$post['gift_daylimit']=2;
 				$this->UpdateData('spssp_plan',$post," user_id=".$user_id);
 			}
 		}
   }
-// UCHIDA EDIT 11/08/15 締切日が過ぎていても、アクションがあればアイコンを表示する
+
 	function get_admin_side_user_list_new_status_notification_when_ordered($user_id)
 	{
-// echo $user_id;
 		if($this :: sekiji_day_limit_over_check_for_all_users($user_id))
 		{
-
-// UCHIDA EDIT 11/08/17 本発注されていれば、メールの送信は行わない
-//			if($this :: sekiji_user_day_over_email_send_for_today_check($user_id) )
 			$msg_opt = "<img src='img/common/msg/untreated.gif' border = '0'>";
 		}
 

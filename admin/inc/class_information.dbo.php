@@ -141,16 +141,10 @@ class InformationClass extends DBO
 	function proccesse_gift_day_limit($user_id)
 	{
 		$user_row = $this->get_user_info($user_id);
-//		$gift_criteria = $this->GetSingleRow("spssp_gift_criteria", " id=1");
-//		$gift_criteria['order_deadline'];
-		$dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $user_row['order_deadline'] , $flag=2 );
-		if($dateBeforeparty <= date("Y/m/d")) // 指定された期日以内になったか
+		$dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $user_row['order_deadline']+1 , $flag=2 );
+    
+		if($dateBeforeparty <= date("Y/m/d"))
 		{
-// UCHIDA EDIT 11/08/10 発注締切日はそのその状態を保持する
-//			unset($post);
-//			echo $post['gift_daylimit']=3;
-//			$this->UpdateData('spssp_plan',$post," user_id=".$user_id);
-
 			return true;
 		}
 		else
@@ -185,15 +179,9 @@ class InformationClass extends DBO
 	function sekiji_day_limit_over_check_for_all_users($user_id)
 	{
 		$user_info = $this->get_user_info($user_id);
-//		$confirm_day_num = $this->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
 
-		$dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_info['party_day'] , $user_info['confirm_day_num'] , $flag=2 );
-
-// UCHIDA EDIT 11/08/17 締切日だけの確認
-//		$partydate = str_replace("-","/",$user_info['party_day']);
-//		if($dateBeforeparty <= date("Y/m/d") && date("Y/m/d")< $partydate)
-// echo "<script> alert('$dateBeforeparty'); </script>";
-		if($dateBeforeparty <= date("Y/m/d"))
+		$dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_info['party_day'] , $user_info['confirm_day_num']+1 , $flag=2 );
+		if($dateBeforeparty <= $date)
 		{
 
 			return true;
