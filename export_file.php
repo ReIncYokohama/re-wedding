@@ -24,7 +24,11 @@ $room_tables = $plan_row['column_number'];
 $room_seats = $plan_row['seat_number'];
 $num_tables = $room_rows * $room_tables;
 
-$guestArray = $obj->get_guestdata($user_id);
+$table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
+$guest_models_takasago = Model_Guest::find_by_takasago($user_id);
+$takasago_guests = Core_Arr::func($guest_models_takasago,"to_array");
+$guestArray = array_merge($takasago_guests,$table_data["attend_guests"]);
+
 $userArray = $obj->get_userdata($user_id);
 
 $html .='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -52,6 +56,13 @@ $html .= '<tr>
 </tr>';
 
 for($i=0;$i<count($guestArray);++$i){
+  if($guestArray[$i]["stage"]==1){
+    $table_name = $obj->get_takasago_seat_name($guestArray[$i]["stage_guest"]);
+  }else{
+    $seat_id = $obj->get_seat_id($plan_id,$guestArray[$i]["id"]);
+    $table_id = $obj->get_table_id_by_seat_id($seat_id);
+    $table_name = $obj->get_table_name($table_id,$user_id);
+  }
   $html .= '<tr>
 <td>'.$guestArray[$i]['sex_text'].'</td>
 <td>'.$guestArray[$i]['last_name'].'</td>
@@ -62,26 +73,23 @@ for($i=0;$i<count($guestArray);++$i){
 <td>'.$guestArray[$i]['guest_type_text'].'</td>
 <td>'.$guestArray[$i]['comment1'].'</td>
 <td>'.$guestArray[$i]['comment2'].'</td>
-<td>'.$guestArray[$i]['table_name'].'</td>
-<td>'.$guestArray[$i]['gift_group_text'].'</td>
-<td>'.$guestArray[$i]['menu_text'].'</td>
+<td>'.$table_name.'</td>
+<td>'.$obj->get_gift_name($user_id,$guestArray[$i]["id"]).'</td>
+<td>'.$obj->get_menu_name($user_id,$guestArray[$i]["id"]).'</td>
 <td>'.$guestArray[$i]['memo'].'</td>
 </tr>';
 
 }
 
-   $html .= '</table></body></html>';
+$html .= '</table></body></html>';
 
-// YYYYMMDD_HHMMSS の形式で現在日付時間を取得する
 $today = date("md");
-$this_name= "リスト".$today."".$userArray[0]["last_name"]."_".$userArray[1]["last_name"];	// 最終形式に整形する
+$this_name= "リスト".$today."".$userArray[0]["last_name"]."_".$userArray[1]["last_name"];
 
-// UCHIDA EDIT 11/07/28 ↑
-
- $File = "cache/Yourexcel.html";
- $Handle = fopen($File, 'w');
- fwrite($Handle, $html);
- fclose($Handle);
+$File = "cache/Yourexcel.html";
+$Handle = fopen($File, 'w');
+fwrite($Handle, $html);
+fclose($Handle);
 
 include_once('admin/inc/ExportToExcel.class.php');
 
