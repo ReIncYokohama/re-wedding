@@ -261,7 +261,9 @@ function confirmBack(){
 				});
       window.location = 'make_plan.php';
 		}
-	}
+	}else{
+    window.location = 'make_plan.php';
+  }
 
 }
 
