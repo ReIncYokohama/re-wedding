@@ -457,53 +457,6 @@
 	
 	});
 	
-	function resetFormItems(){
-		
-		$(".droppable").each(function() {
-			var div_id = "#"+this.id;
-			
-			var ulLength = $( "div", div_id).length;
-			
-			if(ulLength > 0)
-			{
-				
-				var liId =  $(div_id+" div div").attr('id');
-				
-				var liArray = liId.split("_");
-				var itemid = liArray[1];
-				
-				$("#tablename_"+itemid).html("");
-				
-				
-				edited_Flag=1;
-				
-				var spanhtml = $( "div", div_id).html();				
-				
-				$("#tst #"+liId).removeClass().addClass('ui-widget-content');
-				$.post('set_session.php', {'divitems': "reset",'value':""}, function(data) {
-												
-				});	
-				
-			
-		
-				
-				
-				$("#tst #"+liId).draggable({				
-					cancel: ".dragfalse",
-					revert: "invalid", // when not dropped, the item will revert back to its initial position
-					helper: "clone",
-					cursor: "move",
-					opacity: "0.50"
-				});
-				
-			}
-			
-		});
-		$(".droppable div").remove();
-		
-		
-
-	}
 	
 	$(function(){
 			   

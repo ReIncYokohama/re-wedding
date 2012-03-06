@@ -222,7 +222,9 @@ var button_enable="<?=$button_enable?>";
   
 }
 function back_to_make_plan() {
-  location.href = "cancel_default_plan.php";  
+  if(confirm("席次表を元に戻しますか？")){
+    location.href = "cancel_default_plan.php";  
+  }
 }
 
 function make_plan_check()
@@ -731,15 +733,6 @@ if(!$item_info["id"]){
                     ?>
             	</div>
 
-            <!-- <div id="make_plan_submit">
-				<div align="left">
-
-					  <input type="button"  id="button" value="保存" onclick="checkConfirm()" />
-					 <input type="button"  id="button2" value="リセット" onClick="resetFormItems()" />
-					  <input type="button"  id="button3" value="戻る"  onClick="javascript:history.go(-1);" />
-
-				</div>
-         	</div>-->
 			<div class="clear" style="float:left; clear:both; height:10px;">&nbsp;</div>
     </div>
     <input type="hidden" id="timeout" name="timeout" value="" />
