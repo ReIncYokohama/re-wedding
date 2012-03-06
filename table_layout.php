@@ -80,22 +80,6 @@ function validForm(num)
 {
 	var layoutname_ajax  = $("#layoutname_ajax").val();
 	var table_array=new Array();
-	//卓名空白は非許可
-	for(var loop=1;loop<=num;loop++)
-	{
-		var tId="tableId_"+loop;
-		var table_name=	$("#"+tId).val();
-	
-		if(table_name=="") {
-			if (timeOutNow==true) {
-				alert("卓名が未入力なので、保存できませんでした"); // cronでログアウトされた場合の対応が必要
-				location.href = "logout.php";
-			}
-			alert("卓名を入力してください");
-	 		document.getElementById(tId).focus();
-	 		return false;
-		}
-	}
 	var sendObject = {};
 	for(var loop=1;loop<=num;loop++)
 	  {
