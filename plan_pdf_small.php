@@ -349,7 +349,7 @@ $date = date("His");
 $user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
 $this_name = "sekijihyo".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
-//$pdf->Output($this_name.'.pdf', 'D');
-$pdf->Output($this_name.'.pdf');
+$pdf->Output($this_name.'.pdf', 'D');
+//$pdf->Output($this_name.'.pdf');
 ?> 
 
