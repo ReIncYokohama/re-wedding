@@ -297,11 +297,13 @@ function cancel_div(did)
 {
   $("#"+did).hide(500);
 }
-function confirmDelete(urls,id)
+function confirmDelete(urls,id,tblname)
 {
   var gid = "<?=$get["gid"]?>";
   var msg;
-  if(gid == id){
+  if(tblname!=""){
+    msg = "配席されていますが、削除してよろしいですか？";
+  }else if(gid == id){
     msg = "編集中ですが、削除してよろしいですか？\n現在の入力内容は破棄されます";
   }else{
     msg = "削除してよろしいですか";
@@ -1090,7 +1092,7 @@ if($guest["sex"] == "Male"){
 			?>
             	<input type="button" name="button" tabindex=25 id="button" value="編集" onclick="edit_guest(<?=$guest['id']?>)"  onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
 
-				<input name="button" type="button" tabindex=25 value="削除" onclick="confirmDelete('my_guests.php?guest_id=<?=$guest['id']?>&action=delete&page=<?=(int)$_GET['page']?>',<?=$guest["id"]?>)"  onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
+				<input name="button" type="button" tabindex=25 value="削除" onclick="confirmDelete('my_guests.php?guest_id=<?=$guest['id']?>&action=delete&page=<?=(int)$_GET['page']?>',<?=$guest["id"]?>,'<?=$tblname?>')"  onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/>
 				<?php
 					}
 				?>
