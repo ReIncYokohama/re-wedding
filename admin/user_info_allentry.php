@@ -881,7 +881,7 @@ include("inc/return_dbcon.inc.php");
 		?>
 		<div id="div_box_1" style="width:1000px;">
          <form action="insert_user.php?user_id=<?=$user_id;?>" method="post" name="user_form_register">
-        <table width="800" border="0" cellspacing="10" cellpadding="0">
+        <table width="800" border="0" cellspacing="10" cellpadding="0" rules="rows" frame="void">
             <tr>
               <td width="160" align="left" valign="middle" nowrap="nowrap">披露宴日<?=$disp_option4?>　</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
@@ -1191,7 +1191,7 @@ if($user_row['mukoyoshi']=='1'){
         <input type="hidden" id="max_columns" value="<?=$room_row['max_columns']?>" />
         <input type="hidden" id="max_seats" value="<?=$room_row['max_seats']?>" />
 
-        <table width="850" border="0" cellspacing="10" cellpadding="0">
+        <table width="850" border="0" cellspacing="10" cellpadding="0" rules="rows" frame="void">
 
             <tr>
               <td width="160" align="left" valign="middle" nowrap="nowrap">披露宴会場名</td>
@@ -1204,7 +1204,7 @@ if($user_row['mukoyoshi']=='1'){
 
             <div class="sekiji_table_L" id="plan_preview">
 
-  			<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+  			<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" rules="rows" frame="void">
             	<tr>
                 	<td>
 			<?php
@@ -1527,7 +1527,7 @@ if($updating){
                 </div>
                 <div style="width:300px; float:left;">
 	   		<input type="hidden" name="editUserGiftItemsUpdate" value="editUserGiftItemsUpdate" style="border-style: inset;">
-	   		<table width="100%" border="0" cellspacing="1" cellpadding="0">
+	   		<table width="100%" border="0" cellspacing="1" cellpadding="0" frame="void" rules="rows">
 	   <?php
 	   if($user_id>0) {
 		  	$yy = 1;
@@ -1547,11 +1547,6 @@ if($updating){
 	  ?>
 	  </table>
 	  <br />
-<!--	  <div>
- 		  <input type="button" name="editUserGiftItemsUpdateButton" value="保存" onclick="checkGiftForm('<?=$yy?>', '<?=$noUpdate?>')"></div><br /> -->
-<!-- 	  </form> -->
-<!--GIFT ITEM BOX END-->
-
                 </div>
             </div>
 
@@ -1560,18 +1555,17 @@ if($updating){
 		 </div>
 
 	       <div style="width:300px; float:left; ">
-		   <!--GIFT GROUP BOX START-->
 		        <p>
-<!-- 				<form action="user_info.php?user_id=<?=$user_id?>" method="post" name="editUserGiftGroupsForm"> -->
 				  <input type="hidden" name="editUserGiftGroupsUpdate" value="editUserGiftGroupsUpdate">
+	   		<table width="100%" border="0" cellspacing="1" cellpadding="0" frame="void" rules="rows">
 				  <?php
 				  if($user_id>0) {
 					  $xx = 1;
 				  	  foreach($gift_groups as $row)
 					  {
               if($xx == $count_group+1) break;
-						  echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro.$disp_option1." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset; $disp_option2 $disp_option3' value='".$row['name']."'>";
-						  echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></div>";
+						  echo "<tr><td style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro.$disp_option1." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset; $disp_option2 $disp_option3' value='".$row['name']."'>";
+						  echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></td></tr>";
 						  $xx++;
               
 					  }
@@ -1590,20 +1584,14 @@ if($updating){
 							echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
 							$xx++;
 						}
-/*
-						for (; $xx <=7; $xx++) {
-							echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro." name='name_group".$xx."' maxlength='4' size='6' value=''>";
-							echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
-						}
-*/
+
 					   	$count_gift=$xx-1;
 				  }
 				  ?>
+
+        </table>
 				   <br />
-<!-- 				   <input type="button" style="margin-left:15px;" name="editUserGiftGroupsUpdateButton" value="保存" onclick="checkGroupForm('<?=$xx?>' ,'<?=$noUpdate?>');"> -->
-<!-- 				 </form> -->
 		         </p>
-			<!--GIFT GROUP BOX END-->
 					<br />
             </div>
 	       <div float:left; valign:top" >
@@ -1648,9 +1636,8 @@ if($updating){
         </div>
        <div id="div_box_4" style="width:500px;">
 
-<!-- 				<form action="user_info.php?user_id=<?=$user_id?>" method="post" name="editUserMenuGroupsForm"> -->
 		  			<input type="hidden" name="editUserMenuGroupsUpdate" value="editUserMenuGroupsUpdate"  style="border-style:inset;">
-					 <table width="100%" border="0" cellspacing="10" cellpadding="0">
+					 <table width="100%" border="0" cellspacing="10" cellpadding="0" frame="void" rules="rows">
         	<?php if($num_groups >0) {
 					$i=1;
 					echo "<tr>";
@@ -1671,9 +1658,6 @@ if($updating){
 					echo "</tr>";
 				}
 				?>
-<!-- 					 <tr><td>
-					 <input type="button" style="margin-left:15px;" name="editUserMenuGroupsUpdateButton" value="保存" onclick="checkMenuGroupForm('<?=$i?>' ,'<?=$noUpdate?>');">
-					 </td> </tr> -->
             </table>
 			<br /><br />
             <div colspan="4" align="left" valign="middle" nowrap="nowrap">
@@ -1689,8 +1673,8 @@ if($updating){
                     <a href="change_log.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>"><img src="img/common/btn_data.jpg" width="173" height="23" /></a>
             <?php } ?>
            </div>
-		   </form> <!--end of  id="div_box_3"-->
-          </div><!--END OF id="div_box_3" -->
+		   </form>
+          </div>
 
         <br />
         <br />
