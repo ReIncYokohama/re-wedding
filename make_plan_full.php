@@ -259,13 +259,10 @@ function confirmBack(){
 			$.post('ajax/insert_plan.php',{'make_plan':'true'}, function (data){
 					return true;
 				});
-		}else{
-			$.post('ajax/unset_plan.php',{'make_plan':'true'}, function (data){
-					return true;
-				});
+      window.location = 'make_plan.php';
 		}
 	}
-	window.location = 'make_plan.php';
+
 }
 
 
