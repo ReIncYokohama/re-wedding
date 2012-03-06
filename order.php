@@ -203,7 +203,7 @@ function confirmAction(urls , msg)
 						if($plan_info["admin_to_pcompany"] != 2 && $plan_info['order']<=3 && $plan_info['order']>1)
 						{
 					?>
-					<td width="20%" valign="middle"><img src="img/order/print_bt_greyed.jpg" class="on"/></td>
+					<td width="20%" valign="middle"><img src="img/order/print_bt_greyed.jpg"/></td>
 					<?php }else{?>
 
 					<td width="20%" valign="middle"><a href="javascript:void(0);" onclick = "confirmAction('order.php?action=print_request','印刷の発注を行います。宜しいですか？')"><img src="img/order/print_bt.jpg" class="on"/></a></td>
@@ -242,7 +242,7 @@ function confirmAction(urls , msg)
 					if($plan_info['gift_daylimit']==1 || $plan_info['gift_daylimit']==3)
 					{
 					?>
-						<img src="img/order/order_request_bt_greyed.jpg" class="on"/>
+						<img src="img/order/order_request_bt_greyed.jpg"/>
 					<?php }else{?>
 					<a href="javascript:void(0);" onclick = "confirmAction('order.php?action=daylimit_over_request','引出物を発注します。宜しいですか？')">
 						<img src="img/order/order_request_bt.jpg" class="on"/>
