@@ -1,20 +1,22 @@
 <?php
 require_once("inc/dbcon.inc.php");
 require_once("inc/class.dbo.php");
+require_once("../fuel/load_classes.php");
 
 $obj = new DBO();
 $get = $obj->protectXSS($_GET);
 require_once("inc/include_class_files.php");
 $objInfo = new InformationClass();
 
+$user_id = (int)$get['user_id'];
 include_once("inc/new.header.inc.php");
 
-$user_row = $obj->GetSingleRow("spssp_user"," id= ".(int)$get['user_id']);
+$user = Model_User::find_by_pk($user_id);
+$user_row = $user->to_array();
 
 $default_plan_id = (int)$get['default_plan'];
 $plan_id = (int)$get['plan_id'];
 $stuff_id= (int)$get['stuff_id'];
-$user_id = (int)$get['user_id'];
 
 if($_GET['action']=="save") {
 //print_r($_POST);exit;
@@ -22,21 +24,26 @@ if($_GET['action']=="save") {
 		$align = $_POST['rowcenter_'.$i];
 		if (isset($align)) {
 			if ($align=="R") $align="N";
-			$query = "update spssp_table_layout set align='".$align."' where row_order=".$i." and user_id=".$user_id;
-			mysql_query($query);
+      $table_layout = Model_Usertable::find_one_by(array(array("row_order","=",$i),array("user_id","=",$user_id)));
+      $table_layout->align = $align;
+      $table_layout->save();
 		}
 	}
-	
 	for ($i=1;$i<=81; $i++) {
 		$def = $_POST['default_'.$i];
 		if (isset($def)) {
 			$s1 = split("/", $def);
 			$def_id = $s1[0];
 			$tname = $_POST['table_name_'.$s1[1]];
-			if ($tname!="") 	$tid = $objInfo->get_table_id($tname);
-			else 				$tid = 0;
-			$query = "update spssp_user_table set table_name_id=".$tid." where default_table_id=".$def_id." and user_id=".$user_id;
-			mysql_query($query);
+      
+      $tablename = Model_Tablename::find_one_by_name($tname);
+      $adminusertable = Model_Adminusertable::find_one_by(array(array("default_table_id","=",$def_id),array("user_id","=",$user_id)));
+      if($tablename){
+        $adminusertable->table_name_id = $tablename->id;
+      }else{
+        $adminusertable->table_name_id = 0;
+      }
+      $adminusertable->save();
 		}
 	}
 	for ($i=1;$i<=81; $i++) {
@@ -45,17 +52,21 @@ if($_GET['action']=="save") {
 			$s1 = split("/", $def);
 			$def_id = $s1[0];
 			$disp = $_POST['display_'.$def_id];
-			if (isset($disp))	$set_disp = 1;
-			else 				$set_disp = 0;
-			$query = "update spssp_table_layout set display=".$set_disp.", name='".$_POST['table_name_'.$i]."' where id=".$def_id." and user_id=".$user_id;
-			mysql_query($query);
+
+      $usertable = Model_Usertable::find_by_pk($def_id);
+      $usertable->name = $_POST['table_name_'.$i];
+      $usertable->save();
+      
+      $usertable->change_display($disp);
 		}
 	}
 
 	unset($takasago);
 	$takasago['layoutname'] = $_POST['layoutname'];
-  if($takasago["layoutname"]=="") $takasago["layoutname"] = "null";
-	$obj->UpdateData("spssp_plan",$takasago," user_id=".$user_id);
+  $plan = Model_Plan::find_one_by_user_id($user_id);
+  if($takasago["layoutname"]=="") $plan->layoutname = null;
+  else $plan->layoutname = $takasago["layoutname"];
+  $plan->save();
 
 	echo "<script> alert('卓レイアウト設定が保存されました'); </script>";
 	redirect("user_info_allentry.php?user_id=".$user_id."&stuff_id=".$stuff_id);

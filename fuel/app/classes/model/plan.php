@@ -1,6 +1,11 @@
 <?php
 class Model_Plan extends Model_Crud{
   static $_table_name = "spssp_plan";
+  static $_fields = array("id","user_id","name","layoutname","room_id","row_number","column_number","seat_number",
+                          "creation_date","datetime","default_plan_id","rename_table","confirm_date","product_name",
+                          "dowload_options","print_company","dl_print_com_times","ul_print_com_times","day_limit_1_to_print_com",
+                          "day_limit_2_to_print_com","admin_to_pcompany","order","gift_daylimit","print_size","print_type",
+                          "staff_id","final_proof","sekiji_email_send_today_check","p_company_file_up");
   public $cart;
   
   public $_user;
@@ -91,7 +96,7 @@ class Model_Plan extends Model_Crud{
   
   function get_tables(){
     if($this->_tables) return $this->_tables;
-    $table_arr = Model_Tablelayout::find_by_user_id($this->user_id);
+    $table_arr = Model_Usertable::find_by_user_id($this->user_id);
     $this->_tables = $table_arr;
     return $table_arr;
   }

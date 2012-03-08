@@ -39,7 +39,6 @@
 		$obj->sortItem2($table,$id,$move);
 	}
 
-	//$query_string="SELECT * FROM spssp_room  ORDER BY display_order DESC LIMIT ".((int)($current_page)*$data_per_page).",".((int)$data_per_page).";";
 	$query_string="SELECT * FROM spssp_room where status=1  ORDER BY display_order ASC ;";
 	$data_rows = $obj->getRowsByQuery($query_string);
 

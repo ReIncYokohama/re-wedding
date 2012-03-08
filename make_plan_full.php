@@ -11,7 +11,7 @@ $objInfo = new InformationClass();
 $get = $obj->protectXSS($_GET);
 //編集が終わっていない項目があれば、その項目のあるページに移動
 $user_id = Core_Session::get_user_id();
-if(!Model_Tablelayout::exist($user_id)){
+if(!Model_Usertable::exist($user_id)){
   Response::redirect("table_layout.php?err=13");
 }
 if(!Model_Guest::exist($user_id)){
@@ -32,7 +32,7 @@ if($plan->authority_rename_table()) $button_enable=true; else $button_enable=fal
 $room_seats = $plan_row['seat_number'];
 
 // task memo
-$tblrows = Model_Tablelayout::find_rows_distinct_order($user_id);
+$tblrows = Model_Usertable::find_rows_distinct_order($user_id);
 
 //sessionのみに保存されている席情報を保存する。
 $cart = $plan->get_seat_data_in_session();

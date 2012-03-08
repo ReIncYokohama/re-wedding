@@ -54,7 +54,7 @@ if($plan_row['print_type'] == 1){
 
 $pdf = new MyPdf($plan_row['print_type']);
 
-if(!Model_Tablelayout::exist($user_id)){
+if(!Model_Usertable::exist($user_id)){
   Response::redirect("table_layout.php?err=13");
 }
 if(!Model_Guest::exist($user_id)){
