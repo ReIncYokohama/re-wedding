@@ -1037,10 +1037,7 @@ $gift_id = $obj->GetSingleData(" spssp_guest_gift ", "group_id", " guest_id=".$g
 		{
 			$menu_name = $obj->GetSingleData(" spssp_menu_group ", "name", " id=".$menu_id." and user_id = ".$user_id);
 		}
-	  $comment1 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment1.png",$extra="guests/".$guest['id']."/thumb1");
-		$comment2 = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment2.png",$extra="guests/".$guest['id']."/thumb1");
-		if($comment1==false){$comment1 = $guest['comment1'];}
-		if($comment2==false){$comment2 = $guest['comment2'];}
+    $comment = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment_card.png",$extra="guests/".$guest['id']."/");
 	  ?>
 		<tr>
       		<td bgcolor="#FFFFFF" class="sex">
@@ -1057,7 +1054,7 @@ if($guest["sex"] == "Male"){
 			 <?php echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_fullname_only.png",$extra="guests/".$guest['id']."/thumb1");?> </td>
         	<td align="center" valign="middle" bgcolor="#FFFFFF" class="respect"> <? if($respect!="なし") echo $respect; else echo "　　" ?> </td>
         	<td align="center" valign="middle" bgcolor="#FFFFFF" class="group"> <?=$guest_type?> </td>
-        	<td align="left" valign="middle" bgcolor="#FFFFFF" class="comment"> <?=$comment1?><br><?=$comment2?> </td>
+        	<td align="left" valign="middle" bgcolor="#FFFFFF" class="comment"> <?=$comment?> </td>
 			<?php
 				$plan_details=$obj->getSingleRow("spssp_plan_details"," guest_id=".$guest['id']." limit 1");
 				$seat_details=$obj->getSingleRow("spssp_default_plan_seat"," id=".$plan_details['seat_id']." limit 1");
