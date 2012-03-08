@@ -389,7 +389,6 @@ class Model_Crud extends \Model implements \Iterator, \ArrayAccess {
 		$this->frozen(true);
 		$query = \DB::delete(static::$_table_name)
 		            ->where(static::primary_key(), '=', $this->{static::primary_key()});
-
 		$query = $this->pre_delete($query);
 		$result = $query->execute(isset(static::$_connection) ? static::$_connection : null);
 

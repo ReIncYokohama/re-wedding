@@ -31,7 +31,7 @@ class Model_Usertable extends Model_Crud{
   public function delete_user_seats(){
     $seats = Model_Seat::find_by_table_id($this->table_id);
     $returnArr = array();
-    foreach($seat as $seat){
+    foreach($seats as $seat){
       $userseats = Model_Userseat::find(array("where"=>array(array("seat_id","=",$seat->id),array("plan_id","=",$this->plan_id))));
       foreach($userseats as $userseat){
         $userseat->delete();
@@ -47,11 +47,7 @@ class Model_Usertable extends Model_Crud{
     $this->display = $display;
     $this->save();
     if($this->display){
-      $seats = Model_Seat::find_by_table_id($this->table_id);
-      foreach($seats as $seat){
-        $userseat = Model_Userseat::find_one_by_seat_id($seat->id);
-        if($userseat) $userseat->delete();
-      }
+      $this->delete_user_seats();
     }
   }
 }
