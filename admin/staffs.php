@@ -283,19 +283,19 @@ function validForm()
 		var c = document.getElementById("password").value.length;
 		if(c<6)
 		{
-			alert("パスワードは6文字以上で入力してください");
+			alert("6文字以上で入力してください");
 			document.getElementById('password').focus();
 			return false;
 		}
 		if(c>15)
 		{
-			alert("パスワードは15文字以内で入力してください");
+			alert("15文字以内で入力してください");
 			document.getElementById('password').focus();
 			return false;
 		}
 	}
  	if(reg.test(password) == false) {
-		alert("パスワードは半角英数字記号で入力してください");
+		alert("半角英数字記号で入力してください");
 		document.getElementById('password').focus();
 		return false;
 	 }
