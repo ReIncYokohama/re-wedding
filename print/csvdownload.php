@@ -7,7 +7,7 @@ include_once("../fuel/load_classes.php");
 
 if($_SESSION['printid'] =='')
 {
-  redirect("index.php");exit;
+  //redirect("index.php");exit;
   }
 
 $obj = new DataClass();
@@ -15,8 +15,8 @@ $objInfo = new InformationClass();
 $this_name = $HOTELID;
 $get = $obj->protectXSS($_GET);
 
-$user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
-//$user_id = $_GET["user_id"];
+//$user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
+$user_id = $_GET["user_id"];
 
 if($user_id>0)
 {
@@ -379,7 +379,14 @@ foreach($usertblrows as $tblRows)
 		$guesttblrows = $obj->getRowsByQuery("select * from spssp_plan_details where seat_id = ".(int)$usertbldata['id']." and plan_id = ".$plan_id." order by id ASC");
     //$guesttblrows = $obj->getRowsByQuery("select * from spssp_plan_details where seat_id = ".(int)$usertbldata['id']." order by id ASC");
 		if($guesttblrows[0]['guest_id'])
-		{	$guest_info = $obj->GetSingleRow("spssp_guest","id=".$guesttblrows[0]['guest_id']." and user_id=".(int)$user_id);}
+		{
+      $guest_info = $obj->GetSingleRow("spssp_guest","id=".$guesttblrows[0]['guest_id']." and user_id=".(int)$user_id);
+      
+      if($guest_info["stage_guest"]!=0){
+        $z+=1;
+        continue;
+      }
+    }
 		//echo "<pre>";print_r($guest_info);
 		//TableNumber
 		if(!empty($guest_info))

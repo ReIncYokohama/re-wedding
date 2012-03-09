@@ -59,11 +59,12 @@ class Model_Plan extends Model_Crud{
   public function get_seat_data_in_session(){
     if($this->_seat_data) return $this->_seat_data;
     $seat_data = Core_Session::get_seat_data();
-    if(!$seat_data){
+    if($seat_data){
       $plan_details = Model_Plandetails::find_by_plan_id($this->id);
       $seat_data = array();
       foreach($plan_details as $plandetail)
         {
+          //if(!$plandetail["guest_id"]) continue;
           /*         $seat = Model_Seat::find_by_pk($plandetail["seat_id"]);
           $table = Model_Table::find_by_pk($seat->table_id);
           $user_table = Model_Usertable::find_one_by(array(array("table_id","=",$table->id),array("user_id","=",$this->user_id)));

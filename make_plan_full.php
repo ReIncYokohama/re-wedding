@@ -635,24 +635,18 @@ if($index % 2 == 1){
 
                                             $item = $itemArray[1];
                                             $item_info =  $obj->GetSingleRow("spssp_guest", " id=".$item." and id in(SELECT id FROM `spssp_guest` WHERE user_id=".$user_id." and self!=1 and stage_guest=0)");
-                                            $edited_nums = $obj->GetNumRows("spssp_guest", "edit_item_id=".$item_info['id']." and user_id=".(int)$user_id." and id in(SELECT id FROM `spssp_guest` WHERE  self!=1 and stage_guest=0)");
-                                            //echo '<p>'.$edited_nums.'</p>';
-
-                                            if($edited_nums > 0)
-                                            {
-                                                $guest_editeds = $obj->GetSingleRow("spssp_guest", "edit_item_id=".$item_info['id']." and user_id=".(int)$user_id." and id in(SELECT id FROM `spssp_guest` WHERE  self!=1 and stage_guest=0)");
-                                                $item_info['id']=$guest_editeds['id'];
-
-                                                $item_info['name']=$guest_editeds['name'];
-
-                                            }
-
+                                            
 
                                         ?>
 
 
+
 										<div id="abc_<?=$seat['id']?>" class="gallery ui-helper-reset ui-helper-clearfix">
 
+
+<?php
+                             if($item_info["id"]){
+?>
 
 											<div class="ui-widget-content ui-corner-tr" id="item_<?=$item_info['id']?>"   style="width:80px; 
 <?php
@@ -666,9 +660,6 @@ if(!$item_info["id"]){
 }
 ?>
 ">
-<?php
-                             if($item_info["id"]){
-?>
 
 													<?php
 													$guest_comment=$item_info['comment1']."&nbsp;".$item_info['comment2'];
@@ -678,14 +669,14 @@ if(!$item_info["id"]){
 
                           <image src="<?php echo $objInfo->get_user_name_image_or_src_from_user_side_make_plan($user_id ,$hotel_id=1, $name="guest_fullname.png",$extra="guests/".$item_info['id']."/thumb2");?>"/>
 </a>
+
+                                               </div>
 <?php
                              }
 ?>
 
-                                               </div>
 											  </div>
-
-                                        <?php
+<?php
                                         }
                                     ?>
 

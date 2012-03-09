@@ -70,4 +70,10 @@ class Model_Guest extends Model_Crud{
   public function get_image($image_name){
     return Core_Image::get_guest_image_dir_relative($this->user_id,$this->id).$image_name;
   }
+  public function delete_seat(){
+    $seats = Model_Userseat::find_by_guest_id($this->id);
+    foreach($seats as $seat){
+      $seat->delete();
+    }
+  }
 }

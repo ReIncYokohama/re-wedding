@@ -8,7 +8,8 @@ class DataClass extends DBO{
   }
   
   public function set_guest_data_update($set_obj,$user_id,$guest_id,$admin_id){
-    $guest_row = $this->GetSingleRow(" spssp_guest ", " id=".(int)$guest_id);
+    $guest = Model_Guest::find_by_pk($guest_id);
+    $guest_row = $guest->to_array();
     
     $before_data = array();
     $after_data = array();
@@ -16,6 +17,7 @@ class DataClass extends DBO{
     //高砂席が招待者席に変わったときに高砂席の卓名も削除する。
     if($guest_row["stage"]!=0 && $set_obj["stage"]==0){
       $set_obj["stage_guest"] = 0;
+      $guest->delete_seat();
     }
     foreach($set_obj as $key => $value){
       if($guest_row[$key] != $value and !($guest_row[$key] == 0 and $value == "") ){
