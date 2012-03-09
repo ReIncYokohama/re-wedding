@@ -72,12 +72,14 @@ if($user_id>0) {
 	$disp_option3 = "";
 	$disp_option4 = '<font color="red">*</font>';
 	$disp_option5 = "";
+  $disp_option6 = "";
 	if ($user_plan_row['admin_to_pcompany'] == 3) {
 		$disp_option1 = ' readonly="readonly"; ';
 		$disp_option2 = ' border:#ffffff; ';
 		$disp_option3 = ' border-style:none ';
 		$disp_option4 = "";
 		$disp_option5 = ' disabled="disabled" ';
+    $disp_option6 = ' rules="rows" frame="void"';
 	}
 }
 else {
@@ -881,7 +883,7 @@ include("inc/return_dbcon.inc.php");
 		?>
 		<div id="div_box_1" style="width:1000px;">
          <form action="insert_user.php?user_id=<?=$user_id;?>" method="post" name="user_form_register">
-        <table width="800" border="0" cellspacing="10" cellpadding="0" rules="rows" frame="void">
+        <table width="800" border="0" cellspacing="10" cellpadding="0" <?=$disp_option6?>>
             <tr>
               <td width="160" align="left" valign="middle" nowrap="nowrap">披露宴日<?=$disp_option4?>　</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
@@ -1191,7 +1193,7 @@ if($user_row['mukoyoshi']=='1'){
         <input type="hidden" id="max_columns" value="<?=$room_row['max_columns']?>" />
         <input type="hidden" id="max_seats" value="<?=$room_row['max_seats']?>" />
 
-        <table width="850" border="0" cellspacing="10" cellpadding="0" rules="rows" frame="void">
+        <table width="850" border="0" cellspacing="10" cellpadding="0" <?=$disp_option6?>>
 
             <tr>
               <td width="160" align="left" valign="middle" nowrap="nowrap">披露宴会場名</td>
@@ -1204,7 +1206,7 @@ if($user_row['mukoyoshi']=='1'){
 
             <div class="sekiji_table_L" id="plan_preview">
 
-  			<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" rules="rows" frame="void">
+  			<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" <?=$disp_option6?>>
             	<tr>
                 	<td>
 			<?php
@@ -1527,7 +1529,7 @@ if($updating){
                 </div>
                 <div style="width:300px; float:left;">
 	   		<input type="hidden" name="editUserGiftItemsUpdate" value="editUserGiftItemsUpdate" style="border-style: inset;">
-	   		<table width="100%" border="0" cellspacing="1" cellpadding="0" frame="void" rules="rows">
+	   		<table width="100%" border="0" cellspacing="1" cellpadding="0" <?=$disp_option6?>>
 	   <?php
 	   if($user_id>0) {
 		  	$yy = 1;
@@ -1557,7 +1559,7 @@ if($updating){
 	       <div style="width:300px; float:left; ">
 		        <p>
 				  <input type="hidden" name="editUserGiftGroupsUpdate" value="editUserGiftGroupsUpdate">
-	   		<table width="100%" border="0" cellspacing="1" cellpadding="0" frame="void" rules="rows">
+	   		<table width="100%" border="0" cellspacing="1" cellpadding="0" <?=$disp_option6?>>
 				  <?php
 				  if($user_id>0) {
 					  $xx = 1;
@@ -1637,7 +1639,7 @@ if($updating){
        <div id="div_box_4" style="width:500px;">
 
 		  			<input type="hidden" name="editUserMenuGroupsUpdate" value="editUserMenuGroupsUpdate"  style="border-style:inset;">
-					 <table width="100%" border="0" cellspacing="10" cellpadding="0" frame="void" rules="rows">
+					 <table width="100%" border="0" cellspacing="10" cellpadding="0" <?=$disp_option6?>>
         	<?php if($num_groups >0) {
 					$i=1;
 					echo "<tr>";
