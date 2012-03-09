@@ -1334,7 +1334,7 @@ if($user_row['mukoyoshi']=='1'){
               <td width="160" align="left" valign="middle" nowrap="nowrap">商品名<?=$disp_option4?> </td>
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-               	  <input name="product_name" type="text" <?=$disp_option1?> style="border-style:inset; <?=$disp_option2?> <?=$disp_option3?> " id="product_name" value="<?=$user_plan_row['product_name']?>" size="38" />
+               	  <input name="product_name" type="text" <?=$disp_option1?> style="border-style:inset; <?=$disp_option2?> <?=$disp_option3?> " id="product_name" value="<?=$user_plan_row['product_name']?>" size="32" />
               </td>
             </tr>
       <tr>
