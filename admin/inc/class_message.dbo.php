@@ -142,11 +142,13 @@ class MessageClass extends InformationClass
 		}
 	}
 
-// UCHIDA EDIT 11/08/15 表示順位の入れ替え、INFO_Aの表示条件変更
 	function get_admin_side_order_print_mail_system_status_msg($user_id)
 	{
-		$user_info = $this :: get_user_info($user_id);
-		$user_plan_info = $this :: get_user_plan_info($user_id);
+    $user = Model_User::find_by_pk($user_id);
+		$user_info = $user->to_array();
+    $plan = Model_Plan::find_one_by_user_id($user_id);
+		$user_plan_info = $plan->to_array();
+    
     $party_day = $this->getMonthAndDate($user_info["party_day"]);
 
     $man_name = $this::get_user_name_image_or_src($user_id ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
@@ -162,8 +164,8 @@ class MessageClass extends InformationClass
 		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and user_id=".$user_id) )
 		{
 			$dl = $user_plan_info['dl_print_com_times'];
-			if (($dl & 0x200) == 0x00) {// UCHIDA EDIT 11/08/15 スタッフがPDF表示を行っていないか
-				$dl = $dl | 0x00; // 0x200;
+			if (($dl & 0x200) == 0x00) {
+				$dl = $dl | 0x00;
 				$msg_text  = "<div id=msg_hide1>";
 				$msg_text .= "<a href=ajax/pdf_readed.php?user_id=".$user_id."&filename=".$user_plan_info[p_company_file_up]."&vset=".$dl." target=_blank";
         //maintでは隠されていた
@@ -177,7 +179,7 @@ class MessageClass extends InformationClass
 			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".$user_name."  ".INFO_D."</a></li>";
 		}
 
-		else if($this :: sekiji_day_limit_over_check_for_all_users($user_id) && $user_plan_info['admin_to_pcompany']<3) // UCHIDA EDIT 11/08/15 本発注では締切日は無視
+		else if($this :: sekiji_day_limit_over_check_for_all_users($user_id) && $user_plan_info['admin_to_pcompany']<3)
 		{
 			$msg_text .= "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".$party_day."  ".$user_name."  ".INFO_E."</a></li>";
 		}
@@ -218,51 +220,12 @@ class MessageClass extends InformationClass
 				return $link = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".$party_day."  ".$user_name."  ".INFO_G."</a></li>";
 			}
 		}
-
-/*
-	    if( $this :: GetRowCount("spssp_plan"," `order` = 2 and user_id=".$user_id) )
-		{
-			//no user msg show
-		}
-		else
-		{
-//echo "Gift : ".$user_plan_info['gift_daylimit'];
-			if($user_plan_info['gift_daylimit']==1) { // UCHIDA EDIT 11/08/10 発注された
-				return $link = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".$user_info['man_firstname']."・".$user_info['woman_firstname']."  ".INFO_F."</a></li>";
-			}
-
-			if($user_plan_info['gift_daylimit']==0 || $user_plan_info['gift_daylimit']==2) { // UCHIDA EDIT 11/08/10 ０：初期値　２：メール送信済み
-				if ($this :: proccesse_gift_day_limit($user_id) == true) { // 発注締切日を過ぎたか
-					return $link = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".$party_day."  ".$user_info['man_firstname']."・".$user_info['woman_firstname']."  ".INFO_G."</a></li>";
-				}
-			}
-
-			if($user_plan_info['gift_daylimit']==2)
-			{
-				if($this :: proccesse_gift_day_limit($user_id))
-				{
-					return $link = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".$party_day."  ".$user_info['man_firstname']."・".$user_info['woman_firstname']."  ".INFO_G."</a></li>";
-				}
-			}
-			if( $this :: GetRowCount("spssp_plan"," `gift_daylimit` = 1 and user_id=".$user_id) )
-			{
-				return $link = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".$user_info['man_firstname']."・".$user_info['woman_firstname']."  ".INFO_F."</a></li>";
-			}else if( $this :: GetRowCount("spssp_plan"," `gift_daylimit` = 2 and user_id=".$user_id) )
-			{
-				return $link = "";
-			}
-			else if( $this :: GetRowCount("spssp_plan"," `gift_daylimit` = 3 and user_id=".$user_id) )
-			{
-				return $link = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".$user_id.":::::".$party_day."  ".$user_info['man_firstname']." . ".$user_info['woman_firstname']."  ".INFO_G."</a></li>";
-			}
-		}
-*/
 	}
 
 	function get_user_side_order_print_mail_system_status_msg($user_id)
 	{
 		$user_info = $this :: get_user_info($user_id);
-		$user_plan_info = $this :: get_user_plan_info($user_id); // UCHIDA EDIT 11/08/09 アップロードファイルを取得
+		$user_plan_info = $this :: get_user_plan_info($user_id);
 		$msg_text = "";
 
 		if($this :: sekiji_day_limit_over_check_for_all_users($user_id) && $user_plan_info['order'] < 2) // UCHIDA EDIT 11/08/15 印刷ＯＫまで締切日のメッセージを表示する
@@ -276,6 +239,7 @@ class MessageClass extends InformationClass
 		{
 			$msg_text .= "";
 		}
+    
 		if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and user_id=".$user_id) )
 		{
 			$dl = $user_plan_info['dl_print_com_times'];

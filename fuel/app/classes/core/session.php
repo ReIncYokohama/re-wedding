@@ -18,6 +18,17 @@ class Core_Session{
 			return false;
 		}
   }
+  
+  static public function is_staff(){
+    if($_SESSION['user_type'] == 222 || $_SESSION['user_type'] == 333){
+			return true;
+		}else{
+			return false;
+		}
+  }
+  static public function get_staff_id(){
+    return (int)$_SESSION['adminid'];
+  }
   static public function get_seat_data(){
     if(isset($_SESSION['cart'])){
       return $_SESSION["cart"];
