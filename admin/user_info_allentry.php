@@ -1334,7 +1334,7 @@ if($user_row['mukoyoshi']=='1'){
               <td width="160" align="left" valign="middle" nowrap="nowrap">商品名<?=$disp_option4?> </td>
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-               	  <input name="product_name" type="text" <?=$disp_option1?> style="border-style:inset; <?=$disp_option2?> <?=$disp_option3?> " id="product_name" value="<?=$user_plan_row['product_name']?>" size="32" />
+               	  <input name="product_name" type="text" <?=$disp_option1?> style="border-style:inset; <?=$disp_option2?> <?=$disp_option3?> " id="product_name" value="<?=$user_plan_row['product_name']?>" size="27" />
               </td>
             </tr>
       <tr>
@@ -1451,7 +1451,7 @@ if($updating){
 					$company_results = $obj->getRowsByQuery($sql_company);
 					?>
 					<?php if ($disp_option1=="") { ?>
-					<select name="print_company" id="print_company" style="border-style: inset;width:220px;">
+					<select name="print_company" id="print_company" style="border-style: inset;width:200px;">
 						<?php foreach($company_results as $company){?>
 						<option value="<?=$company['id']?>" <?php if($user_plan_row['print_company']==$company['id']){echo "selected='selected'";}?> ><?=$company['company_name']?></option>
 						<?php }?>
