@@ -1037,7 +1037,7 @@ $gift_id = $obj->GetSingleData(" spssp_guest_gift ", "group_id", " guest_id=".$g
 		{
 			$menu_name = $obj->GetSingleData(" spssp_menu_group ", "name", " id=".$menu_id." and user_id = ".$user_id);
 		}
-    $comment = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment_card.png",$extra="guests/".$guest['id']."/");
+    $comment = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment_card.png",$extra="guests/".$guest['id']);
 	  ?>
 		<tr>
       		<td bgcolor="#FFFFFF" class="sex">

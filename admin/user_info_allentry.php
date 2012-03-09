@@ -139,7 +139,6 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 
 <link rel="stylesheet" href="../datepicker/datepicker.css">
 <script type="text/javascript" language="javascript" src="../datepicker/behaviors.js"></script>
-<!-- <script type="text/javascript" src="../js/registration_validation.js"></script> -->
 <script type="text/javascript" src="../js/jquery.cj-object-scaler.min.js"></script>
 <script type="text/javascript" src="../js/ierange-m2.js"></script>
 <script type="text/javascript" src="../js/gaiji.js"></script>
@@ -672,8 +671,6 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	if (valid_plan(noUpdate) == false) return false;
 	if (checkGiftForm(count_gift, noUpdate) == false) return false;
 	if (checkGroupForm(count_group, noUpdate) == false) return false;
-//	if (checkMenuGroupForm(count_group, noUpdate) == false) return false;
-
 
    //gaiji_check
    var return_flag = true;
@@ -810,9 +807,6 @@ include("inc/return_dbcon.inc.php");
 
     </div>
         <h4><div style="width:500px; ">
-	<!-- UCHIDA EDIT 11/08/02
-	        <a href="users.php">お客様一覧</a> &raquo; お客様挙式情報</div>
-	-->
 		<?php
 		if($user_id>0) {
 			if($stuff_id==0) {
@@ -866,7 +860,6 @@ include("inc/return_dbcon.inc.php");
         <br />
         <?php } ?>
 
-<!-- UCHIDA EDIT 11/08/05 左寄せなどその他の修正  -->
 		<h2>
 		<?php if($user_id>0) { ?>
         	<div style="width:400px;"><font color="#2052A3"><strong>お客様挙式情報</strong></font></div>
@@ -889,37 +882,23 @@ include("inc/return_dbcon.inc.php");
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="1" align="left" valign="middle" nowrap="nowrap">
                 	<input name="party_day" type="text" id="party_day" value="<?if($user_id>0) echo $obj->date_dashes_convert($user_row['party_day'])?>" size="15" readonly="readonly" style="<?=$disp_option2?> <?=$disp_option3?> background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;padding-top:4px; padding-bottom:4px;" <?php if($disp_option2=="") echo 'class="datepicker" onclick="date_change()"'; ?> />
-					<?php
-					if ($user_row['party_day'] < date("Y-m-d") && $user_id>0) $noUpdate = true; else $noUpdate = false;
-					//$party_day_array = explode("-",$user_row['party_day']);
-					?>
-					<!--<input type="text" style="width:30px;" maxlength="4" name="party_year" id="party_year" value="<?=$party_day_array[0]?>">/
-					<input type="text" style="width:17px;" maxlength="2" name="party_month" id="party_month" value="<?=$party_day_array[1]?>">/
-					<input type="text" style="width:17px;" maxlength="2" name="party_day" id="party_day" value="<?=$party_day_array[2]?>"> yyyy/mm/dd-->
-                <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day').value='';">クリア </a>-->
+					<?php	if ($user_row['party_day'] < date("Y-m-d") && $user_id>0) $noUpdate = true; else $noUpdate = false;?>
                 </td>
-				<td colspan="2" align="left" valign="middle" nowrap="nowrap">披露宴時間<?=$disp_option4?>：<!--<input name="party_day_with_time" type="text" id="party_day_with_time" value="<?=date("H:i", strtotime($user_row['party_day_with_time']))?>" size="10" readonly="readonly" style="width:86px;background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px;" class="timepicker"/>-->
-				<?php
-				$party_time_array = explode(":",$user_row['party_day_with_time']);
-				?> 
+				<td colspan="2" align="left" valign="middle" nowrap="nowrap">披露宴時間<?=$disp_option4?>：<?php $party_time_array = explode(":",$user_row['party_day_with_time']);?>
 				&nbsp;
 				<input type="text" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;width:17px;border-style: inset;<?=$disp_option2?> <?=$disp_option3?> " maxlength="2" name="party_hour" id="party_hour" value="<?=$party_time_array[0]?>"> :
 				<input type="text" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;width:17px;border-style: inset;<?=$disp_option2?> <?=$disp_option3?> " maxlength="2" name="party_minute" id="party_minute" value="<?=$party_time_array[1]?>"> (24時間表記)
-                <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('party_day_with_time').value='';">クリア </a>-->
                 </td>
             </tr>
-
             <tr>
               <td width="160" align="left" valign="bottom" nowrap="nowrap">新郎氏名<?=$disp_option4?>
               <td width="10" align="left" valign="bottom" nowrap="nowrap">：</td>
               <td width="92%" colspan="3" align="left" valign="middle" nowrap="nowrap">
 		   <div style="height:20px;width:346px;">
-
 		   	<div id="male_lastname_img_div_id" style="width:173px;float:left;height:20px;"><?php if($user_id>0) echo getGaijis($man_lastname_gaijis);?></div>
 	      <div id="male_firstname_img_div_id" style="width:173px;float:left;height:20px;"><?php if($user_id>0) echo getGaijis($man_firstname_gaijis);?></div>
 	     	<div id="male_firstname_div_id"><?php if($user_id>0 && $man_firstname_gaijis) echo getGaijisInputEle($man_firstname_gaijis);?></div>
         <div id="male_lastname_div_id"><?php if($user_id>0 && $man_lastname_gaijis) echo getGaijisInputEle($man_lastname_gaijis);?></div>
-	   	
                </div>
                     <input name="man_lastname" class="check_sjs_1" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_lastname" value="<?=$user_row['man_lastname']?>" size="23" onclick="change_gaiji_link('man_lastname')"  onblur="set_gaiji_position()"/>
 				  <input name="man_firstname"  class="check_sjs_1" <?=$disp_option1?> type="text" style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " id="man_firstname" value="<?=$user_row['man_firstname']?>" size="23"  onclick="change_gaiji_link('man_firstname')"  onblur="set_gaiji_position()"/>
@@ -1132,8 +1111,6 @@ if($user_row['mukoyoshi']=='1'){
 			<tr>
   			<td width="160" align="left" valign="middle" nowrap="nowrap">メールアドレス確認用</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
-                <!--  UCHIDA EDIT 11/08/05 確認用メールアドレスのペーストを禁止 -->
-                <!--  UCHIDA EDIT 11/08/08 メッセージ変更 -->
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap" onpaste="alert('メールアドレス確認用は貼り付けできません');return false;"><input <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " name="con_mail" type="text" id="con_mail" size="30" value="<?=$user_row['mail']?>" />
 				</td>
             </tr>
@@ -1169,26 +1146,14 @@ if($user_row['mukoyoshi']=='1'){
 				else {
 					echo $obj->GetSingleData("spssp_admin","name"," id=".$user_row['stuff_id']);
                 } ?>
-				<!--<input name="stuff_id" type="text" id="stuff_id" value="<?=$staff_name?>" size="10" />-->
 				</td>
             </tr>
-<!--            <tr>
-              <td width="192" align="left" valign="middle" nowrap="nowrap">&nbsp;</td>
-                <td width="10" align="left" valign="middle" nowrap="nowrap">&nbsp;</td>
-                <td colspan="3" align="left" valign="middle" nowrap="nowrap">
-                 	<a href="javascript:void(0)" onclick="valid_user('<?=$user_row['id']?>' , '<?=$noUpdate?>');">
-                    	<img src="img/common/btn_regist_update.jpg" border="0" width="82" height="22" /><br /><br />
-                    </a>
-                </td>
-            </tr> -->
         </table>
-<!--         </form> -->
 		 </div> <!--end of  id="div_box_1"-->
         <br />
         <h2><div>席次表設定</div></h2>
 
 		<div id="div_box_1" style="1000px;">
- <!--        <form action="insert_user_info_plan.php?user_id=<?=$user_id?>" method="post" name="user_info_plan"> -->
         <input type="hidden" id="max_rows" value="<?=$room_row['max_rows']?>" />
         <input type="hidden" id="max_columns" value="<?=$room_row['max_columns']?>" />
         <input type="hidden" id="max_seats" value="<?=$room_row['max_seats']?>" />
