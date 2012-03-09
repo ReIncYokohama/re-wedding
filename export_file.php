@@ -56,6 +56,7 @@ $html .= '<tr>
 </tr>';
 
 for($i=0;$i<count($guestArray);++$i){
+  if($guestArray[$i]["self"]==1) continue;
   if($guestArray[$i]["stage"]==1){
     $table_name = $obj->get_takasago_seat_name($guestArray[$i]["stage_guest"]);
   }else{
@@ -69,7 +70,7 @@ for($i=0;$i<count($guestArray);++$i){
 <td>'.$guestArray[$i]['first_name'].'</td>
 <td>'.$guestArray[$i]['furigana_last'].'</td>
 <td>'.$guestArray[$i]['furigana_first'].'</td>
-<td>'.$guestArray[$i]['respect_text'].'</td>
+<td>'.$obj->get_respect($guestArray[$i]["respect_id"]).'</td>
 <td>'.$guestArray[$i]['guest_type_text'].'</td>
 <td>'.$guestArray[$i]['comment1'].'</td>
 <td>'.$guestArray[$i]['comment2'].'</td>
@@ -80,7 +81,6 @@ for($i=0;$i<count($guestArray);++$i){
 </tr>';
 
 }
-
 $html .= '</table></body></html>';
 
 $today = date("md");
