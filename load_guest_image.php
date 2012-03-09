@@ -21,7 +21,7 @@ $objInfo = new InformationClass();
 ただいま招待者の画像データを更新しております。<br>
 自動的にもとの画面に戻ります。
 <?php
-$srcArray = array("thumb1/comment1.png","thumb1/comment2.png","thumb1/guest_fullname_only.png");
+  $srcArray = array("thumb1/comment1.png","thumb1/comment2.png","thumb1/guest_fullname_only.png","comment_card.png");
 for($i=0;$i<count($srcArray);++$i){
   echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,1,$srcArray[$i],"guests/".$guest_id,1,"",1);
 }
