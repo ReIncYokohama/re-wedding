@@ -11,96 +11,20 @@ $get = $obj->protectXSS($_GET);
 
 include_once("inc/new.header.inc.php");
 
-$stuff_id = (int)$_SESSION['adminid'];
+$staff_id = Core_Session::get_staff_id();
 
-if($_SESSION['user_type'] == 222 || $_SESSION['user_type'] == 333)
-	{
-		$stuff_users = $obj->GetAllRowsByCondition("spssp_user", "stuff_id=".(int)$_SESSION['adminid']);
+$message = Model_Message::get_by_admin();
+if($message) $usermsgs = Core_Arr::func($message,"to_array");
+else $usermsgs = array();
 
-    if(!$stuff_users) $stuff_users = array();
+include_once("inc/update_user_log_for_db.php");
+update_user_log_for_db((int)(USER_LOGIN_TIMEOUT), $obj, $user_id_arr);
 
-		foreach($stuff_users as $su)
-		{
-			$user_id_arr[] = $su['id'];
-			$staff_users[]=$su['id'];
-		}
-		if(!empty($user_id_arr))
-		{
-			$stuff_users_string = implode(",",$user_id_arr);
-
-			$umsg_where = " admin_viewed=0 and user_id in ( $stuff_users_string )  order by id DESC";
-		}
-
-		$amsg_where = " admin_id=".(int)$_SESSION['adminid'];
-		if(!empty($staff_users))
-		{
-			if(in_array((int)$get['user_id'],$staff_users))
-			{
-				$var = 1;
-			}
-			else
-			{
-				$var = 0;
-			}
-		}
-	//    $umsg_where = " 1=1";
-	$umsg_where = " admin_viewed=0 order by id DESC";
-	}
-	else
-	{
-		$umsg_where = " admin_viewed=0 order by id DESC";
-		$amsg_where = " 1 = 1  order by id DESC";
-		$var = 1;
-	}
-
-	if(isset($post['save_super']) && $post['save_super'] != '' && $_SESSION['user_type'] == 111 && $post['edit_sp'] == '')
-	{
-		if($post['title'] != '')
-		{
-			unset($post['save_super']);
-			$post['display_order'] = time();
-			$post['description'] = nl2br($post['description']);
-			unset($post['edit_sp']);
-			$lsid = $obj->InsertData("spssp_super_message", $post);
-		}
-
-	}
-	else if(isset($post['edit_sp']) && $post['edit_sp'] != '' && $_SESSION['user_type'] == 111 )
-	{
-
-		$edit_arr['title'] = $post['title'];
-		$edit_arr['description'] = nl2br($post['description']);
-
-		$obj->UpdateData("spssp_super_message", $edit_arr, " id = ".(int)$post['edit_sp']);
-
-	}
-
-	if(isset($get['action']) && $get['action'] == 'delete' && (int)$get['smsg_id'] > 0 )
-	{
-		$obj->DeleteRow("spssp_super_message"," id =".(int)$get['smsg_id']);
-	}
-
-	$usermsgs = $obj->GetAllRowsByCondition("spssp_message",$umsg_where);
-  if(!$usermsgs) $usermsgs = array();
-	$adminmsgs = $obj->GetAllRowsByCondition("spssp_admin_messages"," $amsg_where order by display_order desc ");
-  if($adminmsgs) $adminmsgs = array();
-
-	if($get['action']=='delete' && (int)$get['id'] > 0)
-	{
-		$objinfo->delete_user_relation_table((int)$get['id']);
-
-		$post['date_from']=$get['date_from'];
-		$post['date_to']=$get['date_to'];
-		$post['mname']=$get['mname'];
-		$post['wname']=$get['wname'];
-	}
-	include_once("inc/update_user_log_for_db.php");
-	update_user_log_for_db((int)(USER_LOGIN_TIMEOUT), $obj, $user_id_arr);
 ?>
 
 		   <!--User view respect to admin start-->
 <?php
-	if($_SESSION["super_user"] == false) {
+if($_SESSION["super_user"] == false) {
 		$table_users ="spssp_user";
 		$where_users = " stuff_id = ".$_SESSION['adminid']." and  party_day >= '".date("Y-m-d")."'";
 	
@@ -113,16 +37,6 @@ if($_SESSION['user_type'] == 222 || $_SESSION['user_type'] == 333)
 		$query_string="SELECT * FROM $table_users where $where_users $order ;";
 		$data_rows = $obj->getRowsByQuery($query_string);
 	}
-/*
-	$table_users='spssp_user';
-	$where_users = " stuff_id = ".$_SESSION['adminid']." and  party_day >= '".date("Y-m-d")."'";
-	$data_per_page_users=10;
-	$current_page_users=(int)$get['page'];
-
-	$order="party_day ASC , party_day_with_time asc ";
-	$query_string="SELECT * FROM $table_users where $where_users ORDER BY $order ;";
-	$data_rows = $obj->getRowsByQuery($query_string);
-*/
 ?>
 
 
@@ -200,17 +114,6 @@ font-weight:normal;
 </style>
 <script type="text/javascript">
 
-window.onbeforeunload = function(event) {
-//	alert("Before Unload");
-//return true;
-}
-window.onunload = function(event) {
-//	var ref = event.target.referrer;
-//	var ref=location.href;
-//	alert("Unload : "+ref);
-//return true;
-}
-
 var user_a_id;
 $j(function(){
 
@@ -242,25 +145,6 @@ function add_supper_message()
 	$j(".new_super_message").toggle("slow");
 	$j("#edit_sp").val('');
 }
-function save_super_message()
-{
-	var title = $j("#super_title").val();
-	var desc = $j("#super_description").val();
-	if(title == '')
-	{
-		alert("タイトルが未入力です");
-		$j("#super_title").focus();
-		return false;
-	}
-	if(desc == '')
-	{
-		alert("内容が未入力です");
-		$j("#super_description").focus();
-		return false;
-	}
-
-	document.super_msg_frm.submit();
-}
 function cancel_super_message()
 {
 	$j("#edit_sp").val('');
@@ -271,21 +155,6 @@ function view_dsc_super(id)
 {
 	$j("#super_desc_"+id).toggle();
 
-}
-function edit_super_msg(id)
-{
-
-	var mid = id;
-	$j.post('manage.php',{'ajax':'ajax','id':mid}, function(data){
-
-		$j("#edit_sp").val(id);
-		$j("#save_super").val('');
-		var arr = data.split(",");
-		$j("#super_title").val(arr[0]);
-		$j("#super_description").val(arr[1]);
-		$j("#super_desc_"+id).fadeOut(100);
-		$j(".new_super_message").fadeIn(500);
-	});
 }
 
 function viewMsg(id)
@@ -586,7 +455,7 @@ include("inc/return_dbcon.inc.php");
 				<td width="90" align="left" valign="bottom" >
 					<a href="javascript:void(0);" onclick="clearForm()"><img src="img/common/btn_clear.jpg" alt="ｸﾘｱ" width="82" height="22" border="0"></a></td>
 			 	<td width="90" align="left" valign="bottom" >
-			 		<a href="manage.php"><img src="img/common/new_userlist.gif" width="82" height="22" border="0"/></a></td> <!-- UCHIDA EDIT 11/07/26 -->
+			 		<a href="manage.php"><img src="img/common/new_userlist.gif" width="82" height="22" border="0"/></a></td>
 			  </tr>
 			   <tr>
 			   <td>&nbsp; </td>
@@ -742,66 +611,6 @@ include("inc/return_dbcon.inc.php");
 			<br /><br /><br /><br />
         </div>
 		 <div style="width:100%; margin-top:25px">
-            	<?php
-                	if($_SESSION['user_type'] == 111)
-					{
-				?>
-                		<div class="txt2">
-<!--  UCHIDA EDIT 11/08/08 表示方法を変更 -->
-<!--                        <p>■管理会社より -News- &nbsp;&nbsp;&nbsp;<a href="javascript:void()" onclick="add_supper_message();">メッセージ作成 </a></p> -->
-                        	<p><h2>管理会社より -News- 　　<a href="javascript:void()" onclick="add_supper_message();">メッセージ作成</a></h2></p>
-                            <form action="manage.php" method="post" name="super_msg_frm">
-                        	<table class="new_super_message" cellpadding="5" cellspacing="1" border="0" align="left">
-                            	<tr>
-                                	<?php
-                                    	$nums = $obj->GetNumRows("spssp_super_message"," 1 = 1");
-									?>
-                                	<td width="30%" align="right"> No</td><td><input type="text" value="<?=$nums?>" readonly="readonly" size="1"/></td>
-                                </tr>
-								<tr>
-                                	<td align="right"> タイトル </td><td> <input type="text" name="title" id="super_title" /></td>
-                                </tr>
-                                <tr>
-                                	<td align="right">本文 </td>
-                                    <td> <textarea name="description" id="super_description" cols="40" /></textarea></td>
-                                </tr>
-                                <tr>
-                                	<td>&nbsp; </td>
-                                    <td>
-                                    	<input type="button" value="送信" onclick="save_super_message();" /> &nbsp;
-                                        <input type="button" value="キャンセル" onclick="cancel_super_message();" />
-                                        <input type="hidden" name="save_super" value="save_super" id="save_super" />
-                                        <input type="hidden" id="edit_sp" value="" name="edit_sp" />
-                                    </td>
-                                </tr>
-							</table>
-                            </form>
-                            <p></p>
-
-							<ul class="ul3" id="message_BOX" style="height:200px; overflow:auto;">
-
-                            	<?php
-								include("inc/main_dbcon.inc.php");
-								$super_messeges = $obj->GetAllRowsByCondition("super_admin_message "," 1 = 1 order by id desc");
-								include("inc/return_dbcon.inc.php");
-                                foreach($super_messeges as $msg)
-                                {
-                                    echo "<li><span class='date2'>".date('Y/m/d',$msg['display_order'])."</span> &nbsp; &nbsp; &nbsp; &nbsp;
-									<a href='javascript:void(0);' onclick='view_dsc_super(".$msg['id'].")' id='super_title_".$msg['id']."'> ".$msg['title']."</a><br />
-                                    <p class='super_desc' id='super_desc_".$msg['id']."'><span>".$msg['description']."</span> &nbsp; &nbsp; &nbsp; <a href='javascript:void();' onclick='edit_super_msg(".$msg['id'].")'> 編集 </a> &nbsp; &nbsp; &nbsp; <a href='javascript:void();' onclick=\"confirmDelete('manage.php?action=delete&smsg_id=".$msg['id']."')\"> 削除 </a></p></li>";
-
-                                }
-                            	?>
-                            </ul>
-
-                        </div>
-                <?php
-					}
-					else
-					{
-				?>
-<!--  UCHIDA EDIT 11/08/08 表示方法を変更 -->
-<!--                         <div class="txt2">■管理会社より -News- -->
                         <div class="txt2"> <h2>管理会社より -News-</h2>
                             <ul class="ul3">
                             <div style="height:124px; overflow-y:auto;">
@@ -820,9 +629,7 @@ include("inc/return_dbcon.inc.php");
                             </div>
                             </ul>
                         </div>
-                 <?php
-                 	}
-				 ?>
+
            </div>
 		 <!--User view respect to admin END-->
 
