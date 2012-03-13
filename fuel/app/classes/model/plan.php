@@ -59,7 +59,7 @@ class Model_Plan extends Model_Crud{
   public function get_seat_data_in_session(){
     if($this->_seat_data) return $this->_seat_data;
     $seat_data = Core_Session::get_seat_data();
-    if($seat_data){
+    if(!$seat_data){
       $plan_details = Model_Plandetails::find_by_plan_id($this->id);
       $seat_data = array();
       foreach($plan_details as $plandetail)
