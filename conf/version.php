@@ -1,3 +1,3 @@
 <?php
-$weddingVersion="Version 1.02";
+$weddingVersion="Version 1.03";
 ?>
