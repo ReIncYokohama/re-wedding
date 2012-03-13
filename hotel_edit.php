@@ -51,7 +51,7 @@ if($_POST["hotel_name"])
           <tr>
             <td align="right">郵便番号<span class="txtred">*</span></td>
             <td>：</td>
-            <td><input name="zip" type="text" id="zip" size="20"  value="<?=$hotel_row[zip]?>"/></td>
+            <td><input name="zip" type="text" id="zip" size="20"  value="<?=$hotel_row[zip]?>"/><span style="font-size:10px;">（例　231-0000）</span></td>
           </tr>
           <tr>
             <td align="right">住所1<span class="txtred">*</span></td>
@@ -66,7 +66,7 @@ if($_POST["hotel_name"])
           <tr>
             <td align="right">電話番号<span class="txtred">*</span></td>
             <td>：</td>
-            <td><input name="phone" type="text" id="phone" size="30"  value="<?=$hotel_row[phone]?>"/></td>
+            <td><input name="phone" type="text" id="phone" size="30"  value="<?=$hotel_row[phone]?>"/><span style="font-size:10px;">（例　0451111111)</span></td>
           </tr>
           <tr>
             <td align="right">担当者<span class="txtred">*</span></td>
@@ -180,12 +180,20 @@ function validform_hotel(){
 			return false;
 		}
 	}
-	if(document.getElementById("zip").value=='')
-	{
-		alert("郵便番号を入力してください");
-		document.getElementById('zip').focus();
-		return false;
+  postcode = document.getElementById("zip").value;
+	if (postcode.length != 0) {
+		if( postcode.match( /[^0-9\s-]+/ ) ) {
+				alert("郵便番号は半角数字と'-'だけで入力してください");
+				document.getElementById('zip').focus();
+				return false;
+		}
+		if (postcode.length !=8) {
+			alert("郵便番号は'123-4567'の形式で入力してください");
+			document.getElementById('zip').focus();
+			return false;
+		}
 	}
+
 	if(document.getElementById("address1").value=='')
 	{
 		alert("住所１を入力してください");
