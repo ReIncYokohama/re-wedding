@@ -10,35 +10,19 @@ if($_GET["id"]!="")
 	$hotel_row = $obj->GetSingleRow("super_spssp_hotel", " id=".$_GET[id]);
 }
 
+$hotel_code = $hotel_row["hotel_code"];
+$hotel_sqlhost_val = "hotel".((int)$hotel_code)."_sqlhost";
+$hotel_sqluser_val = "hotel".((int)$hotel_code)."_sqluser";
+$hotel_sqlpassword_val = "hotel".((int)$hotel_code)."_sqlpassword";
+$hotel_sqldatabase_val = "hotel".((int)$hotel_code)."_sqldatabase";
+$link = mysql_connected($$hotel_sqlhost_val,$$hotel_sqluser_val,$$hotel_sqlpassword_val,$$hotel_sqldatabase_val);
+$hotel_row2 = $obj->GetSingleRow("spssp_admin","stype=1");
+
+
 if($_POST["hotel_name"])
 	{
 		unset($post['email_confirm']);
 		$obj->UpdateData("super_spssp_hotel", $post, " id = ".(int)$_GET['id']);
-
-    $hotel_code = $_POST["hotel_code"];
-    $hotel_sqlhost_val = "hotel".((int)$hotel_code)."_sqlhost";
-    $hotel_sqluser_val = "hotel".((int)$hotel_code)."_sqluser";
-    $hotel_sqlpassword_val = "hotel".((int)$hotel_code)."_sqlpassword";
-    $hotel_sqldatabase_val = "hotel".((int)$hotel_code)."_sqldatabase";
-
-    mysql_close();
-
-    $link = mysql_connected($$hotel_sqlhost_val,$$hotel_sqluser_val,$$hotel_sqlpassword_val,$$hotel_sqldatabase_val);
-    $hotel_row = $obj->GetSingleRow("spssp_admin","stype=1");
-
-    //CREAT ARRAY
-    $data['username'] =  $_POST['adminid'];
-    $data['password'] =  $_POST['password'];
-//    $data['email'] =  $_POST['email'];
-    $data['name'] =  $_POST['adminstrator'];
-    $data['permission'] =  "333";
-    $data['stype'] = 1;
-
-    if(!$hotel_row){
-      $obj->InsertData("spssp_admin", $data);
-    }
-    mysql_close($link);
-
 		redirect("hotel.php");
 	}
 
@@ -102,17 +86,17 @@ if($_POST["hotel_name"])
           <tr>
             <td align="right"><div>管理者</div></td>
             <td>：</td>
-            <td><input name="adminstrator" type="text" id="adminstrator" size="30" readonly="readonly" style="border: #ffffff;" value="<?=$hotel_row[adminstrator]?>"/></td>
+            <td><input name="adminstrator" type="text" id="adminstrator" size="30" readonly="readonly" style="border: #ffffff;" value="<?=$hotel_row2[name]?>"/></td>
           </tr>
           <tr>
             <td align="right">管理者用 ID </td>
             <td>：</td>
-            <td><input name="adminid" type="text" id="adminid" size="50"  readonly="readonly" style="border: #ffffff;"   value="<?=$hotel_row[adminid]?>"/></td>
+            <td><input name="adminid" type="text" id="adminid" size="50"  readonly="readonly" style="border: #ffffff;"   value="<?=$hotel_row2[username]?>"/></td>
           </tr>
           <tr>
             <td align="right">パスワード</td>
             <td>：</td>
-            <td><input name="password" type="text"  id="password" size="50"   value="<?=$hotel_row[password]?>" readonly="readonly" style="border: #ffffff;" /></td>
+            <td><input name="password" type="text"  id="password" size="50"   value="<?=$hotel_row2[password]?>" readonly="readonly" style="border: #ffffff;" /></td>
           </tr>
           <tr>
             <td align="right">招待者リストデータ削除日<span class="txtred">*</span></td>

@@ -55,8 +55,8 @@ if($_POST['hotel_name'])
       //CREAT ARRAY
       $data['username'] =  $_POST['adminid'];
       $data['password'] =  $_POST['password'];
-//      $data['email'] =  $_POST['email'];
-      $data['name'] =  $_POST['adminstrator'];
+//    $data['email'] =  $_POST['email'];
+    $data['name'] =  $_POST['adminstrator'];
       $data['permission'] =  "333";
       $data['display_order'] =  time();
       $data['stype'] = 1;
@@ -132,7 +132,7 @@ if($_POST['hotel_name'])
           <tr>
             <td align="left"><div>管理者</div></td>
             <td>：</td>
-            <td><input name="adminstrator" type="text" id="adminstrator" size="30" readonly="readonly""/></td>
+            <td><input name="adminstrator" type="text" id="adminstrator" size="30"/></td>
           </tr>
           <tr>
             <td align="left">管理者用 ID </td>
