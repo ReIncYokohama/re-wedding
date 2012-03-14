@@ -13,6 +13,10 @@ include_once(dirname(__FILE__)."/../../madmin/conf/version.php");
 	if($_GET['action']=='noEntry') {
 		echo '<script type="text/javascript"> alert("現在、ログインはいただけません。\\nホテルから発注依頼があった場合のみログインいただけます。"); </script>';
 	}
+if($_GET["action"]=="mailDateLimit"){
+  echo "<script> alert('ダウンロード期限の6５日を過ぎております'); </script>";
+}
+
 
 	if(isset($_POST['sub'])) {
 	$query_string = "SELECT * from spssp_printing_comapny WHERE BINARY email= '".$userID."' and number = '".$password."'";

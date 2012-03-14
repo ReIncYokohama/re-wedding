@@ -17,23 +17,21 @@ else if($_SESSION['printid'] =='')
    redirect("index.php");exit;
 }
 
-	$user_info = $objInfo->get_user_info($user_id);
-	$mailDate=$user_info['state'];
-	$limitDate=date("Y/m/d",strtotime("-5 day")); //今から５日前の日付
-	$downloadOK=false;
-	if ($mailDate > $limitDate) $downloadOK=true;
+$user_info = $objInfo->get_user_info($user_id);
+$mailDate=$user_info['state'];
+$limitDate=date("Y/m/d",strtotime("-65 day"));
+$downloadOK=false;
+if ($mailDate > $limitDate) $downloadOK=true;
+$user_plan_info = $objInfo->get_user_plan_info($user_id);
 
-	if($downloadOK==true)
+	if($downloadOK==true || $user_plan_info["order"] == 2)
 	 {
 		unset($post);
-		$user_plan_info = $objInfo->get_user_plan_info($user_id);
-//		$post['dl_print_com_times'] = $user_plan_info['dl_print_com_times'] - 1;
 		$obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
 	 }
 	 else
 	 {
-	 	echo "<script> alert('ダウンロード期限の５日を過ぎております'); </script>";
-	 	redirect("index.php?msg=3");
+	 	redirect("index.php?action=mailDateLimit");
 	 }
 
      $row = $objInfo->get_user_info($user_id);
