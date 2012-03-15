@@ -8,28 +8,13 @@ $obj = new DataClass();
 $get = $obj->protectXSS($_GET);
 
 $user_id = Core_Session::get_user_id();
-
 $user = Model_User::find_by_pk($user_id);
-$user_info = $user->to_array();
 $plan = Model_Plan::find_one_by_user_id($user_id);
-$plan_info = $plan->to_array();
-
-$default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
-
-$plan_id = $obj->GetSingleData("spssp_plan", "id","user_id=".$user_id);
-$plan_row = $obj->GetSingleRow("spssp_plan", " id =".$plan_id);
-
-$room_rows = $plan_row['row_number'];
-$room_tables = $plan_row['column_number'];
-$room_seats = $plan_row['seat_number'];
-$num_tables = $room_rows * $room_tables;
 
 $table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
 $guest_models_takasago = Model_Guest::find_by_takasago($user_id);
 $takasago_guests = Core_Arr::func($guest_models_takasago,"to_array");
 $guestArray = array_merge($takasago_guests,$table_data["guests"]);
-
-$userArray = $obj->get_userdata($user_id);
 
 $html .='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -58,9 +43,10 @@ $html .= '<tr>
 for($i=0;$i<count($guestArray);++$i){
   if($guestArray[$i]["self"]==1) continue;
   if($guestArray[$i]["stage"]==1){
-    $table_name = $obj->get_takasago_seat_name($guestArray[$i]["stage_guest"]);
+    $table_name = $plan->get_layoutname();
+    //$table_name = $obj->get_takasago_seat_name($guestArray[$i]["stage_guest"]);
   }else{
-    $seat_id = $obj->get_seat_id($plan_id,$guestArray[$i]["id"]);
+    $seat_id = $obj->get_seat_id($plan->id,$guestArray[$i]["id"]);
     $table_id = $obj->get_table_id_by_seat_id($seat_id);
     $table_name = $obj->get_table_name($table_id,$user_id);
   }
@@ -84,7 +70,7 @@ for($i=0;$i<count($guestArray);++$i){
 $html .= '</table></body></html>';
 
 $today = date("md");
-$this_name= "リスト".$today."".$userArray[0]["last_name"]."_".$userArray[1]["last_name"];
+$this_name= "リスト".$today."".$user->last_name."_".$user->last_name;
 
 $File = "cache/Yourexcel.html";
 $Handle = fopen($File, 'w');
