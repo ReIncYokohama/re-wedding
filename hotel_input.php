@@ -22,14 +22,10 @@ if(!$$hotel_sqlhost_val){
   exit();
 }
 $link = mysql_connected($$hotel_sqlhost_val,$$hotel_sqluser_val,$$hotel_sqlpassword_val,$$hotel_sqldatabase_val);
-//$hotel_row = $obj->GetSingleRow("spssp_admin","stype=1");
 mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
 
-//if($hotel_row){
-// $password = $hotel_row["password"];
-//}else{
-  $password = generatePassword();
-//}
+$password = generatePassword();
+
 
 $admin_code = $hotel_dbo->getAdminCode($hotel_code);
 
@@ -37,7 +33,13 @@ $admin_code = $hotel_dbo->getAdminCode($hotel_code);
 if($_POST['hotel_name'])
 	{
 		unset($post['email_confirm']);
-		$post['url_name'] = "hotel".(int)$post['hotel_code'];
+    $hotel_url = "hotel".((int)$hotel_code)."_url";
+    
+    if($$hotel_url)
+      $post['url_name'] = $$hotel_url;
+    else
+      $post['url_name'] = "hotel".(int)$post['hotel_code'];
+    
 		$hid = $obj->InsertData("super_spssp_hotel", $post);
 
     $hotel_code = $_POST["hotel_code"];
@@ -52,11 +54,9 @@ if($_POST['hotel_name'])
       $link = mysql_connected($$hotel_sqlhost_val,$$hotel_sqluser_val,$$hotel_sqlpassword_val,$$hotel_sqldatabase_val);
       $hotel_row = $obj->GetSingleRow("spssp_admin","stype=1");
 
-      //CREAT ARRAY
       $data['username'] =  $_POST['adminid'];
       $data['password'] =  $_POST['password'];
-//    $data['email'] =  $_POST['email'];
-    $data['name'] =  $_POST['adminstrator'];
+      $data['name'] =  $_POST['adminstrator'];
       $data['permission'] =  "333";
       $data['display_order'] =  time();
       $data['stype'] = 1;
