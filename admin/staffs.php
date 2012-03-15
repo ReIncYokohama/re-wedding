@@ -260,14 +260,14 @@ function validForm()
 	}
 	if(ID.length > 15)
 	{
-			alert("ログインIDは15文字以内で入力してください");
+			alert("15文字以内で入力してください");
 			document.getElementById('ID').focus();
 			return false;
 	}
 	
 	
 	if(reg.test(ID) == false) {
-		alert("ログインIDは半角英数字記号で入力してください");
+		alert("半角英数字記号で入力してください");
 		document.getElementById('ID').focus();
 		return false;
 	}
@@ -514,19 +514,19 @@ function validForm_staff()
 		var c = document.getElementById("password").value.length;
 		if(c<6)
 		{
-			alert("パスワードは英数字6文字以上にしてください");
+			alert("英数字6文字以上にしてください");
 			document.getElementById('password').focus();
 			return false;
 		}
 		if(c>15)
 		{
-			alert("パスワードは15文字以内で入力してください");
+			alert("15文字以内で入力してください");
 			document.getElementById('password').focus();
 			return false;
 		}
 	}
 	if(reg.test(password) == false) {
-		alert("パスワードは英数字記号で入力してください");
+		alert("英数字記号で入力してください");
 		document.getElementById('password').focus();
 		return false;
 	 }
