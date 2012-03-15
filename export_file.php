@@ -57,7 +57,7 @@ for($i=0;$i<count($guestArray);++$i){
 <td>'.$guestArray[$i]['furigana_last'].'</td>
 <td>'.$guestArray[$i]['furigana_first'].'</td>
 <td>'.$obj->get_respect($guestArray[$i]["respect_id"]).'</td>
-<td>'.$guestArray[$i]['guest_type_text'].'</td>
+<td>'.$obj->get_guest_type($guestArray[$i]["guest_type"]).'</td>
 <td>'.$guestArray[$i]['comment1'].'</td>
 <td>'.$guestArray[$i]['comment2'].'</td>
 <td>'.$table_name.'</td>
