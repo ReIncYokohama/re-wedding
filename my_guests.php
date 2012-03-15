@@ -18,10 +18,6 @@ $tab_my_guests = true;
 $TITLE = "招待者リストの作成 - ウエディングプラス";
 include_once("inc/new.header.inc.php");
 
-$message = "";
-if($_GET["insert"]) $message = "招待者および招待者情報が登録されました。";
-if($_GET["update"]) $message = "招待者および招待者情報が更新されました。";;
-
 
 if(isset($_GET['action']) && $_GET['action'] == 'delete' )
 	{
@@ -278,8 +274,6 @@ $(function(){
       {
         $("#msg_rpt").fadeOut(5000);
       }
-    var message = "<?php echo $message;?>";
-    if(message != "") alert(message);
 	});
 
 function edit_guest(gid)
@@ -1304,25 +1298,3 @@ if($guest["sex"] == "Male"){
 <?php
 include("inc/new.footer.inc.php");
 ?>
-
-<?php
-        	if(isset($_GET['err']) && $_GET['err']!='')
-			{
-				if($_GET['err']==1)
-				{
-					echo '<script type="text/javascript"> alert("データベースエラー"); </script>';
-				}
-
-			}
-			else if(isset($_GET['msg']) && $_GET['msg']!='')
-			{
-				if($_GET['msg']==1)
-				{
-					echo '<script type="text/javascript"> alert("保存されました"); </script>';
-				}
-				if($_GET['msg']==2)
-				{
-					echo '<script type="text/javascript"> alert("変更されました"); </script>';
-				}
-			}
-		?>
