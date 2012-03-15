@@ -27,7 +27,7 @@ $num_tables = $room_rows * $room_tables;
 $table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
 $guest_models_takasago = Model_Guest::find_by_takasago($user_id);
 $takasago_guests = Core_Arr::func($guest_models_takasago,"to_array");
-$guestArray = array_merge($takasago_guests,$table_data["attend_guests"]);
+$guestArray = array_merge($takasago_guests,$table_data["guests"]);
 
 $userArray = $obj->get_userdata($user_id);
 
@@ -65,7 +65,7 @@ for($i=0;$i<count($guestArray);++$i){
     $table_name = $obj->get_table_name($table_id,$user_id);
   }
   $html .= '<tr>
-<td>'.$guestArray[$i]['sex_text'].'</td>
+<td>'.$obj->get_host_sex_name($guestArray[$i]["sex"]).'</td>
 <td>'.$guestArray[$i]['last_name'].'</td>
 <td>'.$guestArray[$i]['first_name'].'</td>
 <td>'.$guestArray[$i]['furigana_last'].'</td>
