@@ -1,5 +1,6 @@
 <?php
 //ユーザがテーブル名を変更する
+//user_id,table_id,plan_idで検索する。
 class Model_Usertable extends Model_Crud{
   static $_table_name = "spssp_table_layout";
   static $_fields = array("id","user_id","table_id","name","visibility","display"

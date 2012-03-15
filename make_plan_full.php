@@ -356,6 +356,7 @@ direction: ltr;
 
 				foreach($guests as $guest)
 						{
+              
 							$no++;
 							if($no%2==0)
 							{
@@ -372,14 +373,13 @@ direction: ltr;
 								$src = "img/icon01.jpg";
 								$style = "style = 'display:none'";
 								$key=array_search($guest['id'],$itemids);
-
-								$seat_details=$obj->getSingleRow("spssp_default_plan_seat"," id=".$seatids[$key]." limit 1");
-								$table_details=$obj->getSingleRow("spssp_default_plan_table"," id=".$seat_details['table_id']." limit 1");
                 
-								$tbl_row = $obj->getSingleRow("spssp_table_layout"," table_id=".$table_details['id']." and user_id=".(int)$user_id." limit 1");
-                $tblname = $tbl_row['name'];
+                $seat = Model_Seat::find_by_pk($seatids[$key]);
+                $table = Model_Table::find_by_pk($seat->table_id);
+                $usertable = Model_Usertable::find_one_by(array(array("user_id","=",$user_id),array("table_id","=",$table->id),array("plan_id","=",$plan_id)));
+                
+                $tblname = $usertable->name;
                 $tblname=mb_substr ($tblname, 0,2,'UTF-8');
-
 
 							}
 							else
@@ -391,7 +391,7 @@ direction: ltr;
               $rsp = $obj->get_respect($guest["respect_id"]);
 
 							$edited_num = $obj->GetNumRows("spssp_guest", "edit_item_id=".$guest['id']." and user_id=".(int)$user_id);
-							//echo '<h1>'.$edited_num.'</h1>';
+              
 							if($edited_num > 0)
 							{
 								$guest_edited = $obj->GetSingleRow("spssp_guest", "edit_item_id=".$guest['id']." and user_id=".$user_id);
@@ -454,7 +454,7 @@ if($objInfo->get_editable_condition($plan_row))
             </div>
 			<?php
 
-                       $table_rows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".(int)$user_id." and row_order=".$tblrows[0]['row_order']." order by  column_order asc");
+                                                                                                                                                                                                                                                                                                                                                                                                                                       $table_rows = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".(int)$user_id." and row_order=".$tblrows[0]['row_order']." order by  column_order asc");
                        $ralign = $obj->GetSingleData("spssp_table_layout", "align"," row_order=".$tblrows[0]['row_order']." and user_id=".$user_id." limit 1");
 
                        $num_first = $obj->GetSingleData("spssp_table_layout", "column_order "," display=1 and user_id=".$user_id." and row_order=".$tblrows[0]['row_order']." order by column_order limit 1");
