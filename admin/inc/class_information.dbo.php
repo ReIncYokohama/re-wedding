@@ -258,6 +258,9 @@ class InformationClass extends DBO
 				return $file;
 			else if($extra!==false)
 			{
+        if($width){
+          return "<img src=\"".$file."\" width=\"".$width."\" />";
+        }
         if($height){
           return "<img src=\"".$file."\" height=\"".$height."\" />";
         }

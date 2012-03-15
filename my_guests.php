@@ -952,7 +952,6 @@ if($editable)
 	<div class="guests_area_L">
 	<table class="guest_list_table" border="0" cellpadding="3" cellspacing="1" bgcolor="#999999">
 <tr>
-
   <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="sex">席</td>
   <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="name">出席者名</td>
   <td align="center" nowrap="nowrap" bgcolor="#ffffff" class="respect">敬称</td>
@@ -1037,7 +1036,7 @@ $gift_id = $obj->GetSingleData(" spssp_guest_gift ", "group_id", " guest_id=".$g
 		{
 			$menu_name = $obj->GetSingleData(" spssp_menu_group ", "name", " id=".$menu_id." and user_id = ".$user_id);
 		}
-    $comment = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment_card.png",$extra="guests/".$guest['id']);
+  $comment = $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="comment_card.png",$extra="guests/".$guest['id'],"170px");
 	  ?>
 		<tr>
       		<td bgcolor="#FFFFFF" class="sex">
