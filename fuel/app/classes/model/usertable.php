@@ -40,6 +40,7 @@ class Model_Usertable extends Model_Crud{
     }
   }
   public function change_display($display){
+    if((int)$this->display == (int)$display) return;
     if($display){
       $display = 1;
     }else{
@@ -47,7 +48,7 @@ class Model_Usertable extends Model_Crud{
     }
     $this->display = $display;
     $this->save();
-    if($this->display){
+    if($this->display == 0){
       $this->delete_user_seats();
     }
   }

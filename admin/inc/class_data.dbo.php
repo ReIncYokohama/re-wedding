@@ -90,6 +90,7 @@ class DataClass extends DBO{
   //                 name
   //guests
   public function get_table_data_detail($user_id){
+    $plan = Model_Plan::find_one_by_user_id($user_id);
     $table_data = $this->get_table_data($user_id);
     $guest_rows = $this->getRowsByQuery("select * from spssp_guest where user_id = ".$user_id." and self!=1 and stage_guest=0");
     $man_num = 0;

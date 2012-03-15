@@ -19,7 +19,6 @@ $plan_id = (int)$get['plan_id'];
 $stuff_id= (int)$get['stuff_id'];
 
 if($_GET['action']=="save") {
-//print_r($_POST);exit;
 	for ($i=1;$i<=9; $i++) {
 		$align = $_POST['rowcenter_'.$i];
 		if (isset($align)) {
@@ -56,7 +55,6 @@ if($_GET['action']=="save") {
       $usertable = Model_Usertable::find_by_pk($def_id);
       $usertable->name = $_POST['table_name_'.$i];
       $usertable->save();
-      
       $usertable->change_display($disp);
 		}
 	}
@@ -272,9 +270,9 @@ include("inc/return_dbcon.inc.php");
 	$user_row = $obj->GetSingleRow("spssp_user"," id= $user_id0");	?>
 
 
-  <?php  echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1",$height=20);?>
+  <?php  echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1");?>
 ・
-  <?php  echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20);?>
+  <?php  echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1");?>
   様
 
     </div>
