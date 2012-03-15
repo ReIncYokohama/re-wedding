@@ -247,7 +247,7 @@ class InformationClass extends DBO
         //
         return $result_image_db_dir;
     }
-  function get_user_name_image_or_src( $user_id ,$hotel_id , $name ,$extra="",$width = 100 , $opt = false,$height = false )
+  function get_user_name_image_or_src( $user_id ,$hotel_id , $name ,$extra="",$width = false , $opt = false,$height = false )
 	{
     if($extra==".") $extra = "";
     if($extra!="") $extra .= "/";
