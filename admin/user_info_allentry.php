@@ -6,7 +6,7 @@ include_once("../fuel/load_classes.php");
 
 $obj = new DBO();
 $objInfo = new InformationClass();
-$objMsg = new MessageClass(); // UCHIDA EDIT 11/08/18 曜日表示のため
+$objMsg = new MessageClass();
 
 $get = $obj->protectXSS($_GET);
 $user_id = (int)$get['user_id'];
@@ -45,7 +45,6 @@ if($user_id>0) {
 		  $html = "";
 		  $html .= "<input type='hidden' name='".$value."_gaiji_img[]' value='".$img."'>";
 		  $html .= "<input type='hidden' name='".$value."_gaiji_gid[]' value='".$gid."'>";
-		  //$html .= "<input type='hidden' name='".$value."_gaiji_gsid[]' value='".$gsid."'>";
 		  return $html;
 	}
 	function getAllGaijisInputEle($gaijis){
@@ -358,35 +357,26 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	}
 
 	   var str6 = document.getElementById("party_hour").value;
-	   if (str6 == "") {
-	      alert("披露宴時間を入力ください");
-		  document.getElementById('party_hour').focus();
-		  return false;
-		}
-	   if( str6.match( /[^0-9\s]+/ ) ) {
-	      alert("披露宴時間は半角数字で入力ください");
-		  document.getElementById('party_hour').focus();
-		  return false;
-	   }
-	   if( str6.indexOf(" ")>=0 || str6.indexOf("　")>=0 ) {
-	      alert("披露宴時間は半角数字で入力ください");
-		  document.getElementById('party_hour').focus();
-		  return false;
-	   }
-		if(str6 > 23)
-		{
-		      alert("披露宴時間は0から23の間で入力してください");
-			  document.getElementById('party_hour').focus();
-			  return false;
-		}
 
-		if(str6 > 22 || str6 < 7)
-		{
-			alert("披露宴時間は7:00〜22:00の間で入力してください");
-			document.getElementById('party_hour').focus();
-			return false;
-		}
-
+	   if( str6.match( /[^0-9]+/ ) ) {
+       alert("披露宴時間は半角数字で入力ください");
+       document.getElementById('party_hour').focus();
+       return false;
+	   }
+     if(str6 > 23)
+       {
+         alert("披露宴時間は0から23の間で入力してください");
+         document.getElementById('party_hour').focus();
+         return false;
+       }
+     
+     if(str6!="" && str6!="00" && str6 != 0 && str6 != "00" && (str6 > 22 || str6 < 7))
+       {
+         alert("披露宴時間は7:00〜22:00の間で入力してください");
+         document.getElementById('party_hour').focus();
+         return false;
+       }
+     
 		var str7 = document.getElementById("party_minute").value;
 		if(str7 >59)
 		{
@@ -394,21 +384,12 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 			document.getElementById('party_minute').focus();
 			return false;
 		}
-	   if (str7 == "") {
-	      alert("披露宴時間を入力ください");
-		  document.getElementById('party_minute').focus();
-		  return false;
-		}
-	   if( str7.match( /[^0-9\s]+/ ) ) {
+	   if( str7.match( /[^0-9]+/ ) ) {
 	      alert("披露宴時間は半角数字で入力ください");
 		  document.getElementById('party_minute').focus();
 		  return false;
 	   }
-	   if( str7.indexOf(" ")>=0 || str7.indexOf("　")>=0 ) {
-	      alert("披露宴時間は半角数字で入力ください");
-		  document.getElementById('party_minute').focus();
-		  return false;
-	   }
+
 		if(str6 == 22 && str7 > 00)
 		{
 			alert("披露宴時間は7:00～22:00の間で入力してください");
@@ -418,7 +399,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 
 	if(document.getElementById("man_lastname").value=='')
 	{
-		alert("新郎の姓を正しく入力してください"); // UCHIDA EDIT 11/08/05 メッセージを変更
+		alert("新郎の姓を正しく入力してください");
 		document.getElementById('man_lastname').focus();
 		return false;
 	}
@@ -523,7 +504,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
     }
 	if(str4 > 23 && document.getElementById("marriage_day").value!='')
 	{
-	    alert("挙式時間は0から22の間で入力してください");
+    alert("挙式時間は0から22の間で入力してください");
 		document.getElementById('marriage_hour').focus();
 		return false;
 	}
@@ -599,7 +580,6 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 
 	var radio3  = document.user_form_register.subcription_mail;
 
-// UCHIDA EDIT 11/08/05 メッセージを変更
 	if(radio3[0].checked)
 	{
 		if(email=='')
@@ -1097,7 +1077,6 @@ if($user_row['mukoyoshi']=='1'){
 
 				$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $user_id_limit , $flag=1 );
 
-				// UCHIDA EDIT 11/08/17 曜日表示
 				$weekname = $objMsg->get_youbi_name( $dateBeforeparty );
 			   ?>
 			   <?php if ($user_id>0) { ?><td colspan="3" align="left" valign="middle" nowrap="nowrap"><?=$dateBeforeparty?><?=$weekname?> 披露宴日&nbsp;<?=$user_id_limit?>&nbsp;日後</td> <?php } ?>
