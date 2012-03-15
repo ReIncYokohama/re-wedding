@@ -208,9 +208,12 @@ make_pdf_guest_info($user_id,$man_lastname,$man_lastname_gaijis,$woman_lastname,
 
 $marriage_day = "";
 $marriage_day_with_time = "";
+
 if($user_info['marriage_day'] &&  $user_info['marriage_day'] != "0000-00-00"){
   $marriage_day = strftime('%Y年%m月%d日',strtotime(jp_decode($user_info['marriage_day'])));
-  $marriage_day_with_time = date("H時i分",strtotime($user_info['marriage_day_with_time']));
+  if($user_info["marriage_day_with_time"] != "00:00:00"){
+    $marriage_day_with_time = date("H時i分",strtotime($user_info['marriage_day_with_time']));
+  }
 }
 $marrige_day_text = '<tr style="text-align:left;font-size:35px;">
 					<td align="left" width="80"  valign="middle">挙式日時</td><td width="160" >'.$marriage_day.'  '.$marriage_day_with_time.'</td><td width="300">会場&nbsp;&nbsp;'.$party_room_info[name].' </td>

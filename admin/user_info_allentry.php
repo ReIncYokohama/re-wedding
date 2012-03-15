@@ -370,7 +370,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
          return false;
        }
      
-     if(str6!="" && str6!="00" && str6 != 0 && str6 != "00" && (str6 > 22 || str6 < 7))
+     if(str6 > 22 || str6 < 7)
        {
          alert("披露宴時間は7:00〜22:00の間で入力してください");
          document.getElementById('party_hour').focus();
@@ -479,37 +479,20 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	  document.getElementById('woman_furi_firstname').focus();
 	  return false;
    }
-
-	if(document.getElementById("marriage_day").value=='')
-	{
-//		alert("挙式日を正しく入力してください");
-//		document.getElementById('marriage_day').focus();
-//		return false;
-	}
     var str4 = document.getElementById("marriage_hour").value;
-    if (str4 == "") {
-//      alert("挙式時間を入力ください");
-//	  document.getElementById('marriage_hour').focus();
-//	  return false;
-    }
-    if( str4.match( /[^0-9\s]+/ ) ) {
+    if( str4.match( /[^0-9]+/ ) ) {
       alert("挙式時間は半角数字で入力してください");
 	  document.getElementById('marriage_hour').focus();
 	  return false;
     }
-    if( str4.indexOf(" ")>=0 || str4.indexOf("　")>=0 ) {
-      alert("挙式時間は半角数字で入力してください");
-	  document.getElementById('marriage_hour').focus();
-	  return false;
-    }
-	if(str4 > 23 && document.getElementById("marriage_day").value!='')
+	if(str4 > 23)
 	{
     alert("挙式時間は0から22の間で入力してください");
 		document.getElementById('marriage_hour').focus();
 		return false;
 	}
 
-	if(str4!="" && (str4 > 22 || str4 < 7) && document.getElementById("marriage_day").value!='')
+	if((str4!="" && Number(str4) != 0) && (str4 > 22 || str4 < 7))
 	{
 		alert("挙式時間は7:00〜22:00の間で入力してください");
 		document.getElementById('marriage_hour').focus();
@@ -522,11 +505,6 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 		alert("59分以上は入力できません");
 		document.getElementById('marriage_minute').focus();
 		return false;
-	}
-  if (str5 == "") {
-//      alert("挙式時間を入力ください");
-//	  document.getElementById('marriage_minute').focus();
-//	  return false;
 	}
    if( str5.match( /[^0-9\s]+/ ) ) {
       alert("挙式時間は半角数字で入力してください");
