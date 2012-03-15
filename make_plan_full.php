@@ -375,21 +375,8 @@ direction: ltr;
 
 								$seat_details=$obj->getSingleRow("spssp_default_plan_seat"," id=".$seatids[$key]." limit 1");
 								$table_details=$obj->getSingleRow("spssp_default_plan_table"," id=".$seat_details['table_id']." limit 1");
-
+                
 								$tbl_row = $obj->getSingleRow("spssp_table_layout"," table_id=".$table_details['id']." and user_id=".(int)$user_id." limit 1");
-                /*
-								$new_name_row = $obj->getSingleRow("spssp_user_table"," default_table_id=".$tbl_row['id']." and user_id=".(int)$user_id." limit 1");
-                print_r($new_name_row);
-								if(!empty($new_name_row))
-								{
-									$tblname = $obj->getSingleData("spssp_tables_name","name","id=".$new_name_row['table_name_id']);
-									$tblname=mb_substr ($tblname, 0,1,'UTF-8');
-								}
-								else
-								{
-									$tblname = $tbl_row['name'];
-									$tblname=mb_substr ($tblname, 0,1,'UTF-8');
-                  }*/
                 $tblname = $tbl_row['name'];
                 $tblname=mb_substr ($tblname, 0,2,'UTF-8');
 
@@ -559,30 +546,8 @@ $layoutname = $tableData["layoutname"];
                        $index = 0;
 							foreach($table_rows as $table_row)
 							{
-                $tblname = $table_row["name"];
-                /*spssp_user_tableの役割が分からないため一度コメントアウト。
-								$new_name_row = $obj->GetSingleRow("spssp_user_table", "user_id = ".(int)$user_id." and default_table_id=".$table_row['id']);
-                
-								if(isset($new_name_row) && $new_name_row['id'] !='')
-								{
-									$tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
-									$tblname = $tblname_row['name'];
-
-									$len=mb_strlen($tblname,'UTF-8');
-                  
-									$tblname1=mb_substr ($tblname, 0,1,'UTF-8');
-
-									$tblname2=mb_substr ($tblname, 1,$len,'UTF-8');
-
-								}
-								else
-								{
-									$tblname = $table_row['name'];
-									$len=mb_strlen($tblname,'UTF-8');
-									$tblname1=mb_substr ($tblname, 0,1,'UTF-8');
-
-									$tblname2=mb_substr ($tblname, 1,$len,'UTF-8');
-                  }*/
+                $usertable = Model_Usertable::find_by_pk($table_row["id"]);
+                $tblname = $usertable->get_table_name();
 
                 if($table_row["display"] == 1){
                   $disp = 'display:block;';

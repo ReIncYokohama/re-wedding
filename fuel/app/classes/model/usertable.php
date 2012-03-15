@@ -1,4 +1,5 @@
 <?php
+//ユーザがテーブル名を変更する
 class Model_Usertable extends Model_Crud{
   static $_table_name = "spssp_table_layout";
   static $_fields = array("id","user_id","table_id","name","visibility","display"
@@ -49,5 +50,21 @@ class Model_Usertable extends Model_Crud{
     if($this->display){
       $this->delete_user_seats();
     }
+  }
+  public function get_table_name(){
+    $table = Model_Table::find_by_pk($this->table_id);
+    $table_details = $table->to_array();
+    $adminusertable = Model_Adminusertable::find_one_by(array(array("default_table_id","=",$this->id),array("user_id","=",$this->user_id)));
+    $tblname = "";
+    if($this->name != "")
+      {
+        $tblname = $this->name;
+      }
+    else if($adminusertable)
+      {
+        $tablename = Model_Tablename::find_by_pk($adminusertable->table_name_id);
+        $tblname = $tablename->name;
+      }
+    return $tblname;
   }
 }

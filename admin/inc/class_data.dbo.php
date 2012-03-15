@@ -102,7 +102,7 @@ class DataClass extends DBO{
         $colum = $row["columns"][$j];
         if(!$colum) continue;
         if($colum["display"]==0) continue;
-        $row["columns"][$j]["name"] = $this->get_table_name($row["columns"][$j]["table_id"],$user_id);
+        $table_data["rows"][$i]["columns"][$j]["name"] = $this->get_table_name($row["columns"][$j]["table_id"],$user_id);
         $seats = $this->getRowsByQuery("select * from spssp_default_plan_seat where table_id = ".$colum["table_id"]." order by id asc");
         for($k=0;$k<count($seats);++$k){
           $seat_detail = $this->get_seat_detail($seats[$k]["id"],$table_data["plan_id"]);
@@ -633,18 +633,11 @@ class DataClass extends DBO{
   }
   
   public function get_table_name($table_id,$user_id){
-    $table_details=$this->getSingleRow("spssp_default_plan_table"," id=".$table_id." limit 1");
-    $tbl_row = $this->getSingleRow("spssp_table_layout"," table_id=".$table_id." and user_id=".$user_id." limit 1");
-    $new_name_row = $this->getSingleRow("spssp_user_table"," default_table_id=".$tbl_row['id']." and user_id=".$user_id." limit 1");
-    if(empty($new_name_row))
-      {
-        $tblname = $this->getSingleData("spssp_tables_name","name","id=".$new_name_row['table_name_id']);    
-      }
+    $usertable = Model_Usertable::find_one_by(array("where" => array("table_id","=",$table_id),array("user_id","=",$user_id)));
+    if($usertable)
+      return $usertable->get_table_name();
     else
-      {
-        $tblname = $tbl_row['name'];
-      }
-    return $tblname;
+      return "";
   }
 
   //編項目と変更データの配列の取得
