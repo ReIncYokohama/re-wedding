@@ -20,7 +20,7 @@ if($party_day=="" || time()>$limit_date)
 		redirect("manage.php");
 	}
 if($_SESSION["userid"] && $_SESSION["userid"]!=$user_id && !$_GET["reload"]){
-  print "<script>if(confirm(\"一人目を閉じていませんが、強制的にログインしますか??\")){ location.href = \"?reload=true&user_id=".$user_id."\";}else{ window.close()}</script>";
+  print "<script>if(confirm(\"一人目を閉じていませんが、強制的にログインしますか??\")){ location.href = \"?reload=true&user_id=".$user_id."\";}else{ location.href = \"../dashboard.php\"}</script>";
   exit;
 }else{
   if($user_id){
