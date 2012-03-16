@@ -1,6 +1,5 @@
 <?php
 include_once("update_staff_log.php");
-
 	$fileName = STAFF_LOGIN_FILENAME;
 	if (!file_exists($fileName)) {
 		session_regenerate_id();
@@ -17,7 +16,7 @@ include_once("update_staff_log.php");
 		if ($reg_id!="") {
 			if ($reg_id!=$_SESSION['regenerate_id']) {
 				if (($nowDate-$accDate)<(int)STAFF_LOGIN_TIMEOUT) {
-					echo "<script> alert('管理者ＩＤで既にログインされています'); </script>";
+					echo "<script> alert('管理者ＩＤで既にログインされています');window.close(); </script>";
 					$_SESSION['regenerate_id'] = "";
 					redirect("logout.php");
 				}
