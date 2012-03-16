@@ -2,14 +2,13 @@
 header("Content-type: text/html; charset=utf-8");
 include_once("inc/dbcon.inc.php");
 
-$id=$_GET['adminid']; // UCHIDA EDIT 11/08/17 ＩＤを再表示
+$id=$_GET['adminid'];
 $adminid = $_POST["adminid"];
 $adminpass = $_POST["adminpass"];
 
 if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 	{
 		$query_string="SELECT * FROM spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' AND sessionid='' LIMIT 0,1;";
-		//echo $query_string;
 		$db_result=mysql_query($query_string);
     $_SESSION["super_user"] = false;
 
@@ -36,36 +35,26 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
         if ($_SESSION["user_type"] == 333) {
           include_once("inc/staff_login_check.php");
         }
-        //$sql="update spssp_admin set sessionid='".session_id()."',logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
-        	if ($_SESSION["super_user"]!=true) {
-            $sql="update spssp_admin set logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
-            mysql_query($sql);
-        	}
-        	if (($_SESSION["user_type"] != 333) || ($_SESSION['regenerate_id']!=""))  {
-	        	$_SESSION["hotel_id"] =$HOTELID;
-            redirect("manage.php");
-        	}
+        if ($_SESSION["super_user"]!=true) {
+          $sql="update spssp_admin set logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
+          mysql_query($sql);
+        }
+        if (($_SESSION["user_type"] != 333) || ($_SESSION['regenerate_id']!=""))  {
+          $_SESSION["hotel_id"] =$HOTELID;
+          redirect("manage.php");
+        }
       }
       else
         {
-          // UCHIDA EDIT 11/08/17 ＩＤを再表示
           $id=$_POST['adminid'];
           redirect("index.php?adminid=$id&action=failed");			}
 		}
     else
       {
-        // UCHIDA EDIT 11/08/17 ＩＤを再表示
-			$id=$_POST['adminid'];
-			redirect("index.php?adminid=$id&action=failed");
+        $id=$_POST['adminid'];
+        redirect("index.php?adminid=$id&action=failed");
       }
   }
-else
-  {
-    //	$id=$_POST['adminid'];
-    //	redirect("index.php?adminid=$id&action=failed");
-  }
-
-//	include_once("inc/new.header.inc.php");
 ?>
 <html>
 <head>
@@ -201,12 +190,10 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
     <table width="100%" cellpadding="0" cellspacing="10">
       <tr>
         <td width="27%" style=" font-size:11px ">ログインID</td>
-<!-- UCHIDA EDIT 11/08/08 エンターキーを有効に設定 -->
         <td width="73%" style="text-align:left;" onKeyDown="if (event.keyCode == 13) { login_admin(); }" ><input type="text" name="adminid" id="adminid" style="border-style: inset;" class="login" value='<?php echo $id ?>' /></td>
       </tr>
       <tr>
         <td style=" font-size:11px">パスワード</td>
-<!-- UCHIDA EDIT 11/08/08 エンターキーを有効に設定 -->
         <td style="text-align:left;" onKeyDown="if (event.keyCode == 13) { login_admin(); }" ><input type="password" name="adminpass" id="adminpass" style="border-style: inset;" class="login"  /></td>
       </tr>
       <tr>
@@ -250,8 +237,6 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 	<div class="clr"></div>  
 
 <div><img src="../img/bar_recommended.jpg" /></div><div>
-
-<!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 Start -->
 <br/>
 <div id="text-indent">当システムは下記OS、ブラウザを推奨しております。</div>
 <br/>
@@ -275,9 +260,7 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 </div>
 
 </div>
-<!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
 <br />
-	<!-- UCHIDA EDIT 11/07/26 -->
 <script type="text/javascript"> document.login_form.adminid.focus(); </script>
 
 <?php

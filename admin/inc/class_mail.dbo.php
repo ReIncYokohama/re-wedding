@@ -2,11 +2,9 @@
 include_once('dbcon.inc.php');
 include_once('class_message.dbo.php');
 include_once(dirname(__file__)."/../../app/ext/Utils/email.php");
+include_once(dirname(__file__)."/../../fuel/load_classes.php");
 class MailClass extends MessageClass
 {
-
-	// UCHIDA EDIT 11/08/19 man_lastname, woman_lastname ⇔ man_firstname, woman_firstnameを一括して変更
-
 	public function MailClass()
 	{
 

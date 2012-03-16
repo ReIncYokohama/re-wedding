@@ -1,14 +1,5 @@
 <?php
-	include_once("admin/inc/dbcon.inc.php");
-	include_once("admin/inc/class.dbo.php");
-			$obj = new DBO();
-
-	/*if($_SERVER['HTTPS']!="on")
-	{
-	 	redirect($Admin_site_url);
-	}	*/
-
-	//include_once("inc/new.header.inc.php");
+include_once("admin/inc/dbcon.inc.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -152,7 +143,6 @@ function validForm()
 	var userID  = document.getElementById('userID').value;
 	var password  = document.getElementById('password').value;
 
-
 	var flag = true;
 	if(!userID)
 	{
@@ -206,7 +196,7 @@ $(function(){
         	if(isset($_GET['err']) && $_GET['err']!='')
 			{
 				echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください。"); </script>';
-				$id=$_GET['adminid']; // UCHIDA EDIT 11/08/17 ＩＤを再表示
+				$id=$_GET['adminid'];
 			}
 		?>
 		<div id="login_BOX">
@@ -227,12 +217,10 @@ $(function(){
 		<table cellspacing="10" cellpadding="0" width="100%">
 						<tr>
 							<td>ログインID</td>
-<!-- UCHIDA EDIT 11/08/08 エンターキーを有効に設定 -->
 							<td onkeydown="if (event.keyCode == 13) { validForm(); }" ><input type="text" id="userID" name="userID" class="login" style="border-style: inset;" value='<?php echo $id ?>' /></td>
 					    </tr>
 						<tr>
 							<td>パスワード</td>
-<!-- UCHIDA EDIT 11/08/08 エンターキーを有効に設定 -->
 							<td onkeydown="if (event.keyCode == 13) { validForm(); }" ><input type="password" id="password" name="password" style="border-style: inset;" class="login" /></td>
 					    </tr>
 						<tr>
