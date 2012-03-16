@@ -7,7 +7,6 @@ require_once("admin/inc/class_information.dbo.php");
 session_start();
 $objInfo = new InformationClass();
 
-//redirect("my_guests.php?".$message."=true&page=".$guest_id."&option=".$_GET['option']);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

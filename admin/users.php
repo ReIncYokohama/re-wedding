@@ -1,64 +1,53 @@
 <?php
-	require_once("inc/include_class_files.php");
-	include_once("inc/checklogin.inc.php");
-	include_once("inc/new.header.inc.php");
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
+include_once("inc/new.header.inc.php");
+include_once("../fuel/load_classes.php");
 
-	$obj = new DBO();
-	$objMsg = new MessageClass();
-	$objinfo = new InformationClass();
+$obj = new DBO();
+$objMsg = new MessageClass();
+$objinfo = new InformationClass();
 
-	$rooms = $obj->GetAllRow("spssp_room");
+$rooms = $obj->GetAllRow("spssp_room");
 
-	$table='spssp_user';
+$table='spssp_user';
 
-	$data_per_page=10;
-	$current_page=(int)$_GET['page'];
+$data_per_page=10;
+$current_page=(int)$_GET['page'];
 
-	$current_view = $_GET['view'];
-	if($current_view=="before") {
-		$where = " party_day < '".date("Y-m-d")."'";
-	}
-	else {
-		$where = " party_day >= '".date("Y-m-d")."'";
-	}
+$current_view = $_GET['view'];
+if($current_view=="before") {
+  $where = " party_day < '".date("Y-m-d")."'";
+}
+else {
+  $where = " party_day >= '".date("Y-m-d")."'";
+}
+$order="party_day ASC , party_day_with_time asc ";
 
-/* 削除はsearch_user.phpで行う
-	if($_GET['action']=='delete_user' && (int)$_GET['id'] > 0)
-	{
-		$sql = "delete from spssp_user where id=".(int)$_GET['id'];
-		mysql_query($sql);
-	}
-*/
-	$order="party_day ASC , party_day_with_time asc ";
-
-	if($_SESSION['user_type'] == 222)
+if($_SESSION['user_type'] == 222)
 	{
 		$data = $obj->GetAllRowsByCondition("spssp_user"," stuff_id=".(int)$_SESSION['adminid']);
 		foreach($data as $dt)
-		{
-			$staff_users[] = $dt['id'];
-		}
+      {
+        $staff_users[] = $dt['id'];
+      }
 	}
 
-	$query_string="SELECT spssp_user.*, spssp_admin.name FROM spssp_user INNER JOIN spssp_admin ON spssp_user.stuff_id = spssp_admin.id where $where ORDER BY $order";
+$query_string="SELECT spssp_user.*, spssp_admin.name FROM spssp_user INNER JOIN spssp_admin ON spssp_user.stuff_id = spssp_admin.id where $where ORDER BY $order";
 
-//	echo $query_string;
+$data_rows = $obj->getRowsByQuery($query_string);
 
-	$data_rows = $obj->getRowsByQuery($query_string);
+if($current_view=="before") {
+  $passPresent = "<a href='users.php'><img src='img/common/btn_honjitsu_on.jpg' /></a>";
+  $passPresent .= "<img src='img/common/btn_kako.jpg' /></a>";
+}
+else {
+  $passPresent = "<img src='img/common/btn_honjitsu.jpg' /></a>";
+  $passPresent .= "<a href='users.php?view=before'><img src='img/common/btn_kako_on.jpg' /></a>";
+}
 
- 	if($current_view=="before") {
-//		$passPresent = "<a href='users.php'><font color='#2052A3'><strong>本日以降のお客様一覧</strong></font></a>";
-		$passPresent = "<a href='users.php'><img src='img/common/btn_honjitsu_on.jpg' /></a>";
-		$passPresent .= "<img src='img/common/btn_kako.jpg' /></a>";
- 	}
-	else {
-//		$passPresent = "<a href='users.php?view=before'><font color='#2052A3'><strong>過去のお客様一覧</strong></font></a>";
-		$passPresent = "<img src='img/common/btn_honjitsu.jpg' /></a>";
-		$passPresent .= "<a href='users.php?view=before'><img src='img/common/btn_kako_on.jpg' /></a>";
-	}
+include_once("inc/update_user_log_for_db.php");
 
-	include_once("inc/update_user_log_for_db.php");
-	
 ?>
 <style>
 .datepickerControl table
@@ -281,8 +270,8 @@ function clearForm()
 </script>
 
 <div id="topnavi">
-    <?php
-include("inc/main_dbcon.inc.php");
+  <?php
+  include("inc/main_dbcon.inc.php");
 $hcode=$HOTELID;
 $hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
 ?>
@@ -306,17 +295,12 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 {
 ?>
 
-<!--SEARCH FORM START-->
  <div id="top_search_view">
 
                 	<form action="" method="post" name="condition">
 					<table width="720" border="0" cellspacing="0" cellpadding="0">
 					  <tr style="height:30px;">
-
-						<!-- UCHIDA EDIT 11/07/26 -->
-					    <!-- <td width="62" >～</td> -->
 						<td width="80" >披露宴日</td>
-
 						<td width="169"><input name="date_from" type="text" id="date_from"    style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
 						<td width="80" >&nbsp;～&nbsp;</td>
 						<td width="389"><input name="date_to" type="text" id="date_to"   style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>

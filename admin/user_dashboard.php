@@ -19,9 +19,16 @@ if($party_day=="" || time()>$limit_date)
 	{
 		redirect("manage.php");
 	}
-if($_SESSION["userid"]!=$user_id){
-  print "<script>alert(\"１人目を閉じてください\");window.close();</script>";  
+if($_SESSION["userid"] && $_SESSION["userid"]!=$user_id && !$_GET["reload"]){
+  print "<script>if(confirm(\"一人目を閉じていませんが、強制的にログインしますか??\")){ location.href = \"?reload=true&user_id=".$user_id."\";}else{ window.close()}</script>";
   exit;
+}else{
+  if($user_id){
+    $fileName = "../".USER_LOGIN_DIRNAME.$user_id.".log";
+    @unlink($fileName);
+    $fileName = "../".USER_LOGIN_DIRNAME.$_SESSION["user_id"].".log";
+    @unlink($fileName);
+  }
 }
 
 $_SESSION['userid'] = $user_id;
