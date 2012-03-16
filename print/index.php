@@ -16,6 +16,10 @@ include_once(dirname(__FILE__)."/../../madmin/conf/version.php");
 if($_GET["action"]=="mailDateLimit"){
   echo "<script> alert('ダウンロード期限の6５日を過ぎております'); </script>";
 }
+if($_GET["action"]=="pastPrintUpload"){
+  echo "<script> alert('ダウンロード期限の6５日を過ぎております'); </script>";
+}
+
 
 
 	if(isset($_POST['sub'])) {

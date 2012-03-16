@@ -1,6 +1,7 @@
 <?php
 @session_start();
 include_once("../admin/inc/include_class_files.php");
+include_once("../fuel/load_classes.php");
 $obj = new DBO();
 $objInfo = new InformationClass();
 

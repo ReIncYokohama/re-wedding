@@ -1,15 +1,17 @@
 <?php
 @session_start();
 include_once("../admin/inc/include_class_files.php");
+include_once("../fuel/load_classes.php");
 $obj = new DBO();
 $objInfo = new InformationClass();
 $objMail = new MailClass();
 $objMsg = new MessageClass();
 if($_SESSION['printid'] =='')
 {
-   redirect("index.php");exit;
+  redirect("index.php");exit;
 }
 $user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
+//$user_id = $_GET["user_id"];
 if($user_id>0)
 {
 	//OK
@@ -19,6 +21,12 @@ else
 	redirect("index.php?msg=3");exit;
 }
 $printCompany_id = $_SESSION['printid'];
+
+$clicktime = Model_Clicktime::find_one_by_user_id($user_id);
+if($clicktime->past_print_upload()){
+  redirect("index.php?action=pastPrintUpload");  
+  exit;
+}
 
 $user_info = $objInfo->get_user_info($user_id);
 unset($post);
