@@ -15,9 +15,10 @@ $hotel_sqlhost_val = "hotel".((int)$hotel_code)."_sqlhost";
 $hotel_sqluser_val = "hotel".((int)$hotel_code)."_sqluser";
 $hotel_sqlpassword_val = "hotel".((int)$hotel_code)."_sqlpassword";
 $hotel_sqldatabase_val = "hotel".((int)$hotel_code)."_sqldatabase";
-$link = mysql_connected($$hotel_sqlhost_val,$$hotel_sqluser_val,$$hotel_sqlpassword_val,$$hotel_sqldatabase_val);
+mysql_connected($$hotel_sqlhost_val,$$hotel_sqluser_val,$$hotel_sqlpassword_val,$$hotel_sqldatabase_val);
 $hotel_row2 = $obj->GetSingleRow("spssp_admin","stype=1");
 
+mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
 
 if($_POST["hotel_name"])
 	{
@@ -159,13 +160,11 @@ function clearSubmit()
 
 }
 
-//UCHIDA EDIT 11/08/19 アラートメッセージの表示、メール内容の確認
 var gReg = /^[A-Za-z0-9ｱ-ｹ]$/;
 function validform_hotel(){
 
 	var email = document.getElementById('email').value;
 
-//	RE_EMAIL   = new RegExp(/^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/);
 	if(document.getElementById("hotel_name").value=='')
 	{
 		alert("ホテル名を入力してください");
@@ -182,15 +181,10 @@ function validform_hotel(){
 	}
   postcode = document.getElementById("zip").value;
 	if (postcode.length != 0) {
-		if( postcode.match( /[^0-9\s-]+/ ) ) {
-				alert("郵便番号は半角数字と'-'だけで入力してください");
-				document.getElementById('zip').focus();
-				return false;
-		}
-		if (postcode.length !=8) {
+		if( !postcode.match( /^[0-9]{3}-[0-9]{4}$/ ) ) {
 			alert("郵便番号は'123-4567'の形式で入力してください");
-			document.getElementById('zip').focus();
-			return false;
+      document.getElementById('zip').focus();
+      return false;
 		}
 	}
 
@@ -243,7 +237,6 @@ function validform_hotel(){
 		document.getElementById('delete_weeding').focus();
 		return false;
 	}
-
 	document.hotelform.submit();
 }
 function email_validate(email) {

@@ -62,11 +62,15 @@ function login_admin()
 		return false;
 	}
  	if(reg.test(adminid) == false) {
-		alert("ログインIDは半角英数字で入力してください");
+		alert("使用できない記号が入力されています");
 		document.getElementById('adminid').focus();
 		return false;
 	 }
-
+  if(adminid.length>15){
+     alert("15文字以内で入力してください");
+		 document.getElementById('adminid').focus();
+		 return false;
+  }
 	var adminpass = document.getElementById('adminpass').value;
 	if(adminpass =="") {
 		alert("パスワードが未入力です");
@@ -74,7 +78,7 @@ function login_admin()
 		return false;
 	}
 	if(reg.test(adminpass) == false) {
-		alert("パスワードは半角英数字で入力してください");
+		alert("使用できない記号が入力されています");
 		document.getElementById('adminpass').focus();
 		return false;
 	}
