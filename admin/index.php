@@ -72,9 +72,7 @@ else
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script src="../js/jquery-1.4.2.js"></script>
 <script language="javascript" type="text/javascript">
-//var reg = /^[A-Za-z0-9]{1,16}$/;
-//var reg = /^[A-Za-z0-9]{1,32}$/; // UCHIDA EDIT 11/07/26
-var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\d\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,32}$/;//2011/12/09 yamanaka
+var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\d\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,32}$/;
 function login_admin()
 {
 	var adminid = $("#adminid").val();
@@ -84,8 +82,13 @@ function login_admin()
 		document.getElementById('adminid').focus();
 		return false;
 	}
+  if(adminid.length>15){
+     alert("15文字以内で入力してください");
+		 document.getElementById('adminid').focus();
+		 return false;
+  }
  	if(reg.test(adminid) == false) {
-		alert("ログインIDは半角英数字記号で入力してください");
+		alert("使用できない記号が入力されています");
 		document.getElementById('adminid').focus();
 		return false;
 	 }
@@ -98,7 +101,7 @@ function login_admin()
 		return false;
 	}
 	if(reg.test(adminpass) == false) {
-		alert("パスワードは半角英数字記号で入力してください");
+		alert("使用できない記号が入力されています");
 		document.getElementById('adminpass').focus();
 		return false;
 	 }

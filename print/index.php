@@ -53,6 +53,7 @@ if($_GET["action"]=="pastPrintUpload"){
 
 <script type="text/javascript">
 var reg = /^[A-Za-z0-9]{1,32}$/; // UCHIDA EDIT 11/07/26
+
 function login_admin()
 {
 	var adminid = document.getElementById('userID').value;
@@ -61,8 +62,13 @@ function login_admin()
 		document.getElementById('userID').focus();
 		return false;
 	}
+  if(adminid.length>15){
+     alert("15文字以内で入力してください");
+		 document.getElementById('adminid').focus();
+		 return false;
+  }
  	if(email_validate(adminid) == false) {
-		alert("ログインIDを入力してください");
+		alert("使用できない記号が入力されています");
 		document.getElementById('userID').focus();
 		return false;
 	 }
@@ -74,7 +80,7 @@ function login_admin()
 		return false;
 	}
 	if(reg.test(adminpass) == false) {
-		alert("パスワードは半角英数字で入力してください");
+		alert("使用できない記号が入力されています");
 		document.getElementById('password').focus();
 		return false;
 	}

@@ -143,9 +143,9 @@ ime-mode: inactive;
 }
 </style>
 <script type="text/javascript">
-//var reg = /^[A-Za-z0-9]{1,16}$/;
-//var reg = /^[A-Za-z0-9]{1,32}$/; // UCHIDA EDIT 11/07/26
-var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\d\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,32}$/; //2011/12/09 yamanaka
+
+
+var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\d\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,32}$/;
 
 function validForm()
 {
@@ -160,20 +160,24 @@ function validForm()
 		 document.getElementById('userID').focus();
 		 return false;
 	}
+  if(userID.length>15){
+     alert("15文字以内で入力してください");
+		 document.getElementById('userID').focus();
+		 return false;
+  }
 	if(reg.test(userID) == false) {
-		alert("ログインIDは半角英数字記号で入力してください");
+		alert("使用できない記号が入力されています");
 		document.getElementById('userID').focus();
 		return false;
 	 }
 	if(!password)
 	{
-
 		 alert("パスワードが未入力です");
 		 document.getElementById('password').focus();
 		 return false;
 	}
 	if(reg.test(password) == false) {
-		alert("パスワードは半角英数字記号で入力してください");
+		alert("使用できない記号が入力されています");
 		document.getElementById('password').focus();
 		return false;
 	 }
