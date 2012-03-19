@@ -57,14 +57,11 @@ height:20px;
 		<div style="width:100%; text-align:center">
 
 <div id="contents">
-<!-- UCHIDA EDIT 11/08/04 ↓ -->
         <div class="box_table">
       		<div style="text-align:left; width:875px">&nbsp;</div>
-<!-- UCHIDA EDIT 11/08/04 ↑ -->
       		<div class="box8">
-                <table border="0" width="875px" align="center" cellpadding="1" cellspacing="1">
+                <table border="0" width="875px" align="center" cellpadding="1" cellspacing="1" style="word-break: break-all;">
                     <tr align="center">
-
                         <td  width="15%" bgcolor="#00C6FF" style="color:#FFFFFF">アクセス日時</td>
                         <td  width="14%" bgcolor="#00C6FF" style="color:#FFFFFF">ログイン名</td>
                         <td  width="14%" bgcolor="#00C6FF" style="color:#FFFFFF">アクセス画面名</td>
@@ -85,7 +82,7 @@ height:20px;
               $logObject = $logArray[$i];
             ?>
               <div class="box8">
-              <table width="875px"  border="0" align="center" cellpadding="1" cellspacing="1">
+              <table width="875px"  border="0" align="center" cellpadding="1" cellspacing="1" style="word-break: break-all;">
               <tr align="left">
                 <td  width="15%"><?=$logObject["access_time"]?></td>
                 <td  width="14%"><?=$logObject["login_name"]?></td>
