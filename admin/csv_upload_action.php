@@ -248,7 +248,7 @@ $body = <<<_EOT_
 ${admin_name}様
 
 いつもお世話になっております。
-               ${party_date} ${man_last_name}({$user_row['man_furi_lastname']})・${woman_last_name}({$user_row['woman_furi_lastname']}) 様向け招待者リストデータがアップロードされました。
+{$party_date} {$man_last_name}({$user_row['man_furi_lastname']})・{$woman_last_name}({$user_row['woman_furi_lastname']}) 様向け招待者リストデータがアップロードされました。
 ご確認をお願いいたします。
   URL ${BASE_URL}admin/
 
@@ -287,7 +287,7 @@ $title = "［ウエディングプラス］招待客リストデータが追加�
 if($mail){
 
 $body = <<<_EOT_
-  ${man_last_name}({$man_furi_lastname})・${woman_last_name} 様
+${man_last_name}({$user_row["man_furi_lastname"]})・${woman_last_name}({$user_row["woman_furi_lastname"]}) 様
 
 このたびはウェディングプラスをご利用いただき、ありがとうございます。
 お客様からご提供いただきました招待客リストデータが追加されました。

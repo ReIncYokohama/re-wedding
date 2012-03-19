@@ -35,7 +35,7 @@ class MailClass extends MessageClass
 
 いつもお世話になっております。
 
-        {$party_day00} {$user_info['man_lastname']}({$user_info["man_furi_lastname"]})・{$user_info['woman_lastname']}({$user_info["woman_furi_lastname"]})様から仮発注依頼がありました。
+{$party_day00} {$user_info['man_lastname']}({$user_info["man_furi_lastname"]})・{$user_info['woman_lastname']}({$user_info["woman_furi_lastname"]})様から仮発注依頼がありました。
 仮発注処理をお願いいたします。
 {$admin_link}
 
@@ -723,7 +723,7 @@ html;
 			//"{$print_company_info['company_name']} Print Company has uploaded file for {$user_info['man_lastname']} {$user_info['man_firstname']}";
 
 			$user_mail_body =<<<html
-        {$user_info['man_lastname']}({$user_info['man_furi_lastname']})・{$user_info['woman_lastname']}({$user_info['woman_furi_lastname']}) 様
+{$user_info['man_lastname']}({$user_info['man_furi_lastname']})・{$user_info['woman_lastname']}({$user_info['woman_furi_lastname']}) 様
 
 このたびはウエディングプラスをご利用いただき、ありがとうございます。
 引出物の締切日を過ぎております。
