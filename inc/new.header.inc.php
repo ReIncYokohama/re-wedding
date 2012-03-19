@@ -115,6 +115,10 @@ $("#close_window").hover(function(){
 <div id="layout">
 	<div class="main">
 		<div class="header">
+                <div id="head_right2" style="position:absolute;right:0px;width:220px;text-align:right;padding-left:70px;">
+  <div id="close_window" ><img name="closewindow_r1_c4" src="image/closewindow_r1_c4.jpg" width="186" height="44" border="0" id="closewindow_r1_c4" alt=""></div>
+                  <div id="login_date" style="font-size:10px;background:#dbdddf;width:186px;margin-left:34px;text-align:center;">前回のログイン　<?=$last_log_date?><br><a href="logout.php" <?=$make_plan?> ><image src="image/bt_logout.gif"></a></div>
+                </div>
 			<div class="header_resize" style="display:relative;vertical-align:middle;">
             	<div id="inform_user" style="text-align:center; font-size:15px; font-weight:bold; color:#006600;"></div>
                 <div class="logo"> 
@@ -132,10 +136,7 @@ $("#close_window").hover(function(){
     			<?php  echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_page.png",$extra=".");?>
 				</div>
                 </div>
-                <div id="head_right2" style="position:absolute;right:0px;width:220px;text-align:right;padding-left:70px;">
-  <div id="close_window" ><img name="closewindow_r1_c4" src="image/closewindow_r1_c4.jpg" width="186" height="44" border="0" id="closewindow_r1_c4" alt=""></div>
-                  <div id="login_date" style="font-size:10px;background:#dbdddf;width:186px;margin-left:34px;text-align:center;">前回のログイン　<?=$last_log_date?><br><a href="logout.php" <?=$make_plan?> ><image src="image/bt_logout.gif"></a></div>
-                </div>
+  <div style="clear: both;display:none;"></div>
   				<div class="clr"></div>
   				<div class="menu_nav" >
                   <ul id="menu">
