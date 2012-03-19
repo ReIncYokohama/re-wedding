@@ -72,6 +72,7 @@ if($user_id>0) {
 	$disp_option4 = '<font color="red">*</font>';
 	$disp_option5 = "";
   $disp_option6 = "";
+  $disp_option7 = "";
 	if ($user_plan_row['admin_to_pcompany'] == 3) {
 		$disp_option1 = ' readonly="readonly"; ';
 		$disp_option2 = ' border:#ffffff; ';
@@ -79,6 +80,7 @@ if($user_id>0) {
 		$disp_option4 = "";
 		$disp_option5 = ' disabled="disabled" ';
     $disp_option6 = ' rules="rows" frame="void"';
+    $disp_option7 = "display:none;";
 	}
 }
 else {
@@ -104,18 +106,15 @@ width:200px;
 		background-repeat: no-repeat;
 
 	}
-
 	.tables p
 	{
 		margin-left:0px;
 		margin-top:7px;
 	}
-
 	.tables p a
 	{
 	text-decoration:none;
 	cursor:default;
-
 	}
 
 </style>
@@ -825,8 +824,8 @@ include("inc/return_dbcon.inc.php");
         	<div style="width:400px;"><font color="#2052A3"><strong>お客様新規登録</strong></font></div>
         <?php } ?>
         </h2>
-　 <?php if (preg_match("/red/", $disp_option4)) echo '<font color="red">*</font>の付いた項目は必須です。' ?> <br />
-		　お客様氏名を更新時、上部のお客様氏名に更新内容が反映されない場合は、ブラウザの更新ボタンを押してください。 <br /> <br />
+　 <?php if (preg_match("/red/", $disp_option4)) echo '<font color="red">*</font>の付いた項目は必須です。<br />' ?> 
+		　<div style="<?=$disp_option7?>">お客様氏名を更新時、上部のお客様氏名に更新内容が反映されない場合は、ブラウザの更新ボタンを押してください。 </div>
 		<?php
 		//echo "<pre>";
 		//print_r($user_row);
