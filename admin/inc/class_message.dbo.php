@@ -9,9 +9,7 @@ class MessageClass extends InformationClass
 	}
 	function admin_side_user_list_new_status_notification_image_link_system($user_id, $msg="")
 	{
-		//SELECT count(*) FROM `spssp_plan` WHERE `user_id` =81 AND `order` !=0
 			return $this :: get_admin_side_user_list_new_status_notification_when_ordered($user_id);
-
 	}
 	function send_day_limit_message($user_id){
 		if($this :: sekiji_day_limit_over_check_for_all_users($user_id))
@@ -20,8 +18,8 @@ class MessageClass extends InformationClass
         {
           if ($msg!="") echo $user_id." : [Mail Send 8, 10 ]<br />\n";
           $objMail = new MailClass();
-          $objMail -> sekiji_day_limit_over_admin_notification_mail($user_id);//mail 8=>admin
-          $objMail -> sekiji_day_limit_over_user_notification_mail($user_id);//mail 10=>user
+          $objMail -> sekiji_day_limit_over_admin_notification_mail($user_id);
+          $objMail -> sekiji_day_limit_over_user_notification_mail($user_id);
         }
 		}
   }
