@@ -225,7 +225,7 @@ html;
 			//"{$print_company_info['company_name']} Print Company has uploaded file for {$user_info['man_lastname']} {$user_info['man_firstname']}";
 
 			$user_mail_body =<<<html
-{$user_info['man_lastname']}({$user_info["man_furi_lastname"]})・{$user_info['woman_lastname']}({$user_info["man_furi_woname"]}) 様
+{$user_info['man_lastname']}({$user_info["man_furi_lastname"]})・{$user_info['woman_lastname']}({$user_info["woman_furi_lastname"]}) 様
 
 このたびはウエディングプラスをご利用いただき、ありがとうございます。
 席次表の印刷イメージが出来上がりました。
