@@ -28,6 +28,9 @@ if($_SESSION["userid"] && $_SESSION["userid"]!=$user_id && !$_GET["reload"]){
     @unlink($fileName);
     $fileName = "../".USER_LOGIN_DIRNAME.$_SESSION["user_id"].".log";
     @unlink($fileName);
+    $user_log['logout_time'] = date("Y-m-d H:i:s");
+    @unlink($user_log);
+    $obj->UpdateData("spssp_user_log", $user_log, " id=".(int)$_SESSION['user_log_id']);
   }
 }
 
