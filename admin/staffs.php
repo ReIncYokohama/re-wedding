@@ -295,7 +295,7 @@ function validForm()
 		}
 	}
  	if(reg.test(password) == false) {
-		alert("半角英数字記号で入力してください");
+		alert("半角英数字記号もしくは指定された記号で入力してください");
 		document.getElementById('password').focus();
 		return false;
 	 }
@@ -514,7 +514,7 @@ function validForm_staff()
 		var c = document.getElementById("password").value.length;
 		if(c<6)
 		{
-			alert("英数字6文字以上にしてください");
+			alert("6文字以上にしてください");
 			document.getElementById('password').focus();
 			return false;
 		}
@@ -526,7 +526,7 @@ function validForm_staff()
 		}
 	}
 	if(reg.test(password) == false) {
-		alert("英数字記号で入力してください");
+		alert("半角英数字記号もしくは指定された記号で入力してください");
 		document.getElementById('password').focus();
 		return false;
 	 }
@@ -730,7 +730,6 @@ include("inc/return_dbcon.inc.php");
 				</tr>
 			</table>
 <br>
-
             <label for="権限"></label><div style="width:800px; padding-left:156px; text-align:left;"> <a href="#" onclick="validForm();"><img src="img/common/btn_regist_update.jpg" alt="登録・更新" width="82" height="22" /></a>&nbsp;&nbsp;&nbsp;
 			<?php if($get[id]=="") { ?>
 			<a  href="#" onclick="clearform();"><img src="img/common/btn_clear.jpg" alt="クリア" width="82" height="22" /></a>
@@ -940,7 +939,6 @@ var edit_data;
 var urlPlus;
 var perm = (radio1==true)? "333" : "222";;
 var sub = (radio2==true)? "0" : "1";
-//var action = urls.search("action=edit");
 	edit_data  = "&name="			  + document.stuff_form.name.value;
 	edit_data += "&username="		  + document.stuff_form.username.value;
 	edit_data += "&password="		  + document.stuff_form.password.value;
