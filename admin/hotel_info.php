@@ -127,17 +127,11 @@ function validForm()
 		 return false;
 	}
 	if (postcode.length != 0) {
-		if( postcode.match( /[^0-9\s-]+/ ) ) {
-				alert("郵便番号は半角数字と'-'だけで入力してください");
-        $j("#zipcode").focus();
-				return false;
-		}
-		if (postcode.length !=8) {
-			alert("郵便番号は'123-4567'の形式で入力してください");
+    if( !postcode.match( /^[0-9]{3}-[0-9]{4}$/ ) ) {
+      alert("郵便番号は'123-4567'の形式で入力してください");
       $j("#zipcode").focus();
-
 			return false;
-		}
+    }
 	}
 	if($j("#address1").val() =='')
 	{
