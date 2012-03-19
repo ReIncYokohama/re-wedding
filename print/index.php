@@ -62,11 +62,6 @@ function login_admin()
 		document.getElementById('userID').focus();
 		return false;
 	}
-  if(adminid.length>15){
-     alert("15文字以内で入力してください");
-		 document.getElementById('adminid').focus();
-		 return false;
-  }
  	if(email_validate(adminid) == false) {
 		alert("使用できない記号が入力されています");
 		document.getElementById('userID').focus();
