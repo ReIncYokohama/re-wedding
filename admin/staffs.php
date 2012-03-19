@@ -267,7 +267,7 @@ function validForm()
 	
 	
 	if(reg.test(ID) == false) {
-		alert("半角英数字記号で入力してください");
+		alert("半角英数字記号もしくは指定された記号で入力してください");
 		document.getElementById('ID').focus();
 		return false;
 	}
@@ -438,10 +438,16 @@ function validForm_staff()
 		document.getElementById('ID').focus();
 		return false;
 	}
+	else if(ID.length > 15)
+	{
+			alert("15文字以内で入力してください");
+			document.getElementById('ID').focus();
+			return false;
+	}
 	else
 	{
 		 if(reg.test(ID) == false) {
-		 	alert("ログインIDは英数字で入力してください");
+		 	alert("半角英数字記号もしくは指定された記号で入力してください");
 			document.getElementById('ID').focus();
 		 	return false;
 		 }
