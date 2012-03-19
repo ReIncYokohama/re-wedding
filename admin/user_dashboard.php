@@ -20,7 +20,7 @@ if($party_day=="" || time()>$limit_date)
 		redirect("manage.php");
 	}
 if($_SESSION["userid"] && $_SESSION["userid"]!=$user_id && !$_GET["reload"]){
-  print "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><script>if(confirm(\"一人目を閉じていませんが、強制的にログインしますか??\")){ location.href = \"?reload=true&user_id=".$user_id."\";}else{ location.href = \"../dashboard.php\"}</script></head></html>";
+  print "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><script>if(confirm(\"同時に二人のお客様画面を開けません。\\n一人目の画面を閉じて、二人目の画面を開きますか？（OK/キャンセル）\\n※。一人目で開いた画面を閉じてください。\")){ location.href = \"?reload=true&user_id=".$user_id."\";}else{ location.href = \"../dashboard.php\"}</script></head></html>";
   exit;
 }else{
   if($user_id){
