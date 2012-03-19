@@ -83,7 +83,6 @@ var timerId2 = setInterval('user_access_update()', logUpdateLength);
 function user_access_file_update() {
 //	alert("user_access_file_update OK");
 	if(timeOutNow==false) {
-
 		$.ajax({
 		    type: 'POST',
 		    url: 'inc/user_access_update.php',
@@ -92,18 +91,22 @@ function user_access_file_update() {
 		     //alert(data);
 		    }
 		});
-
 	}
 }
 </script>
 <script src="js/user_timeout_action.js"></script>
 
 <script type="text/javascript">
-
-<script type="text/javascript">
 function MM_openBrWindow(theURL,winName,features) { //v2.0
   window.open(theURL,winName,features);
 }
+$(window).load(function () {
+$("#close_window").hover(function(){
+    $("img",this).attr("src","image/closewindow_r1_c4_s2.jpg");
+  },function(){
+    $("img",this).attr("src","image/closewindow_r1_c4.jpg");
+  });
+  });
 </script>
 
 <link href="css/main.css" rel="stylesheet" type="text/css" />
@@ -115,28 +118,26 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 			<div class="header_resize" style="display:relative;vertical-align:middle;">
             	<div id="inform_user" style="text-align:center; font-size:15px; font-weight:bold; color:#006600;"></div>
                 <div class="logo"> 
-                <div><img src="img/logo.jpg" width="200" height="57" border="0" align="absbottom" />
-  <font style="display:inline;font-size:20px; font-weight:bold; margin-left:130px; color:#0099ff;"> 
+<div><img src="img/logo.jpg" width="200" height="57" border="0" align="absbottom" />
+<font style="display:inline;font-size:20px; font-weight:bold; margin-left:130px; color:#0099ff;"> 
 <?php
  if(!$__editable && $__jobend==true) echo "印刷依頼済みのため編集できません";
  else if ($_SESSION['adminid'] > 0 && !$__pre_ordering) echo "お客様が印刷イメージを依頼中です";
  else if(!$__pre_ordering) echo "印刷イメージ依頼中のため編集できません"; 
  else if($__sekizihyo_edit_term) echo "席次表編集利用制限日が過ぎています";
-
-?></font>
-                </div>
-
+?>
+</font>
+</div>
                 <div style="font-size:11px;height:12px;vertical-align:top;">
     			<?php  echo $objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="guest_page.png",$extra=".");?>
 				</div>
                 </div>
-                <div id="head_right">
-                  <div id="login_date">前回のログイン　<?=$last_log_date?></div>
-                  <div id="logout_area"> <a href="logout.php" <?=$make_plan?>>ログアウト</a>　｜　<a href="javascript:;" onclick="MM_openBrWindow('support/operation_u.html','','scrollbars=yes,width=620,height=600')">ヘルプ</a></div>
+                <div id="head_right2" style="position:absolute;right:0px;width:220px;text-align:right;padding-left:70px;">
+  <div id="close_window" ><img name="closewindow_r1_c4" src="image/closewindow_r1_c4.jpg" width="186" height="44" border="0" id="closewindow_r1_c4" alt=""></div>
+                  <div id="login_date" style="font-size:10px;background:#dbdddf;width:186px;margin-left:34px;text-align:center;">前回のログイン　<?=$last_log_date?><br><a href="logout.php" <?=$make_plan?> ><image src="image/bt_logout.gif"></a></div>
                 </div>
   				<div class="clr"></div>
   				<div class="menu_nav" >
- 
                   <ul id="menu">
                     <li  <?php echo ($tab_home==true)?"class='active'":"";?>><a href="dashboard.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>
                     Home</a></li>
@@ -146,13 +147,9 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
                     <li  <?php echo ($tab_my_guests==true)?"class='active'":"";?>><a href="my_guests.php" <?=$make_plan?>>招待者リスト<br>
                       の作成</a></li>
                     <li  <?php echo ($tab_make_plan==true)?"class='active'":"";?>><a href="make_plan.php"><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>席次表</a></li>
-                    <!--<li><a href="menu_group.php">Guest Menus</a></li>-->
-                    <!--<li><a href="gifts.php">Guest Gifts</a></li>-->
                     <li <?php echo ($tab_order==true)?"class='active'":"";?>><a href="order.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>発注</a></li>
-                    <!--<li><a href="dummy.php">Preview</a></li>-->
                     <li  <?php echo ($tab_download==true)?"class='active'":"";?>><a href="download.php" <?=$make_plan?>>招待者リスト<br>
                       ダウンロード</a></li>
-                    <!--<li><a href="dummy.php">About Me</a></li>-->
                     <li  <?php echo ($tab_user_info==true)?"class='active'":"";?>><a href="user_info.php" <?=$make_plan?>><div class="nv_pd"><img src="images/space.gif" width="100" height="10" /></div>お客様情報</a></li>
 <?php  if(!$IgnoreMessage){
 ?>
