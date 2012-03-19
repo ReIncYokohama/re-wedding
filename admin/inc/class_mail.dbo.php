@@ -35,7 +35,7 @@ class MailClass extends MessageClass
 
 いつもお世話になっております。
 
-{$party_day00} {$user_info['man_lastname']}・{$user_info['woman_lastname']}様から仮発注依頼がありました。
+        {$party_day00} {$user_info['man_lastname']}({$user_info["man_furi_lastname"]})・{$user_info['woman_lastname']}({$user_info["woman_furi_lastname"]})様から仮発注依頼がありました。
 仮発注処理をお願いいたします。
 {$admin_link}
 
@@ -98,7 +98,7 @@ html;
 
 いつもお世話になっております。
 
-{$party_day00} {$user_info['man_lastname']}・{$user_info['woman_lastname']}様から本発注依頼がありました。
+{$party_day00} {$user_info['man_lastname']}({$user_info["man_furi_lastname"]})・{$user_info['woman_lastname']}({$user_info["woman_furi_lastname"]})様から本発注依頼がありました。
 本発注処理をお願いいたします。
 {$admin_link}
 
@@ -165,7 +165,7 @@ html;
 
 いつもお世話になっております。
 
-{$party_day00} {$user_info['man_lastname']}・{$user_info['woman_lastname']}様向け席次表印刷イメージが出来上がりました。
+{$party_day00} {$user_info['man_lastname']}({$user_info["man_furi_lastname"]})・{$user_info['woman_lastname']}({$user_info["woman_furi_lastname"]})様向け席次表印刷イメージが出来上がりました。
 ご確認をお願いいたします。
 
 {$admin_link}
@@ -225,7 +225,7 @@ html;
 			//"{$print_company_info['company_name']} Print Company has uploaded file for {$user_info['man_lastname']} {$user_info['man_firstname']}";
 
 			$user_mail_body =<<<html
-{$user_info['man_lastname']}・{$user_info['woman_lastname']} 様
+{$user_info['man_lastname']}({$user_info["man_furi_lastname"]})・{$user_info['woman_lastname']}({$user_info["man_furi_woname"]}) 様
 
 このたびはウエディングプラスをご利用いただき、ありがとうございます。
 席次表の印刷イメージが出来上がりました。
@@ -303,7 +303,9 @@ html;
 仮発注依頼書
 ホテル名：{$hotel_name}
 新郎名：{$user_info['man_lastname']} {$user_info['man_firstname']} 様
+新郎名ふりがな：{$user_info['man_furi_lastname']} {$user_info['man_furi_firstname']} 様
 新婦名：{$user_info['woman_lastname']} {$user_info['woman_firstname']} 様
+新婦名ふりがな：{$user_info['woman_furi_lastname']} {$user_info['woman_furi_firstname']} 様
 披露宴日時：{$party_day} {$party_day_with_time[0]}:{$party_day_with_time[1]}
 商品区分：{$dowload_options}
 商品名：{$user_plan_info['product_name']}
@@ -404,7 +406,9 @@ html;
 本発注依頼書
 ホテル名：{$hotel_name}
 新郎名：{$user_info['man_lastname']} {$user_info['man_firstname']} 様
+新郎名ふりがな：{$user_info['man_furi_lastname']} {$user_info['man_furi_firstname']} 様
 新婦名：{$user_info['woman_lastname']} {$user_info['woman_firstname']} 様
+新婦名ふりがな：{$user_info['woman_furi_lastname']} {$user_info['woman_furi_firstname']} 様
 披露宴日時：{$party_day} {$party_day_with_time[0]}:{$party_day_with_time[1]}
 商品区分：{$dowload_options}
 商品名：{$user_plan_info['product_name']}
@@ -480,7 +484,7 @@ html;
 
 いつもお世話になっております。
 
-{$party_day00} {$user_info['man_lastname']}・{$user_info['woman_lastname']}様から引出物発注依頼がありました。
+{$party_day00} {$user_info['man_lastname']}({$user_info['man_furi_lastname']})・{$user_info['woman_lastname']}({$user_info['woman_furi_lastname']})様から引出物発注依頼がありました。
 引出物発注処理をお願いいたします。
 {$admin_link}
 
@@ -543,7 +547,7 @@ html;
 
 いつもお世話になっております。
 
-{$party_day00} {$user_info['man_lastname']}・{$user_info['woman_lastname']}様の席次表本発注締切日を過ぎています。
+{$party_day00} {$user_info['man_lastname']}({$user_info['man_furi_lastname']})・{$user_info['woman_lastname']}({$user_info['woman_furi_lastname']})様席次表本発注締切日を過ぎています。
 お客様にご確認の上、至急本発注処理をお願いいたします。
 {$admin_link}
 
@@ -599,7 +603,7 @@ html;
 			//"{$print_company_info['company_name']} Print Company has uploaded file for {$user_info['man_lastname']} {$user_info['man_firstname']}";
 
 			$user_mail_body =<<<html
-{$user_info['man_lastname']}・{$user_info['woman_lastname']} 様
+        {$user_info['man_lastname']}({$user_info['man_furi_lastname']})・{$user_info['woman_lastname']}({$user_info['woman_furi_lastname']}) 様
 
 このたびはウエディングプラスをご利用いただき、ありがとうございます。
 席次表印刷締切日を過ぎております。
@@ -663,7 +667,7 @@ html;
 
 いつもお世話になっております。
 
-{$party_day00} {$user_info['man_lastname']}・{$user_info['woman_lastname']}様の引出物本発注締切日を過ぎています。
+      {$party_day00} {$user_info['man_lastname']}({$user_info['man_furi_lastname']})・{$user_info['woman_lastname']}({$user_info['woman_furi_lastname']})様の引出物本発注締切日を過ぎています。
 お客様にご確認の上、至急引出物処理をお願いいたします。
 {$admin_link}
 
@@ -719,7 +723,7 @@ html;
 			//"{$print_company_info['company_name']} Print Company has uploaded file for {$user_info['man_lastname']} {$user_info['man_firstname']}";
 
 			$user_mail_body =<<<html
-{$user_info['man_lastname']}・{$user_info['woman_lastname']} 様
+        {$user_info['man_lastname']}({$user_info['man_furi_lastname']})・{$user_info['woman_lastname']}({$user_info['woman_furi_lastname']}) 様
 
 このたびはウエディングプラスをご利用いただき、ありがとうございます。
 引出物の締切日を過ぎております。
@@ -801,7 +805,9 @@ html;
 発注書
 ホテル名：{$hotel_name}
 新郎名：{$user_info['man_lastname']} {$user_info['man_firstname']} 様
+新郎名：{$user_info['man_furi_lastname']} {$user_info['man_furi_firstname']} 様
 新婦名：{$user_info['woman_lastname']} {$user_info['woman_firstname']} 様
+新婦名：{$user_info['woman_furi_lastname']} {$user_info['woman_furi_firstname']} 様
 披露宴日時：{$party_day} {$party_day_with_time[0]}:{$party_day_with_time[1]}
 最大卓数：横 {$room_info['max_columns']} 列×縦 {$room_info['max_rows']} 段
 一卓人数：{$room_info['max_seats']} 名まで
