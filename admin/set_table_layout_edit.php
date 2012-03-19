@@ -53,8 +53,7 @@ if($_GET['action']=="save") {
 			$disp = $_POST['display_'.$def_id];
 
       $usertable = Model_Usertable::find_by_pk($def_id);
-      $usertable->name = $_POST['table_name_'.$i];
-      $usertable->save();
+      $usertable->set_table_name($_POST['table_name_'.$i]);
       $usertable->change_display($disp);
 		}
 	}
