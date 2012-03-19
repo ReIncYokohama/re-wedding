@@ -132,7 +132,6 @@ function japanyDateFormateForDashboard($rawTime, $time_24h=0) {
     <div id="flow">
       <div class="step_box">
         <div class="step"><a href="table_layout.php"><img src="img/step_bt01.jpg" width="199" height="79" border="0" class="on" /></a></div>
-		<!-- UCHIDA EDIT 11/07/26 -->
         <!-- <div class="step_txt">披露宴のテーブルのレイアウト、卓名を決めます。</div> -->
         <div class="step_txt">披露宴会場のテーブルのレイアウト、卓名をご確認いただけます。</div>
         <div class="clear"></div>
@@ -140,7 +139,6 @@ function japanyDateFormateForDashboard($rawTime, $time_24h=0) {
       <div class="step_triangle"><div align="center"><br></div></div>
       <div class="step_box">
         <div class="step"><a href="hikidemono.php"><img src="img/step_bt02.jpg" width="199" height="79" border="0" class="on" /></a></div>
-		<!-- UCHIDA EDIT 11/07/26 -->
         <!-- <div class="step_txt">引出物の商品の登録、お子様料理の登録を行います。</div> -->
         <div class="step_txt">引出物のグループ登録、および、お子様料理をご確認いただけます。</div>
         <div class="clear"></div>

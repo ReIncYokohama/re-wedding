@@ -392,8 +392,12 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 				{
 					$class = 'box6';
 				}
+        $userlogin = Model_Userlog::get_user_last_login($row["id"]);
+        if($userlogin){
+          print_r();
+        }
+        
 				$last_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$row['id']." and admin_id=0  ORDER BY login_time DESC");
-
 				$user_messages = $obj->GetAllRowsByCondition("spssp_message"," user_id=".$row['id']);
 
 				$user_id_arr[0] = $row['id'];
@@ -427,18 +431,10 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
   }
 ?>
 
-                        <!-- <td></td>-->
 					    <td width="80">
                        <?php
-
-						if($last_login['login_time'] != "0000-00-00 00:00:00" && $last_login['login_time']!="") {
-							if($last_login['logout_time'] != "0000-00-00 00:00:00" && $last_login['logout_time'] != $last_login['login_time']) {
-								$dMsg = date('m月d日',strtotime($last_login['logout_time']));
-								echo $dMsg;
-							}else {
-								echo "ログイン中";
-							}
-					   	}
+                 if($userlogin)
+                   echo $userlogin->get_login_text();
 						?>
                         </td>
                         <td width="60" class="txt1">
