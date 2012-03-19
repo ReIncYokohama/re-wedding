@@ -69,4 +69,9 @@ class Model_Usertable extends Model_Crud{
       }
     return $tblname;
   }
+  public function set_table_name($name){
+    
+    $this->name = $name;
+    $this->save();
+  }
 }
