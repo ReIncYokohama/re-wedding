@@ -92,8 +92,6 @@ $plan_info = $plan->to_array();
 	if($get['action']=="reset")
 	{
 		$objInfo->reset_guest_gift_page_and_user_orders_conditions($user_id);
-		$kari_hachu="";
-		$hon_hachu="";
 	}
 
 	//DAY LIMIT FIELD UPGRADE FOR VALUE WHETHER 1 OR 2
