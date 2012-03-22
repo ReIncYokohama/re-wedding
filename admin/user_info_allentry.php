@@ -958,10 +958,15 @@ include("inc/return_dbcon.inc.php");
 				<?php
 				$marriage_time_array = explode(":",$user_row['marriage_day_with_time']);
 				
-				if ($user_row['marriage_day'] == "0000-00-00") {
-					$marriage_time_array[0] = "";
-					$marriage_time_array[1] = "";
-				}
+if ($user_row['marriage_day'] == "0000-00-00") {
+  $marriage_time_array[0] = "";
+  $marriage_time_array[1] = "";
+}
+if($marriage_time_array[0]=="00" and $marriage_time_array[1]=="00"){
+  $marriage_time_array[0] = "";
+  $marriage_time_array[1] = "";
+}
+
 				?>
 				&nbsp; 
 				<input type="text" <?=$disp_option1?> style="width:17px;padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" name="marriage_hour" id="marriage_hour" value="<?=$marriage_time_array[0]?>"> :

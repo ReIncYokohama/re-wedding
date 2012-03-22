@@ -105,7 +105,7 @@ if(isset($user_id) && $user_id > 0)
        	}
     }
 
-    $post['marriage_day_with_time'] =  $post['marriage_hour'].":".$post['marriage_minute'];
+    $post['marriage_day_with_time'] =  $post['marriage_hour'].":".($post['marriage_minute']?$post["marriage_minute"]:"00");
     $post['party_day_with_time'] = $post['party_hour'].":".$post['party_minute'];
 
     $current_room_id = $post['current_room_id'];
@@ -222,7 +222,7 @@ else
     $post['creation_date'] = date("Y-m-d");
     $post['stuff_id'] = (int)$post['stuff_id'];
 
-    $post['marriage_day_with_time'] =  $post['marriage_hour'].":".$post['marriage_minute'];
+    $post['marriage_day_with_time'] =  $post['marriage_hour'].":".($post['marriage_minute']?$post["marriage_minute"]:"00");
     $post['party_day_with_time'] = $post['party_hour'].":".$post['party_minute'];
 
     unset($post['marriage_hour']);
