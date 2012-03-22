@@ -58,7 +58,7 @@ class Model_Usertable extends Model_Crud{
     $table_details = $table->to_array();
     $adminusertable = Model_Adminusertable::find_one_by(array(array("default_table_id","=",$this->id),array("user_id","=",$this->user_id)));
     $tblname = "";
-    if($this->name != "")
+    if($this->name)
       {
         $tblname = $this->name;
       }
