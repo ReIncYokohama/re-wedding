@@ -103,20 +103,19 @@
 
 				if($post['permission'] == '222')
 				{
-		          $msg = 2;
-		          $obj->UpdateData('spssp_admin',$post,"id=".$post['id']);
-		          echo "<script> alert('スタッフ情報が更新されました'); </script>";
+          $msg = 2;
+          $obj->UpdateData('spssp_admin',$post,"id=".$post['id']);
+          echo "<script> alert('スタッフ情報が更新されました'); </script>";
 				}
 				else
 				{
- 			        $post['stype'] = 1;
+          $post['stype'] = 1;
 					if($post['permission'] == '333')
 					{
 					   $value['permission']='222';
 					   $where = "permission = '333'";
-       	  			   $value['stype'] = 0;
+             $value['stype'] = 0;
 					   $obj->UpdateData('spssp_admin',$value, $where);
-//		          	   echo "<script> alert('スタッフ情報が更新されました'); </script>";
 					}
 
 					$msg = 2;
@@ -140,6 +139,8 @@
 				$err=3;
 			}
 		}
+
+    
 		else
 		{
 			$err=2;
@@ -401,8 +402,9 @@ function validForm_staff()
 {
 
 	var name  = document.getElementById('name').value;
-	var ID  = document.getElementById('ID').value;
-	var password  = document.getElementById('password').value;
+  var ID = $("#ID").val();
+  var password = $("#password").val();
+  var password = $("#email").val(); 
 	var email = document.getElementById('email').value;
 	var radio9  = document.stuff_form2.subcription_mail;
 	var name_current  = document.getElementById('name_current').value;
@@ -561,10 +563,10 @@ function matchMail()
 }
 function manager_admin_confirme(p)
 {
-	var err
-	var name  = document.getElementById('name').value;
-	var ID  = document.getElementById('ID').value;
-	var password  = document.getElementById('password').value;
+	var err;
+  var ID = $("#ID").val();
+  var name = $("#name").val();
+  var password = $("#password").val();
 
 	if(!name)
 	{
@@ -589,12 +591,7 @@ function manager_admin_confirme(p)
 	if(doIt)
 	{
 		$.post("ajax/admin_permission_update.php",{'p':p},function(data){
-			//alert(data);
-			//var substrs = data.split('#');
-			//$("#v_no").html("No."+no);
-			//$("#v_title").html(substrs[2]);
 			$("#m_admin").html("スタッフ");
-
 		});
 	}else
 	{
