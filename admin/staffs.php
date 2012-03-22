@@ -267,7 +267,7 @@ function validForm()
 	
 	
 	if(reg.test(ID) == false) {
-		alert("半角英数字記号もしくは指定された記号で入力してください");
+		alert("使用できない記号が入力されています");
 		document.getElementById('ID').focus();
 		return false;
 	}
@@ -295,7 +295,7 @@ function validForm()
 		}
 	}
  	if(reg.test(password) == false) {
-		alert("半角英数字記号もしくは指定された記号で入力してください");
+		alert("使用できない記号が入力されています");
 		document.getElementById('password').focus();
 		return false;
 	 }
@@ -447,7 +447,7 @@ function validForm_staff()
 	else
 	{
 		 if(reg.test(ID) == false) {
-		 	alert("半角英数字記号もしくは指定された記号で入力してください");
+		 	alert("使用できない記号が入力されています");
 			document.getElementById('ID').focus();
 		 	return false;
 		 }
@@ -532,7 +532,7 @@ function validForm_staff()
 		}
 	}
 	if(reg.test(password) == false) {
-		alert("半角英数字記号もしくは指定された記号で入力してください");
+		alert("使用できない記号が入力されています");
 		document.getElementById('password').focus();
 		return false;
 	 }

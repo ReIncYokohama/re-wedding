@@ -290,9 +290,7 @@ $(function(){
 	    <div class="clr"></div>
 	    </div>
 </div>
-<!-- SEKIDUKA EDIT 11/08/12 SSLシール貼付 End -->
 
-	<!-- UCHIDA EDIT 11/07/26 -->
 	<script type="text/javascript"> document.login_form.userID.focus(); </script>
 
 <?php
