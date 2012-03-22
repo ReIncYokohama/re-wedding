@@ -57,10 +57,9 @@ class Model_Usertable extends Model_Crud{
     $table = Model_Table::find_by_pk($this->table_id);
     $table_details = $table->to_array();
     $adminusertable = Model_Adminusertable::find_one_by(array(array("default_table_id","=",$this->id),array("user_id","=",$this->user_id)));
-    $tblname = "";
-    if($this->name)
+    if($this->id)
       {
-        $tblname = $this->name;
+        $tblname = $this->name?$this->name:"";
       }
     else if($adminusertable)
       {
