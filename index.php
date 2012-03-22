@@ -140,8 +140,8 @@ var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\d\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~
 
 function validForm()
 {
-	var userID  = document.getElementById('userID').value;
-	var password  = document.getElementById('password').value;
+	var userID  = $("#userID").val();
+	var password  = $("#password").val();
 
 	var flag = true;
 	if(!userID)
