@@ -59,4 +59,13 @@ class Model_User extends Model_Crud{
     return $admin->name;
   }
 
+  public function past_deadline_access(){
+    $limit = Model_Option::get_deadline_access();
+    $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
+    //締切日を過ぎた日なので１日足している。
+    if($date->past_date($limit-1)) return false;
+    return true;
+  }
+
+
 }
