@@ -12,29 +12,26 @@ $post = $obj->protectXSS($_POST);
 $userID = $post['userID'];
 $password = $post['password'];
 
-if(!isset($_SESSION['userid'])) {
+if($_SESSION["userid"]>0) {
+}else{
 	$query_string = "SELECT * from spssp_user WHERE BINARY user_id= '".$userID."' and BINARY password = '".$password."'";
 	$result = mysql_query( $query_string );
 	$row = mysql_fetch_array($result);
-	//ｒログインID,Passなしの挙動を追加
 	if(!$row){
 		echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\n正しいログインIDとパスワードを入力してください。"); </script>';
 		redirect("logout.php");exit;
 	}
   $user = Model_User::find_by_pk($row["id"]);
   if($user->past_deadline_access()){
-    print_r($user);
     echo '<script type="text/javascript"> alert("お客様のＩＤ利用期限日が過ぎております\\nログインが必要な場合は、ホテル担当者にお問い合わせください"); </script>';
 		redirect("logout.php");exit;
   }
+
 }
 
 include_once("inc/user_login_check.php");
 
-if ($_SESSION['regenerate_user_id']=="") {
-	redirect("logout.php");
-}
-else if ($_GET['src'] == "my_guests") {
+if ($_GET['src'] == "my_guests") {
 	redirect("my_guests.php");
 }
 else if ($_GET['src'] == "admin") {
