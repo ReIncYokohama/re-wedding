@@ -19,7 +19,7 @@ foreach($users as $user){
     $plan->save();
   }
   $clicktime = Model_Clicktime::find_one_by_user_id($user["id"]);
-  if($clicktime->hon_hachu != "0000-00-00 00:00:00"){
+  if($clicktime && $clicktime->hon_hachu != "0000-00-00 00:00:00"){
     $plan->admin_to_pcompany = 2;
     $plan->save();
   }
