@@ -1,6 +1,7 @@
 <?php
 	require_once("admin/inc/include_class_files.php");
 	include_once("inc/checklogin.inc.php");
+	include_once("fuel/load_classes.php");
 
 	$obj = new DBO();
 	$objMsg = new MessageClass();
@@ -35,13 +36,13 @@ include_once("inc/new.header.inc.php");
     
 	*/
   
-	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".$user_id);
+$plan = Model_Plan::find_one_by_user_id($user_id);
+$plan_info = $plan->to_array();
 
-// UCHIDA EDIT 11/08/16 クリック日付を取得
-	$click_info = $obj ->GetSingleRow("spssp_clicktime"," user_id=".$user_id);
-	$print_irai = $objMsg->clicktime_format($click_info['print_irai']);
-	$print_ok = $objMsg->clicktime_format($click_info['print_ok']);
-	$hikide_irai = $objMsg->clicktime_format($click_info['hikide_irai']);
+$click_info = $obj ->GetSingleRow("spssp_clicktime"," user_id=".$user_id);
+$print_irai = $objMsg->clicktime_format($click_info['print_irai']);
+$print_ok = $objMsg->clicktime_format($click_info['print_ok']);
+$hikide_irai = $objMsg->clicktime_format($click_info['hikide_irai']);
 
 	if($get['action']=="suborder")
 	{
@@ -49,10 +50,7 @@ include_once("inc/new.header.inc.php");
 		if($plan_info['print_company']>0)
 		{
       $res = $objMail->user_suborder_mail_to_admin($user_id,$plan_info['print_company']);
-      
-      unset($post);
-      $post['order']=1;
-      $obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
+      $plan->do_kari_hatyu_irai();
       $print_irai = $objMsg->clicktime_entry_return( "print_irai", $user_id );
       redirect("order.php?msg=5");
 		}
@@ -67,18 +65,14 @@ include_once("inc/new.header.inc.php");
 		if($plan_info['print_company']>0)
 		{
       $objMail->user_print_request_mail_to_admin($user_id,$plan_info['print_company']);
-      unset($post);
-      $post['order']=2;
       $post['dl_print_com_times']=0;
       $post['ul_print_com_times']=0;
-      $obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
-      
+      $plan->do_hon_hatyu_irai();
+
       unset($post);
       $post['print_ok']=date("Y-m-d H:i:s");
       $obj->UpdateData('spssp_clicktime',$post," user_id=".$user_id);
-        
-      $print_ok = $objMsg->clicktime_entry_return( "print_ok", $user_id );
-      
+      $print_ok = $objMsg->clicktime_entry_return( "print_ok", $user_id );      
       redirect("order.php?msg=10");
 		}
 		else
@@ -92,7 +86,6 @@ include_once("inc/new.header.inc.php");
     
     unset($post);
     $post['gift_daylimit']=1;
-    
     $obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
     
     unset($post);
@@ -106,16 +99,10 @@ include_once("inc/new.header.inc.php");
 	}
 
 ?>
-<script>
-
-$(function(){
-
-	});
-</script>
 <script type="text/javascript">
 function confirmAction(urls , msg)
 {
-   	var agree = confirm(msg);
+  var agree = confirm(msg);
 	if(agree)
 	{
 		window.location = urls;
@@ -130,19 +117,16 @@ function confirmAction(urls , msg)
   <div class="step_bt"><a href="make_plan.php"><img src="img/step_head_bt04.jpg" width="150" height="60" border="0" class="on" /></a></div>
   <div class="step_bt"><img src="img/step_head_bt05_on.jpg" width="150" height="45" border="0"/></div>
   <div class="clear"></div></div>
-<?php
-	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".$user_id);
-?>
 <div id="contents_right">
-	<div id="box_1">
+    <div id="box_1">
 		<div class="title_bar">
-			<div class="title_bar_txt_L">席次表の印刷イメージ依頼</div>
-			<div class="title_bar_txt_R"></div>
-			<div class="clear"></div>
+    <div class="title_bar_txt_L">席次表の印刷イメージ依頼</div>
+    <div class="title_bar_txt_R"></div>
+    <div class="clear"></div>
 		</div>
 		<div class="cont_area">
-			「席次表プレビュー」をご確認の上、「印刷イメージ依頼」ボタンをクリックしてください。<br />
-			修正がある場合は、招待者リストの作成画面に戻り修正してください。<br />
+    「席次表プレビュー」をご確認の上、「印刷イメージ依頼」ボタンをクリックしてください。<br />
+    修正がある場合は、招待者リストの作成画面に戻り修正してください。<br />
 			印刷イメージ依頼後は、担当者が確認の上、印刷会社へ仮発注をいたします。<br /><br />
 
 			<table width="800" border="0 cellspacing="1" cellpadding="3">
@@ -150,20 +134,12 @@ function confirmAction(urls , msg)
 					<td width="28%" valign="middle"><a href="plan_pdf_small.php" target="_blank"><img src="img/order/preview_sekiji_bt.jpg" alt="席次表プレビュー" width="200" height="40" border="0" class="on" /></a></td>
 					<td width="5%" valign="middle" style="font-size:16pt">→</td>
 					<?php
-						$isGrey=false;
-						if($plan_info['order']>0) $isGrey=true;
-						if ($plan_info['admin_to_pcompany']==2) $isGrey=false;
-// add 20111228 start PDFのタイムスタンプが印刷イメージ依頼のタイムスタンプよりも古ければ、依頼ボタンをグレーアウトする。
-						$pd = strptime($click_info['print_irai'],"%Y-%m-%d %H:%M:%S");
-						$pidate = mktime($pd[tm_hour],$pd[tm_min],$pd[tm_sec],$pd[tm_mon]+1,$pd[tm_mday],$pd[tm_year] + 1900);
-						if(!preg_match('/.*\/(\d*).PDF$/', $plan_info['p_company_file_up'] , $matches)){
-							$matches = array("1");
-						}
-						if($plan_info['admin_to_pcompany']==2){
-							if($pidate > $matches[1]) $isGrey=true;
-						}
-// added 20111228
-						if($isGrey==true)
+if($plan->can_kari_hatyu_irai()){
+  $isGrey = false;
+}else{
+  $isGrey = true;
+}
+						if($isGrey)
 						{
 					?>
 					<td width="20%" valign="middle"><img src="img/order/print_img_bt_greyed.jpg" /></td>
@@ -199,8 +175,12 @@ function confirmAction(urls , msg)
 					<td width="28%" valign="middle"><a href="plan_pdf_small.php" target="_blank"><img src="img/order/preview_sekiji_bt.jpg" alt="席次表プレビュー" width="200" height="40" border="0" class="on" /></a></td>
 					<td width="5%" valign="middle" style="font-size:16pt" >→</td>
 					<?php
-            //admin_to_pcompanyを追加
-						if($plan_info['order']<=3 && $plan_info['order']>1)
+if($plan->can_hon_hatyu_irai()){
+  $isGrey = false;
+}else{
+  $isGrey = true;
+}
+						if($isGrey)
 						{
 					?>
 					<td width="20%" valign="middle"><img src="img/order/print_bt_greyed.jpg"/></td>

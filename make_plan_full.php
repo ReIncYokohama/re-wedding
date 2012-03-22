@@ -442,7 +442,7 @@ direction: ltr;
 <input type="hidden" name="query" value="<?php echo $_SERVER["QUERY_STRING"];?>">
   			 <div align="right">
 <?php
-if($objInfo->get_editable_condition($plan_row))
+if($plan->editable())
 	{
 ?>
 <image src="img/btn_save_user.jpg" id="button" onclick="checkConfirm()"/>

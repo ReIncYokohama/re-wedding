@@ -50,11 +50,9 @@ if(isset($_POST['sub']))
 		if($message)
 		{
 			unset($post);
-			$post['p_company_file_up']=$message;
-			$post['admin_to_pcompany']=2;
-			$post['order']=3;
-			$res = $obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
-
+      $plan = Model_Plan::find_one_by_user_id($user_id);
+      $plan->p_company_file_up=$message;
+      $plan->upload_sekizihyo();
 			if($res)
 			{
 				$objMail->printCompany_upload_admin_notification_mail($user_id,$printCompany_id);

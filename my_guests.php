@@ -65,7 +65,8 @@ $redirect_url = "my_guests.php";
 //$order = ' last_name asc ';
 $order = ' id asc ';
 
-$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
+$plan = Model_Plan::find_one_by_user_id($_SESSION["userid"]);
+$plan_info = $plan->to_array();
 
 if(isset($_GET['option']) && $_GET['option'] != '')
 	{
@@ -575,23 +576,7 @@ width:130px;
 </style>
 
 <?php
-  /*$editable=true;
-    $user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
-
-    $date_array=explode("-",$user_row['party_day']);
-    $time_array=explode(":",$user_row['party_day_with_time']);
-
-    $gift_criteria_data_row = $obj->GetAllRow("spssp_gift_criteria");
-
-    $confirm_day_num =$gift_criteria_data_row[0]['num_gift_items'];
-
-    $mk_time_before=mktime($time_array[0], $time_array[1], $time_array[2], $date_array[1], $date_array[2]-$confirm_day_num, $date_array[0]);
-
-    $tody_day_mk=mktime(date("H"),date("i"),date("s"), date("m")  , date("d"), date("Y"));
-
-    if($tody_day_mk>=$mk_time_before)
-    $editable=false;*/
-$editable=$objInfo->get_editable_condition($plan_info);
+$editable = $plan->editable();
 ?>
 <link href="css/main.css" rel="stylesheet" type="text/css" />
   <div id="contents_wrapper" class="displayBox">

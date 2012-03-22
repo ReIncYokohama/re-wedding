@@ -2,6 +2,7 @@
 	require_once("inc/include_class_files.php");
 	include_once("inc/checklogin.inc.php");
 	include_once("inc/new.header.inc.php");
+	include_once("../fuel/load_classes.php");
 
 	$obj = new DBO();
 	$objMsg = new MessageClass(); // UCHIDA EDIT 11/08/16 クリック日付を記録のため
@@ -10,64 +11,30 @@
 	$user_id = $_GET['user_id'];
 	$stuff_id = $_GET['stuff_id'];
 
-	$user_row1 = $obj->GetSingleRow("spssp_user"," id= ".$user_id);
-	$user_row = $user_row1;
-	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".$user_id);
-	/*
-		Hints : FROM ADMIN[HERE] SIDE
-		SPSSP_PLAN TABLE FOR THE FIELD "admin_to_pcompany"
-		1 => WHEN ADMIN SENDS THE USER SUB-ORDER TO THE PRINT COMPANY
-		2 => WHEN PRINT COMPANY UPLOAD FILES ON THE RESPONSE OF USER SUB-ORDER
-		3 => WHEN ADMIN SENDS THE USER PRINTINGT REQUEST TO THE PRINT COMPANY
-	*/
-	/*
-		Hints : FROM USER SIDE
-		SPSSP_MESSAGE TABLE FOR THE FIELD "msg_type"
-		1 => WHEN USER SENDS SUB-ORDER TO THE ADMIN
-		2 => WHEN USER SENDS PRINT REQUEST TO THE ADMIN
-
-	*/
-	/*
-		Hints : FROM USER SIDE
-		SPSSP_PLAN TABLE FOR THE FIELD "order"
-		1 => WHEN USER SENDS SUB-ORDER TO THE ADMIN
-		2 => WHEN USER SENDS PRINT REQUEST TO THE ADMIN
-
-	*/
-	/*
-		Hints : FROM ADMIN SIDE
-		SPSSP_PLAN TABLE FOR THE FIELD "gift_daylimit"
-		1 => WHEN USER SENDS GIFT DAY LIMIT TO THE ADMIN
-		2 => WHEN ADMIN RESPONSE TO USER SENDS GIFT DAY LIMIT TO THE ADMIN
-		3 => WHEN USER DAY LIMIT OVER FOR GIFT
-	*/
+$user = Model_User::find_by_pk($user_id);
+$user_row = $user->to_array();
+$plan = Model_Plan::find_one_by_user_id($user_id);
+$plan_info = $plan->to_array();
 
 	$get = $obj->protectXSS($_GET);
 	$post = $obj->protectXSS($_POST);
 
-// UCHIDA EDIT 11/08/16 クリック日付を取得
 	$click_info = $obj ->GetSingleRow("spssp_clicktime"," user_id=".$user_id);
 	$kari_hachu = $objMsg->clicktime_format($click_info['kari_hachu']);
 	$hon_hachu = $objMsg->clicktime_format($click_info['hon_hachu']);
 	$hikide_zumi = $objMsg->clicktime_format($click_info['hikide_zumi']);
-	$_hotel_name=$get['hotel_name']; // UCHIDA EDIT 11/08/19 GETでホテル名を取得
+
+	$_hotel_name=$get['hotel_name'];
 
 	if($get['action']=="allow")
 	{
-
-//		if($obj->GetRowCount("spssp_plan"," `order` = 1 and user_id=".$user_id) >0 )
 		if($obj->GetRowCount("spssp_plan"," `order` = 0 or `order` = 1 and user_id=".$user_id) >0 )
 		{
 			if($plan_info['print_company']>0)
 			{
-				$kari_hachu = $objMsg->clicktime_entry_return( "kari_hachu", $user_id ); // UCHIDA EDIT 11/08/16 クリック日付を記録
+				$kari_hachu = $objMsg->clicktime_entry_return( "kari_hachu", $user_id );
+        $plan->do_kari_hatyu();
         
-				unset($post);
-				$post['order']=1;
-				$post['admin_to_pcompany']=1;
-				$post['ul_print_com_times']=0;
-				$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
-				
 				unset($post);
 				$post['state']=date("Y/m/d");
 				$obj->UpdateData('spssp_user',$post,"id=".$user_id);
@@ -79,10 +46,6 @@
 				$err=30;
 			}
 		}
-		else
-		{
-			//$err=31;
-		}
 	}
 	if($get['action']=="print_request")
 	{
@@ -91,25 +54,14 @@
 		{
 			if($plan_info['print_company']>0)
 			{
-				$post['admin_to_pcompany']=3;
-				$post['gift_daylimit']=3;
-
-				$post['order']=2;
-				$post['dl_print_com_times']=0;
-				$post['ul_print_com_times']=1;
-				$post['gift_daylimit']=3;
-				$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
+        $plan->do_hon_hatyu();
 
 				$sekiji = (int)$get['sekiji'];
 				$sekifuda = (int)$get['sekifuda'];
 				$sql = "update spssp_plan set day_limit_1_to_print_com=".$sekiji.", day_limit_2_to_print_com=".$sekifuda." where user_id=".(int)$user_id;
 				mysql_query($sql);
 				
-				/*unset($post);
-				$post['msg_type']=0;
-				$obj->UpdateData('spssp_message',$post," msg_type=2 and user_id=".$user_id);*/
-
-				$hon_hachu = $objMsg->clicktime_entry_return( "hon_hachu", $user_id ); // UCHIDA EDIT 11/08/16 クリック日付を記録
+				$hon_hachu = $objMsg->clicktime_entry_return( "hon_hachu", $user_id );
 
 				$res = $objMail->process_mail_user_print_request($user_id,$plan_info['print_company'], $_hotel_name);
 			}
@@ -117,10 +69,6 @@
 			{
 				$err=30;
 			}
-		}
-		else
-		{
-			// $err=32;
 		}
 	}
 	if($get['action']=="daylimit_request")
@@ -130,24 +78,15 @@
 		{
 
 			unset($post);
-//			$post['gift_daylimit']=2; UCHIDA EDIT 11/08/09 引出物処理済ボタンが押されたので終了を設定
 			$post['gift_daylimit']=3;
 			$res = $obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 
 			$hikide_zumi = $objMsg->clicktime_entry_return( "hikide_zumi", $user_id );
 
-			if($res)
-			{
-				//$msg=11;
-			}
-			else
+			if(!$res)
 			{
 				$err=28;
 			}
-		}
-		else
-		{
-			//$err=33;
 		}
 	}
 	if($get['action']=="reset")
@@ -156,7 +95,7 @@
 		$kari_hachu="";
 		$hon_hachu="";
 	}
-	//print_r($_POST);
+
 	//DAY LIMIT FIELD UPGRADE FOR VALUE WHETHER 1 OR 2
 	if($_POST['gift_day_limit'] =="gift_day_limit" )
 	{
@@ -185,12 +124,6 @@
 		$dayLimit_1 = $plan_info2['day_limit_1_to_print_com'];
 		$dayLimit_2 = $plan_info2['day_limit_2_to_print_com'];
 	}
-
-	unset($plan_info);
-	$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".$user_id);
-
-
-//echo $err;
 
 ?>
 <style>
@@ -359,13 +292,8 @@ include("inc/return_dbcon.inc.php");
 				<td width="182" valign="middle"><a href="../plan_pdf_small.php?user_id=<?=$user_id?>" target="_blank"><img src="img/common/order/seat_preview.gif" alt="" width="182" height="32" border="0" class="on" /></a></td>
 					<td width="50" rowspan="3" align="center" valign="middle" style="font-size:16pt"><img src="img/common/arrow_1to2.gif" alt="矢印" width="32" height="59" border="0" /></td>
 			<?php
-				$isGrey=false;
-				if ($plan_info['admin_to_pcompany']>0 && $plan_info['ul_print_com_times']==1) $isGrey=true;
-				if ($plan_info['admin_to_pcompany']>0 && $plan_info['order']<=2)  $isGrey=true;
-				if ($plan_info['admin_to_pcompany']==2) $isGrey=false;
-				if($isGrey==true)
-				{
-			?>
+             if(!$plan->can_kari_hatyu()){
+?>
 				<td valign="middle"><img src="img/common/order/seat_pro_order_greyed.gif" width="146" height="32" /></td>
 				<?php }else{?>
 			  	<td valign="middle"><a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=allow&user_id=<?=$user_id?>&hotel_name=<?=$hotel_name ?>&stuff_id=<?=$stuff_id?>','印刷会社へ仮発注を行います。宜しいですか？')" ><img src="img/common/order/seat_pro_order.gif" width="146" height="32" /></a></td>
@@ -389,8 +317,7 @@ include("inc/return_dbcon.inc.php");
 				<td width="182" valign="middle">
 			    </td>
 				<?php
-                if(($plan_info['admin_to_pcompany']==3 && $plan_info['admin_to_pcompany']>0 &&$plan_info['ul_print_com_times']==1) || $isGrey)
-				{
+           if(!$plan->can_hon_hatyu()){
 			?>
 				<td valign="middle"><img src="img/common/order/seat_order_greyed.gif" width="146" height="32" /></td>
 				<?php }else{?>
@@ -418,9 +345,10 @@ include("inc/return_dbcon.inc.php");
 				<td width="50" align="center" valign="middle">&nbsp;</td>
 
 			  	<td width="617" valign="middle">
-			  	<?php if ($plan_info['admin_to_pcompany']==1 || $plan_info['admin_to_pcompany']==3) { // アップロードされるまで ?>
-			  		<img src="img/common/order/seat_order_release_greyed.gif" width="146" height="32" /></a>
-			  	<?php }else { ?>
+          
+              <?php if (!$plan->can_reset()) {?>
+        <img src="img/common/order/seat_order_release_greyed.gif" width="146" height="32" /></a>
+           <?php }else { ?>
 					<a href="javascript:void(0);" onclick = "confirmAction('guest_gift.php?action=reset&user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>','依頼解除を行います。宜しいですか？')"><img src="img/common/order/seat_order_release.gif" width="146" height="32" /></a>
 				<?php }?>
 					<br>

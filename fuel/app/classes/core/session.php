@@ -37,7 +37,7 @@ class Core_Session{
   }
   static public function set_seat_data($arr){
     $_SESSION["cart"] = $arr;
-    
+ 
   }
 
 }

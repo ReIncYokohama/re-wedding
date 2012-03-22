@@ -73,7 +73,7 @@ if($user_id>0) {
 	$disp_option5 = "";
   $disp_option6 = "";
   $disp_option7 = "";
-	if ($user_plan_row['admin_to_pcompany'] == 3) {
+	if ($user_plan_row['admin_to_pcompany'] == 2) {
 		$disp_option1 = ' readonly="readonly"; ';
 		$disp_option2 = ' border:#ffffff; ';
 		$disp_option3 = ' border-style:none ';
