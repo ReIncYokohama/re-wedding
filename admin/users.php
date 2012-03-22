@@ -367,7 +367,6 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
   }
 ?>
 
-						<!--<td>ログイン</td>-->
 
                         <td width="80">最終アクセス</td>
                         <td width="60">&nbsp;</td>
@@ -382,7 +381,6 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 			$i=0;
 			foreach($data_rows as $row)
 			{
-				//$staff_name = $obj->GetSingleData("spssp_admin","name"," id=".$row['stuff_id']);
 
 				if($i%2==0)
 				{

@@ -178,12 +178,7 @@ class InformationClass extends DBO
 
 	function sekiji_day_limit_over_check_for_all_users($user_id)
 	{
-		$user_info = $this->get_user_info($user_id);
-
-		$dateBeforeparty = $this->get_date_with_supplyed_flag_difference( $user_info['party_day'] , $user_info['confirm_day_num']+1 , $flag=2 );
-		if($dateBeforeparty <= $date)
-		{
-
+    if(Model_User::past_deadline_sekijihyo($user_id)){
 			return true;
 		}
 		else

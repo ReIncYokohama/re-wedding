@@ -40,33 +40,21 @@ class MessageClass extends InformationClass
 
 	function get_admin_side_user_list_new_status_notification_when_ordered($user_id)
 	{
-		if($this :: sekiji_day_limit_over_check_for_all_users($user_id))
-		{
-			$msg_opt = "<img src='img/common/msg/untreated.gif' border = '0'>";
-		}
-
-		if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 1 and `order` = 1 and user_id=".$user_id) )
-		{
+    $plan = Model_Plan::find_one_by_user_id($user_id);
+    if(Model_User::past_deadline_sekijihyo($user_id)){
+      $msg_opt = "<img src='img/common/msg/untreated.gif' border = '0'>";
+    }
+    if($plan->is_kari_hatyu()){
 			$msg_opt = "<img src='img/common/msg/provisional_order.gif' border = '0'>";
-		}
-		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 2 and `ul_print_com_times` < 2 and user_id=".$user_id) )
-		{
+		}else if($plan->uploaded_image()){
 			$msg_opt = "<img src='img/common/msg/up.gif' border = '0'>";
-		}
-		else if( $this :: GetRowCount("spssp_plan"," admin_to_pcompany = 3 and user_id=".$user_id) )
-		{
-
+		}else if($plan->is_hon_hatyu()){
 			$msg_opt = "<img src='img/common/msg/processed.gif' border = '0' alt='processed'>";
-		}
-		else if( $this :: GetRowCount("spssp_plan"," `order` = 2 and user_id=".$user_id) )
-		{
-			$msg_opt = "<img src='img/common/msg/print_request.gif' border = '0' alt='print_request'>";
-		}
-		else if( $this :: GetRowCount("spssp_plan"," `order` = 1 and user_id=".$user_id) )
-		{
-			//$user_messages = $this :: GetAllRowsByCondition("spssp_message","  msg_type = 1 and user_id=".$user_id);
-			$msg_opt = "<img src='img/common/msg/provisional_order_request.gif' border = '0' alt='nn'>";
-		}
+		}else if($plan->is_hon_hatyu_irai()){
+      $msg_opt = "<img src='img/common/msg/print_request.gif' border = '0' alt='print_request'>";
+    }else if($plan->is_kari_hatyu_irai()){
+      $msg_opt = "<img src='img/common/msg/provisional_order_request.gif' border = '0' alt='nn'>";
+    }
 
 		return $msg_opt;
 

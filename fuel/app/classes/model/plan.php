@@ -219,4 +219,35 @@ class Model_Plan extends Model_Crud{
     }
     return false;
   }
+  public function is_kari_hatyu_irai(){
+    if($this->order == 1){
+      return true;
+    }
+    return false;
+  }
+  public function is_kari_hatyu(){
+    if($this->admin_to_pcompany == 1){
+      return true;
+    }
+    return false;
+  }
+  public function is_hon_hatyu_irai(){
+    if($this->order == 2){
+      return true;
+    }
+    return false;
+  }
+  public function is_hon_hatyu(){
+    if($this->admin_to_pcompany == 2){
+      return true;
+    }
+    return false;
+  }
+  public function uploaded_image(){
+    if($this->order == 3){
+      return true;
+    }
+    return false;
+  }
+
 }
