@@ -395,11 +395,11 @@ include("inc/return_dbcon.inc.php");
 		  <tr><td>　</td></tr>
 		  <tr>
 				    <?php 
-				    if ($obj->GetRowCount("spssp_plan"," admin_to_pcompany >= 2 and `ul_print_com_times` < 2 and `order` >= 1 and user_id=".$user_id) && $user_row['party_day'] >= date("Y-m-d")) {
+        if ($plan->p_company_file_up){
 				    ?>
 				    	<td width="210" valign="middle"><a href="<? echo "../".substr($plan_info['p_company_file_up'], 3)?>" target="_blank"><img src="img/common/preview_print_bt_hotel.jpg" alt="席次表プレビュー" border="0" class="on"/></a></td>
 				    <?php 
-				    } 
+				    }
 				    else { 
 				    ?>
 				    	<td width="210" valign="middle"><img src="img/common/preview_print_bt_hotel_gray.jpg" alt="席次表プレビュー" border="0" /></td>

@@ -3,8 +3,6 @@
 @session_start();
 if(trim($_SESSION['userid'])=='')
 		{
-			//@session_destroy();
-			//redirect("index.php?action=required");
 			redirect("logout.php");
     exit;
 		}

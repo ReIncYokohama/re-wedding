@@ -1,14 +1,17 @@
 <?php
 	include_once("admin/inc/class_information.dbo.php");
 	include_once("inc/checklogin.inc.php");
-	$obj = new DBO();
-	$objInfo = new InformationClass();
-	$get = $obj->protectXSS($_GET);
-	$user_id = (int)$_SESSION['userid'];
+	include_once("fuel/load_classes.php");
 
-	$user_layout = $obj->GetNumRows("spssp_table_layout"," user_id= $user_id");
+$obj = new DBO();
+$objInfo = new InformationClass();
+$get = $obj->protectXSS($_GET);
+$user_id = (int)$_SESSION['userid'];
 
-	$user_info = $obj->GetSingleRow("spssp_user"," id=".$user_id);
+$user_layout = $obj->GetNumRows("spssp_table_layout"," user_id= $user_id");
+
+$user = Model_User::find_by_pk($user_id);
+$user_info = $user->to_array();
 	if($user_layout <= 0)
 	{
 		redirect('table_layout.php?err=13');
@@ -350,7 +353,7 @@ height:30px;
 			  <table width="800" border="0" cellspacing="1" cellpadding="3">
 				  <tr>
 				    <?php 
-				    if ($obj->GetRowCount("spssp_plan"," admin_to_pcompany >= 2 and `ul_print_com_times` < 2 and user_id=".$user_id." order by id") && $user_info['party_day'] >= date("Y-m-d")) {
+				    if ($plan_info["p_company_file_up"]){
 				    ?>
 				    	<td width="210" valign="middle"><a href="<?=substr($plan_info['p_company_file_up'], 3)?>" target="_blank"><img src="img/order/preview_print_bt.jpg" alt="席次表プレビュー" width="200" height="40" border="0" class="on"/></a></td>
 				    <?php 
