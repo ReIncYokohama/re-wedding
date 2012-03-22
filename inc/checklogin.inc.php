@@ -1,13 +1,14 @@
 <?php
 
 @session_start();
-//echo $_SESSION['adminid'];exit;
 if(trim($_SESSION['userid'])=='')
 		{
 			//@session_destroy();
 			//redirect("index.php?action=required");
 			redirect("logout.php");
+    exit;
 		}
+
 if($_SESSION["hotel_id"]!=$HOTELID)
   {
     echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -19,6 +20,7 @@ if($_SESSION["hotel_id"]!=$HOTELID)
 </heml>
 ';
     redirect("logout.php");
+    exit;
   }
 include_once("user_login_check.php");
 
