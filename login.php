@@ -12,23 +12,6 @@ $post = $obj->protectXSS($_POST);
 $userID = $post['userID'];
 $password = $post['password'];
 
-if($_SESSION["userid"]>0) {
-}else{
-	$query_string = "SELECT * from spssp_user WHERE BINARY user_id= '".$userID."' and BINARY password = '".$password."'";
-	$result = mysql_query( $query_string );
-	$row = mysql_fetch_array($result);
-	if(!$row){
-		echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\n正しいログインIDとパスワードを入力してください。"); </script>';
-		redirect("logout.php");exit;
-	}
-  $user = Model_User::find_by_pk($row["id"]);
-  if($user->past_deadline_access()){
-    echo '<script type="text/javascript"> alert("お客様のＩＤ利用期限日が過ぎております\\nログインが必要な場合は、ホテル担当者にお問い合わせください"); </script>';
-		redirect("logout.php");exit;
-  }
-
-}
-
 include_once("inc/user_login_check.php");
 
 if ($_GET['src'] == "my_guests") {
@@ -45,12 +28,8 @@ $result = mysql_query( $query_string );
 $row = mysql_fetch_array($result);
 
 if($row['id']){
-  $party_day = $row['party_day'];
-  $ab = strtotime($party_day);
-  $limit_date = strtotime("+7 day",$ab);
-
-  if(time() <= $limit_date)
-		{
+  $user = Model_User::find_by_pk($row["id"]);
+  if(!$user->past_deadline_access()){
 			$_SESSION['username'] = $row['user_id'];
 			$_SESSION['userid'] = $row['id'];
       $_SESSION['adminid'] = 0;
@@ -76,10 +55,10 @@ if($row['id']){
 		}
 		else
 		{
-			redirect("index.php?adminid=$userID&err=17"); // UCHIDA EDIT 11/08/17 ＩＤを再表示
+			redirect("index.php?adminid=$userID&err=2"); // UCHIDA EDIT 11/08/17 ＩＤを再表示
 		}
 	}else{
-		redirect("index.php?adminid=$userID&err=16"); // UCHIDA EDIT 11/08/17 ＩＤを再表示
+		redirect("index.php?adminid=$userID&err=1"); // UCHIDA EDIT 11/08/17 ＩＤを再表示
 	}
 }
 

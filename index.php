@@ -193,11 +193,14 @@ $(function(){
 <body>
 	<div class="page">
 	  <?php
-        	if(isset($_GET['err']) && $_GET['err']!='')
+        	if($_GET["err"] == 1)
 			{
 				echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください。"); </script>';
 				$id=$_GET['adminid'];
-			}
+			}else if($_GET["err"] == 2){
+            echo '<script type="text/javascript"> alert("お客様のＩＤ利用期限日が過ぎております\\nログインが必要な場合は、ホテル担当者にお問い合わせください"); </script>';
+            
+          }
 		?>
 		<div id="login_BOX">
 			<div><img src="img/bar_user.jpg" /></div>

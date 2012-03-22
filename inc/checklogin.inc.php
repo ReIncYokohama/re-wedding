@@ -22,12 +22,4 @@ if($_SESSION["hotel_id"]!=$HOTELID)
   }
 include_once("user_login_check.php");
 
-/*
-	if(trim($_SESSION['super_adminid'])=='')
-		{
-			
-			@session_destroy();
-			redirect("index.php?action=required");
-		}
-*/
 ?>
