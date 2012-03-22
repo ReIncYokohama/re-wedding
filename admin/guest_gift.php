@@ -102,7 +102,7 @@ $plan_info = $plan->to_array();
 		$post['day_limit_1_to_print_com'] = (int)$_POST['day_limit_1'];
 		$post['day_limit_2_to_print_com'] = (int)$_POST['day_limit_2'];
 		$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
-
+    
 	}
 
 
@@ -122,6 +122,11 @@ $plan_info = $plan->to_array();
 		$dayLimit_1 = $plan_info2['day_limit_1_to_print_com'];
 		$dayLimit_2 = $plan_info2['day_limit_2_to_print_com'];
 	}
+
+//表示する際に最新のデータを反映させるため
+$plan = Model_Plan::find_one_by_user_id($user_id);
+$plan_info = $plan->to_array();
+
 
 ?>
 <style>
@@ -382,7 +387,7 @@ include("inc/return_dbcon.inc.php");
 				<?php }?>
 				<td>
 					<?php
-						echo $hikide_zumi; // UCHIDA EDIT 11/08/16 クリック日付を表示
+						echo $hikide_zumi;
 					?>
 				</td>
 		  </tr>
