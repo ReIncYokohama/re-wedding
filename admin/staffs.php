@@ -220,13 +220,13 @@ $(document).ready(function(){
 function validForm()
 {
 	var name  = document.getElementById('name').value;
-	var ID  = document.stuff_form.username.value;
+  var ID = $("#ID").val();
+  var password = $("#password").val();
+  var email = $("#email").val(); 
 	var name_current  = document.getElementById('name_current').value;
 	var username_current  = document.getElementById('username_current').value;
 	var email_current  = document.getElementById('email_current').value;
-	var password  = document.getElementById('password').value;
 	var radio2  = document.stuff_form.permission;
-	var email = document.getElementById('email').value;
 	var com_email = document.getElementById('conf_email').value;
 	var radio3  = document.stuff_form.subcription_mail;
 	var permission=false;
@@ -404,7 +404,7 @@ function validForm_staff()
 	var name  = document.getElementById('name').value;
   var ID = $("#ID").val();
   var password = $("#password").val();
-  var password = $("#email").val(); 
+  var email = $("#email").val(); 
 	var email = document.getElementById('email').value;
 	var radio9  = document.stuff_form2.subcription_mail;
 	var name_current  = document.getElementById('name_current').value;
