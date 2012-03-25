@@ -70,7 +70,8 @@ for($i=0;$i<count($guestArray);++$i){
 $html .= '</table></body></html>';
 
 $today = date("md");
-$this_name= "リスト".$today."".$user->last_name."_".$user->last_name;
+
+$this_name= "リスト".$today."".$user->man_lastname."_".$user->woman_lastname;
 
 $File = "cache/Yourexcel.html";
 $Handle = fopen($File, 'w');
