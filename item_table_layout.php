@@ -29,7 +29,7 @@ $num = 0;
       <div id="table<?=$table_id?>" class="tables" style="width:<?=$width;?>px;height:<?=$table_height?>px;float:left;<?php echo ($column["visible"])?"visibility:hidden":""?>;margin:2px;"><p>
       <?php  
       if(!$column["visible"]) ++$num;
-      if($display_number) echo $num;
+      if($display_number) echo "<span style=\"font-size:11px;color:red;\">".$num."</span>";
       $_nm2 = mb_substr($column["name"], 0,2,'UTF-8');
       $_han = 1;
       if (preg_match("/^[a-zA-Z0-9]+$/", $_nm2)) $_han = 2; // 先頭の２文字が全て半角
