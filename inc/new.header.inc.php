@@ -29,14 +29,8 @@ if ($_SESSION['userid_admin']) $messege_url="admin_messages.php"; else $messege_
 $plan = Model_Plan::find_one_by_user_id($user_id);
 $__plan_info = $plan->to_array();
 
-$__editable=$plan->editable();
-$__pre_ordering = $plan->pre_ordering();
-$__sekizihyo_edit_term = Model_User::past_deadline_sekijihyo($user_id);
-$__jobend=false;
-$__is_admin = Core_Session::is_admin();
-if ($__plan_info['admin_to_pcompany']==3 || $__plan_info['order']==2) $__jobend=true;
-
-$user_row = $obj->GetSingleRow("spssp_user", " id=".(int)$_SESSION['userid']);
+$user = Model_User::find_by_pk($user_id);
+$user_row = $user->to_array();
 
 ?>
 
@@ -125,10 +119,11 @@ $("#close_window").hover(function(){
 <div><img src="img/logo.jpg" width="200" height="57" border="0" align="absbottom" />
 <font style="display:inline;font-size:20px; font-weight:bold; margin-left:130px; color:#0099ff;"> 
 <?php
- if(!$__editable && $__jobend==true) echo "印刷依頼済みのため編集できません";
- else if ($_SESSION['adminid'] > 0 && !$__pre_ordering) echo "お客様が印刷イメージを依頼中です";
- else if(!$__pre_ordering) echo "印刷イメージ依頼中のため編集できません"; 
- else if($__sekizihyo_edit_term) echo "席次表編集利用制限日が過ぎています";
+
+  if($plan->is_hon_hatyu_irai or $plan->is_hon_hatyu) echo "印刷依頼済みのため編集できません";
+  else if (Core_Session::is_admin() && $plan->is_kari_hatyu_irai) echo "お客様が印刷イメージを依頼中です";
+  else if($plan->is_kari_hatyu_irai) echo "印刷イメージ依頼中のため編集できません"; 
+ else if(Model_User::past_deadline_sekijihyo($user_id)) echo "席次表編集利用制限日が過ぎています";
 ?>
 </font>
 </div>
