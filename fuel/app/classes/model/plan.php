@@ -34,7 +34,7 @@ class Model_Plan extends Model_Crud{
   
   //印刷依頼済み
   public function completed(){
-    if($this->admin_to_pcompany==3 or $this->order == 2) return true;
+    if($this->admin_to_pcompany==2) return true;
     return false;
   }
 
@@ -49,6 +49,7 @@ class Model_Plan extends Model_Crud{
 			return true;      
     }
   }
+  //古い。使わない
   public function pre_ordering(){
     if ($this->order == 1) return false;  
     return true;

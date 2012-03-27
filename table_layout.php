@@ -330,6 +330,7 @@ function user_timeout() {
       <div class="info_area_R" style="">■　テーブルのレイアウト<br />
 
 <?php
+          $item_table_layout_number = true;
           include("item_table_layout.php");
 ?>
 </div>
