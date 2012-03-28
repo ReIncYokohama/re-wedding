@@ -250,8 +250,17 @@ class Model_Plan extends Model_Crud{
     }
     return false;
   }
+<<<<<<< HEAD
   public function get_admin_message(){
     if($plan->order == 1)
   }
 
+=======
+  public function sent_sekijihyo_limit_mail(){
+    if(!$this->sekiji_email_send_today_check && $this->sekiji_email_send_today_check == ""){
+      return false;
+    }
+    return true;
+  }
+>>>>>>> 03b37a81820dcc6933cb706deeb476e7193ea06b
 }

@@ -15,8 +15,11 @@ class MessageClass extends InformationClass
 	function send_day_limit_message($user_id){
 		if($this :: sekiji_day_limit_over_check_for_all_users($user_id))
 		{
-      if($this :: sekiji_user_day_over_email_send_for_today_check($user_id) && $this :: GetRowCount("spssp_plan"," `order` < 2 and user_id=".$user_id) )
+      $check_value = $this->GetSingleData("spssp_plan" ,"sekiji_email_send_today_check" ," user_id=".$user_id);
+      if($check_value == "" and $this :: GetRowCount("spssp_plan"," `order` < 2 and user_id=".$user_id))
         {
+          $post['sekiji_email_send_today_check'] = date("Y/m/d");
+          $this->UpdateData('spssp_plan',$post," user_id=".$user_id);
           if ($msg!="") echo $user_id." : [Mail Send 8, 10 ]<br />\n";
           $objMail = new MailClass();
           $objMail -> sekiji_day_limit_over_admin_notification_mail($user_id);
