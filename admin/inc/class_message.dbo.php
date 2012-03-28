@@ -1,5 +1,6 @@
 <?php
-include_once("class_information.dbo.php");
+include_once(dirname(__file__)."/class_information.dbo.php");
+include_once(dirname(__file__)."/class_mail.dbo.php");
 
 class MessageClass extends InformationClass
 {
@@ -164,7 +165,6 @@ class MessageClass extends InformationClass
 		{
 			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".$user_name."  ".INFO_D."</a></li>";
 		}
-
 		else if($this :: sekiji_day_limit_over_check_for_all_users($user_id) && $user_plan_info['admin_to_pcompany']<3)
 		{
 			$msg_text .= "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".$party_day."  ".$user_name."  ".INFO_E."</a></li>";

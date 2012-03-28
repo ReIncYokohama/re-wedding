@@ -520,15 +520,9 @@ html;
 
 	function sekiji_day_limit_over_admin_notification_mail($user_id)
 	{
-		/*
-			SYstem => ADMIN
-			DOC mail: 8
-		*/
 
 		$user_info = $this :: get_user_info($user_id);
 		$staff_info = $this :: get_user_staff_info($user_info['stuff_id']);
-		//$user_male_respect_info = $this :: get_user_respect_info($user_info['man_respect_id']);
-		//$user_femaile_respect_info = $this :: get_user_respect_info($user_info['woman_respect_id']);
 
 		$admin_link = ADMIN_LINK;
 
@@ -540,7 +534,6 @@ html;
 		if($staff_info['subcription_mail']=="0" && $staff_info['email'] != "")
 		{
 			$subject="［ウエディングプラス］席次表本発注締切日を過ぎています";
-			//"ADMIN has been prossessesd gift day limit for {$user_info['man_lastname']} {$user_info['man_firstname']}";
 
 			$user_mail_body =<<<html
 {$staff_info['name']} 様

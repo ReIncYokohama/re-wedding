@@ -20,19 +20,12 @@ else $usermsgs = array();
 include_once("inc/update_user_log_for_db.php");
 update_user_log_for_db((int)(USER_LOGIN_TIMEOUT), $obj, $user_id_arr);
 
+
 if($_SESSION["super_user"] == false) {
-		$table_users ="spssp_user";
-		$where_users = " stuff_id = ".$_SESSION['adminid']." and  party_day >= '".date("Y-m-d")."'";
-	
-		$sortOptin = $get['sortOptin'];
-		if ($sortOptin==NULL) 	$order =" order by party_day asc , party_day_with_time asc ";
-		else {
-			$sortOptin = str_replace(":", ",", $get['sortOptin']); // +を,変換(,はPOST中に消滅する)
-			$order =" order by ".$sortOptin;
-		}
-		$query_string="SELECT * FROM $table_users where $where_users $order ;";
-		$data_rows = $obj->getRowsByQuery($query_string);
+  $users = Model_User::find(array("where"=>array(array("stuff_id","=",$_SESSION["adminid"]),
+                                                 array("party_day",">=",date("Y-m-d")))));
 	}
+
 ?>
 
 
@@ -208,17 +201,6 @@ function confirmDeleteUser(user_id) {
 	wname = $j("#woman_lastname").val();
 
 	window.location = "manage.php?action=delete&id="+user_id+"&date_from="+date_from+"&date_to="+date_to+"&mname="+mname+"&wname="+wname+"&sortOptin="+sortOptin;
-/*
-	delete_user = "delete_user";
-
-	$j.post('ajax/search_user2.php',{'action':delete_user, 'user_id':user_id,'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname,'sortOptin':sortOptin}, function(data){
-
-	$j("#srch_result").fadeOut(100);
-	$j("#srch_result").html(data);
-	$j("#srch_result").fadeIn(700);
-	$j("#box_table").fadeOut(100);
-	});
-*/
 }
 
 function sortAction(sortOptin)
@@ -351,9 +333,8 @@ function hide_this(id)
 
 <div id="topnavi">
 <?php
-include("inc/main_dbcon.inc.php");
-$hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData("super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
+$hotel = Model_Hotel::find_one_by_hotel_code($hcode);
+$hotel_name = $hotel["hotel_name"];
 include("inc/return_dbcon.inc.php");
 ?>
 <h1><?=$hotel_name?></h1>
@@ -371,10 +352,11 @@ include("inc/return_dbcon.inc.php");
         <ul class="ul2">
 
             <?php
-			foreach($data_rows as $row)
+
+			foreach($users as $user)
 			{
-				echo $objMsg->get_admin_side_order_print_mail_system_status_msg($row['id']);	// 席次・席札確認 → メッセージ表示
-				echo $objMsg->get_admin_side_daylimit_system_status_msg($row['id']);			// 引出物確認 	　→ メッセージ表示
+				echo $objMsg->get_admin_side_order_print_mail_system_status_msg($user->id);	// 席次・席札確認 → メッセージ表示
+				echo $objMsg->get_admin_side_daylimit_system_status_msg($user->id);			// 引出物確認 	　→ メッセージ表示
 			}
 
 			// csv upload 	　→ メッセージ表示

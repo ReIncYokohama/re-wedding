@@ -66,4 +66,5 @@ class Model_User extends Model_Crud{
     if($date->past_date(-$limit)) return false;
     return true;
   }
+    
 }

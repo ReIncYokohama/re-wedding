@@ -250,5 +250,8 @@ class Model_Plan extends Model_Crud{
     }
     return false;
   }
+  public function get_admin_message(){
+    if($plan->order == 1)
+  }
 
 }

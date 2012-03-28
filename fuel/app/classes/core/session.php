@@ -1,13 +1,14 @@
 <?php
 
 class Core_Session{
+  /*
   static public function __get($key){
     return $_SESSION[$key];
   }
   static public function __set($key,$data){
     $_SESSION[$key] = $data;
   }
-
+  */
   static public function get_user_id(){
     return $_SESSION["userid"];
   }
