@@ -20,10 +20,6 @@ else $usermsgs = array();
 include_once("inc/update_user_log_for_db.php");
 update_user_log_for_db((int)(USER_LOGIN_TIMEOUT), $obj, $user_id_arr);
 
-?>
-
-		   <!--User view respect to admin start-->
-<?php
 if($_SESSION["super_user"] == false) {
 		$table_users ="spssp_user";
 		$where_users = " stuff_id = ".$_SESSION['adminid']." and  party_day >= '".date("Y-m-d")."'";
@@ -135,8 +131,6 @@ $j( ".msg_desc" ).dialog({
 
 	}
 });
-
-//$j('.datepicker').mouseover(function() {  $j('.datepicker').css('cursor', 'pointer'); });
 
 });
 
