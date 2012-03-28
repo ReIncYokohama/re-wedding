@@ -15,6 +15,10 @@ class Model_Option extends Model_Crud{
     if($option["option_value"]) return $option["option_value"];
     return "0";
   }
+  static public function get_deadline_hikidemono(){
+    $hikidemono_option = Model_Hikidemonooption::find_one_by();
+    return $hikidemono_option->order_deadline;
+  }
   static public function get_deadline_access(){
     $option = static::find_one_by_option_name("user_id_limit");
     if($option["option_value"]) return $option["option_value"];

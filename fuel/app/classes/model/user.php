@@ -67,10 +67,27 @@ class Model_User extends Model_Crud{
     return true;
   }
   public function past_deadline_honhatyu(){
-    $limit = Model_Option::get_deadline_honhatyu();
+    if($this->confirm_day_num and $this->confirm_day_num != ""){
+      $limit = $this->confirm_day_num;
+    }else{
+      $limit = Model_Option::get_deadline_honhatyu();
+    }
     $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
     //締切日を過ぎた日なので１日足している。
-    if($date->past_date(-$limit)) return false;
+    if($date->past_date($limit)) return false;
     return true;
   }
+
+  public function past_deadline_hikidemono(){
+    if($this->order_deadline and $this->order_deadline != ""){
+      $limit = $this->order_deadline;
+    }else{
+      $limit = Model_Option::get_deadline_hikidemono();
+    }
+    $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
+    if($date->past_date($limit)) return false;
+    return true;
+  }
+
+
 }

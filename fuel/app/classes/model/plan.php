@@ -256,4 +256,10 @@ class Model_Plan extends Model_Crud{
     }
     return true;
   }
+  public function sent_hikidemono_limit_mail(){
+    if($this->gift_daylimit == 2){
+      return true;
+    }
+    return false;
+  }
 }
