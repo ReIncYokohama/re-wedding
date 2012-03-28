@@ -189,9 +189,6 @@ class InformationClass extends DBO
 	function sekiji_user_day_over_email_send_for_today_check($user_id)
 	{
 		$check_value = $this->GetSingleData("spssp_plan" ,"sekiji_email_send_today_check" ," user_id=".$user_id);
-
-// UCHIDA EDIT 11/08/17 メール送信を記録
-//		if($check_value < date("Y/m/d"))
 		if($check_value == "")
 		{
 			$post['sekiji_email_send_today_check'] = date("Y/m/d");

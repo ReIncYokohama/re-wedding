@@ -250,5 +250,10 @@ class Model_Plan extends Model_Crud{
     }
     return false;
   }
-
+  public function sent_sekijihyo_limit_mail(){
+    if(!$this->sekiji_email_send_today_check && $this->sekiji_email_send_today_check == ""){
+      return false;
+    }
+    return true;
+  }
 }

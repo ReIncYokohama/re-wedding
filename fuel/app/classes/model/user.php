@@ -66,4 +66,11 @@ class Model_User extends Model_Crud{
     if($date->past_date(-$limit)) return false;
     return true;
   }
+  public function past_deadline_honhatyu(){
+    $limit = Model_Option::get_deadline_honhatyu();
+    $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
+    //締切日を過ぎた日なので１日足している。
+    if($date->past_date(-$limit)) return false;
+    return true;
+  }
 }
