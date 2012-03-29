@@ -5,11 +5,16 @@ class Model_User extends Model_Crud{
   //state 仮発注時に日付を登録
   static $_fields = array("id","marriage_day","man_firstname","man_lastname","woman_firstname","woman_lastname","man_firstname_eng","man_lastname_eng","woman_firstname_eng","woman_lastname_eng","marriage_day_with_time","room_id","room_name","party_day_with_time","party_room_id","religion","contact_name","zip","address","fax","mail","confirm_day_num","limitation_ranking","order_deadline","user_id","password","stuff_id","user_code","creation_date","status","mail_check_number","man_respect_id","woman_respect_id","subcription_mail","is_activated","man_furi_lastname","man_furi_firstname","woman_furi_lastname","woman_furi_firstname","man_furi_firstname_eng","man_furi_lastname_eng","woman_furi_firstname_eng","woman_furi_lastname_eng","party_day","zip1","zip2","state","city","street","buildings","tel","mukoyoshi");
   
-  static public function past_deadline_sekijihyo($user_id){
-    $user = static::find_by_pk($user_id);
-    $date = Core_Date::create_from_string($user->party_day,"%Y-%m-%d");
-    //締切日を過ぎた日なので１日足している。
-    if($date->past_date($user->limitation_ranking)) return false;
+
+  //userが存在するか確認が必要な関数は、staticにしない。
+  public function past_deadline_sekijihyo(){
+    $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
+    if($date->past_date($this->limitation_ranking)) return false;
+    return true;
+  }
+  public function past_deadline_sekijihyo_plus_day($day=7){
+    $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
+    if($date->past_date($this->limitation_ranking+$day)) return false;
     return true;
   }
 

@@ -2,6 +2,7 @@
 @session_start();
 include_once("../admin/inc/include_class_files.php");
 include_once("../fuel/load_classes.php");
+
 $obj = new DBO();
 $objInfo = new InformationClass();
 $objMail = new MailClass();
@@ -63,9 +64,9 @@ if(isset($_POST['sub']))
 	}
 }
 
+$user = Model_User::find_by_pk($user_id);
+$row = $user->to_array();
 
-
-$row = $objInfo->get_user_info($user_id);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -110,20 +111,12 @@ $row = $objInfo->get_user_info($user_id);
 	  {
 		if($message == 1) 	echo "<script> alert('アップロードに成功しました'); </script>";
 		else 				echo "<script> alert('アップロードできませんでした'); </script>";
-//	    $mes =($message =='1')?"アップロードに成功しました":"アップロードできません。";
-	  ?>
-<!--
-	  <table width="420" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td align="center"><font color="#FF0000"><?=$mes?></td>
-        </tr>
-      </table>
- -->
-	<? }?>
+
+    }?>
 	  <table width="420" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td>
-             <input type=file name="upfile" size="50">
+             <input type="file" name="upfile" size="50">
 			 <input type="hidden" name="sub" value="1" />
 		 </td>
           </tr>

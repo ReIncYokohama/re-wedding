@@ -9,6 +9,10 @@ class Model_Plan extends Model_Crud{
           1 仮発注
           2 本発注
           3 イメージアップロード済み
+    gift_daylimit
+          1 引出物発注依頼
+          2 引出物発注締切日過ぎ、メールを送信
+          3 引出物発注
    */
 
   static $_fields = array("id","user_id","name","layoutname","room_id","row_number","column_number","seat_number",
@@ -39,16 +43,18 @@ class Model_Plan extends Model_Crud{
   }
 
   //@編集不可の条件
-  //席次表の編集期間を過ぎている
+  //管理者でなく、席次表の編集期間を過ぎている
   //印刷依頼を受けている
   public function editable(){
-    if(Model_User::past_deadline_sekijihyo($this->user_id) && !Core_Session::is_admin()) return false;
-    if($this->order == 1 or $this->order == 2){
+    $user = Model_User::find_by_pk($this->user_id);
+    if($user->past_deadline_sekijihyo() && !Core_Session::is_admin()) return false;
+    if($this->is_kari_hatyu_irai() or $this->is_hon_hatyu_irai()){
       return false;
     }else{
-			return true;      
+			return true;
     }
   }
+  
   //古い。使わない
   public function pre_ordering(){
     if ($this->order == 1) return false;  
@@ -158,7 +164,7 @@ class Model_Plan extends Model_Crud{
     $this->order = 2;
     
     $this->gift_daylimit=3;
-    $this->dl_print_com_times=0;
+    $this->dl_print_com_times="";
     $this->ul_print_com_times=1;
     
     $this->save();
@@ -176,8 +182,10 @@ class Model_Plan extends Model_Crud{
   public function upload_sekizihyo(){
     $this->order = 3;
     $this->admin_to_pcompany = 3;
+    $this->off_read_uploaded_image();
     $this->save();
   }
+  
   public function can_kari_hatyu_irai(){
     $flag = true;
     if($this->order==1 or $this->order==2){
@@ -196,30 +204,44 @@ class Model_Plan extends Model_Crud{
     return $flag;
   }
   public function can_kari_hatyu(){
-    if($this->admin_to_pcompany == 1 or $this->admin_to_pcompany == 2){
-      return false;
+    if($this->is_kari_hatyu_irai() and !$this->is_kari_hatyu()){
+      return true;
     }
-    return true;
+    return false;
   }
   public function can_hon_hatyu_irai(){
     $flag = false;
-    if($this->order==2 or $this->order == 1){
+    if($this->uploaded_image()){
       return false;
     }
     return true; 
   }
   public function can_hon_hatyu(){
-    if($this->admin_to_pcompany == 1 or $this->admin_to_pcompany == 2){
+    if($this->is_hon_hatyu()){
       return false;
     }
     return true;
   }
   public function can_reset(){
-    if($this->admin_to_pcompany == 0 or $this->admin_to_pcompany == 3){
+    if($this->is_hon_hatyu() or $this->is_kari_hatyu()){
+      return false;
+    }
+    return true;
+  }
+  public function can_hikidemono_hatyu_irai(){
+    if($this->gift_daylimit == 0){
       return true;
     }
     return false;
   }
+  public function can_hikidemono_hatyu(){
+    if($this->gift_daylimit < 3){
+      return true;
+    }
+    return false;
+  }
+
+
   public function is_kari_hatyu_irai(){
     if($this->order == 1){
       return true;
@@ -244,18 +266,46 @@ class Model_Plan extends Model_Crud{
     }
     return false;
   }
+  public function is_hikidemono_hatyu_irai(){
+    return ($this->gift_daylimit == 1);
+  }
+  public function is_hikidemono_hatyu(){
+    return ($this->gift_daylimit == 3);
+  }
+
   public function uploaded_image(){
     if($this->order == 3){
       return true;
     }
     return false;
   }
-
-  public function get_admin_message(){
-    
-      
-    
+  public function read_uploaded_image(){
+    if($this->dl_print_com_times != ""){
+      return true;
+    }
+    return false;
   }
+  public function read_uploaded_image_for_user(){
+    if($this->ul_print_com_times != ""){
+      return true;
+    }
+    return false;
+  }
+
+  //donot save
+  public function on_read_uploaded_image(){
+    $this->dl_print_com_times = 1;
+  }
+  public function off_read_uploaded_image(){
+    $this->dl_print_com_times = "";
+  }
+  public function on_read_uploaded_image_for_user(){
+    $this->ul_print_com_times = 1;
+  }
+  public function off_read_uploaded_image_for_user(){
+    $this->ul_print_com_times = "";
+  }
+
 
   public function sent_sekijihyo_limit_mail(){
     if(!$this->sekiji_email_send_today_check && $this->sekiji_email_send_today_check == ""){
@@ -263,10 +313,32 @@ class Model_Plan extends Model_Crud{
     }
     return true;
   }
+  
   public function sent_hikidemono_limit_mail(){
     if($this->gift_daylimit == 2){
       return true;
     }
     return false;
+  }
+  public function do_hikidemono_hatyu_irai(){
+    $this->gift_daylimit = 1;
+  }
+  public function do_hikidemono_hatyu(){
+    $this->gift_daylimit = 3;
+  }
+  public function exist_print_company(){
+    return ($this->print_company>0);
+  }
+  
+  public function get_sekijihyo_sekifuda_num(){
+    if($this->dowload_options == 1){
+      return array($this->day_limit_1_to_print_com,"");
+    }
+    if($this->dowload_options == 2){
+      return array("",$this->day_limit_2_to_print_com);
+    }
+    if($this->dowload_options == 3){
+      return array($this->day_limit_1_to_print_com,$this->day_limit_2_to_print_com);
+    }
   }
 }

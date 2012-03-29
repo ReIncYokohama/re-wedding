@@ -50,7 +50,6 @@ class InformationClass extends DBO
 		return $dateBeforeparty;
 	}
 
-// UCHIDA EDIT 11/08/15 'dl_print_com_times'にpdfを参照を記録
 	function pdf_readed($user_id, $v)
 	{
 		unset($post);
@@ -175,10 +174,11 @@ class InformationClass extends DBO
 		}
 
 	}
-
+  //非推奨 use past_deadline_sekijihyo()
 	function sekiji_day_limit_over_check_for_all_users($user_id)
 	{
-    if(Model_User::past_deadline_sekijihyo($user_id)){
+    $user = Model_User::find_by_pk($user_id);
+    if($user->past_deadline_sekijihyo()){
 			return true;
 		}
 		else
@@ -217,7 +217,8 @@ class InformationClass extends DBO
   //席次表編集期間を過ぎているかどうか判定
   //old function::you must use this function (fuel/app/model/user past_deadline_sekijihyo)
   function get_sekizihyo_edit_term($plan_arr){
-    return Model_User::past_deadline_sekijihyo($plan_arr["user_id"]);
+    $user = Model_User::find_by_pk($plan_arr["user_id"]);
+    return $user->past_deadline_sekijihyo();
   }
 	function get_editable_condition($plan_arr)
 	{

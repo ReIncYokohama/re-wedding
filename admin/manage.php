@@ -20,14 +20,11 @@ else $usermsgs = array();
 include_once("inc/update_user_log_for_db.php");
 update_user_log_for_db((int)(USER_LOGIN_TIMEOUT), $obj, $user_id_arr);
 
-
 if($_SESSION["super_user"] == false) {
   $users = Model_User::find(array("where"=>array(array("stuff_id","=",$_SESSION["adminid"]),
                                                  array("party_day",">=",date("Y-m-d")))));
 	}
-
 ?>
-
 
 <link rel="stylesheet" type="text/css" href="../css/jquery.ui.all.css">
 <script src="../js/jquery-1.4.2.js" type="text/javascript"></script>
@@ -349,18 +346,17 @@ include("inc/return_dbcon.inc.php");
     <div id="contents">
         <h2>お知らせ</h2>
 
-       <div style="font-size:12px; font-weight:bold;" height:124px; overflow-y:auto; >
+       <div style="font-size:12px; font-weight:bold;">
         <ul class="ul2">
 
-            <?php
-
+  <?php
+      
 			foreach($users as $user)
 			{
-				echo $objMsg->get_admin_side_order_print_mail_system_status_msg($user->id);	// 席次・席札確認 → メッセージ表示
-				echo $objMsg->get_admin_side_daylimit_system_status_msg($user->id);			// 引出物確認 	　→ メッセージ表示
+				echo $objMsg->get_admin_side_order_print_mail_system_status_msg($user->id);
+				echo $objMsg->get_admin_side_daylimit_system_status_msg($user->id);
 			}
 
-			// csv upload 	　→ メッセージ表示
       echo $objMsg->get_message_csv_import_for_hotel();
 			?>
 
@@ -385,8 +381,8 @@ include("inc/return_dbcon.inc.php");
 						$party_day=$party_date_array[1]."/".$party_date_array[2];
 
 						$man_name = $objinfo->get_user_name_image_or_src($umsg['user_id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
-			    		$woman_name = $objinfo->get_user_name_image_or_src($umsg['user_id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
-			    		$user_name = $man_name."・".$woman_name;
+            $woman_name = $objinfo->get_user_name_image_or_src($umsg['user_id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
+            $user_name = $man_name."・".$woman_name;
 
 						echo "<li><a href='message_user.php?stuff_id=0&user_id=".$umsg['user_id']."' >".$party_day." ".$user_name." 様よりの未読メッセージがあります。</a></li>";
 					}
@@ -396,11 +392,6 @@ include("inc/return_dbcon.inc.php");
       </div>
 
         <h2>お客様一覧</h2>
-
-            <!--<div id="top_imgbox">
-                <a href="javascript:void()" onclick="todays_user();"><img src="img/common/img_top01.jpg" width="200" height="122" class="top_img01" /></a>
-                <img src="img/common/img_top02.jpg" width="202" height="32" class="top_img02" />
-            </div>-->
             <div id="top_search_view">
 
                 <form action="" method="post" name="condition">
@@ -409,9 +400,6 @@ include("inc/return_dbcon.inc.php");
 			  <tr style="height:30px;">
 				<td width="80">披露宴日：</td>
 				<td width="169"><input name="date_from" type="text" id="date_from" value="<?=$post['date_from']?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
-
-				<!-- UCHIDA EDIT 11/07/26 -->
-			    <!-- <td width="62" >～</td> -->
 			    <td width="80" >～</td>
 
 				<td width="389"><input name="date_to" type="text" id="date_to" value="<?=$post['date_to']?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>
@@ -490,13 +478,14 @@ include("inc/return_dbcon.inc.php");
 
             <?php
 			$i=0;
-			foreach($data_rows as $row)
+			foreach($users as $user)
 			{
-				$roomname =  $obj->GetSingleData(" spssp_room", " name", " id=".(int)$data_rows['room_id']);
-				$party_roomname = $obj->GetSingleData(" spssp_room", " name", " id=".(int)$data_rows['party_room_id']);
+        $row = $user->to_array();
+				$roomname =  $obj->GetSingleData(" spssp_room", " name", " id=".(int)$row['room_id']);
+				$party_roomname = $obj->GetSingleData(" spssp_room", " name", " id=".(int)$row['party_room_id']);
 				include("inc/main_dbcon.inc.php");
-				$man_respect = $obj->GetSingleData(" spssp_respect", " title", " id=".(int)$data_rows['man_respect_id']);
-				$woman_respect = $obj->GetSingleData(" spssp_respect", " title", " id=".(int)$data_rows['woman_respect_id']);
+				$man_respect = $obj->GetSingleData(" spssp_respect", " title", " id=".(int)$row['man_respect_id']);
+				$woman_respect = $obj->GetSingleData(" spssp_respect", " title", " id=".(int)$row['woman_respect_id']);
 				include("inc/return_dbcon.inc.php");
 
 				$staff_name = $obj->GetSingleData("spssp_admin","name"," id=".$row['stuff_id']);
@@ -535,8 +524,6 @@ include("inc/return_dbcon.inc.php");
                         </td>
 
                     	<td width="60"><a href="user_info_allentry.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" border="0"  /></a></td>
-                         <!--<td><?php //echo $obj->japanyDateFormate($row['party_day'] , $row['party_day_with_time'])?></td>-->
-
                         <td width="80"> <?=$staff_name?></td>
 <?php
   if(!$IgnoreMessage){
@@ -564,12 +551,12 @@ include("inc/return_dbcon.inc.php");
 
                         <td width="40">
                         	<?php
-                        	echo $objMsg->admin_side_user_list_new_status_notification_image_link_system($row['id']); // 席次・席札確認 → アイコン表示
+                        	echo $objMsg->admin_side_user_list_new_status_notification_image_link_system($row['id']);
 							?>
                         </td>
 
                         <td width="40">
-						<?php echo $objMsg->admin_side_user_list_gift_day_limit_notification_image_link_system($row['id']); // 引出物確認     → アイコン表示
+						<?php echo $objMsg->admin_side_user_list_gift_day_limit_notification_image_link_system($row['id']);
 						?>
 						</td>
 
@@ -608,15 +595,12 @@ include("inc/return_dbcon.inc.php");
                         </div>
 
            </div>
-		 <!--User view respect to admin END-->
-
     </div>
 </div>
 
 <?php
 	include_once("inc/left_nav.inc.php");
 ?>
-
 
 <?php
 	include_once("inc/new.footer.inc.php");
