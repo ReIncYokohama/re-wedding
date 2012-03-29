@@ -21,24 +21,33 @@ if (DEBUG!=NULL) echo "ID=".$HOTELID." :  name=".$hotel_name." : ".date("Y-m-d H
 if (DEBUG!=NULL) echo "-------------------------------------<br />\n";
 
 $objMail = new MailClass();
-print $confirm_day_num."<br>\n";
 while($row=mysql_fetch_array($data_rows))
 	{
     $user_id = $row["id"];
     $plan = Model_Plan::find_one_by_user_id($user_id);
     $user = Model_User::find_by_pk($user_id);
     if($user->past_deadline_honhatyu($user_id)){
-      //if($plan->sent_sekijihyo_limit_mail()) continue;
-      if (DEBUG!=NULL) echo "send mail user_id = ".$row["id"].",".$plan->sekiji_email_send_today_check.",".$row["party_day"].",".$row["name"]."\n";
-      //print_r($plan);
-      //$post['sekiji_email_send_today_check'] = date("Y/m/d");
-      //$this->UpdateData('spssp_plan',$post," user_id=".$user_id);
-      //$objMail -> sekiji_day_limit_over_admin_notification_mail($user_id);
-      //$objMail -> sekiji_day_limit_over_user_notification_mail($user_id);
-      if (DEBUG!=NULL) echo $row['id']." : ".$row['party_day']." : ".$row['man_lastname']." : ".$row['woman_lastname']." : ".$row['mail']." : ".$ret."<br />\n";
+      if(!$plan->sent_sekijihyo_limit_mail()){
+        if (DEBUG!=NULL) echo "sekijihyo_limit_mail::".$row['id']." : ".$row['party_day']." : ".$row['man_lastname']." : ".$row['woman_lastname']." : ".$row['mail']." : ".$row["party_day"]."<br />\n";
+        $objMail -> sekiji_day_limit_over_admin_notification_mail($user_id);
+        $objMail -> sekiji_day_limit_over_user_notification_mail($user_id);      
+				unset($post);
+        $post['sekiji_email_send_today_check'] = date("Y/m/d");
+        $obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
+      }
+      
     }
-		//$ret = $objMsg->send_hikidemono_day_limit_message($row['id']);
-		//if ($ret != NULL && DEBUG!=NULL) echo $row['id']." : ".$row['party_day']." : ".$row['man_lastname']." : ".$row['woman_lastname']." : ".$row['mail']." : ".$ret."<br />\n";
+    if($user->past_deadline_hikidemono($user_id)){
+      if(!$plan->sent_hikidemono_limit_mail()){
+        if (DEBUG!=NULL) echo "hikidemono_limit_mail::".$row['id']." : ".$row['party_day']." : ".$row['man_lastname']." : ".$row['woman_lastname']." : ".$row['mail']." : ".$row["party_day"]."<br />\n";
+				$objMail -> hikidemono_day_limit_over_admin_notification_mail($user_id);
+				$objMail -> hikidemono_day_limit_over_user_notification_mail($user_id);
+				unset($post);
+				$post['gift_daylimit']=2;
+				$obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
+      }
+
+    }
 	}
 if (DEBUG!=NULL) echo "<br />\n";
 ?>
