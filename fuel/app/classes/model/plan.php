@@ -252,7 +252,9 @@ class Model_Plan extends Model_Crud{
   }
 
   public function get_admin_message(){
-    if($plan->order == 1)
+    
+      
+    
   }
 
   public function sent_sekijihyo_limit_mail(){

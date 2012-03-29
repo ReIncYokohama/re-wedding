@@ -138,6 +138,7 @@ class MessageClass extends InformationClass
 		$user_info = $user->to_array();
     $plan = Model_Plan::find_one_by_user_id($user_id);
 		$user_plan_info = $plan->to_array();
+
     
     $party_day = $this->getMonthAndDate($user_info["party_day"]);
 

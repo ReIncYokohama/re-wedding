@@ -336,6 +336,7 @@ function hide_this(id)
 $hotel = Model_Hotel::find_one_by_hotel_code($hcode);
 $hotel_name = $hotel["hotel_name"];
 include("inc/return_dbcon.inc.php");
+
 ?>
 <h1><?=$hotel_name?></h1>
 
