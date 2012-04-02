@@ -7,4 +7,13 @@ class Model_Message extends Model_Crud{
     array_push($whereArray,array("admin_viewed","=",0));
     return static::find(array("where"=>$whereArray));
   }
+  public function get_message(){
+    $user = Model_User::find_by_pk($this->user_id);
+    $man_name = $user->get_image_html("thumb2/man_lastname.png");
+    $woman_name = $user->get_image_html("thumb2/woman_lastname.png");
+    $party_day = Core_Date::convert_month_and_date($user->party_day);
+    
+    return "<li><a href='message_user.php?stuff_id=0&user_id=".$this->user_id.
+      "' >".$party_day." ".$man_name." ".$woman_name." 様よりの未読メッセージがあります。</a></li>";
+  }
 }

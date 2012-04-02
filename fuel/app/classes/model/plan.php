@@ -194,20 +194,13 @@ class Model_Plan extends Model_Crud{
     if($this->order == 3){
       $flag = true;
     }
-    /*
-    $pd = strptime($click_info['print_irai'],"%Y-%m-%d %H:%M:%S");
-    $pidate = mktime($pd[tm_hour],$pd[tm_min],$pd[tm_sec],$pd[tm_mon]+1,$pd[tm_mday],$pd[tm_year] + 1900);
-    if(!preg_match('/.*\/(\d*).PDF$/', $plan_info['p_company_file_up'] , $matches)){
-      $matches = array("1");
-    }
-    */
     return $flag;
   }
   public function can_kari_hatyu(){
-    if($this->is_kari_hatyu_irai() and !$this->is_kari_hatyu()){
-      return true;
+    if($this->is_kari_hatyu() or $this->is_hon_hatyu()){
+      return false;
     }
-    return false;
+    return true;
   }
   public function can_hon_hatyu_irai(){
     $flag = false;

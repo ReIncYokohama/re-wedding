@@ -1,3 +1,6 @@
+<?php
+include_once("../fuel/load_classes.php");
+?>
 <style>
 #text-indent {
 	text-indent: 125px; /* SEKIDUKA ADD 11/08/12 */
@@ -24,22 +27,14 @@
 <div id="sidebar">
 	<div id="stuffname">
     	<img src="img/common/nav_stuffname.gif" alt="TOP" width="148" height="30" />
-         <?php
-   if($_SESSION["super_user"]){
-   	  if ((int)$_SESSION['adminid']==1)	$staff_name = "印刷会社"; //"アプリ管理者";
-   	  else 								$staff_name = "印刷会社";
-   }else{
-     $staff_name=$obj->GetSingleData("spssp_admin", "name"," id=".(int)$_SESSION['adminid']);
-   }
-		?>
 		<div id="stuffname_txt">
-			<div style="font-size:18px;"><?=$staff_name;?></div>
+  <div style="font-size:18px;"><?php echo Core_Session::get_staff_name();?></div>
 		</div>
 	</div>
     <ul class="nav">
         <li><a href="manage.php"><img src="img/common/nav_top.gif" alt="TOP" width="148" height="30" class=on /></a></li>
         <?php
-        	if($_SESSION['user_type'] == 111)
+  if(Core_Session::is_super())
 			{
 		?>
         <li><img src="img/common/management.gif" alt="ホテル管理" width="148" height="30" /></li>

@@ -12,6 +12,7 @@ class MessageClass extends InformationClass
 	{
 			return $this :: get_admin_side_user_list_new_status_notification_when_ordered($user_id);
 	}
+
 	function send_day_limit_message($user_id){
 		if($this :: sekiji_day_limit_over_check_for_all_users($user_id))
 		{
@@ -44,108 +45,23 @@ class MessageClass extends InformationClass
 
 	function get_admin_side_user_list_new_status_notification_when_ordered($user_id)
 	{
-    $plan = Model_Plan::find_one_by_user_id($user_id);
     $user = Model_User::find_by_pk($user_id);
-    if(!$user){
-      //task log
-      return "";
-    }
-    if($user->past_deadline_sekijihyo($user_id)){
-      $msg_opt = "<img src='img/common/msg/untreated.gif' border = '0'>";
-    }
-    if($plan->is_kari_hatyu()){
-			$msg_opt = "<img src='img/common/msg/provisional_order.gif' border = '0'>";
-		}else if($plan->uploaded_image()){
-			$msg_opt = "<img src='img/common/msg/up.gif' border = '0'>";
-		}else if($plan->is_hon_hatyu()){
-			$msg_opt = "<img src='img/common/msg/processed.gif' border = '0' alt='processed'>";
-		}else if($plan->is_hon_hatyu_irai()){
-      $msg_opt = "<img src='img/common/msg/print_request.gif' border = '0' alt='print_request'>";
-    }else if($plan->is_kari_hatyu_irai()){
-      $msg_opt = "<img src='img/common/msg/provisional_order_request.gif' border = '0' alt='nn'>";
-    }
-
-		return $msg_opt;
-
+    return $user->get_sekijihyo_status();
 	}
 	function get_admin_side_user_list_new_status_notification_usual($user_id, $stuff_id)
 	{
-		$user_messages = $this :: GetAllRowsByCondition("spssp_message"," user_id=".$user_id);
-
-		$admin_viewed = true;
-
-		if(!empty($user_messages) )
-		{
-			foreach($user_messages as $msg)
-			{
-				if($msg['admin_viewed'] == 0)
-				{
-					$admin_viewed = false;
-				}
-			}
-			if($admin_viewed== false)
-			{
-				$msg_opt = "<a href='message_user.php?user_id=".$user_id."&stuff_id=".$stuff_id."'><img src='img/common/btn_midoku.gif' border = '0'></a>";
-			}
-
-		}
-		else
-		{
-			$msg_opt="";
-		}
-		return $msg_opt;
+    return "<a href='message_user.php?user_id=".$user_id."&stuff_id=".$stuff_id."'><img src='img/common/btn_midoku.gif' border = '0'></a>";
 	}
 	function admin_side_user_list_gift_day_limit_notification_image_link_system($user_id, $msg="") // UCHIDA EDIT 11/08/10 引出物 メール、アイコン
 	{
-		$objMail = new MailClass();
-		$user_plan_info = $this :: get_user_plan_info($user_id);
-
-		if( $this :: GetRowCount("spssp_plan"," `gift_daylimit` = 1 and user_id=".$user_id) )
-		{
-			return $link = "<img src='img/common/msg/order_request.gif' border = '0'>";
-		}
-		else if( $user_plan_info['gift_daylimit']==2)
-		{
-			return $link = "<img src='img/common/msg/untreated.gif' border = '0'>";
-		}
-		else if( $this :: GetRowCount("spssp_plan"," `gift_daylimit` = 3 and user_id=".$user_id) )
-		{
-			return $link = "<img src='img/common/msg/processed.gif' border = '0'>";
-		}
+    $user = Model_User::find_by_pk($user_id);
+    return $user->get_hikidemono_status();
 	}
 
 	function get_admin_side_order_print_mail_system_status_msg($user_id)
 	{
     $user = Model_User::find_by_pk($user_id);
-		$user_info = $user->to_array();
-    $plan = Model_Plan::find_one_by_user_id($user_id);
-		$user_plan_info = $plan->to_array();
-    
-    $party_day = $this->getMonthAndDate($user_info["party_day"]);
-
-    $man_name = $this::get_user_name_image_or_src($user_id ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
-    $woman_name = $this::get_user_name_image_or_src($user_id,$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
-    $user_name = $man_name."・".$woman_name;
-    
-		$msg_text = "";
-    //仮発注は、仮発注依頼がなくても可能なため、お知らせのフラグとcan_kari_hatyuのフラグは異なる。
-    if($plan->is_kari_hatyu_irai() and !$plan->is_kari_hatyu()){
-			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".
-        $party_day."  ".$user_name."  様から仮発注依頼がありました。</a></li>";
-    }else if($plan->uploaded_image() and !$plan->read_uploaded_image()){
-      $msg_text  = "<div id=msg_hide1><a href=\"ajax/pdf_readed.php?user_id=".$user_id.
-        "&filename=".$user_plan_info["p_company_file_up"].
-        "\" target=_blank  onclick='hide_this(\"msg_hide1\");'>".$party_day.
-        " ".$user_name."様向け印刷イメージが出来上がりました。</a></div>";
-		}else if($plan->is_hon_hatyu_irai() and !$plan->is_hon_hatyu){
-			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".
-        $user_name." 様から印刷依頼がありました。</a></li>";
-    }else if($user->past_deadline_sekijihyo() and !$plan->is_hon_hatyu()){
-      $msg_text .= "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
-        $party_day."  ".$user_name." 様は席次表本発注締切日を過ぎています。</a></li>";
-    }
-    
-		return $msg_text;
+    return $user->get_hotel_message();
 	}
   
 	function get_admin_side_daylimit_system_status_msg($user_id)
@@ -167,7 +83,8 @@ class MessageClass extends InformationClass
         $party_day."  ".$user_name." 様から引出物発注依頼がありました。</a></li>";
     }
     if($user->past_deadline_hikidemono()){
-      return $link = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".$party_day."  ".$user_name."  ".INFO_G."</a></li>";
+      return $link = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
+        $party_day."  ".$user_name."  様は引出物本発注締切日を過ぎています。</a></li>";
     }
     return $msg_text;
 	}
@@ -186,7 +103,7 @@ class MessageClass extends InformationClass
 		else if($user->past_deadline_sekijihyo_plus_day() and !$plan->is_hon_hatyu_irai()){
 			$msg_text .= "<div><a href='order.php'>席次表の印刷締切日が近づいております。早めにご確認をお願いします。</a></div>";
 		}
-    if($this->uploaded_image() and $plan->read_uploaded_image_for_user()){
+    if($plan->uploaded_image() and $plan->read_uploaded_image_for_user()){
 				$href = $user_plan_info['p_company_file_up'];
 				$msg_text  = "<div id=msg_hide1><a href=\"admin/ajax/pdf_readed.php?user_id=".
           $user_id."&filename=".$href."&userpage=ture\" target=\"_blank\" onclick='hide_this(\"msg_hide1\");'>".
@@ -320,7 +237,7 @@ class MessageClass extends InformationClass
 		if($lastid){return 1;/*success*/}else{return 2;/*error*/}
 
 	}
-// UCHIDA EDIT 11/08/16 クリック日付を記録
+
 	function clicktime_entry_return( $type, $user_id ) {
     $click_info = $this ->GetSingleRow("spssp_clicktime"," user_id=".$user_id);
     
@@ -407,34 +324,17 @@ hotel  1のとき、ホテルユーザ用のお知らせ。0のとき、ユー�
 に変更した。  
 */
   public function get_message_csv_import_for_user($user_id){
-    $logs_arr = $this->GetAllRowsByCondition("guest_csv_upload_log"," user_id = ".$user_id." and hotel=0 and state = 1");
-    $text = "";
-    for($i=0;$i<count($logs_arr);++$i){
-      $text .= "<li><a href='my_guests.php'>招待客リストデータが追加されました。</a></li>";
-    }
-    return $text;
+    $msgs = Model_Csvuploadlog::get_messages_for_user($user_id);
+    return implode("",$msgs);
   }
   public function finish_message_csv_import_for_user($user_id){
     $this->UpdateData("guest_csv_upload_log",array("state" => 0)," hotel=0 and user_id = '".$user_id."'");
   }
 
   public function get_message_csv_import_for_hotel(){
-    $logs_arr = $this->GetAllRowsByCondition("guest_csv_upload_log"," hotel=1 and state = 1");
-
-    $text = "";
-    for($i=0;$i<count($logs_arr);++$i){
-	    $user_info = $this->GetSingleRow("spssp_user"," id = ".$logs_arr[$i]["user_id"]);
-    	//staff_id
-      if($user_info["stuff_id"]==$_SESSION["staff_id"]) {
-	      $man_name = $this->get_user_name_image_or_src($user_info['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
-	      $woman_name = $this->get_user_name_image_or_src($user_info['id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
-	      $party_day = $this->getMonthAndDate($user_info["party_day"]);
-	      $text .= "<li><a href='user_dashboard.php?src=my_guests&user_id=".$logs_arr[$i]["user_id"]."' target='_blank'>".$party_day
-	        ." ".$man_name."・".$woman_name
-	        ."様の招待客リストデータがアップロードされました。</a></li>";
-	      }
-    }
-    return $text;
+    $staff_id = Core_Session::get_staff_id();
+    $msgs = Model_Csvuploadlog::get_messages_for_hotel($staff_id);
+    return implode("",$msgs);
   }
   public function finish_message_csv_import_for_hotel($user_id){
     $results = $this->getRowsByQuery("select * from guest_csv_upload_log where hotel=1 and user_id=".$user_id);

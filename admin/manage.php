@@ -1,4 +1,7 @@
 <?php
+//session_start();
+//include_once("../fuel/load_fuel.php");
+//exit;
 require_once("inc/include_class_files.php");
 include_once("inc/checklogin.inc.php");
 include_once("../fuel/load_classes.php");
@@ -13,17 +16,21 @@ include_once("inc/new.header.inc.php");
 
 $staff_id = Core_Session::get_staff_id();
 
-$message = Model_Message::get_by_admin();
-if($message) $usermsgs = Core_Arr::func($message,"to_array");
-else $usermsgs = array();
+$messages = Model_Message::get_by_admin();
 
 include_once("inc/update_user_log_for_db.php");
 update_user_log_for_db((int)(USER_LOGIN_TIMEOUT), $obj, $user_id_arr);
-
+$user_id_arr = array();
 if($_SESSION["super_user"] == false) {
   $users = Model_User::find(array("where"=>array(array("stuff_id","=",$_SESSION["adminid"]),
                                                  array("party_day",">=",date("Y-m-d")))));
-	}
+  $information_arr = array();
+  foreach($users as $user){
+    $arr = $user->get_hotel_message();
+    $information_arr = array_merge($information_arr,$arr);
+    array_push($user_id_arr,$user->id);
+  }
+}
 ?>
 
 <link rel="stylesheet" type="text/css" href="../css/jquery.ui.all.css">
@@ -332,8 +339,7 @@ function hide_this(id)
 <?php
 $hotel = Model_Hotel::find_one_by_hotel_code($hcode);
 $hotel_name = $hotel["hotel_name"];
-include("inc/return_dbcon.inc.php");
-
+//include("inc/return_dbcon.inc.php");
 ?>
 <h1><?=$hotel_name?></h1>
 
@@ -349,45 +355,23 @@ include("inc/return_dbcon.inc.php");
        <div style="font-size:12px; font-weight:bold;">
         <ul class="ul2">
 
-  <?php
-      
-			foreach($users as $user)
-			{
-				echo $objMsg->get_admin_side_order_print_mail_system_status_msg($user->id);
-				echo $objMsg->get_admin_side_daylimit_system_status_msg($user->id);
-			}
+<?php
+foreach($information_arr as $info){
+  echo $info;
+}
+$staff_id = Core_Session::get_staff_id();
+$msgs = Model_Csvuploadlog::get_messages_for_hotel($staff_id);
+echo implode("",$msgs);
 
-      echo $objMsg->get_message_csv_import_for_hotel();
-			?>
-
-			<?php
-				$user_id_array=array();
-        foreach($usermsgs as $umsg)
-				{
-					if(in_array($umsg['user_id'],$user_id_array))
-					continue;
-
-					$user_id_array[]=$umsg['user_id'];
-
-					$userWhere = "id=".$umsg['user_id']." and party_day >= '".date("Y-m-d")."'";
-					$nm = $obj->GetRowCount("spssp_user",$userWhere);
-					if ($nm >0) {
-						$man_firstname = $obj->GetSingleData("spssp_user", "man_firstname"," id=".$umsg['user_id']);
-						$woman_firstname = $obj->GetSingleData("spssp_user", "woman_firstname"," id=".$umsg['user_id']);
-						$party_day = $obj->GetSingleData("spssp_user", "party_day"," id=".$umsg['user_id']);
-
-						$party_date_array=explode("-",$party_day);
-
-						$party_day=$party_date_array[1]."/".$party_date_array[2];
-
-						$man_name = $objinfo->get_user_name_image_or_src($umsg['user_id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
-            $woman_name = $objinfo->get_user_name_image_or_src($umsg['user_id'],$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
-            $user_name = $man_name."・".$woman_name;
-
-						echo "<li><a href='message_user.php?stuff_id=0&user_id=".$umsg['user_id']."' >".$party_day." ".$user_name." 様よりの未読メッセージがあります。</a></li>";
-					}
-				}
-			?>
+$user_id_array=array();
+foreach($messages as $message)
+  {
+    if(in_array($message->user_id,$user_id_array)) continue;
+    
+    $user_id_array[]=$message->user_id;
+    echo $message->get_message();
+  }
+?>
         </ul>
       </div>
 
@@ -433,9 +417,7 @@ include("inc/return_dbcon.inc.php");
                 <input type="hidden" name="h_woman_lastname" value="">
                 <input type="hidden" name="h_sortOption" value="">
 			</form>
-
             </div>
-
        		<p></p>
             <div style="width:100%; display:none;" id="srch_result"></div>
             <p></p>
@@ -481,46 +463,28 @@ include("inc/return_dbcon.inc.php");
 			foreach($users as $user)
 			{
         $row = $user->to_array();
-				$roomname =  $obj->GetSingleData(" spssp_room", " name", " id=".(int)$row['room_id']);
-				$party_roomname = $obj->GetSingleData(" spssp_room", " name", " id=".(int)$row['party_room_id']);
-				include("inc/main_dbcon.inc.php");
-				$man_respect = $obj->GetSingleData(" spssp_respect", " title", " id=".(int)$row['man_respect_id']);
-				$woman_respect = $obj->GetSingleData(" spssp_respect", " title", " id=".(int)$row['woman_respect_id']);
-				include("inc/return_dbcon.inc.php");
-
-				$staff_name = $obj->GetSingleData("spssp_admin","name"," id=".$row['stuff_id']);
-        $staff_id = $row["stuff_id"];
-				if($i%2==0)
-				{
-					$class = 'box5';
-				}
-				else
-				{
-					$class = 'box6';
-				}
-
-				$last_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$row['id']." and admin_id='0' ORDER BY login_time DESC");
+        $man_name = $user->get_image_html("thumb2/man_lastname.png");
+        $woman_name = $user->get_image_html("thumb2/woman_lastname.png");
+        $party_day_date = Core_Date::create_from_date_string($user->party_day);
+        $party_day_text = $party_day_date->format_string_date();
+        $staff_name = $user->get_staffname();
+        $class = 'box5';
+        $userlog = Model_Userlog::get_user_last_login($user->id);
+        $last_login = "";
+        if($userlog) $last_login = $userlog->get_login_text();
 
 			?>
 	            <div class="<?=$class?>" style="width:1000px; ">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
-						<td  width="80"><?=$obj->japanyDateFormateShortWithWeek($row['party_day'] )?></td>
+						<td  width="80"><?=$party_day_text?></td>
 
                         <td width="145" align="left">
-                 <?php
-                 $man_name = $objinfo->get_user_name_image_or_src($row['id'] ,$hotel_id=1, $name="man_fullname.png",$extra="thumb1");
-        if($man_name==false){$man_name = $row['man_firstname']." ".$row['man_lastname'].' 様';}
-        echo $man_name;
-					   ?>
+                 <?=$man_name?>
                         </td>
 
                         <td width="145" align="left">
-                        <?php
-                           $woman_name = $objinfo->get_user_name_image_or_src($row['id'],$hotel_id=1 , $name="woman_fullname.png",$extra="thumb1");
-						   if($woman_name==false){$woman_name = $row['woman_firstname']." ".$row['woman_lastname'].' 様';}
-						   echo $woman_name;
-					   ?>
+                        <?=$woman_name?>
                         </td>
 
                     	<td width="60"><a href="user_info_allentry.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" border="0"  /></a></td>
@@ -528,36 +492,23 @@ include("inc/return_dbcon.inc.php");
 <?php
   if(!$IgnoreMessage){
 ?>
-                            <td width="60" > <?php echo $objMsg->get_admin_side_user_list_new_status_notification_usual($row['id'],0);?> </td>
+                            <td width="60" > <a href='message_user.php?user_id=<?=$user_id?>&stuff_id=<?=$staff_id?>'><img src='img/common/btn_midoku.gif' border = '0'></a>
   <?php
   }
 ?>
                         <td  width="80">
-						<?php
-// UCHIDA EDIT 11/08/03 'ログイン中' → ログイン時間
-						if($last_login['login_time'] != "0000-00-00 00:00:00" && $last_login['login_time']!="") {
-							if($last_login['logout_time'] != "0000-00-00 00:00:00" && $last_login['logout_time'] != $last_login['login_time']) {
-								$dMsg = strftime('%m月%d日',strtotime($last_login['logout_time']));
-								echo$dMsg;
-							}else {
-								echo "ログイン中";
-							}
-					   	}
-						?>
+						<?=$last_login?>
                         </td>
                         <td class="txt1" width="60" >
                         	<a href="user_dashboard.php?user_id=<?=$row['id']?>" target="_blank"><img src="img/common/customer_view.gif" border="0" /></a>
                       </td>
 
                         <td width="40">
-                        	<?php
-                        	echo $objMsg->admin_side_user_list_new_status_notification_image_link_system($row['id']);
-							?>
+                           <?php echo $user->get_sekijihyo_status();?>
                         </td>
 
                         <td width="40">
-						<?php echo $objMsg->admin_side_user_list_gift_day_limit_notification_image_link_system($row['id']);
-						?>
+                           <?php echo $user->get_hikidemono_status();?>
 						</td>
 
                         <td width="40">
@@ -579,11 +530,8 @@ include("inc/return_dbcon.inc.php");
                             <ul class="ul3">
                             <div style="height:124px; overflow-y:auto;">
                             <?php
-	include("inc/main_dbcon.inc.php");
- 	$super_messeges = $obj->GetAllRowsByCondition(" super_admin_message "," show_it=1 order by id desc");
-
- include("inc/return_dbcon.inc.php");
- foreach($super_messeges as $msg)
+$super_messeges = Model_Supermessage::get_messages();
+foreach($super_messeges as $msg)
                                 {
                                     echo "<li><span class='date2'>".date('Y/m/d',$msg['display_order'])."</span> &nbsp; &nbsp; &nbsp; &nbsp;
 									<a href='javascript:void(0);' onclick='view_dsc_super(".$msg['id'].")' id='super_title_".$msg['id']."'> ".$msg['title']."</a><br />

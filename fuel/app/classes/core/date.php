@@ -13,4 +13,17 @@ class Core_Date extends Date{
     $day = array("日", "月", "火", "水", "木", "金", "土");
     return $day[$wday];
   }
+  static public function convert_month_and_date($date_text){
+    $arr=explode("-",$date_text);
+		return $arr[1]."/".$arr[2];
+  }
+  static public function create_from_date_string($date_text){
+    $arr=explode("-",$date_text);
+    return Core_Date::create_from_string( $arr[1]."/".$arr[2]."/".$arr[0],"us");
+  }
+  public function format_string_date(){
+    $date = getdate($this->timestamp);
+    $wday = array("日","月","火","水","木","金","土");
+    return $date["mon"]."月".$date["mday"]."日(".$wday[$date["wday"]].")";
+  }
 }

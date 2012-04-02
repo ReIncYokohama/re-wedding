@@ -391,9 +391,6 @@ if($_SESSION['user_type'] == 333 || $_SESSION['user_type'] == 111)
 					$class = 'box6';
 				}
         $userlogin = Model_Userlog::get_user_last_login($row["id"]);
-        if($userlogin){
-          print_r();
-        }
         
 				$last_login = $obj->GetSingleRow("spssp_user_log", " user_id=".$row['id']." and admin_id=0  ORDER BY login_time DESC");
 				$user_messages = $obj->GetAllRowsByCondition("spssp_message"," user_id=".$row['id']);

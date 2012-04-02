@@ -19,6 +19,13 @@ class Core_Session{
 			return false;
 		}
   }
+  static public function is_super(){
+    if($_SESSION["super_user"]){
+			return true;
+		}else{
+			return false;
+		}
+  }
   
   static public function is_staff(){
     if($_SESSION['user_type'] == 222 || $_SESSION['user_type'] == 333){
@@ -38,7 +45,11 @@ class Core_Session{
   }
   static public function set_seat_data($arr){
     $_SESSION["cart"] = $arr;
- 
+  }
+  static public function get_staff_name(){
+    if(static::is_super()) return "印刷会社";
+    $admin = Model_Admin::find_by_pk(static::get_staff_id());
+    return $admin["name"];
   }
 
 }

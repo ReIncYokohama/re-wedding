@@ -30,6 +30,7 @@ class Model_Userlog extends Model_Crud{
     $login = $this->get_login_date();
     $login_timestamp = $login->get_timestamp();
     $now_timestamp = mktime();
+    $date = getdate($login_timestamp);
     //ログアウトをせず、次の日になった場合、ログイン中のフラグを消す。
     if(($this->logout_time == "0000-00-00 00:00:00" && $this->logout_time != $this->login_time) && 
        ($login_timestamp < $now_timestamp && $login_timestamp+24*60*60 > $now_timestamp)) {
