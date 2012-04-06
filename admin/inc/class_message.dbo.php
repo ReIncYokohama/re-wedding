@@ -103,9 +103,9 @@ class MessageClass extends InformationClass
 		else if($user->past_deadline_sekijihyo_plus_day() and !$plan->is_hon_hatyu_irai()){
 			$msg_text .= "<div><a href='order.php'>席次表の印刷締切日が近づいております。早めにご確認をお願いします。</a></div>";
 		}
-    if($plan->uploaded_image() and $plan->read_uploaded_image_for_user()){
+    if($plan->uploaded_image() and !$plan->read_uploaded_image_for_user()){
 				$href = $user_plan_info['p_company_file_up'];
-				$msg_text  = "<div id=msg_hide1><a href=\"admin/ajax/pdf_readed.php?user_id=".
+				$msg_text  .= "<div id=msg_hide1><a href=\"admin/ajax/pdf_readed.php?user_id=".
           $user_id."&filename=".$href."&userpage=ture\" target=\"_blank\" onclick='hide_this(\"msg_hide1\");'>".
           "印刷イメージが出来上がりました。</a></div>";
     }

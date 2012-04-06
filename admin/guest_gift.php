@@ -41,7 +41,7 @@ if($get['action']=="allow")
 	}
 	if($get['action']=="print_request")
 	{
-    if($this->can_hon_hatyu()){
+    if($plan->can_hon_hatyu()){
       $plan->do_hon_hatyu();
 
       $sekiji = (int)$get['sekiji'];

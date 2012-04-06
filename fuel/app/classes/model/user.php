@@ -129,7 +129,7 @@ class Model_User extends Model_Crud{
 		$user_info = $this->to_array();
     $plan = Model_Plan::find_one_by_user_id($user_id);
 		$user_plan_info = $plan->to_array();
-    $party_day = Core_Date::convert_month_and_date($user->party_day);
+    $party_day = Core_Date::convert_month_and_date($this->party_day);
 
     $man_name = $this->get_image_html("thumb2/man_lastname.png");
     $woman_name = $this->get_image_html("thumb2/woman_lastname.png");
@@ -139,7 +139,7 @@ class Model_User extends Model_Crud{
     //仮発注は、仮発注依頼がなくても可能なため、お知らせのフラグとcan_kari_hatyuのフラグは異なる。
     if($plan->is_kari_hatyu_irai() and !$plan->is_kari_hatyu()){
 			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".
-        $party_day."  ".$user_name."  様から仮発注依頼がありました。</a></li>";
+        $party_day."  ".$user_name."  様から仮発注依頼がありました。</a></li>";     
     }else if($plan->uploaded_image() and !$plan->read_uploaded_image()){
       $msg_text  = "<div id=msg_hide1><a href=\"ajax/pdf_readed.php?user_id=".$user_id.
         "&filename=".$user_plan_info["p_company_file_up"].
@@ -153,21 +153,22 @@ class Model_User extends Model_Crud{
         $party_day."  ".$user_name." 様は席次表本発注締切日を過ぎています。</a></li>";
     }
     $msg_arr = array();
-    array_push($msg_arr,$msg_text);
+    if($msg_text != "") array_push($msg_arr,$msg_text);
     
 		$msg_text = "";
     if($plan->is_hikidemono_hatyu_irai() and !$plan->is_hikidemono_hatyu()){
-      return $link = "<li><a href='guest_gift.php?user_id=".$user_id."'>".
+      $msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".
         $party_day."  ".$user_name." 様から引出物発注依頼がありました。</a></li>";
     }
     if($this->past_deadline_hikidemono()){
-      return $link = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
+      $msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
         $party_day."  ".$user_name."  様は引出物本発注締切日を過ぎています。</a></li>";
     }
-    array_push($msg_arr,$msg_text);
+    if($msg_text != "") array_push($msg_arr,$msg_text);
 
 		return $msg_arr;
   }
+  
   //席次表のフラグ
   public function get_sekijihyo_status(){
     $plan = Model_Plan::find_one_by_user_id($this->id);

@@ -150,7 +150,7 @@ class Model_Plan extends Model_Crud{
   public function do_kari_hatyu(){
     $this->admin_to_pcompany = 1;
     $this->order = 1;
-    $this->ul_print_com_times=0;
+    $this->ul_print_com_times="";
     $this->save();
   }
   //本発注依頼
@@ -204,10 +204,16 @@ class Model_Plan extends Model_Crud{
   }
   public function can_hon_hatyu_irai(){
     $flag = false;
-    if($this->uploaded_image()){
-      return false;
+    if($this->order==1 or $this->order==2){
+      $flag = false;
     }
-    return true; 
+    if($this->order == 3){
+      $flag = true;
+    }
+    /*if($this->uploaded_image()){
+      return false;
+    }*/
+    return $flag;
   }
   public function can_hon_hatyu(){
     if($this->is_hon_hatyu()){
@@ -273,13 +279,13 @@ class Model_Plan extends Model_Crud{
     return false;
   }
   public function read_uploaded_image(){
-    if($this->dl_print_com_times != ""){
+    if($this->dl_print_com_times != "" and $this->dl_print_com_times != 0){
       return true;
     }
     return false;
   }
   public function read_uploaded_image_for_user(){
-    if($this->ul_print_com_times != ""){
+    if($this->ul_print_com_times != "" and $this->dl_print_com_times != 0){
       return true;
     }
     return false;

@@ -120,9 +120,9 @@ $("#close_window").hover(function(){
 <font style="display:inline;font-size:20px; font-weight:bold; margin-left:130px; color:#0099ff;"> 
 <?php
 
-  if($plan->is_hon_hatyu_irai or $plan->is_hon_hatyu) echo "印刷依頼済みのため編集できません";
-  else if (Core_Session::is_admin() && $plan->is_kari_hatyu_irai) echo "お客様が印刷イメージを依頼中です";
-  else if($plan->is_kari_hatyu_irai) echo "印刷イメージ依頼中のため編集できません"; 
+  if($plan->is_hon_hatyu_irai() or $plan->is_hon_hatyu()) echo "印刷依頼済みのため編集できません";
+  else if (Core_Session::is_admin() && $plan->is_kari_hatyu_irai()) echo "お客様が印刷イメージを依頼中です";
+  else if($plan->is_kari_hatyu_irai()) echo "印刷イメージ依頼中のため編集できません"; 
  else if($user->past_deadline_sekijihyo()) echo "席次表編集利用制限日が過ぎています";
 ?>
 </font>

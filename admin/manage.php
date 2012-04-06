@@ -6,9 +6,6 @@ require_once("inc/include_class_files.php");
 include_once("inc/checklogin.inc.php");
 include_once("../fuel/load_classes.php");
 
-$obj = new DBO();
-$objMsg = new MessageClass();
-$objinfo = new InformationClass();
 $post = $obj->protectXSS($_POST);
 $get = $obj->protectXSS($_GET);
 
@@ -366,6 +363,9 @@ echo implode("",$msgs);
 $user_id_array=array();
 foreach($messages as $message)
   {
+    print_r($message);
+    print $message->user_id;
+    exit;
     if(in_array($message->user_id,$user_id_array)) continue;
     
     $user_id_array[]=$message->user_id;
