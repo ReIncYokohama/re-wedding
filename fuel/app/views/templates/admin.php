@@ -31,8 +31,6 @@ cursor:pointer;
 <script src="../js/ui/jquery.effects.core.js"></script>
 <script src="../js/ui/jquery.effects.blind.js"></script>
 <script src="../js/ui/jquery.effects.fade.js"></script>
-
-
 <script src="../js/noConflict.js" type="text/javascript"></script>
 
 <script type="text/javascript" language="javascript" src="../datepicker/prototype-1.js"></script>
@@ -288,6 +286,7 @@ function validSearch()
 		});
 	}
 }
+
 function todays_user()
 {
 	$j.post('ajax/search_user.php',{'today':'today'}, function(data){

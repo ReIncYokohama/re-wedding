@@ -19,8 +19,27 @@ include_once("inc/update_user_log_for_db.php");
 update_user_log_for_db((int)(USER_LOGIN_TIMEOUT), $obj, $user_id_arr);
 $user_id_arr = array();
 if($_SESSION["super_user"] == false) {
-  $users = Model_User::find(array("where"=>array(array("stuff_id","=",$_SESSION["adminid"]),
-                                                 array("party_day",">=",date("Y-m-d")))));
+  $whereArr = array(array("stuff_id","=",$_SESSION["adminid"]),
+                    array("party_day",">=",date("Y-m-d")));
+  $orderArr = array();
+  if($_GET["sort_option"]){
+    $arr2 = explode("|",$_GET["sort_option"]);
+    foreach($arr2 as $data){
+      $arr = explode(",",$data);
+      if(count($arr)==3){
+        array_push($whereArr,$arr);
+      }
+    }
+  }
+  if($_GET["order_option"]){
+    $arr = explode(",",$_GET["order_option"]);
+    if(count($arr)==2){
+      $orderArr[$arr[0]] = $arr[1];
+    }
+  }else{
+    $orderArr["party_day"] = "desc";
+  }
+  $users = Model_User::find(array("where"=>$whereArr,"order_by"=>$orderArr));
   $information_arr = array();
   foreach($users as $user){
     $arr = $user->get_hotel_message();
@@ -204,29 +223,25 @@ function confirmDeleteUser(user_id) {
 	window.location = "manage.php?action=delete&id="+user_id+"&date_from="+date_from+"&date_to="+date_to+"&mname="+mname+"&wname="+wname+"&sortOptin="+sortOptin;
 }
 
-function sortAction(sortOptin)
+function todays_user()
 {
-	var date_from;
-	var date_to;
-	var mname;
-	var wname;
-
-	date_from = document.condition.h_date_from.value;
-	date_to = document.condition.h_date_to.value;
-	mname= document.condition.h_man_lastname.value;
-	wname = document.condition.h_woman_lastname.value;
-
-	document.condition.h_sortOption.value = sortOptin;
-
-	$j.post('ajax/search_user2.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname,'sortOptin':sortOptin}, function(data){
-
-	$j("#srch_result").fadeOut(100);
-	$j("#srch_result").html(data);
-	$j("#srch_result").fadeIn(700);
-	$j("#box_table").fadeOut(100);
+	$j.post('ajax/search_user.php',{'today':'today'}, function(data){
+		$j("#srch_result").fadeOut(100);
+		$j("#srch_result").html(data);
+		$j("#srch_result").fadeIn(700);
+		$j("#box_table").fadeOut(100);
 	});
 }
 
+function view_dsc(id)
+{
+	$j("#admin_desc_"+id).toggle("slow");
+}
+function alert_staff_plan()
+{
+	alert("席次表をできません");
+	return false;
+}
 function validSearch()
 {
 	var date_from;
@@ -238,19 +253,13 @@ function validSearch()
 	date_to = $j("#date_to").val();
 	mname= $j("#man_lastname").val();
 	wname = $j("#woman_lastname").val();
-
-	document.condition.h_date_from.value = date_from;
-	document.condition.h_date_to.value = date_to;
-	document.condition.h_man_lastname.value = mname;
-	document.condition.h_woman_lastname.value = wname;
-
+  
 	if(date_from == '' && date_to == '' && mname == '' && wname == '')
 	{
 		alert("検索項目のいづれかを入力してください");
 		return false;
 	}else
 	{
-// UCHIDA EDIT 11/08/02 日付チェックを追加
 
 	date = new Date();
 	y = date.getFullYear();
@@ -286,34 +295,21 @@ function validSearch()
 				return false;
 			}
 		}
-
-		$j.post('ajax/search_user2.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname}, function(data){
-
-		$j("#srch_result").fadeOut(100);
-		$j("#srch_result").html(data);
-		$j("#srch_result").fadeIn(700);
-		$j("#box_table").fadeOut(100);
-		});
+    sort_arr = [];
+    if(date_from!=""){
+      sort_arr.push("party_day,>=,"+date_from);
+    }
+    if(date_to!=""){
+      sort_arr.push("party_day,<=,"+date_to);
+    }
+    if(mname!=""){
+      sort_arr.push("man_lastname,like,%"+mname+"%");
+    }
+    if(wname!=""){
+      sort_arr.push("woman_lastname,like,%"+wname+"%");
+    }
+    window.location = "?sort_option="+sort_arr.join("|");
 	}
-}
-function todays_user()
-{
-	$j.post('ajax/search_user.php',{'today':'today'}, function(data){
-		$j("#srch_result").fadeOut(100);
-		$j("#srch_result").html(data);
-		$j("#srch_result").fadeIn(700);
-		$j("#box_table").fadeOut(100);
-	});
-}
-
-function view_dsc(id)
-{
-	$j("#admin_desc_"+id).toggle("slow");
-}
-function alert_staff_plan()
-{
-	alert("席次表をできません");
-	return false;
 }
 function clearForm()
 {
@@ -328,9 +324,6 @@ function hide_this(id)
 	$j("#"+id).hide("slow");
 }
 </script>
-
-
-
 
 <div id="topnavi">
 <?php
@@ -363,11 +356,7 @@ echo implode("",$msgs);
 $user_id_array=array();
 foreach($messages as $message)
   {
-    print_r($message);
-    print $message->user_id;
-    exit;
     if(in_array($message->user_id,$user_id_array)) continue;
-    
     $user_id_array[]=$message->user_id;
     echo $message->get_message();
   }
@@ -378,7 +367,7 @@ foreach($messages as $message)
         <h2>お客様一覧</h2>
             <div id="top_search_view">
 
-                <form action="" method="post" name="condition">
+                <form action="" name="condition" id="user_search_condition">
 				<table width="720" border="0" cellpadding="0" cellspacing="0">
 
 			  <tr style="height:30px;">
@@ -411,11 +400,6 @@ foreach($messages as $message)
 			    <td align="left" colspan="3" > <a href="user_info_allentry.php"><img src="img/common/new_register.gif" alt="New Register" border="0"></a></td>
 			   </tr>
 			</table>
-                <input type="hidden" name="h_date_from" value="">
-                <input type="hidden" name="h_date_to" value="">
-                <input type="hidden" name="h_man_lastname" value="">
-                <input type="hidden" name="h_woman_lastname" value="">
-                <input type="hidden" name="h_sortOption" value="">
 			</form>
             </div>
        		<p></p>
@@ -429,16 +413,16 @@ foreach($messages as $message)
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
                     <tr align="center">
                         <td width="80">披露宴日<span class="txt1">
-                        	<a href="javascript:void(0);" onclick="sortAction('party_day asc : party_day_with_time asc');">▲</a>
-                        	<a href="javascript:void(0);" onclick="sortAction('party_day desc : party_day_with_time desc');">▼</a></span>
+                        	<a href="?order_option=party_day,asc">▲</a>
+                        	<a href="?order_option=party_day,desc">▼</a></span>
                         </td>
                         <td width="145" > 新郎氏名<span class="txt1">
-                        	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname asc');">▲</a>
-                        	<a href="javascript:void(0);" onclick="sortAction('man_furi_lastname desc');">▼</a></span>
+                        	<a href="?order_option=man_furi_lastname,asc">▲</a>
+                        	<a href="?order_option=man_furi_lastname,desc">▼</a></span>
                         　　</td>
                         <td width="145" align="center" >新婦氏名<span class="txt1">
-                        	<a href="javascript:void(0);" onclick="sortAction('woman_furi_lastname asc');">▲</a>
-                        	<a href="javascript:void(0);" onclick="sortAction('woman_furi_lastname desc');">▼</a></span>
+                        	<a href="?order_option=woman_furi_lastname,asc">▲</a>
+                        	<a href="?order_option=woman_furi_lastname,desc">▼</a></span>
                         　　</td>
                     	<td width="60" >詳細</td>
                         <td width="80" >スタッフ</td>

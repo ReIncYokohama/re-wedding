@@ -10,6 +10,9 @@ class Controller_Admin extends Controller_Common
     $this->var["hotel_name"] = $hotel_name;
     $this->var["is_super"] = Core_Session::is_super();
     $this->var["staff_name"] = Core_Session::get_staff_name();
+    if(!$this->var["staff_name"]){
+      Response::redirect("index.php");
+    }
   }
 
 	public function action_index()

@@ -156,11 +156,11 @@ class Model_User extends Model_Crud{
     if($msg_text != "") array_push($msg_arr,$msg_text);
     
 		$msg_text = "";
-    if($plan->is_hikidemono_hatyu_irai() and !$plan->is_hikidemono_hatyu()){
+    if($plan->is_hikidemono_hatyu_irai() and !$plan->is_hikidemono_hatyu() and !$plan->is_hon_hatyu()){
       $msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".
         $party_day."  ".$user_name." 様から引出物発注依頼がありました。</a></li>";
     }
-    if($this->past_deadline_hikidemono()){
+    if($this->past_deadline_hikidemono() and !$plan->is_hon_hatyu()){
       $msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
         $party_day."  ".$user_name."  様は引出物本発注締切日を過ぎています。</a></li>";
     }
