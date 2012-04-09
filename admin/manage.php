@@ -206,21 +206,10 @@ function ckDate(datestr) {
 }
 
 function confirmDeleteUser(user_id) {
-	var date_from;
-	var date_to;
-	var mname;
-	var wname;
-	var sortOptin = document.condition.h_sortOption.value;
-	var delete_user;
-
 	if(confirm("削除しても宜しいですか？") == false) return false;
-
-	date_from = $j("#date_from").val();
-	date_to = $j("#date_to").val();
-	mname= $j("#man_lastname").val();
-	wname = $j("#woman_lastname").val();
-
-	window.location = "manage.php?action=delete&id="+user_id+"&date_from="+date_from+"&date_to="+date_to+"&mname="+mname+"&wname="+wname+"&sortOptin="+sortOptin;
+	$j.post('ajax/search_user.php',{'action':"delete_user", 'user_id':user_id}, function(data){
+      window.location.reload();
+	});
 }
 
 function todays_user()
@@ -329,7 +318,6 @@ function hide_this(id)
 <?php
 $hotel = Model_Hotel::find_one_by_hotel_code($hcode);
 $hotel_name = $hotel["hotel_name"];
-//include("inc/return_dbcon.inc.php");
 ?>
 <h1><?=$hotel_name?></h1>
 
@@ -496,7 +484,7 @@ foreach($messages as $message)
 						</td>
 
                         <td width="40">
-                        	<a href="javascript:void(0);" onclick="confirmDeleteUser(<?=$row['id']?>);" >
+                        	<a href="javascript:void(0);" onclick="confirmDeleteUser(<?=$user->id?>);" >
                         		<img src="img/common/btn_deleate.gif" border="0"  />
                             </a>
                         </td>
