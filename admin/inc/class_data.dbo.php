@@ -116,7 +116,10 @@ class DataClass extends DBO{
               $guest_detail = $this->set_guest_property_value($guest_detail);
               $seats[$k]["guest_detail"] = $guest_detail;
               $guest_rows[$l]["unset"] = true;
-              $guest_rows[$l]["seat_id"] = $seat_detail["id"];
+              $seat_id = $seat_detail["id"];
+              $guest_rows[$l]["seat_id"] = $seat_id;
+              $guest_rows[$l]["table_id"] = $colum["table_id"];
+              $guest_rows[$l]["table_name"] = $colum["name"];
               if($guest_detail["sex"] == "Male"){
                 ++$man_num;
               }else if($guest_detail["sex"] == "Female"){

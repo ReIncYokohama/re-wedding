@@ -13,7 +13,6 @@ foreach($takasago_guest_obj as $guest){
   $fullname_url = $guest->get_image("thumb1/guest_fullname.png");  
   $guest->_td_html = '<td align="center" class="tooltip" title="<image src=\''.$namecard_url.'\'>" valign="middle" style="text-align:center; padding:7px;width:100px;"><image src="'.$fullname_url.'"></td>';
 }
-
 $html.='
 <table align="center" cellspacing="2"><tr>
 '.($takasago_guest_obj[3]?$takasago_guest_obj[3]->_td_html:"").'
@@ -35,20 +34,20 @@ $layoutname = $table_data["layoutname"];
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title></title>
 <link href="css/tmpl.css" rel="stylesheet" type="text/css" />
-<script src="js/json2.js"></script>
-<script src="js/jquery-1.5.js"></script>
-<script src="js/jquery-ui-1.8.16.custom.min.js"></script>
-<script src="js/jquery.tipTip.js"></script>
-<script src="js/util.js"></script>
+<script src="js/libs/jquery.js"></script>
+<script src="js/libs/json2.js"></script>
+<script src="js/libs/underscore.js"></script>
+<script src="js/libs/backbone.js"></script>
 <script src='js/make_plan_old.js'></script>
-<link href="css/main.css" rel="stylesheet" type="text/css" />
-<link href="js/tipTip.css" rel="stylesheet" type="text/css" />
-<link href="css/make_plan.css" rel="stylesheet" type="text/css" />
-<link href="css/drag_n_drop.css" type="text/css" rel="stylesheet">
+<link href="css/main.css" rel="stylesheet" type="text/css"/>
+<link href="css/make_plan_old.css" type="text/css" rel="stylesheet">
 
 <script>
 $(function(){
   Re.usertable.load(<?php echo json_encode($table_data); ?>);
+  var view = new Re.views.make_plan();
+  view.show_left_sidebar();
+  view.set_seats();
 });
 </script>
 <style>
@@ -87,8 +86,6 @@ table a:active {
 	color: #C30;
 	text-decoration:underline;
 }
-
-
 
 #room
 {
@@ -144,8 +141,6 @@ body{
 }
 #make_plan_table{
 width: 965px;
-/*overflow:scroll;
-height:680px;*/
 }
 .title_bar.main_plan{
  width:980px;
@@ -169,9 +164,23 @@ height:680px;*/
       <div id="side_area" sytle="padding-right:0px;width:350px;">
         <div align="right"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
         <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:hidden;overflow-y:scroll;" >
-				  <table width="98%">
-					  <tr bgcolor="#666666" style="color:#FFFFFF"><th>No</th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=sex&direction=<?=$sort_property["sex_direction"]?>">郎婦↓</a></th><th nowrap="nowrap"><a href="make_plan_full.php?sortby=guest_type&direction=<?=$sort_property["guest_type_direction"]?>">区分↓</a></th><th align="center">&nbsp;&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;</th><th nowrap="nowrap" align="left">卓名</th></tr>
-				  </table>
+          <table id="left_sidebar_table" class="left_sidebar">
+            <thead>
+              <tr>
+                <th class="no">No</th>
+                <th class="sex">
+                  <a>郎婦↓</a>
+                </th>
+                <th class="group">
+                  <a>
+                    区分↓</a>
+                </th>
+                <th class="name">姓名</th>
+                <th class="tablename">卓名</th>
+              </tr>
+            </thead>
+            <tbody id="left_sidebar"></tbody>
+          </table>
         </div>
       </div>
 
@@ -179,15 +188,16 @@ height:680px;*/
   	    <form action="insert_default_plan.php?user_id=<?=(int)$user_id?>&plan_id=<?=$plan_id?>" method="post" id="insert_plan" name="insert_plan">
           <input type="hidden" name="query" value="<?php echo $_SERVER["QUERY_STRING"];?>">
   			  <div align="right">
+            <span class="comment"></span>
             <?php if($plan->editable()){ ?>
-            <image src="img/btn_save_user.jpg" id="button" onclick="checkConfirm()"/>
-            <image src="img/btn_rollback_user.jpg" id="button" onclick="back_to_make_plan()"/>
+            <image src="img/btn_save_user.jpg" id="save_button"/>
+            <image src="img/btn_rollback_user.jpg" id="reset_button"/>
             <?php }?>
-            <image src="img/btn_back_user.jpg" id="button" onclick="confirmBack();"/>
+            <image src="img/btn_back_user.jpg" id="back_button"/>
           </div>
           <br/>
           <div id="make_plan_table">
-  			    <div id="room" style="float:left; width:<?=$width?>px; ">
+  			    <div id="room" style="float:left; width:<?=$width?>px;">
 			      <div align="center" style="text-align:center; margin:0 auto; font-size:13px; font-size:13px">
 				      <?=$html?>
 			      </div><br/>
@@ -221,7 +231,7 @@ height:680px;*/
                     }
                     ++$index;
                     ?>
-                    <div class="tables" id="tid_<?=$table_id?>" style="<?=$dis?>margin-left:15px;" >
+                    <div class="make_plan_tables" id="tid_<?=$table_id?>" style="<?=$dis?>margin-left:15px;" >
                       <p align="center" style="text-align:center" id="p_<?=$table_row['id']?>">
                         <b>&nbsp;</b>
                       </p>
@@ -230,20 +240,16 @@ height:680px;*/
   								  $j=1;
 	  							  $jor=0;
                     foreach($column["seats"] as $seat){ ?>
-                      <div id="<?=$seat['id']?>" class="droppable" style="background-color:<?php echo ($index % 2 == 1)?"#F5F8E5":"#e5b9b9";?>;">
+                      <div id="<?=$seat['id']?>" seat_id="<?=$seat["id"]?>" class="seat" style="background-color:<?php echo ($index % 2 == 1)?"#F5F8E5":"#e5b9b9";?>;">
 					              <div id="abc_<?=$seat['id']?>" class="gallery ui-helper-reset ui-helper-clearfix">
 											  </div>
                       </div>
                       <?php if($jor%2==0 and $j==1) { ?>
-                      <div style="float:left;text-align:center; width:25px; height:30px;">
-											  <div  class="tate-area" rowspan="<?php echo count($seats)/2;?>" style='direction:rtl;margin-right:8px;'>
-											    <div align="center" class="tate-line" id="table_<?=$table_row['id']?>">
+                      <div class="space tablename">
                             <span class="font08"><?=$tblname?></span>
-                          </div>
-                        </div>
                       </div>
                       <?php } else if($jor%2==0) { ?>
-										  <div style='float:left; width:25px; height:30px'></div>
+										  <div class="space"></div>
 					  	        <?php }
                       ++$jor;
                       ++$j;
