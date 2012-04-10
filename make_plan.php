@@ -277,7 +277,7 @@ height:30px;
 
 			<table width="800" border="0 cellspacing="1" cellpadding="3">
 				  <tr>
-					<td width="210" valign="middle"><a href="make_plan_full.php"><img src="img/order/btn_sekiji.jpg" alt="席次表の編集" width="200" height="60" border="0" class="on" /></a></td>
+					<td width="210" valign="middle"><a href="make_plan_full2.php"><img src="img/order/btn_sekiji.jpg" alt="席次表の編集" width="200" height="60" border="0" class="on" /></a></td>
 					<td width="10" valign="middle">　</td>
 
 					<td width="580" valign="middle">席次表をドラッグ＆ドロップで簡単に編集ができます。<br />
