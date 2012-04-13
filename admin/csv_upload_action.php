@@ -1,12 +1,11 @@
 <?php
-ini_set('auto_detect_line_endings', 1);
-
+//ini_set('auto_detect_line_endings', 1);
 include_once("inc/dbcon.inc.php");
 include_once("inc/class.dbo.php");
 include_once("../inc/gaiji.image.wedding.php");
-include_once("inc/class_message.dbo.php");
 include_once("inc/class_data.dbo.php");
 include_once("../app/ext/Utils/email.php");
+include_once("../fuel/load_classes.php");
 
 $obj = new DataClass();
 
@@ -20,9 +19,18 @@ include("inc/return_dbcon.inc.php");
 // 配列 $csv の文字コードをSJIS-winからUTF-8に変換
 if($_FILES["csv"]["tmp_name"]){
   $tmp = fopen($_FILES['csv']['tmp_name'], "r");
-  while ($csv[] = fgetcsv($tmp, "1024")) {}
-  mb_convert_variables("UTF-8", "SJIS-win", $csv);
+  
+  while ($text = fgets($tmp, "1024")) {
+    $datas = explode(",",$text);
+    $line = array();
+    foreach($datas as $data){
+      mb_convert_variables("UTF-8","SJIS-win",$data);
+      $line[] = $data;
+    }
+    $csv[] = $line;
+  }
 }
+
 if(count($csv)==0 && !$_GET["force"]){
   print '
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -241,9 +249,8 @@ $admin_name = $admin_row["name"];
 $BASE_URL = BASE_URL;
 $title = "［ウエディングプラス］招待客リストデータがアップロードされました";
 if($admin_row["subcription_mail"]==1) $admin_email = false;
-
 if($admin_email){
-
+//if(Core_Validation::checkEmail($admin_email)){
 $body = <<<_EOT_
 ${admin_name}様
 
@@ -284,6 +291,7 @@ $mail = $user_row["mail"];
 if($user_row["subcription_mail"]==1) $mail = false;
 
 $title = "［ウエディングプラス］招待客リストデータが追加されました。";
+
 if($mail){
 
 $body = <<<_EOT_
@@ -317,9 +325,8 @@ $email->send();
 /*
 csv uploadのログを残す
 */
-$message_class = new MessageClass();
-$message_class->new_message_csv_import($user_id);
-
+//csv uploadのお知らせの記録
+Model_Csvuploadlog::log($user_id);
 //csvアップロード時のログを記録
 $obj->set_log_csv_guest($user_id,$plan_id);
 

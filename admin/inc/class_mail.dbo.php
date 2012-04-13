@@ -1,8 +1,9 @@
 <?php
-include_once('dbcon.inc.php');
-include_once('class_message.dbo.php');
+include_once(dirname(__file__).'/dbcon.inc.php');
+include_once(dirname(__file__).'/class_message.dbo.php');
 include_once(dirname(__file__)."/../../app/ext/Utils/email.php");
 include_once(dirname(__file__)."/../../fuel/load_classes.php");
+
 class MailClass extends MessageClass
 {
 	public function MailClass()
