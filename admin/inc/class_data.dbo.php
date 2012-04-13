@@ -17,6 +17,7 @@ class DataClass extends DBO{
     //高砂席が招待者席に変わったときに高砂席の卓名も削除する。
     if($guest_row["stage"]!=0 && $set_obj["stage"]==0){
       $set_obj["stage_guest"] = 0;
+    }else if($set_obj["stage"]>0){
       $guest->delete_seat();
     }
     foreach($set_obj as $key => $value){
