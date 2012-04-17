@@ -42,7 +42,10 @@ class Model_Csvuploadlog extends Model_Crud{
     $man_name = $user->get_image_html("thumb2/man_lastname.png");
     $woman_name = $user->get_image_html("thumb2/woman_lastname.png");
     $party_day = Core_Date::convert_month_and_date($user->party_day);
-    
+    $date = Core_Date::create_from_string($user->party_day,"%Y-%m-%d");
+    if($user->past_deadline_access()){
+      return "";
+    }
     return "<li><a href='user_dashboard.php?src=my_guests&user_id=".$this->user_id."' target='_blank'>".$party_day
       ." ".$man_name."・".$woman_name
       ."様の招待客リストデータがアップロードされました。</a></li>";
@@ -82,10 +85,8 @@ class Model_Csvuploadlog extends Model_Crud{
     if(count($csvuploadlogs)){
       foreach($csvuploadlogs as $csvuploadlog){
         $csvuploadlog->state = 0;
-        $csvuploadlog->save(); 
+        $csvuploadlog->save();
       }
     }
-  } 
-
-  
+  }
 }

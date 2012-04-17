@@ -125,7 +125,7 @@ if(isset($user_id) && $user_id > 0)
   	unset($post['current_room_id']);
     unset($post['con_mail']);
     unset($post['layoutname']);
-
+    
     $obj->UpdateData("spssp_user",$post," id=".$user_id);
 
     //EDIT USER AS GUEST
