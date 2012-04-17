@@ -23,10 +23,10 @@ $num = 0;
       $column = $row["columns"][$j];
       $column_num = $row['display_num'];
       $table_id = $column["id"];
-      $visible = $column["visible"];
+      $visible = $column["visibility"];
       if($row["ralign"] == "C" && $column["display"] == 0 && !$visible) continue;
 ?>
-      <div id="table<?=$table_id?>" class="tables" style="width:<?=$width;?>px;height:<?=$table_height?>px;float:left;<?php echo ($column["visible"])?"visibility:hidden":""?>;margin:2px;"><p>
+      <div id="table<?=$table_id?>" class="tables" style="width:<?=$width;?>px;height:<?=$table_height?>px;float:left;<?php echo (!$visible||$column["display"]==0)?"visibility:hidden":""?>;margin:2px;"><p>
       <?php  
       if(!$column["visible"]) ++$num;
       if($display_number) echo "<span style=\"font-size:11px;color:red;\">".$num."</span>";

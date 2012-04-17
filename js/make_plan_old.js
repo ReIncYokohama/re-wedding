@@ -40,6 +40,13 @@
       return true;
     };
 
+    guest.prototype.get_guest_type_value = function() {
+      var v;
+      v = this.get("guest_type_value");
+      if (v === null) return "";
+      return v;
+    };
+
     return guest;
 
   })(Backbone.Model);
@@ -125,6 +132,7 @@
         _ref2 = row.columns;
         for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
           column = _ref2[_j];
+          if (!column.seats) continue;
           _ref3 = column.seats;
           for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
             seat = _ref3[_k];
@@ -153,6 +161,11 @@
         }
       }
       return false;
+    };
+
+    usertable.prototype.is_edit = function() {
+      if (this.send_data.length === 0) return false;
+      return true;
     };
 
     return usertable;
@@ -190,6 +203,10 @@
     };
 
     make_plan.prototype.back = function() {
+      if (!Re.usertable.is_edit()) {
+        window.location.href = "make_plan.php";
+        return;
+      }
       if (confirm("内容が変更されています。保存しても宜しいですか？")) {
         return Re.usertable.save(function() {
           return window.location.href = "make_plan.php";
@@ -234,11 +251,11 @@
     };
 
     make_plan.prototype.set_seats = function() {
-      var guest, seat, seat_id, seats, view, _i, _len, _results;
+      var guest, i, seat, seat_id, seats, view, _ref, _results;
       seats = $(".seat");
       _results = [];
-      for (_i = 0, _len = seats.length; _i < _len; _i++) {
-        seat = seats[_i];
+      for (i = 0, _ref = seats.length; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+        seat = seats[i];
         seat_id = $(seat).attr("seat_id");
         guest = Re.usertable.get_seat(seat_id);
         view = new Re.views.make_plan_seat();
@@ -439,7 +456,7 @@
 
     make_plan_left_sidebar.prototype.template = function(model, i) {
       var html;
-      html = "<td class=\"no\">" + i + "</td>" + "<td class=\"sex\">" + model.get_sex_text() + "</td>" + "<td class=\"group\">" + model.get("guest_type_value") + "</td>" + "<td class=\"name\" style=\"background-image:url(" + model.get_guest_image() + ");\"></td>" + "<td class=\"tablename\">" + model.get_table_text() + "</td>";
+      html = "<td class=\"no\">" + i + "</td>" + "<td class=\"sex\">" + model.get_sex_text() + "</td>" + "<td class=\"group\">" + model.get_guest_type_value() + "</td>" + "<td class=\"name\" style=\"background-image:url(" + model.get_guest_image() + ");\"></td>" + "<td class=\"tablename\">" + model.get_table_text() + "</td>";
       return _.template(html);
     };
 

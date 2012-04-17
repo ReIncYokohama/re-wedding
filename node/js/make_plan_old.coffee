@@ -25,6 +25,11 @@ class Re.models.guest extends Backbone.Model
     if (@get "table_id") is "0"
       return false
     return true
+  get_guest_type_value:()->
+    v = @.get "guest_type_value"
+    if v is null
+      return ""
+    return v
 
 class Re.models.usertable
   _data:null
@@ -70,6 +75,8 @@ class Re.models.usertable
   get_seat:(seat_id)->
     for row in @_data.rows
       for column in row.columns
+        if not column.seats
+          continue
         for seat in column.seats
           if seat.guest_id and seat.id is seat_id
             return new Re.models.guest seat.guest_detail
@@ -81,6 +88,10 @@ class Re.models.usertable
           if seat.id is seat_id
             return column
     return false
+  is_edit:()->
+    if @send_data.length is 0
+      return false
+    return true
 
 class Re.views.make_plan extends Backbone.View
   events:
@@ -97,6 +108,9 @@ class Re.views.make_plan extends Backbone.View
     if confirm "席次表を元に戻しますか？"
       window.location.reload()
   back:()->
+    if not Re.usertable.is_edit()
+      window.location.href = "make_plan.php"
+      return
     if confirm "内容が変更されています。保存しても宜しいですか？"
       Re.usertable.save ->
         window.location.href = "make_plan.php"
@@ -124,7 +138,8 @@ class Re.views.make_plan extends Backbone.View
       view.refresh(seat_id)
   set_seats:()->
     seats = $(".seat")
-    for seat in seats
+    for i in [0..seats.length]
+      seat = seats[i]
       seat_id = $(seat).attr "seat_id"
       guest = Re.usertable.get_seat seat_id
       view = new Re.views.make_plan_seat()
@@ -245,7 +260,7 @@ class Re.views.make_plan_left_sidebar extends Backbone.View
     "mousedown .name":"dragstart"
   template:(model,i)->
     html = "<td class=\"no\">"+i+"</td>"+"<td class=\"sex\">"+model.get_sex_text()+"</td>"+
-      "<td class=\"group\">"+model.get("guest_type_value")+"</td>"+
+      "<td class=\"group\">"+model.get_guest_type_value()+"</td>"+
       "<td class=\"name\" style=\"background-image:url("+model.get_guest_image()+");\"></td>"+
       "<td class=\"tablename\">"+model.get_table_text()+"</td>"
     _.template html
