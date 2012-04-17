@@ -21,10 +21,10 @@ $num = 0;
    
     for($j=0;$j<count($row["columns"]);++$j){
       $column = $row["columns"][$j];
-      $column_num = $row['display_num'];
+      $column_num = count($row["columns"]);
       $table_id = $column["id"];
       $visible = $column["visibility"];
-      if($row["ralign"] == "C" && $column["display"] == 0 && !$visible) continue;
+      if($row["ralign"] == "C" && $column["display"] == 0) continue;
 ?>
       <div id="table<?=$table_id?>" class="tables" style="width:<?=$width;?>px;height:<?=$table_height?>px;float:left;<?php echo (!$visible||$column["display"]==0)?"visibility:hidden":""?>;margin:2px;"><p>
       <?php  

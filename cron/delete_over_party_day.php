@@ -1,5 +1,7 @@
 <?php
 require_once(dirname(__file__)."/../fuel/load_classes.php");
+
+//注意今は実行できないようにしている。
 return;
 $users = \Model_User::find_all();
 
