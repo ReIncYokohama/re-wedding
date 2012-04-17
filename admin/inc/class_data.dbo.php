@@ -834,15 +834,19 @@ class DataClass extends DBO{
     if(!$this->haveString($user_obj["last_name"])){
       array_push($messageArray,$top_message."姓を入力してください。[".$user_obj["last_name"]."]");
     }
+    
+      
     if(!$this->haveString($user_obj["first_name"])){
       array_push($messageArray,$top_message."名を入力してください。[".$user_obj["first_name"]."]");
     }
+    
     if($user_obj["furigana_last"] != "" && $this->haveKana($user_obj["furigana_last"])){
       array_push($messageArray,$top_message."姓のふりがなはカタカナでなはく、平仮名で入力してください[".$user_obj["furigana_last"]."]");
     }else if(!$this->haveFurigana($user_obj["furigana_last"])){
       array_push($messageArray,$top_message."姓のふりがなは平仮名で入力してください[".$user_obj["furigana_last"]."]");
     }
-    if($user_obj["furigana_last"] != "" && $this->haveKana($user_obj["furigana_first"])){
+    
+    if($user_obj["furigana_first"] != "" && $this->haveKana($user_obj["furigana_first"])){
       array_push($messageArray,$top_message."名のふりがなはカタカナではなく、平仮名で入力してください[".$user_obj["furigana_first"]."]");
     }else if(!$this->haveFurigana($user_obj["furigana_first"])){
       array_push($messageArray,$top_message."名のふりがなは平仮名で入力してください[".$user_obj["furigana_first"]."]");
@@ -858,7 +862,7 @@ class DataClass extends DBO{
   }
   //入力チェック
   public function haveString($str){
-    if(!$str){
+    if(!$str || $str == ""){
       return false;
     }
     return true;
@@ -872,7 +876,7 @@ class DataClass extends DBO{
   }
   public function haveKana($str){
     mb_regex_encoding("UTF-8");
-    if ($str == "" || preg_match("/^[ァ-ンー]*$/u", $str)) {
+    if (!$str || $str == "" || preg_match("/^[ァ-ンー]*$/u", $str)) {
       return true;
     }
     return false;
