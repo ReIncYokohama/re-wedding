@@ -200,4 +200,35 @@ class Model_User extends Model_Crud{
     }
     return "";
   }
+
+  public function past_delete_account(){
+    $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
+    //締切日を過ぎた日なので１日足している。
+    if($date->past_date(-100)) return false;
+    return true;
+  }
+  public function pre_delete(){
+    $plan = Model_Plan::find_one_by_user_id($this->id);
+    
+    DB::query('delete from spssp_plan_details where plan_id='.$plan->id)->execute();
+    DB::query('delete from guest_csv_upload_log where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_admin_messages where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_change_log where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_clicktime where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_gift where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_gift_group where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_gift_group_relation where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_guest where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_guest_gift where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_guest_menu where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_guest_orderstatus where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_menu_rgoup where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_message where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_table_layout where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_user_log where user_id='.$this->id)->execute();
+    DB::query('delete from spssp_user_table where user_id='.$this->id)->execute();
+    
+    $plan->delete();
+  }
+
 }
