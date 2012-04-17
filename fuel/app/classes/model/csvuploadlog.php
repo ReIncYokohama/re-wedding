@@ -68,5 +68,24 @@ class Model_Csvuploadlog extends Model_Crud{
     $csvuploadlog = new Model_Csvuploadlog(array("user_id"=>$user_id,"hotel"=>1));
     $csvuploadlog->save();
   } 
+  static public function access_by_user($user_id){
+    $csvuploadlogs = Model_Csvuploadlog::get_for_user($user_id);
+    if(count($csvuploadlogs)>0){
+      foreach($csvuploadlogs as $csvuploadlog){
+        $csvuploadlog->state = 0;
+        $csvuploadlog->save(); 
+      }
+    }
+  } 
+  static public function access_by_hotel($user_id){
+    $csvuploadlogs = Model_Csvuploadlog::find_by(array("hotel"=>1,"state"=>1,"user_id"=>$user_id));
+    if(count($csvuploadlogs)){
+      foreach($csvuploadlogs as $csvuploadlog){
+        $csvuploadlog->state = 0;
+        $csvuploadlog->save(); 
+      }
+    }
+  } 
+
   
 }
