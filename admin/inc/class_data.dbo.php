@@ -508,7 +508,7 @@ class DataClass extends DBO{
     $update_array['guest_id']=$upd["guest_id"];
     $update_array['user_id']=$_SESSION["userid"];
     $update_array['guest_name']=$this->get_guest_name($guest_id);
-    $update_array['admin_id']=$_SESSION["adminid"];
+    $update_array['admin_id']=$_SESSION["super_user"]?10000:$_SESSION["adminid"];
     $update_array['type']=1;
     $update_array['plan_id']=$plan_id;
     switch($state){
