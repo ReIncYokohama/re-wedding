@@ -232,10 +232,12 @@ width: 965px;
 							    foreach($row["columns"] as $column)
 							    {
                     $tblname = $column["name"];
-                    $visible = $column["visibility"];
                     $table_id = $column["id"];
                     $dis = "";
-                    if($row["ralign"] == "C" && $column["display"] == 0){
+                    $visible = $column["visible"];
+                    if($visible and $column["display"]==0){
+                      $dis = "visibility:hidden;";
+                    }else if ($column["display"]==0){
                       $dis = "display:none;";
                     }
                     
