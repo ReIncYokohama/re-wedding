@@ -20,7 +20,13 @@
 function fileOpen(){
   $("#myfile").click();
 }
-
+var lock = false;
+function submit(){
+  if(!lock){
+    document.uploaddoc.submit();
+    lock = true;
+  }
+}
 
   </script>
 <style>
@@ -85,8 +91,8 @@ margin: 0;
     </div>
 
     <div class="top_box2">
-      <a href="javascript:void(0);"><img onclick="javascript:document.uploaddoc.submit();" src="img/btn_upload_list.jpg" alt="アップロード" width="82" height="22" /></a>
-      <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_cancel.jpg" alt="アップロード" width="82" height="22" /></a>
+      <a href="javascript:void(0);"><img onclick="javascript:submit();" src="img/btn_upload_list.jpg" alt="アップロード" width="82" height="22" /></a>
+      <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_cancel.jpg" alt="閉じる" width="82" height="22" /></a>
       　</div>
 </body>
 </html>
