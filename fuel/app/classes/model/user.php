@@ -67,6 +67,7 @@ class Model_User extends Model_Crud{
     $this->_room = Model_Room::find_by_pk($this->room_id);
     return $this->_room;
   }
+  
   public function get_staffname(){
     $admin = Model_Admin::find_by_pk($this->stuff_id);
     return $admin->name;
@@ -201,12 +202,29 @@ class Model_User extends Model_Crud{
     return "";
   }
 
-  public function past_delete_account(){
+  public function past_delete_account($hcode){
+    $hotel = Model_Hotel::find_one_by_hotel_code($hcode);
+    $hotel_name = $hotel["hotel_name"];
     $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
     //締切日を過ぎた日なので１日足している。
     if($date->past_date(-100)) return false;
     return true;
   }
+  public function past_delete_users($hcode){
+    $hotel = Model_Hotel::find_one_by_hotel_code($hcode);
+    $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
+    if($date->past_month_last_day(-1*$hotel["delete_weeding"])) return false;
+    return true;
+  }
+  public function past_delete_guests($hcode){
+    $hotel = Model_Hotel::find_one_by_hotel_code($hcode);
+    $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
+    //締切日を過ぎた日なので１日足している。
+    if($date->past_month_last_day(-1*$hotel["delete_guest"])) return false;
+    return true;
+  }
+  
+  
   public function pre_delete(){
     $plan = Model_Plan::find_one_by_user_id($this->id);
     

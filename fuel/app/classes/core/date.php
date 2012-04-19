@@ -8,6 +8,21 @@ class Core_Date extends Date{
     if(mktime(0,0,0,$date["mon"],$date["mday"]+$day,$date["year"])<=$this->timestamp) return true;
     return false;
   }
+  public function past_month($month=0){
+    $date = getdate();
+    if(mktime(0,0,0,$date["mon"]+$month,$date["mday"],$date["year"])<=$this->timestamp) return true;
+    return false;
+  }
+  public function past_month_last_day($month=0){
+    $date = getdate();
+    if($month>0){
+      $month=$month+1;
+    }else if($month<0){
+      $month=$month-1;
+    }
+    if(mktime(0,0,0,$date["mon"]+$month,-1,$date["year"])<=$this->timestamp) return true;
+    return false;
+  }
   public function get_wday(){
     $wday = date("w",$this->timestamp);
     $day = array("日", "月", "火", "水", "木", "金", "土");
