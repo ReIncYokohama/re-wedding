@@ -435,8 +435,8 @@ foreach($messages as $message)
 			foreach($users as $user)
 			{
         $row = $user->to_array();
-        $man_name = $user->get_image_html("thumb2/man_lastname.png");
-        $woman_name = $user->get_image_html("thumb2/woman_lastname.png");
+        $man_name = $user->get_image_html("thumb2/man_fullname.png");
+        $woman_name = $user->get_image_html("thumb2/woman_fullname.png");
         $party_day_date = Core_Date::create_from_date_string($user->party_day);
         $party_day_text = $party_day_date->format_string_date();
         $staff_name = $user->get_staffname();
