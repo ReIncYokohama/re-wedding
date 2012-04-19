@@ -51,6 +51,14 @@ $(function(){
 });
 </script>
 <style>
+.clearfix:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  clear: both;
+  overflow: hidden;
+  visibility: hidden;
+}
 .rows
 {
 float:left;
@@ -209,9 +217,9 @@ width: 965px;
             <div id="toptst" style="float:left; width:100%; ">
 					    <?php
               foreach($table_data["rows"] as $row){
-                $width = $row["display_num"]*215;
+                $width = count($row["columns"])*215;
                 if($row["ralign"] == "C"){
-                  $con_width = $width - $row["num_none"]*198;
+                  $con_width = $row["display_num"]*215;
                   $pos = 'margin:0 auto; width:'.$con_width.'px';
                 }else{
                   $pos = 'float:left;width:'.$width.'px;';
@@ -224,11 +232,13 @@ width: 965px;
 							    foreach($row["columns"] as $column)
 							    {
                     $tblname = $column["name"];
-                    $visible = $column["visible"];
+                    $visible = $column["visibility"];
                     $table_id = $column["id"];
-                    if($row["ralign"] == "C" && $column["display"] == 0 && !$visible ){
+                    $dis = "";
+                    if($row["ralign"] == "C" && $column["display"] == 0){
                       $dis = "display:none;";
                     }
+                    
                     ++$index;
                     ?>
                     <div class="make_plan_tables" id="tid_<?=$table_id?>" style="<?=$dis?>margin-left:15px;" >
@@ -257,6 +267,7 @@ width: 965px;
 									  <?php }?>
 									</div>
                   <?php } ?>
+                <div class="clearfix"></div>
                   </div>
                 	  </div>
 							  <?php }?>

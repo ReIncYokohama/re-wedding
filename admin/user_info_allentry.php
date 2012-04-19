@@ -21,7 +21,7 @@ if($user_id>0){
 if($user_id>0) {
   $user = Model_User::find_by_pk($user_id);
   $user_row = $user->to_array();
-  
+
   list($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis) 
     = $user->get_gaiji_arr();
   
@@ -740,9 +740,11 @@ function m_win(url,windowname,width,height) {
 // --></script>
 <div id="topnavi">
     <?php
+
 include("inc/main_dbcon.inc.php");
 $hcode=$HOTELID;
 $hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
+
 ?>
 <h1><?=$hotel_name?></h1>
 <?

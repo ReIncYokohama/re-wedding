@@ -84,6 +84,8 @@ class Re.models.usertable
   get_table:(seat_id)->
     for row in @_data.rows
       for column in row.columns
+        if not column.seats
+          continue
         for seat in column.seats
           if seat.id is seat_id
             return column

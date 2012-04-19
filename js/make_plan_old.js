@@ -153,6 +153,7 @@
         _ref2 = row.columns;
         for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
           column = _ref2[_j];
+          if (!column.seats) continue;
           _ref3 = column.seats;
           for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
             seat = _ref3[_k];
