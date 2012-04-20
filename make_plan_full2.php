@@ -11,8 +11,17 @@ $takasago_guest_obj = $plan->get_takasago_guest_obj();
 foreach($takasago_guest_obj as $guest){
   $namecard_url = $guest->get_image("namecard.png");
   $fullname_url = $guest->get_image("thumb1/guest_fullname.png");  
-  $guest->_td_html = '<td align="center" class="tooltip" title="<image src=\''.$namecard_url.'\'>" valign="middle" style="text-align:center; padding:7px;width:100px;"><image src="'.$fullname_url.'"></td>';
+  $guest->_td_html = '<td align="center" class="tooltip" title="<image src=\''.$namecard_url.'\'>" valign="middle" style="text-align:center; padding:7px;width:120px;"><image width="100" src="'.$fullname_url.'"></td>';
 }
+
+$max_width = 0;
+foreach($table_data["rows"] as $row){
+  $width = count($row["columns"])*215;
+  if($max_width<$width) $max_width = $width;
+}
+$table_width = $max_width;
+if($max_width<500) $max_width = 500;
+
 $html.='
 <table align="center" cellspacing="2"><tr>
 '.($takasago_guest_obj[3]?$takasago_guest_obj[3]->_td_html:"").'
@@ -176,7 +185,7 @@ body{
   background:none;
 }
 #make_plan_table{
-width: 965px;
+ min-width: 754px;
 }
 .title_bar.main_plan{
  width:980px;
@@ -233,8 +242,8 @@ width: 965px;
           </div>
           <br/>
           <div id="make_plan_table">
-  			    <div id="room" style="float:left; width:<?=$width?>px;">
-			      <div align="center" style="text-align:center; margin:0 auto; font-size:13px; font-size:13px">
+  			    <div id="room" style="width:<?=$max_width?>px;margin:auto;">
+			      <div align="center" style="text-align:center; margin:0 auto; font-size:13px; font-size:13px;">
 				      <?=$html?>
 			      </div><br/>
 			      <div align="center" style="height:20px; text-align:center; padding:5px; margin:0 auto; font-size:13px">
@@ -242,7 +251,7 @@ width: 965px;
 				        <?=$layoutname?>
               </div>
 			      </div>
-            <div id="toptst" style="float:left; width:100%; ">
+            <div id="toptst" style="width:<?php echo $table_width;?>px;margin:auto; ">
 					    <?php
               foreach($table_data["rows"] as $row){
                 $width = count($row["columns"])*215;
@@ -253,7 +262,7 @@ width: 965px;
                   $pos = 'float:left;width:'.$width.'px;';
                 }
                 ?>
-                <div class="rows" style="width:<?php echo $width;?>px;">
+                <div class="rows" style="width:<?php echo $table_width;?>px;">
                   <div class="row_conatiner" style="<?=$pos;?>">
                   <?php
                   $index = 0;
