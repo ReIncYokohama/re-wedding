@@ -41,7 +41,35 @@ $layoutname = $table_data["layoutname"];
 <script src='js/make_plan_old.js'></script>
 <link href="css/main.css" rel="stylesheet" type="text/css"/>
 <link href="css/make_plan_old.css" type="text/css" rel="stylesheet">
+<script type="text/javascript">
+	var edited_Flag=0;
+	var timerlength="<?=TIMEOUTLENGTH?>";
+	var timerId;
+	var timeOutNow=false;
 
+	clearInterval(timerId);
+	timerId = setInterval('user_timeout()', timerlength);
+
+	function user_timeout() {
+		var button_enable="<?=$button_enable?>";
+		clearInterval(timerId);
+		if (button_enable==true && edited_Flag==1) {
+			timeOutNow=true;
+			var agree = confirm("タイムアウトしました。\n保存しますか？");
+		    if(agree==true) {
+		    	$("#timeout").val("timeout");
+		    	checkConfirm();
+		    }
+		    else {
+		    	window.location = "logout.php";	
+		    }
+		}
+		else {
+			alert("タイムアウトしました");
+			window.location = "logout.php";	
+		}
+	}
+</script>
 <script>
 $(function(){
   Re.usertable.load(<?php echo json_encode($table_data); ?>);
