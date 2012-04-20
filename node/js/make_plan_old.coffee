@@ -17,7 +17,7 @@ class Re.models.guest extends Backbone.Model
     return ""
   get_table_text:()->
     if @hasTable()
-      return @get "table_name"
+      return @get("table_name").substr(0,2)
     return ""
   get_guest_image:()->
     return "name_image/user/"+@get("user_id")+"/guests/"+@get("id")+"/thumb2/guest_fullname.png"
@@ -236,7 +236,7 @@ class Re.views.make_plan_seat extends Backbone.View
     @main_view.remove @getSeatId(),@guest.id
     @_remove()
   _remove:()->
-    @$el.css "background-image","initial"
+    @$el.css "background-image","none"
     @guest = null
   dragstart:()->
     if not @guest

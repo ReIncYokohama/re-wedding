@@ -27,7 +27,7 @@
     };
 
     guest.prototype.get_table_text = function() {
-      if (this.hasTable()) return this.get("table_name");
+      if (this.hasTable()) return this.get("table_name").substr(0, 2);
       return "";
     };
 
@@ -408,7 +408,7 @@
     };
 
     make_plan_seat.prototype._remove = function() {
-      this.$el.css("background-image", "initial");
+      this.$el.css("background-image", "none");
       return this.guest = null;
     };
 
