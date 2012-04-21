@@ -15,7 +15,32 @@ $respects = $obj->GetAllRow(" spssp_respect");
 $guest_types = $obj->GetAllRow(" spssp_guest_type");
 
 include("inc/return_dbcon.inc.php");
+$user_id = $_POST["user_id"]?$_POST["user_id"]:$user_id;
 
+if(!$user_id) $user_id = $_GET["user_id"];
+if(!$user_id) return;
+$user = Model_User::find_by_pk($user_id);
+$plan = Model_Plan::find_one_by_user_id($user_id);
+if($plan->is_kari_hatyu_irai() or $plan->is_kari_hatyu()){
+  print '
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>招待者リストcsv一括アップロード</title>
+  <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
+  
+  <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+</head>
+<body>
+
+仮発注中です<br><img onclick="javascript:window.close();" src="../img/btn_close.jpg" alt="閉じる" width="82" height="22" />
+</body>
+</html>
+
+';
+  exit;
+}
 // 配列 $csv の文字コードをSJIS-winからUTF-8に変換
 if($_FILES["csv"]["tmp_name"]){
   $tmp = fopen($_FILES['csv']['tmp_name'], "r");
@@ -59,10 +84,6 @@ if($_GET["force"]){
   $csv = $_SESSION["csv"];
   $force = true;
 }
-$user_id = $_POST["user_id"]?$_POST["user_id"]:$user_id;
-
-if(!$user_id) $user_id = $_GET["user_id"];
-if(!$user_id) return;
 
 //新郎新婦の情報を取得
 $user_row = $obj->GetSingleRow("spssp_user"," id='$user_id'");
