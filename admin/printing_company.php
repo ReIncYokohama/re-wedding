@@ -197,16 +197,12 @@ function check_name()
 		}
 	}
 	if (postcode.length != 0) {
-		if( postcode.match( /[^0-9\s-]+/ ) ) {
-				alert("郵便番号は半角数字と'-'だけで入力してください");
-				document.getElementById('postcode').focus();
-				return false;
-		}
-		if (postcode.length !=8) {
-			alert("郵便番号は'123-4567'の形式で入力してください");
-			document.getElementById('postcode').focus();
+    if( !postcode.match( /^[0-9]{3}-[0-9]{4}$/ ) ) {
+      alert("郵便番号は'123-4567'の形式で入力してください");
+      document.getElementById('postcode').focus();
+      $j("#zipcode").focus();
 			return false;
-		}
+    }
 	}
 
 //	matchMail();

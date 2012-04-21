@@ -21,6 +21,7 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
         $_SESSION["super_user"] = true;
       }
     }
+    
 		if(mysql_num_rows($db_result))
 		{
 			if($db_row=mysql_fetch_array($db_result))
