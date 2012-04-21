@@ -15,10 +15,13 @@ if($post["maintenance_id"]){
   $data["hotel_ids"] = implode(",",$post["hotels"]);
   $data["display"] = 1;
   $obj->UpdateData("spssp_maintenance", $data, " id = ".$post['maintenance_id']);
+  $maintenance_message = "メンテナンス案内を更新しました";
 }else if($_GET["hide"]){
   $data = array();
   $data["display"] = 0;
   $obj->UpdateData("spssp_maintenance", $data, " id = ".$_GET['maintenance_id']);
+  $maintenance_message = "";
+  $maintenance_message = "メンテナンス案内を解除しました。";
 //create
 }else if($post["title"] or $post["description"]){
   $data = array();
@@ -27,6 +30,7 @@ if($post["maintenance_id"]){
   sort($post["hotels"]);
   $data["hotel_ids"] = implode(",",$post["hotels"]);
   $lsid = $obj->InsertData("spssp_maintenance", $data);
+  $maintenance_message = "メンテナンス案内を作成しました。";
 }
 $maintenanceArray = $obj->getMaintenanceArray();
 
@@ -51,6 +55,12 @@ display:none;
 color:#000000;
 font-weight:normal;
 }
+.maintenance_message{
+  text-align:center;
+  background:#6B3720;
+  color:white;
+  font-size:14px;
+}
 </style>
 
   <div id="topnavi">
@@ -60,6 +70,7 @@ font-weight:normal;
   <div id="container">
     <div id="contents">
       <h2>ホテルへのメンテナンス内容編集</h2>
+      <div class="maintenance_message"><?php echo $maintenance_message;?></div>
       <div class="txt2"> <!-- <p><a href="javascript:void()" onclick="add_supper_message();">メッセージ作成 </a></p>-->
         メンテナンス内容作成<br /> 
         <form method="post" name="maintenance_form">

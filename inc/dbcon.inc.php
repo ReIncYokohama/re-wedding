@@ -3,20 +3,11 @@
 
 include_once(dirname(__FILE__)."/../conf/conf.php");
 include_once(dirname(__FILE__)."/../conf/version.php");
-if($_SERVER['HTTP_HOST']=='localhost')
-	{
-		$sqlhost=$localhost_sqlhost;
-		$sqluser=$localhost_sqluser;
-		$sqlpassword=$localhost_sqlpassword;
-		$sqldatabase=$localhost_sqldatabase;
-	}
-	else
-	{
-		$sqlhost=$main_sqlhost;
-		$sqluser=$main_sqluser;
-		$sqlpassword=$main_sqlpassword;
-		$sqldatabase=$main_sqldatabase;
-	}
+
+$sqlhost=$main_sqlhost;
+$sqluser=$main_sqluser;
+$sqlpassword=$main_sqlpassword;
+$sqldatabase=$main_sqldatabase;
 
 function mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase){
   $link = mysql_connect($sqlhost, $sqluser,$sqlpassword)
@@ -27,7 +18,6 @@ function mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase){
   return $link;
 }
 mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase);
-
 
 function curPageURL()
  {
