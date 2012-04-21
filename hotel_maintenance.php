@@ -8,29 +8,36 @@ $hotelArray = $obj->getHotelArray();
 
 //update
 if($post["maintenance_id"]){
-  $data = array();
-  $data["title"] = $post["title"];
-  $data["description"] = $post["description"];
-  sort($post["hotels"]);
-  $data["hotel_ids"] = implode(",",$post["hotels"]);
-  $data["display"] = 1;
-  $obj->UpdateData("spssp_maintenance", $data, " id = ".$post['maintenance_id']);
-  $maintenance_message = "メンテナンス案内を更新しました";
+  if(count($post["hotels"])>0){
+    $data["hotel_ids"] = implode(",",$post["hotels"]);
+    $data = array();
+    $data["title"] = $post["title"];
+    $data["description"] = $post["description"];
+    sort($post["hotels"]);
+    $data["display"] = 1;
+    $obj->UpdateData("spssp_maintenance", $data, " id = ".$post['maintenance_id']);
+  }else{
+    $maintenance_message = "ホテルが選択されていません";
+  }
 }else if($_GET["hide"]){
   $data = array();
   $data["display"] = 0;
   $obj->UpdateData("spssp_maintenance", $data, " id = ".$_GET['maintenance_id']);
   $maintenance_message = "";
-  $maintenance_message = "メンテナンス案内を解除しました。";
+  $maintenance_message = "メンテナンス案内を解除しました";
 //create
 }else if($post["title"] or $post["description"]){
-  $data = array();
-  $data["title"] = $post["title"];
-  $data["description"] = $post["description"];
-  sort($post["hotels"]);
-  $data["hotel_ids"] = implode(",",$post["hotels"]);
-  $lsid = $obj->InsertData("spssp_maintenance", $data);
-  $maintenance_message = "メンテナンス案内を作成しました。";
+  if(count($post["hotels"])>0){
+    $data = array();
+    $data["title"] = $post["title"];
+    $data["description"] = $post["description"];
+    sort($post["hotels"]);
+    $data["hotel_ids"] = implode(",",$post["hotels"]);
+    $lsid = $obj->InsertData("spssp_maintenance", $data);
+    $maintenance_message = "メンテナンス案内を作成しました";
+  }else{
+    $maintenance_message = "ホテルが選択されていません";
+  }
 }
 $maintenanceArray = $obj->getMaintenanceArray();
 
