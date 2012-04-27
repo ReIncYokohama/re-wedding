@@ -56,9 +56,9 @@ include_once("../fuel/load_classes.php");
         <?php
 			}
 		?>
-        <li><a href="rooms.php"><img src="img/common/nav_layout.gif" alt="会場ごとの最大卓レイアウト設定" class=on /></a></li>
+        <li><a href="rooms.php"><img src="img/common/nav_layout.gif" alt="会場ごとの最大卓レイアウト設定" class="on" /></a></li>
 
-        <li><a href="gift.php"><img src="img/common/nav_gift.gif" alt="引出物・料理" width="148" height="30" class=on /></a></li>
+        <li><a href="gift.php"><img src="img/common/nav_gift.gif" alt="引出物・料理" width="148" height="30" class="on" /></a></li>
 
         <li><a href="printing_company.php"><img src="img/common/printing_company.gif" alt="printing_company" width="148" height="30" class=on /></a></li>
 

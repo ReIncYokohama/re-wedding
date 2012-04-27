@@ -203,17 +203,10 @@ class Model_Plan extends Model_Crud{
     return true;
   }
   public function can_hon_hatyu_irai(){
-    $flag = false;
-    if($this->order==1 or $this->order==2){
-      $flag = false;
-    }
-    if($this->order == 3){
-      $flag = true;
-    }
-    /*if($this->uploaded_image()){
+    if($this->is_hon_hatyu_irai()){
       return false;
-    }*/
-    return $flag;
+    }
+    return true;
   }
   public function can_hon_hatyu(){
     if($this->is_hon_hatyu()){
