@@ -36,7 +36,7 @@ if($_GET["order_option"]){
     $orderArr[$arr[0]] = $arr[1];
   }
 }else{
-  $orderArr["party_day"] = "desc";
+  $orderArr["party_day"] = "asc";
 }
 $users = Model_User::find(array("where"=>$whereArr,"order_by"=>$orderArr));
 ?>
