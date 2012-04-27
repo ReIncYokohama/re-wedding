@@ -27,3 +27,4 @@ _uaLog/*
 #fuel
 fuel/app/logs/*
 fuel/app/config/db.php
+.DS_Store

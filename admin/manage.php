@@ -37,7 +37,7 @@ if($_SESSION["super_user"] == false) {
       $orderArr[$arr[0]] = $arr[1];
     }
   }else{
-    $orderArr["party_day"] = "desc";
+    $orderArr["party_day"] = "asc";
   }
   $users = Model_User::find(array("where"=>$whereArr,"order_by"=>$orderArr));
   $information_arr = array();
