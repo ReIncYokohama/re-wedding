@@ -19,6 +19,12 @@ if($_SESSION["super_user"] == false) {
   Response::redirect("manage.php");
 }
 
+
+$search_party_day_start = "";
+$search_party_day_end = "";
+$search_man_name = "";
+$search_woman_name = "";
+
 $whereArr = array(array("party_day",">=",date("Y-m-d")));
 $orderArr = array();
 if($_GET["sort_option"]){
@@ -27,6 +33,18 @@ if($_GET["sort_option"]){
     $arr = explode(",",$data);
     if(count($arr)==3){
       array_push($whereArr,$arr);
+      if($arr[0]=="party_day" and $arr[1] == ">="){
+        $search_party_day_start = $arr[2];
+      }
+      if($arr[0]=="party_day" and $arr[1] == "<="){
+        $search_party_day_end = $arr[2];
+      }
+      if($arr[0]=="man_lastname"){
+        $search_man_name = mb_substr($arr[2],1,mb_strlen($arr[2],"UTF-8")-2,"UTF-8");
+      }
+      if($arr[0]=="woman_lastname"){
+        $search_woman_name = mb_substr($arr[2],1,mb_strlen($arr[2],"UTF-8")-2,"UTF-8");
+      }
     }
   }
 }
@@ -38,6 +56,7 @@ if($_GET["order_option"]){
 }else{
   $orderArr["party_day"] = "asc";
 }
+
 $users = Model_User::find(array("where"=>$whereArr,"order_by"=>$orderArr));
 ?>
 <style>
@@ -177,35 +196,41 @@ function sortAction(sortOptin)
 
 function validSearch()
 {
+
 	var date_from;
 	var date_to;
 	var mname;
 	var wname;
-	var view = "<?=$current_view?>";
 
 	date_from = $j("#date_from").val();
 	date_to = $j("#date_to").val();
 	mname= $j("#man_lastname").val();
 	wname = $j("#woman_lastname").val();
-
-	document.condition.h_date_from.value = date_from;
-	document.condition.h_date_to.value = date_to;
-	document.condition.h_man_lastname.value = mname;
-	document.condition.h_woman_lastname.value = wname;
-
+  
 	if(date_from == '' && date_to == '' && mname == '' && wname == '')
 	{
-//		alert("検索表示ボックスにチェックを入れてください");
-		alert("検索項目のいずれかを入力してください"); // UCHIDA EDIT 11/08/02
+		alert("検索項目のいづれかを入力してください");
 		return false;
 	}else
 	{
-		// UCHIDA EDIT 11/08/02 日付チェックを追加
+
+	date = new Date();
+	y = date.getFullYear();
+	m = date.getMonth() + 1;
+	d = date.getDate();
+	if (m < 10) { m = "0" + m; }
+	if (d < 10) { d = "0" + d; }
+	var today = y + "/" + m + "/" + d;
+
 		if (date_from != "") {
 			if (ckDate(date_from) == false) {
 				alert("披露宴開始日の日付指定が間違っています。\nカレンダーアイコンから選択するか、正しく入力してください");
 				return false;
 			}
+		}
+		if (date_from !="" && date_from < today) {
+			alert("披露宴開始日が過去になっています"+date_from+" : "+today);
+			return false;
 		}
 		if (date_to != "") {
 			if (ckDate(date_to) == false) {
@@ -213,21 +238,30 @@ function validSearch()
 				return false;
 			}
 		}
+		if (date_to!="" && date_to < today) {
+			alert("披露宴終了日が過去になっています");
+			return false;
+		}
 		if (date_from != "" && date_to != "") {
 			if (date_from > date_to) {
 				alert("検索開始日より検索終了日が先になっています。\n検索範囲を正しく指定してください");
 				return false;
 			}
 		}
-
-	 	$j.post('ajax/search_user.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname ,'view':view}, function(data){
-
-		$j("#passPresent").fadeOut(100);
-		$j("#srch_result").fadeOut(100);
-		$j("#srch_result").html(data);
-		$j("#srch_result").fadeIn(700);
-		$j("#box_table").fadeOut(100);
-		});
+    sort_arr = [];
+    if(date_from!=""){
+      sort_arr.push("party_day,>=,"+date_from);
+    }
+    if(date_to!=""){
+      sort_arr.push("party_day,<=,"+date_to);
+    }
+    if(mname!=""){
+      sort_arr.push("man_lastname,like,%"+mname+"%");
+    }
+    if(wname!=""){
+      sort_arr.push("woman_lastname,like,%"+wname+"%");
+    }
+    window.location = "?sort_option="+sort_arr.join("|");
 	}
 }
 
@@ -267,16 +301,16 @@ include("inc/return_dbcon.inc.php");
 
 			  <tr style="height:30px;">
 				<td width="80">披露宴日：</td>
-				<td width="169"><input name="date_from" type="text" id="date_from" value="<?=$post['date_from']?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
+				<td width="169"><input name="date_from" type="text" id="date_from" value="<?=$search_party_day_start?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
 			    <td width="80" >～</td>
 
-				<td width="389"><input name="date_to" type="text" id="date_to" value="<?=$post['date_to']?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>
+				<td width="389"><input name="date_to" type="text" id="date_to" value="<?=$search_party_day_end?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>
 			  </tr>
 			  <tr style="height:30px;">
 				<td>新郎姓：</td>
-				<td><input name="man_lastname" type="text" id="man_lastname"  class="input_text"  value="<?=$post['mname']?>" /></td>
+				<td><input name="man_lastname" type="text" id="man_lastname"  class="input_text"  value="<?=$search_man_name?>" /></td>
 			    <td>新婦姓：</td>
-				<td><input name="woman_lastname" type="text" id="woman_lastname" class="input_text" value="<?=$post['wname']?>" /></td>
+				<td><input name="woman_lastname" type="text" id="woman_lastname" class="input_text" value="<?=$search_woman_name?>" /></td>
 			  </tr>
 			  </table>
 

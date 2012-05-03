@@ -18,6 +18,12 @@ $messages = Model_Message::get_by_admin();
 include_once("inc/update_user_log_for_db.php");
 update_user_log_for_db((int)(USER_LOGIN_TIMEOUT), $obj, $user_id_arr);
 $user_id_arr = array();
+
+$search_party_day_start = "";
+$search_party_day_end = "";
+$search_man_name = "";
+$search_woman_name = "";
+
 if($_SESSION["super_user"] == false) {
   $whereArr = array(array("stuff_id","=",$_SESSION["adminid"]),
                     array("party_day",">=",date("Y-m-d")));
@@ -28,6 +34,20 @@ if($_SESSION["super_user"] == false) {
       $arr = explode(",",$data);
       if(count($arr)==3){
         array_push($whereArr,$arr);
+        array_push($whereArr,$arr);
+
+        if($arr[0]=="party_day" and $arr[1] == ">="){
+          $search_party_day_start = $arr[2];
+        }
+        if($arr[0]=="party_day" and $arr[1] == "<="){
+          $search_party_day_end = $arr[2];
+        }
+        if($arr[0]=="man_lastname"){
+          $search_man_name = mb_substr($arr[2],1,mb_strlen($arr[2],"UTF-8")-2,"UTF-8");
+        }
+        if($arr[0]=="woman_lastname"){
+          $search_woman_name = mb_substr($arr[2],1,mb_strlen($arr[2],"UTF-8")-2,"UTF-8");
+        }
       }
     }
   }
@@ -360,16 +380,16 @@ foreach($messages as $message)
 
 			  <tr style="height:30px;">
 				<td width="80">披露宴日：</td>
-				<td width="169"><input name="date_from" type="text" id="date_from" value="<?=$post['date_from']?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
+				<td width="169"><input name="date_from" type="text" id="date_from" value="<?=$search_party_day_start?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly"/> </td>
 			    <td width="80" >～</td>
 
-				<td width="389"><input name="date_to" type="text" id="date_to" value="<?=$post['date_to']?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>
+				<td width="389"><input name="date_to" type="text" id="date_to" value="<?=$search_party_day_end?>" style="background: url('img/common/icon_cal.gif') no-repeat scroll right center rgb(255, 255, 255); padding-right: 20px; " class="datepicker" readonly="readonly" /></td>
 			  </tr>
 			  <tr style="height:30px;">
 				<td>新郎姓：</td>
-				<td><input name="man_lastname" type="text" id="man_lastname"  class="input_text"  value="<?=$post['mname']?>" /></td>
+				<td><input name="man_lastname" type="text" id="man_lastname"  class="input_text"  value="<?=$search_man_name?>" /></td>
 			    <td>新婦姓：</td>
-				<td><input name="woman_lastname" type="text" id="woman_lastname" class="input_text" value="<?=$post['wname']?>" /></td>
+				<td><input name="woman_lastname" type="text" id="woman_lastname" class="input_text" value="<?=$search_woman_name?>" /></td>
 			  </tr>
 			  </table>
 
