@@ -182,7 +182,11 @@ function m_win(url,windowname,width,height) {
  }
  window.open(url,windowname,features);
 }
-
+<?php
+if($get['action']=="reset")){
+  echo "alert(\"依頼解除されました\")";
+}
+?>
 // --></script>
 <div id="topnavi">
 
