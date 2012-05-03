@@ -149,7 +149,7 @@ class Model_User extends Model_Crud{
 		}else if($plan->is_hon_hatyu_irai() and !$plan->is_hon_hatyu()){
 			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".
         $user_name." 様から印刷依頼がありました。</a></li>";
-    }else if($this->past_deadline_sekijihyo() and !$plan->is_hon_hatyu()){
+    }else if($this->past_deadline_honhatyu() and !$plan->is_hon_hatyu()){
       $msg_text .= "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
         $party_day."  ".$user_name." 様は席次表本発注締切日を過ぎています。</a></li>";
     }
