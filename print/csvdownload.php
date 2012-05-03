@@ -15,8 +15,9 @@ $objInfo = new InformationClass();
 $this_name = $HOTELID;
 $get = $obj->protectXSS($_GET);
 
-//$user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
-$user_id = $_GET["user_id"];
+$user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
+//test script
+//$user_id = $_GET["user_id"];
 
 if($user_id>0)
 {
@@ -673,7 +674,8 @@ else if($user_info['id']<100)
 $user_id_name="00".$user_info['id'];
 else if($user_info['id']<1000)
 $user_id_name="0".$user_info['id'];
-print $lines;exit;
+//test script
+//print $lines;exit;
 header("Content-Type: application/octet-stream");
 header("Cache-Control: public");
 header("Pragma: public");
