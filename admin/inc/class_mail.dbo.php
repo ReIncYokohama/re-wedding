@@ -661,7 +661,7 @@ html;
 
 いつもお世話になっております。
 
-      {$party_day00} {$user_info['man_lastname']}({$user_info['man_furi_lastname']})・{$user_info['woman_lastname']}({$user_info['woman_furi_lastname']})様の引出物本発注締切日を過ぎています。
+{$party_day00} {$user_info['man_lastname']}({$user_info['man_furi_lastname']})・{$user_info['woman_lastname']}({$user_info['woman_furi_lastname']})様の引出物本発注締切日を過ぎています。
 お客様にご確認の上、至急引出物処理をお願いいたします。
 {$admin_link}
 
