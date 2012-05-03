@@ -225,7 +225,7 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 <div align="center">
 <table width="680" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td align="center"><font size="2">Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.</font></td>
+    <td align="center"><font size="2">Copyright (C) 株式会社サンプリンティングシステム All rights reserved.</font></td>
   </tr>
 </table>
 </div>
