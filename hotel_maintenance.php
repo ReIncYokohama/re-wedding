@@ -116,7 +116,7 @@ foreach($hotelArray as $hotel){
 ?>
   <tr>
     <td valign="middle" nowrap="nowrap">
-     <input type="checkbox" class="hotel_checkbox" name="hotels[]" value="<?=$hotel["id"]?>" onchange="change_checkbox();" <?php echo ($key)?"checked":"";?>/>
+     <input type="checkbox" class="hotel_checkbox" name="hotels[]" value="<?=$hotel["id"]?>" onclick="change_checkbox();" <?php echo ($key)?"checked":"";?>/>
     </td>
     <td width="100" align="right" valign="middle" nowrap="nowrap"><?=$hotel["hotel_code"]?></td>
     <td width="20" align="left" valign="middle" nowrap="nowrap">&nbsp;</td>
