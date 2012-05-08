@@ -144,9 +144,9 @@ include("inc/return_dbcon.inc.php");
                 <td  width="13%"><?=$logObject["screen_name"]?></td>
                 <td  width="13%"><?=$logObject["target_user"]?></td>
                 <td  width="7%"><?=$logObject["kind"]?></td>
-                <td  width="12%"><?=$logObject["target_category"]?></td>
-                <td  width="13%"><?=$logObject["previous_status"]?></td>
-                <td  width="13%"><?=$logObject["current_status"]?></td>
+                <td  class="target_category" width="12%"><?=$logObject["target_category"]?></td>
+                <td  class="previous_status" width="13%"><?=$logObject["previous_status"]?></td>
+                <td  class="current_status" width="13%"><?=$logObject["current_status"]?></td>
               </tr>
               </table>
               </div>
@@ -176,3 +176,5 @@ include("inc/return_dbcon.inc.php");
 <?php
 	include_once("inc/new.footer.inc.php");
 ?>
+
+<script type="text/javascript" language="javascript" src="js/change_log.js"></script>

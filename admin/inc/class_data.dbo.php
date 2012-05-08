@@ -576,6 +576,7 @@ class DataClass extends DBO{
       
       list($target_category_arr,$before_data_arr,$after_data_arr)
         = $this->get_log_guest_profile($now_before_data_arr,$now_after_data_arr,$user_id);
+      
       return array("<div class='littlebox'>".implode("</div><div class='littlebox'>",$target_category_arr)."</div>",
                    "<div class='littlebox'>".implode("</div><div class='littlebox'>",$before_data_arr)."</div>",
                    "<div class='littlebox'>".implode("</div><div class='littlebox'>",$after_data_arr)."</div>");
