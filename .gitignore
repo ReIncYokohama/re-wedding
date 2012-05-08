@@ -1,5 +1,6 @@
 #コンフファイルを反映しない
 conf/conf.php
+.DS_Store
 
 #backupfileを反映しない
 *.bak
