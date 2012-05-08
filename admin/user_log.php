@@ -198,8 +198,6 @@ include("inc/return_dbcon.inc.php");
 </table></div>
 </div>
 
-</div></div>
-
 <?php
 	include_once("inc/left_nav.inc.php");
 ?>
