@@ -4,9 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>招待者リストcsv一括アップロード</title>
   <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
-  <!--[if IE]>
       <style type="text/css" media="all">.borderitem {border-style: solid;}</style>
-      <![endif]-->
   <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
   <script>
   $(document).ready(function(){
@@ -24,6 +22,7 @@ var lock = false;
 function submit(){
   if(!lock){
     document.uploaddoc.submit();
+    $("#loading").show();
     lock = true;
   }
 }
@@ -91,6 +90,7 @@ if($plan->is_kari_hatyu_irai() or $plan->is_kari_hatyu()){
     <div class="top_box2">
       <a href="javascript:void(0);"><img onclick="javascript:submit();" src="img/btn_upload_list.jpg" alt="アップロード" width="82" height="22" /></a>
       <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_cancel.jpg" alt="閉じる" width="82" height="22" /></a>
+    <span id="loading" style="display:none;"><img src="img/common/nowloading.gif"></span>
       　</div>
 
 <?php
