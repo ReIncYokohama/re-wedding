@@ -404,7 +404,6 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
     $max_width = 110*$max_columns_num*2;
     $width = 110*$active_columns_num*2;
     $html .= get_center_table($max_width,$width,$subhtml)."</td></tr><tr><td></td></tr>";
-    //$html .= $subhtml."</td></tr><tr><td></td></tr>";
   }
   if(!$haveRow) return "";
   $html .="</table>";
@@ -478,7 +477,6 @@ for($i=0;$i<count($page_arr);++$i){
   if($html != "" && $i != 0 && count($page_arr) != 1) $pdf->addPage();
   draw_html($plan_id,$html,$pdf,$page_arr_max_columns_num[$i],$max_width);
 }
-
 // ---------------------------------------------------------
 
 // Close and output PDF document
