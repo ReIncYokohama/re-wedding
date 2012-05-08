@@ -1,5 +1,4 @@
 <?php
-
 include_once("admin/inc/class_data.dbo.php");
 
 $data_class = new DataClass;
@@ -237,8 +236,12 @@ body{
             <?php if($plan->editable()){ ?>
             <image src="img/btn_save_user.jpg" id="save_button"/>
             <image src="img/btn_rollback_user.jpg" id="reset_button"/>
-            <?php }?>
             <image src="img/btn_back_user.jpg" id="back_button"/>
+               <?php }else{?>
+            <a href="make_plan.php">
+            <image src="img/btn_back_user.jpg"/>
+            </a>
+             <?php }?>
           </div>
           <br/>
           <div id="make_plan_table">
