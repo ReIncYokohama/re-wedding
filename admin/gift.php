@@ -202,6 +202,12 @@ function validForm(x)
 	}
   for($i=1;$i<=7;++$i){
     $value = $("#name"+$i).val();
+    if(num_gift_groups<$i && String($value).length>0){
+      alert("グループ記号の上限を超えるグループ記号を入力されています");
+      $r_flg = 1;
+      document.getElementById('name'+$i).focus();
+      break;
+    }
     if(String($value).length>2){
       alert("グループ記号は２文字以内で入力してください。");
       $r_flg = 1;
