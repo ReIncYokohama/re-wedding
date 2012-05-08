@@ -105,8 +105,15 @@ $(function(){
 										echo "<td align='left' width='22%'>ログアウト</td>";
 										echo "</tr>";
 									}
-									}
-								}
+                  else {
+                      echo "<tr align='center'>";
+                      $j++; echo "<td align='center' width='5%'>$j</td>";
+                      echo "<td align='left' width='22%'style='font-size:100%;' >----&nbsp;/&nbsp;&nbsp;--&nbsp;/&nbsp;&nbsp;--&nbsp;&nbsp;--&nbsp;:&nbsp;--&nbsp;:&nbsp;--</td>";
+                      echo "<td align='left' width='22%'>$msg</td>";
+                      echo "<td align='left' width='22%'>画面消去</td>";
+                      echo "</tr>";
+                  }
+                }
 							?>
                            </tr>
                         </table>
