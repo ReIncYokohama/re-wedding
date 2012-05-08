@@ -2,6 +2,7 @@
 	require_once("inc/class.dbo.php");
 	include_once("inc/checklogin.inc.php");
 	include_once("inc/new.header.inc.php");
+include_once("../fuel/load_classes.php");
 	$obj = new DBO();
 	$user_id = $_GET['user_id'];
 	$table='spssp_user_log';
@@ -80,14 +81,12 @@ include("inc/return_dbcon.inc.php");
 	require_once("inc/include_class_files.php");
 	$objInfo = new InformationClass();
     ?>
-  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1",$height=20);?>
+  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1");?>
 ・
-  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20);?>
+  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1");?>
   様
 		 <h4>
-<!-- UCHIDA EDIT 11/08/02
-            <a href="users.php">お客様一覧 </a> &raquo; <a href="user_info_allentry.php?user_id=<?=$user_id?>">お客様画面挙式情報 </a> &raquo; お客様画面アクセスログ
- -->
+
 		<?php
 		if($stuff_id==0) {?>
             <a href="manage.php">ＴＯＰ</a> &raquo; <a href="user_info_allentry.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">お客様挙式情報 </a> &raquo; お客様画面アクセスログ
@@ -100,24 +99,16 @@ include("inc/return_dbcon.inc.php");
         </h4>
 		<h2>お客様画面アクセスログ</h2>
 
-<!-- UCHIDA EDIT 11/08/04 ↓ -->
-
         <div class="box_table">
 
 </div>
 
-<!-- UCHIDA EDIT 11/08/04 ↑ -->
 			<div style="text-align:right;"><?=$pageination?></div>
 
       		<div class="box4">
                 <table border="0" width="100%" align="center" cellpadding="1" cellspacing="1">
                     <tr align="center">
                         <td align="center" width="4%" bgcolor="#2252A3" style="color:#FFFFFF">No.</td>
-<!-- UCHIDA EDIT 11/08/04
-                        <td align="left" width="22%" bgcolor="#2252A3" style="color:#FFFFFF">最終ログイン</td>
-						<td align="left" width="22%" bgcolor="#2252A3" style="color:#FFFFFF">ログイン名</td>
-                        <td align="left" width="22%" bgcolor="#2252A3" style="color:#FFFFFF">最後のログアウト</td>
- -->
                         <td align="left" width="22%" bgcolor="#2252A3" style="color:#FFFFFF">アクセス日時</td>
 						<td align="left" width="22%" bgcolor="#2252A3" style="color:#FFFFFF">ログイン名</td>
                         <td align="left" width="22%" bgcolor="#2252A3" style="color:#FFFFFF">状態</td>
@@ -144,20 +135,11 @@ include("inc/return_dbcon.inc.php");
                     <div>
                         <table width="100%"  border="0" align="center" cellpadding="0" cellspacing="1">
                             <tr align="center">
-<!-- UCHIDA EDIT 11/08/04 ↓
-                            <td align="center" width="5%"><?=$j?></td>
-                            <td align="left" width="22%"><?=str_replace('-','/',$row['login_time'])?></td>
-							<td align="left" width="22%"><?php if($stuff_name!="") echo $stuff_name; else echo "お客様"; ?></td>
-                            <td align="left" width="22%"><?=str_replace('-','/',$row['logout_time'])?></td>
--->
 							<?php
 							if($stuff_name == "") {
 									$msg = "お客様";
 								}
 								else {
-// UCHIDA EDIT 11/08/09 名前だけの表示に変更
-//									if($obj->GetSingleData(" spssp_admin ", "permission", " id='".$row[admin_id]."'") == "111")
-//										$msg = "$stuff_name (SPS Stuff)"; else $msg = "$stuff_name (Hotel Stuff)";
 									$msg = $stuff_name;
 								}
 
@@ -181,16 +163,22 @@ include("inc/return_dbcon.inc.php");
 										echo "</tr>";
 									}
 									else {
+                    $loginDate = Core_Date::create_from_string(substr($time,0,10),"%Y/%m/%d");
+                    $login_timestamp = $loginDate->get_timestamp();
+                    $now_timestamp = mktime();
+                    if($login_timestamp<$now_timestamp && $login_timestamp+24*60*60 > $now_timestamp){
+                      
+                    }else{
 											echo "<tr align='center'>";
 											$j++; echo "<td align='center' width='5%'>$j</td>";
 											echo "<td align='left' width='22%'style='font-size:100%;' >----&nbsp;/&nbsp;--&nbsp;/&nbsp;--&nbsp;&nbsp;--:&nbsp;--:&nbsp;--</td>";
 											echo "<td align='left' width='22%'>$msg</td>";
 											echo "<td align='left' width='22%'>画面消去</td>";
 											echo "</tr>";
+                    }
 									}
 								}
 							?>
-<!-- UCHIDA EDIT 11/08/04 ↑ -->
                         	</tr>
                         </table>
                     </div>

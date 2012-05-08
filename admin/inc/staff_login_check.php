@@ -8,7 +8,7 @@ include_once("update_staff_log.php");
 	}
 	else {
 		$cont = file_get_contents($fileName);
-		$fn = split("#", $cont);
+		$fn = explode("#", $cont);
 		$reg_id = $fn[0];
 		$dt = $fn[1];
 		$nowDate = strtotime(date("Y/m/d H:i:s"));
