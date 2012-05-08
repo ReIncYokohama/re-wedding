@@ -36,7 +36,7 @@
   vertical-align: middle;
 }
 .make_plan_tables .seat {
-  width: 58px;
+  width: 80px;
   height: 30px;
   margin: 1px 2px;
   border: #a2a7bc 1px solid;
@@ -47,7 +47,7 @@
 .make_plan_tables .space {
   float: left;
   text-align: center;
-  width: 20px;
+  width: 16px;
   height: 30px;
 }
 a {
