@@ -70,7 +70,7 @@ $current_page=(int)$_GET['page'];
 $redirect_url = "my_guests.php";
 
 //$order = ' last_name asc ';
-$order = ' id asc ';
+$order = 'stage desc, id asc ';
 
 $plan = Model_Plan::find_one_by_user_id($_SESSION["userid"]);
 $plan_info = $plan->to_array();
@@ -80,7 +80,7 @@ if(isset($_GET['option']) && $_GET['option'] != '')
 		$optionValue = $_GET['option'];
 
 		$ordervalue = explode(",",$_GET['option']);
-
+    $orderarray[] = "stage desc";
     for($i=0;$i<(count($ordervalue)-1);$i++)
       {
         if($ordervalue[$i]=="sex"){
