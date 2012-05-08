@@ -63,31 +63,6 @@ class MessageClass extends InformationClass
     $user = Model_User::find_by_pk($user_id);
     return $user->get_hotel_message();
 	}
-  
-	function get_admin_side_daylimit_system_status_msg($user_id)
-	{
-    $user = Model_User::find_by_pk($user_id);
-		$user_info = $user->to_array();
-    $plan = Model_Plan::find_one_by_user_id($user_id);
-		$user_plan_info = $plan->to_array();
-    
-    $party_day = $this->getMonthAndDate($user_info["party_day"]);
-
-    $man_name = $this::get_user_name_image_or_src($user_id ,$hotel_id=1, $name="man_lastname.png",$extra="thumb2");
-    $woman_name = $this::get_user_name_image_or_src($user_id,$hotel_id=1 , $name="woman_lastname.png",$extra="thumb2");
-    $user_name = $man_name."・".$woman_name;
-    
-		$msg_text = "";
-    if($plan->is_hikidemono_hatyu_irai() and !$plan->is_hikidemono_hatyu()){
-      return $link = "<li><a href='guest_gift.php?user_id=".$user_id."'>".
-        $party_day."  ".$user_name." 様から引出物発注依頼がありました。</a></li>";
-    }
-    if($user->past_deadline_hikidemono()){
-      return $link = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
-        $party_day."  ".$user_name."  様は引出物本発注締切日を過ぎています。</a></li>";
-    }
-    return $msg_text;
-	}
 
 	function get_user_side_order_print_mail_system_status_msg($user_id)
 	{
@@ -97,10 +72,10 @@ class MessageClass extends InformationClass
 		$user_plan_info = $plan->to_array();
 
 		$msg_text = "";
-    if($user->past_deadline_sekijihyo() and !$plan->is_hon_hatyu_irai()){
+    if($user->past_deadline_honhatyu() and !$plan->is_hon_hatyu_irai()){
 			$msg_text .= "<div><a href='order.php'>席次表の印刷締切日を過ぎております。至急担当までご連絡の上、確認作業をお願いします。</a></div>";
     }
-		else if($user->past_deadline_sekijihyo_plus_day() and !$plan->is_hon_hatyu_irai()){
+		else if($user->past_deadline_honhatyu_alert() and !$plan->is_hon_hatyu_irai()){
 			$msg_text .= "<div><a href='order.php'>席次表の印刷締切日が近づいております。早めにご確認をお願いします。</a></div>";
 		}
     if($plan->uploaded_image() and !$plan->read_uploaded_image_for_user()){
@@ -110,22 +85,19 @@ class MessageClass extends InformationClass
           "印刷イメージが出来上がりました。</a></div>";
     }
 		return $msg_text;
-
 	}
-	function get_user_side_daylimit_system_status_msg($user_id) // UCHIDA EDIT 11/08/10 ユーザ 引出物確認
+	function get_user_side_daylimit_system_status_msg($user_id)
 	{
-		$user_plan_info = $this :: get_user_plan_info($user_id);
-		$user_info = $this :: get_user_info($user_id);
+    $user = Model_User::find_by_pk($user_id);
+    $plan = Model_Plan::find_one_by_user_id($user_id);
 
-    $link="";
-    if($user_plan_info['gift_daylimit']==0 || $user_plan_info['gift_daylimit']==2) { // UCHIDA EDIT 11/08/10 ０：初期値　２：メール送信済み
-      if($this :: proccesse_gift_day_limit($user_id)) { // 発注締切日を過ぎたか
-        $link .= "<div><a href='order.php'>".INFO_H."</a></div>";
-      }elseif($this :: proccesse_gift_day_limit_7_days($user_id)) { // 披露宴日７日前か
-        $link .= "<div><a href='order.php'>".INFO_K."</a></div>";
-      }
+		$msg_text = "";
+    if($user->past_deadline_hikidemono() and !$plan->is_hikidemono_hatyu_irai()){
+      $msg_text = "<li><a href='order.php' style='color:red;'>引出物の発注依頼の締め切り日を過ぎています。</a></li>";
+    }else if($user->past_deadline_hikidemono_alert() and !$plan->is_hikidemono_hatyu_irai()){
+      $msg_text .= "<li><a href='order.php' style='color:red;'>引出物の発注依頼の締め切り日が近づいています。</a></li>";
     }
-    return $link;
+    return $msg_text;
 		}
 
 	function user_suborder_admin_notification_message($user_id)

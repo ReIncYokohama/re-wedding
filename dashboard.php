@@ -24,7 +24,6 @@ $limit_day = floor($day);
 
 $date= $party_date->format('Y/m/d h:i A');
 
-
 $roomName = $obj->GetSingleData("spssp_room","name"," id = ".$user_data["room_id"]);
 
 //tabの切り替え
@@ -100,12 +99,11 @@ function japanyDateFormateForDashboard($rawTime, $time_24h=0) {
 		echo "<div>ご結婚おめでとうございます。印刷物・引出物のリスト作成をよろしくお願いします。</div>";
 		?>
 		<?php
-			echo $objMsg->get_user_side_order_print_mail_system_status_msg($user_id);	// 席次・席札確認 → お知らせメッセージ
-			echo $objMsg->get_user_side_daylimit_system_status_msg($user_id);			// 引出物確認     → お知らせメッセージ
+      echo $objMsg->get_user_side_order_print_mail_system_status_msg($user_id);	// 席次・席札確認 → お知らせメッセージ
+      echo $objMsg->get_user_side_daylimit_system_status_msg($user_id);			// 引出物確認     → お知らせメッセージ
       echo $objMsg->get_message_csv_import_for_user($user_id);
 		?>
 		<?php
-
 		$new_msg_count = $obj->GetRowCount("spssp_admin_messages","user_view=0 and  user_id='".$user_id."'");
 		if($new_msg_count>0)
 			{

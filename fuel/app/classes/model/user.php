@@ -72,7 +72,8 @@ class Model_User extends Model_Crud{
     $admin = Model_Admin::find_by_pk($this->stuff_id);
     return $admin->name;
   }
-
+  
+  //お客様ID利用期限日
   public function past_deadline_access(){
     $limit = Model_Option::get_deadline_access();
     $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
@@ -80,7 +81,8 @@ class Model_User extends Model_Crud{
     if($date->past_date(-$limit)) return false;
     return true;
   }
-
+  
+  //本発注締切日
   public function past_deadline_honhatyu(){
     if($this->confirm_day_num and $this->confirm_day_num != ""){
       $limit = $this->confirm_day_num;
@@ -93,6 +95,22 @@ class Model_User extends Model_Crud{
     return true;
   }
 
+  //本発注締切日から７日前
+  public function past_deadline_honhatyu_alert(){
+    if($this->confirm_day_num and $this->confirm_day_num != ""){
+      $limit = $this->confirm_day_num;
+    }else{
+      $limit = Model_Option::get_deadline_honhatyu();
+    }
+    $limit += 7;
+    $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
+    //締切日を過ぎた日なので１日足している。
+    if($date->past_date($limit)) return false;
+    return true;
+  }
+
+  
+  //引出物締切日
   public function past_deadline_hikidemono(){
     if($this->order_deadline and $this->order_deadline != ""){
       $limit = $this->order_deadline;
@@ -103,6 +121,19 @@ class Model_User extends Model_Crud{
     if($date->past_date($limit)) return false;
     return true;
   }
+  //引出物締切日から７日前
+  public function past_deadline_hikidemono_alert(){
+    if($this->order_deadline and $this->order_deadline != ""){
+      $limit = $this->order_deadline;
+    }else{
+      $limit = Model_Option::get_deadline_hikidemono();
+    }
+    $limit += 7;
+    $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
+    if($date->past_date($limit)) return false;
+    return true;
+  }
+
   
   static public function get_image($name,$user_id){
     $file = Core_Image::get_user_image_dir_relative($user_id).$name;
@@ -152,6 +183,9 @@ class Model_User extends Model_Crud{
     }else if($this->past_deadline_honhatyu() and !$plan->is_hon_hatyu()){
       $msg_text .= "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
         $party_day."  ".$user_name." 様は席次表本発注締切日を過ぎています。</a></li>";
+    }else if($this->past_deadline_honhatyu_alert() and !$plan->is_hon_hatyu()){
+      $msg_text .= "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
+        $party_day."  ".$user_name." 様は席次表本発注締切日が近づいています。</a></li>";
     }
     $msg_arr = array();
     if($msg_text != "") array_push($msg_arr,$msg_text);
@@ -161,9 +195,12 @@ class Model_User extends Model_Crud{
       $msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".
         $party_day."  ".$user_name." 様から引出物発注依頼がありました。</a></li>";
     }
-    if($this->past_deadline_hikidemono() and !$plan->is_hon_hatyu()){
+    if($this->past_deadline_hikidemono() and !$plan->is_hikidemono_hatyu()){
       $msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
         $party_day."  ".$user_name."  様は引出物本発注締切日を過ぎています。</a></li>";
+    }else if($this->past_deadline_hikidemono_alert() and !$plan->is_hikidemono_hatyu()){
+      $msg_text .= "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
+        $party_day."  ".$user_name." 様は引出物本発注締切日が近づいています。</a></li>";
     }
     if($msg_text != "") array_push($msg_arr,$msg_text);
 
