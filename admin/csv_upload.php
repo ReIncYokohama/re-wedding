@@ -49,6 +49,21 @@ margin: 0;
 <h2>招待者リストcsv一括アップロード</h2>
    
    
+<?php
+include("../fuel/load_classes.php");
+$user = Model_User::find_by_pk($_GET["user_id"]);
+$plan = Model_Plan::find_one_by_user_id($user->id);
+if($plan->is_kari_hatyu_irai() or $plan->is_kari_hatyu()){
+?>
+    <div class="top_box2">
+お客様は現在仮発注中です<br><br>
+現在、お客様は仮発注中なので、招待者リストのアップロードはできません。
+<br><br>
+      <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_cancel.jpg" alt="閉じる" width="82" height="22" /></a>
+    </div>
+<?
+}else{
+?>
     <div class="top_box1">
       <table width="600" border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -61,22 +76,7 @@ margin: 0;
           <td> 　</td>
         </tr>
       </table>
-
- 
 </div>
-<?php
-include("../fuel/load_classes.php");
-$user = Model_User::find_by_pk($_GET["user_id"]);
-$plan = Model_Plan::find_one_by_user_id($user->id);
-if($plan->is_kari_hatyu_irai() or $plan->is_kari_hatyu()){
-?>
-    <div class="top_box2">
-お客様は現在仮発注中です<br><br>
-      <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_cancel.jpg" alt="閉じる" width="82" height="22" /></a>
-    </div>
-<?
-}else{
-?>
     <div class="top_box1">
           <table width="500" border="0" cellspacing="0" cellpadding="0">
         <tr>
