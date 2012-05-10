@@ -16,9 +16,9 @@ if($_GET["user_id"] && (Core_Session::is_admin() || $_SESSION["printid"]>0))
   $user_id = (int)$_GET['user_id'];
 
 function get_center_table($max_width,$width,$html){
+  if($max_width == $width) return "<table><tr><td width=\"100%\">".$html."</td></tr></table>";
   $margin = floor((100*(($max_width-$width)/$max_width))*10/2)/10;
   $main_margin = floor((100-$margin*2)*10)/10;
-  if($max_width == $width) return "<table><tr><td width=\"100%\">".$html."</td></table>";
   return "<table><tr><td width=\"".$margin."%\"></td><td width=\"".$main_margin."%\">".$html."</td><td width=\"".$margin."%\"></td></tr></table>";
 }
 
@@ -289,19 +289,8 @@ function draw_html($plan_id,$html,$pdf,$num,$max_width){
     $table_width = 300*$num;
     $html = get_center_table($max_width,$table_width,$html);
   }
-  $samplefile="sam_".$plan_id."_".rand()."_".time().".txt";
   
-  $handle = fopen("cache/".$samplefile, "x");
-  
-  if(fwrite($handle, $html)==true)
-    {
-      fclose($handle);
-      $utf8text = file_get_contents("cache/".$samplefile, false);
-    }
-  
-  @unlink("cache/".$samplefile);
-  
-  $pdf->writeHTML($utf8text, true, false, true, false, '');
+  $pdf->writeHTML($html, true, false, true, false, '');
 }
 
 $page_arr = array();
@@ -348,6 +337,7 @@ for($i=0;$i<count($page_arr);++$i){
   if($html != "" && $i != 0) $pdf->addPage();
   draw_html($plan_id,$html,$pdf,$page_arr_max_columns_num[$i],$max_width);
 }
+
 // ---------------------------------------------------------
 
 // Close and output PDF document
