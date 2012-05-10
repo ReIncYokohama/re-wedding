@@ -175,6 +175,10 @@ class Model_Plan extends Model_Crud{
     }else{
       $this->order = 0;
     }
+    $this->dl_print_com_times=0;
+    $this->ul_print_com_times=0;
+    $this->sekiji_email_send_today_check = "";
+    
     $this->save();
   }
   
