@@ -187,6 +187,7 @@ class Model_Plan extends Model_Crud{
     $this->order = 3;
     $this->admin_to_pcompany = 3;
     $this->off_read_uploaded_image();
+    $this->off_read_uploaded_image_for_user();
     $this->save();
   }
   
