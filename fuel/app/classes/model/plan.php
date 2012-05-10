@@ -278,7 +278,7 @@ class Model_Plan extends Model_Crud{
     return false;
   }
   public function read_uploaded_image_for_user(){
-    if($this->ul_print_com_times != "" and $this->dl_print_com_times != 0){
+    if($this->ul_print_com_times != "" and $this->ul_print_com_times != 0){
       return true;
     }
     return false;

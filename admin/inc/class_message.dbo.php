@@ -73,7 +73,7 @@ class MessageClass extends InformationClass
 
 		$msg_text = "";
     if($user->past_deadline_honhatyu() and !$plan->is_hon_hatyu_irai()){
-			$msg_text .= "<div><a href='order.php'>席次表の印刷締切日を過ぎております。至急担当までご連絡の上、確認作業をお願いします。</a></div>";
+			$msg_text .= "<div><a href='order.php' style='color:red;'>席次表の印刷締切日を過ぎております。至急担当までご連絡の上、確認作業をお願いします。</a></div>";
     }
 		else if($user->past_deadline_honhatyu_alert() and !$plan->is_hon_hatyu_irai()){
 			$msg_text .= "<div><a href='order.php'>席次表の印刷締切日が近づいております。早めにご確認をお願いします。</a></div>";
