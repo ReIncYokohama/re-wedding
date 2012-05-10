@@ -1,4 +1,7 @@
-$ = $j;
+if(typeof($j) != "undefined"){
+    $ = $j;
+}
+
 $(window).load(function() {
 $(".target_category").each(function(){
     target_category_el = this;
