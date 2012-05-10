@@ -70,7 +70,10 @@ $user = Model_User::find_by_pk($_GET["user_id"]);
 $plan = Model_Plan::find_one_by_user_id($user->id);
 if($plan->is_kari_hatyu_irai() or $plan->is_kari_hatyu()){
 ?>
-<div style="text-align:center;">お客様は現在仮発注中です</div>
+    <div class="top_box2">
+お客様は現在仮発注中です<br><br>
+      <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_cancel.jpg" alt="閉じる" width="82" height="22" /></a>
+    </div>
 <?
 }else{
 ?>
