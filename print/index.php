@@ -17,7 +17,7 @@ if($_GET["action"]=="mailDateLimit"){
   echo "<script> alert('ダウンロード期限の65日を過ぎております'); </script>";
 }
 if($_GET["action"]=="pastPrintUpload"){
-  echo "<script> alert('ダウンロード期限の65日を過ぎております'); </script>";
+  echo "<script> alert('アップロード期限の65日を過ぎております'); </script>";
 }
 
 
