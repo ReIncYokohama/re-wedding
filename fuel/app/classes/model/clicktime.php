@@ -9,7 +9,7 @@ class Model_Clicktime extends Model_Crud{
   }
   public function past_print_upload(){
     $karihachu_date = $this->get_date("kari_hachu");
-    if(!$karihachu_date->past_date(-66)){
+    if(!$karihachu_date or !$karihachu_date->past_date(-66)){
       //65日過ぎている。
       //切れる当日は過ぎてない
       return true;

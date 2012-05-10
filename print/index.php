@@ -14,7 +14,7 @@ include_once(dirname(__FILE__)."/../../madmin/conf/version.php");
 		echo '<script type="text/javascript"> alert("現在、ログインはいただけません。\\nホテルから発注依頼があった場合のみログインいただけます。"); </script>';
 	}
 if($_GET["action"]=="mailDateLimit"){
-  echo "<script> alert('ダウンロード期限の65日を過ぎております'); </script>";
+  echo "<script> alert('ダウンロード期限の5日を過ぎております'); </script>";
 }
 if($_GET["action"]=="pastPrintUpload"){
   echo "<script> alert('アップロード期限の65日を過ぎております'); </script>";
