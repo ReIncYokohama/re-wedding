@@ -644,16 +644,17 @@ $guest_own_info = array_merge($guest_own_info,$takasago_arr);
 		$value = s($own_info['last_name']." ".$own_info['first_name']);
 		$own_array[] = setStrGaijis($value,$gaiji_name_arr);
 
+    
 		//com1 com2
-		if($guest_info['comment1']&&$guest_info['comment2']){
+		if($own_info['comment1']&&$own_info['comment2']){
       $comment_gaijis = array_merge($comment1_gaijis,$comment2_gaijis);
-			$value = s($guest_info['comment1'].'△'.$guest_info['comment2']);
+			$value = s($own_info['comment1'].'△'.$ownt_info['comment2']);
       $own_array[] = setStrGaijis($value,$comment_gaijis);
-		}elseif($guest_info['comment1']){
-			$value = s($guest_info['comment1']);
+		}elseif($own_info['comment1']){
+			$value = s($own_info['comment1']);
       $own_array[] = setStrGaijis($value,$comment1_gaijis);
-		}elseif($guest_info['comment2']){
-			$value = s($guest_info['comment2']);
+		}elseif($own_info['comment2']){
+			$value = s($own_info['comment2']);
       $own_array[] = setStrGaijis($value,$comment2_gaijis);
     }else $own_array[] = "";
 
