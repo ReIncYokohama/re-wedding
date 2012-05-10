@@ -1,4 +1,5 @@
 <?php
+
 //ini_set('auto_detect_line_endings', 1);
 include_once("inc/dbcon.inc.php");
 include_once("inc/class.dbo.php");
@@ -190,7 +191,7 @@ if(!$force){
     <div class="top_box1">
     <script>
    if(window.confirm('姓名が同じ人が既に登録されています。追加してよろしいですか？（同姓同名の場合はOKを押下してください）')){
-     location.href = location.href+"?force=true";
+     location.href = location.href+"?force=true&user_id=<?php echo $user_id;?>";
    }else{
      location.href = "csv_upload.php?user_id=<?=$user_id?>";
    }
