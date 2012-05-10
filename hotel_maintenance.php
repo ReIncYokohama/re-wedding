@@ -24,6 +24,7 @@ if($post["maintenance_id"]){
   $data["display"] = 0;
   $obj->UpdateData("spssp_maintenance", $data, " id = ".$_GET['maintenance_id']);
   $maintenance_message = "メンテナンス案内を解除しました";
+  $_GET['maintenance_id'] = $_GET["editing_maintenance_id"];
 //create
 }else if($post["title"] or $post["description"]){
   if(count($post["hotels"])>0){
@@ -40,6 +41,7 @@ if($post["maintenance_id"]){
 }else if($_GET["delete"]){
   $obj->DeleteRow("spssp_maintenance", " id = '".$_GET['maintenance_id']."'");
   $maintenance_message = "メンテナンス案内を削除しました";
+  $_GET['maintenance_id'] = $_GET["editing_maintenance_id"];
 }
 $maintenanceArray = $obj->getMaintenanceArray();
 
@@ -162,12 +164,12 @@ foreach($maintenanceArray as $maintenance){
 <?php
 if($maintenance["display"]){
 ?>
-<a href="?maintenance_id=<?=$maintenance["id"]?>&hide=true">解除</a>
+<a href="?maintenance_id=<?=$maintenance["id"]?>&hide=true&editing_maintenance_id=<?=$_GET["maintenance_id"]?>">解除</a>
 <?php }else{ ?>
 解除済
 <?php } ?>
 </td>
-    <td width="100" align="right" valign="middle" nowrap="nowrap"><a href="?delete=true&maintenance_id=<?=$maintenance["id"]?>" onclick="if(!confirm('削除しても宜しいですか？')){return false;}">
+    <td width="100" align="right" valign="middle" nowrap="nowrap"><a href="?delete=true&maintenance_id=<?=$maintenance["id"]?>&editing_maintenance_id=<?=$_GET["maintenance_id"]?>" onclick="if(!confirm('削除しても宜しいですか？')){return false;}">
       <img src="img/btn_delete_mente.gif">
     </a></td>
   </tr>
