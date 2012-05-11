@@ -93,9 +93,9 @@ class MessageClass extends InformationClass
 
 		$msg_text = "";
     if($user->past_deadline_hikidemono() and !$plan->is_hikidemono_hatyu_irai()){
-      $msg_text = "<li><a href='order.php' style='color:red;'>引出物の発注依頼の締め切り日を過ぎています。</a></li>";
+      $msg_text = "<div><a href='order.php' style='color:red;'>引出物の発注依頼の締め切り日を過ぎています。</a></div>";
     }else if($user->past_deadline_hikidemono_alert() and !$plan->is_hikidemono_hatyu_irai()){
-      $msg_text .= "<li><a href='order.php' style='color:red;'>引出物の発注依頼の締め切り日が近づいています。</a></li>";
+      $msg_text .= "<div><a href='order.php' style='color:red;'>引出物の発注依頼の締め切り日が近づいています。</a></div>";
     }
     return $msg_text;
 		}
