@@ -16,6 +16,14 @@ $guest_models_takasago = Model_Guest::find_by_takasago($user_id);
 $takasago_guests = Core_Arr::func($guest_models_takasago,"to_array");
 $guestArray = array_merge($takasago_guests,$table_data["guests"]);
 
+function cmp($a, $b) {
+  if ((int)$a["id"] == (int)$b["id"]) {
+    return 0;
+  }
+  return ( intval($a["id"]) <  intval($b["id"])) ? -1 : 1;
+}
+usort($guestArray, 'cmp');
+
 $html .='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -51,6 +59,7 @@ for($i=0;$i<count($guestArray);++$i){
     $table_name = $obj->get_table_name($table_id,$user_id);
   }
   $html .= '<tr>
+<td>'.$guestArray[$i]["id"].'</td>
 <td>'.$obj->get_host_sex_name($guestArray[$i]["sex"]).'</td>
 <td>'.$guestArray[$i]['last_name'].'</td>
 <td>'.$guestArray[$i]['first_name'].'</td>
@@ -68,6 +77,9 @@ for($i=0;$i<count($guestArray);++$i){
 
 }
 $html .= '</table></body></html>';
+
+//test code
+//print $html;exit;
 
 $today = date("md");
 
