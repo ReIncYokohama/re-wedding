@@ -6,6 +6,14 @@ include_once("admin/inc/dbcon.inc.php");
 include_once("admin/inc/class.dbo.php");
 include_once("fuel/load_classes.php");
 
+
+/*
+if(!Core_Login::check_login_time()){
+  echo "<script>alert('test');</script>";
+  redirect("logout.php");
+}
+*/
+
 $obj = new dbo();
 
 $post = $obj->protectXSS($_POST);
@@ -55,10 +63,10 @@ if($row['id']){
 		}
 		else
 		{
-			redirect("index.php?adminid=$userID&err=2"); // UCHIDA EDIT 11/08/17 ＩＤを再表示
+			redirect("index.php?adminid=$userID&err=2");
 		}
 	}else{
-		redirect("index.php?adminid=$userID&err=1"); // UCHIDA EDIT 11/08/17 ＩＤを再表示
+		redirect("index.php?adminid=$userID&err=1");
 	}
 }
 
