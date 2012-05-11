@@ -68,17 +68,14 @@ if($plan->is_kari_hatyu_irai() or $plan->is_kari_hatyu()){
       <table width="600" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td>「参照...」ボタンを押して、アップロードするファイルを選択してください。</td>
+          <td rowspan="4">
+            <span id="loading" style="display:none;"><img src="img/common/nowloading.gif"></span>
+          </td>
         </tr>
         <tr>
           <td>　※アップロードは時間がかかります。完了メッセージが出るまで画面を閉じないでください。</td>
         </tr>
-                <tr>
-          <td> 　</td>
-        </tr>
-      </table>
-</div>
-    <div class="top_box1">
-          <table width="500" border="0" cellspacing="0" cellpadding="0">
+        <tr><td><br><br></td></tr>
         <tr>
           <td>
             <form method="post" enctype="multipart/form-data" action="csv_upload_action.php" name="uploaddoc">
@@ -93,7 +90,6 @@ if($plan->is_kari_hatyu_irai() or $plan->is_kari_hatyu()){
     <div class="top_box2">
       <a href="javascript:void(0);"><img onclick="javascript:submit();" src="img/btn_upload_list.jpg" alt="アップロード" width="82" height="22" /></a>
       <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_cancel.jpg" alt="閉じる" width="82" height="22" /></a>
-    <span id="loading" style="display:none;"><img src="img/common/nowloading.gif"></span>
       　</div>
 
 <?php
