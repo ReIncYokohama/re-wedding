@@ -158,4 +158,3 @@ $("#close_window").hover(function(){
 			</div>
 		</div>
 	</div>
-<div id="main_contents">
