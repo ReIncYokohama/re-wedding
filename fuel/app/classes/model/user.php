@@ -167,46 +167,79 @@ class Model_User extends Model_Crud{
     $woman_name = $this->get_image_html("thumb2/woman_lastname.png");
     $user_name = $man_name."・".$woman_name;
     
-		$msg_text = "";
+    $msg_arr = array();
     //仮発注は、仮発注依頼がなくても可能なため、お知らせのフラグとcan_kari_hatyuのフラグは異なる。
     if($plan->is_kari_hatyu_irai() and !$plan->is_kari_hatyu()){
 			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".
-        $party_day."  ".$user_name."  様から仮発注依頼がありました。</a></li>";     
-    }else if($plan->uploaded_image() and !$plan->read_uploaded_image()){
+        $party_day."  ".$user_name."  様から仮発注依頼がありました。</a></li>";
+      array_push($msg_arr,$msg_text);
+    }
+    if($plan->uploaded_image() and !$plan->read_uploaded_image()){
       $msg_text  = "<div id=msg_hide1><a href=\"ajax/pdf_readed.php?user_id=".$user_id.
         "&filename=".$user_plan_info["p_company_file_up"].
         "\" target=_blank  onclick='hide_this(\"msg_hide1\");'>".$party_day.
         " ".$user_name."様向け印刷イメージが出来上がりました。</a></div>";
-		}else if($plan->is_hon_hatyu_irai() and !$plan->is_hon_hatyu()){
+      array_push($msg_arr,$msg_text);
+		}
+    if($plan->is_hon_hatyu_irai() and !$plan->is_hon_hatyu()){
 			$msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".$party_day."  ".
         $user_name." 様から印刷依頼がありました。</a></li>";
-    }else if($this->past_deadline_honhatyu() and !$plan->is_hon_hatyu()){
-      $msg_text .= "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
-        $party_day."  ".$user_name." 様は席次表本発注締切日を過ぎています。</a></li>";
-    }else if($this->past_deadline_honhatyu_alert() and !$plan->is_hon_hatyu()){
-      $msg_text .= "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
-        $party_day."  ".$user_name." 様は席次表本発注締切日が近づいています。</a></li>";
+      array_push($msg_arr,$msg_text);
     }
-    $msg_arr = array();
-    if($msg_text != "") array_push($msg_arr,$msg_text);
+    if($this->past_deadline_honhatyu() and !$plan->is_hon_hatyu()){
+      $msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
+        $party_day."  ".$user_name." 様は席次表本発注締切日を過ぎています。</a></li>";
+      array_push($msg_arr,$msg_text);
+    }else if($this->past_deadline_honhatyu_alert() and !$plan->is_hon_hatyu()){
+      $msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
+        $party_day."  ".$user_name." 様は席次表本発注締切日が近づいています。</a></li>";
+      array_push($msg_arr,$msg_text);
+    }
     
-		$msg_text = "";
     if($plan->is_hikidemono_hatyu_irai() and !$plan->is_hikidemono_hatyu() and !$plan->is_hon_hatyu()){
       $msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."'>".
         $party_day."  ".$user_name." 様から引出物発注依頼がありました。</a></li>";
+      array_push($msg_arr,$msg_text);
     }
     if($this->past_deadline_hikidemono() and !$plan->is_hikidemono_hatyu()){
       $msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
         $party_day."  ".$user_name."  様は引出物本発注締切日を過ぎています。</a></li>";
+      array_push($msg_arr,$msg_text);
     }else if($this->past_deadline_hikidemono_alert() and !$plan->is_hikidemono_hatyu()){
-      $msg_text .= "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
+      $msg_text = "<li><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
         $party_day."  ".$user_name." 様は引出物本発注締切日が近づいています。</a></li>";
+      array_push($msg_arr,$msg_text);
     }
-    if($msg_text != "") array_push($msg_arr,$msg_text);
 
 		return $msg_arr;
   }
-  
+  public function get_user_message(){
+    $plan = Model_Plan::find_one_by_user_id($this->id);
+
+    $msg_arr = array();
+    if($this->past_deadline_honhatyu() and !$plan->is_hon_hatyu_irai()){
+			$msg_text = "<div><a href='order.php' style='color:red;'>席次表の印刷締切日を過ぎております。至急担当までご連絡の上、確認作業をお願いします。</a></div>";
+      array_push($msg_arr,$msg_text);
+    }else if($this->past_deadline_honhatyu_alert() and !$plan->is_hon_hatyu_irai()){
+			$msg_text = "<div><a href='order.php'>席次表の印刷締切日が近づいております。早めにご確認をお願いします。</a></div>";
+      array_push($msg_arr,$msg_text);
+		}
+    if($plan->uploaded_image() and !$plan->read_uploaded_image_for_user()){
+      $href = $this->p_company_file_up;
+      $msg_text  = "<div id=msg_hide1><a href=\"admin/ajax/pdf_readed.php?user_id=".
+        $user_id."&filename=".$href."&userpage=ture\" target=\"_blank\" onclick='hide_this(\"msg_hide1\");'>".
+        "印刷イメージが出来上がりました。</a></div>";
+      array_push($msg_arr,$msg_text);
+    }
+    if($this->past_deadline_hikidemono() and !$plan->is_hikidemono_hatyu_irai()){
+      $msg_text = "<li><a href='order.php' style='color:red;'>引出物の発注依頼の締め切り日を過ぎています。</a></li>";
+      array_push($msg_arr,$msg_text);
+    }else if($this->past_deadline_hikidemono_alert() and !$plan->is_hikidemono_hatyu_irai()){
+      $msg_text = "<li><a href='order.php' style='color:red;'>引出物の発注依頼の締め切り日が近づいています。</a></li>";
+      array_push($msg_arr,$msg_text);
+    }
+		return $msg_arr;    
+  }  
   //席次表のフラグ
   public function get_sekijihyo_status(){
     $plan = Model_Plan::find_one_by_user_id($this->id);
