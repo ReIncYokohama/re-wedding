@@ -46,9 +46,9 @@ class Model_Csvuploadlog extends Model_Crud{
     if($user->past_deadline_access()){
       return "";
     }
-    return "<li><a href='user_dashboard.php?src=my_guests&user_id=".$this->user_id."' target='_blank'>".$party_day
+    return "<div><a href='user_dashboard.php?src=my_guests&user_id=".$this->user_id."' target='_blank'>".$party_day
       ." ".$man_name."・".$woman_name
-      ."様の招待客リストデータがアップロードされました。</a></li>";
+      ."様の招待客リストデータがアップロードされました。</a></div>";
   }
 
   static public function get_messages_for_user($user_id){
@@ -62,7 +62,7 @@ class Model_Csvuploadlog extends Model_Crud{
   }
 
   public function get_message_for_user(){
-    return "<li><a href='my_guests.php'>招待客リストデータが追加されました。</a></li>";
+    return "<div><a href='my_guests.php'>招待客リストデータが追加されました。</a></div>";
   }
 
   static public function log($user_id){
