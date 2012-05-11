@@ -18,7 +18,7 @@ class Core_Adminlogin {
   static public function check_login_time(){
     $data = static::parse_data();
     //違うユーザがログインしている。20分以内に他のユーザがログを更新している
-    if($data and session_id()!=$data["session"] and $data["unixtime"]+60*20<mktime()){
+    if($data and session_id()!=$data["session"] and $data["unixtime"]+60*20>mktime()){
       return false;
     }
     //他のユーザがログイン
@@ -44,13 +44,13 @@ class Core_Adminlogin {
                  );
   }
   static public function write(){
-    if(Core_Session::is_super()){
-      $file = static::get_admin_file();
-    }else{
-      $staff_id = Core_Session::get_staff_id();
-      $file = static::get_staff_file($staff_id);
-    }
+    $file = static::get_file();
     $text = session_id()."#".mktime();
     file_put_contents($file,$text);
   }
+  static public function destroy(){
+    $file = static::get_file();
+    unlink($file);
+  }
+
 }

@@ -34,6 +34,7 @@ class Core_Session{
 			return false;
 		}
   }
+  //Model_Adminのidでもある
   static public function get_staff_id(){
     return (int)$_SESSION['adminid'];
   }
@@ -51,6 +52,17 @@ class Core_Session{
     $admin = Model_Admin::find_by_pk(static::get_staff_id());
     return $admin["name"];
   }
-
+  static public function admin_unlink(){
+    Core_Adminlogin::destroy();
+    unset($_SESSION['adminid']);
+    unset($_SESSION['user_type']);
+    unset($_SESSION['hotel_id']);
+    unset($_SESSION['regenerate_id']);
+    unset($_SESSION['super_user']);
+		unset($_SESSION['userid']);
+		unset($_SESSION['useremail']);
+		unset($_SESSION['user_log_id']);
+		unset($_SESSION['cart']);
+  }
 }
 

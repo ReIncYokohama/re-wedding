@@ -21,6 +21,7 @@ upload/*
 gaizi.log
 cache/*
 _uaLog/*
+admin/_staff_log/*
 .htaccess
 .htpasswd
 
