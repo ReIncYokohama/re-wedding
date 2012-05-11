@@ -11,14 +11,15 @@ $user_id = (int)$get['user_id'];
 $user = Model_User::find_by_pk($user_id);
 $user_info = $user->to_array();
 	
-	$party_day = $user_info['party_day'];		
-	$ab = strtotime($party_day);
-	$limit_date = strtotime("+7 day",$ab);
+$party_day = $user_info['party_day'];		
+$ab = strtotime($party_day);
+$limit_date = strtotime("+7 day",$ab);
 
 if($party_day=="" || time()>$limit_date)
-	{
-		redirect("manage.php");
-	}
+{
+	redirect("manage.php");
+}
+
 if($_SESSION["userid"] && $_SESSION["userid"]!=$user_id && !$_GET["reload"]){
   print "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><script>if(confirm(\"同時に２名のお客様画面を操作できません。\\n２人目のお客様画面を開きますか？\\n\\n※ブラウザによりお客様画面が２つ開きます。\\n※１人目の画面が開いている場合はログアウトして画面を閉じてください。\")){ location.href = \"?reload=true&user_id=".$user_id."\";}else{ location.href = \"../dashboard.php\"}</script></head></html>";
   exit;
@@ -47,10 +48,16 @@ $id = $obj->InsertData("spssp_user_log", $user_log);
 
 $_SESSION['user_log_id'] = $id;
 
+//ここにログインするまでの処理書く
+//ユーザがすでにログインしているかどうかチェックして大丈夫なら
+if(!Core_Login::check_login_time()){
+  echo "<html><head><script> alert('既に同じ権限のユーザがログインされています');location.replace('index.php'); </script></head></body>";
+  exit;  
+}
 if($_GET["src"]=="my_guests"){
-  redirect("../login.php?src=my_guests");
+  Response::redirect("../my_guests.php");
 }else{
-	redirect("../login.php?src=admin");
+  Response::redirect("../dashboard.php");
 }
 	
 ?>
