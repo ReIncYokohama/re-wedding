@@ -106,6 +106,7 @@ if(isset($_GET['option']) && $_GET['option'] != '')
 
 					}
       }
+    $orderarray[] = "id asc";
     $order=implode(",",$orderarray);
 	}
 

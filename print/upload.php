@@ -12,7 +12,6 @@ if($_SESSION['printid'] =='')
   redirect("index.php");exit;
 }
 $user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
-//$user_id = $_GET["user_id"];
 if($user_id>0)
 {
 	//OK
