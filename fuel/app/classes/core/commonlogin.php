@@ -6,12 +6,13 @@ class Core_Commonlogin{
     if($data and session_id()!=$data["session"] and $data["unixtime"]+60*20>mktime()){
       return false;
     }
-    //他のユーザがログイン
-    if($data or session_id()!=$data["session"]){
+    //新規ユーザがログイン
+    if(!$data){
       session_regenerate_id();
       static::write();
       return true;
     }
+    //違うユーザがログイン。他のユーザが20分以上ログインしていない
     //同じユーザがログイン
     static::write();
     return true;

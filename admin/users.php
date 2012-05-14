@@ -12,8 +12,6 @@ $staff_id = Core_Session::get_staff_id();
 
 $messages = Model_Message::get_by_admin();
 
-include_once("inc/update_user_log_for_db.php");
-update_user_log_for_db((int)(USER_LOGIN_TIMEOUT), $obj, $user_id_arr);
 $user_id_arr = array();
 if($_SESSION["super_user"] == false) {
   Response::redirect("manage.php");

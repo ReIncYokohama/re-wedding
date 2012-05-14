@@ -8,7 +8,7 @@ if(!Core_Session::is_super()){
   if($amdin){
     $admin->updatetime = date("Y-m-d H:i:s");
     $admin->sessionid = "";
-    $admin->save();    
+    $admin->save();
   }
 } 
 
@@ -20,4 +20,3 @@ if($user_log){
 
 Core_Session::admin_unlink();
 Response::redirect("index.php");
-?>

@@ -25,7 +25,7 @@ if($row['id']){
       //adminidはstaffidのこと。なぜ？
       $_SESSION['adminid'] = 0;
       if(!Core_Login::check_login_time()){
-        echo "<html><head><script> alert('既に同じ権限のユーザがログインされています');location.replace('index.php'); </script></head></body>";
+        echo "<html><head><script> alert('現在ホテルスタッフがログインしております');location.replace('index.php'); </script></head></body>";
         exit;
       }
 

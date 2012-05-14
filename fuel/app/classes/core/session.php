@@ -12,8 +12,9 @@ class Core_Session{
   static public function get_user_id(){
     return $_SESSION["userid"];
   }
+  //dont use
   static public function is_admin(){
-    if((int)$_SESSION["adminid"] > 0){
+    if((int)$_SESSION["user_type"] == 333){
 			return true;
 		}else{
 			return false;
@@ -63,6 +64,16 @@ class Core_Session{
 		unset($_SESSION['useremail']);
 		unset($_SESSION['user_log_id']);
 		unset($_SESSION['cart']);
+  }
+  static public function user_unlink(){
+    Core_Login::destroy();
+    unset($_SESSION['userid']);
+    unset($_SESSION['useremail']);
+    unset($_SESSION['user_log_id']);
+    unset($_SESSION['cart']);
+    unset($_SESSION['lastlogintime']);
+    unset($_SESSION['userid_admin']);
+    unset($_SESSION['regenerate_user_id']);
   }
 }
 
