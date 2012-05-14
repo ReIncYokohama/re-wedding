@@ -20,7 +20,6 @@ if($party_day=="" || time()>$limit_date)
 	redirect("manage.php");
 }
 
-
 if($_SESSION["userid"] && $_SESSION["userid"]!=$user_id && !$_GET["reload"]){
   print "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><script>if(confirm(\"同時に２名のお客様画面を操作できません。\\n２人目のお客様画面を開きますか？\\n\\n※ブラウザによりお客様画面が２つ開きます。\\n※１人目の画面が開いている場合はログアウトして画面を閉じてください。\")){ location.href = \"?reload=true&user_id=".$user_id."\";}else{ location.href = \"../dashboard.php\"}</script></head></html>";
   exit;
@@ -61,4 +60,3 @@ if($_GET["src"]=="my_guests"){
 }
 	
 ?>
-	
