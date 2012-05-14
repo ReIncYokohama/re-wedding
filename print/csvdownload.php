@@ -467,9 +467,12 @@ foreach($usertblrows as $tblRows)
 		$cl22[] = "$value";
 
 		//guest-type 区分
-		$guest_type = $obj->GetSingleData("spssp_guest_type", "name","id=".$guest_info['guest_type']);
+    include("../admin/inc/main_dbcon.inc.php");
+    $guest_type_obj = Model_Guesttype::find_by_pk($guest_info['guest_type']);
+    $guest_type = $guest_type_obj["name"];
 		$value = s($guest_type);
 		$cl22[] = "$value";
+    include("../admin/inc/return_dbcon.inc.php");
 
 		//LastName	外字
 		$value = s($guest_info['last_name']);
@@ -626,9 +629,12 @@ $guest_own_info = array_merge($guest_own_info,$takasago_arr);
 		$own_array[] = "$value";
 
 		//guest-type 区分
-		$guest_type = $obj->GetSingleData("spssp_guest_type", "name","id=".$own_info['guest_type']);
+    include("../admin/inc/main_dbcon.inc.php");
+    $guest_type_obj = Model_Guesttype::find_by_pk((int)$own_info['guest_type']);
+    $guest_type = $guest_type_obj["name"];
 		$value = s($guest_type);
 		$own_array[] = "$value";
+    include("../admin/inc/return_dbcon.inc.php");
 
 		//LastName	外字姓
 		$value = s($own_info['last_name']);
