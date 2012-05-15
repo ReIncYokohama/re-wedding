@@ -281,9 +281,35 @@ class Re.views.make_plan_left_sidebar extends Backbone.View
     )
     @dragevent = $("body").bind "mousemove",@drag
     @mouseupevent = $("body").bind "mouseup",@mouseup
+    @timer = setInterval @move,20
+  move:()=>
+    if not @screen_x
+      return
+    win = $(window)
+    win_left = win.scrollLeft()
+    win_top = win.scrollTop()
+    html_width = $("html").width()
+    html_height = document.body.clientHeight
+    if not html_height
+      html_height = document.documentElement.clientHeight
+    if @screen_x + 150 > html_width
+      win.scrollLeft(win_left + 5);
+    else if @screen_x < 150 and win_left > 0
+      win.scrollLeft(win_left - 5);
+    if @screen_y + 100 > html_height
+      win.scrollTop(win_top + 5);
+    else if @screen_y < 200 and win_top > 0
+      win.scrollTop(win_top - 5);
+
+  screen_x:0
   drag:(e)=>
     @dragbox.near(e)
+    @screen_x = e.screenX
+    @screen_y = e.screenY
   mouseup:(e)=>
+    if @timer
+      clearInterval @timer
+      @timer = false
     $("body").unbind "mousemove",@drag
     $("body").unbind "mouseup",@mouseup
     @dragbox.remove()
