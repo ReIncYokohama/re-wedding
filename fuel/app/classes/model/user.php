@@ -158,7 +158,6 @@ class Model_User extends Model_Crud{
   //お知らせ情報の取得
   public function get_hotel_message(){
     $user_id = $this->id;
-		$user_info = $this->to_array();
     $plan = Model_Plan::find_one_by_user_id($user_id);
 		$user_plan_info = $plan->to_array();
     $party_day = Core_Date::convert_month_and_date($this->party_day);
@@ -176,7 +175,7 @@ class Model_User extends Model_Crud{
     }
     if($plan->uploaded_image() and !$plan->read_uploaded_image()){
       $msg_text  = "<div id=msg_hide1><a href=\"ajax/pdf_readed.php?user_id=".$user_id.
-        "&filename=".$user_plan_info["p_company_file_up"].
+        "&filename=".$plan->p_company_file_up.
         "\" target=_blank  onclick='hide_this(\"msg_hide1\");'>".$party_day.
         " ".$user_name."様向け印刷イメージが出来上がりました。</a></div>";
       array_push($msg_arr,$msg_text);
@@ -214,6 +213,7 @@ class Model_User extends Model_Crud{
 		return $msg_arr;
   }
   public function get_user_message(){
+    $user_id = $this->id;    
     $plan = Model_Plan::find_one_by_user_id($this->id);
 
     $msg_arr = array();
