@@ -9,11 +9,11 @@ $hotelArray = $obj->getHotelArray();
 //update
 if($post["maintenance_id"]){
   if(count($post["hotels"])>0){
-    $data["hotel_ids"] = implode(",",$post["hotels"]);
+    sort($post["hotels"]);
     $data = array();
+    $data["hotel_ids"] = implode(",",$post["hotels"]);
     $data["title"] = $post["title"];
     $data["description"] = $post["description"];
-    sort($post["hotels"]);
     $data["display"] = 1;
     $obj->UpdateData("spssp_maintenance", $data, " id = ".$post['maintenance_id']);
   }else{
