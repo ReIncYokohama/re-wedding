@@ -225,7 +225,7 @@ class Model_User extends Model_Crud{
       array_push($msg_arr,$msg_text);
 		}
     if($plan->uploaded_image() and !$plan->read_uploaded_image_for_user()){
-      $href = $this->p_company_file_up;
+      $href = $plan->p_company_file_up;
       $msg_text  = "<div id=msg_hide1><a href=\"admin/ajax/pdf_readed.php?user_id=".
         $user_id."&filename=".$href."&userpage=ture\" target=\"_blank\" onclick='hide_this(\"msg_hide1\");'>".
         "印刷イメージが出来上がりました。</a></div>";
