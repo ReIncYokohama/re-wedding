@@ -477,8 +477,8 @@
       this.dragbox = new Re.views.make_plan_drag_box({
         model: this.model
       });
-      this.dragevent = $(window).bind("mousemove", this.drag);
-      return this.mouseupevent = $(window).bind("mouseup", this.mouseup);
+      this.dragevent = $("body").bind("mousemove", this.drag);
+      return this.mouseupevent = $("body").bind("mouseup", this.mouseup);
     };
 
     make_plan_left_sidebar.prototype.drag = function(e) {
@@ -486,8 +486,8 @@
     };
 
     make_plan_left_sidebar.prototype.mouseup = function(e) {
-      $(window).unbind("mousemove", this.drag);
-      $(window).unbind("mouseup", this.mouseup);
+      $("body").unbind("mousemove", this.drag);
+      $("body").unbind("mouseup", this.mouseup);
       this.dragbox.remove();
       this.main_view.onDrag = false;
       return this.main_view.drop(this);
