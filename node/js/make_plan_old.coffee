@@ -214,9 +214,7 @@ class Re.views.make_plan_view extends Backbone.View
     win_left = win.scrollLeft()
     win_top = win.scrollTop()
     html_width = $("html").width()
-    html_height = document.body.clientHeight
-    if not html_height
-      html_height = document.documentElement.clientHeight
+    html_height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
     if @screen_x + 150 > html_width
       win.scrollLeft(win_left + 5)
     else if @screen_x < 150 and win_left > 0
