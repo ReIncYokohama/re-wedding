@@ -419,7 +419,8 @@
         model: this.guest
       });
       this.dragevent = $("body").bind("mousemove", this.drag);
-      return this.mouseupevent = $("body").bind("mouseup", this.mouseup);
+      this.mouseupevent = $("body").bind("mouseup", this.mouseup);
+      return e.originalEvent.preventDefault();
     };
 
     make_plan_seat.prototype.drag = function(e) {
@@ -480,7 +481,8 @@
       });
       this.dragevent = $("body").bind("mousemove", this.drag);
       this.mouseupevent = $("body").bind("mouseup", this.mouseup);
-      return this.timer = setInterval(this.move, 20);
+      this.timer = setInterval(this.move, 20);
+      return e.originalEvent.preventDefault();
     };
 
     make_plan_left_sidebar.prototype.move = function() {
@@ -497,7 +499,7 @@
       } else if (this.screen_x < 150 && win_left > 0) {
         win.scrollLeft(win_left - 5);
       }
-      if (this.screen_y + 100 > html_height) {
+      if (this.screen_y + 50 > html_height) {
         return win.scrollTop(win_top + 5);
       } else if (this.screen_y < 200 && win_top > 0) {
         return win.scrollTop(win_top - 5);
