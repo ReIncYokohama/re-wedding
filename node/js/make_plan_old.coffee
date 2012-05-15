@@ -245,13 +245,13 @@ class Re.views.make_plan_seat extends Backbone.View
     @dragbox = new Re.views.make_plan_drag_box(
       model:@guest
     )
-    @dragevent = $(window).bind "mousemove",@drag
-    @mouseupevent = $(window).bind "mouseup",@mouseup
+    @dragevent = $("body").bind "mousemove",@drag
+    @mouseupevent = $("body").bind "mouseup",@mouseup
   drag:(e)=>
     @dragbox.near(e)
   mouseup:()=>
-    $(window).unbind "mousemove",@drag
-    $(window).unbind "mouseup",@mouseup
+    $("body").unbind "mousemove",@drag
+    $("body").unbind "mouseup",@mouseup
     @dragbox.remove()
     @main_view.onDrag = false
     @main_view.drop_from_seat @
@@ -306,7 +306,7 @@ class Re.views.make_plan_drag_box extends Backbone.View
   tagName:"div"
   className:"drag_box"
   initialize:()->
-    @$el.html "<image src=\""+@model.get_guest_image()+"\">";
+    @$el.html "<img src=\""+@model.get_guest_image()+"\"/>";
     @$el.hide()
     $("body").append @el
   near:(e)->

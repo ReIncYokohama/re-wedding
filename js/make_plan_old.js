@@ -418,8 +418,8 @@
       this.dragbox = new Re.views.make_plan_drag_box({
         model: this.guest
       });
-      this.dragevent = $(window).bind("mousemove", this.drag);
-      return this.mouseupevent = $(window).bind("mouseup", this.mouseup);
+      this.dragevent = $("body").bind("mousemove", this.drag);
+      return this.mouseupevent = $("body").bind("mouseup", this.mouseup);
     };
 
     make_plan_seat.prototype.drag = function(e) {
@@ -427,8 +427,8 @@
     };
 
     make_plan_seat.prototype.mouseup = function() {
-      $(window).unbind("mousemove", this.drag);
-      $(window).unbind("mouseup", this.mouseup);
+      $("body").unbind("mousemove", this.drag);
+      $("body").unbind("mouseup", this.mouseup);
       this.dragbox.remove();
       this.main_view.onDrag = false;
       return this.main_view.drop_from_seat(this);
@@ -527,7 +527,7 @@
     make_plan_drag_box.prototype.className = "drag_box";
 
     make_plan_drag_box.prototype.initialize = function() {
-      this.$el.html("<image src=\"" + this.model.get_guest_image() + "\">");
+      this.$el.html("<img src=\"" + this.model.get_guest_image() + "\"/>");
       this.$el.hide();
       return $("body").append(this.el);
     };
