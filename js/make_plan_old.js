@@ -356,13 +356,55 @@
 
   })(Backbone.View);
 
+  Re.views.make_plan_view = (function(_super) {
+
+    __extends(make_plan_view, _super);
+
+    function make_plan_view() {
+      this.drag = __bind(this.drag, this);
+      this.move = __bind(this.move, this);
+      make_plan_view.__super__.constructor.apply(this, arguments);
+    }
+
+    make_plan_view.prototype.move = function() {
+      var html_height, html_width, win, win_left, win_top;
+      if (!this.screen_x) return;
+      win = $(window);
+      win_left = win.scrollLeft();
+      win_top = win.scrollTop();
+      html_width = $("html").width();
+      html_height = document.body.clientHeight;
+      if (!html_height) html_height = document.documentElement.clientHeight;
+      if (this.screen_x + 150 > html_width) {
+        win.scrollLeft(win_left + 5);
+      } else if (this.screen_x < 150 && win_left > 0) {
+        win.scrollLeft(win_left - 5);
+      }
+      if (this.screen_y + 50 > html_height) {
+        return win.scrollTop(win_top + 5);
+      } else if (this.screen_y < 200 && win_top > 0) {
+        return win.scrollTop(win_top - 5);
+      }
+    };
+
+    make_plan_view.prototype.screen_x = 0;
+
+    make_plan_view.prototype.drag = function(e) {
+      this.dragbox.near(e);
+      this.screen_x = e.screenX;
+      return this.screen_y = e.screenY;
+    };
+
+    return make_plan_view;
+
+  })(Backbone.View);
+
   Re.views.make_plan_seat = (function(_super) {
 
     __extends(make_plan_seat, _super);
 
     function make_plan_seat() {
       this.mouseup = __bind(this.mouseup, this);
-      this.drag = __bind(this.drag, this);
       make_plan_seat.__super__.constructor.apply(this, arguments);
     }
 
@@ -420,14 +462,15 @@
       });
       this.dragevent = $("body").bind("mousemove", this.drag);
       this.mouseupevent = $("body").bind("mouseup", this.mouseup);
+      this.timer = setInterval(this.move, 20);
       return e.originalEvent.preventDefault();
     };
 
-    make_plan_seat.prototype.drag = function(e) {
-      return this.dragbox.near(e);
-    };
-
     make_plan_seat.prototype.mouseup = function() {
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = false;
+      }
       $("body").unbind("mousemove", this.drag);
       $("body").unbind("mouseup", this.mouseup);
       this.dragbox.remove();
@@ -437,7 +480,7 @@
 
     return make_plan_seat;
 
-  })(Backbone.View);
+  })(Re.views.make_plan_view);
 
   Re.views.make_plan_left_sidebar = (function(_super) {
 
@@ -445,8 +488,6 @@
 
     function make_plan_left_sidebar() {
       this.mouseup = __bind(this.mouseup, this);
-      this.drag = __bind(this.drag, this);
-      this.move = __bind(this.move, this);
       this.dragstart = __bind(this.dragstart, this);
       make_plan_left_sidebar.__super__.constructor.apply(this, arguments);
     }
@@ -485,35 +526,6 @@
       return e.originalEvent.preventDefault();
     };
 
-    make_plan_left_sidebar.prototype.move = function() {
-      var html_height, html_width, win, win_left, win_top;
-      if (!this.screen_x) return;
-      win = $(window);
-      win_left = win.scrollLeft();
-      win_top = win.scrollTop();
-      html_width = $("html").width();
-      html_height = document.body.clientHeight;
-      if (!html_height) html_height = document.documentElement.clientHeight;
-      if (this.screen_x + 150 > html_width) {
-        win.scrollLeft(win_left + 5);
-      } else if (this.screen_x < 150 && win_left > 0) {
-        win.scrollLeft(win_left - 5);
-      }
-      if (this.screen_y + 50 > html_height) {
-        return win.scrollTop(win_top + 5);
-      } else if (this.screen_y < 200 && win_top > 0) {
-        return win.scrollTop(win_top - 5);
-      }
-    };
-
-    make_plan_left_sidebar.prototype.screen_x = 0;
-
-    make_plan_left_sidebar.prototype.drag = function(e) {
-      this.dragbox.near(e);
-      this.screen_x = e.screenX;
-      return this.screen_y = e.screenY;
-    };
-
     make_plan_left_sidebar.prototype.mouseup = function(e) {
       if (this.timer) {
         clearInterval(this.timer);
@@ -545,7 +557,7 @@
 
     return make_plan_left_sidebar;
 
-  })(Backbone.View);
+  })(Re.views.make_plan_view);
 
   Re.views.make_plan_drag_box = (function(_super) {
 
