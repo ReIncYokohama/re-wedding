@@ -243,7 +243,7 @@ class Model_User extends Model_Crud{
   //席次表のフラグ
   public function get_sekijihyo_status(){
     $plan = Model_Plan::find_one_by_user_id($this->id);
-    if($this->past_deadline_sekijihyo()){
+    if($this->past_deadline_honhatyu() and !$plan->is_hon_hatyu()){
       $msg_opt = "<img src='img/common/msg/untreated.gif' border = '0'>";
     }
     if($plan->is_kari_hatyu()){
