@@ -14,8 +14,6 @@ $user_id = Core_Session::get_user_id();
 
 if($_GET["user_id"] && (Core_Session::is_staff() || $_SESSION["printid"]>0))
   $user_id = (int)$_GET['user_id'];
-else
-  exit;
 
 function get_center_table($max_width,$width,$html){
   if($max_width == $width) return "<table><tr><td width=\"100%\">".$html."</td></tr></table>";
