@@ -132,7 +132,7 @@ function validForm(x)
 	var num_gift_items  = document.getElementById('num_gift_items').value;
 //	var order_deadline  = document.getElementById('order_deadline').value;
 	var num_menu_groups  = document.getElementById('num_menu_groups').value;
-	$r_flg = 0;
+	r_flg = 0;
 // UCHIDA EDIT 11/08/01 入力チェック追加
 // AKIKUSA EDIT 11/08/19 2種類以上のエラーの場合の処理を追加
 	if(!num_gift_items || num_gift_items == 0)
@@ -149,73 +149,77 @@ function validForm(x)
 			 alert("引出物商品数の上限は7種類までです");
 			 document.getElementById('num_gift_items').focus();
 			 $('#num_gift_items').val(numgiftitems);
-			 $r_flg = 1;
+			 r_flg = 1;
 //			 return false;
 		}
 		if(reg1.test(num_gift_items) == false)
 		{
-			 if($r_flg == 0)
+			 if(r_flg == 0)
 			 {
 			 alert("引出物商品数は半角数字で入力してください");
 			 document.getElementById('num_gift_items').focus();
 			 }
 			 $('#num_gift_items').val(numgiftitems);
-			 $r_flg = 1;
+			 r_flg = 1;
 //			 return false;
 		}
 	}
 	if(!num_gift_groups || num_gift_groups == 0)
 	{
-		 if($r_flg == 0)
+		 if(r_flg == 0)
 		 {
 		 alert("引出物グループ数を入力してください");
 		 document.getElementById('num_gift_groups').focus();
 		 }
 		 $('#num_gift_groups').val(numgiftgroups);
-		 $r_flg = 1;
+		 r_flg = 1;
 //		 return false;
 	}
 	else
 	{
 		if(num_gift_groups>7)
 		{
-			 if($r_flg == 0)
+			 if(r_flg == 0)
 			 {
 			 alert("引出物グループ数の上限は７グループまでです");
 			 document.getElementById('num_gift_groups').focus();
 			 }
 			 $('#num_gift_groups').val(numgiftgroups);
-			 $r_flg = 1;
+			 r_flg = 1;
 //			 return false;
 		}
 		if(reg1.test(num_gift_groups) == false)
 		{
-			 if($r_flg == 0)
+			 if(r_flg == 0)
 			 {
 			 alert("引出物グループ数は半角数字で入力してください");
 			 document.getElementById('num_gift_groups').focus();
 			 }
 			 $('#num_gift_groups').val(numgiftgroups);
-			 $r_flg = 1;
+			 r_flg = 1;
 //			 return false;
 		}
 	}
-  for($i=1;$i<=7;++$i){
-    $value = $("#name"+$i).val();
-    if(num_gift_groups<$i && String($value).length>0){
+  for(i=1;i<=7;++i){
+    $value = $("#name"+i).val();
+    if(num_gift_groups<i && String($value).length>0){
       alert("グループ記号の上限を超えるグループ記号を入力されています");
-      $r_flg = 1;
-      document.getElementById('name'+$i).focus();
+      r_flg = 1;
+      document.getElementById('name'+i).focus();
       break;
+    }else if(num_gift_groups>=i && String($value).length == 0){
+      alert("ブランクのグループ記号があります");
+      r_flg = 1;
+      document.getElementById('name'+i).focus();
     }
     if(String($value).length>2){
       alert("グループ記号は２文字以内で入力してください。");
-      $r_flg = 1;
-      document.getElementById('name'+$i).focus();
+      r_flg = 1;
+      document.getElementById('name'+i).focus();
     }
   }
 
-	if($r_flg == 1)
+	if(r_flg == 1)
 	{
 	return false;
 	}
