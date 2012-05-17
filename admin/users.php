@@ -23,7 +23,15 @@ $search_party_day_end = "";
 $search_man_name = "";
 $search_woman_name = "";
 
-$whereArr = array(array("party_day",">=",date("Y-m-d")));
+$current_view = $_GET['view'];
+if($current_view=="before") {
+  $whereArr = array(array("party_day","<",date("Y-m-d")));
+  $passPresent = "<a href='users.php'><img src='img/common/btn_honjitsu_on.jpg' /></a><img src='img/common/btn_kako.jpg' /></a>";
+}else {
+  $whereArr = array(array("party_day",">=",date("Y-m-d")));
+  $passPresent = "<img src='img/common/btn_honjitsu.jpg' /></a><a href='users.php?view=before'><img src='img/common/btn_kako_on.jpg' /></a>";
+}
+
 $orderArr = array();
 if($_GET["sort_option"]){
   $arr2 = explode("|",$_GET["sort_option"]);
@@ -329,7 +337,8 @@ include("inc/return_dbcon.inc.php");
 			</table>
 			</form>
             </div>
-       		<p></p>
+       		<p>&nbsp;</p>
+			<div id="passPresent"> <?php echo $passPresent; ?> </div>
             <div style="width:100%; display:none;" id="srch_result"></div>
             <p></p>
 
