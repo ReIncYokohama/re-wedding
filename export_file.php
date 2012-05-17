@@ -59,7 +59,6 @@ for($i=0;$i<count($guestArray);++$i){
     $table_name = $obj->get_table_name($table_id,$user_id);
   }
   $html .= '<tr>
-<td>'.$guestArray[$i]["id"].'</td>
 <td>'.$obj->get_host_sex_name($guestArray[$i]["sex"]).'</td>
 <td>'.$guestArray[$i]['last_name'].'</td>
 <td>'.$guestArray[$i]['first_name'].'</td>
