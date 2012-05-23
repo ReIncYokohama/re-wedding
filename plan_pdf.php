@@ -121,6 +121,7 @@ $tr2 = '<tr><td style="text-align:right;border:1px solid black;" colspan="2" hei
 
 $sum = 0;
 foreach($gift_table as $grp){
+  if($grp["name"] == "") continue;
   $tr1.='<td  style="text-align:center;border:1px solid black;" width="20">'.mb_convert_kana($grp['name'],"K","utf8").'</td>';
   $tr2.='<td  style="text-align:center;border:1px solid black;" width="20">'.$grp['num'].'</td>';
   $sum += $grp["num"];
@@ -150,6 +151,7 @@ foreach($gift_rows as $gift)
     $start = 1;
     $num_gifts = 0;
     foreach($gift_table as $grp){
+      if($grp["name"] == "") continue;
       $gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
       $gift_arr = explode("|",$gift_ids);
       if(in_array($gift['id'],$gift_arr))
@@ -492,7 +494,7 @@ $date = date("His");
 $user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
 $this_name = "hikidemono".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
-$pdf->Output($this_name.'.pdf',"D");
+//$pdf->Output($this_name.'.pdf',"D");
 //testcode
-//$pdf->Output($this_name.'.pdf');
+$pdf->Output($this_name.'.pdf');
 ?> 
