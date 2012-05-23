@@ -21,6 +21,8 @@ class Re.models.guest extends Backbone.Model
     return ""
   get_guest_image:()->
     return "name_image/user/"+@get("user_id")+"/guests/"+@get("id")+"/thumb2/guest_fullname.png"
+  get_namecard_image:()->
+    return "name_image/user/"+@get("user_id")+"/guests/"+@get("id")+"/namecard.png"
   hasTable:()->
     if (@get "table_id") is "0"
       return false
@@ -163,6 +165,7 @@ class Re.views.make_plan extends Backbone.View
   drop:(drag_view)->
     drag_guest = drag_view.model
     seat_id = @get_seat_id()
+    @seat_view.$el.css "border","#A2A7BC 1px solid"
     if seat_id
       #add or replace
       if @guest
@@ -177,6 +180,7 @@ class Re.views.make_plan extends Backbone.View
   drop_from_seat:(drag_view)->
     if drag_view is @seat_view
       return
+    @seat_view.$el.css "border","#A2A7BC 1px solid"
     drag_guest = drag_view.guest
     drag_seat_id = drag_view.getSeatId()
     seat_id = @get_seat_id()
@@ -238,10 +242,20 @@ class Re.views.make_plan_seat extends Re.views.make_plan_view
     "mousedown":"dragstart"
   hover:()->
     if not @main_view.onDrag
+      if @guest
+        @comment_box = new Re.views.make_plan_comment_box(
+          model:@guest
+        )
+        @comment_box.near(@$el.position())
       return
     @$el.css "border","red 1px solid"
     @main_view.set_seat_view @
   unhover:()->
+    if @comment_box
+      @comment_box.remove()
+      @comment_box = false
+    if not @main_view.onDrag
+      return
     @$el.css "border","#A2A7BC 1px solid"
     @main_view.reset_seat_id()
   setMainView:(view)->
@@ -262,9 +276,12 @@ class Re.views.make_plan_seat extends Re.views.make_plan_view
   _remove:()->
     @$el.css "background-image","none"
     @guest = null
-  dragstart:()->
+  dragstart:(e)->
     if not @guest
       return
+    if @comment_box
+      @comment_box.remove()
+      @comment_box = false
     @main_view.onDrag = true
     @dragbox = new Re.views.make_plan_drag_box(
       model:@guest
@@ -287,6 +304,8 @@ class Re.views.make_plan_left_sidebar extends Re.views.make_plan_view
   tagName:"tr"
   events:
     "mousedown .name":"dragstart"
+    "mouseenter .name":"hover"
+    "mouseleave .name":"unhover"
   template:(model,i)->
     html = "<td class=\"no\">"+i+"</td>"+"<td class=\"sex\">"+model.get_sex_text()+"</td>"+
       "<td class=\"group\">"+model.get_guest_type_value()+"</td>"+
@@ -299,9 +318,25 @@ class Re.views.make_plan_left_sidebar extends Re.views.make_plan_view
     @
   setMainView:(view)->
     @main_view = view
+  hover:()->
+    if not @main_view.onDrag
+      if @model
+        @comment_box = new Re.views.make_plan_comment_box(
+          model:@model
+        )
+        p = @$el.position()
+        p.left += 100
+        @comment_box.near p
+  unhover:()->
+    if @comment_box
+      @comment_box.remove()
+      @comment_box = false
   dragstart:(e)=>
     if @model.hasTable()
       return
+    if @comment_box
+      @comment_box.remove()
+      @comment_box = false
     @main_view.onDrag = true
     @dragbox = new Re.views.make_plan_drag_box(
       model:@model
@@ -345,6 +380,23 @@ class Re.views.make_plan_drag_box extends Backbone.View
     @$el.css
       top:(e.pageY+10)+"px"
       left:(e.pageX-30)+"px"
+  remove:()->
+    @$el.remove()
+
+class Re.views.make_plan_comment_box extends Backbone.View
+  tagName:"div"
+  className:"drag_box"
+  initialize:()->
+    if not @model
+      return
+    @$el.html "<img src=\""+@model.get_namecard_image()+"\"/>";
+    @$el.hide()
+    $("body").append @el
+  near:(p)->
+    @$el.show()
+    @$el.css
+      top:(p.top+40)+"px"
+      left:(p.left-45)+"px"
   remove:()->
     @$el.remove()
 

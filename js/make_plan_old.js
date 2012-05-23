@@ -35,6 +35,10 @@
       return "name_image/user/" + this.get("user_id") + "/guests/" + this.get("id") + "/thumb2/guest_fullname.png";
     };
 
+    guest.prototype.get_namecard_image = function() {
+      return "name_image/user/" + this.get("user_id") + "/guests/" + this.get("id") + "/namecard.png";
+    };
+
     guest.prototype.hasTable = function() {
       if ((this.get("table_id")) === "0") return false;
       return true;
@@ -293,6 +297,7 @@
       var drag_guest, seat_id;
       drag_guest = drag_view.model;
       seat_id = this.get_seat_id();
+      this.seat_view.$el.css("border", "#A2A7BC 1px solid");
       if (seat_id) {
         if (this.guest) {
           this.replace(this.guest.get("id"), drag_guest.get("id"));
@@ -310,6 +315,7 @@
     make_plan.prototype.drop_from_seat = function(drag_view) {
       var drag_guest, drag_seat_id, seat_id;
       if (drag_view === this.seat_view) return;
+      this.seat_view.$el.css("border", "#A2A7BC 1px solid");
       drag_guest = drag_view.guest;
       drag_seat_id = drag_view.getSeatId();
       seat_id = this.get_seat_id();
@@ -415,12 +421,25 @@
     };
 
     make_plan_seat.prototype.hover = function() {
-      if (!this.main_view.onDrag) return;
+      if (!this.main_view.onDrag) {
+        if (this.guest) {
+          this.comment_box = new Re.views.make_plan_comment_box({
+            model: this.guest
+          });
+          this.comment_box.near(this.$el.position());
+        }
+        return;
+      }
       this.$el.css("border", "red 1px solid");
       return this.main_view.set_seat_view(this);
     };
 
     make_plan_seat.prototype.unhover = function() {
+      if (this.comment_box) {
+        this.comment_box.remove();
+        this.comment_box = false;
+      }
+      if (!this.main_view.onDrag) return;
       this.$el.css("border", "#A2A7BC 1px solid");
       return this.main_view.reset_seat_id();
     };
@@ -453,8 +472,12 @@
       return this.guest = null;
     };
 
-    make_plan_seat.prototype.dragstart = function() {
+    make_plan_seat.prototype.dragstart = function(e) {
       if (!this.guest) return;
+      if (this.comment_box) {
+        this.comment_box.remove();
+        this.comment_box = false;
+      }
       this.main_view.onDrag = true;
       this.dragbox = new Re.views.make_plan_drag_box({
         model: this.guest
@@ -494,7 +517,9 @@
     make_plan_left_sidebar.prototype.tagName = "tr";
 
     make_plan_left_sidebar.prototype.events = {
-      "mousedown .name": "dragstart"
+      "mousedown .name": "dragstart",
+      "mouseenter .name": "hover",
+      "mouseleave .name": "unhover"
     };
 
     make_plan_left_sidebar.prototype.template = function(model, i) {
@@ -513,8 +538,33 @@
       return this.main_view = view;
     };
 
+    make_plan_left_sidebar.prototype.hover = function() {
+      var p;
+      if (!this.main_view.onDrag) {
+        if (this.model) {
+          this.comment_box = new Re.views.make_plan_comment_box({
+            model: this.model
+          });
+          p = this.$el.position();
+          p.left += 100;
+          return this.comment_box.near(p);
+        }
+      }
+    };
+
+    make_plan_left_sidebar.prototype.unhover = function() {
+      if (this.comment_box) {
+        this.comment_box.remove();
+        return this.comment_box = false;
+      }
+    };
+
     make_plan_left_sidebar.prototype.dragstart = function(e) {
       if (this.model.hasTable()) return;
+      if (this.comment_box) {
+        this.comment_box.remove();
+        this.comment_box = false;
+      }
       this.main_view.onDrag = true;
       this.dragbox = new Re.views.make_plan_drag_box({
         model: this.model
@@ -589,6 +639,41 @@
     };
 
     return make_plan_drag_box;
+
+  })(Backbone.View);
+
+  Re.views.make_plan_comment_box = (function(_super) {
+
+    __extends(make_plan_comment_box, _super);
+
+    function make_plan_comment_box() {
+      make_plan_comment_box.__super__.constructor.apply(this, arguments);
+    }
+
+    make_plan_comment_box.prototype.tagName = "div";
+
+    make_plan_comment_box.prototype.className = "drag_box";
+
+    make_plan_comment_box.prototype.initialize = function() {
+      if (!this.model) return;
+      this.$el.html("<img src=\"" + this.model.get_namecard_image() + "\"/>");
+      this.$el.hide();
+      return $("body").append(this.el);
+    };
+
+    make_plan_comment_box.prototype.near = function(p) {
+      this.$el.show();
+      return this.$el.css({
+        top: (p.top + 40) + "px",
+        left: (p.left - 45) + "px"
+      });
+    };
+
+    make_plan_comment_box.prototype.remove = function() {
+      return this.$el.remove();
+    };
+
+    return make_plan_comment_box;
 
   })(Backbone.View);
 

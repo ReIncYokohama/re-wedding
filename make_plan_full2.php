@@ -10,7 +10,7 @@ $takasago_guest_obj = $plan->get_takasago_guest_obj();
 foreach($takasago_guest_obj as $guest){
   $namecard_url = $guest->get_image("namecard.png");
   $fullname_url = $guest->get_image("thumb1/guest_fullname.png");  
-  $guest->_td_html = '<td align="center" class="tooltip" title="<image src=\''.$namecard_url.'\'>" valign="middle" style="text-align:center; padding:7px;width:120px;"><image width="100" src="'.$fullname_url.'"></td>';
+  $guest->_td_html = '<td align="center" valign="middle" style="text-align:center; padding:7px;width:120px;"><image width="100" src="'.$fullname_url.'"></td>';
 }
 
 $max_width = 0;
