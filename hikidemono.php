@@ -94,7 +94,8 @@ $count_group = (int)$gift_criteria['num_gift_groups'];
    var reg = /^[0-9]{1,}$/;
    for(var i=0;i<gift_cnt;i++){
      var tgt = "yobisu_" + i;
-     if(reg.test(document.getElementById(tgt).value) == false) {
+     var el = document.getElementById(tgt)
+     if(el && reg.test(el.value) == false) {
        alert("予備数は半角数字で入力してください");
        return false;
      }
@@ -376,6 +377,7 @@ $count_group = (int)$gift_criteria['num_gift_groups'];
          $num_gifts = 0;
          if(!empty($groups))
          {
+
            foreach($groups as $grp)
            {
              $num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp);
@@ -426,7 +428,9 @@ $count_group = (int)$gift_criteria['num_gift_groups'];
          <table width="800" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999">
          <?php
        $groups = Model_Giftgroup::find_by_user_id($user_id);
-foreach($groups as $group){
+
+for($i=0;$i<$count_group;++$i){
+  $group = $groups[$i];
   $gift_names = $group->get_gift_name();
   if ($group['name']!="") echo "<tr><td bgcolor='#FFFFFF' width='30' align='center'>".$group['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".implode("・",$gift_names)."</td></tr>";
 }
