@@ -69,7 +69,6 @@ $data_per_page=2;
 $current_page=(int)$_GET['page'];
 $redirect_url = "my_guests.php";
 
-//$order = ' last_name asc ';
 $order = 'id asc ';
 
 $plan = Model_Plan::find_one_by_user_id($_SESSION["userid"]);
@@ -847,9 +846,19 @@ if($editable)
 								}
 								echo "</select>";
 
+							$stage_guest_1 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=1");
+							$stage_guest_2 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=2");
+							$stage_guest_3 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=3");
+							$stage_guest_4 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=4");
+							$stage_guest_5 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=5");
+              $takasago_display = true;
+              if($guest_row["stage_guest"]==0 and $stage_guest_1 and $stage_guest_2 and $stage_guest_3 and $stage_guest_4 and $stage_guest_5){
+                $takasago_display = false;
+              }
+              
 							?>         </td>
     <td width="90" align="right" nowrap="nowrap">席種別<font color="red">*</font>：</td>
-    <td width="120" align="left"><select id="stage" tabindex=13 name="stage" style="width:96px;padding-top:3px; padding-bottom:3px;border-style:inset;"  <?php if($guest_row['self']==1){echo "disabled";}?> onchange="stage_enebeled();" onkeydown="keyDwonAction(event)" onClick="clickAction()">
+    <td width="120" align="left"><select id="stage" tabindex=13 name="stage" style="width:96px;padding-top:3px; padding-bottom:3px;border-style:inset;"  <?php if($guest_row['self']==1 or !$takasago_display){echo "disabled";}?> onchange="stage_enebeled();" onkeydown="keyDwonAction(event)" onClick="clickAction()">
                               <option value="0" <?php if($guest_row['stage']=="0"){ echo "Selected='Selected'"; }?> >招待席</option>
                               <option value="1" <?php if($guest_row['stage']=="1"){ echo "Selected='Selected'"; }?> >高砂席</option>
                             </select></td>
@@ -857,11 +866,6 @@ if($editable)
     <td width="173" align="left"><select id="stage_guest" tabindex=14 name="stage_guest" style="width:120px; padding-top:3px; padding-bottom:3px;border-style:inset;" <?php if($guest_row['self']==1 || $guest_row['stage']!="1"){echo "disabled";}?> onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()">
                               <option id="first_takasago_seat" value="">選択してください</option>
                               <?php
-							$stage_guest_1 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=1");
-							$stage_guest_2 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=2");
-							$stage_guest_3 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=3");
-							$stage_guest_4 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=4");
-							$stage_guest_5 = $obj->GetRowCount("spssp_guest"," user_id=".$user_id." and stage_guest=5");
 							if(!$stage_guest_1 || $guest_row['stage_guest']=="1"){
 							?>
                               <option value="1" <?php if($guest_row['stage_guest']=="1"){ echo "Selected='Selected'"; }?> >媒妁人1</option>
