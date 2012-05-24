@@ -115,12 +115,15 @@ $gift_table = $obj->get_gift_table($attend_guests,$user_id);
 
 $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_id);
 $gift_rows = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".$user_id);
+$gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
+$count_group = (int)$gift_criteria['num_gift_groups'];
 
 $tr1 = '<tr><td style="text-align:right;border:1px solid black;" colspan="2" height="10"  width="100" >グループ</td>';
 $tr2 = '<tr><td style="text-align:right;border:1px solid black;" colspan="2" height="10"  width="100" >グループ数</td>';
 
 $sum = 0;
-foreach($gift_table as $grp){
+for($i=0;$i<$count_group;++$i){
+  $grp = $gift_table[$i];
   if($grp["name"] == "") continue;
   $tr1.='<td  style="text-align:center;border:1px solid black;" width="20">'.mb_convert_kana($grp['name'],"K","utf8").'</td>';
   $tr2.='<td  style="text-align:center;border:1px solid black;" width="20">'.$grp['num'].'</td>';
@@ -150,7 +153,8 @@ foreach($gift_rows as $gift)
 
     $start = 1;
     $num_gifts = 0;
-    foreach($gift_table as $grp){
+    for($i=0;$i<$count_group;++$i){
+      $grp = $gift_table[$i];
       if($grp["name"] == "") continue;
       $gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
       $gift_arr = explode("|",$gift_ids);

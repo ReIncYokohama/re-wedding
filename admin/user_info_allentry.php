@@ -1449,19 +1449,7 @@ if($updating){
             </tr>
         </table>
 
-<!--  <br />
-      <p class="txt3">
-        	<?php
-            //if(empty($user_plan_row))
-            //{
-			?>
-             <a href="javascript:void(0);" onclick="valid_plan('<?=$noUpdate?>');"> <img src="img/common/btn_regist_update.jpg" border="0" /> </a>
-			<?php
-			//}
-			?>
-        </p> -->
-<!--         </form> -->
-		</div> <!--end of  id="div_box_2"-->
+		</div>
         <br />
         <h2><div>引出物設定</div></h2>
             <?php
