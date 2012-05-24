@@ -188,12 +188,38 @@
     make_plan.prototype.events = {
       "click #save_button": "save",
       "click #reset_button": "reset",
-      "click #back_button": "back"
+      "click #back_button": "back",
+      "mouseenter .takasago_seat": "hover",
+      "mouseleave .takasago_seat": "unhover"
     };
 
     make_plan.prototype.el = "body";
 
     make_plan.prototype.left_sidebar = [];
+
+    make_plan.prototype.hover = function(e) {
+      var $el, guest, p;
+      $el = $(e.target);
+      if ($el.attr("guest_id")) {
+        guest = new Re.models.guest({
+          id: $el.attr("guest_id"),
+          user_id: $el.attr("user_id")
+        });
+        this.comment_box = new Re.views.make_plan_comment_box({
+          model: guest
+        });
+        p = $el.position();
+        p.left += 25;
+        return this.comment_box.near(p);
+      }
+    };
+
+    make_plan.prototype.unhover = function() {
+      if (this.comment_box) {
+        this.comment_box.remove();
+        return this.comment_box = false;
+      }
+    };
 
     make_plan.prototype.save = function() {
       if (confirm("修正内容を保存しても宜しいですか？")) {

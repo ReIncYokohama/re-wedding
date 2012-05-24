@@ -102,8 +102,26 @@ class Re.views.make_plan extends Backbone.View
     "click #save_button":"save"
     "click #reset_button":"reset"
     "click #back_button":"back"
+    "mouseenter .takasago_seat":"hover"
+    "mouseleave .takasago_seat":"unhover"
   el:"body"
   left_sidebar:[]
+  hover:(e)->
+    $el = $(e.target)
+    if $el.attr "guest_id"
+      guest = new Re.models.guest
+        id:$el.attr "guest_id"
+        user_id:$el.attr "user_id"
+      @comment_box = new Re.views.make_plan_comment_box(
+        model:guest
+      )
+      p = $el.position()
+      p.left += 25
+      @comment_box.near(p)
+  unhover:()->
+    if @comment_box
+      @comment_box.remove()
+      @comment_box = false
   save:()->
     if confirm "修正内容を保存しても宜しいですか？"
       Re.usertable.save ->
