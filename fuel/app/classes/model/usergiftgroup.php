@@ -1,6 +1,8 @@
 <?php
 class Model_Usergiftgroup extends Model_Crud{
+  
   static $_table_name = "spssp_gift_group_relation";
+  static $_fields = array("id","group_id","gift_id","user_id");
   public function add_gift_name(){
     $gift_ids = explode("|",$this->gift_id);
     $gifts = array();
@@ -18,6 +20,5 @@ class Model_Usergiftgroup extends Model_Crud{
     }
     return $names;
   }
-
 }
 

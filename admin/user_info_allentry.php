@@ -634,22 +634,31 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	if (checkGiftForm(count_gift, noUpdate) == false) return false;
 	if (checkGroupForm(count_group, noUpdate) == false) return false;
 
+  /*
   for(i=1;i<=count_gift;++i){
     name = $j("#item"+i).val();
     if(name==""){
-      alert("ブランクのグループ記号があります");
-      $j("#item"+i).focus();
-      return false;
+      for(j=i+1;j<=count_gift;++j){
+        if(name!=""){
+          alert("ブランクのグループ記号があります");
+          $j("#item"+i).focus();
+          return false;
+        }
+      }
     }
   }
   for(i=1;i<=count_group;++i){
     name = $j("#name_group"+i).val();
     if(name==""){
-      alert("ブランクのグループ記号があります");
-      $j("#name_group"+i).focus();
-      return false;
+      for(j=i+1;j<=count_group;++j){
+        if(name!=""){
+          alert("ブランクのグループ記号があります");
+          $j("#name_group"+i).focus();
+          return false;
+        }
+      }
     }
-  }
+  }*/
 
    //gaiji_check
    var return_flag = true;
