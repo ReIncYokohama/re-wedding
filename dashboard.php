@@ -97,7 +97,7 @@ function japanyDateFormateForDashboard($rawTime, $time_24h=0) {
 	<div id="whatsnew_area" style="height:auto">
 		<ul>
 		<?php
-  if(count($login_rows)==1 && !Core_Session::is_staff() %% !Core_Session::is_super())
+  if(count($login_rows)==1 && !Core_Session::is_staff() && !Core_Session::is_super())
 		echo "<div>ご結婚おめでとうございます。印刷物・引出物のリスト作成をよろしくお願いします。</div>";
 		?>
 <?php
