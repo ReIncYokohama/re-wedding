@@ -173,33 +173,6 @@ function confirmDeleteUser(user_id) {
 	});
 }
 
-function sortAction(sortOptin)
-{
-	var date_from;
-	var date_to;
-	var mname;
-	var wname;
-	var view = "<?=$current_view?>";
-
-	date_from = document.condition.h_date_from.value;
-	date_to = document.condition.h_date_to.value;
-	mname= document.condition.h_man_lastname.value;
-	wname = document.condition.h_woman_lastname.value;
-
-	document.condition.h_sortOption.value = sortOptin;
-
-	// スタッフのソートはstuff_idの有無で判別
-	$j.post('ajax/search_user.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname,'sortOptin':sortOptin,'view':view}, function(data){
-
-	$j("#passPresent").fadeOut(100);
-	$j("#srch_result").fadeOut(100);
-	$j("#srch_result").html(data);
-	$j("#srch_result").fadeIn(700);
-	$j("#box_table").fadeOut(100);
-
-	});
-}
-
 function validSearch()
 {
 
@@ -339,11 +312,7 @@ include("inc/return_dbcon.inc.php");
             </div>
        		<p>&nbsp;</p>
 			<div id="passPresent"> <?php echo $passPresent; ?> </div>
-            <div style="width:100%; display:none;" id="srch_result"></div>
-            <p></p>
-
 		    <div class="box_table" id="box_table">
-            <p>&nbsp;</p>
 
             <div class="box4" style="width:1000px;">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >
