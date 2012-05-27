@@ -72,6 +72,30 @@ class Re.models.usertable
       data:
         data:JSON.stringify @send_data
       success:success
+  sort_sex:false
+  sort_by_sex:()->
+    guests = _.sortBy @_data.guests,(obj)->
+      if obj.sex is"Male"
+        return 1
+      else if obj.sex is "Female"
+        return 2
+      return 3
+    if @sort_sex
+      guests =  guests.reverse()
+      @sort_sex = false
+    else
+      @sort_sex = true
+    (new Re.models.guest guest for guest in guests)
+  sort_guest_type:false
+  sort_by_guest_type:()->
+    guests = _.sortBy @_data.guests,(obj)->
+      return obj.guest_type
+    if not @sort_guest_type
+      guests =  guests.reverse()
+      @sort_guest_type = true
+    else
+      @sort_guest_type = false
+    (new Re.models.guest guest for guest in guests)
   get_guests:()->
     (new Re.models.guest guest for guest in @_data.guests)
   get_seat:(seat_id)->
@@ -102,6 +126,9 @@ class Re.views.make_plan extends Backbone.View
     "click #save_button":"save"
     "click #reset_button":"reset"
     "click #back_button":"back"
+    "click .sort_by_sex":"sort_by_sex"
+    "click .sort_by_guest_type":"sort_by_guest_type"
+    "click .sort_by_reset":"sort_by_reset"
     "mouseenter .takasago_seat":"hover"
     "mouseleave .takasago_seat":"unhover"
   el:"body"
@@ -141,6 +168,42 @@ class Re.views.make_plan extends Backbone.View
   show_left_sidebar:()->
     guests = Re.usertable.get_guests()
     jel = $("#left_sidebar")
+    for i in [0..guests.length-1]
+      guest = guests[i]
+      guest.set "index",i
+      view = new Re.views.make_plan_left_sidebar
+        model:guest
+      view.setMainView @
+      @left_sidebar.push view
+      jel.append view.render().el
+  sort_by_sex:()->
+    guests = Re.usertable.sort_by_sex()
+    jel = $("#left_sidebar")
+    jel.empty()
+    for i in [0..guests.length-1]
+      guest = guests[i]
+      guest.set "index",i
+      view = new Re.views.make_plan_left_sidebar
+        model:guest
+      view.setMainView @
+      @left_sidebar.push view
+      jel.append view.render().el
+  sort_by_guest_type:()->
+    guests = Re.usertable.sort_by_guest_type()
+    jel = $("#left_sidebar")
+    jel.empty()
+    for i in [0..guests.length-1]
+      guest = guests[i]
+      guest.set "index",i
+      view = new Re.views.make_plan_left_sidebar
+        model:guest
+      view.setMainView @
+      @left_sidebar.push view
+      jel.append view.render().el
+  sort_by_reset:()->
+    guests = Re.usertable.get_guests()
+    jel = $("#left_sidebar")
+    jel.empty()
     for i in [0..guests.length-1]
       guest = guests[i]
       guest.set "index",i

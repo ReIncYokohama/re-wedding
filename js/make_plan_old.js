@@ -117,6 +117,53 @@
       });
     };
 
+    usertable.prototype.sort_sex = false;
+
+    usertable.prototype.sort_by_sex = function() {
+      var guest, guests, _i, _len, _results;
+      guests = _.sortBy(this._data.guests, function(obj) {
+        if (obj.sex === "Male") {
+          return 1;
+        } else if (obj.sex === "Female") {
+          return 2;
+        }
+        return 3;
+      });
+      if (this.sort_sex) {
+        guests = guests.reverse();
+        this.sort_sex = false;
+      } else {
+        this.sort_sex = true;
+      }
+      _results = [];
+      for (_i = 0, _len = guests.length; _i < _len; _i++) {
+        guest = guests[_i];
+        _results.push(new Re.models.guest(guest));
+      }
+      return _results;
+    };
+
+    usertable.prototype.sort_guest_type = false;
+
+    usertable.prototype.sort_by_guest_type = function() {
+      var guest, guests, _i, _len, _results;
+      guests = _.sortBy(this._data.guests, function(obj) {
+        return obj.guest_type;
+      });
+      if (!this.sort_guest_type) {
+        guests = guests.reverse();
+        this.sort_guest_type = true;
+      } else {
+        this.sort_guest_type = false;
+      }
+      _results = [];
+      for (_i = 0, _len = guests.length; _i < _len; _i++) {
+        guest = guests[_i];
+        _results.push(new Re.models.guest(guest));
+      }
+      return _results;
+    };
+
     usertable.prototype.get_guests = function() {
       var guest, _i, _len, _ref, _results;
       _ref = this._data.guests;
@@ -189,6 +236,9 @@
       "click #save_button": "save",
       "click #reset_button": "reset",
       "click #back_button": "back",
+      "click .sort_by_sex": "sort_by_sex",
+      "click .sort_by_guest_type": "sort_by_guest_type",
+      "click .sort_by_reset": "sort_by_reset",
       "mouseenter .takasago_seat": "hover",
       "mouseleave .takasago_seat": "unhover"
     };
@@ -251,6 +301,63 @@
       var guest, guests, i, jel, view, _ref, _results;
       guests = Re.usertable.get_guests();
       jel = $("#left_sidebar");
+      _results = [];
+      for (i = 0, _ref = guests.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+        guest = guests[i];
+        guest.set("index", i);
+        view = new Re.views.make_plan_left_sidebar({
+          model: guest
+        });
+        view.setMainView(this);
+        this.left_sidebar.push(view);
+        _results.push(jel.append(view.render().el));
+      }
+      return _results;
+    };
+
+    make_plan.prototype.sort_by_sex = function() {
+      var guest, guests, i, jel, view, _ref, _results;
+      guests = Re.usertable.sort_by_sex();
+      jel = $("#left_sidebar");
+      jel.empty();
+      _results = [];
+      for (i = 0, _ref = guests.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+        guest = guests[i];
+        guest.set("index", i);
+        view = new Re.views.make_plan_left_sidebar({
+          model: guest
+        });
+        view.setMainView(this);
+        this.left_sidebar.push(view);
+        _results.push(jel.append(view.render().el));
+      }
+      return _results;
+    };
+
+    make_plan.prototype.sort_by_guest_type = function() {
+      var guest, guests, i, jel, view, _ref, _results;
+      guests = Re.usertable.sort_by_guest_type();
+      jel = $("#left_sidebar");
+      jel.empty();
+      _results = [];
+      for (i = 0, _ref = guests.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+        guest = guests[i];
+        guest.set("index", i);
+        view = new Re.views.make_plan_left_sidebar({
+          model: guest
+        });
+        view.setMainView(this);
+        this.left_sidebar.push(view);
+        _results.push(jel.append(view.render().el));
+      }
+      return _results;
+    };
+
+    make_plan.prototype.sort_by_reset = function() {
+      var guest, guests, i, jel, view, _ref, _results;
+      guests = Re.usertable.get_guests();
+      jel = $("#left_sidebar");
+      jel.empty();
       _results = [];
       for (i = 0, _ref = guests.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
         guest = guests[i];
