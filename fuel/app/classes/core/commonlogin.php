@@ -3,7 +3,7 @@ class Core_Commonlogin{
   static public function check_login_time(){
     $data = static::parse_data();
     //違うユーザがログインしている。20分以内に他のユーザがログを更新している
-    if($data and session_id()!=$data["session"] and $data["unixtime"]+60*20>mktime()){
+    if($data and session_id()!=$data["session"] and $data["unixtime"]+60*5>mktime()){
       return false;
     }
     //新規ユーザがログイン

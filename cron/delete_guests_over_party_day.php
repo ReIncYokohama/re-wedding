@@ -10,6 +10,7 @@ $fp = fopen("rm.sh","a");
 
 foreach($users as $user){
   if($user->past_delete_guests($hcode)){
+    print "delete guest where user_id = "$user->id;
     $path = dirname(__file__)."/../name_image/user/".$user->id."/guests";
     try{
       if(is_dir($path)){

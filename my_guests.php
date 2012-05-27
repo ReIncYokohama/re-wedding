@@ -74,6 +74,9 @@ $order = 'id asc ';
 $plan = Model_Plan::find_one_by_user_id($_SESSION["userid"]);
 $plan_info = $plan->to_array();
 
+$gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
+$count_group = (int)$gift_criteria['num_gift_groups'];
+
 if(isset($_GET['option']) && $_GET['option'] != '')
 	{
 		$optionValue = $_GET['option'];
@@ -812,8 +815,8 @@ if($editable)
 								 if($guest_row['self']==1){$access= "disabled";}
 								echo "<select id='gift_group' tabindex=11 name='gift_group_id' style='width:80px; padding-top:3px; padding-bottom:3px; border-style:inset;' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
                 if($edit && count($gg_arr)==0) echo "<option selected value=''></option>"; else echo "<option selected value='&nbsp;'></option>";
-								foreach($gift_groups as $gg)
-								{
+                for($i=0;$i<$count_group;++$i){
+                  $gg = $gift_groups[$i];
                   if($gg["name"]=="") continue;
 									$selected = (in_array($gg['id'],$gg_arr))?"selected":"";
 									echo "<option ".$selected." value='".$gg['id']."' >".$gg['name']."</option>";

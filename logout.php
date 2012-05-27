@@ -8,7 +8,6 @@ if($user_log){
   $user_log->save();
 }
 Core_Session::user_unlink();
-
 if(Core_Session::get_staff_id() > 0 || Core_Session::is_super()){
   echo "<script type='text/javascript'>";
   echo "if(!window.close()){location.replace('index.php');}";
