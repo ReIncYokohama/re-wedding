@@ -37,7 +37,7 @@ $_SESSION['userid'] = $user_id;
 $user_log['user_id']=(int)$user_id;
 if(!Core_Login::check_login_time()){
   $_SESSION['userid'] = null;
-  echo "<html><head><script> alert('既に同じ権限のユーザがログインされています');window.close(); </script></head></body>";
+  echo "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><script> alert('既に同じ権限のユーザがログインされています');window.close(); </script></head></body>";
   exit;
 }
 

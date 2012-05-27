@@ -36,7 +36,7 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
       
       //ログイン可能かどうかチェック
       if(!Core_Adminlogin::check_login_time()){
-        echo "<html><head><script> alert('既に同じIDでログインされています。');location.replace('index.php'); </script></head></body>";
+        echo "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><script> alert('既に同じIDでログインされています。');location.replace('index.php'); </script></head></body>";
         exit;
       }
       
