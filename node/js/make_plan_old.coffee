@@ -246,7 +246,8 @@ class Re.views.make_plan extends Backbone.View
   drop:(drag_view)->
     drag_guest = drag_view.model
     seat_id = @get_seat_id()
-    @seat_view.$el.css "border","#A2A7BC 1px solid"
+    if @seat_view and @seat_view.$el
+      @seat_view.$el.css "border","#A2A7BC 1px solid"
     if seat_id
       #add or replace
       if @guest
@@ -261,7 +262,8 @@ class Re.views.make_plan extends Backbone.View
   drop_from_seat:(drag_view)->
     if drag_view is @seat_view
       return
-    @seat_view.$el.css "border","#A2A7BC 1px solid"
+    if @seat_view and @seat_view.$el
+      @seat_view.$el.css "border","#A2A7BC 1px solid"
     drag_guest = drag_view.guest
     drag_seat_id = drag_view.getSeatId()
     seat_id = @get_seat_id()
@@ -300,8 +302,10 @@ class Re.views.make_plan_view extends Backbone.View
     win_top = win.scrollTop()
     html_width = $("html").width()
     html_height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    #screen_x
     if @screen_x + 150 > html_width
       win.scrollLeft(win_left + 5)
+    #screen_x < 600
     else if @screen_x < 150 and win_left > 0
       win.scrollLeft(win_left - 5)
     if @screen_y + 50 > html_height
@@ -380,6 +384,7 @@ class Re.views.make_plan_seat extends Re.views.make_plan_view
     @dragbox.remove()
     @main_view.onDrag = false
     @main_view.drop_from_seat @
+    @main_view.reset_seat_id()
 
 class Re.views.make_plan_left_sidebar extends Re.views.make_plan_view
   tagName:"tr"
@@ -436,6 +441,7 @@ class Re.views.make_plan_left_sidebar extends Re.views.make_plan_view
     @dragbox.remove()
     @main_view.onDrag = false
     @main_view.drop @
+    @main_view.reset_seat_id()
   refresh:(seat_id = false)->
     if not seat_id
       @model.set "seat_id",false

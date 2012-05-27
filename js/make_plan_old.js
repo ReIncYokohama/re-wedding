@@ -430,7 +430,9 @@
       var drag_guest, seat_id;
       drag_guest = drag_view.model;
       seat_id = this.get_seat_id();
-      this.seat_view.$el.css("border", "#A2A7BC 1px solid");
+      if (this.seat_view && this.seat_view.$el) {
+        this.seat_view.$el.css("border", "#A2A7BC 1px solid");
+      }
       if (seat_id) {
         if (this.guest) {
           this.replace(this.guest.get("id"), drag_guest.get("id"));
@@ -448,7 +450,9 @@
     make_plan.prototype.drop_from_seat = function(drag_view) {
       var drag_guest, drag_seat_id, seat_id;
       if (drag_view === this.seat_view) return;
-      this.seat_view.$el.css("border", "#A2A7BC 1px solid");
+      if (this.seat_view && this.seat_view.$el) {
+        this.seat_view.$el.css("border", "#A2A7BC 1px solid");
+      }
       drag_guest = drag_view.guest;
       drag_seat_id = drag_view.getSeatId();
       seat_id = this.get_seat_id();
@@ -630,7 +634,8 @@
       $("body").unbind("mouseup", this.mouseup);
       this.dragbox.remove();
       this.main_view.onDrag = false;
-      return this.main_view.drop_from_seat(this);
+      this.main_view.drop_from_seat(this);
+      return this.main_view.reset_seat_id();
     };
 
     return make_plan_seat;
@@ -717,7 +722,8 @@
       $("body").unbind("mouseup", this.mouseup);
       this.dragbox.remove();
       this.main_view.onDrag = false;
-      return this.main_view.drop(this);
+      this.main_view.drop(this);
+      return this.main_view.reset_seat_id();
     };
 
     make_plan_left_sidebar.prototype.refresh = function(seat_id) {
