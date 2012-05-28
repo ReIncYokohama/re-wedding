@@ -106,6 +106,7 @@ $("#close_window").hover(function(){
 <link href="css/main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+<div id="header_back"></div>
 <div id="layout">
 	<div class="main">
 		<div class="header">

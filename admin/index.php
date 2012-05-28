@@ -1,6 +1,7 @@
 <?php
 header("Content-type: text/html; charset=utf-8");
 include_once("inc/dbcon.inc.php");
+include_once("../fuel/load_classes.php");
 
 $id=$_GET['adminid'];
 $adminid = $_POST["adminid"];
@@ -8,53 +9,49 @@ $adminpass = $_POST["adminpass"];
 
 if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
 	{
-		$query_string="SELECT * FROM spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' AND sessionid='' LIMIT 0,1;";
-		$db_result=mysql_query($query_string);
-    $_SESSION["super_user"] = false;
-
-    if(!mysql_num_rows($db_result)){
-      mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
-      $query_string = "SELECT * from super_spssp_admin WHERE BINARY username= '".$adminid."' and BINARY password = '".$adminpass."'";
-      $db_result = mysql_query($query_string);
-      mysql_connected($hotel_sqlhost,$hotel_sqluser,$hotel_sqlpassword,$hotel_sqldatabase);
-      if(mysql_num_rows($db_result)){
-        $_SESSION["super_user"] = true;
-      }
+  $query_string="SELECT * FROM spssp_admin WHERE BINARY username='".jp_encode($_POST['adminid'])."' AND BINARY password='".jp_encode($_POST['adminpass'])."' AND sessionid='' LIMIT 0,1;";
+  $db_result=mysql_query($query_string);
+  $_SESSION["super_user"] = false;
+  
+  if(!mysql_num_rows($db_result)){
+    mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
+    $query_string = "SELECT * from super_spssp_admin WHERE BINARY username= '".$adminid."' and BINARY password = '".$adminpass."'";
+    $db_result = mysql_query($query_string);
+    mysql_connected($hotel_sqlhost,$hotel_sqluser,$hotel_sqlpassword,$hotel_sqldatabase);
+    if(mysql_num_rows($db_result)){
+      $_SESSION["super_user"] = true;
     }
-    
-		if(mysql_num_rows($db_result))
-		{
-			if($db_row=mysql_fetch_array($db_result))
-			{
-				$_SESSION['adminid']=jp_decode($db_row['id']);
-				$_SESSION['user_type'] = $db_row['permission'];
+  }
+  
+  if($db_row=mysql_fetch_array($db_result))
+    {
+      //adminidとstaff_idは同じ
+      $_SESSION['adminid']=jp_decode($db_row['id']);
+      $_SESSION["staff_id"] = $db_row["id"];
 
-        if($_SESSION["super_user"]){
-          $_SESSION["user_type"] = 333;
-        }
-        $_SESSION["staff_id"] = $db_row["id"];
-        if ($_SESSION["user_type"] == 333) {
-          include_once("inc/staff_login_check.php");
-        }
-        if ($_SESSION["super_user"]!=true) {
-          $sql="update spssp_admin set logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
-          mysql_query($sql);
-        }
-        if (($_SESSION["user_type"] != 333) || ($_SESSION['regenerate_id']!=""))  {
-          $_SESSION["hotel_id"] =$HOTELID;
-          redirect("manage.php");
-        }
+      $_SESSION['user_type'] = $db_row['permission'];
+      if(Core_Session::is_super()){
+        $_SESSION["user_type"] = 333;
       }
-      else
-        {
-          $id=$_POST['adminid'];
-          redirect("index.php?adminid=$id&action=failed");			}
-		}
-    else
-      {
-        $id=$_POST['adminid'];
-        redirect("index.php?adminid=$id&action=failed");
+      
+      //ログイン可能かどうかチェック
+      if(!Core_Adminlogin::check_login_time()){
+        echo "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><script> alert('既に同じIDでログインされています。');location.replace('index.php'); </script></head></body>";
+        exit;
       }
+      
+      if ($_SESSION["super_user"]!=true) {
+        $sql="update spssp_admin set logintime='".date("Y-m-d H:i:s")."', updatetime='".date("Y-m-d H:i:s")."' WHERE username='".jp_encode($_POST['adminid'])."';";
+        mysql_query($sql);
+      }
+      $_SESSION["hotel_id"] =$HOTELID;
+      redirect("manage.php");
+
+    }
+  else
+    {
+      $id=$_POST['adminid'];
+      redirect("index.php?adminid=$id&action=failed");			}
   }
 ?>
 <html>
@@ -176,6 +173,11 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
       		<tr><td align="center" style="font-size:10pt;"><?php echo $weddingVersion; ?></td></tr>
 		</table>
 	<div id="login_area">
+  <?php
+   if($Maintenance and !$_GET["admin"]){
+     echo "<span style=\"font-weight:bold;\">ただいまメンテナンス中です</span>";
+   }else{
+     ?>
 
   <?
 			if($_GET['action']=='failed')
@@ -203,6 +205,9 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
       </tr>
     </table>
   </form>
+<?php
+   }
+?>
 
 </div>
 

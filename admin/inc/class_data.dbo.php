@@ -931,13 +931,17 @@ class DataClass extends DBO{
   public function get_gift_table($guestDetailArray,$user_id){
     $giftGroups = $this->get_gift_groups($user_id);
     $returnArray = array();
-    for($i=0;$i<count($giftGroups);++$i){
+    
+    $gift_criteria = Model_Giftoption::data();
+    $count_group = (int)$gift_criteria['num_gift_groups'];
+
+    for($i=0;$i<$count_group;++$i){
       $num = 0;
       $name = $this->get_gift_name_by_gift_id($giftGroups[$i]["id"]);
+      if($name == "") continue;
       for($j=0;$j<count($guestDetailArray);++$j){
         if($guestDetailArray[$j]["gift_group_id"] == $giftGroups[$i]["id"]) ++$num;
       }
-      if($name=="" and $num == 0) continue;
       array_push($returnArray,array("name"=>$name,"num"=>$num,"id"=>$giftGroups[$i]["id"]));
     }
     return $returnArray;

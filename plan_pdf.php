@@ -12,8 +12,8 @@ $objInfo = new InformationClass();
 
 $user_id = Core_Session::get_user_id();
 
-if($_GET["user_id"] && Core_Session::is_admin())
-  $user_id = (int)$_GET['user_id'];
+if($_GET["user_id"] && (Core_Session::is_staff() || $_SESSION["printid"]>0))
+  $user_id = (int)$_GET['user_id'];  
 
 function get_center_table($max_width,$width,$html){
   $margin = floor((100*(($max_width-$width)/$max_width))*10/2)/10;
@@ -115,12 +115,16 @@ $gift_table = $obj->get_gift_table($attend_guests,$user_id);
 
 $group_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".$user_id);
 $gift_rows = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".$user_id);
+$gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
+$count_group = (int)$gift_criteria['num_gift_groups'];
 
 $tr1 = '<tr><td style="text-align:right;border:1px solid black;" colspan="2" height="10"  width="100" >グループ</td>';
 $tr2 = '<tr><td style="text-align:right;border:1px solid black;" colspan="2" height="10"  width="100" >グループ数</td>';
 
 $sum = 0;
-foreach($gift_table as $grp){
+for($i=0;$i<$count_group;++$i){
+  $grp = $gift_table[$i];
+  if($grp["name"] == "") continue;
   $tr1.='<td  style="text-align:center;border:1px solid black;" width="20">'.mb_convert_kana($grp['name'],"K","utf8").'</td>';
   $tr2.='<td  style="text-align:center;border:1px solid black;" width="20">'.$grp['num'].'</td>';
   $sum += $grp["num"];
@@ -149,7 +153,9 @@ foreach($gift_rows as $gift)
 
     $start = 1;
     $num_gifts = 0;
-    foreach($gift_table as $grp){
+    for($i=0;$i<$count_group;++$i){
+      $grp = $gift_table[$i];
+      if($grp["name"] == "") continue;
       $gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$grp['id']);
       $gift_arr = explode("|",$gift_ids);
       if(in_array($gift['id'],$gift_arr))
@@ -331,9 +337,14 @@ $width = count($viewArray)*140;
 if($width>$max_width) $width = $max_width;
 $gift_table = get_center_table((count($viewArray)-1)*150,150,$gift_table);
 
+$width += 30;
 $takasago_name = $table_data["layoutname"];
 $takasago_num_text = ($takasago_menu_num!=0)?($takasago_num-$takasago_menu_num)."+".$takasago_menu_num:$takasago_num;
-$subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td style="font-size:25px;" align="center">'.$takasago_name.'【 '.$takasago_num_text.'名 】</td><td colspan="'.(count($viewArray)-1).'">'.$gift_table.'</td></tr><tr>';
+if(count($viewArray) == 2){
+  $subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td style="font-size:25px;" align="left" colspan="2">'.$takasago_name.'【 '.$takasago_num_text.'名 】</td><td colspan="'.(count($viewArray)-1).'" align="right">'.$gift_table.'</td></tr><tr><td width="60"></td>';
+}else{
+  $subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td style="font-size:25px;" align="center" colspan="2">'.$takasago_name.'【 '.$takasago_num_text.'名 】</td><td colspan="'.(count($viewArray)-1).'" align="right">'.$gift_table.'</td></tr><tr><td width="60"></td>';
+}
 
 for($i=0;$i<count($viewArray);++$i){
   $subhtml .= '<td align="center"  valign="middle">'.$viewArray[$i].'</td>';
@@ -488,5 +499,6 @@ $user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
 $this_name = "hikidemono".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
 $pdf->Output($this_name.'.pdf',"D");
+//testcode
 //$pdf->Output($this_name.'.pdf');
 ?> 

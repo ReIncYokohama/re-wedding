@@ -12,8 +12,6 @@ $staff_id = Core_Session::get_staff_id();
 
 $messages = Model_Message::get_by_admin();
 
-include_once("inc/update_user_log_for_db.php");
-update_user_log_for_db((int)(USER_LOGIN_TIMEOUT), $obj, $user_id_arr);
 $user_id_arr = array();
 if($_SESSION["super_user"] == false) {
   Response::redirect("manage.php");
@@ -25,7 +23,15 @@ $search_party_day_end = "";
 $search_man_name = "";
 $search_woman_name = "";
 
-$whereArr = array(array("party_day",">=",date("Y-m-d")));
+$current_view = $_GET['view'];
+if($current_view=="before") {
+  $whereArr = array(array("party_day","<",date("Y-m-d")));
+  $passPresent = "<a href='users.php'><img src='img/common/btn_honjitsu_on.jpg' /></a><img src='img/common/btn_kako.jpg' /></a>";
+}else {
+  $whereArr = array(array("party_day",">=",date("Y-m-d")));
+  $passPresent = "<img src='img/common/btn_honjitsu.jpg' /></a><a href='users.php?view=before'><img src='img/common/btn_kako_on.jpg' /></a>";
+}
+
 $orderArr = array();
 if($_GET["sort_option"]){
   $arr2 = explode("|",$_GET["sort_option"]);
@@ -167,33 +173,6 @@ function confirmDeleteUser(user_id) {
 	});
 }
 
-function sortAction(sortOptin)
-{
-	var date_from;
-	var date_to;
-	var mname;
-	var wname;
-	var view = "<?=$current_view?>";
-
-	date_from = document.condition.h_date_from.value;
-	date_to = document.condition.h_date_to.value;
-	mname= document.condition.h_man_lastname.value;
-	wname = document.condition.h_woman_lastname.value;
-
-	document.condition.h_sortOption.value = sortOptin;
-
-	// スタッフのソートはstuff_idの有無で判別
-	$j.post('ajax/search_user.php',{'date_from':date_from,'date_to':date_to,'mname':mname,'wname':wname,'sortOptin':sortOptin,'view':view}, function(data){
-
-	$j("#passPresent").fadeOut(100);
-	$j("#srch_result").fadeOut(100);
-	$j("#srch_result").html(data);
-	$j("#srch_result").fadeIn(700);
-	$j("#box_table").fadeOut(100);
-
-	});
-}
-
 function validSearch()
 {
 
@@ -331,12 +310,9 @@ include("inc/return_dbcon.inc.php");
 			</table>
 			</form>
             </div>
-       		<p></p>
-            <div style="width:100%; display:none;" id="srch_result"></div>
-            <p></p>
-
+       		<p>&nbsp;</p>
+			<div id="passPresent"> <?php echo $passPresent; ?> </div>
 		    <div class="box_table" id="box_table">
-            <p>&nbsp;</p>
 
             <div class="box4" style="width:1000px;">
                 <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" >

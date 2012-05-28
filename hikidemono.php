@@ -1,26 +1,30 @@
 <?php
 include_once("admin/inc/class_information.dbo.php");
- include_once("admin/inc/class_data.dbo.php");
- include_once("inc/checklogin.inc.php");
- $obj = new DataClass();
- $objInfo = new InformationClass();
- $get = $obj->protectXSS($_GET);
- $user_id = (int)$_SESSION['userid'];
+include_once("admin/inc/class_data.dbo.php");
+include_once("inc/checklogin.inc.php");
+$obj = new DataClass();
+$objInfo = new InformationClass();
+$get = $obj->protectXSS($_GET);
+$user_id = (int)$_SESSION['userid'];
 
- //tabの切り替え
- $tab_hikidemono = true;
+//tabの切り替え
+$tab_hikidemono = true;
 
- $TITLE = "引出物・料理の登録 - ウエディングプラス";
- include_once("inc/new.header.inc.php");
+$TITLE = "引出物・料理の登録 - ウエディングプラス";
+include_once("inc/new.header.inc.php");
 
-   $plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
-   $data_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".(int)$_SESSION['userid']." order by id asc");
+$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
+$data_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".(int)$_SESSION['userid']." order by id asc");
 
-   $data_rows_gift = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".(int)$_SESSION['userid']." order by id asc");
-   $editable=$objInfo->get_editable_condition($plan_info);
-   //登録後のメッセージの表示のフラグ
-   $save_hikidemono = "false";
-   if($_GET["save"]) $save_hikidemono = "true";
+$data_rows_gift = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".(int)$_SESSION['userid']." order by id asc");
+$editable=$objInfo->get_editable_condition($plan_info);
+//登録後のメッセージの表示のフラグ
+$save_hikidemono = "false";
+if($_GET["save"]) $save_hikidemono = "true";
+
+$gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
+$count_group = (int)$gift_criteria['num_gift_groups'];
+
 
    if($_POST['submitok']=='OK')
    {
@@ -90,7 +94,8 @@ include_once("admin/inc/class_information.dbo.php");
    var reg = /^[0-9]{1,}$/;
    for(var i=0;i<gift_cnt;i++){
      var tgt = "yobisu_" + i;
-     if(reg.test(document.getElementById(tgt).value) == false) {
+     var el = document.getElementById(tgt)
+     if(el && reg.test(el.value) == false) {
        alert("予備数は半角数字で入力してください");
        return false;
      }
@@ -341,8 +346,8 @@ include_once("admin/inc/class_information.dbo.php");
        $j=0;
        $gift_arr = array();
        $groups = array();
-             foreach($group_rows as $row)
-       {
+       for($i=0;$i<$count_group;++$i){
+         $row = $group_rows[$i];
          $gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$row['id']);
 
          $gift_arr = explode("|",$gift_ids);
@@ -372,6 +377,7 @@ include_once("admin/inc/class_information.dbo.php");
          $num_gifts = 0;
          if(!empty($groups))
          {
+
            foreach($groups as $grp)
            {
              $num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp);
@@ -422,7 +428,9 @@ include_once("admin/inc/class_information.dbo.php");
          <table width="800" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999">
          <?php
        $groups = Model_Giftgroup::find_by_user_id($user_id);
-foreach($groups as $group){
+
+for($i=0;$i<$count_group;++$i){
+  $group = $groups[$i];
   $gift_names = $group->get_gift_name();
   if ($group['name']!="") echo "<tr><td bgcolor='#FFFFFF' width='30' align='center'>".$group['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".implode("・",$gift_names)."</td></tr>";
 }

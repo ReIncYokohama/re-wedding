@@ -10,7 +10,7 @@ $takasago_guest_obj = $plan->get_takasago_guest_obj();
 foreach($takasago_guest_obj as $guest){
   $namecard_url = $guest->get_image("namecard.png");
   $fullname_url = $guest->get_image("thumb1/guest_fullname.png");  
-  $guest->_td_html = '<td align="center" class="tooltip" title="<image src=\''.$namecard_url.'\'>" valign="middle" style="text-align:center; padding:7px;width:120px;"><image width="100" src="'.$fullname_url.'"></td>';
+  $guest->_td_html = '<td align="center" user_id="'.$guest->user_id.'" guest_id="'.$guest->id.'" class="takasago_seat" valign="middle" style="text-align:center; padding:7px;width:120px;"><image width="100" src="'.$fullname_url.'"></td>';
 }
 
 $max_width = 0;
@@ -206,16 +206,16 @@ body{
 
     <div class="make_plan_main_contents" id="con_area_ie">
       <div id="side_area" sytle="padding-right:0px;width:350px;">
-        <div align="right"><a href="make_plan_full.php"><image src="img/btn_sort_free_user.jpg"></a></div>
+        <div align="right"><a class="sort_by_reset"><image src="img/btn_sort_free_user.jpg"></a></div>
         <div  id="guests_conatiner" style="float:left; height:710px; width:100%; overflow-x:hidden;overflow-y:scroll;" >
           <table id="left_sidebar_table" class="left_sidebar">
             <thead>
               <tr>
                 <th class="no">No</th>
-                <th class="sex">
+                <th class="sex sort_by_sex">
                   <a>郎婦↓</a>
                 </th>
-                <th class="group">
+                <th class="group sort_by_guest_type">
                   <a>
                     区分↓</a>
                 </th>

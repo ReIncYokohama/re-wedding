@@ -208,7 +208,7 @@ class Model_Plan extends Model_Crud{
     return true;
   }
   public function can_hon_hatyu_irai(){
-    if($this->is_hon_hatyu_irai()){
+    if($this->is_hon_hatyu_irai() or $this->is_kari_hatyu_irai() or $this->is_kari_hatyu()){
       return false;
     }
     return true;

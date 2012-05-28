@@ -57,7 +57,7 @@ if($plan->is_kari_hatyu_irai() or $plan->is_kari_hatyu()){
 ?>
     <div class="top_box2">
 お客様は現在仮発注中です<br><br>
-現在、お客様は仮発注中なので、招待者リストのアップロードはできません。
+現在、仮発注依頼中、または仮発注中のため、招待者リストのアップロードはできません。
 <br><br>
       <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_cancel.jpg" alt="閉じる" width="82" height="22" /></a>
     </div>

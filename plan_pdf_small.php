@@ -12,7 +12,7 @@ $objInfo = new InformationClass();
 
 $user_id = Core_Session::get_user_id();
 
-if($_GET["user_id"] && (Core_Session::is_admin() || $_SESSION["printid"]>0))
+if($_GET["user_id"] && (Core_Session::is_staff() || $_SESSION["printid"]>0))
   $user_id = (int)$_GET['user_id'];
 
 function get_center_table($max_width,$width,$html){
@@ -222,9 +222,10 @@ for($i=0;$i<count($takasago_guests);++$i){
   }
 }
 
+$width += 30;
 $takasago_name = $table_data["layoutname"];
 $takasago_num_text = ($takasago_menu_num!=0)?($takasago_num-$takasago_menu_num)."+".$takasago_menu_num:$takasago_num;
-$subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td style="font-size:25px;" align="center" colspan="'.(count($viewArray)-1).'">'.$takasago_name.'【 '.$takasago_num_text.'名 】</td><td></td></tr><tr>';
+$subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td width="30"></td><td style="font-size:40px;" align="left" colspan="'.(count($viewArray)).'">'.$takasago_name.'【 '.$takasago_num_text.'名 】</td></tr><tr><td></td>';
 
 for($i=0;$i<count($viewArray);++$i){
   $subhtml .= '<td align="center"  valign="middle">'.$viewArray[$i].'</td>';
@@ -256,7 +257,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
       }
       $haveRow = true;
       $numText = ($column["child_menu_num"]==0)?count($column["guests"]):(count($column["guests"])-$column["child_menu_num"])."+".$column["child_menu_num"];
-      $subhtml .= "<td><table cellspacing=\"0\" cellspadding=\"0\" width=\"300\"><tr><td align=\"center\" colspan=\"2\" style=\"font-size:25px;\">".$table_name."[".$numText."名]</td></tr>";
+      $subhtml .= "<td><table cellspacing=\"0\" cellspadding=\"0\" width=\"300\"><tr><td align=\"center\" colspan=\"2\" style=\"font-size:40px;\">".$table_name."[".$numText."名]</td></tr>";
 
       for($k=0;$k<$seat_row*2;++$k){
         if($k%2==0) $subhtml .= "<tr>";
@@ -349,6 +350,7 @@ $user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
 $this_name = "sekijihyo".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
 $pdf->Output($this_name.'.pdf', 'D');
+//testcode
 //$pdf->Output($this_name.'.pdf');
 ?> 
 

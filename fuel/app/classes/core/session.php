@@ -12,8 +12,9 @@ class Core_Session{
   static public function get_user_id(){
     return $_SESSION["userid"];
   }
+  //dont use
   static public function is_admin(){
-    if((int)$_SESSION["adminid"] > 0){
+    if((int)$_SESSION["user_type"] == 333){
 			return true;
 		}else{
 			return false;
@@ -34,6 +35,7 @@ class Core_Session{
 			return false;
 		}
   }
+  //Model_Adminのidでもある
   static public function get_staff_id(){
     return (int)$_SESSION['adminid'];
   }
@@ -51,6 +53,27 @@ class Core_Session{
     $admin = Model_Admin::find_by_pk(static::get_staff_id());
     return $admin["name"];
   }
-
+  static public function admin_unlink(){
+    Core_Adminlogin::destroy();
+    unset($_SESSION['adminid']);
+    unset($_SESSION['user_type']);
+    unset($_SESSION['hotel_id']);
+    unset($_SESSION['regenerate_id']);
+    unset($_SESSION['super_user']);
+		unset($_SESSION['userid']);
+		unset($_SESSION['useremail']);
+		unset($_SESSION['user_log_id']);
+		unset($_SESSION['cart']);
+  }
+  static public function user_unlink(){
+    Core_Login::destroy();
+    unset($_SESSION['userid']);
+    unset($_SESSION['useremail']);
+    unset($_SESSION['user_log_id']);
+    unset($_SESSION['cart']);
+    unset($_SESSION['lastlogintime']);
+    unset($_SESSION['userid_admin']);
+    unset($_SESSION['regenerate_user_id']);
+  }
 }
 

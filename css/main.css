@@ -8,14 +8,7 @@ img{
 	width: 1070px;
 	margin-right: auto;
 	margin-left: auto;
-}/*
-#layout {
-	height: auto;
-	width: 1000px;
-	margin-right: auto;
-	margin-left: auto;
 }
-*/
 #member_name {
 	width: auto;
 }
@@ -48,21 +41,6 @@ img{
 	clear: both;
 	width: 890px;
 }
-/*
-.title_bar {
-	background: #00C6FF;
-	width: 845px;
-	margin-right: auto;
-	margin-left: auto;
-	padding-top: 4px;
-	padding-bottom: 4px;
-	font-weight: bold;
-	color: #FFF;
-	font-size: 113%;
-	padding-left: 15px;
-	padding-right: 15px;
-}
-*/
 .title_bar a:link {
 	color: #FFF;
 	text-decoration: none;

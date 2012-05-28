@@ -186,8 +186,10 @@ if(isset($user_id) && $user_id > 0)
       $obj->InsertData("spssp_gift_group", $array);
     }else{
       $obj->UpdateData("spssp_gift_group", $array," user_id=".$user_id." and id=".(int)$group_post_id[$i]);
+      if($array["name"]==""){
+        Model_Guestgroup::delete_by_user_id($user_id,$group_post_id[$i]);
+      }
     }
-		
 	}
 	$menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".$user_id);
 	$count_child = count($menu_post);

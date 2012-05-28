@@ -35,6 +35,10 @@
       return "name_image/user/" + this.get("user_id") + "/guests/" + this.get("id") + "/thumb2/guest_fullname.png";
     };
 
+    guest.prototype.get_namecard_image = function() {
+      return "name_image/user/" + this.get("user_id") + "/guests/" + this.get("id") + "/namecard.png";
+    };
+
     guest.prototype.hasTable = function() {
       if ((this.get("table_id")) === "0") return false;
       return true;
@@ -113,6 +117,53 @@
       });
     };
 
+    usertable.prototype.sort_sex = false;
+
+    usertable.prototype.sort_by_sex = function() {
+      var guest, guests, _i, _len, _results;
+      guests = _.sortBy(this._data.guests, function(obj) {
+        if (obj.sex === "Male") {
+          return 1;
+        } else if (obj.sex === "Female") {
+          return 2;
+        }
+        return 3;
+      });
+      if (this.sort_sex) {
+        guests = guests.reverse();
+        this.sort_sex = false;
+      } else {
+        this.sort_sex = true;
+      }
+      _results = [];
+      for (_i = 0, _len = guests.length; _i < _len; _i++) {
+        guest = guests[_i];
+        _results.push(new Re.models.guest(guest));
+      }
+      return _results;
+    };
+
+    usertable.prototype.sort_guest_type = false;
+
+    usertable.prototype.sort_by_guest_type = function() {
+      var guest, guests, _i, _len, _results;
+      guests = _.sortBy(this._data.guests, function(obj) {
+        return obj.guest_type;
+      });
+      if (!this.sort_guest_type) {
+        guests = guests.reverse();
+        this.sort_guest_type = true;
+      } else {
+        this.sort_guest_type = false;
+      }
+      _results = [];
+      for (_i = 0, _len = guests.length; _i < _len; _i++) {
+        guest = guests[_i];
+        _results.push(new Re.models.guest(guest));
+      }
+      return _results;
+    };
+
     usertable.prototype.get_guests = function() {
       var guest, _i, _len, _ref, _results;
       _ref = this._data.guests;
@@ -184,12 +235,41 @@
     make_plan.prototype.events = {
       "click #save_button": "save",
       "click #reset_button": "reset",
-      "click #back_button": "back"
+      "click #back_button": "back",
+      "click .sort_by_sex": "sort_by_sex",
+      "click .sort_by_guest_type": "sort_by_guest_type",
+      "click .sort_by_reset": "sort_by_reset",
+      "mouseenter .takasago_seat": "hover",
+      "mouseleave .takasago_seat": "unhover"
     };
 
     make_plan.prototype.el = "body";
 
     make_plan.prototype.left_sidebar = [];
+
+    make_plan.prototype.hover = function(e) {
+      var $el, guest, p;
+      $el = $(e.target);
+      if ($el.attr("guest_id")) {
+        guest = new Re.models.guest({
+          id: $el.attr("guest_id"),
+          user_id: $el.attr("user_id")
+        });
+        this.comment_box = new Re.views.make_plan_comment_box({
+          model: guest
+        });
+        p = $el.position();
+        p.left += 25;
+        return this.comment_box.near(p);
+      }
+    };
+
+    make_plan.prototype.unhover = function() {
+      if (this.comment_box) {
+        this.comment_box.remove();
+        return this.comment_box = false;
+      }
+    };
 
     make_plan.prototype.save = function() {
       if (confirm("修正内容を保存しても宜しいですか？")) {
@@ -221,6 +301,63 @@
       var guest, guests, i, jel, view, _ref, _results;
       guests = Re.usertable.get_guests();
       jel = $("#left_sidebar");
+      _results = [];
+      for (i = 0, _ref = guests.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+        guest = guests[i];
+        guest.set("index", i);
+        view = new Re.views.make_plan_left_sidebar({
+          model: guest
+        });
+        view.setMainView(this);
+        this.left_sidebar.push(view);
+        _results.push(jel.append(view.render().el));
+      }
+      return _results;
+    };
+
+    make_plan.prototype.sort_by_sex = function() {
+      var guest, guests, i, jel, view, _ref, _results;
+      guests = Re.usertable.sort_by_sex();
+      jel = $("#left_sidebar");
+      jel.empty();
+      _results = [];
+      for (i = 0, _ref = guests.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+        guest = guests[i];
+        guest.set("index", i);
+        view = new Re.views.make_plan_left_sidebar({
+          model: guest
+        });
+        view.setMainView(this);
+        this.left_sidebar.push(view);
+        _results.push(jel.append(view.render().el));
+      }
+      return _results;
+    };
+
+    make_plan.prototype.sort_by_guest_type = function() {
+      var guest, guests, i, jel, view, _ref, _results;
+      guests = Re.usertable.sort_by_guest_type();
+      jel = $("#left_sidebar");
+      jel.empty();
+      _results = [];
+      for (i = 0, _ref = guests.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+        guest = guests[i];
+        guest.set("index", i);
+        view = new Re.views.make_plan_left_sidebar({
+          model: guest
+        });
+        view.setMainView(this);
+        this.left_sidebar.push(view);
+        _results.push(jel.append(view.render().el));
+      }
+      return _results;
+    };
+
+    make_plan.prototype.sort_by_reset = function() {
+      var guest, guests, i, jel, view, _ref, _results;
+      guests = Re.usertable.get_guests();
+      jel = $("#left_sidebar");
+      jel.empty();
       _results = [];
       for (i = 0, _ref = guests.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
         guest = guests[i];
@@ -293,6 +430,9 @@
       var drag_guest, seat_id;
       drag_guest = drag_view.model;
       seat_id = this.get_seat_id();
+      if (this.seat_view && this.seat_view.$el) {
+        this.seat_view.$el.css("border", "#A2A7BC 1px solid");
+      }
       if (seat_id) {
         if (this.guest) {
           this.replace(this.guest.get("id"), drag_guest.get("id"));
@@ -310,6 +450,9 @@
     make_plan.prototype.drop_from_seat = function(drag_view) {
       var drag_guest, drag_seat_id, seat_id;
       if (drag_view === this.seat_view) return;
+      if (this.seat_view && this.seat_view.$el) {
+        this.seat_view.$el.css("border", "#A2A7BC 1px solid");
+      }
       drag_guest = drag_view.guest;
       drag_seat_id = drag_view.getSeatId();
       seat_id = this.get_seat_id();
@@ -415,12 +558,25 @@
     };
 
     make_plan_seat.prototype.hover = function() {
-      if (!this.main_view.onDrag) return;
+      if (!this.main_view.onDrag) {
+        if (this.guest) {
+          this.comment_box = new Re.views.make_plan_comment_box({
+            model: this.guest
+          });
+          this.comment_box.near(this.$el.position());
+        }
+        return;
+      }
       this.$el.css("border", "red 1px solid");
       return this.main_view.set_seat_view(this);
     };
 
     make_plan_seat.prototype.unhover = function() {
+      if (this.comment_box) {
+        this.comment_box.remove();
+        this.comment_box = false;
+      }
+      if (!this.main_view.onDrag) return;
       this.$el.css("border", "#A2A7BC 1px solid");
       return this.main_view.reset_seat_id();
     };
@@ -453,8 +609,12 @@
       return this.guest = null;
     };
 
-    make_plan_seat.prototype.dragstart = function() {
+    make_plan_seat.prototype.dragstart = function(e) {
       if (!this.guest) return;
+      if (this.comment_box) {
+        this.comment_box.remove();
+        this.comment_box = false;
+      }
       this.main_view.onDrag = true;
       this.dragbox = new Re.views.make_plan_drag_box({
         model: this.guest
@@ -474,7 +634,8 @@
       $("body").unbind("mouseup", this.mouseup);
       this.dragbox.remove();
       this.main_view.onDrag = false;
-      return this.main_view.drop_from_seat(this);
+      this.main_view.drop_from_seat(this);
+      return this.main_view.reset_seat_id();
     };
 
     return make_plan_seat;
@@ -494,7 +655,9 @@
     make_plan_left_sidebar.prototype.tagName = "tr";
 
     make_plan_left_sidebar.prototype.events = {
-      "mousedown .name": "dragstart"
+      "mousedown .name": "dragstart",
+      "mouseenter .name": "hover",
+      "mouseleave .name": "unhover"
     };
 
     make_plan_left_sidebar.prototype.template = function(model, i) {
@@ -513,8 +676,33 @@
       return this.main_view = view;
     };
 
+    make_plan_left_sidebar.prototype.hover = function() {
+      var p;
+      if (!this.main_view.onDrag) {
+        if (this.model) {
+          this.comment_box = new Re.views.make_plan_comment_box({
+            model: this.model
+          });
+          p = this.$el.position();
+          p.left += 100;
+          return this.comment_box.near(p);
+        }
+      }
+    };
+
+    make_plan_left_sidebar.prototype.unhover = function() {
+      if (this.comment_box) {
+        this.comment_box.remove();
+        return this.comment_box = false;
+      }
+    };
+
     make_plan_left_sidebar.prototype.dragstart = function(e) {
       if (this.model.hasTable()) return;
+      if (this.comment_box) {
+        this.comment_box.remove();
+        this.comment_box = false;
+      }
       this.main_view.onDrag = true;
       this.dragbox = new Re.views.make_plan_drag_box({
         model: this.model
@@ -534,7 +722,8 @@
       $("body").unbind("mouseup", this.mouseup);
       this.dragbox.remove();
       this.main_view.onDrag = false;
-      return this.main_view.drop(this);
+      this.main_view.drop(this);
+      return this.main_view.reset_seat_id();
     };
 
     make_plan_left_sidebar.prototype.refresh = function(seat_id) {
@@ -589,6 +778,41 @@
     };
 
     return make_plan_drag_box;
+
+  })(Backbone.View);
+
+  Re.views.make_plan_comment_box = (function(_super) {
+
+    __extends(make_plan_comment_box, _super);
+
+    function make_plan_comment_box() {
+      make_plan_comment_box.__super__.constructor.apply(this, arguments);
+    }
+
+    make_plan_comment_box.prototype.tagName = "div";
+
+    make_plan_comment_box.prototype.className = "drag_box";
+
+    make_plan_comment_box.prototype.initialize = function() {
+      if (!this.model) return;
+      this.$el.html("<img src=\"" + this.model.get_namecard_image() + "\"/>");
+      this.$el.hide();
+      return $("body").append(this.el);
+    };
+
+    make_plan_comment_box.prototype.near = function(p) {
+      this.$el.show();
+      return this.$el.css({
+        top: (p.top + 40) + "px",
+        left: (p.left - 45) + "px"
+      });
+    };
+
+    make_plan_comment_box.prototype.remove = function() {
+      return this.$el.remove();
+    };
+
+    return make_plan_comment_box;
 
   })(Backbone.View);
 

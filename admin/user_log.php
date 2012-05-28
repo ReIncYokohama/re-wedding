@@ -2,7 +2,8 @@
 	require_once("inc/class.dbo.php");
 	include_once("inc/checklogin.inc.php");
 	include_once("inc/new.header.inc.php");
-include_once("../fuel/load_classes.php");
+  include_once("../fuel/load_classes.php");
+  
 	$obj = new DBO();
 	$user_id = $_GET['user_id'];
 	$table='spssp_user_log';
@@ -11,8 +12,6 @@ include_once("../fuel/load_classes.php");
 	$current_page=(int)$_GET['page'];
 	$redirect_url = 'user_log.php?user_id='.$user_id;
 	$stuff_id= (int)$_GET['stuff_id'];
-
-	//$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
 
 	if($_SESSION['user_type'] == 222)
 	{
@@ -40,20 +39,13 @@ include_once("../fuel/load_classes.php");
 	}
 
 
-	//$query_string="SELECT * FROM spssp_user_log where user_id=".$user_id." ORDER BY date DESC LIMIT ".((int)($current_page)*$data_per_page).",".((int)$data_per_page).";";
 	$query_string="SELECT * FROM spssp_user_log where user_id=".$user_id." ORDER BY login_time ASC ";
-	//echo $query_string;
 	$data_rows = $obj->getRowsByQuery($query_string);
 
-	//echo '<pre>';
-	//print_r($data_rows);
-
-// UCHIDA EDIT 11/08/04 ↓
-	$q1 = "SELECT COUNT(*) FROM spssp_user_log where user_id=".$user_id.""; //全体件数を取得する
+	$q1 = "SELECT COUNT(*) FROM spssp_user_log where user_id=".$user_id."";
 	$rnum1 = mysql_query($q1);
 	list($num) = mysql_fetch_row($rnum1);
 
-// UCHIDA EDIT 11/08/04 ↑
 ?>
 <div id="topnavi">
     <?php
@@ -77,7 +69,7 @@ include("inc/return_dbcon.inc.php");
 <div style="clear:both;"></div>
 	<div id="contents">
     <?php
-    $data_user = $obj->GetSingleRow("spssp_user", "id=".$user_id);
+  $data_user = $obj->GetSingleRow("spssp_user", "id=".$user_id);
 	require_once("inc/include_class_files.php");
 	$objInfo = new InformationClass();
     ?>
@@ -128,7 +120,6 @@ include("inc/return_dbcon.inc.php");
 					{
 						$class = 'box6';
 					}
-//					$stuff_name = $obj->GetSingleData(" spssp_admin ", "username", " id='".$row[admin_id]."'"); // UCHIDA EDIT 11/08/04
 					if ($row[admin_id]>10000)  $stuff_name="印刷会社";
 					else $stuff_name = $obj->GetSingleData(" spssp_admin ", "name", " id='".$row[admin_id]."'");
 					?>

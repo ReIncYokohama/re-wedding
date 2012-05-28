@@ -654,7 +654,8 @@ $guest_own_info = array_merge($guest_own_info,$takasago_arr);
 		//com1 com2
 		if($own_info['comment1']&&$own_info['comment2']){
       $comment_gaijis = array_merge($comment1_gaijis,$comment2_gaijis);
-			$value = s($own_info['comment1'].'△'.$ownt_info['comment2']);
+			$value = s($own_info['comment1'].'△'
+                 .$own_info['comment2']);
       $own_array[] = setStrGaijis($value,$comment_gaijis);
 		}elseif($own_info['comment1']){
 			$value = s($own_info['comment1']);

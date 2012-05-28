@@ -634,6 +634,32 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	if (checkGiftForm(count_gift, noUpdate) == false) return false;
 	if (checkGroupForm(count_group, noUpdate) == false) return false;
 
+  /*
+  for(i=1;i<=count_gift;++i){
+    name = $j("#item"+i).val();
+    if(name==""){
+      for(j=i+1;j<=count_gift;++j){
+        if(name!=""){
+          alert("ブランクのグループ記号があります");
+          $j("#item"+i).focus();
+          return false;
+        }
+      }
+    }
+  }
+  for(i=1;i<=count_group;++i){
+    name = $j("#name_group"+i).val();
+    if(name==""){
+      for(j=i+1;j<=count_group;++j){
+        if(name!=""){
+          alert("ブランクのグループ記号があります");
+          $j("#name_group"+i).focus();
+          return false;
+        }
+      }
+    }
+  }*/
+
    //gaiji_check
    var return_flag = true;
    $j(".check_sjs_1").each(function(){
@@ -1432,19 +1458,7 @@ if($updating){
             </tr>
         </table>
 
-<!--  <br />
-      <p class="txt3">
-        	<?php
-            //if(empty($user_plan_row))
-            //{
-			?>
-             <a href="javascript:void(0);" onclick="valid_plan('<?=$noUpdate?>');"> <img src="img/common/btn_regist_update.jpg" border="0" /> </a>
-			<?php
-			//}
-			?>
-        </p> -->
-<!--         </form> -->
-		</div> <!--end of  id="div_box_2"-->
+		</div>
         <br />
         <h2><div>引出物設定</div></h2>
             <?php
@@ -1468,7 +1482,7 @@ if($updating){
 		  	$yy = 1;
 			foreach($gifts as $gift_name)
 			{
-				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy.$disp_option1."' style='padding-top:3px; padding-buttom:3px;border-style:inset;".$disp_option2.$disp_option3."' name='name_gift".$yy."' value='".$gift_name['name']."' size='30'>&nbsp;&nbsp;&nbsp;";
+        echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' ".$disp_option1." style='padding-top:3px; padding-buttom:3px;border-style:inset;".$disp_option2.$disp_option3."' name='name_gift".$yy."' value='".$gift_name['name']."' size='30'>&nbsp;&nbsp;&nbsp;";
 				echo "<input type='hidden' name='gift_fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
 				$yy++;
 			}

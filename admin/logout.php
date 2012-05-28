@@ -1,40 +1,22 @@
 <?php
-
 @session_start();
-require_once("inc/class.dbo.php");
-include_once(dirname(__FILE__)."/../conf/conf.php");
+include_once("../fuel/load_classes.php");
 
-$obj = new DBO();
+if(!Core_Session::is_super()){
+  $staff_id = Core_Session::get_staff_id();
+  $admin = Model_Admin::find_by_pk($staff_id);
+  if($amdin){
+    $admin->updatetime = date("Y-m-d H:i:s");
+    $admin->sessionid = "";
+    $admin->save();
+  }
+} 
 
-	$sqlhost=$hotel_sqlhost;
-	$sqluser=$hotel_sqluser;
-	$sqlpassword=$hotel_sqlpassword;
-	$sqldatabase=$hotel_sqldatabase;
-
-	mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase);
-
-if (!$_SESSION["super_user"]) {
-	$sql="update spssp_admin set sessionid='',updatetime='".date("Y-m-d H:i:s")."' WHERE id='".$_SESSION['adminid']."';";
-	mysql_query($sql);
+$user_log = Model_Userlog::find_by_pk($_SESSION['user_log_id']);
+if($user_log){
+  $user_log->logout_time = date("Y-m-d H:i:s");
+  $user_log->save();
 }
 
-	if ($_SESSION['regenerate_id']!="" && $_SESSION["user_type"] == 333) unlink(STAFF_LOGIN_FILENAME);
-	
-	unset($_SESSION['adminid']);
-	unset($_SESSION['user_type']);
-	unset($_SESSION['hotel_id']);
-	unset($_SESSION['regenerate_id']);
-	unset($_SESSION['super_user']);
-	
-  if(isset($_SESSION['super_user']))
-	{
-		$user_log['logout_time'] = date("Y-m-d H:i:s");
-
- 		$obj->UpdateData("spssp_user_log", $user_log, " id='".(int)$_SESSION['user_log_id']."'");
-		unset($_SESSION['userid']);
-		unset($_SESSION['useremail']);
-		unset($_SESSION['user_log_id']);
-		unset($_SESSION['cart']);
-	}
-  redirect("index.php");
-?>
+Core_Session::admin_unlink();
+Response::redirect("index.php");

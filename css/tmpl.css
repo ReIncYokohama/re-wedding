@@ -6,14 +6,13 @@ body {
 	/*color:#959595;*/
 	color:#000;
 	font:normal 12px/1.8em Arial, Helvetica, sans-serif;
-		background:#fff url(../images/header_bg.gif) repeat-x center 85px;
 }
 html, .main {
 	padding:0;
 	margin:0;
 }
 .main {
-	background:#fff url(../images/header_bg.gif) repeat-x center 85px;
+	
 }
 .clr {
 	clear:both;
@@ -80,8 +79,16 @@ a.com {
 	padding:0;
 }
 .header {
-}
 
+}
+#header_back{
+background:#fff url(../images/header_bg.gif) repeat-x center 85px;
+position:absolute;
+top:0px;
+height: 191px;
+width: 100%;
+z-index:-99;
+}
 
 .header_resize {
 	margin:0 auto;

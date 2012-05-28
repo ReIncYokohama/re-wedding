@@ -12,7 +12,7 @@ $hcode = 1;
 
 foreach($users as $user){
   if($user->past_delete_users($hcode)){
-    print "te";
+    print "delete user where user_id = "$user->id;
     $path = dirname(__file__)."/../name_image/user/".$user->id;
     try{
       if(is_dir($path)){
