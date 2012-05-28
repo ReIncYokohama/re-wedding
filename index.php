@@ -9,7 +9,7 @@
 
 	if($_GET['action']=='failed')
 	{
-		echo '<script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください"); </script>';
+		echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript"> alert("ログインIDかパスワードが間違っています。\\n正しいログインIDとパスワードを入力してください"); </script></head></html>';
 		//redirect("index.php");
 	}
 
@@ -24,21 +24,16 @@
 			{
 
 				$_SESSION['super_adminid']=$db_row['id'];
-// UCHIDA EDIT 11/08/11
-// UCHIDA EDIT 11/09/07
-//				redirect("manage.php");
 				redirect("hotel.php");
 			}
 			else
 			{
-				// UCHIDA EDIT 11/08/17 ＩＤを再表示
 				$id=$_POST['adminid'];
 				redirect("index.php?adminid=$id&action=failed");
 			}
 		}
 		else
 		{
-			// UCHIDA EDIT 11/08/17 ＩＤを再表示
 			$id=$_POST['adminid'];
 			redirect("index.php?adminid=$id&action=failed");
 		}
