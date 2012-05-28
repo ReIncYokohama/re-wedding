@@ -31,6 +31,9 @@ class Core_Commonlogin{
   }
   static public function write(){
     $file = static::get_file();
+    if(!is_dir(dirname($file))){
+      mkdir(dirname($file));
+    }
     $text = session_id()."#".mktime();
     file_put_contents($file,$text);
   }
