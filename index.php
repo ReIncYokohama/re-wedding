@@ -213,7 +213,7 @@ $(function(){
 			</table>
             <div id="login_area">
   <?php
-   if($Maintenance and !$_GET["admin"]){
+   if(!$__can_login and !$_GET["admin"]){
      echo "<span style=\"font-weight:bold;\">ただいまメンテナンス中です</span>";
    }else{
      ?>
