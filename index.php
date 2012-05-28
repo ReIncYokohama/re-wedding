@@ -212,11 +212,16 @@ $(function(){
 	      		<tr><td align="center" style="font-size:10pt;"><?php echo $weddingVersion; ?></td></tr>
 			</table>
             <div id="login_area">
-
+  <?php
+   if($Maintenance and !$_GET["admin"]){
+     echo "<span style=\"font-weight:bold;\">ただいまメンテナンス中です</span>";
+   }else{
+     ?>
 こちらからログインしてください。<br />
 ログインID、パスワードを忘れた方は、ホテル担当者へお問い合わせください。<br />
 <br />
 <form action="login.php" method="post" name="login_form" id="login_form">
+
 		<table cellspacing="10" cellpadding="0" width="100%">
 						<tr>
 							<td>ログインID</td>
@@ -234,6 +239,9 @@ $(function(){
 </form>
 	<a href="forgetPassword.php"><b>パスワードを忘れた場合はこちら</b></a><br /><br />
 	※メールアドレスを未登録のお客様は、<br />　ホテル担当者へお問い合わせください。<br />
+<?php
+   }
+?>
 
 	</div>
   <?php

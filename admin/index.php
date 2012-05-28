@@ -173,6 +173,11 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
       		<tr><td align="center" style="font-size:10pt;"><?php echo $weddingVersion; ?></td></tr>
 		</table>
 	<div id="login_area">
+  <?php
+   if($Maintenance and !$_GET["admin"]){
+     echo "<span style=\"font-weight:bold;\">ただいまメンテナンス中です</span>";
+   }else{
+     ?>
 
   <?
 			if($_GET['action']=='failed')
@@ -200,6 +205,9 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
       </tr>
     </table>
   </form>
+<?php
+   }
+?>
 
 </div>
 
