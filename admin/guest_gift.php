@@ -75,8 +75,6 @@ if($get['action']=="allow")
 		$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id); 
 	}
 
-list($sekijihyo_num,$sekifuda_num) = $plan->get_sekijihyo_sekifuda_num();
-
 	$plan_info2 = $obj ->GetSingleRow("spssp_plan"," user_id=".$user_id);
 	if($plan_info2['dowload_options']==1)
 	{
@@ -96,7 +94,7 @@ list($sekijihyo_num,$sekifuda_num) = $plan->get_sekijihyo_sekifuda_num();
 $plan = Model_Plan::find_one_by_user_id($user_id);
 $plan_info = $plan->to_array();
 
-
+list($sekijihyo_num,$sekifuda_num) = $plan->get_sekijihyo_sekifuda_num();
 
 ?>
 <style>
