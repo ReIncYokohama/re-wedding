@@ -12,7 +12,7 @@ class Core_Session{
   static public function get_user_id(){
     return $_SESSION["userid"];
   }
-  //dont use
+  //super or admin staff
   static public function is_admin(){
     if((int)$_SESSION["user_type"] == 333){
 			return true;
@@ -27,14 +27,32 @@ class Core_Session{
 			return false;
 		}
   }
-  
-  static public function is_staff(){
-    if($_SESSION['user_type'] == 222 || $_SESSION['user_type'] == 333){
+  //admin staff
+  static public function is_admin_staff(){
+    if((int)$_SESSION["user_type"] == 333 and !Core_Session::is_super()){
 			return true;
 		}else{
 			return false;
 		}
   }
+  //normal staff
+  static public function is_normal_staff(){
+    if((int)$_SESSION["user_type"] == 222){
+			return true;
+		}else{
+			return false;
+		}
+  }
+
+  //normal staff and admin staff
+  static public function is_staff(){
+    if(Core_Session::is_admin_staff() || Core_Session::is_normal_staff()){
+			return true;
+		}else{
+			return false;
+		}
+  }
+  
   //Model_Adminのidでもある
   static public function get_staff_id(){
     return (int)$_SESSION['adminid'];

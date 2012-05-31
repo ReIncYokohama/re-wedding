@@ -13,7 +13,7 @@ $staff_id = Core_Session::get_staff_id();
 $messages = Model_Message::get_by_admin();
 
 $user_id_arr = array();
-if($_SESSION["super_user"] == false) {
+if(!Core_Session::is_admin()) {
   Response::redirect("manage.php");
 }
 
