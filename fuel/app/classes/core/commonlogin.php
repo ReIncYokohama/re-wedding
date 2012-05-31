@@ -8,7 +8,6 @@ class Core_Commonlogin{
     }
     //新規ユーザがログイン
     if(!$data){
-      session_regenerate_id();
       static::write();
       return true;
     }
