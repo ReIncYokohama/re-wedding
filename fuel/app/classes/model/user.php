@@ -189,10 +189,6 @@ class Model_User extends Model_Crud{
       $msg_text = "<div><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
         $party_day."  ".$user_name." 様は席次表本発注締切日を過ぎています。</a></div>";
       array_push($msg_arr,$msg_text);
-    }else if($this->past_deadline_honhatyu_alert() and !$plan->is_hon_hatyu()){
-      $msg_text = "<div><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
-        $party_day."  ".$user_name." 様は席次表本発注締切日が近づいています。</a></div>";
-      array_push($msg_arr,$msg_text);
     }
     
     if($plan->is_hikidemono_hatyu_irai() and !$plan->is_hikidemono_hatyu() and !$plan->is_hon_hatyu()){
@@ -204,12 +200,7 @@ class Model_User extends Model_Crud{
       $msg_text = "<div><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
         $party_day."  ".$user_name."  様は引出物本発注締切日を過ぎています。</a></div>";
       array_push($msg_arr,$msg_text);
-    }else if($this->past_deadline_hikidemono_alert() and !$plan->is_hikidemono_hatyu()){
-      $msg_text = "<div><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
-        $party_day."  ".$user_name." 様は引出物本発注締切日が近づいています。</a></div>";
-      array_push($msg_arr,$msg_text);
     }
-
 		return $msg_arr;
   }
   public function get_user_message(){
