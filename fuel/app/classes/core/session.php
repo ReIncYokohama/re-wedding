@@ -37,7 +37,7 @@ class Core_Session{
   }
   //normal staff
   static public function is_normal_staff(){
-    if((int)$_SESSION["user_type"] == 222){
+    if($_SESSION["user_type"] == 222){
 			return true;
 		}else{
 			return false;
