@@ -8,7 +8,7 @@ include_once("../fuel/load_classes.php");
 if($_SESSION['printid'] =='')
 {
   //redirect("index.php");exit;
-  }
+}
 
 $obj = new DataClass();
 $objInfo = new InformationClass();
@@ -689,7 +689,7 @@ header("Cache-Control: public");
 header("Pragma: public");
 
 //csvのダウンロードの際のカウント方法はプラス1000で
-$version = $obj->get_download_num($user_id,$_SESSION["adminid"]+1000);
+$version = $obj->get_download_num($user_id,Core_Session::get_print_id()+1000);
 $this_name = $HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
 $this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
 

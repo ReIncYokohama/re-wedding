@@ -52,11 +52,16 @@ class Core_Session{
 			return false;
 		}
   }
-  
+
   //Model_Adminのidでもある
   static public function get_staff_id(){
     return (int)$_SESSION['adminid'];
   }
+
+  static public function get_print_id(){
+    return (int)$_SESSION['printid'];
+  }
+
   static public function get_seat_data(){
     if(isset($_SESSION['cart'])){
       return $_SESSION["cart"];
