@@ -186,10 +186,7 @@ class Re.views.make_plan extends Backbone.View
     for i in [0..guests.length-1]
       guest = guests[i]
       guest.set "index",i
-      view = new Re.views.make_plan_left_sidebar
-        model:guest
-      view.setMainView @
-      @left_sidebar.push view
+      view = @get_left_sidebar_by_guest_id guest.id
       jel.append view.render().el
   sort_by_guest_type:()->
     guests = Re.usertable.sort_by_guest_type()
@@ -198,10 +195,7 @@ class Re.views.make_plan extends Backbone.View
     for i in [0..guests.length-1]
       guest = guests[i]
       guest.set "index",i
-      view = new Re.views.make_plan_left_sidebar
-        model:guest
-      view.setMainView @
-      @left_sidebar.push view
+      view = @get_left_sidebar_by_guest_id guest.id
       jel.append view.render().el
   sort_by_reset:()->
     guests = Re.usertable.get_guests()
@@ -210,10 +204,7 @@ class Re.views.make_plan extends Backbone.View
     for i in [0..guests.length-1]
       guest = guests[i]
       guest.set "index",i
-      view = new Re.views.make_plan_left_sidebar
-        model:guest
-      view.setMainView @
-      @left_sidebar.push view
+      view = @get_left_sidebar_by_guest_id guest.id
       jel.append view.render().el
     Re.usertable.sort_reset()
   get_left_sidebar_by_guest_id:(guest_id)->

@@ -329,11 +329,7 @@
       for (i = 0, _ref = guests.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
         guest = guests[i];
         guest.set("index", i);
-        view = new Re.views.make_plan_left_sidebar({
-          model: guest
-        });
-        view.setMainView(this);
-        this.left_sidebar.push(view);
+        view = this.get_left_sidebar_by_guest_id(guest.id);
         _results.push(jel.append(view.render().el));
       }
       return _results;
@@ -348,11 +344,7 @@
       for (i = 0, _ref = guests.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
         guest = guests[i];
         guest.set("index", i);
-        view = new Re.views.make_plan_left_sidebar({
-          model: guest
-        });
-        view.setMainView(this);
-        this.left_sidebar.push(view);
+        view = this.get_left_sidebar_by_guest_id(guest.id);
         _results.push(jel.append(view.render().el));
       }
       return _results;
@@ -366,11 +358,7 @@
       for (i = 0, _ref = guests.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
         guest = guests[i];
         guest.set("index", i);
-        view = new Re.views.make_plan_left_sidebar({
-          model: guest
-        });
-        view.setMainView(this);
-        this.left_sidebar.push(view);
+        view = this.get_left_sidebar_by_guest_id(guest.id);
         jel.append(view.render().el);
       }
       return Re.usertable.sort_reset();
