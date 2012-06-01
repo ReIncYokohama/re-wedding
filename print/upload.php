@@ -159,7 +159,7 @@ include("../admin/inc/return_dbcon.inc.php");
   </div>
 
   <div id="footer">
-    <p>Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.
+    <p>Copyright (C) 株式会社サンプリンティングシステム All rights reserved.
 </p>
   </div>
 </div>

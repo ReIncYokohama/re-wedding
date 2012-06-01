@@ -181,7 +181,7 @@ function cancelAction()
 		<div class="footer">
 		<div style="border-bottom: 8px solid #00C6FF;"></div>
 		<div id="footer">
-    		Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.
+    		Copyright (C) 株式会社サンプリンティングシステム All rights reserved.
   		 </div>
 		</div>
 		<script type="text/javascript"> document.passwordForgetForm.email.focus(); </script>
