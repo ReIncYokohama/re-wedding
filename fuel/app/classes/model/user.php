@@ -222,7 +222,7 @@ class Model_User extends Model_Crud{
         "印刷イメージが出来上がりました。</a></div>";
       array_push($msg_arr,$msg_text);
     }
-    if($this->past_deadline_hikidemono() and !$plan->is_hikidemono_hatyu_irai()){
+    if($this->past_deadline_hikidemono() and !($plan->is_hikidemono_hatyu_irai() or $plan->is_hikidemono_hatyu_irai() )){
       $msg_text = "<div><a href='order.php' style='color:red;'>引出物の発注依頼の締め切り日を過ぎています。至急担当までご連絡の上、確認作業をお願いします。</a></div>";
       array_push($msg_arr,$msg_text);
     }else if($this->past_deadline_hikidemono_alert() and !$plan->is_hikidemono_hatyu_irai()){
