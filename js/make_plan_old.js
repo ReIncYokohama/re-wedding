@@ -175,6 +175,11 @@
       return _results;
     };
 
+    usertable.prototype.sort_reset = function() {
+      this.sort_sex = false;
+      return this.sort_guest_type = false;
+    };
+
     usertable.prototype.get_seat = function(seat_id) {
       var column, row, seat, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3;
       _ref = this._data.rows;
@@ -354,11 +359,10 @@
     };
 
     make_plan.prototype.sort_by_reset = function() {
-      var guest, guests, i, jel, view, _ref, _results;
+      var guest, guests, i, jel, view, _ref;
       guests = Re.usertable.get_guests();
       jel = $("#left_sidebar");
       jel.empty();
-      _results = [];
       for (i = 0, _ref = guests.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
         guest = guests[i];
         guest.set("index", i);
@@ -367,9 +371,9 @@
         });
         view.setMainView(this);
         this.left_sidebar.push(view);
-        _results.push(jel.append(view.render().el));
+        jel.append(view.render().el);
       }
-      return _results;
+      return Re.usertable.sort_reset();
     };
 
     make_plan.prototype.get_left_sidebar_by_guest_id = function(guest_id) {

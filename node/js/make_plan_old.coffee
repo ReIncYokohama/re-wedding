@@ -98,6 +98,9 @@ class Re.models.usertable
     (new Re.models.guest guest for guest in guests)
   get_guests:()->
     (new Re.models.guest guest for guest in @_data.guests)
+  sort_reset:()->
+    @sort_sex = false
+    @sort_guest_type = false
   get_seat:(seat_id)->
     for row in @_data.rows
       for column in row.columns
@@ -212,6 +215,7 @@ class Re.views.make_plan extends Backbone.View
       view.setMainView @
       @left_sidebar.push view
       jel.append view.render().el
+    Re.usertable.sort_reset()
   get_left_sidebar_by_guest_id:(guest_id)->
     for view in @left_sidebar
       if view.model.get("id") is guest_id
