@@ -92,11 +92,13 @@ $count_group = (int)$gift_criteria['num_gift_groups'];
  function validForm(gift_cnt)
  {
    var reg = /^[0-9]{1,}$/;
-   for(var i=0;i<gift_cnt;i++){
+   
+   for(var i=1;i<=gift_cnt;i++){
      var tgt = "yobisu_" + i;
      var el = document.getElementById(tgt)
-     if(el && reg.test(el.value) == false) {
+     if(el && reg.test($(el).val()) == false) {
        alert("予備数は半角数字で入力してください");
+       $(el).focus();
        return false;
      }
    }
@@ -393,7 +395,7 @@ $count_group = (int)$gift_criteria['num_gift_groups'];
          }
        ?></div>
              </td>
-       <td align="center"><input type="text" id="yobisu_<?=$i?>" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right;border-style:inset;" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+       <td align="center"><input type="text" id="yobisu_<?=$gift_cnt?>" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right;border-style:inset;" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
 
              </tr>
        <?php
