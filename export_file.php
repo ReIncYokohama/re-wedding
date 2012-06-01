@@ -80,9 +80,9 @@ $html .= '</table></body></html>';
 //test code
 //print $html;exit;
 
-$today = date("md");
+$date_array = explode('-', $user->party_day);
 
-$this_name= "リスト".$today."".$user->man_lastname."_".$user->woman_lastname;
+$this_name= "リスト".$date_array[1].$date_array[2]."".$user->man_lastname."_".$user->woman_lastname;
 
 $File = "cache/Yourexcel.html";
 $Handle = fopen($File, 'w');
