@@ -277,7 +277,11 @@ include("inc/return_dbcon.inc.php");
 						  <tr>
 						    <td align="left">郵便番号<?=$disp_option3?></td>
 							<td align="left">：</td>
-							<td><input name="zipcode" type="text" id="zipcode" <?=$disp_option1?>  style="padding:0px;border-style: inset; <?=$disp_option2?> " size="10" maxlength="8" value="<?=$hotel_row[zip]?>"/>（例　231-0000）</td>
+							<td><input name="zipcode" type="text" id="zipcode" <?=$disp_option1?>  style="padding:0px;border-style: inset; <?=$disp_option2?> " size="10" maxlength="8" value="<?=$hotel_row[zip]?>"/>
+ <?php if (!Core_Session::is_normal_staff()) {?>
+                 （例　231-0000）
+<?php } ?>
+              </td>
 						  </tr>
 						  <tr>
 						    <td align="left">住所1<?=$disp_option3?></td>
@@ -292,8 +296,11 @@ include("inc/return_dbcon.inc.php");
 						  <tr>
 						    <td align="left">電話番号<?=$disp_option3?></td>
 							<td align="left">：</td>
-							<td><input type="text" name="tel" id="tel" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " value="<?=$hotel_row[phone]?>" />（例　0451111111)</td>
-						  </tr>
+							<td><input type="text" name="tel" id="tel" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " value="<?=$hotel_row[phone]?>" />
+ <?php if (!Core_Session::is_normal_staff()) {?>
+（例　0451111111)
+<?php } ?>
+              </td></tr>
 						  <tr>
 						    <td align="left">担当者<?=$disp_option3?></td>
 							<td align="left">：</td>
