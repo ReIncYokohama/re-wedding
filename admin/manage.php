@@ -22,7 +22,7 @@ $search_party_day_end = "";
 $search_man_name = "";
 $search_woman_name = "";
 
-if($_SESSION["super_user"] == false) {
+if(!Core_Session::is_super()) {
   $whereArr = array(array("stuff_id","=",$_SESSION["adminid"]),
                     array("party_day",">=",date("Y-m-d")));
   $orderArr = array();
