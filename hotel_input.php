@@ -218,12 +218,15 @@ function validform_hotel(){
 			return false;
 		}
 	}
-	if(document.getElementById("zip").value=='')
-	{
-		alert("郵便番号を入力してください");
-		document.getElementById('zip').focus();
-		return false;
+  postcode = document.getElementById("zip").value;
+	if (postcode.length != 0) {
+		if( !postcode.match( /^[0-9]{3}-[0-9]{4}$/ ) ) {
+			alert("郵便番号は'123-4567'の形式で入力してください");
+      document.getElementById('zip').focus();
+      return false;
+		}
 	}
+
 	if(document.getElementById("address1").value=='')
 	{
 		alert("住所１を入力してください");
