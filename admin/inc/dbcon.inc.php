@@ -13,7 +13,7 @@ function mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase){
   if(mysql_ping()) mysql_close();
   $link = mysql_connect($sqlhost, $sqluser,$sqlpassword)
     	or die("COULD NOT CONNECT : " . mysql_error());
-  mysql_select_db($sqldatabase) or die("test");
+  mysql_select_db($sqldatabase) or die("db isnt connected");
   mysql_query("SET CHARACTER SET 'utf8'");
   mysql_query("SET NAMES 'utf8'");
   return $link;

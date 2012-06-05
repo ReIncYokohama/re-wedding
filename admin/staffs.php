@@ -695,7 +695,7 @@ include("inc/return_dbcon.inc.php");
 				  <td align="left" nowrap="nowrap">：</td>
 					<td nowrap="nowrap">
 				<input type="radio" name="subcription_mail" value="0" <?php echo ($edit_data_rows['subcription_mail']=='0' && $edit_data_rows['email'] !='')?"checked":"";?> /> 受信する
-				<input type="radio" name="subcription_mail" value="1" <?php if ($edit_data_rows['subcription_mail']=='1' || !isset($edit_data_rows['subcription_mail'])) echo "checked";?>/>  受信しない
+				<input type="radio" name="subcription_mail" value="1" <?php echo (!($edit_data_rows['subcription_mail']=='0' && $edit_data_rows['email'] !=''))?"checked":"";?> />  受信しない
 					</td>
 				</tr>
                 				<tr>
