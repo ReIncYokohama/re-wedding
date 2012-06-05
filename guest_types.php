@@ -14,7 +14,7 @@ include_once("inc/header.inc.php");
 
 		if($id <= 0)
 		{
-			$post['display_order'] = time();
+			$post['display_order'] = 0;
 			$lid = $obj->InsertData("spssp_guest_type", $post);
 			if($lid > 0)
 			{

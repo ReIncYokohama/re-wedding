@@ -14,7 +14,7 @@ include_once("inc/header.inc.php");
 
 		if($id <= 0)
 		{
-			$post['display_order'] = time();
+			$post['display_order'] = 0;
 			$lid = $obj->InsertData("spssp_respect", $post);
 			if($lid > 0)
 			{
@@ -75,10 +75,8 @@ include_once("inc/header.inc.php");
   <div id="container">
     <div id="contents">
       <h2>基本設定 &raquo; 敬称</h2>
-<!--       <div class="subtitle"></div> -->
       <p class="txt3"><!-- <a href="javascript:void(0);" onclick="new_table()"> <b>新規登録</b></a>--></p>
  	  <div  id="new_table" style="width:100%;">
-<!--         	<h2 id="title_bar">登録　敬称: </h2> -->
 			<div class="subtitle">登録　敬称: </div>
         	<form action="respects.php" method="post" name="new_name">
             	<input type="hidden" name="insert_edit" id="insert_edit" value="<?=$edit_id?>" />
