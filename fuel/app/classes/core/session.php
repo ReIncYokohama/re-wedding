@@ -56,9 +56,20 @@ class Core_Session{
 			return false;
 		}
   }
+  //新郎新婦がログインしたとき
+  static public function is_user(){
+    if(Core_Session::get_staff_id_in_user_display() == 0){
+      return true;
+    }
+    return false;
+  }
 
   //Model_Adminのidでもある
   static public function get_staff_id(){
+    return (int)$_SESSION['staff_id'];
+  }
+
+  static public function get_staff_id_in_user_display(){
     return (int)$_SESSION['adminid'];
   }
 

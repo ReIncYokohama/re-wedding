@@ -26,7 +26,9 @@ if(trim($_POST['adminid'])&&trim($_POST['adminpass']))
   if($db_row=mysql_fetch_array($db_result))
     {
       //adminidとstaff_idは同じ
+      //user 画面用のstaff id
       $_SESSION['adminid']=jp_decode($db_row['id']);
+      //staff_idは、ホテル画面用
       $_SESSION["staff_id"] = $db_row["id"];
 
       $_SESSION['user_type'] = $db_row['permission'];
