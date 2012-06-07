@@ -16,32 +16,36 @@ class Core_Session{
   static public function is_admin(){
     if((int)$_SESSION["user_type"] == 333){
 			return true;
-		}else{
-			return false;
 		}
+    return false;
   }
   static public function is_super(){
     if($_SESSION["super_user"]){
 			return true;
-		}else{
-			return false;
 		}
+    return false;
   }
   //admin staff
   static public function is_admin_staff(){
     if((int)$_SESSION["user_type"] == 333 and !Core_Session::is_super()){
 			return true;
-		}else{
-			return false;
 		}
+    return false;
   }
   //normal staff
   static public function is_normal_staff(){
     if($_SESSION["user_type"] == 222){
 			return true;
-		}else{
-			return false;
 		}
+    return false;
+  }
+
+  //Model_Adminのidでもある
+  static public function is_print_company(){
+    if($_SESSION["print_id"]>0){
+      return true;
+    }
+    return false;
   }
 
   //normal staff and admin staff
@@ -68,6 +72,7 @@ class Core_Session{
     }
     return false;
   }
+
   static public function set_seat_data($arr){
     $_SESSION["cart"] = $arr;
   }

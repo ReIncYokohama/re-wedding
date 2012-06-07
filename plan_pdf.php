@@ -12,8 +12,8 @@ $objInfo = new InformationClass();
 
 $user_id = Core_Session::get_user_id();
 
-if($_GET["user_id"] && (Core_Session::is_staff() || $_SESSION["printid"]>0))
-  $user_id = (int)$_GET['user_id'];  
+if($_GET["user_id"] && (Core_Session::is_staff() || Core_Session::is_super() || Core_Session::is_print_company()))
+  $user_id = (int)$_GET['user_id'];
 
 function get_center_table($max_width,$width,$html){
   $margin = floor((100*(($max_width-$width)/$max_width))*10/2)/10;

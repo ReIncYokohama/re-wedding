@@ -12,7 +12,7 @@ $objInfo = new InformationClass();
 
 $user_id = Core_Session::get_user_id();
 
-if($_GET["user_id"] && (Core_Session::is_staff() || $_SESSION["printid"]>0))
+if($_GET["user_id"] && (Core_Session::is_staff() || Core_Session::is_super() || Core_Session::is_print_company()))
   $user_id = (int)$_GET['user_id'];
 
 function get_center_table($max_width,$width,$html){
@@ -349,8 +349,8 @@ $date = date("His");
 $user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
 $this_name = "sekijihyo".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
-//$pdf->Output($this_name.'.pdf', 'D');
+$pdf->Output($this_name.'.pdf', 'D');
 //testcode
-$pdf->Output($this_name.'.pdf');
+//$pdf->Output($this_name.'.pdf');
 ?> 
 
