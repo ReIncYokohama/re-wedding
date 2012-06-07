@@ -28,7 +28,6 @@ if($row['id']){
         echo "<html><head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /><script> alert('現在ホテルスタッフがログインしております');location.replace('index.php'); </script></head></body>";
         exit;
       }
-
       $userlog = new Model_Userlog();
       $userlog->user_id = (int)$_SESSION['userid'];
       $userlog->login_time = date("Y-m-d H:i:s");
@@ -37,6 +36,7 @@ if($row['id']){
       $userlog->save();
       
 			$_SESSION['user_log_id'] = $userlog->id;
+      $_SESSION["hotel_id"] =$HOTELID;
 
 			if($row['user_code']!="jis90" && $row['user_code']!="jis04")
 			{

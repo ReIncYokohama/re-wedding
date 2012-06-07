@@ -47,7 +47,7 @@ class Model_Plan extends Model_Crud{
   //印刷依頼を受けている
   public function editable(){
     $user = Model_User::find_by_pk($this->user_id);
-    if($user->past_deadline_sekijihyo() && !(Core_Session::is_admin() or Core_Session::is_normal_staff())) return false;
+    if($user->past_deadline_sekijihyo() && Core_Session::is_user()) return false;
     if($this->is_kari_hatyu_irai() or $this->is_hon_hatyu_irai()){
       return false;
     }else{
