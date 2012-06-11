@@ -20,6 +20,10 @@ class DataClass extends DBO{
     }else if($set_obj["stage"]>0){
       $guest->delete_seat();
     }
+    if(!($set_obj["gift_group_id"] > 0)){
+      $set_obj["gift_group_id"] = 0;
+    }
+
     foreach($set_obj as $key => $value){
       if($guest_row[$key] != $value and !($guest_row[$key] == 0 and $value == "") ){
         $before_data[$key] = $guest_row[$key];
