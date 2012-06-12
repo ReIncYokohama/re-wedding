@@ -132,11 +132,15 @@ class Re.views.make_plan extends Backbone.View
     "click .sort_by_sex":"sort_by_sex"
     "click .sort_by_guest_type":"sort_by_guest_type"
     "click .sort_by_reset":"sort_by_reset"
-    "mouseenter .takasago_seat":"hover"
-    "mouseleave .takasago_seat":"unhover"
+    "mouseenter .takasago_seat":"takasago_hover"
+    "mouseleave .takasago_seat":"takasago_unhover"
+    "mouseenter #left_sidebar_table":"left_sidebar_hover"
+    "mouseleave #left_sidebar_table":"left_sidebar_unhover"
   el:"body"
   left_sidebar:[]
-  hover:(e)->
+
+  #高砂席をホバーしたときにゲストの詳細情報が分かる
+  takasago_hover:(e)->
     $el = $(e.target)
     if $el.attr "guest_id"
       guest = new Re.models.guest
@@ -148,10 +152,24 @@ class Re.views.make_plan extends Backbone.View
       p = $el.position()
       p.left += 25
       @comment_box.near(p)
-  unhover:()->
+  takasago_unhover:()->
     if @comment_box
       @comment_box.remove()
       @comment_box = false
+
+  #サイドバーをホバーしているかどうか
+  hovering_left_sidebar:false
+
+  left_sidebar_hover:()->
+    @hovering_left_sidebar = true
+    if @onDrag
+      @$("#left_sidebar_table").css "border","red 1px solid"
+
+  left_sidebar_unhover:()->
+    if @hovering_left_sidebar
+      @hovering_left_sidebar = false
+      @$("#left_sidebar_table").css "border","none"
+
   save:()->
     if confirm "修正内容を保存しても宜しいですか？"
       Re.usertable.save ->
@@ -166,6 +184,7 @@ class Re.views.make_plan extends Backbone.View
     if confirm "内容が変更されています。保存しても宜しいですか？"
       Re.usertable.save ->
         window.location.href = "make_plan.php"
+
   show_left_sidebar:()->
     guests = Re.usertable.get_guests()
     jel = $("#left_sidebar")
@@ -177,6 +196,8 @@ class Re.views.make_plan extends Backbone.View
       view.setMainView @
       @left_sidebar.push view
       jel.append view.render().el
+
+  #ソート機能
   sort_by_sex:()->
     guests = Re.usertable.sort_by_sex()
     jel = $("#left_sidebar")
@@ -205,6 +226,7 @@ class Re.views.make_plan extends Backbone.View
       view = @get_left_sidebar_by_guest_id guest.id
       jel.append view.render().el
     Re.usertable.sort_reset()
+
   get_left_sidebar_by_guest_id:(guest_id)->
     for view in @left_sidebar
       if view.model.get("id") is guest_id
@@ -252,11 +274,19 @@ class Re.views.make_plan extends Backbone.View
         @add drag_guest.get("id")
         @seat_view.setGuest drag_guest
         @get_left_sidebar_refresh_by_guest_id drag_guest.get("id"),seat_id
+
+  #drag_viewが今ドラッグしているview seat_viewが今ホバーしているview
   drop_from_seat:(drag_view)->
-    if drag_view is @seat_view
-      return
     if @seat_view and @seat_view.$el
       @seat_view.$el.css "border","#A2A7BC 1px solid"
+    #同じシートにドロップしていた場合、終わり
+    if drag_view is @seat_view
+      return
+    #レフトサイドバーにドラッグした場合、元に戻す
+    if @hovering_left_sidebar
+      drag_view._remove()
+      @left_sidebar_unhover()
+      return
     drag_guest = drag_view.guest
     drag_seat_id = drag_view.getSeatId()
     seat_id = @get_seat_id()
@@ -286,6 +316,8 @@ class Re.views.make_plan extends Backbone.View
     Re.usertable.replace @get_seat_id(),from_guest_id,to_guest_id
   onDrag:false
 
+
+#座席表および
 class Re.views.make_plan_view extends Backbone.View
   move:()=>
     if not @screen_x
@@ -310,65 +342,35 @@ class Re.views.make_plan_view extends Backbone.View
     @dragbox.near(e)
     @screen_x = e.screenX
     @screen_y = e.screenY
-
-
-class Re.views.make_plan_seat extends Re.views.make_plan_view
-  events:
-    "mouseenter":"hover"
-    "mouseleave":"unhover"
-    "dblclick":"remove"
-    "mousedown":"dragstart"
-  hover:()->
+  setMainView:(view)->
+    @main_view = view
+  _hover:(guest_model,position = @$el.position())->
     if not @main_view.onDrag
-      if @guest
+      if guest_model
         @comment_box = new Re.views.make_plan_comment_box(
-          model:@guest
+          model:guest_model
         )
-        @comment_box.near(@$el.position())
+        @comment_box.near(position)
       return
-    @$el.css "border","red 1px solid"
-    @main_view.set_seat_view @
-  unhover:()->
+  _unhover:()->
     if @comment_box
       @comment_box.remove()
       @comment_box = false
-    if not @main_view.onDrag
-      return
-    @$el.css "border","#A2A7BC 1px solid"
-    @main_view.reset_seat_id()
-  setMainView:(view)->
-    @main_view = view
-  setGuest:(guest)->
-    @guest = guest
-    @$el.css
-      "background-image":"url("+guest.get_guest_image()+")"
-      "background-repeat":"no-repeat"
-      "background-position":"0px 50%"
-  getSeatId:()->
-    return @$el.attr "seat_id"
-  remove:()->
-    if not @guest
-      return
-    @main_view.remove @getSeatId(),@guest.id
-    @_remove()
-  _remove:()->
-    @$el.css "background-image","none"
-    @guest = null
-  dragstart:(e)->
-    if not @guest
-      return
+  unhover:()->
+    @_unhover()
+  _dragstart:(guest_model,e)->
     if @comment_box
       @comment_box.remove()
       @comment_box = false
     @main_view.onDrag = true
     @dragbox = new Re.views.make_plan_drag_box(
-      model:@guest
+      model:guest_model
     )
     @dragevent = $("body").bind "mousemove",@drag
     @mouseupevent = $("body").bind "mouseup",@mouseup
     @timer = setInterval @move,20
     e.originalEvent.preventDefault()
-  mouseup:()=>
+  _mouseup:()->
     if @timer
       clearInterval @timer
       @timer = false
@@ -376,9 +378,56 @@ class Re.views.make_plan_seat extends Re.views.make_plan_view
     $("body").unbind "mouseup",@mouseup
     @dragbox.remove()
     @main_view.onDrag = false
-    @main_view.drop_from_seat @
     @main_view.reset_seat_id()
 
+
+#座席表に配席しているシートのview
+class Re.views.make_plan_seat extends Re.views.make_plan_view
+  events:
+    "mouseenter":"hover"
+    "mouseleave":"unhover"
+    "dblclick":"remove"
+    "mousedown":"dragstart"
+
+  #ドラッグ中にホバーしたシートに色を塗る
+  hover:()->
+    @_hover @guest
+    if @main_view.onDrag
+      @$el.css "border","red 1px solid"
+      @main_view.set_seat_view @
+  unhover:()->
+    @_unhover()
+    if @main_view.onDrag
+      @$el.css "border","#A2A7BC 1px solid"
+      @main_view.reset_seat_id()
+
+  setGuest:(guest)->
+    @guest = guest
+    @$el.css
+      "background-image":"url("+guest.get_guest_image()+")"
+      "background-repeat":"no-repeat"
+      "background-position":"0px 50%"
+
+  getSeatId:()->
+    return @$el.attr "seat_id"
+  remove:()->
+    if not @guest
+      return
+    @_remove()
+  #シートを削除
+  _remove:()->
+    @main_view.remove @getSeatId(),@guest.id
+    @$el.css "background-image","none"
+    @guest = null
+  dragstart:(e)->
+    if not @guest
+      return
+    @_dragstart(@guest,e)
+  mouseup:()=>
+    @main_view.drop_from_seat @
+    @_mouseup()
+
+#左のサイドバーの招待客一覧のひとつひとつの招待客のビュー
 class Re.views.make_plan_left_sidebar extends Re.views.make_plan_view
   tagName:"tr"
   events:
@@ -395,46 +444,17 @@ class Re.views.make_plan_left_sidebar extends Re.views.make_plan_view
     @$el.html(@template @model,@model.get "index")
     @delegateEvents()
     @
-  setMainView:(view)->
-    @main_view = view
   hover:()->
-    if not @main_view.onDrag
-      if @model
-        @comment_box = new Re.views.make_plan_comment_box(
-          model:@model
-        )
-        p = @$el.position()
-        p.left += 100
-        @comment_box.near p
-  unhover:()->
-    if @comment_box
-      @comment_box.remove()
-      @comment_box = false
+    p = @$el.position()
+    p.left += 100
+    @_hover @model,p
   dragstart:(e)=>
     if @model.hasTable()
       return
-    if @comment_box
-      @comment_box.remove()
-      @comment_box = false
-    @main_view.onDrag = true
-    @dragbox = new Re.views.make_plan_drag_box(
-      model:@model
-    )
-    @dragevent = $("body").bind "mousemove",@drag
-    @mouseupevent = $("body").bind "mouseup",@mouseup
-    @timer = setInterval @move,20
-    e.originalEvent.preventDefault()
-
+    @_dragstart(@model,e)
   mouseup:(e)=>
-    if @timer
-      clearInterval @timer
-      @timer = false
-    $("body").unbind "mousemove",@drag
-    $("body").unbind "mouseup",@mouseup
-    @dragbox.remove()
-    @main_view.onDrag = false
     @main_view.drop @
-    @main_view.reset_seat_id()
+    @_mouseup()
   refresh:(seat_id = false)->
     if not seat_id
       @model.set "seat_id",false
@@ -448,6 +468,7 @@ class Re.views.make_plan_left_sidebar extends Re.views.make_plan_view
     @model.set "table_name",column.name
     @.$(".tablename").html @model.get_table_text()
 
+#ドラッグ中に表示する招待客のビュー
 class Re.views.make_plan_drag_box extends Backbone.View
   tagName:"div"
   className:"drag_box"
@@ -463,6 +484,7 @@ class Re.views.make_plan_drag_box extends Backbone.View
   remove:()->
     @$el.remove()
 
+#ホバー中に表示する招待客のビュー
 class Re.views.make_plan_comment_box extends Backbone.View
   tagName:"div"
   className:"drag_box"

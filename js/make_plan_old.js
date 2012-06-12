@@ -244,15 +244,17 @@
       "click .sort_by_sex": "sort_by_sex",
       "click .sort_by_guest_type": "sort_by_guest_type",
       "click .sort_by_reset": "sort_by_reset",
-      "mouseenter .takasago_seat": "hover",
-      "mouseleave .takasago_seat": "unhover"
+      "mouseenter .takasago_seat": "takasago_hover",
+      "mouseleave .takasago_seat": "takasago_unhover",
+      "mouseenter #left_sidebar_table": "left_sidebar_hover",
+      "mouseleave #left_sidebar_table": "left_sidebar_unhover"
     };
 
     make_plan.prototype.el = "body";
 
     make_plan.prototype.left_sidebar = [];
 
-    make_plan.prototype.hover = function(e) {
+    make_plan.prototype.takasago_hover = function(e) {
       var $el, guest, p;
       $el = $(e.target);
       if ($el.attr("guest_id")) {
@@ -269,10 +271,26 @@
       }
     };
 
-    make_plan.prototype.unhover = function() {
+    make_plan.prototype.takasago_unhover = function() {
       if (this.comment_box) {
         this.comment_box.remove();
         return this.comment_box = false;
+      }
+    };
+
+    make_plan.prototype.hovering_left_sidebar = false;
+
+    make_plan.prototype.left_sidebar_hover = function() {
+      this.hovering_left_sidebar = true;
+      if (this.onDrag) {
+        return this.$("#left_sidebar_table").css("border", "red 1px solid");
+      }
+    };
+
+    make_plan.prototype.left_sidebar_unhover = function() {
+      if (this.hovering_left_sidebar) {
+        this.hovering_left_sidebar = false;
+        return this.$("#left_sidebar_table").css("border", "none");
       }
     };
 
@@ -439,9 +457,14 @@
 
     make_plan.prototype.drop_from_seat = function(drag_view) {
       var drag_guest, drag_seat_id, seat_id;
-      if (drag_view === this.seat_view) return;
       if (this.seat_view && this.seat_view.$el) {
         this.seat_view.$el.css("border", "#A2A7BC 1px solid");
+      }
+      if (drag_view === this.seat_view) return;
+      if (this.hovering_left_sidebar) {
+        drag_view._remove();
+        this.left_sidebar_unhover();
+        return;
       }
       drag_guest = drag_view.guest;
       drag_seat_id = drag_view.getSeatId();
@@ -527,6 +550,60 @@
       return this.screen_y = e.screenY;
     };
 
+    make_plan_view.prototype.setMainView = function(view) {
+      return this.main_view = view;
+    };
+
+    make_plan_view.prototype._hover = function(guest_model, position) {
+      if (position == null) position = this.$el.position();
+      if (!this.main_view.onDrag) {
+        if (guest_model) {
+          this.comment_box = new Re.views.make_plan_comment_box({
+            model: guest_model
+          });
+          this.comment_box.near(position);
+        }
+      }
+    };
+
+    make_plan_view.prototype._unhover = function() {
+      if (this.comment_box) {
+        this.comment_box.remove();
+        return this.comment_box = false;
+      }
+    };
+
+    make_plan_view.prototype.unhover = function() {
+      return this._unhover();
+    };
+
+    make_plan_view.prototype._dragstart = function(guest_model, e) {
+      if (this.comment_box) {
+        this.comment_box.remove();
+        this.comment_box = false;
+      }
+      this.main_view.onDrag = true;
+      this.dragbox = new Re.views.make_plan_drag_box({
+        model: guest_model
+      });
+      this.dragevent = $("body").bind("mousemove", this.drag);
+      this.mouseupevent = $("body").bind("mouseup", this.mouseup);
+      this.timer = setInterval(this.move, 20);
+      return e.originalEvent.preventDefault();
+    };
+
+    make_plan_view.prototype._mouseup = function() {
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = false;
+      }
+      $("body").unbind("mousemove", this.drag);
+      $("body").unbind("mouseup", this.mouseup);
+      this.dragbox.remove();
+      this.main_view.onDrag = false;
+      return this.main_view.reset_seat_id();
+    };
+
     return make_plan_view;
 
   })(Backbone.View);
@@ -548,31 +625,19 @@
     };
 
     make_plan_seat.prototype.hover = function() {
-      if (!this.main_view.onDrag) {
-        if (this.guest) {
-          this.comment_box = new Re.views.make_plan_comment_box({
-            model: this.guest
-          });
-          this.comment_box.near(this.$el.position());
-        }
-        return;
+      this._hover(this.guest);
+      if (this.main_view.onDrag) {
+        this.$el.css("border", "red 1px solid");
+        return this.main_view.set_seat_view(this);
       }
-      this.$el.css("border", "red 1px solid");
-      return this.main_view.set_seat_view(this);
     };
 
     make_plan_seat.prototype.unhover = function() {
-      if (this.comment_box) {
-        this.comment_box.remove();
-        this.comment_box = false;
+      this._unhover();
+      if (this.main_view.onDrag) {
+        this.$el.css("border", "#A2A7BC 1px solid");
+        return this.main_view.reset_seat_id();
       }
-      if (!this.main_view.onDrag) return;
-      this.$el.css("border", "#A2A7BC 1px solid");
-      return this.main_view.reset_seat_id();
-    };
-
-    make_plan_seat.prototype.setMainView = function(view) {
-      return this.main_view = view;
     };
 
     make_plan_seat.prototype.setGuest = function(guest) {
@@ -590,42 +655,23 @@
 
     make_plan_seat.prototype.remove = function() {
       if (!this.guest) return;
-      this.main_view.remove(this.getSeatId(), this.guest.id);
       return this._remove();
     };
 
     make_plan_seat.prototype._remove = function() {
+      this.main_view.remove(this.getSeatId(), this.guest.id);
       this.$el.css("background-image", "none");
       return this.guest = null;
     };
 
     make_plan_seat.prototype.dragstart = function(e) {
       if (!this.guest) return;
-      if (this.comment_box) {
-        this.comment_box.remove();
-        this.comment_box = false;
-      }
-      this.main_view.onDrag = true;
-      this.dragbox = new Re.views.make_plan_drag_box({
-        model: this.guest
-      });
-      this.dragevent = $("body").bind("mousemove", this.drag);
-      this.mouseupevent = $("body").bind("mouseup", this.mouseup);
-      this.timer = setInterval(this.move, 20);
-      return e.originalEvent.preventDefault();
+      return this._dragstart(this.guest, e);
     };
 
     make_plan_seat.prototype.mouseup = function() {
-      if (this.timer) {
-        clearInterval(this.timer);
-        this.timer = false;
-      }
-      $("body").unbind("mousemove", this.drag);
-      $("body").unbind("mouseup", this.mouseup);
-      this.dragbox.remove();
-      this.main_view.onDrag = false;
       this.main_view.drop_from_seat(this);
-      return this.main_view.reset_seat_id();
+      return this._mouseup();
     };
 
     return make_plan_seat;
@@ -662,58 +708,21 @@
       return this;
     };
 
-    make_plan_left_sidebar.prototype.setMainView = function(view) {
-      return this.main_view = view;
-    };
-
     make_plan_left_sidebar.prototype.hover = function() {
       var p;
-      if (!this.main_view.onDrag) {
-        if (this.model) {
-          this.comment_box = new Re.views.make_plan_comment_box({
-            model: this.model
-          });
-          p = this.$el.position();
-          p.left += 100;
-          return this.comment_box.near(p);
-        }
-      }
-    };
-
-    make_plan_left_sidebar.prototype.unhover = function() {
-      if (this.comment_box) {
-        this.comment_box.remove();
-        return this.comment_box = false;
-      }
+      p = this.$el.position();
+      p.left += 100;
+      return this._hover(this.model, p);
     };
 
     make_plan_left_sidebar.prototype.dragstart = function(e) {
       if (this.model.hasTable()) return;
-      if (this.comment_box) {
-        this.comment_box.remove();
-        this.comment_box = false;
-      }
-      this.main_view.onDrag = true;
-      this.dragbox = new Re.views.make_plan_drag_box({
-        model: this.model
-      });
-      this.dragevent = $("body").bind("mousemove", this.drag);
-      this.mouseupevent = $("body").bind("mouseup", this.mouseup);
-      this.timer = setInterval(this.move, 20);
-      return e.originalEvent.preventDefault();
+      return this._dragstart(this.model, e);
     };
 
     make_plan_left_sidebar.prototype.mouseup = function(e) {
-      if (this.timer) {
-        clearInterval(this.timer);
-        this.timer = false;
-      }
-      $("body").unbind("mousemove", this.drag);
-      $("body").unbind("mouseup", this.mouseup);
-      this.dragbox.remove();
-      this.main_view.onDrag = false;
       this.main_view.drop(this);
-      return this.main_view.reset_seat_id();
+      return this._mouseup();
     };
 
     make_plan_left_sidebar.prototype.refresh = function(seat_id) {
