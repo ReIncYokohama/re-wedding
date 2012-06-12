@@ -70,6 +70,22 @@
     };
 
     usertable.prototype.move = function(to_seat_id, guest_id) {
+      var i, seat, _ref;
+      if (this.send_data.length > 0) {
+        for (i = 0, _ref = this.send_data.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+          seat = this.send_data[i];
+          if (Number(seat.guest_id) !== Number(guest_id)) continue;
+          if (seat.state === "move") {
+            this.send_data.splice(i, 1);
+            break;
+          }
+          if (seat.state === "insert") {
+            this.send_data.splice(i, 1);
+            this.add(to_seat_id, guest_id);
+            return;
+          }
+        }
+      }
       return this.send_data.push({
         state: "move",
         guest_id: guest_id,
@@ -79,6 +95,22 @@
     };
 
     usertable.prototype.remove = function(seat_id, guest_id) {
+      var i, seat, _ref;
+      if (this.send_data.length > 0) {
+        for (i = 0, _ref = this.send_data.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+          seat = this.send_data[i];
+          if (Number(seat.guest_id) !== Number(guest_id)) continue;
+          if (seat.state === "move") {
+            this.send_data.splice(i, 1);
+            break;
+          }
+          if (seat.state === "insert") {
+            this.send_data.splice(i, 1);
+            this.send_data = this.send_data.splice(i, 1);
+            return;
+          }
+        }
+      }
       return this.send_data.push({
         state: "delete",
         seat_id: seat_id,
@@ -88,6 +120,18 @@
     };
 
     usertable.prototype.add = function(seat_id, guest_id) {
+      var i, seat, _ref;
+      if (this.send_data.length > 0) {
+        for (i = 0, _ref = this.send_data.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+          seat = this.send_data[i];
+          if (Number(seat.guest_id) !== Number(guest_id)) continue;
+          if (seat.state === "delete") {
+            this.send_data.splice(i, 1);
+            this.move(seat_id, guest_id);
+            return;
+          }
+        }
+      }
       return this.send_data.push({
         state: "insert",
         guest_id: guest_id,
@@ -444,14 +488,12 @@
       if (seat_id) {
         if (this.guest) {
           this.replace(this.guest.get("id"), drag_guest.get("id"));
-          this.seat_view.setGuest(drag_guest);
-          this.get_left_sidebar_refresh_by_guest_id(drag_guest.get("id"), seat_id);
-          return this.get_left_sidebar_refresh_by_guest_id(this.guest.get("id"));
+          this.get_left_sidebar_refresh_by_guest_id(this.guest.get("id"));
         } else {
           this.add(drag_guest.get("id"));
-          this.seat_view.setGuest(drag_guest);
-          return this.get_left_sidebar_refresh_by_guest_id(drag_guest.get("id"), seat_id);
         }
+        this.seat_view.setGuest(drag_guest);
+        return this.get_left_sidebar_refresh_by_guest_id(drag_guest.get("id"), seat_id);
       }
     };
 
@@ -462,6 +504,7 @@
       }
       if (drag_view === this.seat_view) return;
       if (this.hovering_left_sidebar) {
+        drag_view.remove(drag_view.getSeatId(), drag_view.guest.id);
         drag_view._remove();
         this.left_sidebar_unhover();
         return;
@@ -472,16 +515,14 @@
       if (seat_id) {
         if (this.guest) {
           this.exchange(drag_seat_id, drag_guest.get("id"), seat_id, this.guest.get("id"));
-          this.seat_view.setGuest(drag_guest);
           drag_view.setGuest(this.guest);
           this.get_left_sidebar_refresh_by_guest_id(this.guest.get("id"), drag_seat_id);
-          return this.get_left_sidebar_refresh_by_guest_id(drag_guest.get("id"), seat_id);
         } else {
           this.move(seat_id, drag_guest.get("id"));
-          this.seat_view.setGuest(drag_guest);
           drag_view._remove();
-          return this.get_left_sidebar_refresh_by_guest_id(drag_guest.get("id"), seat_id);
         }
+        this.seat_view.setGuest(drag_guest);
+        return this.get_left_sidebar_refresh_by_guest_id(drag_guest.get("id"), seat_id);
       }
     };
 
@@ -655,11 +696,11 @@
 
     make_plan_seat.prototype.remove = function() {
       if (!this.guest) return;
+      this.main_view.remove(this.getSeatId(), this.guest.id);
       return this._remove();
     };
 
     make_plan_seat.prototype._remove = function() {
-      this.main_view.remove(this.getSeatId(), this.guest.id);
       this.$el.css("background-image", "none");
       return this.guest = null;
     };

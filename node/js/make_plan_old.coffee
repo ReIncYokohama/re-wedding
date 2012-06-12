@@ -40,19 +40,56 @@ class Re.models.usertable
   load:(json)->
     @_data = json
   move:(to_seat_id,guest_id)->
-    this.send_data.push
+    if @send_data.length > 0
+      for i in [0..@send_data.length-1]
+        seat = @send_data[i]
+        if Number(seat.guest_id) isnt Number(guest_id)
+          continue
+        #更新先と更新元が同じ場合はサーバーサイドで更新しない処理をしている
+        if seat.state is "move"
+          @send_data.splice(i,1)
+          break
+        if seat.state is "insert"
+          @send_data.splice(i,1)
+          @add to_seat_id,guest_id
+          return
+    @send_data.push
       state:"move"
       guest_id:guest_id
       seat_id:to_seat_id
       plan_id:this._data.plan_id
   remove:(seat_id,guest_id)->
-    this.send_data.push
+    #もし前にinsert や changeがあれば削除する
+    if @send_data.length > 0
+      for i in [0..@send_data.length-1]
+        seat = @send_data[i]
+        if Number(seat.guest_id) isnt Number(guest_id)
+          continue
+        if seat.state is "move"
+          @send_data.splice(i,1)
+          break
+        if seat.state is "insert"
+          @send_data.splice(i,1)
+          @send_data = @send_data.splice i,1
+          return
+    @send_data.push
       state:"delete"
       seat_id:seat_id
       guest_id:guest_id
       plan_id:this._data.plan_id
   add:(seat_id,guest_id)->
-    this.send_data.push
+    #もし前にdeleteがあれば削除する
+    if @send_data.length > 0
+      for i in [0..@send_data.length-1]
+        seat = @send_data[i]
+        if Number(seat.guest_id) isnt Number(guest_id)
+          continue
+        #更新先と更新元が同じ場合はサーバーサイドで更新しない処理をしている
+        if seat.state is "delete"
+          @send_data.splice(i,1)
+          @move seat_id,guest_id
+          return
+    @send_data.push
       state:"insert"
       guest_id:guest_id
       seat_id:seat_id
@@ -65,6 +102,7 @@ class Re.models.usertable
   replace:(seat_id,from_guest_id,to_guest_id)->
     @add seat_id,to_guest_id
     @remove seat_id,from_guest_id
+
   save:(success)->
     $.ajax
       url:"save_make_plan.php"
@@ -267,13 +305,11 @@ class Re.views.make_plan extends Backbone.View
       #add or replace
       if @guest
         @replace @guest.get("id"),drag_guest.get("id")
-        @seat_view.setGuest drag_guest
-        @get_left_sidebar_refresh_by_guest_id drag_guest.get("id"),seat_id
         @get_left_sidebar_refresh_by_guest_id @guest.get("id")
       else
         @add drag_guest.get("id")
-        @seat_view.setGuest drag_guest
-        @get_left_sidebar_refresh_by_guest_id drag_guest.get("id"),seat_id
+      @seat_view.setGuest drag_guest
+      @get_left_sidebar_refresh_by_guest_id drag_guest.get("id"),seat_id
 
   #drag_viewが今ドラッグしているview seat_viewが今ホバーしているview
   drop_from_seat:(drag_view)->
@@ -284,6 +320,7 @@ class Re.views.make_plan extends Backbone.View
       return
     #レフトサイドバーにドラッグした場合、元に戻す
     if @hovering_left_sidebar
+      drag_view.remove drag_view.getSeatId(),drag_view.guest.id
       drag_view._remove()
       @left_sidebar_unhover()
       return
@@ -294,15 +331,13 @@ class Re.views.make_plan extends Backbone.View
       #move or exchange
       if @guest
         @exchange drag_seat_id,drag_guest.get("id"),seat_id,@guest.get("id")
-        @seat_view.setGuest drag_guest
         drag_view.setGuest @guest
         @get_left_sidebar_refresh_by_guest_id @guest.get("id"),drag_seat_id
-        @get_left_sidebar_refresh_by_guest_id drag_guest.get("id"),seat_id
       else
         @move seat_id,drag_guest.get("id")
-        @seat_view.setGuest drag_guest
         drag_view._remove()
-        @get_left_sidebar_refresh_by_guest_id drag_guest.get("id"),seat_id
+      @seat_view.setGuest drag_guest
+      @get_left_sidebar_refresh_by_guest_id drag_guest.get("id"),seat_id
   add:(guest_id)->
     Re.usertable.add @get_seat_id(),guest_id
   remove:(seat_id,guest_id)->
@@ -413,10 +448,10 @@ class Re.views.make_plan_seat extends Re.views.make_plan_view
   remove:()->
     if not @guest
       return
+    @main_view.remove @getSeatId(),@guest.id
     @_remove()
   #シートを削除
   _remove:()->
-    @main_view.remove @getSeatId(),@guest.id
     @$el.css "background-image","none"
     @guest = null
   dragstart:(e)->
