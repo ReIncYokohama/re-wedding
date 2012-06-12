@@ -297,8 +297,6 @@
         return Re.usertable.save(function() {
           return window.location.href = "make_plan.php";
         });
-      } else {
-        return window.location.href = "make_plan.php";
       }
     };
 

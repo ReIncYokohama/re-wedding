@@ -166,8 +166,6 @@ class Re.views.make_plan extends Backbone.View
     if confirm "内容が変更されています。保存しても宜しいですか？"
       Re.usertable.save ->
         window.location.href = "make_plan.php"
-    else
-      window.location.href = "make_plan.php"
   show_left_sidebar:()->
     guests = Re.usertable.get_guests()
     jel = $("#left_sidebar")
