@@ -442,6 +442,8 @@ class Re.views.make_plan_left_sidebar extends Re.views.make_plan_view
     _.template html
   render:()->
     @$el.html(@template @model,@model.get "index")
+    if @model.hasTable()
+      @color_on_table()
     @delegateEvents()
     @
   hover:()->
@@ -455,13 +457,21 @@ class Re.views.make_plan_left_sidebar extends Re.views.make_plan_view
   mouseup:(e)=>
     @main_view.drop @
     @_mouseup()
+  color_on_table:()->
+    @$el.css
+      "background":"lightgrey"
+  color_off_table:()->
+    @$el.css
+      "background":"none"
   refresh:(seat_id = false)->
     if not seat_id
       @model.set "seat_id",false
       @model.set "table_id","0"
       @model.set "table_name",""
       @.$(".tablename").html ""
+      @color_off_table()
       return
+    @color_on_table()
     @model.set "seat_id",seat_id
     column = Re.usertable.get_table seat_id
     @model.set "table_id",column.table_id

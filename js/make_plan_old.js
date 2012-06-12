@@ -704,6 +704,7 @@
 
     make_plan_left_sidebar.prototype.render = function() {
       this.$el.html(this.template(this.model, this.model.get("index")));
+      if (this.model.hasTable()) this.color_on_table();
       this.delegateEvents();
       return this;
     };
@@ -725,6 +726,18 @@
       return this._mouseup();
     };
 
+    make_plan_left_sidebar.prototype.color_on_table = function() {
+      return this.$el.css({
+        "background": "lightgrey"
+      });
+    };
+
+    make_plan_left_sidebar.prototype.color_off_table = function() {
+      return this.$el.css({
+        "background": "none"
+      });
+    };
+
     make_plan_left_sidebar.prototype.refresh = function(seat_id) {
       var column;
       if (seat_id == null) seat_id = false;
@@ -733,8 +746,10 @@
         this.model.set("table_id", "0");
         this.model.set("table_name", "");
         this.$(".tablename").html("");
+        this.color_off_table();
         return;
       }
+      this.color_on_table();
       this.model.set("seat_id", seat_id);
       column = Re.usertable.get_table(seat_id);
       this.model.set("table_id", column.table_id);
