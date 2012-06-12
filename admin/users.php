@@ -379,10 +379,16 @@ include("inc/return_dbcon.inc.php");
                     	<td width="60"><a href="user_info_allentry.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" border="0"  /></a></td>
                         <td width="80"> <?=$staff_name?></td>
 <?php
-  if(!$IgnoreMessage){
+if(!$IgnoreMessage and $user->is_read_by_admin()){
 ?>
-                            <td width="60" > <a href='message_user.php?user_id=<?=$user_id?>&stuff_id=<?=$staff_id?>'><img src='img/common/btn_midoku.gif' border = '0'></a>
+                            <td width="60" > 
+<?php
+if(!$user->is_read_by_admin()){
+?>
+<a href='message_user.php?user_id=<?=$user->id?>&stuff_id=<?=$staff_id?>'><img src='img/common/btn_midoku.gif' border = '0'></a>
+
   <?php
+}
   }
 ?>
                         <td  width="80">

@@ -310,4 +310,15 @@ class Model_User extends Model_Crud{
     $plan->delete();
   }
 
+  public function is_read_by_admin(){
+    $messages = Model_Message::find_by_user_id($this->id);
+    $read = true;
+    foreach($messages as $message){
+      if(!$message->is_read){
+        $read = false;
+        break;
+      }
+    }
+    return $read;
+  }
 }
