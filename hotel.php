@@ -4,10 +4,21 @@ include_once("inc/checklogin.inc.php");
 $obj = new DBO();
 $post = $obj->protectXSS($_POST);
 include_once("inc/header.inc.php");
+include_once("inc/load_sql.php");
 
 if(isset($_GET['action']) && $_GET['action'] == 'delete' && (int)$_GET['id'] > 0 )
 {
-	$obj->DeleteRow("super_spssp_hotel"," id =".(int)$_GET['id']);
+	$hotel_row = $obj->GetSingleRow("super_spssp_hotel", " id=".$_GET[id]);
+  $hotel_code = (int)$hotel_row["hotel_code"];
+  if(!($hotel_code>0)){
+    return;
+  }
+  $hotel_sqluser_val = "hotel".((int)$hotel_code)."_sqluser";
+  $hotel_sqlpassword_val = "hotel".((int)$hotel_code)."_sqlpassword";
+
+  load_sql($__default_sql_file,$$hotel_sqluser_val,$$hotel_sqlpassword_val,$$hotel_sqluser_val);
+  mysql_connected($main_sqlhost,$main_sqluser,$main_sqlpassword,$main_sqldatabase);
+  $obj->DeleteRow("super_spssp_hotel"," id =".(int)$_GET['id']);
 }
 
 $query_string="SELECT * FROM super_spssp_admin where id=".$_SESSION['super_adminid'].";";
