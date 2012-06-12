@@ -348,11 +348,11 @@ unset($_SESSION['msg']);
 				<td>
 
                 <?php if($_SESSION['user_type']==333){?>
-                <input name="num_gift_items" <?=$ro?> type="text" onlyNumeric="i" id="num_gift_items" size="10" maxlength='1' style="text-align:right;border-style: inset;" value="<?=$gift_criteria_data_row[0]['num_gift_items']?>" /> &nbsp;種類（最大7種類まで）
+                <input name="num_gift_items" <?=$ro?> type="text" onlyNumeric="i" id="num_gift_items" size="10" maxlength='1' style="text-align:right;border-style: inset;" value="<?=validation_zero($gift_criteria_data_row[0]['num_gift_items'])?>" /> &nbsp;種類（最大7種類まで）
                 <?
 				}else{
 					?>
-					<?=$gift_criteria_data_row[0]['num_gift_items']?>&nbsp;種類 <!-- UCHIDA EDIT 11/08/08 メッセージ変更  -->
+					<?=validation_zero($gift_criteria_data_row[0]['num_gift_items'])?>&nbsp;種類 <!-- UCHIDA EDIT 11/08/08 メッセージ変更  -->
 					<?
 					}
 				?>
@@ -363,12 +363,12 @@ unset($_SESSION['msg']);
 				<td>：</td>
 				<td>
                 <?php if($_SESSION['user_type']==333){?>
-                <input name="num_gift_groups" <?=$ro?> type="text"  onlyNumeric="i" id="num_gift_groups" size="10" maxlength='1' style="text-align:right;border-style: inset;" value="<?=$gift_criteria_data_row[0]['num_gift_groups']?>"  />
+                <input name="num_gift_groups" <?=$ro?> type="text"  onlyNumeric="i" id="num_gift_groups" size="10" maxlength='1' style="text-align:right;border-style: inset;" value="<?=validation_zero($gift_criteria_data_row[0]['num_gift_groups'])?>"  />
 					&nbsp;グループ（最大7グループまで）
                 <?
 				}else{
 					?>
-					<?=$gift_criteria_data_row[0]['num_gift_groups']?>&nbsp;グループ <!-- UCHIDA EDIT 11/08/08 メッセージ変更  -->
+					<?=validation_zero($gift_criteria_data_row[0]['num_gift_groups'])?>&nbsp;グループ <!-- UCHIDA EDIT 11/08/08 メッセージ変更  -->
 					<?
 					}
 				?>
@@ -417,11 +417,11 @@ unset($_SESSION['msg']);
     <td width="10">：</td>
     <td>
     <?php if ($_SESSION['user_type']==333){?>
-    <input name="num_menu_groups" type="text" id="num_menu_groups" size="10" <?=$ro?> style="text-align:right;border-style: inset;" value="<?=$menu_criteria_data_row[0]['num_menu_groups']?>" />
+    <input name="num_menu_groups" type="text" id="num_menu_groups" size="10" <?=$ro?> style="text-align:right;border-style: inset;" value="<?=validation_zero($menu_criteria_data_row[0]['num_menu_groups'])?>" />
       種類(最大3種類まで)
       <?
 	}else{
-		echo $menu_criteria_data_row[0]['num_menu_groups']."&nbsp;種類"; // UCHIDA EDIT 11/08/08 メッセージ変更
+        echo validation_zero($menu_criteria_data_row[0]['num_menu_groups'])."&nbsp;種類"; // UCHIDA EDIT 11/08/08 メッセージ変更
 		}
 	  ?>
       </td>
