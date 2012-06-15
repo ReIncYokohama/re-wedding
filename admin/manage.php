@@ -481,7 +481,7 @@ foreach($messages as $message)
                     	<td width="60"><a href="user_info_allentry.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" border="0"  /></a></td>
                         <td width="80"> <?=$staff_name?></td>
 <?php
-if(!$IgnoreMessage and $user->is_read_by_admin()){
+if(!$IgnoreMessage){
 ?>
                             <td width="60" > 
 <?php
