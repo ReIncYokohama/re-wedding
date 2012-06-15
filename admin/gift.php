@@ -88,19 +88,6 @@ var numgiftgroups='<?=$gift_criteria_data_row[0]['num_gift_groups']?>';
 //var orderdeadline='<?=$gift_criteria_data_row[0]['order_deadline']?>';
 var nummenugroups = 3;
 $(document).ready(function(){
-/*
-	$('#num_gift_items').keyup(function(){
-		var r=isInteger("num_gift_items","引出物商品数は");
-    });
-    $('#num_gift_groups').keyup(function(){
-		var r=isInteger("num_gift_groups","引出物グループ数");
-    });
-//	$('#order_deadline').keyup(function(){
-//		var r=isInteger("order_deadline","発注締切日は");
-//    });
-	$('#num_menu_groups').keyup(function(){
-		var r=isInteger("num_menu_groups","子供料理数は");
-    });*/
 });
 
 function isInteger(id, kind_msg){
@@ -211,6 +198,7 @@ function validForm(x)
       alert("ブランクのグループ記号があります");
       r_flg = 1;
       document.getElementById('name'+i).focus();
+      break;
     }
     if(String($value).length>2){
       alert("グループ記号は２文字以内で入力してください。");
