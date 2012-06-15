@@ -25,9 +25,11 @@ $search_woman_name = "";
 
 $current_view = $_GET['view'];
 if($current_view=="before") {
+  $beforeFlag = "true";
   $whereArr = array(array("party_day","<",date("Y-m-d")));
   $passPresent = "<a href='users.php'><img src='img/common/btn_honjitsu_on.jpg' /></a><img src='img/common/btn_kako.jpg' /></a>";
 }else {
+  $beforeFlag = "false";
   $whereArr = array(array("party_day",">=",date("Y-m-d")));
   $passPresent = "<img src='img/common/btn_honjitsu.jpg' /></a><a href='users.php?view=before'><img src='img/common/btn_kako_on.jpg' /></a>";
 }
@@ -173,9 +175,22 @@ function confirmDeleteUser(user_id) {
 	});
 }
 
+function check_validation_date_text_compare_today(el){
+  var str = document.getElementById(el).value;
+  if(str==""){
+    return true;
+  }
+  var arr = str.split("/");
+  var date = new Date(arr[0],arr[1]-1,arr[2]);
+  var now_date = new Date();
+  if(date.getTime() < now_date.getTime()){
+    return false;
+  }
+  return true;
+}
+
 function validSearch()
 {
-
 	var date_from;
 	var date_to;
 	var mname;
@@ -185,48 +200,50 @@ function validSearch()
 	date_to = $j("#date_to").val();
 	mname= $j("#man_lastname").val();
 	wname = $j("#woman_lastname").val();
+  beforeFlag = <?php echo $beforeFlag;?>;
   
 	if(date_from == '' && date_to == '' && mname == '' && wname == '')
 	{
 		alert("検索項目のいづれかを入力してください");
 		return false;
-	}else
-	{
-
-	date = new Date();
-	y = date.getFullYear();
-	m = date.getMonth() + 1;
-	d = date.getDate();
-	if (m < 10) { m = "0" + m; }
-	if (d < 10) { d = "0" + d; }
-	var today = y + "/" + m + "/" + d;
-
-		if (date_from != "") {
-			if (ckDate(date_from) == false) {
-				alert("披露宴開始日の日付指定が間違っています。\nカレンダーアイコンから選択するか、正しく入力してください");
-				return false;
-			}
-		}
-		if (date_from !="" && date_from < today) {
-			alert("披露宴開始日が過去になっています"+date_from+" : "+today);
-			return false;
-		}
-		if (date_to != "") {
-			if (ckDate(date_to) == false) {
-				alert("披露宴終了日の日付指定が間違っています。\nカレンダーアイコンから選択するか、正しく入力してください");
-				return false;
-			}
-		}
-		if (date_to!="" && date_to < today) {
-			alert("披露宴終了日が過去になっています");
-			return false;
-		}
-		if (date_from != "" && date_to != "") {
-			if (date_from > date_to) {
-				alert("検索開始日より検索終了日が先になっています。\n検索範囲を正しく指定してください");
-				return false;
-			}
-		}
+	}else {
+    
+    date = new Date();
+    y = date.getFullYear();
+    m = date.getMonth() + 1;
+    d = date.getDate();
+    if (m < 10) { m = "0" + m; }
+    if (d < 10) { d = "0" + d; }
+    var today = y + "/" + m + "/" + d;
+    
+    if (date_from != "") {
+      if (ckDate(date_from) == false) {
+        alert("披露宴開始日の日付指定が間違っています。\nカレンダーアイコンから選択するか、正しく入力してください");
+        return false;
+      }
+    }
+    
+    if(beforeFlag && check_validation_date_text_compare_today("date_from")){
+      alert("披露宴開始日が未来の日付になっています");
+      return false;
+    }
+    if(!beforeFlag && !check_validation_date_text_compare_today("date_from")){
+      alert("披露宴開始日が過去の日付になっています");
+      return false;
+    }
+    
+    if (date_to != "") {
+      if (ckDate(date_to) == false) {
+        alert("披露宴終了日の日付指定が間違っています。\nカレンダーアイコンから選択するか、正しく入力してください");
+        return false;
+      }
+    }
+    if (date_from != "" && date_to != "") {
+      if (date_from > date_to) {
+        alert("検索開始日より検索終了日が先になっています。\n検索範囲を正しく指定してください");
+        return false;
+      }
+    }
     sort_arr = [];
     if(date_from!=""){
       sort_arr.push("party_day,>=,"+date_from);
@@ -239,6 +256,11 @@ function validSearch()
     }
     if(wname!=""){
       sort_arr.push("woman_lastname,like,%"+wname+"%");
+    }
+    before_id_el = document.getElementById("before_id");
+    if(before_id_el){
+      window.location = "?sort_option="+sort_arr.join("|")+"&view="+$j(before_id_el).val();
+      return;
     }
     window.location = "?sort_option="+sort_arr.join("|");
 	}
@@ -276,6 +298,7 @@ include("inc/return_dbcon.inc.php");
             <div id="top_search_view">
 
                 <form action="" name="condition" id="user_search_condition">
+  <?php if($beforeFlag) echo "<input type=\"hidden\" id=\"before_id\" name=\"view\" value=\"before\">";?>
 				<table width="720" border="0" cellpadding="0" cellspacing="0">
 
 			  <tr style="height:30px;">
