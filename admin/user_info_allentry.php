@@ -341,6 +341,22 @@ function change_gaiji_link(action)
 		$j("a#woman_gaiji_link_id").attr("href", "../gaiji/palette.php?from=woman_lastname");
 }
 
+function check_validation_date_text_compare_today(el){
+  var str = document.getElementById(el).value;
+  if(str==""){
+    return true;
+  }
+  var arr = str.split("/");
+  var date = new Date(arr[0],arr[1]-1,arr[2]);
+  var now_date = new Date();
+  if(date.getTime() < now_date.getTime()){
+    alert("本日以降の日付を指定してください");
+    document.getElementById(el).click();
+    return false;
+  }
+  return true;
+}
+
 function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // registration_validation.jsから移動 11/08/26
 {
 	if (noUpdate == true) {
@@ -465,7 +481,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
    }
 
    if(document.getElementById("woman_furi_firstname").value=='')
-	{
+ 	{
 		alert("新婦の名のふりがなを正しく入力してください");
 		document.getElementById('woman_furi_firstname').focus();
 		return false;
@@ -524,34 +540,19 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 		document.getElementById("marriage_minute").value = "";
 	}
 
+  if(!check_validation_date_text_compare_today("marriage_day")){
+    return false;
+  }
+  if(!check_validation_date_text_compare_today("party_day")){
+    return false;
+  }
+
 	if(document.getElementById("product_name").value=='')
 	{
 		alert("商品名は必須項目です。");
 		document.getElementById('product_name').focus();
 		return false;
 	}
-
-	if(document.getElementById("room_id").value=='')
-	{
-//		alert("必須項目は必ず入力してください。");
-//		document.getElementById('room_id').focus();
-//		return false;
-	}
-
-	if(document.getElementById("religion").value=='')
-	{
-//		alert("挙式種類を選択してください");
-//		document.getElementById('religion').focus();
-//		return false;
-	}
-
-
-//	if(document.getElementById("user_id").value=='')
-//	{
-//		alert("ログインIDを入力してください");
-//		document.getElementById('user_id').focus();
-//		return false;
-//	}
 
 	var radio3  = document.user_form_register.subcription_mail;
 
