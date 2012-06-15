@@ -33,7 +33,6 @@ include_once("../fuel/load_classes.php");
 	</div>
     <ul class="nav">
         <li><a href="manage.php"><img src="img/common/nav_top.gif" alt="TOP" width="148" height="30" class=on /></a></li>
-        <?php
         <li><a href="hotel_info.php"><img src="img/common/rules.gif" alt="ホテル情報" width="148" height="30"/></a></li>
         <li><a href="staffs.php"><img src="img/common/nav_stuff.gif" alt="スタッフ" width="148" height="30" class=on /></a></li>
         <li><a href="invitation.php"><img src="img/common/nav_invetation.gif" alt="招待状" width="148" height="30" class=on /></a></li>
