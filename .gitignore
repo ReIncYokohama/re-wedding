@@ -31,3 +31,4 @@ _user_logs/*
 fuel/app/logs/*
 fuel/app/config/db.php
 .DS_Store
+fuel/app/tests/fixture

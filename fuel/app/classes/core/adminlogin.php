@@ -15,4 +15,10 @@ class Core_Adminlogin extends Core_Commonlogin{
     }
     return $file;
   }
+  static public function force_delete_file(){
+    $adminfile = static::get_admin_file();
+    unlink($adminfile);
+    $stafffile = static::get_staff_file("*");
+    unlink($stafffile);
+  }
 }

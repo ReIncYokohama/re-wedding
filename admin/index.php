@@ -203,7 +203,7 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
       </tr>
       <tr>
         <td>&nbsp;</td>
-        <td style="text-align:left;"><input type="button" value="ログイン" onClick="login_admin()" /></td>
+        <td style="text-align:left;"><input type="button" value="ログイン" onClick="login_admin()" id="login_submit"/></td>
       </tr>
     </table>
   </form>

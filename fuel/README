@@ -1,0 +1,7 @@
+#テスト設計
+ユーザが使う
+#テストコード
+php oil test --group=App
+
+#behavor test
+http://docs.behat.org/quick_intro.html#installation
