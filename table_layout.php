@@ -69,7 +69,7 @@ function checkGuest(tid,cid)
 		}
 	});
 }
-//FAHIM EDIT 11/07/30 FULL NEW FUNCTION
+
 function validForm(num)
 {
 	var layoutname_ajax  = $("#layoutname_ajax").val();
@@ -83,6 +83,11 @@ function validForm(num)
 	    var table_id=	$("#"+valueid).val();
 	    sendObject["name_"+loop] = table_name;
 	    sendObject["id_"+loop] = table_id;
+      if(table_name.length > 8){
+        alert("卓名は８文字までです");
+        $("#"+tId).focus();
+        return false;
+      }
 	  }
 	
 	$.post('table_layout.php',{'layoutname':layoutname_ajax,'ajax':"ajax"}, function(data){
