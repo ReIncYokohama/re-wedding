@@ -636,7 +636,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
     }
   }
   if(!mark){
-    alert("ブランクの引出物商品があります");
+    alert("引出物商品を入力してください");
     $j("#item1").focus();
     return false;    
   }
@@ -649,7 +649,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
   }
   
   if(!mark){
-    alert("ブランクのグループ記号があります");
+    alert("引出物グループを入力してください");
     $j("#name_group1").focus();
     return false;
   }
