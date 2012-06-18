@@ -22,7 +22,7 @@ if($_GET['action']=='delete' && (int)$_GET['id'] > 0){
 
   $room = Model_Room::find_by_pk($_GET["id"]);
   if(!$room->delete()){
-    echo "<script type=\"text/javascript\">alert(\"既にこの会場レイアウトが使用されているため削除できません。\n各挙式情報にて披露宴会場を変更し、未使用の状態にしてから削除してください。\");</script>";
+    echo "<script type=\"text/javascript\">alert(\"既にこの会場レイアウトが使用されているため削除できません。各挙式情報にて披露宴会場を変更し、未使用の状態にしてから削除してください。\");</script>";
   }
   if ((int)$_GET['id'] == (int)$_GET['room_id']) $room_id=0;
 }else if($_GET['action']=='sort' && (int)$_GET['id'] > 0){
