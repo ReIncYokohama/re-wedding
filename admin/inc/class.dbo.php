@@ -298,7 +298,7 @@ include_once('dbcon.inc.php');
 				foreach($filedValArray as $key=>$filedVal)
 				{
 					$val = $filedVal;
-					$string .= "`".$key."`='".jp_encode(addslashes($val))."',";			
+					$string .= "`".$key."`='".mysql_real_escape_string($val)."',";			
 				}
 				
 				$string = substr($string, 0, -1);
