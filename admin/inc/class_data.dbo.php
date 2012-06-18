@@ -25,6 +25,8 @@ class DataClass extends DBO{
     }
 
     foreach($set_obj as $key => $value){
+      //既に既存データで改行コードが含まれているため一時的に追加している
+      $guest_row[$key] = str_replace(array("\r\n","\r","\n"), '', $guest_row[$key]);
       if($guest_row[$key] != $value and !($guest_row[$key] == 0 and $value == "") ){
         $before_data[$key] = $guest_row[$key];
         $after_data[$key] = $value;
@@ -47,7 +49,8 @@ class DataClass extends DBO{
         $update_array['type']=2;
         $lastids = $this->InsertData("spssp_change_log", $update_array);
       }
-    $this->UpdateData("spssp_guest",$set_obj," id=".(int)$guest_id);
+    $guest->set($set_obj);
+    $guest->save();
   }
   //招待客情報なし
   /*

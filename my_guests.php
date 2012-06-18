@@ -9,7 +9,8 @@ $obj = new DataClass();
 $obj_data = new DataClass();
 
 $objInfo = new InformationClass();
-$get = $obj->protectXSS($_GET);
+//$get = $obj->protectXSS($_GET);
+$get = $_GET;
 
 $user_id = Core_Session::get_user_id();
 
@@ -162,6 +163,7 @@ $query_string="SELECT * FROM $table where $where  ORDER BY $order";
 $guests = $obj->getRowsByQuery($query_string);
 
 $genderStatus = $obj->GetSingleData(" spssp_guest_orderstatus ", "orderstatus", " user_id = ".$user_id);
+
 
 
 ?>
