@@ -68,22 +68,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 <link rel="stylesheet" href="../datepicker/datepicker.css">
 <script type="text/javascript" language="javascript" src="../datepicker/behaviors.js"></script>
 
-<div id="topnavi">
-    <?php
-include("inc/main_dbcon.inc.php");
-$hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-?>
-<h1><?=$hotel_name?></h1>
-<?
-include("inc/return_dbcon.inc.php");
-?>
-
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
+<?php include_once("inc/topnavi.php");?>
 
 <div id="container">
 <a href="#top"> </a>

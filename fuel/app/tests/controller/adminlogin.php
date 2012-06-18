@@ -19,11 +19,14 @@ class Test_Controller_Adminlogin extends PHPUnit_Framework_TestCase
   {
     parent::setUp();
     $this->config = Config::load("test");
-    $web_driver = new WebDriver();    
-    $this->_session = $web_driver->session($this->config["browser"]);
+    
   }
   
   public function testLogintrue(){
+    //ブラウザの設定
+    $web_driver = new WebDriver();    
+    $this->_session = $web_driver->session($this->config["browser"]);
+    
     //ログインを制御しているファイルを削除する
     Core_Adminlogin::force_delete_file();
     //ログイン画面にアクセス
@@ -47,7 +50,25 @@ class Test_Controller_Adminlogin extends PHPUnit_Framework_TestCase
     $this->_session->element('id','login_submit')->click();
     //manager画面に移動したことを確認
     $this->assertEquals($url."/admin/manage.php", $this->_session->url());
+
+    $web_driver2 = new WebDriver();    
+    $this->_session2 = $web_driver2->session($this->config["browser2"]);
+    //ログイン画面にアクセス
+    $this->_session2->open($url."/admin");
+    //ユーザ名とパスワードを入力する
+    $this->_session2->element("id","adminid")->value(split_keys("adminsunpri"));
+    $this->_session2->element("id","adminpass")->value(split_keys("n3s8n7m9"));
+    //送信ボタンをクリック
+    $this->_session2->element('id','login_submit')->click();
+    //“ログイン画面に遷移していることを確認”とアラートが表示される
+    $this->assertEquals("既に同じIDでログインされています。", $this->_session2->alert_text());
+    $this->_session2->close();
+
+    //ログアウトボタンをクリック
+    $this->_session->element('id','logout_button')->click();    
+    //manager画面に移動したことを確認
+    $this->assertEquals($url."/admin/index.php", $this->_session->url());
     
-    
+    $this->_session->close();
   }
 }
