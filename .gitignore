@@ -6,7 +6,7 @@ conf/conf.php
 *.bak
 \#*\#
 
-#apaceh
+#apache
 !.htaccess
 !.htpasswd
 
@@ -25,6 +25,7 @@ admin/_staff_log/*
 admin/_staff_logs/*
 _user_logs/*
 .htaccess
+!fuel/.htaccess
 .htpasswd
 
 #fuel
