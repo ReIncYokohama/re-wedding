@@ -338,4 +338,5 @@ class Model_Plan extends Model_Crud{
       return array($this->day_limit_1_to_print_com,$this->day_limit_2_to_print_com);
     }
   }
+  
 }
