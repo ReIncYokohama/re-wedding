@@ -222,6 +222,13 @@ function validSearch()
         return false;
       }
     }
+
+    if (date_to != "") {
+      if (ckDate(date_to) == false) {
+        alert("披露宴終了日の日付指定が間違っています。\nカレンダーアイコンから選択するか、正しく入力してください");
+        return false;
+      }
+    }
     
     if(beforeFlag && check_validation_date_text_compare_today("date_from")){
       alert("披露宴開始日が未来の日付になっています");
@@ -231,13 +238,17 @@ function validSearch()
       alert("披露宴開始日が過去の日付になっています");
       return false;
     }
-    
-    if (date_to != "") {
-      if (ckDate(date_to) == false) {
-        alert("披露宴終了日の日付指定が間違っています。\nカレンダーアイコンから選択するか、正しく入力してください");
-        return false;
-      }
+
+    if(beforeFlag && check_validation_date_text_compare_today("date_to")){
+      alert("披露宴終了日が未来の日付になっています");
+      return false;
     }
+    if(!beforeFlag && !check_validation_date_text_compare_today("date_to")){
+      alert("披露宴終了日が過去の日付になっています");
+      return false;
+    }
+
+    
     if (date_from != "" && date_to != "") {
       if (date_from > date_to) {
         alert("検索開始日より検索終了日が先になっています。\n検索範囲を正しく指定してください");
