@@ -175,7 +175,7 @@ function confirmDeleteUser(user_id) {
 	});
 }
 
-function check_validation_date_text_compare_today(el){
+function check_validation_date_text_compare_today_prev(el){
   var str = document.getElementById(el).value;
   if(str==""){
     return true;
@@ -188,6 +188,21 @@ function check_validation_date_text_compare_today(el){
   }
   return true;
 }
+
+function check_validation_date_text_compare_today_future(el){
+  var str = document.getElementById(el).value;
+  if(str==""){
+    return true;
+  }
+  var arr = str.split("/");
+  var date = new Date(arr[0],arr[1]-1,arr[2]);
+  var now_date = new Date();
+  if(date.getTime() > now_date.getTime()){
+    return false;
+  }
+  return true;
+}
+
 
 function validSearch()
 {
@@ -230,20 +245,20 @@ function validSearch()
       }
     }
     
-    if(beforeFlag && check_validation_date_text_compare_today("date_from")){
+    if(beforeFlag && !check_validation_date_text_compare_today_future("date_from")){
       alert("披露宴開始日が未来の日付になっています");
       return false;
     }
-    if(!beforeFlag && !check_validation_date_text_compare_today("date_from")){
+    if(!beforeFlag && !check_validation_date_text_compare_today_prev("date_from")){
       alert("披露宴開始日が過去の日付になっています");
       return false;
     }
 
-    if(beforeFlag && check_validation_date_text_compare_today("date_to")){
+    if(beforeFlag && !check_validation_date_text_compare_today_future("date_to")){
       alert("披露宴終了日が未来の日付になっています");
       return false;
     }
-    if(!beforeFlag && !check_validation_date_text_compare_today("date_to")){
+    if(!beforeFlag && !check_validation_date_text_compare_today_prev("date_to")){
       alert("披露宴終了日が過去の日付になっています");
       return false;
     }
