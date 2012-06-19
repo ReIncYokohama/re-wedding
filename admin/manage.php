@@ -393,7 +393,7 @@ foreach($messages as $message)
 			  </tr>
 			   <tr>
 			   <td>&nbsp; </td>
-			    <td align="left" colspan="3" > <a href="user_info_allentry.php"><img src="img/common/new_register.gif" alt="New Register" border="0"></a></td>
+			    <td align="left" colspan="3" > <a href="user_info_allentry.php"><img src="img/common/new_register.gif" alt="New Register" border="0" id="new_user_button"></a></td>
 			   </tr>
 			</table>
 			</form>
