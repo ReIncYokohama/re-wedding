@@ -337,7 +337,7 @@ function clearForm()
 				<td width="90" align="left" valign="bottom" >
 					<a href="javascript:void(0);" onclick="clearForm()"><img src="img/common/btn_clear.jpg" alt="ｸﾘｱ" width="82" height="22" border="0"></a></td>
 			 	<td width="90" align="left" valign="bottom" >
-			 		<a href="manage.php"><img src="img/common/new_userlist.gif" width="82" height="22" border="0"/></a></td>
+			 		<a href="users.php<?php if($current_view == "before") echo "?view=before";?>"><img src="img/common/new_userlist.gif" width="82" height="22" border="0"/></a></td>
 			  </tr>
 			   <tr>
 			   <td>&nbsp; </td>
