@@ -2,6 +2,8 @@
 <?php
 $hotel = Model_Hotel::find_one_by_hotel_code($hcode);
 $hotel_name = $hotel["hotel_name"];
+//fuel phpでは、自動的にmysqlを切り替えるが以前のコードはアクセスできないため
+include("return_dbcon.inc.php");
 ?>
 <h1><?=$hotel_name?></h1>
 
