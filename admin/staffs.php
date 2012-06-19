@@ -1,5 +1,5 @@
 <?php
-require_once("inc/class.dbo.php");
+require_once("inc/include_class_files.php");
 include_once("inc/checklogin.inc.php");
 include_once("inc/new.header.inc.php");
 include_once(dirname(__FILE__)."/../conf/conf.php");

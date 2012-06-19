@@ -1,13 +1,13 @@
 <?php
-	require_once("inc/class.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	include_once("inc/new.header.inc.php");
-	$obj = new DBO();
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
+include_once("inc/new.header.inc.php");
+$obj = new DBO();
 
-	$table='spssp_admin';
-	$where = " 1=1";
+$table='spssp_admin';
+$where = " 1=1";
 
-	$query_string="SELECT * FROM spssp_admin where id!=".$_SESSION['adminid']." ORDER BY id ASC LIMIT ".((int)($current_page)*$data_per_page).",".((int)$data_per_page).";";
+$query_string="SELECT * FROM spssp_admin where id!=".$_SESSION['adminid']." ORDER BY id ASC LIMIT ".((int)($current_page)*$data_per_page).",".((int)$data_per_page).";";
 	$data_rows = $obj->getRowsByQuery($query_string);
 ?>
 

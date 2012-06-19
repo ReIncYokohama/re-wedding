@@ -1,7 +1,6 @@
 <?php
-include_once("inc/dbcon.inc.php");
+require_once("inc/include_class_files.php");
 include_once("inc/checklogin.inc.php");
-require_once("inc/class.dbo.php");
 require_once("../fuel/load_classes.php");
 
 $obj = new DBO();

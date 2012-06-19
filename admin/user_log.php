@@ -1,8 +1,8 @@
 <?php
-	require_once("inc/class.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	include_once("inc/new.header.inc.php");
-  include_once("../fuel/load_classes.php");
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
+include_once("inc/new.header.inc.php");
+ include_once("../fuel/load_classes.php");
   
 	$obj = new DBO();
 	$user_id = $_GET['user_id'];

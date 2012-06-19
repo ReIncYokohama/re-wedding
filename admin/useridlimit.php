@@ -1,12 +1,11 @@
 <?php
-	include_once("inc/dbcon.inc.php");
-	include_once("inc/checklogin.inc.php");
-	include_once("inc/new.header.inc.php");
-	require_once("inc/class.dbo.php");
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
+include_once("inc/new.header.inc.php");
 
-	$obj = new DBO();
-	$post = $obj->protectXSS($_POST);
-	if($post['DefaultSettings']=="DefaultSettings")
+$obj = new DBO();
+$post = $obj->protectXSS($_POST);
+if($post['DefaultSettings']=="DefaultSettings")
 	{
  // echo $post['confirm_day_num']." : ".$post['limitation_ranking']." : ".$post['order_deadline']." : ".$post['user_id_limit'];
 		unset($post['DefaultSettings']);

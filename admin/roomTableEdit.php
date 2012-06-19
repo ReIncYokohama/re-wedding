@@ -1,8 +1,8 @@
 <?php
-	require_once("inc/class.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	include_once("inc/new.header.inc.php");
-	include_once("inc/class_information.dbo.php");
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
+include_once("inc/new.header.inc.php");
+include_once("inc/class_information.dbo.php");
 
 	$obj = new DBO();
 	$objInfo = new InformationClass(); // UCHIDA EDIT 11/09/02
