@@ -296,7 +296,7 @@ function clearForm()
             <div id="top_search_view">
 
                 <form action="" name="condition" id="user_search_condition">
-  <?php if($beforeFlag) echo "<input type=\"hidden\" id=\"before_id\" name=\"view\" value=\"before\">";?>
+  <?php if($beforeFlag == "true") echo "<input type=\"hidden\" id=\"before_id\" name=\"view\" value=\"before\">";?>
 				<table width="720" border="0" cellpadding="0" cellspacing="0">
 
 			  <tr style="height:30px;">

@@ -283,7 +283,7 @@ function validSearch()
 			}
 		}
 		if (date_from !="" && date_from < today) {
-			alert("披露宴開始日が過去になっています"+date_from+" : "+today);
+			alert("披露宴開始日が過去になっています");
 			return false;
 		}
 		if (date_to != "") {
