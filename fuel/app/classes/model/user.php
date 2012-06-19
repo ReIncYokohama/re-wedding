@@ -102,9 +102,9 @@ class Model_User extends Model_Crud{
     }else{
       $limit = Model_Option::get_deadline_honhatyu();
     }
-    $limit += 7;
+    //締切日を過ぎた日なので１日足しているので、8日前で
+    $limit += 8;
     $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
-    //締切日を過ぎた日なので１日足している。
     if($date->past_date($limit)) return false;
     return true;
   }
@@ -128,7 +128,8 @@ class Model_User extends Model_Crud{
     }else{
       $limit = Model_Option::get_deadline_hikidemono();
     }
-    $limit += 7;
+    //締切日を過ぎた日なので１日足しているので、8日前で
+    $limit += 8;
     $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
     if($date->past_date($limit)) return false;
     return true;
