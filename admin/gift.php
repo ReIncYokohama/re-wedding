@@ -88,19 +88,6 @@ var numgiftgroups='<?=$gift_criteria_data_row[0]['num_gift_groups']?>';
 //var orderdeadline='<?=$gift_criteria_data_row[0]['order_deadline']?>';
 var nummenugroups = 3;
 $(document).ready(function(){
-/*
-	$('#num_gift_items').keyup(function(){
-		var r=isInteger("num_gift_items","引出物商品数は");
-    });
-    $('#num_gift_groups').keyup(function(){
-		var r=isInteger("num_gift_groups","引出物グループ数");
-    });
-//	$('#order_deadline').keyup(function(){
-//		var r=isInteger("order_deadline","発注締切日は");
-//    });
-	$('#num_menu_groups').keyup(function(){
-		var r=isInteger("num_menu_groups","子供料理数は");
-    });*/
 });
 
 function isInteger(id, kind_msg){
@@ -211,6 +198,7 @@ function validForm(x)
       alert("ブランクのグループ記号があります");
       r_flg = 1;
       document.getElementById('name'+i).focus();
+      break;
     }
     if(String($value).length>2){
       alert("グループ記号は２文字以内で入力してください。");
@@ -296,22 +284,7 @@ function checkGroupForm(x)
 }
 
 </script>
-<div id="topnavi">
-<?php
-include("inc/main_dbcon.inc.php");
-$hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-?>
-<h1><?=$hotel_name?></h1>
-<?
-include("inc/return_dbcon.inc.php");
-?>
-
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
+<?php include_once("inc/topnavi.php");?>
 
 <div id="container">
 <?php if($err){echo "<script>
@@ -348,11 +321,11 @@ unset($_SESSION['msg']);
 				<td>
 
                 <?php if($_SESSION['user_type']==333){?>
-                <input name="num_gift_items" <?=$ro?> type="text" onlyNumeric="i" id="num_gift_items" size="10" maxlength='1' style="text-align:right;border-style: inset;" value="<?=$gift_criteria_data_row[0]['num_gift_items']?>" /> &nbsp;種類（最大7種類まで）
+                <input name="num_gift_items" <?=$ro?> type="text" onlyNumeric="i" id="num_gift_items" size="10" maxlength='1' style="text-align:right;border-style: inset;" value="<?=validation_zero($gift_criteria_data_row[0]['num_gift_items'])?>" /> &nbsp;種類（最大7種類まで）
                 <?
 				}else{
 					?>
-					<?=$gift_criteria_data_row[0]['num_gift_items']?>&nbsp;種類 <!-- UCHIDA EDIT 11/08/08 メッセージ変更  -->
+					<?=validation_zero($gift_criteria_data_row[0]['num_gift_items'])?>&nbsp;種類 <!-- UCHIDA EDIT 11/08/08 メッセージ変更  -->
 					<?
 					}
 				?>
@@ -363,12 +336,12 @@ unset($_SESSION['msg']);
 				<td>：</td>
 				<td>
                 <?php if($_SESSION['user_type']==333){?>
-                <input name="num_gift_groups" <?=$ro?> type="text"  onlyNumeric="i" id="num_gift_groups" size="10" maxlength='1' style="text-align:right;border-style: inset;" value="<?=$gift_criteria_data_row[0]['num_gift_groups']?>"  />
+                <input name="num_gift_groups" <?=$ro?> type="text"  onlyNumeric="i" id="num_gift_groups" size="10" maxlength='1' style="text-align:right;border-style: inset;" value="<?=validation_zero($gift_criteria_data_row[0]['num_gift_groups'])?>"  />
 					&nbsp;グループ（最大7グループまで）
                 <?
 				}else{
 					?>
-					<?=$gift_criteria_data_row[0]['num_gift_groups']?>&nbsp;グループ <!-- UCHIDA EDIT 11/08/08 メッセージ変更  -->
+					<?=validation_zero($gift_criteria_data_row[0]['num_gift_groups'])?>&nbsp;グループ <!-- UCHIDA EDIT 11/08/08 メッセージ変更  -->
 					<?
 					}
 				?>
@@ -417,11 +390,11 @@ unset($_SESSION['msg']);
     <td width="10">：</td>
     <td>
     <?php if ($_SESSION['user_type']==333){?>
-    <input name="num_menu_groups" type="text" id="num_menu_groups" size="10" <?=$ro?> style="text-align:right;border-style: inset;" value="<?=$menu_criteria_data_row[0]['num_menu_groups']?>" />
+    <input name="num_menu_groups" type="text" id="num_menu_groups" size="10" <?=$ro?> style="text-align:right;border-style: inset;" value="<?=validation_zero($menu_criteria_data_row[0]['num_menu_groups'])?>" />
       種類(最大3種類まで)
       <?
 	}else{
-		echo $menu_criteria_data_row[0]['num_menu_groups']."&nbsp;種類"; // UCHIDA EDIT 11/08/08 メッセージ変更
+        echo validation_zero($menu_criteria_data_row[0]['num_menu_groups'])."&nbsp;種類"; // UCHIDA EDIT 11/08/08 メッセージ変更
 		}
 	  ?>
       </td>

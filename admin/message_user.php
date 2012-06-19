@@ -1,47 +1,31 @@
 <?php
-	require_once("inc/class.dbo.php");
-    require_once("inc/include_class_files.php");
-	include_once("inc/checklogin.inc.php");
-	include_once("inc/new.header.inc.php");
-	$obj = new DBO();
-	$objInfo = new InformationClass();
-	$user_id = $_GET['user_id'];
-	$user_row = $obj->GetSingleRow("spssp_user"," id= $user_id");
-	$table='spssp_message';
-	if($user_id > 0) {
+require_once("inc/class.dbo.php");
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
+include_once("inc/new.header.inc.php");
+$obj = new DBO();
+$objInfo = new InformationClass();
+
+$user_id = $_GET['user_id'];
+
+$user = Model_User::find_by_pk($user_id);
+$user_row = $user->to_array();
+
+$table='spssp_message';
+if($user_id > 0) {
 		$where = " user_id=".$user_id;
 	}
 	else {
 		$where = " 1= 1";
 	}
 
-// UCHIDA EDIT 11/08/18 管理者用お客様一覧から各スタッフのメールを確認する
 	$modify = 0;
 	$stuff_id = $_GET['stuff_id'];
 	if ($stuff_id=="" || $stuff_id=="0") {
 		$modify = 1; // 未読を既読にする
-//		$stuff_id = (int)$_SESSION['adminid'];
 	}
 	$user_type = $_SESSION['user_type'];
 
-/*
-	if($user_type == 222 || $user_type == 333)
-	{
-		$stuff_users = $obj->GetAllRowsByCondition("spssp_user", "stuff_id=".$stuff_id);
-
-		if ($stuff_id>0) {
-			foreach($stuff_users as $su)
-			{
-				$user_id_arr[] = $su['id'];
-			}
-			if(!empty($user_id_arr))
-			{
-				$stuff_users_string = implode(",",$user_id_arr);
-				$where.= " user_id in ( $stuff_users_string ) ";
-			}
-		}
-	}
-*/
 
 //echo "<script> alert('$stuff_id $where'); </script>";
 
@@ -164,22 +148,7 @@ function m_win(url,windowname,width,height) {
 }
 
 // --></script>
-<div id="topnavi">
-    <?php
-include("inc/main_dbcon.inc.php");
-$hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-?>
-<h1><?=$hotel_name?></h1>
-<?
-include("inc/return_dbcon.inc.php");
-?>
-
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
+<?php include_once("inc/topnavi.php");?>
 <div id="container">
     <div id="contents">
     <div style="font-size:11px; width:250px;">

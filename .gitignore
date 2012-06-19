@@ -6,7 +6,7 @@ conf/conf.php
 *.bak
 \#*\#
 
-#apaceh
+#apache
 !.htaccess
 !.htpasswd
 
@@ -25,9 +25,11 @@ admin/_staff_log/*
 admin/_staff_logs/*
 _user_logs/*
 .htaccess
+!fuel/.htaccess
 .htpasswd
 
 #fuel
 fuel/app/logs/*
 fuel/app/config/db.php
 .DS_Store
+fuel/app/tests/fixture

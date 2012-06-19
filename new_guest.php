@@ -7,7 +7,8 @@ include_once("inc/gaiji.image.wedding.php");
 include_once("admin/inc/class_data.dbo.php");
 
 $obj = new DBO();
-$post = $obj->protectXSS($_POST);
+//$post = $obj->protectXSS($_POST);
+$post = $_POST;
 $user_id = (int)$_SESSION['userid'];
 $guest_id = (int)$_POST['id'];
 

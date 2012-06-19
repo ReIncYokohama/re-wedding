@@ -1,56 +1,50 @@
 <?php
-	require_once("inc/class.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	include_once("inc/new.header.inc.php");
-	$obj = new DBO();
+require_once("inc/class.dbo.php");
+include_once("inc/checklogin.inc.php");
+include_once("inc/new.header.inc.php");
 
-	$table='spssp_room';
-	$where = " 1=1";
-	$data_per_page=5;
-	$current_page=(int)$_GET['page'];
-	$redirect_url = 'rooms.php';
+$obj = new DBO();
 
-	$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
+$table='spssp_room';
+$where = " 1=1";
+$data_per_page=5;
+$current_page=(int)$_GET['page'];
+$redirect_url = 'rooms.php';
 
-	$get = $obj->protectXSS($_GET);
+$pageination = $obj->pagination($table, $where, $data_per_page,$current_page,$redirect_url);
 
-	$room_id = $get['room_id'];
-	unset($get['room_id']);
+$get = $obj->protectXSS($_GET);
 
-	if($_GET['action']=='delete' && (int)$_GET['id'] > 0)
-	{
-		$del_room_id = (int)$_GET['id'];
-		
-		$sql ="DELETE FROM spssp_default_plan WHERE room_id=".$del_room_id.";";
-		mysql_query($sql);
-		
-		$sql ="DELETE FROM spssp_room WHERE id=".$del_room_id.";"; // REFERENCESにより、spssp_default_plan_tableも同時に削除される。同様にspssp_default_plan_seatも削除される
-		mysql_query($sql);
-		
-		if ((int)$_GET['id'] == (int)$_GET['room_id']) $room_id=0;
-	}
-	else if($_GET['action']=='sort' && (int)$_GET['id'] > 0)
-	{
+$room_id = $get['room_id'];
+unset($get['room_id']);
 
-		$id = $get['id'];
-		$move = $get['move'];
-		//$redirect = 'rooms.php?page='.(int)$get['page'];
+if($_GET['action']=='delete' && (int)$_GET['id'] > 0){
 
-		$obj->sortItem2($table,$id,$move);
-	}
+  $room = Model_Room::find_by_pk($_GET["id"]);
+  if(!$room->delete()){
+    echo "<script type=\"text/javascript\">alert(\"既にこの会場レイアウトが使用されているため削除できません。\\n各挙式情報にて披露宴会場を変更し、未使用の状態にしてから削除してください。\");</script>";
+  }
+  if ((int)$_GET['id'] == (int)$_GET['room_id']) $room_id=0;
+}else if($_GET['action']=='sort' && (int)$_GET['id'] > 0){
 
-	$query_string="SELECT * FROM spssp_room where status=1  ORDER BY display_order ASC ;";
-	$data_rows = $obj->getRowsByQuery($query_string);
+  $id = $get['id'];
+  $move = $get['move'];
+  //$redirect = 'rooms.php?page='.(int)$get['page'];
+  
+  $obj->sortItem2($table,$id,$move);
+}
 
-if($_SESSION["new_rooms"]=="success")
-	{
-		unset($_SESSION["new_rooms"]);
+$query_string="SELECT * FROM spssp_room where status=1  ORDER BY display_order ASC ;";
+$data_rows = $obj->getRowsByQuery($query_string);
+
+if($_SESSION["new_rooms"]=="success"){
+  unset($_SESSION["new_rooms"]);
 ?>
 <script type="text/javascript">
 alert("新しい披露宴会場が登録されました");
 </script>
 <?php
-	}
+}
 ?>
 <script type="text/javascript">
 var roomsName=new Array(); // regular array
@@ -226,23 +220,7 @@ window.onkeydown = function(event) {
 }
 
 </script>
-
-<div id="topnavi">
- <?php
-include("inc/main_dbcon.inc.php");
-$hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-?>
-<h1><?=$hotel_name?></h1>
-<?
-include("inc/return_dbcon.inc.php");
-?>
-
-    <div id="top_btn" >
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
+<?php include_once("inc/topnavi.php");?>
 <div id="container">
     <div id="contents">
     	 <h4>  <div style="width:400px;">
@@ -250,7 +228,6 @@ include("inc/return_dbcon.inc.php");
         </h4>
 		<h2><div style="width:1035px;"><?php if ($_SESSION['user_type'] =="222") {echo '会場レイアウト';} else {echo '会場レイアウト設定';} ?></div></h2>
         
-<!-- SEKIDUKA EDIT 11/10/22 会場レイアウトプレビューを横に表示する -->
       <table width="1035px" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222") echo '<td width="400" valign="top">';
@@ -266,7 +243,6 @@ include("inc/return_dbcon.inc.php");
 
 			}
 		?>
-<!-- UCHIDA EDIT 11/08/08 横一列の表示を縦一列に変え、横にプレビューを表示する -->
 		 <?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){ ?>
 		<div style="width:400px;">
         <p class="txt3">
@@ -341,7 +317,6 @@ include("inc/return_dbcon.inc.php");
          
          </td>
     <td width="635" align="center" valign="middle">
-<!-- UCHIDA EDIT 11/08/08 テーブルレイアウト表示を画面上に移動  -->
         <div class="sekiji_table" id="table_preview" >
         <div align="center">
 			<table width="500px" style = " text-align:center;" align="center" border="0" cellspacing="10" cellpadding="0">
@@ -451,7 +426,6 @@ include("inc/return_dbcon.inc.php");
                     <table border="0" align="center" cellpadding="1" cellspacing="1">
                         <tr align="center">
                           <td width="100" nowrap="nowrap" ><?=$row['name']?></td>
-                            <!--<td><a href="plans.php?room_id=<?=$row['id']?>"><?=$row['name']?></a></td>-->
                         <td width="100" nowrap="nowrap" >横<?=$row['max_columns']?>列 × 縦<?=$row['max_rows']?>段</td>
                         <td width ="70" nowrap="nowrap" ><?=$row['max_seats']?>名</td>
 							<?php if($_SESSION['user_type']!="" && $_SESSION['user_type'] !="222"){ ?>
@@ -493,9 +467,8 @@ include("inc/return_dbcon.inc.php");
     </div>
 
 </div>
+
 <?php
 include_once('inc/left_nav.inc.php');
-
-	include_once("inc/new.footer.inc.php");
+include_once('inc/new.footer.inc.php');
 ?>
-

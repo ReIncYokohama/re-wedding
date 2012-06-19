@@ -341,6 +341,22 @@ function change_gaiji_link(action)
 		$j("a#woman_gaiji_link_id").attr("href", "../gaiji/palette.php?from=woman_lastname");
 }
 
+function check_validation_date_text_compare_today(el){
+  var str = document.getElementById(el).value;
+  if(str==""){
+    return true;
+  }
+  var arr = str.split("/");
+  var date = new Date(arr[0],arr[1]-1,arr[2]);
+  var now_date = new Date();
+  if(date.getTime() < now_date.getTime()){
+    alert("本日以降の日付を指定してください");
+    document.getElementById(el).click();
+    return false;
+  }
+  return true;
+}
+
 function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // registration_validation.jsから移動 11/08/26
 {
 	if (noUpdate == true) {
@@ -367,12 +383,6 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
        document.getElementById('party_hour').focus();
        return false;
 	   }
-     if(str6 > 23)
-       {
-         alert("披露宴時間は0から23の間で入力してください");
-         document.getElementById('party_hour').focus();
-         return false;
-       }
      
      if(str6 > 22 || str6 < 7)
        {
@@ -471,7 +481,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
    }
 
    if(document.getElementById("woman_furi_firstname").value=='')
-	{
+ 	{
 		alert("新婦の名のふりがなを正しく入力してください");
 		document.getElementById('woman_furi_firstname').focus();
 		return false;
@@ -495,8 +505,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 		document.getElementById('marriage_hour').focus();
 		return false;
 	}
-
-	if((str4!="" && Number(str4) != 0) && (str4 > 22 || str4 < 7))
+	if((str4!="") && (Number(str4) > 22 || Number(str4) < 7))
 	{
 		alert("挙式時間は7:00〜22:00の間で入力してください");
 		document.getElementById('marriage_hour').focus();
@@ -531,34 +540,19 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 		document.getElementById("marriage_minute").value = "";
 	}
 
+  if(!check_validation_date_text_compare_today("marriage_day")){
+    return false;
+  }
+  if(!check_validation_date_text_compare_today("party_day")){
+    return false;
+  }
+
 	if(document.getElementById("product_name").value=='')
 	{
 		alert("商品名は必須項目です。");
 		document.getElementById('product_name').focus();
 		return false;
 	}
-
-	if(document.getElementById("room_id").value=='')
-	{
-//		alert("必須項目は必ず入力してください。");
-//		document.getElementById('room_id').focus();
-//		return false;
-	}
-
-	if(document.getElementById("religion").value=='')
-	{
-//		alert("挙式種類を選択してください");
-//		document.getElementById('religion').focus();
-//		return false;
-	}
-
-
-//	if(document.getElementById("user_id").value=='')
-//	{
-//		alert("ログインIDを入力してください");
-//		document.getElementById('user_id').focus();
-//		return false;
-//	}
 
 	var radio3  = document.user_form_register.subcription_mail;
 
@@ -634,31 +628,31 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 	if (checkGiftForm(count_gift, noUpdate) == false) return false;
 	if (checkGroupForm(count_group, noUpdate) == false) return false;
 
-  /*
+  var mark = false;
   for(i=1;i<=count_gift;++i){
     name = $j("#item"+i).val();
-    if(name==""){
-      for(j=i+1;j<=count_gift;++j){
-        if(name!=""){
-          alert("ブランクのグループ記号があります");
-          $j("#item"+i).focus();
-          return false;
-        }
-      }
+    if(name!=""){
+      mark = true;
     }
   }
+  if(!mark){
+    alert("引出物商品を入力してください");
+    $j("#item1").focus();
+    return false;    
+  }
+  var mark = false;
   for(i=1;i<=count_group;++i){
     name = $j("#name_group"+i).val();
-    if(name==""){
-      for(j=i+1;j<=count_group;++j){
-        if(name!=""){
-          alert("ブランクのグループ記号があります");
-          $j("#name_group"+i).focus();
-          return false;
-        }
-      }
+    if(name!=""){
+      mark = true;
     }
-  }*/
+  }
+  
+  if(!mark){
+    alert("引出物グループを入力してください");
+    $j("#name_group1").focus();
+    return false;
+  }
 
    //gaiji_check
    var return_flag = true;
@@ -769,24 +763,8 @@ function m_win(url,windowname,width,height) {
 }
 
 // --></script>
-<div id="topnavi">
-    <?php
+<?php include_once("inc/topnavi.php");?>
 
-include("inc/main_dbcon.inc.php");
-$hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-
-?>
-<h1><?=$hotel_name?></h1>
-<?
-include("inc/return_dbcon.inc.php");
-?>
-
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
 <div id="container">
     <div id="contents">
     <div style="font-size:11px; width:250px;">

@@ -51,6 +51,8 @@ if($_FILES["csv"]["tmp_name"]){
     $line = array();
     foreach($datas as $data){
       mb_convert_variables("UTF-8","SJIS-win",$data);
+      //改行コードを削除
+      $data = str_replace(array("\r\n","\r","\n"), '', $data);
       $line[] = $data;
     }
     $csv[] = $line;
@@ -78,7 +80,6 @@ if(count($csv)==0 && !$_GET["force"]){
 
 }
 
-$post = $obj->protectXSS($_POST);
 
 if($_GET["force"]){
   $user_id = $_SESSION["csv_user_id"];

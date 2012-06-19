@@ -9,7 +9,8 @@ $obj = new DataClass();
 $obj_data = new DataClass();
 
 $objInfo = new InformationClass();
-$get = $obj->protectXSS($_GET);
+//$get = $obj->protectXSS($_GET);
+$get = $_GET;
 
 $user_id = Core_Session::get_user_id();
 
@@ -69,7 +70,7 @@ $data_per_page=2;
 $current_page=(int)$_GET['page'];
 $redirect_url = "my_guests.php";
 
-$order = 'id asc ';
+$order = 'stage desc, id asc ';
 
 $plan = Model_Plan::find_one_by_user_id($_SESSION["userid"]);
 $plan_info = $plan->to_array();
@@ -77,11 +78,13 @@ $plan_info = $plan->to_array();
 $gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
 $count_group = (int)$gift_criteria['num_gift_groups'];
 
+$orderarray = array();
 if(isset($_GET['option']) && $_GET['option'] != '')
 	{
 		$optionValue = $_GET['option'];
 
 		$ordervalue = explode(",",$_GET['option']);
+    $orderarray[] = "stage desc";
     for($i=0;$i<(count($ordervalue)-1);$i++)
       {
         if($ordervalue[$i]=="sex"){
@@ -160,6 +163,7 @@ $query_string="SELECT * FROM $table where $where  ORDER BY $order";
 $guests = $obj->getRowsByQuery($query_string);
 
 $genderStatus = $obj->GetSingleData(" spssp_guest_orderstatus ", "orderstatus", " user_id = ".$user_id);
+
 
 
 ?>

@@ -1,21 +1,20 @@
 <?php
-	include_once("admin/inc/dbcon.inc.php");
-	include_once("admin/inc/class.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	$obj = new DBO();
-	$get = $obj->protectXSS($_GET);
-	$user_id = (int)$_SESSION['userid'];
-	include_once("inc/new.header.inc.php");
+include_once("admin/inc/dbcon.inc.php");
+include_once("admin/inc/class.dbo.php");
+include_once("inc/checklogin.inc.php");
+$obj = new DBO();
+$get = $obj->protectXSS($_GET);
+$user_id = (int)$_SESSION['userid'];
+include_once("inc/new.header.inc.php");
 
-	if(trim($_POST['password'])!=="" && trim($_POST['userID'])!='')
-		{
-			$old_pw = $_POST['userID'];
-			$nm = $obj->GetRowCount("spssp_user", "password='$old_pw' and id=".$user_id);
-			if ($nm) {
-				$query_string="UPDATE spssp_user SET password='".$_POST['password']."' WHERE password='".$_POST['userID']."';";
-
-				mysql_query($query_string);
-				if(mysql_affected_rows())
+if(trim($_POST['password'])!=="" && trim($_POST['userID'])!='')
+	{
+		$old_pw = $_POST['userID'];
+		$nm = $obj->GetRowCount("spssp_user", "password='$old_pw' and id=".$user_id);
+		if ($nm) {
+			$query_string="UPDATE spssp_user SET password='".$_POST['password']."' WHERE password='".$_POST['userID']."';";
+			mysql_query($query_string);
+			if(mysql_affected_rows())
 				{
 					echo "<script> alert('パスワードの変更が正常に完了しました'); </script>";
 					redirect("user_info.php");

@@ -283,7 +283,7 @@ function validSearch()
 			}
 		}
 		if (date_from !="" && date_from < today) {
-			alert("披露宴開始日が過去になっています"+date_from+" : "+today);
+			alert("披露宴開始日が過去になっています");
 			return false;
 		}
 		if (date_to != "") {
@@ -332,18 +332,7 @@ function hide_this(id)
 }
 </script>
 
-<div id="topnavi">
-<?php
-$hotel = Model_Hotel::find_one_by_hotel_code($hcode);
-$hotel_name = $hotel["hotel_name"];
-?>
-<h1><?=$hotel_name?></h1>
-
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" border="0" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" border="0" /></a>
-    </div>
-</div>
+<?php include_once("inc/topnavi.php");?>
 <div id="container">
     <div id="contents">
         <h2>お知らせ</h2>
@@ -363,6 +352,7 @@ $user_id_array=array();
 foreach($messages as $message)
   {
     if(in_array($message->user_id,$user_id_array)) continue;
+    if($message->is_read()) continue;
     $user_id_array[]=$message->user_id;
     echo $message->get_message();
   }
@@ -403,7 +393,7 @@ foreach($messages as $message)
 			  </tr>
 			   <tr>
 			   <td>&nbsp; </td>
-			    <td align="left" colspan="3" > <a href="user_info_allentry.php"><img src="img/common/new_register.gif" alt="New Register" border="0"></a></td>
+			    <td align="left" colspan="3" > <a href="user_info_allentry.php"><img src="img/common/new_register.gif" alt="New Register" border="0" id="new_user_button"></a></td>
 			   </tr>
 			</table>
 			</form>
@@ -480,10 +470,16 @@ foreach($messages as $message)
                     	<td width="60"><a href="user_info_allentry.php?user_id=<?=$row['id']?>"><img src="img/common/customer_info.gif" border="0"  /></a></td>
                         <td width="80"> <?=$staff_name?></td>
 <?php
-  if(!$IgnoreMessage){
+if(!$IgnoreMessage){
 ?>
-                            <td width="60" > <a href='message_user.php?user_id=<?=$user_id?>&stuff_id=<?=$staff_id?>'><img src='img/common/btn_midoku.gif' border = '0'></a>
+                            <td width="60" > 
+<?php
+if(!$user->is_read_by_admin()){
+?>
+<a href='message_user.php?user_id=<?=$user->id?>&stuff_id=<?=$staff_id?>'><img src='img/common/btn_midoku.gif' border = '0'></a>
+
   <?php
+}
   }
 ?>
                         <td  width="80">

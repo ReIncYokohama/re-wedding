@@ -29,11 +29,12 @@ $num = 0;
         $dis = "visibility:hidden;";
       }else if ($column["display"]==0){
         $dis = "display:none;";
+      }else{
+        ++$num;
       }
       ?>
       <div id="table<?=$table_id?>" class="tables" style="width:<?=$width;?>px;height:<?=$table_height?>px;float:left;<?php echo $dis;?>;margin:2px;"><p>
-      <?php  
-      if(!$column["visible"]) ++$num;
+      <?php
       if($display_number) echo "<span style=\"font-size:11px;color:red;\">".$num."</span>";
       $_nm2 = mb_substr($column["name"], 0,2,'UTF-8');
       $_han = 1;

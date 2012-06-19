@@ -17,8 +17,8 @@ class MyPdf extends TCPDF{
       $this->horizon = false;
     }
     parent::__construct($orientation, $unit, $format);
-    $this->SetCreator("sampli");
-    $this->SetAuthor("Nicola Asuni");
+    $this->SetCreator("Wedding-Plus");
+    $this->SetAuthor("Wedding-Plus");
     $this->SetTitle("pdf");
     
     //headerとfooterを非表示

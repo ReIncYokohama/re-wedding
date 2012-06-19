@@ -716,7 +716,6 @@ function get_image_name_plate_data5($image,$width_px,$first_left,
     $comment1 = mb_substr($comment1,0,$comment_max_size,"utf8");
     $comment2 = mb_substr($comment2,0,$comment_max_size,"utf8");
     $comment3 = mb_substr($comment3,0,$comment_max_size,"utf8");
-
     gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,10,$col_t,$font,$comment1,array());
     gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,20,$col_t,$font,$comment2,array());
     gaiji_imagettftext($image,$comment_min_fontsize,0,$first_left,30,$col_t,$font,$comment3,$gaiji_comment3_arr);

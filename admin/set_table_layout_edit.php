@@ -23,9 +23,11 @@ if($_GET['action']=="save") {
 		$align = $_POST['rowcenter_'.$i];
 		if (isset($align)) {
 			if ($align=="R") $align="N";
-      $table_layout = Model_Usertable::find_one_by(array(array("row_order","=",$i),array("user_id","=",$user_id)));
-      $table_layout->align = $align;
-      $table_layout->save();
+      $table_layouts = Model_Usertable::find_by(array(array("row_order","=",$i),array("user_id","=",$user_id)));
+      foreach($table_layouts as $table_layout){
+        $table_layout->align = $align;
+        $table_layout->save();
+      }
 		}
 	}
 	for ($i=1;$i<=81; $i++) {
