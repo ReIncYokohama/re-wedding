@@ -42,7 +42,7 @@ class Core_Session{
 
   //Model_Adminのidでもある
   static public function is_print_company(){
-    if($_SESSION["print_id"]>0){
+    if($_SESSION["printid"]>0){
       return true;
     }
     return false;
