@@ -146,6 +146,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 <script type="text/javascript" src="../js/ierange-m2.js"></script>
 <script type="text/javascript" src="../js/gaiji.js"></script>
 <script type="text/javascript">
+
 $j(function(){
 	var msg_html=$j("#msg_rpt").html();
 	if(msg_html!='')
@@ -1091,8 +1092,8 @@ if($user_row['mukoyoshi']=='1'){
 			   <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
 				<td colspan="3" align="left" valign="middle" nowrap="nowrap">
 
-			<input type="radio" name="subcription_mail" <?=$disp_option5?> value="0" <?php if($user_row['subcription_mail']=='0'){echo "checked='checked'";}?> /> 受信する
-			<input type="radio" name="subcription_mail" <?=$disp_option5?> value="1" <?php if($user_row['subcription_mail']=='1' || !isset($user_row['subcription_mail'])) {echo "checked='checked'";}?>/>  受信しない
+			<input type="radio" id="can_subscribe_mail" name="subcription_mail" <?=$disp_option5?> value="0" <?php if($user_row['subcription_mail']=='0'){echo "checked='checked'";}?> /> 受信する
+			<input type="radio" id="cant_subscribe_mail" name="subcription_mail" <?=$disp_option5?> value="1" <?php if($user_row['subcription_mail']=='1' || !isset($user_row['subcription_mail'])) {echo "checked='checked'";}?>/>  受信しない
 				</td>
 			</tr>
             <tr>
@@ -1100,7 +1101,7 @@ if($user_row['mukoyoshi']=='1'){
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
                 <?php if ($disp_option1=="") {?>
-				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;border-style:inset;">
+				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;border-style:inset;" id="stuff_id">
 				<?php
 				if ($user_id>0) {
 					foreach($All_staffs as $staf_rows) {
@@ -1294,11 +1295,11 @@ if($user_row['mukoyoshi']=='1'){
 					if ($default_raname_table_view == "0") $_def_view = "disabled='disabled'";
 					if ($user_plan_row['rename_table'] != "") {
 				?>
-					<input name="rename_table" type="radio" id="radio1" <?=$disp_option5?> value="1"  <?php if($user_plan_row['rename_table'] == "1") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
-					<input type="radio" name="rename_table" id="radio0" <?=$disp_option5?> value="0"  <?php if($user_plan_row['rename_table'] == "0") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
+					<input name="rename_table" type="radio" id="can_change_table_name" <?=$disp_option5?> value="1"  <?php if($user_plan_row['rename_table'] == "1") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
+					<input type="radio" name="rename_table" id="cant_change_table_name" <?=$disp_option5?> value="0"  <?php if($user_plan_row['rename_table'] == "0") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
 			  <?php } else {?>
-					<input name="rename_table" type="radio" id="radio1" <?=$disp_option5?> value="1"  <?php if($_def_view==!"") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
-					<input type="radio" name="rename_table" id="radio0" <?=$disp_option5?> value="0" <?php if($_def_view=="") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
+					<input name="rename_table" type="radio" id="can_change_table_name" <?=$disp_option5?> value="1"  <?php if($_def_view==!"") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
+					<input type="radio" name="rename_table" id="cant_change_table_name" <?=$disp_option5?> value="0" <?php if($_def_view=="") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
 			  <?php }?>
             </td>
   </tr>
@@ -1589,7 +1590,7 @@ if($updating){
 			<br /><br />
             <div colspan="4" align="left" valign="middle" nowrap="nowrap">
             <?php if ($disp_option1=="") { ?>
-             <a href="javascript:void(0)" onclick="valid_user('<?=$user_id?>','<?=$noUpdate?>','<?=$count_gift?>','<?=$count_group?>','<?=$count_child?>');">
+             <a id="user_info_submit" href="javascript:void(0)" onclick="valid_user('<?=$user_id?>','<?=$noUpdate?>','<?=$count_gift?>','<?=$count_group?>','<?=$count_child?>');">
                 <img src="img/common/btn_regist_update.jpg" border="0" />
              </a>
              <?php } ?>

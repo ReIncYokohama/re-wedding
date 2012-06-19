@@ -321,4 +321,9 @@ class Model_User extends Model_Crud{
     }
     return $read;
   }
+  public function recent(){
+    $users = Model_User::find(array("order_by"=>array("id"=>"desc"),"limit"=>1));
+    return $users[0];
+  }
+
 }

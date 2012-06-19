@@ -9,10 +9,8 @@ class Test_Controller_Adminlogin extends Core_Test
 {
     
   public function testSuperlogintrue(){
-    
     //ログイン画面にアクセス
-    $url = $this->config["url"];
-    $this->_session->open($url."/admin");
+    $this->_session->open($this->url."/admin");
     //送信ボタンをクリック
     $this->_session->element('id','login_submit')->click();
     //“ログインIDが未入力です”とアラートが表示される
@@ -23,7 +21,7 @@ class Test_Controller_Adminlogin extends Core_Test
     //印刷会社でログイン
     $this->superLogin();
     //manager画面に移動したことを確認
-    $this->assertEquals($url."/admin/manage.php", $this->_session->url());
+    $this->assertEquals($this->url."/admin/manage.php", $this->_session->url());
 
     $web_driver2 = new WebDriver();
     $this->_session2 = $web_driver2->session($this->config["browser2"]);
@@ -37,7 +35,7 @@ class Test_Controller_Adminlogin extends Core_Test
     //ログアウトボタンをクリック
     $this->adminLogout();
     //manager画面に移動したことを確認
-    $this->assertEquals($url."/admin/index.php", $this->_session->url());
+    $this->assertEquals($this->url."/admin/index.php", $this->_session->url());
     
     $this->_session->close();
   }
