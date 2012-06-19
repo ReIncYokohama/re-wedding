@@ -30,9 +30,9 @@ class Model_Userlog extends Model_Crud{
     $login_timestamp = $this->get_login_timestamp();
     $now_timestamp = mktime();
     //ログアウトをせず、次の日になった場合、ログイン中のフラグを消す。
-    //ログインして60分間のみログイン中と表示される
+    //ログインして12時間のみログイン中と表示される
     if(($this->logout_time == "0000-00-00 00:00:00" && $this->logout_time != $this->login_time) && 
-       ($login_timestamp < $now_timestamp && $login_timestamp+60*60 > $now_timestamp)) {
+       ($login_timestamp < $now_timestamp && $login_timestamp+60*60*12 > $now_timestamp)) {
       return "ログイン中";
     }else {
       $login = $this->get_login_timestamp();
