@@ -12,18 +12,19 @@ class Core_Test extends PHPUnit_Framework_TestCase{
   public function setUp()
   {
     parent::setUp();
-    $this->config = Config::load("test");
-    $this->url = $this->config["url"];
+    $this->config = Config::load("test",null,true,true);
     
+    $this->url = $this->config["url"];
+      
     //ブラウザの設定
     $web_driver = new WebDriver();    
     $this->_session = $web_driver->session($this->config["browser"]);
 
     //ログインを制御しているファイルを削除する
-    Core_Adminlogin::force_delete_file();
+    Core_Adminlogin::force_delete_file();    
+
   }
-
-
+  
   static public function split_keys($toSend){
     $payload = array("value" => preg_split("//u", $toSend, -1, PREG_SPLIT_NO_EMPTY));
     return $payload;
@@ -57,13 +58,14 @@ class Core_Test extends PHPUnit_Framework_TestCase{
     $session->open($this->url."/admin");
     
     //ユーザ名とパスワードを入力する
-    $this->text($username_el_id,$username);
-    $this->text($password_el_id,$password);
+    $this->text($username_el_id,$username,$session);
+    $this->text($password_el_id,$password,$session);
 
     //送信ボタンをクリック
     $session->element('id','login_submit')->click();
   }
-  
+
+  //すでにテキストボックスに入力されているものの動作が異なる
   public function ajaxDateClick(
     $input_element_id,$day = false,$month = false,$year = false,$session = false){
     
@@ -83,6 +85,7 @@ class Core_Test extends PHPUnit_Framework_TestCase{
     if(!$year){
       $year = $today["year"];
     }
+    
     //$navbuttonElements
     //0 prev year 1 prev month 2 today 3 next month 4 next month
     if($month>$today["mon"]){
@@ -131,6 +134,22 @@ class Core_Test extends PHPUnit_Framework_TestCase{
     if(!$session){
       $session = $this->_session;
     }
+    $session->element("id",$id)->clear();
     $session->element("id",$id)->value(Core_Test::split_keys($text));
+  }
+  
+  public function select_by_order($id,$order){
+    $elements = $this->_session->element('id',$id)->elements("tag name","option");
+    $elements[$order]->click();
+  }
+  
+  public function click_check_box($id,$session = false){
+    if(!$session){
+      $session = $this->_session;
+    }
+    $sScriptResult = $session->execute(array(
+      'script' => 'el =  document.getElementById("'.$id.'");el.checked = true;',
+      'args' => array(),
+    ));
   }
 }
