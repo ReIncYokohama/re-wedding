@@ -314,7 +314,7 @@ class Model_User extends Model_Crud{
     $messages = Model_Message::find_by_user_id($this->id);
     $read = true;
     foreach($messages as $message){
-      if(!$message->is_read){
+      if(!$message->is_read()){
         $read = false;
         break;
       }

@@ -18,7 +18,7 @@ class Model_Message extends Model_Crud{
       "' >".$party_day." ".$man_name." ".$woman_name." 様よりの未読メッセージがあります。</a></li>";
   }
   public function is_read(){
-    if($this->admin_viewed){
+    if($this->admin_viewed and $this->admin_viewd != "0"){
       return true;
     }
     return false;
