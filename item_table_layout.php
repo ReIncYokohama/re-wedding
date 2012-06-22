@@ -1,7 +1,7 @@
 
 <div id="table_view" style="margin:auto;width :100%;">
 <div style="margin:0 auto;width:100px;display:block;">
-<div  style="margin: auto;width:80x;border:1px solid gray;white-space:nowrap;text-align:center; ">
+<div  style="margin: auto;width:80x;border:1px solid gray;white-space:nowrap;text-align:center;height:23px; ">
 <?php if ($table_data["layoutname"]!="") print $table_data["layoutname"]; else echo "&nbsp;&nbsp;&nbsp;";?>
 </div>
               </div>
