@@ -187,7 +187,7 @@ class Model_User extends Model_Crud{
       array_push($msg_arr,$msg_text);
     }
     if($this->past_deadline_honhatyu() and !$plan->is_hon_hatyu()){
-      $msg_text = "<div><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
+      $msg_text = "<div><a href='guest_gift.php?user_id=".$user_id."' style='color:blue;'>".
         $party_day."  ".$user_name." 様は席次表本発注締切日を過ぎています。</a></div>";
       array_push($msg_arr,$msg_text);
     }
@@ -198,7 +198,7 @@ class Model_User extends Model_Crud{
       array_push($msg_arr,$msg_text);
     }
     if($this->past_deadline_hikidemono() and !$plan->is_hikidemono_hatyu()){
-      $msg_text = "<div><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
+      $msg_text = "<div><a href='guest_gift.php?user_id=".$user_id."' style='color:blue;'>".
         $party_day."  ".$user_name."  様は引出物本発注締切日を過ぎています。</a></div>";
       array_push($msg_arr,$msg_text);
     }
@@ -210,10 +210,10 @@ class Model_User extends Model_Crud{
 
     $msg_arr = array();
     if($this->past_deadline_honhatyu() and !$plan->is_hon_hatyu_irai()){
-			$msg_text = "<div><a href='order.php' style='color:red;'>席次表の印刷締切日を過ぎております。至急担当までご連絡の上、確認作業をお願いします。</a></div>";
+			$msg_text = "<div><a href='order.php' style='color:blue;'>席次表の印刷締切日を過ぎております。至急担当までご連絡の上、確認作業をお願いします。</a></div>";
       array_push($msg_arr,$msg_text);
     }else if($this->past_deadline_honhatyu_alert() and !$plan->is_hon_hatyu_irai()){
-			$msg_text = "<div><a href='order.php' style='color:red;'>席次表の印刷締切日が近づいております。早めにご確認をお願いします。</a></div>";
+			$msg_text = "<div><a href='order.php' style='color:blue;'>席次表の印刷締切日が近づいております。早めにご確認をお願いします。</a></div>";
       array_push($msg_arr,$msg_text);
 		}
     if($plan->uploaded_image() and !$plan->read_uploaded_image_for_user()){
@@ -224,10 +224,10 @@ class Model_User extends Model_Crud{
       array_push($msg_arr,$msg_text);
     }
     if($this->past_deadline_hikidemono() and !($plan->is_hikidemono_hatyu_irai() or $plan->is_hikidemono_hatyu() )){
-      $msg_text = "<div><a href='order.php' style='color:red;'>引出物の発注依頼の締切日を過ぎています。至急担当までご連絡の上、確認作業をお願いします。</a></div>";
+      $msg_text = "<div><a href='order.php' style='color:blue;'>引出物の発注依頼の締切日を過ぎています。至急担当までご連絡の上、確認作業をお願いします。</a></div>";
       array_push($msg_arr,$msg_text);
     }else if($this->past_deadline_hikidemono_alert() and !($plan->is_hikidemono_hatyu_irai() or $plan->is_hikidemono_hatyu())){
-      $msg_text = "<div><a href='order.php' style='color:red;'>引出物の発注依頼の締切日が近づいています。早めにご確認をお願いします。</a></div>";
+      $msg_text = "<div><a href='order.php' style='color:blue;'>引出物の発注依頼の締切日が近づいています。早めにご確認をお願いします。</a></div>";
       array_push($msg_arr,$msg_text);
     }
 		return $msg_arr;    
