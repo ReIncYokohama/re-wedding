@@ -298,7 +298,7 @@ body{
                       </div>
                       <?php if($jor%2==0 and $j==1) { ?>
                       <div class="space tablename">
-                            <span class="font08"><?=$tblname?></span>
+                        <span class="font08"><?=Core_Str::add_str($tblname)?></span>
                       </div>
                       <?php } else if($jor%2==0) { ?>
 										  <div class="space"></div>
