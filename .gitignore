@@ -34,3 +34,4 @@ fuel/app/config/db.php
 .DS_Store
 fuel/app/tests/fixture
 fuel/app/tmp/*
+fuel/chromedriver.log
