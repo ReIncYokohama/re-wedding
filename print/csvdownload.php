@@ -16,21 +16,21 @@ $this_name = $HOTELID;
 $get = $obj->protectXSS($_GET);
 
 $user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
-//test script
-//$user_id = $_GET["user_id"];
 
-if($user_id>0)
-{
-	//OK
+$user = Model_User::find_by_pk($user_id);
+
+if(!$user && Config::get("sampli.debug")){
+  $user_id = $_GET["user_id"];
+  $user = Model_User::find_by_pk($_GET["user_id"]);
 }
-else
+
+if(!$user)
 {
 	exit;
 }
+
 function s($text){
-  $text = chop($text);
-  if($text=="") return "";
-  return mb_convert_encoding($text,"SJIS","UTF8");
+  return Core_Code::convert_shiftjis($text);
 }
 /*$entityArray2 = array(" HotelName , WeddingDate , WeddingTime , WeddingVenues , ReceptionDate, ReceptionTime , ReceptionHall , GroomName,  fullPhoneticGroom , BrideFullName , BrideFullPhonetic , Categories, ProductName ,  Printsize,tableArrangement , JIs_num, DataOutputTime , PlannerName , LayoutColumns , TableLayoutStages , Colortable , Max , NumberAttendance "); */
 
@@ -44,7 +44,6 @@ $lines .= <<<html
 $entity
 html;
 
-$user = Model_User::find_by_pk($user_id);
 $user_info = $user->to_array();
 
 $stuff_info =  $obj->GetSingleRow("spssp_admin", " id=".$user_info['stuff_id']);
@@ -329,21 +328,9 @@ function getGaijis($gaiji_objs){
 }
 
 //gaiji 関連の関数
-function setStrGaijis($str,$gaiji_objs){  
-  $strArray = explode(s("＊"),$str);
-  $returnStr = "";
-  for($i=0;$i<count($gaiji_objs);++$i){
-    preg_match("/(.*?)\.(.*?)/",$gaiji_objs[$i]["gu_char_img"],$matches);
-    $first = substr($matches[1],0,2);
-    $second = substr($matches[1],2,2);
-    $data = pack("c*",hexdec($first),hexdec($second));
-    $returnStr .= $strArray[$i].$data;
-  }
-  $returnStr .= $strArray[count($strArray)-1];
-  return $returnStr;
+function setStrGaijis($str,$gaiji_objs){
+  return Core_Code::insert_gaijicode($str,$gaiji_objs);
 }
-
-
 
 $o=1;$cl22 = "";
 foreach($usertblrows as $tblRows)
@@ -682,8 +669,11 @@ else if($user_info['id']<100)
 $user_id_name="00".$user_info['id'];
 else if($user_info['id']<1000)
 $user_id_name="0".$user_info['id'];
-//test script
-//print $lines;exit;
+
+if(Config::get("sampli.debug")){
+  print $lines;exit;
+}
+
 header("Content-Type: application/octet-stream");
 header("Cache-Control: public");
 header("Pragma: public");

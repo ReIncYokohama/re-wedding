@@ -6,4 +6,12 @@ java -jar ~/bin/selenium-server-standalone-2.23.1.jar
 
 #テストコード(seleniumを起動後実行)
 php oil test --group=App
+ App 全体
+ User ユーザのテスト
+ Admin ホテル管理者のテスト
 
+#backupの手順
+php oil refine restore:run ~/Download/db.sql
+
+#デバック時
+php oil console

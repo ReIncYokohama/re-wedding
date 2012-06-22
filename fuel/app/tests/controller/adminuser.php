@@ -1,7 +1,7 @@
 <?php
 /**
  * @group App
- * @group User
+ * @group Admin
  * @group Controller
  */
 
@@ -120,4 +120,6 @@ class Test_Controller_Adminuser extends Core_Test
     $this->assertEquals($this->url."/admin/user_info_allentry.php?user_id=".$user->id, $this->_session->url());
         
   }
+  
+  
 }
