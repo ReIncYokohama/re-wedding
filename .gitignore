@@ -35,3 +35,4 @@ fuel/app/config/db.php
 fuel/app/tests/fixture
 fuel/app/tmp/*
 fuel/app/config/sampli.php
+fuel/chromedriver.log
