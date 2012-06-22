@@ -64,6 +64,21 @@ class Core_Test extends PHPUnit_Framework_TestCase{
     //送信ボタンをクリック
     $session->element('id','login_submit')->click();
   }
+  
+  /* postの中身は
+   * 
+   * party_year,party_mon,party_mday,party_hour,party_minute
+   * man_lastname,man_firstname,man_furi_lastname,man_furi_firstname
+   * woman_lastname,woman_firstname,woman_furi_lastname,woman_furi_firstname
+   * room_id_order(room_idのセレクトボックスの順番)
+   * marrige_year,marrige_mon,marrige_mday,marrige_hour,marrige_minute
+   * 
+  */
+  public function createUser($post,$session){
+    $this->superLogin();
+    
+  }
+  
 
   //すでにテキストボックスに入力されているものの動作が異なる
   public function ajaxDateClick(
