@@ -11,8 +11,12 @@ class Core_Str
     return $aRes;
   }
   public function add_str($str,$margin_num = 2,$delimiter = "<br>"){
-    $now = 0;
     $return = "";
+    foreach(Core_Str::mbStringToArray($str) as $s){
+      $return .= $s."<br>";
+    }
+    /* 半角の場合は２文字
+    $now = 0;
     foreach(Core_Str::mbStringToArray($str) as $s){
       if (preg_match("/^[a-zA-Z0-9]+$/",$s)) {
         $now += 1;
@@ -28,7 +32,7 @@ class Core_Str
       }else{
         $return .= $s;
       }
-    }
+      }*/
     return $return;
   }
 }
