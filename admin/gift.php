@@ -2,23 +2,19 @@
 require_once("inc/include_class_files.php");
 include_once("inc/checklogin.inc.php");
 include_once("inc/new.header.inc.php");
+include_once("../fuel/load_classes.php");
+
 $obj = new DBO();
 
-	if($_SESSION['user_type'] == 222)
-	{
-		$btn_disp = " display:none";
-		$ro = " readonly='readonly'";
-	}
-	else
-	{
-		$btn_disp = "";
-		$ro = "";
-	}
+$btn_disp = "";
+$ro = "";
+if (Core_Session::is_normal_staff()) {
+  $btn_disp = " display:none";
+  $ro = " readonly='readonly'";
+}
 
-	$get = $obj->protectXSS($_GET);
-	$post = $obj->protectXSS($_POST);
-
-	$gift_criteria_num = $obj->GetNumRows("spssp_gift_criteria"," 1=1");
+$get = $obj->protectXSS($_GET);
+$post = $obj->protectXSS($_POST);
 
 
 	if($post['update']=="update" || $post['insert']=="insert")
@@ -57,10 +53,8 @@ $obj = new DBO();
 		}
 		echo "<script> alert('引出物・料理の設定が保存されました'); </script>";
 	}
-	if($gift_criteria_num>0)
-	{
-		$gift_criteria_data_row = $obj->GetAllRow("spssp_gift_criteria");
-	}
+
+$giftOption = Model_Giftoption::data();
 
 	$menu_criteria_num = $obj->GetNumRows("spssp_menu_criteria"," 1=1");
 	if($post['insert2']=="insert" || $post['update2']=="update")
@@ -83,12 +77,9 @@ $obj = new DBO();
 	}
 ?>
 <script type="text/javascript">
-var numgiftitems='<?=$gift_criteria_data_row[0]['num_gift_items']?>';
-var numgiftgroups='<?=$gift_criteria_data_row[0]['num_gift_groups']?>';
-//var orderdeadline='<?=$gift_criteria_data_row[0]['order_deadline']?>';
+var numgiftitems='<?=$giftOption->num_gift_items?>';
+var numgiftgroups='<?=$giftOption->num_gift_groups?>';
 var nummenugroups = 3;
-$(document).ready(function(){
-});
 
 function isInteger(id, kind_msg){
  var i;
@@ -117,17 +108,15 @@ function validForm(x)
 {
 	var num_gift_groups  = document.getElementById('num_gift_groups').value;
 	var num_gift_items  = document.getElementById('num_gift_items').value;
-//	var order_deadline  = document.getElementById('order_deadline').value;
+
 	var num_menu_groups  = document.getElementById('num_menu_groups').value;
 	r_flg = 0;
-// UCHIDA EDIT 11/08/01 入力チェック追加
-// AKIKUSA EDIT 11/08/19 2種類以上のエラーの場合の処理を追加
+
 	if(!num_gift_items || num_gift_items == 0)
 	{
 		 alert("引出物商品数を入力してください");
 		 document.getElementById('num_gift_items').focus();
 		 $('#num_gift_items').val(numgiftitems);
-//		 return false;
 	}
 	else
 	{
@@ -137,7 +126,6 @@ function validForm(x)
 			 document.getElementById('num_gift_items').focus();
 			 $('#num_gift_items').val(numgiftitems);
 			 r_flg = 1;
-//			 return false;
 		}
 		if(reg1.test(num_gift_items) == false)
 		{
@@ -148,7 +136,6 @@ function validForm(x)
 			 }
 			 $('#num_gift_items').val(numgiftitems);
 			 r_flg = 1;
-//			 return false;
 		}
 	}
 	if(!num_gift_groups || num_gift_groups == 0)
@@ -160,7 +147,6 @@ function validForm(x)
 		 }
 		 $('#num_gift_groups').val(numgiftgroups);
 		 r_flg = 1;
-//		 return false;
 	}
 	else
 	{
@@ -173,7 +159,6 @@ function validForm(x)
 			 }
 			 $('#num_gift_groups').val(numgiftgroups);
 			 r_flg = 1;
-//			 return false;
 		}
 		if(reg1.test(num_gift_groups) == false)
 		{
@@ -184,7 +169,6 @@ function validForm(x)
 			 }
 			 $('#num_gift_groups').val(numgiftgroups);
 			 r_flg = 1;
-//			 return false;
 		}
 	}
   for(i=1;i<=7;++i){
@@ -240,15 +224,12 @@ function validForm2()
 			 return false;
 		}
 	}
-//	document.menu_criteria_form.submit();
 	document.gift_criteria_form.submit();
 }
-// UCHIDA EDIT 11/08/09 半角英数字１文字のみ有効に設定
-//var gReg = /^[A-Za-z0-9]$/;
+
 var gReg = /[!-~A-Za-z0-9ｦ-ﾝ]$/;
 function checkGroupForm(x)
-{	//alert(x);
-
+{
 	for(var y=1;y<x;y++)
 	{
 		var gval = $("#name"+y).val();
@@ -275,11 +256,7 @@ function checkGroupForm(x)
 				return false;
 			}
 		}
-    }
-	if(error!=1)
-	{
-//		document.gift_criteria_form.submit();
-	}
+  }
 	validForm2();
 }
 
@@ -320,12 +297,12 @@ unset($_SESSION['msg']);
 				<td width="10">：</td>
 				<td>
 
-                <?php if($_SESSION['user_type']==333){?>
-                <input name="num_gift_items" <?=$ro?> type="text" onlyNumeric="i" id="num_gift_items" size="10" maxlength='1' style="text-align:right;border-style: inset;" value="<?=validation_zero($gift_criteria_data_row[0]['num_gift_items'])?>" /> &nbsp;種類（最大7種類まで）
+          <?php if(!Core_Session::is_normal_staff()) {?>
+                <input name="num_gift_items" <?=$ro?> type="text" onlyNumeric="i" id="num_gift_items" size="10" maxlength='1' style="text-align:right;border-style: inset;" value="<?=validation_zero($giftOption->num_gift_items)?>" /> &nbsp;種類（最大7種類まで）
                 <?
 				}else{
 					?>
-					<?=validation_zero($gift_criteria_data_row[0]['num_gift_items'])?>&nbsp;種類 <!-- UCHIDA EDIT 11/08/08 メッセージ変更  -->
+					<?=validation_zero($giftOption->num_gift_items)?>&nbsp;種類
 					<?
 					}
 				?>
@@ -335,13 +312,13 @@ unset($_SESSION['msg']);
 			    <td>引出物グループ数</td>
 				<td>：</td>
 				<td>
-                <?php if($_SESSION['user_type']==333){?>
-                <input name="num_gift_groups" <?=$ro?> type="text"  onlyNumeric="i" id="num_gift_groups" size="10" maxlength='1' style="text-align:right;border-style: inset;" value="<?=validation_zero($gift_criteria_data_row[0]['num_gift_groups'])?>"  />
+          <?php if(!Core_Session::is_normal_staff()) {?>
+                <input name="num_gift_groups" <?=$ro?> type="text"  onlyNumeric="i" id="num_gift_groups" size="10" maxlength='1' style="text-align:right;border-style: inset;" value="<?=validation_zero($giftOption->num_gift_groups)?>"  />
 					&nbsp;グループ（最大7グループまで）
                 <?
 				}else{
 					?>
-					<?=validation_zero($gift_criteria_data_row[0]['num_gift_groups'])?>&nbsp;グループ <!-- UCHIDA EDIT 11/08/08 メッセージ変更  -->
+					<?=validation_zero($giftOption->num_gift_groups)?>&nbsp;グループ
 					<?
 					}
 				?>
@@ -355,7 +332,7 @@ unset($_SESSION['msg']);
 				$xx = 1;
 			foreach($data_rows as $row)
 			{
-                if($_SESSION['user_type']==333){
+          if(!Core_Session::is_normal_staff()) {
 				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' style='text-align:right;border-style:inset' id='name".$xx."' ".$ro." name='name".$xx."' size='6' value='".$row['name']."'>";
 				}else{
 					echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'>".$row['name']."";
@@ -364,7 +341,7 @@ unset($_SESSION['msg']);
 				$xx++;
 			}
 			for (; $xx <=7; $xx++) {
-                if($_SESSION['user_type']==333){
+          if(!Core_Session::is_normal_staff()) {
 				    echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'><input type='text' id='name".$xx."' ".$ro." name='name".$xx."' size='6' style='border-style:inset' value=''>";
 				}else{
 					echo "<div style='float:left;margin-right:10px; margin-bottom:4px;'>";
@@ -377,19 +354,18 @@ unset($_SESSION['msg']);
 			</table>
 
 
-<!-- 			</form> -->
+
 <div style="clear:both;"></div>
 	<br />
 <br />
 <div style="width:1035px;"><h2>料理設定</h2></div>
 
-<!-- 	<form  action="gift.php" method="post" name="menu_criteria_form" onsubmit="return false;"> -->
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr>
     <td width="120">子供料理</td>
     <td width="10">：</td>
     <td>
-    <?php if ($_SESSION['user_type']==333){?>
+    <?php if(!Core_Session::is_normal_staff()) {?>
     <input name="num_menu_groups" type="text" id="num_menu_groups" size="10" <?=$ro?> style="text-align:right;border-style: inset;" value="<?=validation_zero($menu_criteria_data_row[0]['num_menu_groups'])?>" />
       種類(最大3種類まで)
       <?
@@ -422,20 +398,9 @@ unset($_SESSION['msg']);
       <tr>
         <td width="120">&nbsp;</td>
         <td width="10">&nbsp;</td>
-        <td><?php if($gift_criteria_num>0)
-	{?>
 	<input type="hidden" name="update" value="update" />
-	<input type="hidden" name="id" value="<?=$gift_criteria_data_row[0]['id']?>" />
+	<input type="hidden" name="id" value="<?=$giftOption->id?>" />
 	<a href="#" onclick="validForm(<?=$xx?>);"><img src="img/common/btn_save.jpg" alt="登録" width="82" height="22" style=" <?=$btn_disp?>"  /></a>
-
-	<?php }
-	else
-	{
-    ?>
-   
-	<input type="hidden" name="insert" value="insert">
-	<a href="#" onclick="validForm(<?=$xx?>);"><img src="img/common/btn_regist.jpg" alt="登録" width="82" height="22" style=" <?=$btn_disp?>"  /></a>
-	<?php }?>
 
 	</td>
       </tr>

@@ -1443,9 +1443,9 @@ if($updating){
             <?php
             $gift_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".$user_id." order by id ASC");
             $gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".$user_id." order by id ASC");
-			$gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
-			$count_gift = (int)$gift_criteria['num_gift_items'];
-			$count_group = (int)$gift_criteria['num_gift_groups'];
+$giftOption = Model_Giftoption::data();
+$count_gift = $giftOption->num_gift_items;
+$count_group = $giftOption->num_gift_groups;
 			?>
 
         <div style="width:1000px; float:left;" id="div_box_3">
@@ -1458,12 +1458,10 @@ if($updating){
 	   		<table width="100%" cellspacing="1" cellpadding="0" <?=$disp_option6?>>
 	   <?php
 	   if($user_id>0) {
-		  	$yy = 1;
-			foreach($gifts as $gift_name)
-			{
+		  for ($yy=1; $yy<=$count_gift; $yy++) {
+        $gift_name = $gifts[$yy];
         echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' ".$disp_option1." style='padding-top:3px; padding-buttom:3px;border-style:inset;".$disp_option2.$disp_option3."' name='name_gift".$yy."' value='".$gift_name['name']."' size='30'>&nbsp;&nbsp;&nbsp;";
 				echo "<input type='hidden' name='gift_fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
-				$yy++;
 			}
 	   }
 	   else {
@@ -1501,7 +1499,7 @@ if($updating){
 						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro.$disp_option1." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset; $disp_option2 $disp_option3' value=''>";
 						echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
 					  }
-					  $count_gift=$xx-1;
+
 				    }
 				    else {
 					  	$group_sql ="SELECT * FROM spssp_gift_group_default  ORDER BY id asc ;";
@@ -1512,8 +1510,6 @@ if($updating){
 							echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
 							$xx++;
 						}
-
-					   	$count_gift=$xx-1;
 				  }
 				  ?>
 
