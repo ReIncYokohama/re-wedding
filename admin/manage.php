@@ -13,8 +13,6 @@ include_once("inc/new.header.inc.php");
 
 $staff_id = Core_Session::get_staff_id();
 
-$messages = Model_Message::get_by_admin();
-
 $user_id_arr = array();
 
 $search_party_day_start = "";
@@ -59,10 +57,16 @@ if(!Core_Session::is_super()) {
   }
   $users = Model_User::find(array("where"=>$whereArr,"order_by"=>$orderArr));
   $information_arr = array();
+  $messages = array();
   foreach($users as $user){
     $arr = $user->get_hotel_message();
     $information_arr = array_merge($information_arr,$arr);
     array_push($user_id_arr,$user->id);
+    //メッセージ
+    $ms = $user->get_messages_for_hotel();
+    if($ms){
+      $messages = array_merge($messages,$ms);
+    }
   }
 }
 ?>
@@ -351,6 +355,7 @@ echo implode("",$msgs);
 $user_id_array=array();
 foreach($messages as $message)
   {
+    //既に読まれたものを表示しない
     if(in_array($message->user_id,$user_id_array)) continue;
     if($message->is_read()) continue;
     $user_id_array[]=$message->user_id;

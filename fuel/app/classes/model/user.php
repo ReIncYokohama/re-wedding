@@ -156,6 +156,10 @@ class Model_User extends Model_Crud{
       return "<img src=\"".$file."\" />";
     }
   }
+  //
+  public function get_messages_for_hotel(){
+    return Model_Message::get_by_admin_and_user_id($this->id);
+  }
   //お知らせ情報の取得
   public function get_hotel_message(){
     $user_id = $this->id;

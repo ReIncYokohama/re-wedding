@@ -5,9 +5,18 @@ class Model_Message extends Model_Crud{
   static $_fields = array( "id","user_id","title","description","msg_type","message_no","field_1",
                            "field_2","creation_date","display_order","admin_viewed","admin_id","attach","attach_file");
   static public function get_by_admin($whereArray=array()){
+    $whereArray = array();
     array_push($whereArray,array("admin_viewed","=",0));
     return static::find(array("where"=>$whereArray));
   }
+  //admin_idが空の時があり、うまく動作していない
+  static public function get_by_admin_and_staff_id($staff_id){
+    return static::get_by_admin(array(array("admin_id","=",$staff_id)));
+  }
+  static public function get_by_admin_and_user_id($user_id){
+    return static::get_by_admin(array(array("user_id","=",$user_id)));
+  }
+
   public function get_message(){
     $user = Model_User::find_by_pk($this->user_id);
     $man_name = $user->get_image_html("thumb2/man_lastname.png");
