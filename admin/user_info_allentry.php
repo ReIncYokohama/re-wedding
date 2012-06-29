@@ -18,7 +18,7 @@ if($user_id>0){
   $updating = false;
 }
 
-if($user_id>0) {
+if($updating) {
   $user = Model_User::find_by_pk($user_id);
   $user_row = $user->to_array();
 
@@ -1415,8 +1415,8 @@ if($updating){
         <br />
         <h2><div>引出物設定</div></h2>
             <?php
-            $gift_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".$user_id." order by id ASC");
-            $gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".$user_id." order by id ASC");
+$gift_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".$user_id." order by id ASC");
+$gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".$user_id." order by id ASC");
 $giftOption = Model_Giftoption::data();
 $count_gift = $giftOption->num_gift_items;
 $count_group = $giftOption->num_gift_groups;
@@ -1433,7 +1433,7 @@ $count_group = $giftOption->num_gift_groups;
 	   <?php
 	   if($user_id>0) {
 		  for ($yy=1; $yy<=$count_gift; $yy++) {
-        $gift_name = $gifts[$yy];
+        $gift_name = $gifts[$yy-1];
         echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' ".$disp_option1." style='padding-top:3px; padding-buttom:3px;border-style:inset;".$disp_option2.$disp_option3."' name='name_gift".$yy."' value='".$gift_name['name']."' size='30'>&nbsp;&nbsp;&nbsp;";
 				echo "<input type='hidden' name='gift_fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
 			}
@@ -1467,7 +1467,6 @@ $count_group = $giftOption->num_gift_groups;
 						  echo "<tr><td style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro.$disp_option1." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset; $disp_option2 $disp_option3' value='".$row['name']."'>";
 						  echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></td></tr>";
 						  $xx++;
-
 					  }
 		  			  for (; $xx <=$count_group; $xx++) {
 						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro.$disp_option1." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset; $disp_option2 $disp_option3' value=''>";
