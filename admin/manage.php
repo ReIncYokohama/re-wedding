@@ -58,14 +58,19 @@ if(!Core_Session::is_super()) {
   $users = Model_User::find(array("where"=>$whereArr,"order_by"=>$orderArr));
   $information_arr = array();
   $messages = array();
+
   foreach($users as $user){
     $arr = $user->get_hotel_message();
     $information_arr = array_merge($information_arr,$arr);
     array_push($user_id_arr,$user->id);
-    //メッセージ
-    $ms = $user->get_messages_for_hotel();
-    if($ms){
-      $messages = array_merge($messages,$ms);
+
+    //メッセージが非表示の時にメッセージを出さない
+    if(!$IgnoreMessage){
+      //メッセージ
+      $ms = $user->get_messages_for_hotel();
+      if($ms){
+        $messages = array_merge($messages,$ms);
+      }
     }
   }
 }
@@ -264,7 +269,7 @@ function validSearch()
 	date_to = $j("#date_to").val();
 	mname= $j("#man_lastname").val();
 	wname = $j("#woman_lastname").val();
-  
+
 	if(date_from == '' && date_to == '' && mname == '' && wname == '')
 	{
 		alert("検索項目のいづれかを入力してください");
@@ -477,7 +482,7 @@ foreach($messages as $message)
 <?php
 if(!$IgnoreMessage){
 ?>
-                            <td width="60" > 
+                            <td width="60" >
 <?php
 if(!$user->is_read_by_admin()){
 ?>
