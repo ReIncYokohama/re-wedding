@@ -1137,24 +1137,7 @@ if($user_row['mukoyoshi']=='1'){
 
                 $row_width = $user_plan_row['column_number'] *45;
                 echo "<div class='plans' id='plan_".$user_plan_row['id']."' style='width:".$row_width."px;margin:0 auto; display:block;'>";
-                $default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
-                if($user_plan_row['layoutname']=="null"){
-                  echo "<div id='user_layoutname'  style='height:20px;display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'></div>";
-                }elseif($user_plan_row['layoutname']!="")
-                  {
-                    echo "<div id='user_layoutname'  style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$user_plan_row['layoutname']."</div>";
-                  }
-                elseif($default_layout_title!="")
-                  {
-                    echo "<div id='default_layout_title' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$default_layout_title."</div>";
-                  }
-                else
-                  {
-                    echo "<div id='default_layout_title' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>"."　　　"."</div>";
-                  	// echo "<p id='img_default_layout_title' style='text-align:center'><img src='img/sakiji_icon/icon_takasago.gif' width='102' height='22' /></p>";
-                  }
-
-                echo "<div id='input_user_layoutname' style='display:none;'><input type='text' name='layoutname' value='".$user_plan_row['layoutname']."'></div>";
+                echo "<div id='user_layoutname'  style='height:18px;display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$plan->get_layoutname()."</div>";
                 $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
 
                 foreach($tblrows as $tblrow)

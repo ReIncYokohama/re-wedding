@@ -5,11 +5,6 @@ include_once("../admin/inc/class_information.dbo.php");
 include_once("../admin/inc/class_data.dbo.php");
 include_once("../fuel/load_classes.php");
 
-if($_SESSION['printid'] =='')
-{
-  //redirect("index.php");exit;
-}
-
 $obj = new DataClass();
 $objInfo = new InformationClass();
 $this_name = $HOTELID;
@@ -45,12 +40,12 @@ $entity
 html;
 
 $user_info = $user->to_array();
+$plan = Model_Plan::find_one_by_user_id($user->id);
 
 $stuff_info =  $obj->GetSingleRow("spssp_admin", " id=".$user_info['stuff_id']);
 $room_info =  $obj->GetSingleRow("spssp_room", " id=".$user_info['room_id']);
 $party_room_info =  $obj->GetSingleRow("spssp_party_room", " id=".$user_info['party_room_id']);
-$plan_info =  $obj->GetSingleRow("spssp_plan", " user_id=".$user_id);
-$default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
+$plan_info =  $plan->to_array();
 $table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
 
 $ver = $user_info['zip1'];
@@ -100,7 +95,7 @@ $hotel_name = $obj->GetSingleData("super_spssp_hotel ", " hotel_name ", " hotel_
 $data =  $obj->GetSingleRow("super_spssp_hotel", " 1=1");
 include("../admin/inc/return_dbcon.inc.php");
 
-$layoutname = $obj->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
+$layoutname = $plan->get_layoutname();
 $default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
 
 $entityArray['HotelName']			= $hotel_name;
@@ -122,7 +117,7 @@ $entityArray['JIs_num']				= strtoupper($user_info['user_code']);
 $entityArray['DataOutputTime']		= date("Y年m月d日 g:i");
 $entityArray['PlannerName']			= $stuff_info['name'];
 
-$entityArray['TakasagoName']		= ($layoutname)?($layoutname=="null")?"":$layoutname:$default_layout_title;
+$entityArray['TakasagoName']		= $layoutname;
 $entityArray['LayoutColumns']		= $plan_info['column_number'];
 $entityArray['TableLayoutStages']	= $plan_info['row_number'];
 $entityArray['Colortable']	        = "";
@@ -350,7 +345,7 @@ foreach($usertblrows as $tblRows)
       {
         $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
         $tblname = $tblname_row['name'];
-      }	
+      }
   $z=1;
   $sort_usettblrows = array();
   foreach($usertblrows as $data){
@@ -362,14 +357,14 @@ foreach($usertblrows as $tblRows)
 	for($i=1;$i<=count($sort_usettblrows);++$i)
 	{
     $usertbldata = $sort_usettblrows[$i];
-    
+
 		//echo "<pre>";print_r($usertbldata);
 		$guesttblrows = $obj->getRowsByQuery("select * from spssp_plan_details where seat_id = ".(int)$usertbldata['id']." and plan_id = ".$plan_id." order by id ASC");
     //$guesttblrows = $obj->getRowsByQuery("select * from spssp_plan_details where seat_id = ".(int)$usertbldata['id']." order by id ASC");
 		if($guesttblrows[0]['guest_id'])
 		{
       $guest_info = $obj->GetSingleRow("spssp_guest","id=".$guesttblrows[0]['guest_id']." and user_id=".(int)$user_id);
-      
+
       if($guest_info["stage_guest"]!=0){
         $z+=1;
         continue;
@@ -500,7 +495,7 @@ $guest_own_info = array_merge($self_arr,$takasago_arr);
 $takasago_arr = $obj->GetAllRowsByCondition("spssp_guest","self!=1 and stage=1 and user_id=".(int)$user_id." and stage_guest < 5 order by stage_guest");
 if(!$takasago_arr) $takasago_arr = array();
 $guest_own_info = array_merge($guest_own_info,$takasago_arr);
-  
+
 	$xxx=1;
 	foreach($guest_own_info as $own_info)
 	{
@@ -530,14 +525,8 @@ $guest_own_info = array_merge($guest_own_info,$takasago_arr);
       $comment2_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=3 order by gu_char_position");
     }
 
-		//TableName
-		//$value = s($tblname);
-		if(!empty($plan_info['layoutname']))
-			$value = s($plan_info['layoutname']);
-		else
-			$value = s($default_layout_title);
-    if($value=="null") $value = "";
-		$own_array[] = "$value";
+		//Takasago TableName
+		$own_array[] = $layoutname;
 
 		//SeatNumber
 		$value = s($xxx);/////////"seat ".
@@ -637,7 +626,7 @@ $guest_own_info = array_merge($guest_own_info,$takasago_arr);
 		$value = s($own_info['last_name']." ".$own_info['first_name']);
 		$own_array[] = setStrGaijis($value,$gaiji_name_arr);
 
-    
+
 		//com1 com2
 		if($own_info['comment1']&&$own_info['comment2']){
       $comment_gaijis = array_merge($comment1_gaijis,$comment2_gaijis);

@@ -2,11 +2,11 @@
 <div id="table_view" style="margin:auto;width :100%;">
 <div style="margin:0 auto;width:100px;display:block;">
 <div  style="margin: auto;width:80x;border:1px solid gray;white-space:nowrap;text-align:center;height:23px; ">
-<?php if ($table_data["layoutname"]!="") print $table_data["layoutname"]; else echo "&nbsp;&nbsp;&nbsp;";?>
+<?= $plan->get_layoutname() ?>
 </div>
               </div>
 <?php
-      
+
    $table_height = "31";
 $display_number = $item_table_layout_number?true:false;
 $num = 0;
@@ -18,7 +18,7 @@ $num = 0;
 <div style="width:<?php echo $width_all; ?>px;display:left;position:relative;margin:auto;">
     <div style="position:relative;overflow:hidden;<?php echo ($row['ralign']=='C')?'width:'.($width_all*$row['display_rate']).'px;margin:auto;':'';?>">
 <?php
-   
+
     for($j=0;$j<count($row["columns"]);++$j){
       $column = $row["columns"][$j];
       $column_num = count($row["columns"]);

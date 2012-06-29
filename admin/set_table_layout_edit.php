@@ -15,6 +15,7 @@ $user_row = $user->to_array();
 
 $default_plan_id = (int)$get['default_plan'];
 $plan_id = (int)$get['plan_id'];
+$plan = Model_Plan::find_one_by_user_id($user_id);
 $stuff_id= (int)$get['stuff_id'];
 
 if($_GET['action']=="save") {
@@ -35,7 +36,7 @@ if($_GET['action']=="save") {
 			$s1 = split("/", $def);
 			$def_id = $s1[0];
 			$tname = $_POST['table_name_'.$s1[1]];
-      
+
       $tablename = Model_Tablename::find_one_by_name($tname);
       $adminusertable = Model_Adminusertable::find_one_by(array(array("default_table_id","=",$def_id),array("user_id","=",$user_id)));
       if($tablename){
@@ -61,8 +62,7 @@ if($_GET['action']=="save") {
 
 	unset($takasago);
 	$takasago['layoutname'] = $_POST['layoutname'];
-  $plan = Model_Plan::find_one_by_user_id($user_id);
-  if($takasago["layoutname"]=="") $plan->layoutname = null;
+  if($takasago["layoutname"]=="") $plan->layoutname = false;
   else $plan->layoutname = $takasago["layoutname"];
   $plan->save();
 
@@ -103,8 +103,6 @@ else if($plan_id > 0)
 {
 	$tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
 }
-
-//$r = 1;
 
 ?>
 
@@ -326,22 +324,7 @@ include("inc/return_dbcon.inc.php");
             <div style="width:<?=$row_width?>px; margin:0 auto;" id="toptstaa">
 
 			高砂卓名：
-            <?php 
-            $layoutname = $obj->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
-			$default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
-			if($layoutname!="")
-			{
-				$name_input=$layoutname;
-        //空白を入力した際の処理
-        if($name_input=="null") $name_input = "";
-				echo "<input type='text' id='layoutname' name='layoutname' value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
-			}
-			else
-			{
-				$name_input=$default_layout_title;
-				echo "<input type='text' id='layoutname' name='layoutname' value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
-			}
-            ?>
+				<input type='text' id='layoutname' name='layoutname' value='<?php echo $plan->get_layoutname();?>' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>
 			<br /><br />
           <div style="display:none;" class="announcement table_saved">テーブル名を保存しました。</div>
                 <?php
@@ -368,10 +351,10 @@ include("inc/return_dbcon.inc.php");
                     <div class="rows" style="float:left;width:100%;" id="row_<?=$tblrow['row_order']?>">
                     	<div class="row_center" >
 
-                        	<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="C"  
+                        	<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="C"
                         	<?php if($ralign=='C') { ?> checked="checked" <?php } ?> /> 中央配置 &nbsp;
-                        	
-							<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"  
+
+							<input type="radio" id="rowcenter_<?=$tblrow['row_order']?>"  name="rowcenter_<?=$tblrow['row_order']?>" value="R"
 							<?php if($ralign=='N' || $ralign == "L") { ?> checked="checked" <?php } ?>  /> そのまま
 
                     	</div>

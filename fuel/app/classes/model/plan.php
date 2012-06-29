@@ -114,11 +114,13 @@ class Model_Plan extends Model_Crud{
 
   function get_layoutname(){
     $layoutname = $this->layoutname;
-    if($layoutname == ""){
+    if($layoutname === false){
       $option = Model_Option::find_one_by_option_name("default_layout_title");
       $layoutname = $option->option_value;
     }
-    if($layoutname=="null") $layoutname = "";
+    if(!$layoutname){
+      $layoutname = "";
+    }
     return $layoutname;
   }
 
