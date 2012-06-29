@@ -39,7 +39,7 @@ class Model_User extends Model_Crud{
     $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
     return new Core_Date($date->get_timestamp()-$this->limitation_ranking*60*60*24);
   }
-  
+
   public function output_deadline_sekijihyo(){
     $date = $this->get_deadline_sekijihyo();
     return $date->format("%Y/%m/%d")."(".$date->get_wday().")";
@@ -48,11 +48,11 @@ class Model_User extends Model_Crud{
     $date = $this->get_deadline_sekijihyo();
     return $date->format("%Y年%m月%d日");
   }
-  
+
   public function get_gaiji_arr(){
     return Model_Gaijiuser::get_by_user_id($this->id);
   }
-  
+
   public function get_room_name(){
     $name = $this->room_name;
     if(!$name || $name == ""){
@@ -61,18 +61,18 @@ class Model_User extends Model_Crud{
     }
     return $name;
   }
-  
+
   public function get_room(){
     if($this->_room) return $this->_room;
     $this->_room = Model_Room::find_by_pk($this->room_id);
     return $this->_room;
   }
-  
+
   public function get_staffname(){
     $admin = Model_Admin::find_by_pk($this->stuff_id);
     return $admin->name;
   }
-  
+
   //お客様ID利用期限日
   public function past_deadline_access(){
     $limit = Model_Option::get_deadline_access();
@@ -81,7 +81,7 @@ class Model_User extends Model_Crud{
     if($date->past_date(-$limit)) return false;
     return true;
   }
-  
+
   //本発注締切日
   public function past_deadline_honhatyu(){
     if($this->confirm_day_num and $this->confirm_day_num != ""){
@@ -109,7 +109,7 @@ class Model_User extends Model_Crud{
     return true;
   }
 
-  
+
   //引出物締切日
   public function past_deadline_hikidemono(){
     if($this->order_deadline and $this->order_deadline != ""){
@@ -135,7 +135,7 @@ class Model_User extends Model_Crud{
     return true;
   }
 
-  
+
   static public function get_image($name,$user_id){
     $file = Core_Image::get_user_image_dir_relative($user_id).$name;
     if(is_file($file))
@@ -149,7 +149,7 @@ class Model_User extends Model_Crud{
   public function get_image_html($name,$opt=array()){
     $file = static::get_image($name,$this->id);
     if(array_key_exists("width",$opt)){
-      return "<img src=\"".$file."\" width=\"".$opt["width"]."\" />";    
+      return "<img src=\"".$file."\" width=\"".$opt["width"]."\" />";
     }else if(array_key_exists("height",$opt)){
       return "<img src=\"".$file."\" height=\"".$opt["height"]."\" />";
     }else{
@@ -170,7 +170,7 @@ class Model_User extends Model_Crud{
     $man_name = $this->get_image_html("thumb2/man_lastname.png");
     $woman_name = $this->get_image_html("thumb2/woman_lastname.png");
     $user_name = $man_name."・".$woman_name;
-    
+
     $msg_arr = array();
     //仮発注は、仮発注依頼がなくても可能なため、お知らせのフラグとcan_kari_hatyuのフラグは異なる。
     if($plan->is_kari_hatyu_irai() and !$plan->is_kari_hatyu()){
@@ -191,30 +191,30 @@ class Model_User extends Model_Crud{
       array_push($msg_arr,$msg_text);
     }
     if($this->past_deadline_honhatyu() and !$plan->is_hon_hatyu()){
-      $msg_text = "<div><a href='guest_gift.php?user_id=".$user_id."' style='color:blue;'>".
+      $msg_text = "<div><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
         $party_day."  ".$user_name." 様は席次表本発注締切日を過ぎています。</a></div>";
       array_push($msg_arr,$msg_text);
     }
-    
+
     if($plan->is_hikidemono_hatyu_irai() and !$plan->is_hikidemono_hatyu() and !$plan->is_hon_hatyu()){
       $msg_text = "<div><a href='guest_gift.php?user_id=".$user_id."'>".
         $party_day."  ".$user_name." 様から引出物発注依頼がありました。</a></div>";
       array_push($msg_arr,$msg_text);
     }
     if($this->past_deadline_hikidemono() and !$plan->is_hikidemono_hatyu()){
-      $msg_text = "<div><a href='guest_gift.php?user_id=".$user_id."' style='color:blue;'>".
+      $msg_text = "<div><a href='guest_gift.php?user_id=".$user_id."' style='color:red;'>".
         $party_day."  ".$user_name."  様は引出物本発注締切日を過ぎています。</a></div>";
       array_push($msg_arr,$msg_text);
     }
 		return $msg_arr;
   }
   public function get_user_message(){
-    $user_id = $this->id;    
+    $user_id = $this->id;
     $plan = Model_Plan::find_one_by_user_id($this->id);
 
     $msg_arr = array();
     if($this->past_deadline_honhatyu() and !$plan->is_hon_hatyu_irai()){
-			$msg_text = "<div><a href='order.php' style='color:blue;'>席次表の印刷締切日を過ぎております。至急担当までご連絡の上、確認作業をお願いします。</a></div>";
+			$msg_text = "<div><a href='order.php' style='color:red;'>席次表の印刷締切日を過ぎております。至急担当までご連絡の上、確認作業をお願いします。</a></div>";
       array_push($msg_arr,$msg_text);
     }else if($this->past_deadline_honhatyu_alert() and !$plan->is_hon_hatyu_irai()){
 			$msg_text = "<div><a href='order.php' style='color:blue;'>席次表の印刷締切日が近づいております。早めにご確認をお願いします。</a></div>";
@@ -228,14 +228,14 @@ class Model_User extends Model_Crud{
       array_push($msg_arr,$msg_text);
     }
     if($this->past_deadline_hikidemono() and !($plan->is_hikidemono_hatyu_irai() or $plan->is_hikidemono_hatyu() )){
-      $msg_text = "<div><a href='order.php' style='color:blue;'>引出物の発注依頼の締切日を過ぎています。至急担当までご連絡の上、確認作業をお願いします。</a></div>";
+      $msg_text = "<div><a href='order.php' style='color:red;'>引出物の発注依頼の締切日を過ぎています。至急担当までご連絡の上、確認作業をお願いします。</a></div>";
       array_push($msg_arr,$msg_text);
     }else if($this->past_deadline_hikidemono_alert() and !($plan->is_hikidemono_hatyu_irai() or $plan->is_hikidemono_hatyu())){
       $msg_text = "<div><a href='order.php' style='color:blue;'>引出物の発注依頼の締切日が近づいています。早めにご確認をお願いします。</a></div>";
       array_push($msg_arr,$msg_text);
     }
-		return $msg_arr;    
-  }  
+		return $msg_arr;
+  }
   //席次表のフラグ
   public function get_sekijihyo_status(){
     $plan = Model_Plan::find_one_by_user_id($this->id);
@@ -289,11 +289,11 @@ class Model_User extends Model_Crud{
     if($date->past_month_last_day(-1*$hotel["delete_guest"])) return false;
     return true;
   }
-  
-  
+
+
   public function pre_delete(){
     $plan = Model_Plan::find_one_by_user_id($this->id);
-    
+
     DB::query('delete from spssp_plan_details where plan_id='.$plan->id)->execute();
     DB::query('delete from guest_csv_upload_log where user_id='.$this->id)->execute();
     DB::query('delete from spssp_admin_messages where user_id='.$this->id)->execute();
@@ -311,7 +311,7 @@ class Model_User extends Model_Crud{
     DB::query('delete from spssp_table_layout where user_id='.$this->id)->execute();
     DB::query('delete from spssp_user_log where user_id='.$this->id)->execute();
     DB::query('delete from spssp_user_table where user_id='.$this->id)->execute();
-    
+
     $plan->delete();
   }
 
