@@ -46,4 +46,16 @@ class Test_Model_User extends PHPUnit_Framework_TestCase
     $user->confirm_day_num = 6;
     $this->assertEquals($user->past_deadline_honhatyu_alert(), true);
   }
+  public function testNew_username_and_password(){
+    $username = Model_User::new_username();
+    $password = Model_User::new_password();
+
+    if(mb_strlen($username)==10){
+      print "true";
+    }
+
+    $this->assertEquals(mb_strlen($username), 10);
+    $this->assertEquals(mb_strlen($password), 8);
+
+  }
 }

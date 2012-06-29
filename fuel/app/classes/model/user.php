@@ -330,5 +330,16 @@ class Model_User extends Model_Crud{
     $users = Model_User::find(array("order_by"=>array("id"=>"desc"),"limit"=>1));
     return $users[0];
   }
+  static public function new_username(){
+    $username = "aa". rand(10000000,99999999);
+    while(Model_User::find_by_user_id($username)){
+      $username = "aa". rand(10000000,99999999);
+    }
+    return $username;
+  }
+  static public function new_password(){
+    return rand(10000000,99999999);
+  }
+
 
 }

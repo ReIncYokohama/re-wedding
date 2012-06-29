@@ -7,6 +7,7 @@ include_once("inc/class_information.dbo.php");
 include_once("inc/checklogin.inc.php");
 require_once("inc/imageclass.inc.php");
 include_once("../inc/gaiji.image.wedding.php");
+include_once("../fuel/load_classes.php");
 
 $obj = new DBO();
 
@@ -232,12 +233,12 @@ else
     unset($post['party_hour']);
     unset($post['party_minute']);
     unset($post['commail']);
-	unset($post['current_room_id']);
-	unset($post['con_mail']);
+    unset($post['current_room_id']);
+    unset($post['con_mail']);
 
     $user_login_name = "aa".rand();
-    $post['user_id'] = $user_login_name;
-    $post['password'] = rand();
+    $post['user_id'] = Model_User::new_username();
+    $post['password'] = Model_User::new_password();
 
     if((int)$post['confirm_day_num']==0) $post['confirm_day_num'] = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
     if((int)$post['limitation_ranking']==0) $post['limitation_ranking'] = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");

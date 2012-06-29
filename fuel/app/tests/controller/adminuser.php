@@ -58,7 +58,7 @@ class Test_Controller_Adminuser extends Core_Test
     //メールアドレスの入力
     $this->text("mail","kubonagarei@gmail.com");
     $this->text("con_mail","kubonagarei@gmail.com");
-    
+
     //メールの受信にクリック
     //can_subscribe_mail cant_subscribe_mail
     $this->click_check_box("can_subscribe_mail");
@@ -77,49 +77,52 @@ class Test_Controller_Adminuser extends Core_Test
     $this->select_by_order("dowload_options",0);
 
     //サイズ/タイプ 0 A3 1 B4
-    $this->select_by_order("print_size",1); 
+    $this->select_by_order("print_size",1);
 
     //0 横 1 縦
-    $this->select_by_order("print_type",1); 
-    
+    $this->select_by_order("print_type",1);
+
     //本発注締切日
     $this->text("confirm_day_num","7");
-    
+
     //席次表編集利用制限日
     $this->text("limitation_ranking","7");
-    
+
     //印刷会社
     $this->select_by_order("print_company",0);
-    
+
     //引出物商品
     $this->text("item1","引き出物A");
-    
+
     //引出物グループ
     $this->text("name_group1","A");
-    
+
     //引出物締切日
     $this->text("order_deadline","7");
-    
+
     //子供料理
     $this->text("menu_child1","子供A");
 
     //送信ボタンをクリック
     $this->_session->element('id','user_info_submit')->click();
-    
+
     //アラートが一致
     $this->assertEquals("新しいお客様挙式情報が登録されました", $this->_session->alert_text());
-    
+
     //アラートをOKする
     $this->_session->accept_alert();
-    
+
     //5秒待つ
     $this->_session->timeouts()->implicit_wait(5000);
-    
+
     //登録されたことを確認
     $user = Model_User::recent();
     $this->assertEquals($this->url."/admin/user_info_allentry.php?user_id=".$user->id, $this->_session->url());
-        
+
+    //user_idとpasswordが正しく生成されているか？
+    $this->assertEquals(mb_strlen($user->user_id), 10);
+    $this->assertEquals(mb_strlen($user->password), 8);
   }
-  
-  
+
+
 }
