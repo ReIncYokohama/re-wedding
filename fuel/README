@@ -1,11 +1,8 @@
-#テスト設計
-ユーザが使う
-
-#seleniumを使ったテスト(searverの起動)
-java -jar ~/bin/selenium-server-standalone-2.23.1.jar
-
 #テストコード
+
+##seleniumの起動
 php oil refine test:start
+##testの実装
 php oil test --group=App
  App 全体
  User ユーザのテスト
