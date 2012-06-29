@@ -22,9 +22,9 @@ if($user_id>0) {
   $user = Model_User::find_by_pk($user_id);
   $user_row = $user->to_array();
 
-  list($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis) 
+  list($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis)
     = $user->get_gaiji_arr();
-  
+
 	function getGaijis($gaiji_objs){
 		 $returnImage = "";
 		 for($i=0;$i<count($gaiji_objs);++$i){
@@ -57,10 +57,10 @@ if($user_id>0) {
 
 	$query_string="SELECT * FROM spssp_room where (status=1 or id=".$user_row['room_id'].")   ORDER BY display_order ASC ;";
 	$rooms = $obj->getRowsByQuery($query_string);
-  
+
 	$staff_name = $user->get_staffname();
 	$All_staffs = Model_Admin::get_staffs();
-  
+
   $room_name = $user->get_room_name();
   $plan = Model_Plan::find_one_by_user_id($user_id);
 	$user_plan_row = $plan->to_array();
@@ -367,7 +367,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 
 	var email = document.getElementById('mail').value;
 	var com_email = document.getElementById('con_mail').value;
-	
+
 	var reg = /^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/;
 
 	if(document.getElementById("party_day").value=='')
@@ -384,14 +384,14 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
        document.getElementById('party_hour').focus();
        return false;
 	   }
-     
+
      if(str6 > 22 || str6 < 7)
        {
          alert("披露宴時間は7:00〜22:00の間で入力してください");
          document.getElementById('party_hour').focus();
          return false;
        }
-     
+
 		var str7 = document.getElementById("party_minute").value;
 		if(str7 >59)
 		{
@@ -624,7 +624,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 		document.getElementById('order_deadline').focus();
 		return false;
 	}
-	
+
 	if (valid_plan(noUpdate) == false) return false;
 	if (checkGiftForm(count_gift, noUpdate) == false) return false;
 	if (checkGroupForm(count_group, noUpdate) == false) return false;
@@ -639,7 +639,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
   if(!mark){
     alert("引出物商品を入力してください");
     $j("#item1").focus();
-    return false;    
+    return false;
   }
   var mark = false;
   for(i=1;i<=count_group;++i){
@@ -648,7 +648,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
       mark = true;
     }
   }
-  
+
   if(!mark){
     alert("引出物グループを入力してください");
     $j("#name_group1").focus();
@@ -711,7 +711,7 @@ function dowload_options_change() {
         doc.options[0].value = 1;
         doc.options[0].selected = true;
         break;
-    case "3":	  
+    case "3":
         doc.length = 2;
         doc.options[0].text = "A3";
         doc.options[0].value = 1;
@@ -807,8 +807,8 @@ function m_win(url,windowname,width,height) {
   <?php
   }
 ?>
-      	
-            
+
+
             <div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">
             <img src="img/common/navi04.jpg" onMouseOver="this.src='img/common/navi04_over.jpg'"onMouseOut="this.src='img/common/navi04.jpg'" />
             </a></div>
@@ -818,7 +818,7 @@ function m_win(url,windowname,width,height) {
 <img src="img/common/navi03.jpg" onMouseOver="this.src='img/common/navi03_on.jpg'"onMouseOut="this.src='img/common/navi03.jpg'" />
                 </a>
             </div><div class="navi2">
-            
+
 <?php if($_SESSION["super_user"]){　?>
           <div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',700,200); return false;">
 <img src="img/common/navi05.jpg" onMouseOver="this.src='img/common/navi05_on.jpg'"onMouseOut="this.src='img/common/navi05.jpg'" />
@@ -836,7 +836,7 @@ function m_win(url,windowname,width,height) {
         	<div style="width:400px;"><font color="#2052A3"><strong>お客様新規登録</strong></font></div>
         <?php } ?>
         </h2>
-　 <?php if (preg_match("/red/", $disp_option4)) echo '<font color="red">*</font>の付いた項目は必須です。<br />' ?> 
+　 <?php if (preg_match("/red/", $disp_option4)) echo '<font color="red">*</font>の付いた項目は必須です。<br />' ?>
 		　<div style="<?=$disp_option7?>">お客様氏名を更新時、上部のお客様氏名に更新内容が反映されない場合は、ブラウザの更新ボタンを押してください。 </div>
 		<?php
 		//echo "<pre>";
@@ -881,7 +881,7 @@ function m_win(url,windowname,width,height) {
            		<td  colspan="3" align="left" valign="middle" nowrap="nowrap">
 
                		<input name="man_furi_lastname" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_furi_lastname" value="<?=$user_row['man_furi_lastname']?>" size="23" />
-            		<input name="man_furi_firstname" <?=$disp_option1?> style="padding-top:4px;border-style: inset; padding-bottom:4px; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_furi_firstname" value="<?=$user_row['man_furi_firstname']?>" size="23" /> 
+            		<input name="man_furi_firstname" <?=$disp_option1?> style="padding-top:4px;border-style: inset; padding-bottom:4px; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_furi_firstname" value="<?=$user_row['man_furi_firstname']?>" size="23" />
             		様
               </td>
             </tr>
@@ -934,8 +934,8 @@ function m_win(url,windowname,width,height) {
                         }
                     ?>
                 </select>
-                <?php } 
-                else { 
+                <?php }
+                else {
                 	echo $room_name;
                  } ?>
                 </td>
@@ -948,7 +948,7 @@ function m_win(url,windowname,width,height) {
               <td width="160" align="left" valign="middle" nowrap="nowrap" style="text-align:left;" >挙式日</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap" style="text-align:left;" >：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-					<?php 
+					<?php
 						if ($user_row['marriage_day'] == "0000-00-00") {
 							$_md = "";
 						}
@@ -969,7 +969,7 @@ function m_win(url,windowname,width,height) {
                 <td colspan="2" align="left" valign="middle" nowrap="nowrap">挙式時間&nbsp;　：
 				<?php
 				$marriage_time_array = explode(":",$user_row['marriage_day_with_time']);
-				
+
 if ($user_row['marriage_day'] == "0000-00-00") {
   $marriage_time_array[0] = "";
   $marriage_time_array[1] = "";
@@ -980,7 +980,7 @@ if($marriage_time_array[0]=="00" and $marriage_time_array[1]=="00"){
 }
 
 				?>
-				&nbsp; 
+				&nbsp;
 				<input type="text" <?=$disp_option1?> style="width:17px;padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" name="marriage_hour" id="marriage_hour" value="<?=$marriage_time_array[0]?>"> :
 				<input type="text" <?=$disp_option1?> style="width:17px;padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" name="marriage_minute" id="marriage_minute" value="<?=$marriage_time_array[1]?>"> (24時間表記)
                 <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('marriage_day_with_time').value='';">クリア </a>-->
@@ -1021,7 +1021,7 @@ if($marriage_time_array[0]=="00" and $marriage_time_array[1]=="00"){
 						$party_rooms_name = $obj->GetSingleData("spssp_party_room","name"," id=".$user_row['party_room_id']);
 
 					?>
-				&nbsp; 
+				&nbsp;
 				<input name="party_room_id" type="text"  class="input_text" id="party_room_id" style="padding-top:4px; padding-bottom:4px; border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " value="<?=$party_rooms_name?>" size="20" <?=$disp_option1?> />
                 </td>
             </tr>
@@ -1029,13 +1029,13 @@ if($marriage_time_array[0]=="00" and $marriage_time_array[1]=="00"){
               <td width="160" align="left" valign="middle" nowrap="nowrap">新郎新婦高砂席位置</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
-                              <input type="radio" name="mukoyoshi" <?=$disp_option5?> value="0" 
-<?php 
+                              <input type="radio" name="mukoyoshi" <?=$disp_option5?> value="0"
+<?php
 if($user_row['mukoyoshi']!='1'){
   echo "checked='checked'";
 }
 ?> /> 通常
-<input type="radio" name="mukoyoshi" <?=$disp_option5?> value="1" 
+<input type="radio" name="mukoyoshi" <?=$disp_option5?> value="1"
 <?php
 if($user_row['mukoyoshi']=='1'){
   echo "checked='checked'";
@@ -1107,15 +1107,15 @@ if($user_row['mukoyoshi']=='1'){
 					foreach($All_staffs as $staf_rows) {
 				?>
 					<option value="<?=$staf_rows['id']?>" <?php if($staf_rows['id']==$user_row['stuff_id']){echo "selected='selected'";}?> ><?=$staf_rows['name']?></option>
-				<?php } 
+				<?php }
 				} else {
 					foreach($All_staffs as $staf_rows){
 				?>
 					<option value="<?=$staf_rows['id']?>" <?php if($staf_rows['id']==$_SESSION['adminid'] && $_SESSION["super_user"] == false){echo "selected='selected'";}?> ><?=$staf_rows['name']?></option>
-				<?php } 
+				<?php }
 				} ?>
 				</select>
-				<?php } 
+				<?php }
 				else {
 					echo $obj->GetSingleData("spssp_admin","name"," id=".$user_row['stuff_id']);
                 } ?>
@@ -1235,7 +1235,7 @@ if($user_row['mukoyoshi']=='1'){
                         $_nm2 = mb_substr($tblname, 0,2,'UTF-8');
                         $_han = 1;
                         if (preg_match("/^[a-zA-Z0-9]+$/", $_nm2)) $_han = 2; // 先頭の２文字が全て半角
-                        
+
                         echo "<div class='tables' style='".$disp."'><p>".mb_substr ($tblname, 0,$_han,'UTF-8')."</p></div>";
                       }
                     echo "</div></div>";
@@ -1320,7 +1320,7 @@ if($user_row['mukoyoshi']=='1'){
                         <option value="2" <?php if($user_plan_row['dowload_options'] == 2) echo "selected='selected'";?>>席札</option>
                         <option value="3" <?php if($user_plan_row['dowload_options'] == 3) echo "selected='selected'";?>>席次表・席札</option>
                 </select>
-                <?php } 
+                <?php }
                 else {
                 	switch ($user_plan_row['dowload_options']) {
                 		case 1:
@@ -1378,7 +1378,7 @@ if($updating){
 ?>
 <input type="text" name="confirm_day_num" id="confirm_day_num" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$user->confirm_day_num?>" /> 日前
 <?php
-}else{  
+}else{
   $confirm_day_num = Model_Option::get_confirm_day_num();
 ?>
 披露宴日&nbsp;
@@ -1402,14 +1402,14 @@ if($updating){
 ?>
 <input type="text" name="limitation_ranking" id="limitation_ranking" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$user->limitation_ranking?>" /> 日前
 <?php
-}else{  
+}else{
   $deadline_sekijihyo = Model_Option::get_deadline_sekijihyo();
 ?>
 披露宴日&nbsp;
 <input type="text" name="limitation_ranking" id="limitation_ranking" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$deadline_sekijihyo?>" /> 日前
 <?php
 }
-?>				
+?>
 				</td>
 
             </tr>
@@ -1429,7 +1429,7 @@ if($updating){
 						<option value="<?=$company['id']?>" <?php if($user_plan_row['print_company']==$company['id']){echo "selected='selected'";}?> ><?=$company['company_name']?></option>
 						<?php }?>
 				    </select>
-					<?php } 
+					<?php }
 					else {
 						echo $obj->GetSingleData("spssp_printing_comapny","company_name"," id=".$user_plan_row['print_company']);
 					}?>
@@ -1493,7 +1493,7 @@ $count_group = $giftOption->num_gift_groups;
 						  echo "<tr><td style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro.$disp_option1." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset; $disp_option2 $disp_option3' value='".$row['name']."'>";
 						  echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></td></tr>";
 						  $xx++;
-              
+
 					  }
 		  			  for (; $xx <=$count_group; $xx++) {
 						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro.$disp_option1." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset; $disp_option2 $disp_option3' value=''>";
@@ -1530,16 +1530,16 @@ $count_group = $giftOption->num_gift_groups;
 			$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $order_deadline , $flag=2 );
 			?>
 				締切予定日<?=$disp_option4?>：&nbsp;
-				<?php if($user_id>0) {
+				<?php if($updating) {
 				    $weekname = $objMsg->get_youbi_name( $dateBeforeparty );
-				?> 
+				?>
 				<?=$dateBeforeparty?><?=$weekname?>
 				披露宴日&nbsp;
 <input type="text" name="order_deadline" id="order_deadline"  <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$order_deadline?>" /> 日前
-				<?php } 
+				<?php }
 				else { ?>
 				披露宴日&nbsp;
-				<input type="text" name="order_deadline" id="order_deadline" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$order_deadline?>" /> 日前
+				<input type="text" name="order_deadline" id="order_deadline" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=  Model_Option::get_deadline_hikidemono();?>" /> 日前
 				<?php } ?>
             </p>
             <br /><br />
