@@ -2,7 +2,7 @@
 class Core_Commonlogin{
   static public function check_login_time(){
     $data = static::parse_data();
-    //違うユーザがログインしている。20分以内に他のユーザがログを更新している
+    //違うユーザがログインしている。5分以内に他のユーザがログを更新している
     if($data and session_id()!=$data["session"] and $data["unixtime"]+60*5>mktime()){
       return false;
     }
@@ -11,7 +11,7 @@ class Core_Commonlogin{
       static::write();
       return true;
     }
-    //違うユーザがログイン。他のユーザが20分以上ログインしていない
+    //違うユーザがログイン。他のユーザが5分以上ログインしていない
     //同じユーザがログイン
     static::write();
     return true;
