@@ -21,21 +21,21 @@ class Model_Plan extends Model_Crud{
                           "day_limit_2_to_print_com","admin_to_pcompany","order","gift_daylimit","print_size","print_type",
                           "staff_id","final_proof","sekiji_email_send_today_check","p_company_file_up");
   public $cart;
-  
+
   public $_user;
-  
+
   public function get_user(){
     if($this->_user) return $_user;
     $this->_user = Model_User::find_by_pk($this->user_id);
     return $this->_user;
   }
-  
+
   public function authority_rename_table(){
     $editable = $this->editable();
     if($this->rename_table==1 && $editable) return true;
     return false;;
   }
-  
+
   //印刷依頼済み
   public function completed(){
     if($this->admin_to_pcompany==2) return true;
@@ -54,18 +54,18 @@ class Model_Plan extends Model_Crud{
 			return true;
     }
   }
-  
+
   //古い。使わない
   public function pre_ordering(){
-    if ($this->order == 1) return false;  
+    if ($this->order == 1) return false;
     return true;
   }
-  
+
   static public function find_obj_by_user_id($user_id){
     $plan = static::find_by_user_id($user_id);
     return new static($plan);
   }
-  
+
   public function get_seat_data_in_session(){
     if($this->_seat_data) return $this->_seat_data;
     $seat_data = Core_Session::get_seat_data();
@@ -104,14 +104,14 @@ class Model_Plan extends Model_Crud{
       }
     return array($itemids,$seatids);
   }
-  
+
   function get_tables(){
     if($this->_tables) return $this->_tables;
     $table_arr = Model_Usertable::find_by_user_id($this->user_id);
     $this->_tables = $table_arr;
     return $table_arr;
   }
-  
+
   function get_layoutname(){
     $layoutname = $this->layoutname;
     if($layoutname == ""){
@@ -121,7 +121,7 @@ class Model_Plan extends Model_Crud{
     if($layoutname=="null") $layoutname = "";
     return $layoutname;
   }
-  
+
   function get_takasago_guest_obj(){
     $takasago_arr = Model_Guest::find_by_takasago($this->user_id);
     $obj = array();
@@ -162,11 +162,11 @@ class Model_Plan extends Model_Crud{
   public function do_hon_hatyu(){
     $this->admin_to_pcompany = 2;
     $this->order = 2;
-    
+
     $this->gift_daylimit=3;
     $this->dl_print_com_times="";
     $this->ul_print_com_times=1;
-    
+
     $this->save();
   }
   public function do_reset(){
@@ -178,10 +178,10 @@ class Model_Plan extends Model_Crud{
     $this->dl_print_com_times=0;
     $this->ul_print_com_times=0;
     $this->sekiji_email_send_today_check = "";
-    
+
     $this->save();
   }
-  
+
   //印刷会社が席次表をアップロード
   public function upload_sekizihyo(){
     $this->order = 3;
@@ -190,7 +190,7 @@ class Model_Plan extends Model_Crud{
     $this->off_read_uploaded_image_for_user();
     $this->save();
   }
-  
+
   public function can_kari_hatyu_irai(){
     $flag = true;
     if($this->order==1 or $this->order==2){
@@ -310,13 +310,34 @@ class Model_Plan extends Model_Crud{
     }
     return true;
   }
-  
+
   public function sent_hikidemono_limit_mail(){
     if($this->gift_daylimit == 2){
       return true;
     }
     return false;
   }
+
+  public function can_send_sekijihyo_deadline_mail(){
+    $user = Model_User::find_by_pk($this->user_id);
+    if($user->past_deadline_honhatyu($user_id) and !$this->is_hon_hatyu()){
+      if(!$this->sent_sekijihyo_limit_mail()){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public function can_send_hidemono_deadline_mail(){
+    if($user->past_deadline_hikidemono($user_id) and !$plan->is_hikidemono_hatyu()){
+      if(!$plan->sent_hikidemono_limit_mail()){
+        return true;
+      }
+    }
+    return false;
+  }
+
+
   public function do_hikidemono_hatyu_irai(){
     $this->gift_daylimit = 1;
   }
@@ -326,7 +347,7 @@ class Model_Plan extends Model_Crud{
   public function exist_print_company(){
     return ($this->print_company>0);
   }
-  
+
   public function get_sekijihyo_sekifuda_num(){
     if($this->dowload_options == 1){
       return array($this->day_limit_1_to_print_com,"");
@@ -338,5 +359,5 @@ class Model_Plan extends Model_Crud{
       return array($this->day_limit_1_to_print_com,$this->day_limit_2_to_print_com);
     }
   }
-  
+
 }
