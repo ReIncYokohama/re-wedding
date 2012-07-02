@@ -324,7 +324,7 @@ include("inc/return_dbcon.inc.php");
             <div style="width:<?=$row_width?>px; margin:0 auto;" id="toptstaa">
 
 			高砂卓名：
-				<input type='text' id='layoutname' name='layoutname' value='<?php echo $plan->get_layoutname();?>' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>
+				<input type='text' id='layoutname' name='layoutname' value='<?php echo $plan->get_layoutname();?>'>
 			<br /><br />
           <div style="display:none;" class="announcement table_saved">テーブル名を保存しました。</div>
                 <?php
