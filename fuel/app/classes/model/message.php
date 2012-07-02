@@ -36,6 +36,8 @@ class Model_Message extends Model_Crud{
     if($user->stuff_id == $staff_id){
       $this->admin_viewed = 1;
       $this->save();
+      return true;
     }
+    return false;
   }
 }

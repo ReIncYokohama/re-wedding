@@ -339,12 +339,13 @@ function view_adminitem(id,view,modify){ // UCHIDA EDIT 11/08/19 既読にする
 	if(view==1)
 	{
 		$.post("ajax/view_user_message.php",{'id':id,'modify':modify},function(data){
-
-			//alert(data);
+        if(data == "success"){
+          $("#view_"+id).html("");
+        }
 		});
-		if(modify==1) $("#view_"+id).html(""); // UCHIDA EDIT 11/08/19 既読の場合だけ、未読アイコンを消す
+
 	}
-$("#viewadmin"+id).toggle("slow");
+  $("#viewadmin"+id).toggle("slow");
 
 }
 function view_user_msg_count(id)
