@@ -31,4 +31,11 @@ class Model_Message extends Model_Crud{
     }
     return false;
   }
+  public function read($staff_id){
+    $user = Model_User::find_by_pk($this->user_id);
+    if($user->stuff_id == $staff_id){
+      $this->admin_viewed = 1;
+      $this->save();
+    }
+  }
 }
