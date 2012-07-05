@@ -65,32 +65,32 @@ if(!$plan){
 
 $user = Model_User::find_by_pk($user_id);
 $user_info = $user->to_array();
-	
+
 $room_info=$obj->GetSingleRow("spssp_room"," id =".$user_info['room_id']);
 $party_room_info=$obj->GetSingleRow("spssp_party_room"," id =".$user_info['party_room_id']);
-	
+
 
 $staff_name = $obj->GetSingleData("spssp_admin", "name"," id=".$user_info['stuff_id']);
 
-	
+
 $room_rows = $plan_row['row_number'];
 
 $row_width = $row_width-6;
-	
+
 $table_width = (int)($row_width/2);
 $table_width = $table_width-6;
-	
+
 $room_tables = $plan_row['column_number'];
 $room_width = (int)(184*(int)$room_tables)."px";
 
-	
+
 $row_width = (int)(182*$room_tables);
 $content_width = ($row_width+235).'px';
-	
+
 $room_seats = $plan_row['seat_number'];
-	
+
 $num_tables = $room_rows * $room_tables;
-	
+
 $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id = ".(int)$user_id);
 
 include("admin/inc/main_dbcon.inc.php");
@@ -162,7 +162,7 @@ $html.='<td width="40%">
 	<table>
 				<tr>
 					<td align="left"  valign="middle" style="text-align:center;" colspan="3">
-		
+
 '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="pdf_hikidemono_head.png",$extra="/").'
 			</td>
 				</tr>
@@ -177,13 +177,13 @@ $html.='<td width="40%">
 				</tr>
 
 				<tr style="text-align:left;font-size:25px;">
-					<td align="left"  valign="middle" style="text-align:center;">制限開始日</td><td colspan="2">'.strftime('%Y年%m月%d日',strtotime(jp_decode($confirm_date_main))).' 
+					<td align="left"  valign="middle" style="text-align:center;">制限開始日</td><td colspan="2">'.strftime('%Y年%m月%d日',strtotime(jp_decode($confirm_date_main))).'
 					</td>
 				</tr>
 			</table>
-		
+
 </td><td width="15%" style="font-size:15px;">';
-	
+
 $html.='</td>';
 $html.='</tr></table>';
 
@@ -290,7 +290,7 @@ function draw_html($plan_id,$html,$pdf,$num,$max_width){
     $table_width = 300*$num;
     $html = get_center_table($max_width,$table_width,$html);
   }
-  
+
   $pdf->writeHTML($html, true, false, true, false, '');
 }
 
@@ -349,8 +349,12 @@ $date = date("His");
 $user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
 $this_name = "sekijihyo".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
+
+if(Config::get("sampli.debug")){
+  $pdf->Output($this_name.'.pdf');
+  exit;
+}
+
 $pdf->Output($this_name.'.pdf', 'D');
-//testcode
-//$pdf->Output($this_name.'.pdf');
-?> 
+?>
 

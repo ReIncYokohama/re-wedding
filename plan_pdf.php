@@ -69,29 +69,29 @@ $user_info = $user->to_array();
 
 $room_info=$obj->GetSingleRow("spssp_room"," id =".$user_info['room_id']);
 $party_room_info=$obj->GetSingleRow("spssp_party_room"," id =".$user_info['party_room_id']);
-	
+
 
 $staff_name = $obj->GetSingleData("spssp_admin", "name"," id=".$user_info['stuff_id']);
 
-	
+
 $room_rows = $plan_row['row_number'];
 
 $row_width = $row_width-6;
-	
+
 $table_width = (int)($row_width/2);
 $table_width = $table_width-6;
-	
+
 $room_tables = $plan_row['column_number'];
 $room_width = (int)(184*(int)$room_tables)."px";
-	
-	
+
+
 $row_width = (int)(182*$room_tables);
 $content_width = ($row_width+235).'px';
-	
+
 $room_seats = $plan_row['seat_number'];
-	
+
 $num_tables = $room_rows * $room_tables;
-	
+
 $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id = ".(int)$user_id);
 
 $table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
@@ -105,7 +105,7 @@ $html.='<table style="font-size:20px;"><tr>';
 $html.='<td width="35%"><table><tr><td><table>';
 
 //$group_rows = Model_Giftgroup::find_by_user_id($user_id);
-//$guests = 
+//$guests =
 
 $guest_models_takasago = Model_Guest::find_by_takasago($user_id);
 $takasago_guests = Core_Arr::func($guest_models_takasago,"to_array");
@@ -136,7 +136,7 @@ $tr1.='<td  style="text-align:center;border:1px solid black;"  width="20">予備
 $tr2.='<td  style="text-align:center;border:1px solid black;"  width="20">-</td>
 	<td  style="text-align:center;border:1px solid black;"  width="20">'.$sum.'</td>
   	</tr>';
-	
+
 $html.= $tr1.$tr2.'</table></td></tr>';
 
 
@@ -175,7 +175,7 @@ foreach($gift_rows as $gift)
     $subhtml.='<td style="text-align:center;border:1px solid black;" width="20">'.$num_reserve.'</td>';
     $subhtml.='<td style="text-align:center;border:1px solid black;" width="20">'.$num_gifts.'</td>';
     $subhtml.='</tr>';
-    
+
   }
 	/* 引出物　商品数　終了 */
 if($have_gift) $html.='<tr><td style="text-align:center; border:1px solid black;" width="16" rowspan="7" height="10">商品名</td>'.$subhtml;
@@ -228,7 +228,7 @@ $html.='<td width="32%">
 	<table>
 				<tr>
 					<td align="left"  valign="middle" style="text-align:center;" colspan="3">
-		
+
 '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="pdf_hikidemono_head.png",$extra="").'
 			</td>
 				</tr>
@@ -245,16 +245,16 @@ $html.='<td width="32%">
 				</tr>
 
 				<tr style="text-align:left;font-size:25px;">
-					<td align="left"  valign="middle" style="text-align:center;">制限開始日</td><td colspan="2">'.$deadline_sekijihyo.' 
+					<td align="left"  valign="middle" style="text-align:center;">制限開始日</td><td colspan="2">'.$deadline_sekijihyo.'
 					</td>
 				</tr>
 			</table>
-		
+
 </td><td width="15%" style="font-size:15px;">
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ';
 
 $subhtml = '<table  style="font-size:'.($main_font_size_top).';"><tr><td colspan="2" style="text-align:center;border:1px solid black;" width="200" height="10"><b>料理数</b></td></tr>';
@@ -268,7 +268,7 @@ foreach($attend_guests as $guest)
 {
   if($guest["menu_grp"]>0){
     ++$totalsum;
-  }  
+  }
 }
 
 $subhtml.='<tr><td style="text-align:center;border:1px solid black;" width="100" height="10">大人</td><td style="text-align:center;border:1px solid black;" width="100">'.($total_guest_with_bride-$totalsum).'</td></tr>';
@@ -282,21 +282,21 @@ foreach($menu_groups as $mg)
       {
         if($guest["menu_grp"]==$mg["id"]){
           ++$menu_num;
-        }  
+        }
       }
 		if ($mg['name']!="") {
 		    $subhtml.='<tr>
 		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.mb_convert_kana($mg['name'],"K","utf8").'</td>
 		      <td  align="center" style="text-align:center;border:1px solid black;" height="10">'.$menu_num.'</td>
-		    </tr>';	
+		    </tr>';
 		}
-	}	
+	}
 
 $subhtml.='<tr>
       <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" height="10">合計</td>
       <td  align="center" bgcolor="#FFFFFF" style="text-align:center;border:1px solid black;" height="10">'.$total_guest_with_bride.'</td>
-    </tr>';	
-	
+    </tr>';
+
 $subhtml.='</table>';
 
 $html .= get_right_table(500,200,$subhtml);
@@ -337,7 +337,7 @@ $width = count($viewArray)*140;
 if($width>$max_width) $width = $max_width;
 $gift_table = get_center_table((count($viewArray)-1)*150,150,$gift_table);
 
-$width += 30;
+$width += 90;
 $takasago_name = $table_data["layoutname"];
 $takasago_num_text = ($takasago_menu_num!=0)?($takasago_num-$takasago_menu_num)."+".$takasago_menu_num:$takasago_num;
 if(count($viewArray) == 2){
@@ -388,7 +388,7 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_n
       $gift_table .= $gift_tr1.$gift_tr2.'</table>';
       $numText = ($column["child_menu_num"]==0)?count($column["guests"]):(count($column["guests"])-$column["child_menu_num"])."+".$column["child_menu_num"];
 
-      $gift_table = get_left_table(220,180,$gift_table);      
+      $gift_table = get_left_table(220,180,$gift_table);
       $subhtml .= "<td><table cellspacing=\"0\" cellspadding=\"0\" width=\"300\"><tr><td align=\"center\" style=\"font-size:25px;\">".$table_name."[".$numText."名]</td><td>".$gift_table."</td></tr><tr style=\"font-size:10px;\"><td></td></tr>";
 
       for($k=0;$k<$seat_row*2;++$k){
@@ -430,17 +430,17 @@ function draw_html($plan_id,$html,$pdf,$num,$max_width){
     $html = get_center_table($max_width,$table_width,$html);
   }
   $samplefile="sam_".$plan_id."_".rand()."_".time().".txt";
-  
+
   $handle = fopen("cache/".$samplefile, "x");
-  
+
   if(fwrite($handle, $html)==true)
     {
       fclose($handle);
       $utf8text = file_get_contents("cache/".$samplefile, false);
     }
-  
+
   @unlink("cache/".$samplefile);
-  
+
   $pdf->writeHTML($utf8text, true, false, true, false, '');
 }
 
@@ -498,7 +498,10 @@ $date = date("His");
 $user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
 $this_name = "hikidemono".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
+
+if(Config::get("sampli.debug")){
+  $pdf->Output($this_name.'.pdf');
+  exit;
+}
 $pdf->Output($this_name.'.pdf',"D");
-//testcode
-//$pdf->Output($this_name.'.pdf');
-?> 
+?>
