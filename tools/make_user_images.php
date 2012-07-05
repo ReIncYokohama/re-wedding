@@ -1,8 +1,8 @@
 <?php
-include_once("../admin/inc/dbcon.inc.php");
-include_once("../admin/inc/class.dbo.php");
-include_once("../inc/gaiji.image.wedding.php");
-include_once("../fuel/load_classes.php");
+include_once(dirname(__FILE__)."../admin/inc/dbcon.inc.php");
+include_once(dirname(__FILE__)."../admin/inc/class.dbo.php");
+include_once(dirname(__FILE__)."../inc/gaiji.image.wedding.php");
+include_once(dirname(__FILE__)."../fuel/load_classes.php");
 //fuelのパッケージがcommandの場合うまく働かないため直接指定。
 include_once(dirname(__FILE__)."/../fuel/app/classes/core/image.php");
 $_SERVER["SCRIPT_FILENAME"] = __FILE__;
@@ -24,7 +24,7 @@ foreach($users as $user){
   $user_row = $user->to_array();
   $user_respect = "";
   echo $user_row["id"].":".$user_row["man_lastname"];
-  list($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis) 
+  list($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis)
     = $user->get_gaiji_arr();
   make_user_images($user->id,$user->man_lastname,$user->man_firstname,$user->woman_lastname,
     $user->woman_firstname,$man_lastname_gaijis,$man_firstname_gaijis,$woman_lastname_gaijis,$woman_firstname_gaijis);
@@ -33,7 +33,7 @@ foreach($users as $user){
   make_guest_images($user->id,$man_guest->id,$user->man_lastname,$user->man_firstname,$man_guest->comment1,"","様",
                     $man_lastname_gaijis,$man_firstname_gaijis,array(),array());
 
-    //ゲストとして新婦を登録    
+    //ゲストとして新婦を登録
   $woman_guest = Model_Guest::find_by(array(array("user_id","=",$user->id),array("sex","=","Female"),array("self","=","1")));
   make_guest_images($user->id,$woman_guest->id,$user->woman_lastname,$user->woman_firstname,$woman_guest->comment1,"","様",
                     $woman_lastname_gaijis,$woman_firstname_gaijis,array(),array());
