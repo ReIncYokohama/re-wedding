@@ -526,7 +526,7 @@ $guest_own_info = array_merge($guest_own_info,$takasago_arr);
     }
 
 		//Takasago TableName
-		$own_array[] = $layoutname;
+		$own_array[] = s($layoutname);
 
 		//SeatNumber
 		$value = s($xxx);/////////"seat ".
