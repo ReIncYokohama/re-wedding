@@ -52,7 +52,7 @@ if($_GET["action"]=="pastPrintUpload"){
 ?>
 
 <script type="text/javascript">
-var reg = /^[A-Za-z0-9]{1,32}$/; // UCHIDA EDIT 11/07/26
+var reg = /^[A-Za-z0-9]{1,32}$/;
 
 function login_admin()
 {
