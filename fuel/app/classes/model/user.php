@@ -52,6 +52,15 @@ class Model_User extends Model_Crud{
   public function get_gaiji_arr(){
     return Model_Gaijiuser::get_by_user_id($this->id);
   }
+  public function get_gaiji_gu_char_img_arr(){
+    $gaijis = Model_Gaijiuser::get_by_user_id($this->id);
+    return array(
+      Core_Arr::array_pluck("gu_char_img",$gaijis[0]),
+      Core_Arr::array_pluck("gu_char_img",$gaijis[1]),
+      Core_Arr::array_pluck("gu_char_img",$gaijis[2]),
+      Core_Arr::array_pluck("gu_char_img",$gaijis[3])
+    );
+  }
 
   public function get_room_name(){
     $name = $this->room_name;
