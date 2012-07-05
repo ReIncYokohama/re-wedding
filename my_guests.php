@@ -39,10 +39,10 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete' )
 include_once("admin/inc/class_message.dbo.php");
 $message_class = new MessageClass();
 
-if(Core_Session::is_admin()){
+if(Core_Session::is_staff()){
   Model_Csvuploadlog::access_by_hotel($user_id);
 }
-if(!Core_Session::is_admin()){
+if(!Core_Session::is_user()){
   Model_Csvuploadlog::access_by_user($user_id);
 }
 

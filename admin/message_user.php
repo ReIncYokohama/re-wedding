@@ -2,6 +2,8 @@
 require_once("inc/include_class_files.php");
 include_once("inc/checklogin.inc.php");
 include_once("inc/new.header.inc.php");
+include_once("../fuel/load_classes.php");
+
 $obj = new DBO();
 $objInfo = new InformationClass();
 
@@ -19,14 +21,9 @@ if($user_id > 0) {
 	}
 
 	$modify = 0;
-	$stuff_id = $_GET['stuff_id'];
-	if ($stuff_id=="" || $stuff_id=="0") {
-		$modify = 1; // 未読を既読にする
-	}
-	$user_type = $_SESSION['user_type'];
-
-
-//echo "<script> alert('$stuff_id $where'); </script>";
+  if(!Core_Session::is_super()){
+		$modify = 1; // 未読を既読にする    
+  }
 
 	$data_per_page=5;
 	$current_page=(int)$_GET['page'];
@@ -342,12 +339,13 @@ function view_adminitem(id,view,modify){ // UCHIDA EDIT 11/08/19 既読にする
 	if(view==1)
 	{
 		$.post("ajax/view_user_message.php",{'id':id,'modify':modify},function(data){
-
-			//alert(data);
+        if(data == "success"){
+          $("#view_"+id).html("");
+        }
 		});
-		if(modify==1) $("#view_"+id).html(""); // UCHIDA EDIT 11/08/19 既読の場合だけ、未読アイコンを消す
+
 	}
-$("#viewadmin"+id).toggle("slow");
+  $("#viewadmin"+id).toggle("slow");
 
 }
 function view_user_msg_count(id)

@@ -38,13 +38,13 @@ while($row=mysql_fetch_array($data_rows))
     }
     if($plan->can_send_hikidemono_deadline_mail()){
       if (DEBUG!=NULL) echo "hikidemono_limit_mail::".$row['id']." : ".$row['party_day']." : ".$row['man_lastname']." : ".$row['woman_lastname']." : ".$row['mail']." : ".$row["party_day"]."<br />\n";
-			objMail -> hikidemono_day_limit_over_admin_notification_mail($user_id);
+			$objMail -> hikidemono_day_limit_over_admin_notification_mail($user_id);
       if(!$plan->is_hikidemono_hatyu_irai()){
         $objMail -> hikidemono_day_limit_over_user_notification_mail($user_id);
       }
 			unset($post);
-			post['gift_daylimit']=2;
-			obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
+			$post['gift_daylimit']=2;
+			$obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
     }
 	}
 if (DEBUG!=NULL) echo "<br />\n";

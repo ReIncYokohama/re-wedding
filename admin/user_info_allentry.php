@@ -502,7 +502,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
     }
 	if(str4 > 23)
 	{
-    alert("挙式時間は0から22の間で入力してください");
+    alert("披露宴時間は7:00〜22:00の間で入力してください");
 		document.getElementById('marriage_hour').focus();
 		return false;
 	}

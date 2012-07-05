@@ -330,9 +330,10 @@ class Model_Plan extends Model_Crud{
     return false;
   }
 
-  public function can_send_hidemono_deadline_mail(){
-    if($user->past_deadline_hikidemono($user_id) and !$plan->is_hikidemono_hatyu()){
-      if(!$plan->sent_hikidemono_limit_mail()){
+  public function can_send_hikidemono_deadline_mail(){
+    $user = Model_User::find_by_pk($this->user_id);
+    if($user->past_deadline_hikidemono($user_id) and !$this->is_hikidemono_hatyu()){
+      if(!$this->sent_hikidemono_limit_mail()){
         return true;
       }
     }
