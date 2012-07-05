@@ -106,8 +106,9 @@ foreach($information_arr as $msg){
   echo $msg;
 }
 echo $objMsg->get_message_csv_import_for_user($user_id);
+
 $new_msg_count = $obj->GetRowCount("spssp_admin_messages","user_view=0 and  user_id='".$user_id."'");
-if($new_msg_count>0)
+if(!$IgnoreMessage && $new_msg_count>0)
   {
 ?>
 			<div><a href="admin_messages.php">未読メッセージがあります。</a></div>
