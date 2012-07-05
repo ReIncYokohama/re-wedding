@@ -219,7 +219,7 @@ function validSearch()
   
 	if(date_from == '' && date_to == '' && mname == '' && wname == '')
 	{
-		alert("検索項目のいづれかを入力してください");
+		alert("検索項目のいずれかを入力してください");
 		return false;
 	}else {
     
