@@ -63,7 +63,7 @@ function login_admin()
 		return false;
 	}
  	if(email_validate(adminid) == false) {
-		alert("使用できない記号が入力されています");
+		alert("ログインIDが間違っています。正しいパスワードを入力してください。");
 		document.getElementById('userID').focus();
 		return false;
 	 }
