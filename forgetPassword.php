@@ -131,7 +131,10 @@ function cancelAction()
 {
 	document.passwordForgetForm.email.value="";
 }
-alert('<?php echo $msg;?>');
+if("<?php echo $msg;?>" != ""){
+  alert('<?php echo $msg;?>');
+}
+
 </script>
 </head>
 
