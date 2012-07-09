@@ -32,6 +32,7 @@ if($updating) {
 		 }
 		 return $returnImage;
 	}
+
 	function getGaijisInputEle($gaiji_objs){
 		 $html = "";
 		 for($i=0;$i<count($gaiji_objs);++$i){
@@ -39,6 +40,7 @@ if($updating) {
 		 }
 		 return $html;
 	}
+
 	function getHiddenValue($type,$img,$gid,$gsid){
 		  $typeArray = array("male_first","male_last","female_first","female_last");
 		  $value = $typeArray[$type];
@@ -47,6 +49,7 @@ if($updating) {
 		  $html .= "<input type='hidden' name='".$value."_gaiji_gid[]' value='".$gid."'>";
 		  return $html;
 	}
+
 	function getAllGaijisInputEle($gaijis){
 		 $html = "";
 		 for($i=0;$i<count($gaijis);++$i){
