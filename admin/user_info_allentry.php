@@ -1480,12 +1480,6 @@ $count_group = $giftOption->num_gift_groups;
 	       <div float:left; valign:top" >
 			<p>
             <?php
-            if ($user_id>0) {
-            	$order_deadline = $user_row['order_deadline'];
-            }
-            else {
-            	$order_deadline = $gift_criteria['order_deadline'];
-            }
 			$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $order_deadline , $flag=2 );
 			?>
 				締切予定日<?=$disp_option4?>：&nbsp;
@@ -1494,7 +1488,7 @@ $count_group = $giftOption->num_gift_groups;
 				?>
 				<?=$dateBeforeparty?><?=$weekname?>
 				披露宴日&nbsp;
-<input type="text" name="order_deadline" id="order_deadline"  <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$order_deadline?>" /> 日前
+<input type="text" name="order_deadline" id="order_deadline"  <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$user->order_deadline?>" /> 日前
 				<?php }
 				else { ?>
 				披露宴日&nbsp;
