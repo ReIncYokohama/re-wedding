@@ -38,7 +38,7 @@ Wedding Plus
 
 html;
 
-            $e = new Email($dataRow["mail"],"［ウエディングプラス］パスワードを変更しました",$mailbody);
+            $e = new Email($dataRow["mail"],"［ウエディングプラス］パスワードを送信しました",$mailbody);
             $e->from = "wedding-plus@wedding-plus.net";
             $e->fromName = "Wedding Plus";
             $e->noneFromName = true;
