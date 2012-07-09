@@ -106,7 +106,6 @@
           }
           if (seat.state === "insert") {
             this.send_data.splice(i, 1);
-            this.send_data = this.send_data.splice(i, 1);
             return;
           }
         }

@@ -70,7 +70,6 @@ class Re.models.usertable
           break
         if seat.state is "insert"
           @send_data.splice(i,1)
-          @send_data = @send_data.splice i,1
           return
     @send_data.push
       state:"delete"
