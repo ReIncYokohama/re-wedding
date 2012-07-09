@@ -99,9 +99,22 @@ class Model_User extends Model_Crud{
       $limit = Model_Option::get_deadline_honhatyu();
     }
     $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
-    //締切日を過ぎた日なので１日足している。
     if($date->past_date($limit)) return false;
     return true;
+  }
+
+  //本発注締切日
+  public function equal_deadline_honhatyu(){
+    if($this->confirm_day_num and $this->confirm_day_num != ""){
+      $limit = $this->confirm_day_num;
+    }else{
+      $limit = Model_Option::get_deadline_honhatyu();
+    }
+    //締め切り日の翌日にメールを送るため
+    $limit -= 1;
+    $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
+    if($date->equal_date($limit)) return true;
+    return false;
   }
 
   //本発注締切日から７日前
@@ -130,6 +143,20 @@ class Model_User extends Model_Crud{
     if($date->past_date($limit)) return false;
     return true;
   }
+
+  //引出物締切日
+  public function equal_deadline_hikidemono(){
+    if($this->order_deadline and $this->order_deadline != ""){
+      $limit = $this->order_deadline;
+    }else{
+      $limit = Model_Option::get_deadline_hikidemono();
+    }
+    $limit -= 1;
+    $date = Core_Date::create_from_string($this->party_day,"%Y-%m-%d");
+    if($date->equal_date($limit)) return true;
+    return false;
+  }
+
   //引出物締切日から７日前
   public function past_deadline_hikidemono_alert(){
     if($this->order_deadline and $this->order_deadline != ""){

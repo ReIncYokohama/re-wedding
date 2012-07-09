@@ -322,24 +322,19 @@ class Model_Plan extends Model_Crud{
 
   public function can_send_sekijihyo_deadline_mail(){
     $user = Model_User::find_by_pk($this->user_id);
-    if($user->past_deadline_honhatyu($user_id) and !$this->is_hon_hatyu()){
-      if(!$this->sent_sekijihyo_limit_mail()){
-        return true;
-      }
+    if($user->equal_deadline_honhatyu($user_id) and !$this->is_hon_hatyu()){
+      return true;
     }
     return false;
   }
 
   public function can_send_hikidemono_deadline_mail(){
     $user = Model_User::find_by_pk($this->user_id);
-    if($user->past_deadline_hikidemono($user_id) and !$this->is_hikidemono_hatyu()){
-      if(!$this->sent_hikidemono_limit_mail()){
-        return true;
-      }
+    if($user->equal_deadline_hikidemono($user_id) and !$this->is_hikidemono_hatyu()){
+      return true;
     }
     return false;
   }
-
 
   public function do_hikidemono_hatyu_irai(){
     $this->gift_daylimit = 1;
