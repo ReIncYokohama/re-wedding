@@ -30,7 +30,7 @@ if($plan->is_kari_hatyu_irai() or $plan->is_kari_hatyu()){
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>招待者リストcsv一括アップロード</title>
   <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
-  
+
   <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 </head>
 <body>
@@ -45,7 +45,7 @@ if($plan->is_kari_hatyu_irai() or $plan->is_kari_hatyu()){
 // 配列 $csv の文字コードをSJIS-winからUTF-8に変換
 if($_FILES["csv"]["tmp_name"]){
   $tmp = fopen($_FILES['csv']['tmp_name'], "r");
-  
+
   while ($text = fgets($tmp, "1024")) {
     $datas = explode(",",$text);
     $line = array();
@@ -67,7 +67,7 @@ if(count($csv)==0 && !$_GET["force"]){
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>招待者リストcsv一括アップロード</title>
   <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
-  
+
   <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 </head>
 <body>
@@ -130,7 +130,7 @@ if(!$force){
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>招待者リストcsv一括アップロード</title>
   <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
-  
+
   <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 </head>
 <body>
@@ -141,7 +141,7 @@ if(!$force){
     <div class="top_box1">
     <div id="message"><?=$messageText?>
     </div>
-      
+
 </div>
 <div align="center" class="top_box1">
   <div align="center"><a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_close.jpg" alt="閉じる" width="82" height="22" /></a>
@@ -149,20 +149,20 @@ if(!$force){
 </div>
 </body>
 </html>
-      
+
       <?php
 
       exit();
-    
+
   }
-  
+
   $same_user = false;
   for($i=0;$i<count($csv);++$i){
     $csv[$i] = $obj->protectXSS($csv[$i]);
     $data = array();
     $last_name = $csv[$i][1];
     $first_name = $csv[$i][3];
-    
+
     $user_row2 = $obj->GetSingleRow("spssp_guest"," last_name = '$last_name' and first_name = '$first_name' and user_id = '$user_id'");
     if($user_row2){
       $_SESSION["csv"] = $csv;
@@ -171,7 +171,7 @@ if(!$force){
       break;
     }
   }
-  
+
   if($same_user){
       ?>
 
@@ -181,7 +181,7 @@ if(!$force){
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>招待者リストcsv一括アップロード</title>
   <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
-  
+
   <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 </head>
 <body>
@@ -204,15 +204,15 @@ if(!$force){
 </body>
 </html>
 
-      
-      <?php    
+
+      <?php
     exit();
   }
 }
 
 for($i=0;$i<count($csv);++$i){
   $csv[$i] = $obj->protectXSS($csv[$i]);
-  
+
   //データが空白の場合、カラムの代入をしない。
   if($csv[$i][0] == "" && (!$csv[$i][1] || $csv[$i][1] == "")) continue;
 
@@ -221,7 +221,7 @@ for($i=0;$i<count($csv);++$i){
     $data["sex"] = "Female";
   }else{
     $data["sex"] = "Male";
-  } 
+  }
   if($csv[$i][0] == "") $data["sex"] = null;
   $data["last_name"] = check_sjis($csv[$i][1]);
   $data["furigana_last"] = $csv[$i][2];
@@ -247,11 +247,11 @@ for($i=0;$i<count($csv);++$i){
     }
   }
   if($respect_title=="なし") $respect_title = "";
-  
+
   $data["comment1"] = check_sjis($csv[$i][6]);
   $data["comment2"] = check_sjis($csv[$i][7]);
   $data["user_id"] = $user_id;
-  
+
   $guest_id = $obj->InsertData("spssp_guest",$data);
 
   make_guest_images($user_id,$guest_id,$data["last_name"],$data["first_name"],$data["comment1"],$data["comment2"],$respect_title,
@@ -361,7 +361,7 @@ $obj->set_log_csv_guest($user_id,$plan_id);
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>招待者リストcsv一括アップロード</title>
   <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
-  
+
   <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 </head>
 <body>
@@ -371,8 +371,8 @@ $obj->set_log_csv_guest($user_id,$plan_id);
 <h2>招待者リストcsv一括アップロード</h2>
     <div class="top_box1">
   アップロードに成功しました。
-  
-  
+
+
 </div>
       <div align="center"><a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_close.jpg" alt="閉じる" width="82" height="22" /></a></div>
 
