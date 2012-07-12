@@ -1480,7 +1480,7 @@ $count_group = $giftOption->num_gift_groups;
 	       <div float:left; valign:top" >
 			<p>
             <?php
-			$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $order_deadline , $flag=2 );
+			$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $user->order_deadline , $flag=2 );
 			?>
 				締切予定日<?=$disp_option4?>：&nbsp;
 				<?php if($updating) {
