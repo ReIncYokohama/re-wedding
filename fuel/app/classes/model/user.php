@@ -366,6 +366,25 @@ class Model_User extends Model_Crud{
     $users = Model_User::find(array("order_by"=>array("id"=>"desc"),"limit"=>1));
     return $users[0];
   }
+  public function make_image(){
+    include_once(DOCROOT."../inc/gaiji.image.wedding.php");
+    list($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis)
+    = $this->get_gaiji_gu_char_img_arr();
+
+    make_user_images($this->id,$this->man_lastname,$this->man_firstname,$this->woman_lastname,
+      $this->woman_firstname,$man_lastname_gaijis,$man_firstname_gaijis,$woman_lastname_gaijis,$woman_firstname_gaijis);
+
+    //ゲストとして新郎を登録
+    $man_guest = Model_Guest::find_by(array(array("user_id","=",$this->id),array("sex","=","Male"),array("self","=","1")));
+    $man_guest = $man_guest[0];
+    make_guest_images($this->id,$man_guest->id,$this->man_lastname,$this->man_firstname,$man_guest->comment1,$man_guest->comment2,"様",
+                    $man_lastname_gaijis,$man_firstname_gaijis,array(),array());
+    //ゲストとして新婦を登録
+    $woman_guest = Model_Guest::find_by(array(array("user_id","=",$user->id),array("sex","=","Female"),array("self","=","1")));
+    $woman_guest = $woman_guest[0];
+    make_guest_images($this->id,$woman_guest->id,$this->woman_lastname,$this->woman_firstname,$woman_guest->comment1,$woman_guest->comment2,"様",
+                    $woman_lastname_gaijis,$woman_firstname_gaijis,array(),array());
+  }
   static public function new_username(){
     $username = "aa". rand(10000000,99999999);
     while(Model_User::find_by_user_id($username)){

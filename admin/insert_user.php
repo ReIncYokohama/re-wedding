@@ -153,18 +153,9 @@ if(isset($user_id) && $user_id > 0)
     set_user_gaiji_position($user_id,$post["man_lastname"],1,$_POST["male_last_gaiji_img"],$_POST["male_last_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["woman_firstname"],2,$_POST["female_first_gaiji_img"],$_POST["female_first_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["woman_lastname"],3,$_POST["female_last_gaiji_img"],$_POST["female_last_gaiji_gsid"]);
-
-    //外字およびpdf生成に必要なファイルの作成
-    make_user_images($user_id,$post["man_lastname"],$post["man_firstname"],$post["woman_lastname"],$post["woman_firstname"],$_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],$_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"]);
-    //ゲストとして新郎を登録
-    make_guest_images($user_id,$man_guest_id,$post["man_lastname"],$post["man_firstname"],$guest_array["comment1"],"","様",
-                      $_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],array(),array());
-
-    //ゲストとして新婦を登録
-    make_guest_images($user_id,$woman_guest_id,$post["woman_lastname"],$post["woman_firstname"],$guest_array2["comment1"],"","様",
-                      $_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"],array(),array());
-
-
+    
+    $user = Model_User::find_by_pk($user_id);
+    $user->make_image();
 
 	$menu_groups = $obj->GetAllRowsByCondition("spssp_gift","user_id=".$user_id);
 	$count_item = count($gift_post);

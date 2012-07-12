@@ -1023,7 +1023,7 @@ function make_guest_images($user_id,$guest_id,$last_name,$first_name,$comment1,$
   $comment1_gaiji_pathArray = getGaijiPathArray($comment1_gaiji_img);
   $comment2_gaiji_pathArray = getGaijiPathArray($comment2_gaiji_img);
 
-  make_text_save($last_name,$lastname_gaiji_pathArray,$user_folder."last_name.png",15,150,$colorArray);
+  make_text_save($last_name."tes",$lastname_gaiji_pathArray,$user_folder."last_name.png",15,150,$colorArray);
   make_text_save($last_name.$respect,$lastname_gaiji_pathArray,$user_folder."last_name_respect.png",15,150,$colorArray);
   make_text_save($first_name,$firstname_gaiji_pathArray,$user_folder."first_name.png",15,150,$colorArray);
   make_text_save($comment1,$comment1_gaiji_pathArray,$user_folder."comment1.png",15,150,$colorArray);
