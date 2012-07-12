@@ -380,7 +380,7 @@ class Model_User extends Model_Crud{
     make_guest_images($this->id,$man_guest->id,$this->man_lastname,$this->man_firstname,$man_guest->comment1,$man_guest->comment2,"様",
                     $man_lastname_gaijis,$man_firstname_gaijis,array(),array());
     //ゲストとして新婦を登録
-    $woman_guest = Model_Guest::find_by(array(array("user_id","=",$user->id),array("sex","=","Female"),array("self","=","1")));
+    $woman_guest = Model_Guest::find_by(array(array("user_id","=",$this->id),array("sex","=","Female"),array("self","=","1")));
     $woman_guest = $woman_guest[0];
     make_guest_images($this->id,$woman_guest->id,$this->woman_lastname,$this->woman_firstname,$woman_guest->comment1,$woman_guest->comment2,"様",
                     $woman_lastname_gaijis,$woman_firstname_gaijis,array(),array());
