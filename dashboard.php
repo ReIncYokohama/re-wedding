@@ -111,7 +111,7 @@ $new_msg_count = $obj->GetRowCount("spssp_admin_messages","user_view=0 and  user
 if(!$IgnoreMessage && $new_msg_count>0)
   {
 ?>
-			<div><a href="admin_messages.php" style="color:blue;">未読メッセージがあります。</a></div>
+			<div><a href="admin_messages.php">未読メッセージがあります。</a></div>
 		<?php
 			}
 		?>
