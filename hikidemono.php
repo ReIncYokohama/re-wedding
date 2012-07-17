@@ -92,7 +92,7 @@ $count_group = (int)$gift_criteria['num_gift_groups'];
  function validForm(gift_cnt)
  {
    var reg = /^[0-9]{1,}$/;
-   
+
    for(var i=1;i<=gift_cnt;i++){
      var tgt = "yobisu_" + i;
      var el = document.getElementById(tgt)
@@ -193,12 +193,12 @@ $count_group = (int)$gift_criteria['num_gift_groups'];
          validForm();
        }
        else {
-         window.location = "logout.php";	
+         window.location = "logout.php";
        }
    }
    else {
      alert("タイムアウトしました");
-     window.location = "logout.php";	
+     window.location = "logout.php";
    }
  }
 
@@ -334,75 +334,73 @@ $count_group = (int)$gift_criteria['num_gift_groups'];
      <tr>
      <?php
 
-     $i=0;
+     $color_flag=0;
      $gift_cnt = 0;
      foreach($gift_rows as $gift)
      {
        if($gift['name']!="") {
-       $gift_cnt++;
-       ?>
-             <tr height="20px" <?php if($i%2==0){?>style="background:#FFFFFF"<?php }else{?>style="background:#ECF4FB"<?php }?>>
-       <td align="center" style="text-align:center"><b><?=$gift['name'];?></b></td>
-             <td ><div style="text-align:center">
-       <?php
-       $j=0;
-       $gift_arr = array();
-       $groups = array();
-       for($i=0;$i<$count_group;++$i){
-         $row = $group_rows[$i];
-         $gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$row['id']);
+         $gift_cnt++;
+         ?>
+         <tr height="20px" <?php if($color_flag%2==0){?>style="background:#FFFFFF"<?php }else{?>style="background:#ECF4FB"<?php }?>>
+           <td align="center" style="text-align:center"><b><?=$gift['name'];?></b></td>
+           <td ><div style="text-align:center">
+           <?php
+           $j=0;
+           $gift_arr = array();
+           $groups = array();
+           for($i=0;$i<$count_group;++$i){
+             $row = $group_rows[$i];
+             $gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$row['id']);
 
-         $gift_arr = explode("|",$gift_ids);
+             $gift_arr = explode("|",$gift_ids);
 
-         if(in_array($gift['id'],$gift_arr))
-         {
-           array_push($groups,$row['id']);
-         }
+             if(in_array($gift['id'],$gift_arr))
+             {
+               array_push($groups,$row['id']);
+             }
 
-         if (!$editable) {
-           $_disable=" disabled='disabled' ";
-           $_readonly="readonly='readonly' style='border: #ffffff; ";
-         }
-         else {
-           $_disable="";
-           $_readonly="";
-         }
-       if ($row['name']!="") {
-       ?>
-               <div style="width:50px; float:left; text-align:left; padding:2px;"><b> <?=$row['name']?> </b> 
+             if (!$editable) {
+               $_disable=" disabled='disabled' ";
+               $_readonly="readonly='readonly' style='border: #ffffff; ";
+             }else {
+               $_disable="";
+               $_readonly="";
+             }
+             if ($row['name']!="") {
+             ?>
+               <div style="width:50px; float:left; text-align:left; padding:2px;"><b> <?=$row['name']?> </b>
                <input type="checkbox" <?=$_disable?> value="<?=$gift['id']?>" id="group_<?=$j?>" <?php if(in_array($gift['id'],$gift_arr)) { ?> checked="checked" <?php } ?> name="group_<?=$row['id']?>[]" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></div>
              <?php
-       }
-         $j++;
-                 }
-
-         $num_gifts = 0;
-         if(!empty($groups))
-         {
-
-           foreach($groups as $grp)
-           {
-             $num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp);
-             $num_gifts += $num_guests_groups;
+             }
+             $j++;
            }
-           unset($groups);
-         }
 
-         $num_gifts = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift['id']);
-         if (!$editable) {
-           if ($i%2==0)	$_readonly.=" background-color: #ffffff; text-align:right; '";
-           else 			$_readonly.=" background-color: #ebf4fb; text-align:right; '";
-         }
-       ?></div>
-             </td>
-       <td align="center"><input type="text" id="yobisu_<?=$gift_cnt?>" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right;border-style:inset;" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+           $num_gifts = 0;
+           if(!empty($groups))
+           {
 
-             </tr>
+             foreach($groups as $grp)
+             {
+               $num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp);
+               $num_gifts += $num_guests_groups;
+             }
+             unset($groups);
+           }
+
+           $num_gifts = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift['id']);
+           if (!$editable) {
+             if ($color_flag%2==0)	$_readonly.=" background-color: #ffffff; text-align:right; '";
+             else 			$_readonly.=" background-color: #ebf4fb; text-align:right; '";
+           } ?>
+           </div>
+         </td>
+         <td align="center"><input type="text" id="yobisu_<?=$gift_cnt?>" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right;border-style:inset;" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+
+       </tr>
        <?php
-       $i++;
+       $color_flag++;
        }
-     }
-       ?>
+     } ?>
  </table>
          <input type="hidden" value="OK" name="submitok">
      <?php
