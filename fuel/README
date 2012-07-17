@@ -9,7 +9,7 @@ php oil test --group=App
  Admin ホテル管理者のテスト
 
 #backupの手順
-php oil refine restore:run ~/Download/db.sql
+php oil refine restore:run ~/Download/db.sql kubonagarei@gmail.com
 
 #デバック時
 php oil console

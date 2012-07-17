@@ -90,8 +90,24 @@ else {
 	$disp_option4 = '<font color="red">*</font>';
 	$query_string="SELECT * FROM spssp_room where status=1 ORDER BY display_order ASC ;";
 	$rooms = $obj->getRowsByQuery($query_string);
+  if(count($rooms) == 0){
+    Helper_App::redirect("rooms.php","会場レイアウトを入力して下さい");
+  }
+
   $All_staffs = Model_Admin::get_staffs();
+  if(count($All_staffs) == 0){
+    Helper_App::redirect("staffs.php","スタッフを入力して下さい");
+  }
+
 }
+
+$sql_company = "select * from spssp_printing_comapny ORDER BY display_order";
+$company_results = $obj->getRowsByQuery($sql_company);
+if(count($All_staffs) == 0){
+  Helper_App::redirect("printing_comapny.php","印刷会社を入力して下さい");
+}
+
+
 
 ?>
 <style>
@@ -748,7 +764,6 @@ function m_win(url,windowname,width,height) {
     <div style="font-size:11px; width:250px;">
 
   <?php if($user_id>0) echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1")."・";?>
-
   <?php if($user_id>0) echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1")."  様";?>
 
     </div>
@@ -1379,10 +1394,6 @@ if($updating){
 
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-                	<?php
-					$sql_company = "select * from spssp_printing_comapny ORDER BY display_order";
-					$company_results = $obj->getRowsByQuery($sql_company);
-					?>
 					<?php if ($disp_option1=="") { ?>
 					<select name="print_company" id="print_company" style="border-style: inset;width:200px;">
 						<?php foreach($company_results as $company){?>

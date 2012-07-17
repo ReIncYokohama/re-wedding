@@ -200,7 +200,8 @@ class Model_User extends Model_Crud{
   public function get_hotel_message(){
     $user_id = $this->id;
     $plan = Model_Plan::find_one_by_user_id($user_id);
-		$user_plan_info = $plan->to_array();
+    if(!$plan) return array();
+    $user_plan_info = $plan->to_array();
     $party_day = Core_Date::convert_month_and_date($this->party_day);
 
     $man_name = $this->get_image_html("thumb2/man_lastname.png");
