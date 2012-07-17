@@ -222,7 +222,7 @@ for($i=0;$i<count($takasago_guests);++$i){
   }
 }
 
-$width += 30;
+$width += 90;
 $takasago_name = $table_data["layoutname"];
 $takasago_num_text = ($takasago_menu_num!=0)?($takasago_num-$takasago_menu_num)."+".$takasago_menu_num:$takasago_num;
 $subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td width="30"></td><td style="font-size:40px;" align="left" colspan="'.(count($viewArray)).'">'.$takasago_name.'【 '.$takasago_num_text.'名 】</td></tr><tr><td></td>';
