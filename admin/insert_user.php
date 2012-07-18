@@ -153,7 +153,7 @@ if(isset($user_id) && $user_id > 0)
     set_user_gaiji_position($user_id,$post["man_lastname"],1,$_POST["male_last_gaiji_img"],$_POST["male_last_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["woman_firstname"],2,$_POST["female_first_gaiji_img"],$_POST["female_first_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["woman_lastname"],3,$_POST["female_last_gaiji_img"],$_POST["female_last_gaiji_gsid"]);
-    
+
     $user = Model_User::find_by_pk($user_id);
     $user->make_image();
 
@@ -162,9 +162,16 @@ if(isset($user_id) && $user_id > 0)
     for($i=1;$i<=$count_item;$i++)
 	{
 		unset($array);
-		$array['name'] = $gift_post[$i];
-		$obj->UpdateData("spssp_gift", $array," user_id=".$user_id." and id=".(int)$gift_post_id[$i]);
+    if(!$gift_post_id[$i] || $gift_post_id[$i] == ""){
+  	  $array['user_d']=$user_id;
+      $array['name'] = $gift_post[$i];
+      $obj->InsertData("spssp_gift", $array);
+    }else{
+      $array['name'] = $gift_post[$i];
+      $obj->UpdateData("spssp_gift", $array," user_id=".$user_id." and id=".(int)$gift_post_id[$i]);
+    }
 	}
+
 	$menu_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".$user_id);
 
 	$count_group = count($group_post);
