@@ -103,7 +103,7 @@ else {
 
 $sql_company = "select * from spssp_printing_comapny ORDER BY display_order";
 $company_results = $obj->getRowsByQuery($sql_company);
-if(count($All_staffs) == 0){
+if(count($company_results) == 0){
   Helper_App::redirect("printing_comapny.php","印刷会社を入力して下さい");
 }
 
