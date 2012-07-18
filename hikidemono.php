@@ -334,14 +334,13 @@ $count_group = (int)$gift_criteria['num_gift_groups'];
      <tr>
      <?php
 
-     $color_flag=0;
      $gift_cnt = 0;
      foreach($gift_rows as $gift)
      {
        if($gift['name']!="") {
          $gift_cnt++;
          ?>
-         <tr height="20px" <?php if($color_flag%2==0){?>style="background:#FFFFFF"<?php }else{?>style="background:#ECF4FB"<?php }?>>
+         <tr height="20px" style="background:#FFFFFF">
            <td align="center" style="text-align:center"><b><?=$gift['name'];?></b></td>
            <td ><div style="text-align:center">
            <?php
@@ -389,8 +388,7 @@ $count_group = (int)$gift_criteria['num_gift_groups'];
 
            $num_gifts = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift['id']);
            if (!$editable) {
-             if ($color_flag%2==0)	$_readonly.=" background-color: #ffffff; text-align:right; '";
-             else 			$_readonly.=" background-color: #ebf4fb; text-align:right; '";
+             $_readonly.=" background-color: #ffffff; text-align:right; '";
            } ?>
            </div>
          </td>
@@ -398,7 +396,6 @@ $count_group = (int)$gift_criteria['num_gift_groups'];
 
        </tr>
        <?php
-       $color_flag++;
        }
      } ?>
  </table>
