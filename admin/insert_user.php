@@ -163,7 +163,7 @@ if(isset($user_id) && $user_id > 0)
 	{
 		unset($array);
     if(!$gift_post_id[$i] || $gift_post_id[$i] == ""){
-  	  $array['user_d']=$user_id;
+  	  $array['user_id']=$user_id;
       $array['name'] = $gift_post[$i];
       $obj->InsertData("spssp_gift", $array);
     }else{

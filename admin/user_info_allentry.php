@@ -103,8 +103,8 @@ else {
 
 $sql_company = "select * from spssp_printing_comapny ORDER BY display_order";
 $company_results = $obj->getRowsByQuery($sql_company);
-if(count($All_staffs) == 0){
-  Helper_App::redirect("printing_comapny.php","印刷会社を入力して下さい");
+if(count($company_results) == 0){
+  Helper_App::redirect("printing_company.php","印刷会社を入力して下さい");
 }
 
 
@@ -1429,11 +1429,18 @@ $count_group = $giftOption->num_gift_groups;
 	   		<table width="100%" cellspacing="1" cellpadding="0" <?=$disp_option6?>>
 	   <?php
 	   if($user_id>0) {
-		  for ($yy=1; $yy<=$count_gift; $yy++) {
-        $gift_name = $gifts[$yy-1];
-        echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy."' ".$disp_option1." style='padding-top:3px; padding-buttom:3px;border-style:inset;".$disp_option2.$disp_option3."' name='name_gift".$yy."' value='".$gift_name['name']."' size='30'>&nbsp;&nbsp;&nbsp;";
-				echo "<input type='hidden' name='gift_fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
-			}
+					  $xx = 1;
+       foreach($gifts as $gift)
+         {
+           if($xx == $count_gift+1) break;
+           echo "<tr><td style='text-align:left;'><input type='text' id='item".$xx."' ".$disp_option1." style='padding-top:3px; padding-buttom:3px;border-style:inset;".$disp_option2.$disp_option3."' name='name_gift".$xx."' value='".$gift['name']."' size='30'>&nbsp;&nbsp;&nbsp;";
+           echo "<input type='hidden' name='gift_fieldId".$xx."' value='".$gift['id']."'></td></tr>";
+           $xx++;
+         }
+       for (; $xx <=$count_gift; $xx++) {
+         echo "<tr><td style='text-align:left;'><input type='text' id='item".$xx."' ".$disp_option1." style='padding-top:3px; padding-buttom:3px;border-style:inset;".$disp_option2.$disp_option3."' name='name_gift".$xx."' value='' size='30'>&nbsp;&nbsp;&nbsp;";
+         echo "<input type='hidden' name='gift_fieldId".$xx."' value=''></td></tr>";
+       }
 	   }
 	   else {
 		   	for ($yy=1; $yy<=$count_gift; $yy++) {
