@@ -1,7 +1,7 @@
 <?php
-	require_once("inc/class.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	include_once("inc/new.header.inc.php");
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
+include_once("inc/new.header.inc.php");
 	$obj = new DBO();
 
 	$get = $obj->protectXSS($_GET);
@@ -147,21 +147,7 @@ window.onkeydown = function(event) {
 }
 
 </script>
-<div id="topnavi">
-    <?php
-include("inc/main_dbcon.inc.php");
-$hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-include("inc/return_dbcon.inc.php");
-?>
-<h1><?=$hotel_name?></h1>
-
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
-
+<?php include_once("inc/topnavi.php");?>
 <div id="container">
 
 	<div style="clear:both;"></div>

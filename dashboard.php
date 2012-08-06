@@ -2,9 +2,11 @@
 session_start();
 require_once("admin/inc/include_class_files.php");
 include_once("inc/checklogin.inc.php");
-
+include_once("fuel/load_classes.php");
 
 $user_id = $_SESSION['userid'];
+$user = Model_User::find_by_pk($user_id);
+
 $obj = new DBO();
 $objMsg = new MessageClass();
 $get = $obj->protectXSS($_GET);
@@ -23,7 +25,6 @@ $day = ($time - mktime(0,0,0,$date["mon"],$date["mday"],$date["year"]))/(60*60*2
 $limit_day = floor($day);
 
 $date= $party_date->format('Y/m/d h:i A');
-
 
 $roomName = $obj->GetSingleData("spssp_room","name"," id = ".$user_data["room_id"]);
 
@@ -96,26 +97,25 @@ function japanyDateFormateForDashboard($rawTime, $time_24h=0) {
 	<div id="whatsnew_area" style="height:auto">
 		<ul>
 		<?php
-		if(count($login_rows)==1 && $admin_login[admin_id]==0)
+  if(count($login_rows)==1 && !Core_Session::is_staff() && !Core_Session::is_super())
 		echo "<div>ご結婚おめでとうございます。印刷物・引出物のリスト作成をよろしくお願いします。</div>";
 		?>
-		<?php
-			echo $objMsg->get_user_side_order_print_mail_system_status_msg($user_id);	// 席次・席札確認 → お知らせメッセージ
-			echo $objMsg->get_user_side_daylimit_system_status_msg($user_id);			// 引出物確認     → お知らせメッセージ
-      echo $objMsg->get_message_csv_import_for_user($user_id);
-		?>
-		<?php
+<?php
+$information_arr = $user->get_user_message();
+foreach($information_arr as $msg){
+  echo $msg;
+}
+echo $objMsg->get_message_csv_import_for_user($user_id);
 
-		$new_msg_count = $obj->GetRowCount("spssp_admin_messages","user_view=0 and  user_id='".$user_id."'");
-		if($new_msg_count>0)
-			{
-		?>
+$new_msg_count = $obj->GetRowCount("spssp_admin_messages","user_view=0 and  user_id='".$user_id."'");
+if(!$IgnoreMessage && $new_msg_count>0)
+  {
+?>
 			<div><a href="admin_messages.php">未読メッセージがあります。</a></div>
 		<?php
 			}
 		?>
 		</ul>
-   		<!--ADMIN MESSAGES LIMIT UP TO 5-->
 	</div>
 
 

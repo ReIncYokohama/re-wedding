@@ -5,31 +5,27 @@ include_once("../admin/inc/class_information.dbo.php");
 include_once("../admin/inc/class_data.dbo.php");
 include_once("../fuel/load_classes.php");
 
-if($_SESSION['printid'] =='')
-{
-  redirect("index.php");exit;
-  }
-
 $obj = new DataClass();
 $objInfo = new InformationClass();
 $this_name = $HOTELID;
 $get = $obj->protectXSS($_GET);
 
 $user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
-//$user_id = $_GET["user_id"];
 
-if($user_id>0)
-{
-	//OK
+$user = Model_User::find_by_pk($user_id);
+
+if(!$user && Config::get("sampli.debug")){
+  $user_id = $_GET["user_id"];
+  $user = Model_User::find_by_pk($_GET["user_id"]);
 }
-else
+
+if(!$user)
 {
 	exit;
 }
+
 function s($text){
-  $text = chop($text);
-  if($text=="") return "";
-  return mb_convert_encoding($text,"SJIS","UTF8");
+  return Core_Code::convert_shiftjis($text);
 }
 /*$entityArray2 = array(" HotelName , WeddingDate , WeddingTime , WeddingVenues , ReceptionDate, ReceptionTime , ReceptionHall , GroomName,  fullPhoneticGroom , BrideFullName , BrideFullPhonetic , Categories, ProductName ,  Printsize,tableArrangement , JIs_num, DataOutputTime , PlannerName , LayoutColumns , TableLayoutStages , Colortable , Max , NumberAttendance "); */
 
@@ -43,14 +39,13 @@ $lines .= <<<html
 $entity
 html;
 
-$user = Model_User::find_by_pk($user_id);
 $user_info = $user->to_array();
+$plan = Model_Plan::find_one_by_user_id($user->id);
 
 $stuff_info =  $obj->GetSingleRow("spssp_admin", " id=".$user_info['stuff_id']);
 $room_info =  $obj->GetSingleRow("spssp_room", " id=".$user_info['room_id']);
 $party_room_info =  $obj->GetSingleRow("spssp_party_room", " id=".$user_info['party_room_id']);
-$plan_info =  $obj->GetSingleRow("spssp_plan", " user_id=".$user_id);
-$default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
+$plan_info =  $plan->to_array();
 $table_data = $obj->get_table_data_detail_with_hikidemono($user_id);
 
 $ver = $user_info['zip1'];
@@ -100,7 +95,7 @@ $hotel_name = $obj->GetSingleData("super_spssp_hotel ", " hotel_name ", " hotel_
 $data =  $obj->GetSingleRow("super_spssp_hotel", " 1=1");
 include("../admin/inc/return_dbcon.inc.php");
 
-$layoutname = $obj->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
+$layoutname = $plan->get_layoutname();
 $default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
 
 $entityArray['HotelName']			= $hotel_name;
@@ -122,7 +117,7 @@ $entityArray['JIs_num']				= strtoupper($user_info['user_code']);
 $entityArray['DataOutputTime']		= date("Y年m月d日 g:i");
 $entityArray['PlannerName']			= $stuff_info['name'];
 
-$entityArray['TakasagoName']		= ($layoutname)?($layoutname=="null")?"":$layoutname:$default_layout_title;
+$entityArray['TakasagoName']		= $layoutname;
 $entityArray['LayoutColumns']		= $plan_info['column_number'];
 $entityArray['TableLayoutStages']	= $plan_info['row_number'];
 $entityArray['Colortable']	        = "";
@@ -328,21 +323,9 @@ function getGaijis($gaiji_objs){
 }
 
 //gaiji 関連の関数
-function setStrGaijis($str,$gaiji_objs){  
-  $strArray = explode(s("＊"),$str);
-  $returnStr = "";
-  for($i=0;$i<count($gaiji_objs);++$i){
-    preg_match("/(.*?)\.(.*?)/",$gaiji_objs[$i]["gu_char_img"],$matches);
-    $first = substr($matches[1],0,2);
-    $second = substr($matches[1],2,2);
-    $data = pack("c*",hexdec($first),hexdec($second));
-    $returnStr .= $strArray[$i].$data;
-  }
-  $returnStr .= $strArray[count($strArray)-1];
-  return $returnStr;
+function setStrGaijis($str,$gaiji_objs){
+  return Core_Code::insert_gaijicode($str,$gaiji_objs);
 }
-
-
 
 $o=1;$cl22 = "";
 foreach($usertblrows as $tblRows)
@@ -362,7 +345,7 @@ foreach($usertblrows as $tblRows)
       {
         $tblname_row = $obj->GetSingleRow("spssp_tables_name","id=".$new_name_row['table_name_id']);
         $tblname = $tblname_row['name'];
-      }	
+      }
   $z=1;
   $sort_usettblrows = array();
   foreach($usertblrows as $data){
@@ -374,14 +357,14 @@ foreach($usertblrows as $tblRows)
 	for($i=1;$i<=count($sort_usettblrows);++$i)
 	{
     $usertbldata = $sort_usettblrows[$i];
-    
+
 		//echo "<pre>";print_r($usertbldata);
 		$guesttblrows = $obj->getRowsByQuery("select * from spssp_plan_details where seat_id = ".(int)$usertbldata['id']." and plan_id = ".$plan_id." order by id ASC");
     //$guesttblrows = $obj->getRowsByQuery("select * from spssp_plan_details where seat_id = ".(int)$usertbldata['id']." order by id ASC");
 		if($guesttblrows[0]['guest_id'])
 		{
       $guest_info = $obj->GetSingleRow("spssp_guest","id=".$guesttblrows[0]['guest_id']." and user_id=".(int)$user_id);
-      
+
       if($guest_info["stage_guest"]!=0){
         $z+=1;
         continue;
@@ -466,9 +449,12 @@ foreach($usertblrows as $tblRows)
 		$cl22[] = "$value";
 
 		//guest-type 区分
-		$guest_type = $obj->GetSingleData("spssp_guest_type", "name","id=".$guest_info['guest_type']);
+    include("../admin/inc/main_dbcon.inc.php");
+    $guest_type_obj = Model_Guesttype::find_by_pk($guest_info['guest_type']);
+    $guest_type = $guest_type_obj["name"];
 		$value = s($guest_type);
 		$cl22[] = "$value";
+    include("../admin/inc/return_dbcon.inc.php");
 
 		//LastName	外字
 		$value = s($guest_info['last_name']);
@@ -495,7 +481,6 @@ foreach($usertblrows as $tblRows)
 			$value = s($guest_info['comment2']);
       $cl22[] = setStrGaijis($value,$comment2_gaijis);
     }else $cl22[] = "";
-
 		$guest_info="";
 		$z++;
 	}
@@ -510,7 +495,7 @@ $guest_own_info = array_merge($self_arr,$takasago_arr);
 $takasago_arr = $obj->GetAllRowsByCondition("spssp_guest","self!=1 and stage=1 and user_id=".(int)$user_id." and stage_guest < 5 order by stage_guest");
 if(!$takasago_arr) $takasago_arr = array();
 $guest_own_info = array_merge($guest_own_info,$takasago_arr);
-  
+
 	$xxx=1;
 	foreach($guest_own_info as $own_info)
 	{
@@ -540,14 +525,8 @@ $guest_own_info = array_merge($guest_own_info,$takasago_arr);
       $comment2_gaijis = $obj->getRowsByQuery($query_string." and gu_trgt_type=3 order by gu_char_position");
     }
 
-		//TableName
-		//$value = s($tblname);
-		if(!empty($plan_info['layoutname']))
-			$value = s($plan_info['layoutname']);
-		else
-			$value = s($default_layout_title);
-    if($value=="null") $value = "";
-		$own_array[] = "$value";
+		//Takasago TableName
+		$own_array[] = s($layoutname);
 
 		//SeatNumber
 		$value = s($xxx);/////////"seat ".
@@ -614,8 +593,6 @@ $guest_own_info = array_merge($guest_own_info,$takasago_arr);
 		//com1 com2
     $gaiji_comment_arr = array_merge($comment1_gaijis,$comment2_gaijis);
 		$value = s(getGaijis($gaiji_comment_arr));
-		$cl22[] = "$value";
-
 		$own_array[] = "$value";
 
 		// sex グループ
@@ -628,9 +605,12 @@ $guest_own_info = array_merge($guest_own_info,$takasago_arr);
 		$own_array[] = "$value";
 
 		//guest-type 区分
-		$guest_type = $obj->GetSingleData("spssp_guest_type", "name","id=".$own_info['guest_type']);
+    include("../admin/inc/main_dbcon.inc.php");
+    $guest_type_obj = Model_Guesttype::find_by_pk((int)$own_info['guest_type']);
+    $guest_type = $guest_type_obj["name"];
 		$value = s($guest_type);
 		$own_array[] = "$value";
+    include("../admin/inc/return_dbcon.inc.php");
 
 		//LastName	外字姓
 		$value = s($own_info['last_name']);
@@ -646,16 +626,18 @@ $guest_own_info = array_merge($guest_own_info,$takasago_arr);
 		$value = s($own_info['last_name']." ".$own_info['first_name']);
 		$own_array[] = setStrGaijis($value,$gaiji_name_arr);
 
+
 		//com1 com2
-		if($guest_info['comment1']&&$guest_info['comment2']){
+		if($own_info['comment1']&&$own_info['comment2']){
       $comment_gaijis = array_merge($comment1_gaijis,$comment2_gaijis);
-			$value = s($guest_info['comment1'].'△'.$guest_info['comment2']);
+			$value = s($own_info['comment1'].'△'
+                 .$own_info['comment2']);
       $own_array[] = setStrGaijis($value,$comment_gaijis);
-		}elseif($guest_info['comment1']){
-			$value = s($guest_info['comment1']);
+		}elseif($own_info['comment1']){
+			$value = s($own_info['comment1']);
       $own_array[] = setStrGaijis($value,$comment1_gaijis);
-		}elseif($guest_info['comment2']){
-			$value = s($guest_info['comment2']);
+		}elseif($own_info['comment2']){
+			$value = s($own_info['comment2']);
       $own_array[] = setStrGaijis($value,$comment2_gaijis);
     }else $own_array[] = "";
 
@@ -677,12 +659,16 @@ $user_id_name="00".$user_info['id'];
 else if($user_info['id']<1000)
 $user_id_name="0".$user_info['id'];
 
+if(Config::get("sampli.debug")){
+  print $lines;exit;
+}
+
 header("Content-Type: application/octet-stream");
 header("Cache-Control: public");
 header("Pragma: public");
 
 //csvのダウンロードの際のカウント方法はプラス1000で
-$version = $obj->get_download_num($user_id,$_SESSION["adminid"]+1000);
+$version = $obj->get_download_num($user_id,Core_Session::get_print_id()+1000);
 $this_name = $HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name."_".$version;
 $this_name = mb_convert_encoding($this_name, "SJIS", "UTF-8");
 

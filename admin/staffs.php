@@ -1,15 +1,14 @@
 <?php
-	require_once("inc/class.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	include_once("inc/new.header.inc.php");
-	include_once(dirname(__FILE__)."/../conf/conf.php");
-	$obj = new DBO();
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
+include_once("inc/new.header.inc.php");
+include_once(dirname(__FILE__)."/../conf/conf.php");
+$obj = new DBO();
 
+$get = $obj->protectXSS($_GET);
+$post = $obj->protectXSS($_POST);
 
-	$get = $obj->protectXSS($_GET);
-	$post = $obj->protectXSS($_POST);
-
-	if($get['action']=='delete' && (int)$get['id'] > 0)
+if($get['action']=='delete' && (int)$get['id'] > 0)
 	{
 		$sql = "delete from spssp_admin where id=".(int)$get['id'];
 		mysql_query($sql);
@@ -233,7 +232,7 @@ function validForm()
 
 	var permission_old  = document.getElementById('permission_old').value;
 	var reg = /^[A-Za-z0-9\!\#\$\%\&\(\)\*\+\-\.\d\/\:\;\<\=\>\?\@\[\]\^\_\`\{\|\}\~]{1,15}$/;
-	var reg2 = /^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/;
+  var reg2 = /^[0-9,A-Z,a-z][0-9,a-z,A-Z,_,\.,-]+@[0-9,A-Z,a-z][0-9,a-z,A-Z,_,\.,-]+\.(af|al|dz|as|ad|ao|ai|aq|ag|ar|am|aw|ac|au|at|az|bh|bd|bb|by|bj|bm|bt|bo|ba|bw|br|io|bn|bg|bf|bi|kh|cm|ca|cv|cf|td|gg|je|cl|cn|cx|cc|co|km|cg|cd|ck|cr|ci|hr|cu|cy|cz|dk|dj|dm|do|tp|ec|eg|sv|gq|er|ee|et|fk|fo|fj|fi|fr|gf|pf|tf|fx|ga|gm|ge|de|gh|gi|gd|gp|gu|gt|gn|gw|gy|ht|hm|hn|hk|hu|is|in|id|ir|iq|ie|im|il|it|jm|jo|kz|ke|ki|kp|kr|kw|kg|la|lv|lb|ls|lr|ly|li|lt|lu|mo|mk|mg|mw|my|mv|ml|mt|mh|mq|mr|mu|yt|mx|fm|md|mc|mn|ms|ma|mz|mm|na|nr|np|nl|an|nc|nz|ni|ne|ng|nu|nf|mp|no|om|pk|pw|pa|pg|py|pe|ph|pn|pl|pt|pr|qa|re|ro|ru|rw|kn|lc|vc|ws|sm|st|sa|sn|sc|sl|sg|sk|si|sb|so|za|gs|es|lk|sh|pm|sd|sr|sj|sz|se|ch|sy|tw|tj|tz|th|bs|ky|tg|tk|to|tt|tn|tr|tm|tc|tv|ug|ua|ae|uk|us|um|uy|uz|vu|va|ve|vn|vg|vi|wf|eh|ye|yu|zm|zw|com|net|org|gov|edu|int|mil|biz|info|name|pro|jp)$/i;
 	var flag = true;
 	if(!name)
 	{
@@ -268,7 +267,7 @@ function validForm()
 	
 	
 	if(reg.test(ID) == false) {
-		alert("使用できない記号が入力されています");
+		alert("半角英数字もしくは指定された記号で入力してください");
 		document.getElementById('ID').focus();
 		return false;
 	}
@@ -296,7 +295,7 @@ function validForm()
 		}
 	}
  	if(reg.test(password) == false) {
-		alert("使用できない記号が入力されています");
+		alert("半角英数字もしくは指定された記号で入力してください");
 		document.getElementById('password').focus();
 		return false;
 	 }
@@ -449,7 +448,7 @@ function validForm_staff()
 	else
 	{
 		 if(reg.test(ID) == false) {
-		 	alert("使用できない記号が入力されています");
+		 	alert("半角英数字もしくは指定された記号で入力してください");
 			document.getElementById('ID').focus();
 		 	return false;
 		 }
@@ -534,7 +533,7 @@ function validForm_staff()
 		}
 	}
 	if(reg.test(password) == false) {
-		alert("使用できない記号が入力されています");
+		alert("半角英数字もしくは指定された記号で入力してください");
 		document.getElementById('password').focus();
 		return false;
 	 }
@@ -542,7 +541,7 @@ function validForm_staff()
 	document.stuff_form2.submit();
 }
 function email_validate(email) {
-   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    var reg = /^[0-9,A-Z,a-z][0-9,a-z,A-Z,_,\.,-]+@[0-9,A-Z,a-z][0-9,a-z,A-Z,_,\.,-]+\.(af|al|dz|as|ad|ao|ai|aq|ag|ar|am|aw|ac|au|at|az|bh|bd|bb|by|bj|bm|bt|bo|ba|bw|br|io|bn|bg|bf|bi|kh|cm|ca|cv|cf|td|gg|je|cl|cn|cx|cc|co|km|cg|cd|ck|cr|ci|hr|cu|cy|cz|dk|dj|dm|do|tp|ec|eg|sv|gq|er|ee|et|fk|fo|fj|fi|fr|gf|pf|tf|fx|ga|gm|ge|de|gh|gi|gd|gp|gu|gt|gn|gw|gy|ht|hm|hn|hk|hu|is|in|id|ir|iq|ie|im|il|it|jm|jo|kz|ke|ki|kp|kr|kw|kg|la|lv|lb|ls|lr|ly|li|lt|lu|mo|mk|mg|mw|my|mv|ml|mt|mh|mq|mr|mu|yt|mx|fm|md|mc|mn|ms|ma|mz|mm|na|nr|np|nl|an|nc|nz|ni|ne|ng|nu|nf|mp|no|om|pk|pw|pa|pg|py|pe|ph|pn|pl|pt|pr|qa|re|ro|ru|rw|kn|lc|vc|ws|sm|st|sa|sn|sc|sl|sg|sk|si|sb|so|za|gs|es|lk|sh|pm|sd|sr|sj|sz|se|ch|sy|tw|tj|tz|th|bs|ky|tg|tk|to|tt|tn|tr|tm|tc|tv|ug|ua|ae|uk|us|um|uy|uz|vu|va|ve|vn|vg|vi|wf|eh|ye|yu|zm|zw|com|net|org|gov|edu|int|mil|biz|info|name|pro|jp)$/i;
    if(reg.test(email) == false) {
        return false;
    }
@@ -623,22 +622,8 @@ function confirmDeletePlus(urls, permission, id)
 }
 
 </script>
-<div id="topnavi" >
-    <?php
-include("inc/main_dbcon.inc.php");
-$hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-?>
-<h1><?=$hotel_name?></h1>
-<?
-include("inc/return_dbcon.inc.php");
-?>
 
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
+<?php include_once("inc/topnavi.php");?>
 
 <div id="container">
 
@@ -695,7 +680,7 @@ include("inc/return_dbcon.inc.php");
 				  <td align="left" nowrap="nowrap">：</td>
 					<td nowrap="nowrap">
 				<input type="radio" name="subcription_mail" value="0" <?php echo ($edit_data_rows['subcription_mail']=='0' && $edit_data_rows['email'] !='')?"checked":"";?> /> 受信する
-				<input type="radio" name="subcription_mail" value="1" <?php if ($edit_data_rows['subcription_mail']=='1' || !isset($edit_data_rows['subcription_mail'])) echo "checked";?>/>  受信しない
+				<input type="radio" name="subcription_mail" value="1" <?php echo (!($edit_data_rows['subcription_mail']=='0' && $edit_data_rows['email'] !=''))?"checked":"";?> />  受信しない
 					</td>
 				</tr>
                 				<tr>

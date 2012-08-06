@@ -1,47 +1,49 @@
 <?php
-	require_once("inc/class.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	$obj = new DBO();
-	$post = $obj->protectXSS($_POST);
-    $hcode=$HOTELID;
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
+include_once("../fuel/load_classes.php");
 
-	include_once("inc/new.header.inc.php");
+$obj = new DBO();
+$post = $obj->protectXSS($_POST);
+$hcode=$HOTELID;
 
-	if(isset($_POST['save']))
-	{
-	$hotelcode=jp_encode($_POST[hotel_code]);
-    $name=jp_encode($_POST[name]);
-    $zipcode=jp_encode($_POST[zipcode]);
-    $address1=jp_encode($_POST[address1]);
-    $address2=jp_encode($_POST[address2]);
-    $tel=jp_encode($_POST[tel]);
-    $contactperson=jp_encode($_POST[contactperson]);
-    $email=jp_encode($_POST[email]);
-    $delete_guest=jp_encode($_POST[delete_guest]);
-    $delete_weeding=jp_encode($_POST[delete_weeding]);
+include_once("inc/new.header.inc.php");
 
-include("inc/main_dbcon.inc.php");
+if(isset($_POST['save']))
+{
+  $hotelcode=jp_encode($_POST[hotel_code]);
+  $name=jp_encode($_POST[name]);
+  $zipcode=jp_encode($_POST[zipcode]);
+  $address1=jp_encode($_POST[address1]);
+  $address2=jp_encode($_POST[address2]);
+  $tel=jp_encode($_POST[tel]);
+  $contactperson=jp_encode($_POST[contactperson]);
+  $email=jp_encode($_POST[email]);
+  $delete_guest=jp_encode($_POST[delete_guest]);
+  $delete_weeding=jp_encode($_POST[delete_weeding]);
 
-$hotel_row = $obj->GetSingleRow("super_spssp_hotel", " hotel_code=".$hcode);
-	   $query = "update super_spssp_hotel set hotel_name='".$name."',zip='".$zipcode."',address1='".$address1."',address2='".$address2."',phone='".$tel."',contact='".$contactperson."',email='".$email."',delete_guest='".$delete_guest."',delete_weeding='".$delete_weeding."' where hotel_code='".$hcode."' ";
-	   mysql_query($query);
-	   include("inc/return_dbcon.inc.php");
+  include("inc/main_dbcon.inc.php");
+  
+  $hotel_row = $obj->GetSingleRow("super_spssp_hotel", " hotel_code=".$hcode);
+  $query = "update super_spssp_hotel set hotel_name='".$name."',zip='".$zipcode."',address1='".$address1."',address2='".$address2."',phone='".$tel."',contact='".$contactperson."',email='".$email."',delete_guest='".$delete_guest."',delete_weeding='".$delete_weeding."' where hotel_code='".$hcode."' ";
+  mysql_query($query);
+  include("inc/return_dbcon.inc.php");
+  
+  $query = "update spssp_admin set email='".$email."' where username='".$hotel_row[adminid]."' ";
+  mysql_query($query);
+  echo "<script> alert('ホテル情報が保存されました'); </script>";
+  redirect("hotel_info.php");exit;
+}
 
-	   $query = "update spssp_admin set email='".$email."' where username='".$hotel_row[adminid]."' ";
-	   mysql_query($query);
-	   echo "<script> alert('ホテル情報が保存されました'); </script>";
-	  redirect("hotel_info.php");exit;
-	}
+$disp_option1 = "";
+$disp_option2 = "";
+$disp_option3='<span class="txtred">*</span>';
+if (Core_Session::is_normal_staff()) {
+  $disp_option1 = ' readonly="readonly" ';
+  $disp_option2 = 'border:#ffffff; border:none; ';
+  $disp_option3="";
+}
 
-	$disp_option1 = "";
-	$disp_option2 = "";
-	$disp_option3='<span class="txtred">*</span>';
-	if ($_SESSION['user_type']==222) {
-		$disp_option1 = ' readonly="readonly"; ';
-		$disp_option2 = ' border:#ffffff; ';
-		$disp_option3="";
-	}
-	
 ?>
 <link rel="stylesheet" type="text/css" href="../css/jquery.ui.all.css">
 <script src="../js/jquery-1.4.2.js" type="text/javascript"></script>
@@ -232,34 +234,12 @@ function clearSubmit()
 }
 </script>
 
+<?php include_once("inc/topnavi.php");?>
 
-
-
-<div id="topnavi">
-    <?php
-include("inc/main_dbcon.inc.php");
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-$hotel_row = $obj->GetSingleRow(" super_spssp_hotel", " hotel_code=".$hcode);
-?>
-<h1><?=$hotel_name?></h1>
-<?
-include("inc/return_dbcon.inc.php");
-?>
-
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
 <div id="container">
     <div id="contents">
 
         <h4><div style="width:300px;">ホテル情報</div></h4>
-
-            <!--<div id="top_imgbox">
-                <a href="javascript:void()" onclick="todays_user();"><img src="img/common/img_top01.jpg" width="200" height="122" class="top_img01" /></a>
-                <img src="img/common/img_top02.jpg" width="202" height="32" class="top_img02" />
-            </div>-->
             <div id="top_search_view">
           <br />
 		  <p>
@@ -275,12 +255,16 @@ include("inc/return_dbcon.inc.php");
 						  <tr>
 						    <td align="left">ホテル名<?=$disp_option3?></td>
 							<td align="left">：</td>
-							<td><input type="text" name="name" id="name" <?=$disp_option1?> style="width:250px;padding:0px;border-style: inset; <?=$disp_option2?> " value="<?=$hotel_row[hotel_name]?>"/></td>
+							<td><input type="text" name="name" id="name" <?=$disp_option1?> style="width:250px;padding:0px;border-style: inset;   <?=$disp_option2?> " value="<?=$hotel_row[hotel_name]?>"/></td>
 						  </tr>
 						  <tr>
 						    <td align="left">郵便番号<?=$disp_option3?></td>
 							<td align="left">：</td>
-							<td><input name="zipcode" type="text" id="zipcode" style="padding:0px;border-style: inset; <?=$disp_option2?> " size="10" maxlength="8" value="<?=$hotel_row[zip]?>"/>（例　231-0000）</td>
+							<td><input name="zipcode" type="text" id="zipcode" <?=$disp_option1?>  style="padding:0px;border-style: inset; <?=$disp_option2?> " size="10" maxlength="8" value="<?=$hotel_row[zip]?>"/>
+ <?php if (!Core_Session::is_normal_staff()) {?>
+                 （例　231-0000）
+<?php } ?>
+              </td>
 						  </tr>
 						  <tr>
 						    <td align="left">住所1<?=$disp_option3?></td>
@@ -295,8 +279,11 @@ include("inc/return_dbcon.inc.php");
 						  <tr>
 						    <td align="left">電話番号<?=$disp_option3?></td>
 							<td align="left">：</td>
-							<td><input type="text" name="tel" id="tel" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " value="<?=$hotel_row[phone]?>" />（例　0451111111)</td>
-						  </tr>
+							<td><input type="text" name="tel" id="tel" <?=$disp_option1?> style="padding:0px;border-style: inset; <?=$disp_option2?> " value="<?=$hotel_row[phone]?>" />
+ <?php if (!Core_Session::is_normal_staff()) {?>
+（例　0451111111)
+<?php } ?>
+              </td></tr>
 						  <tr>
 						    <td align="left">担当者<?=$disp_option3?></td>
 							<td align="left">：</td>
@@ -310,14 +297,13 @@ include("inc/return_dbcon.inc.php");
 						  <tr>
 						    <td align="left">招待者リストデータ削除日</td>
 							<td align="left">：</td>
-							<td><input name="delete_guest" type="text" id="delete_guest" readonly="readonly"; style="padding:0px;border-style: inset; border:#ffffff; " size="5"   value="<?=$hotel_row[delete_guest]?>"/> ヶ月後</td>
+							<td><input name="delete_guest" type="text" id="delete_guest" readonly="readonly"; style="padding:0px;border-style: inset; border:#ffffff; <?=$disp_option2?> " " size="5"   value="<?=$hotel_row[delete_guest]?>"/> ヶ月後</td>
 						  </tr>
 						  <tr>
 						    <td align="left">挙式情報データ削除日</td>
 							<td align="left"> ：</td>
-							<td><input name="delete_weeding" type="text" id="delete_weeding" readonly="readonly"; style="padding:0px;border-style: inset; border:#ffffff; " size="5"   value="<?=$hotel_row[delete_weeding]?>"/> ヶ月後</td>
+							<td><input name="delete_weeding" type="text" id="delete_weeding" readonly="readonly"; style="padding:0px;border-style: inset; border:#ffffff; <?=$disp_option2?> " " size="5"   value="<?=$hotel_row[delete_weeding]?>"/> ヶ月後</td>
 						  </tr>
-
                             <tr>
                               <td>&nbsp;</td>
                             <td>&nbsp;</td><td>&nbsp;</td>

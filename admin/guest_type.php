@@ -1,4 +1,5 @@
 <?php
+exit;
 	include_once("inc/dbcon.inc.php");
 	
 	include_once("inc/checklogin.inc.php");

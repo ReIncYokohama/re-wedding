@@ -1,12 +1,12 @@
 <?php
-ini_set('auto_detect_line_endings', 1);
 
+//ini_set('auto_detect_line_endings', 1);
 include_once("inc/dbcon.inc.php");
 include_once("inc/class.dbo.php");
 include_once("../inc/gaiji.image.wedding.php");
-include_once("inc/class_message.dbo.php");
 include_once("inc/class_data.dbo.php");
 include_once("../app/ext/Utils/email.php");
+include_once("../fuel/load_classes.php");
 
 $obj = new DataClass();
 
@@ -16,13 +16,49 @@ $respects = $obj->GetAllRow(" spssp_respect");
 $guest_types = $obj->GetAllRow(" spssp_guest_type");
 
 include("inc/return_dbcon.inc.php");
+$user_id = $_POST["user_id"]?$_POST["user_id"]:$user_id;
 
+if(!$user_id) $user_id = $_GET["user_id"];
+if(!$user_id) return;
+$user = Model_User::find_by_pk($user_id);
+$plan = Model_Plan::find_one_by_user_id($user_id);
+if($plan->is_kari_hatyu_irai() or $plan->is_kari_hatyu()){
+  print '
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>招待者リストcsv一括アップロード</title>
+  <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
+
+  <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+</head>
+<body>
+
+仮発注中です<br><img onclick="javascript:window.close();" src="../img/btn_close.jpg" alt="閉じる" width="82" height="22" />
+</body>
+</html>
+
+';
+  exit;
+}
 // 配列 $csv の文字コードをSJIS-winからUTF-8に変換
 if($_FILES["csv"]["tmp_name"]){
   $tmp = fopen($_FILES['csv']['tmp_name'], "r");
-  while ($csv[] = fgetcsv($tmp, "1024")) {}
-  mb_convert_variables("UTF-8", "SJIS-win", $csv);
+
+  while ($text = fgets($tmp, "1024")) {
+    $datas = explode(",",$text);
+    $line = array();
+    foreach($datas as $data){
+      mb_convert_variables("UTF-8","SJIS-win",$data);
+      //改行コードを削除
+      $data = str_replace(array("\r\n","\r","\n"), '', $data);
+      $line[] = $data;
+    }
+    $csv[] = $line;
+  }
 }
+
 if(count($csv)==0 && !$_GET["force"]){
   print '
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -31,7 +67,7 @@ if(count($csv)==0 && !$_GET["force"]){
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>招待者リストcsv一括アップロード</title>
   <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
-  
+
   <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 </head>
 <body>
@@ -44,17 +80,12 @@ if(count($csv)==0 && !$_GET["force"]){
 
 }
 
-$post = $obj->protectXSS($_POST);
 
 if($_GET["force"]){
   $user_id = $_SESSION["csv_user_id"];
   $csv = $_SESSION["csv"];
   $force = true;
 }
-$user_id = $_POST["user_id"]?$_POST["user_id"]:$user_id;
-
-if(!$user_id) $user_id = $_GET["user_id"];
-if(!$user_id) return;
 
 //新郎新婦の情報を取得
 $user_row = $obj->GetSingleRow("spssp_user"," id='$user_id'");
@@ -99,7 +130,7 @@ if(!$force){
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>招待者リストcsv一括アップロード</title>
   <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
-  
+
   <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 </head>
 <body>
@@ -110,7 +141,7 @@ if(!$force){
     <div class="top_box1">
     <div id="message"><?=$messageText?>
     </div>
-      
+
 </div>
 <div align="center" class="top_box1">
   <div align="center"><a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_close.jpg" alt="閉じる" width="82" height="22" /></a>
@@ -118,20 +149,20 @@ if(!$force){
 </div>
 </body>
 </html>
-      
+
       <?php
 
       exit();
-    
+
   }
-  
+
   $same_user = false;
   for($i=0;$i<count($csv);++$i){
     $csv[$i] = $obj->protectXSS($csv[$i]);
     $data = array();
     $last_name = $csv[$i][1];
     $first_name = $csv[$i][3];
-    
+
     $user_row2 = $obj->GetSingleRow("spssp_guest"," last_name = '$last_name' and first_name = '$first_name' and user_id = '$user_id'");
     if($user_row2){
       $_SESSION["csv"] = $csv;
@@ -140,7 +171,7 @@ if(!$force){
       break;
     }
   }
-  
+
   if($same_user){
       ?>
 
@@ -150,7 +181,7 @@ if(!$force){
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>招待者リストcsv一括アップロード</title>
   <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
-  
+
   <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 </head>
 <body>
@@ -161,7 +192,7 @@ if(!$force){
     <div class="top_box1">
     <script>
    if(window.confirm('姓名が同じ人が既に登録されています。追加してよろしいですか？（同姓同名の場合はOKを押下してください）')){
-     location.href = location.href+"?force=true";
+     location.href = location.href+"?force=true&user_id=<?php echo $user_id;?>";
    }else{
      location.href = "csv_upload.php?user_id=<?=$user_id?>";
    }
@@ -173,15 +204,15 @@ if(!$force){
 </body>
 </html>
 
-      
-      <?php    
+
+      <?php
     exit();
   }
 }
 
 for($i=0;$i<count($csv);++$i){
   $csv[$i] = $obj->protectXSS($csv[$i]);
-  
+
   //データが空白の場合、カラムの代入をしない。
   if($csv[$i][0] == "" && (!$csv[$i][1] || $csv[$i][1] == "")) continue;
 
@@ -190,7 +221,7 @@ for($i=0;$i<count($csv);++$i){
     $data["sex"] = "Female";
   }else{
     $data["sex"] = "Male";
-  } 
+  }
   if($csv[$i][0] == "") $data["sex"] = null;
   $data["last_name"] = check_sjis($csv[$i][1]);
   $data["furigana_last"] = $csv[$i][2];
@@ -216,11 +247,11 @@ for($i=0;$i<count($csv);++$i){
     }
   }
   if($respect_title=="なし") $respect_title = "";
-  
+
   $data["comment1"] = check_sjis($csv[$i][6]);
   $data["comment2"] = check_sjis($csv[$i][7]);
   $data["user_id"] = $user_id;
-  
+
   $guest_id = $obj->InsertData("spssp_guest",$data);
 
   make_guest_images($user_id,$guest_id,$data["last_name"],$data["first_name"],$data["comment1"],$data["comment2"],$respect_title,
@@ -241,9 +272,8 @@ $admin_name = $admin_row["name"];
 $BASE_URL = BASE_URL;
 $title = "［ウエディングプラス］招待客リストデータがアップロードされました";
 if($admin_row["subcription_mail"]==1) $admin_email = false;
-
 if($admin_email){
-
+//if(Core_Validation::checkEmail($admin_email)){
 $body = <<<_EOT_
 ${admin_name}様
 
@@ -284,6 +314,7 @@ $mail = $user_row["mail"];
 if($user_row["subcription_mail"]==1) $mail = false;
 
 $title = "［ウエディングプラス］招待客リストデータが追加されました。";
+
 if($mail){
 
 $body = <<<_EOT_
@@ -317,9 +348,8 @@ $email->send();
 /*
 csv uploadのログを残す
 */
-$message_class = new MessageClass();
-$message_class->new_message_csv_import($user_id);
-
+//csv uploadのお知らせの記録
+Model_Csvuploadlog::log($user_id);
 //csvアップロード時のログを記録
 $obj->set_log_csv_guest($user_id,$plan_id);
 
@@ -331,7 +361,7 @@ $obj->set_log_csv_guest($user_id,$plan_id);
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>招待者リストcsv一括アップロード</title>
   <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
-  
+
   <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 </head>
 <body>
@@ -341,8 +371,8 @@ $obj->set_log_csv_guest($user_id,$plan_id);
 <h2>招待者リストcsv一括アップロード</h2>
     <div class="top_box1">
   アップロードに成功しました。
-  
-  
+
+
 </div>
       <div align="center"><a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_close.jpg" alt="閉じる" width="82" height="22" /></a></div>
 

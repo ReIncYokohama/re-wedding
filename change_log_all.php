@@ -45,9 +45,6 @@ width:100px;
 .box8 td{
   vertical-align:top;
 }
-.littlebox{
-height:20px;
-}
 </style>
 
 <div id="main_contents" class="displayBox">
@@ -89,9 +86,9 @@ height:20px;
                 <td  width="14%"><?=$logObject["screen_name"]?></td>
                 <td  width="13%"><?=$logObject["target_user"]?></td>
                 <td  width="7%"><?=$logObject["kind"]?></td>
-                <td  width="10%"><?=$logObject["target_category"]?></td>
-                <td  width="13%"><?=$logObject["previous_status"]?></td>
-                <td  width="13%"><?=$logObject["current_status"]?></td>
+                <td  class="target_category" width="10%"><?=$logObject["target_category"]?></td>
+                <td  class="previous_status" width="13%"><?=$logObject["previous_status"]?></td>
+                <td  class="currrent_status" width="13%"><?=$logObject["current_status"]?></td>
               </tr>
               </table>
               </div>
@@ -113,3 +110,4 @@ height:20px;
 <?php
 include("inc/new.footer.inc.php");
 ?>
+<script type="text/javascript" language="javascript" src="admin/js/change_log.js"></script>

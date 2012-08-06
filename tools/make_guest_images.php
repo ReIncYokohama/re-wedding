@@ -13,19 +13,12 @@ include("../admin/inc/main_dbcon.inc.php");
 $respects = $obj->GetAllRow("spssp_respect");
 include("../admin/inc/return_dbcon.inc.php");
 
-function get_gaiji_ima_arr($gaijis){
-  $return_arr = array();
-  for($i=0;$i<count($gaijis);++$i){
-    array_push($return_arr,$gaijis["gu_char_img"]);
-  }
-  return $return_arr;
-}
-
 foreach($guests as $guest){
   $guest_respect = "";
   echo $guest["id"].":".$guest["last_name"].$guest["first_name"];
 
   $query_string = "SELECT * FROM spssp_gaizi_detail_for_guest where guest_id = ".$guest["id"];
+  
   $firstname_gaijis = getObjectArrayToArray($obj->getRowsByQuery($query_string." and gu_trgt_type=0 order by gu_char_position"),"gu_char_img");
   $lastname_gaijis = getObjectArrayToArray($obj->getRowsByQuery($query_string." and gu_trgt_type=1 order by gu_char_position"),"gu_char_img");
   $comment1_gaijis = getObjectArrayToArray($obj->getRowsByQuery($query_string." and gu_trgt_type=2 order by gu_char_position"),"gu_char_img");

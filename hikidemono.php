@@ -1,26 +1,30 @@
 <?php
 include_once("admin/inc/class_information.dbo.php");
- include_once("admin/inc/class_data.dbo.php");
- include_once("inc/checklogin.inc.php");
- $obj = new DataClass();
- $objInfo = new InformationClass();
- $get = $obj->protectXSS($_GET);
- $user_id = (int)$_SESSION['userid'];
+include_once("admin/inc/class_data.dbo.php");
+include_once("inc/checklogin.inc.php");
+$obj = new DataClass();
+$objInfo = new InformationClass();
+$get = $obj->protectXSS($_GET);
+$user_id = (int)$_SESSION['userid'];
 
- //tabの切り替え
- $tab_hikidemono = true;
+//tabの切り替え
+$tab_hikidemono = true;
 
- $TITLE = "引出物・料理の登録 - ウエディングプラス";
- include_once("inc/new.header.inc.php");
+$TITLE = "引出物・料理の登録 - ウエディングプラス";
+include_once("inc/new.header.inc.php");
 
-   $plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
-   $data_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".(int)$_SESSION['userid']." order by id asc");
+$plan_info = $obj ->GetSingleRow("spssp_plan"," user_id=".(int)$_SESSION['userid']);
+$data_rows = $obj->GetAllRowsByCondition("spssp_gift_group"," user_id=".(int)$_SESSION['userid']." order by id asc");
 
-   $data_rows_gift = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".(int)$_SESSION['userid']." order by id asc");
-   $editable=$objInfo->get_editable_condition($plan_info);
-   //登録後のメッセージの表示のフラグ
-   $save_hikidemono = "false";
-   if($_GET["save"]) $save_hikidemono = "true";
+$data_rows_gift = $obj->GetAllRowsByCondition("spssp_gift"," user_id=".(int)$_SESSION['userid']." order by id asc");
+$editable=$objInfo->get_editable_condition($plan_info);
+//登録後のメッセージの表示のフラグ
+$save_hikidemono = "false";
+if($_GET["save"]) $save_hikidemono = "true";
+
+$gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
+$count_group = (int)$gift_criteria['num_gift_groups'];
+
 
    if($_POST['submitok']=='OK')
    {
@@ -88,10 +92,13 @@ include_once("admin/inc/class_information.dbo.php");
  function validForm(gift_cnt)
  {
    var reg = /^[0-9]{1,}$/;
-   for(var i=0;i<gift_cnt;i++){
+
+   for(var i=1;i<=gift_cnt;i++){
      var tgt = "yobisu_" + i;
-     if(reg.test(document.getElementById(tgt).value) == false) {
+     var el = document.getElementById(tgt)
+     if(el && reg.test($(el).val()) == false) {
        alert("予備数は半角数字で入力してください");
+       $(el).focus();
        return false;
      }
    }
@@ -186,12 +193,12 @@ include_once("admin/inc/class_information.dbo.php");
          validForm();
        }
        else {
-         window.location = "logout.php";	
+         window.location = "logout.php";
        }
    }
    else {
      alert("タイムアウトしました");
-     window.location = "logout.php";	
+     window.location = "logout.php";
    }
  }
 
@@ -327,74 +334,70 @@ include_once("admin/inc/class_information.dbo.php");
      <tr>
      <?php
 
-     $i=0;
      $gift_cnt = 0;
      foreach($gift_rows as $gift)
      {
        if($gift['name']!="") {
-       $gift_cnt++;
-       ?>
-             <tr height="20px" <?php if($i%2==0){?>style="background:#FFFFFF"<?php }else{?>style="background:#ECF4FB"<?php }?>>
-       <td align="center" style="text-align:center"><b><?=$gift['name'];?></b></td>
-             <td ><div style="text-align:center">
-       <?php
-       $j=0;
-       $gift_arr = array();
-       $groups = array();
-             foreach($group_rows as $row)
-       {
-         $gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$row['id']);
+         $gift_cnt++;
+         ?>
+         <tr height="20px" style="background:#FFFFFF">
+           <td align="center" style="text-align:center"><b><?=$gift['name'];?></b></td>
+           <td ><div style="text-align:center">
+           <?php
+           $j=0;
+           $gift_arr = array();
+           $groups = array();
+           for($i=0;$i<$count_group;++$i){
+             $row = $group_rows[$i];
+             $gift_ids = $obj->GetSingleData("spssp_gift_group_relation","gift_id", "user_id= $user_id and group_id = ".$row['id']);
 
-         $gift_arr = explode("|",$gift_ids);
+             $gift_arr = explode("|",$gift_ids);
 
-         if(in_array($gift['id'],$gift_arr))
-         {
-           array_push($groups,$row['id']);
-         }
+             if(in_array($gift['id'],$gift_arr))
+             {
+               array_push($groups,$row['id']);
+             }
 
-         if (!$editable) {
-           $_disable=" disabled='disabled' ";
-           $_readonly="readonly='readonly' style='border: #ffffff; ";
-         }
-         else {
-           $_disable="";
-           $_readonly="";
-         }
-       if ($row['name']!="") {
-       ?>
-               <div style="width:50px; float:left; text-align:left; padding:2px;"><b> <?=$row['name']?> </b> 
+             if (!$editable) {
+               $_disable=" disabled='disabled' ";
+               $_readonly="readonly='readonly' style='border: #ffffff; ";
+             }else {
+               $_disable="";
+               $_readonly="";
+             }
+             if ($row['name']!="") {
+             ?>
+               <div style="width:50px; float:left; text-align:left; padding:2px;"><b> <?=$row['name']?> </b>
                <input type="checkbox" <?=$_disable?> value="<?=$gift['id']?>" id="group_<?=$j?>" <?php if(in_array($gift['id'],$gift_arr)) { ?> checked="checked" <?php } ?> name="group_<?=$row['id']?>[]" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></div>
              <?php
-       }
-         $j++;
-                 }
-
-         $num_gifts = 0;
-         if(!empty($groups))
-         {
-           foreach($groups as $grp)
-           {
-             $num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp);
-             $num_gifts += $num_guests_groups;
+             }
+             $j++;
            }
-           unset($groups);
-         }
 
-         $num_gifts = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift['id']);
-         if (!$editable) {
-           if ($i%2==0)	$_readonly.=" background-color: #ffffff; text-align:right; '";
-           else 			$_readonly.=" background-color: #ebf4fb; text-align:right; '";
-         }
-       ?></div>
-             </td>
-       <td align="center"><input type="text" id="yobisu_<?=$i?>" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right;border-style:inset;" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+           $num_gifts = 0;
+           if(!empty($groups))
+           {
 
-             </tr>
+             foreach($groups as $grp)
+             {
+               $num_guests_groups = $obj->GetNumRows(" spssp_guest_gift "," user_id = $user_id and group_id = ".$grp);
+               $num_gifts += $num_guests_groups;
+             }
+             unset($groups);
+           }
+
+           $num_gifts = $obj->GetSingleData("spssp_item_value","value", "item_id = ".$gift['id']);
+           if (!$editable) {
+             $_readonly.=" background-color: #ffffff; text-align:right; '";
+           } ?>
+           </div>
+         </td>
+         <td align="center"><input type="text" id="yobisu_<?=$gift_cnt?>" name="value_<?=$gift['id']?>" value="<?=$num_gifts?>" <?=$_readonly?> size="5" maxlength="2" style="text-align:right;border-style:inset;" onChange="setChangeAction()" onkeydown="keyDwonAction(event)" onClick="clickAction()"/></td>
+
+       </tr>
        <?php
-       $i++;
        }
-     }
-       ?>
+     } ?>
  </table>
          <input type="hidden" value="OK" name="submitok">
      <?php
@@ -422,7 +425,9 @@ include_once("admin/inc/class_information.dbo.php");
          <table width="800" border="0" cellspacing="1" cellpadding="3" bgcolor="#999999">
          <?php
        $groups = Model_Giftgroup::find_by_user_id($user_id);
-foreach($groups as $group){
+
+for($i=0;$i<$count_group;++$i){
+  $group = $groups[$i];
   $gift_names = $group->get_gift_name();
   if ($group['name']!="") echo "<tr><td bgcolor='#FFFFFF' width='30' align='center'>".$group['name']."</td><td align='letf' width='200' bgcolor='#FFFFFF'>".implode("・",$gift_names)."</td></tr>";
 }

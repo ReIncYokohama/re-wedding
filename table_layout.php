@@ -13,7 +13,7 @@ $TITLE = "テーブルの配置 - ウエディングプラス";
 include_once("inc/new.header.inc.php");
 
 $obj = new DataClass();
-$table_data = $obj->get_table_data_detail($user_id);  
+$table_data = $obj->get_table_data_detail($user_id);
 
 $plan = Model_Plan::find_one_by_user_id($user_id);
 $plan_info = $plan->to_array();
@@ -69,7 +69,7 @@ function checkGuest(tid,cid)
 		}
 	});
 }
-//FAHIM EDIT 11/07/30 FULL NEW FUNCTION
+
 function validForm(num)
 {
 	var layoutname_ajax  = $("#layoutname_ajax").val();
@@ -83,8 +83,13 @@ function validForm(num)
 	    var table_id=	$("#"+valueid).val();
 	    sendObject["name_"+loop] = table_name;
 	    sendObject["id_"+loop] = table_id;
+      if(table_name.length > 8){
+        alert("卓名は８文字までです");
+        $("#"+tId).focus();
+        return false;
+      }
 	  }
-	
+
 	$.post('table_layout.php',{'layoutname':layoutname_ajax,'ajax':"ajax"}, function(data){
 			if (layoutname_ajax=="" || !isset(layoutname_ajax)) layoutname_ajax = "　　　";
 			$("#user_layoutname").html(layoutname_ajax);
@@ -92,13 +97,13 @@ function validForm(num)
 			$("#img_default_layout_title").val(layoutname_ajax);
 		});
 	sendObject["total_table"] = num;
-	
+
 	$.post('ajax/plan_table_name_update_all.php',sendObject, function(data){
       	alert("テーブル名が保存されました");
 	    if (timeOutNow==true) location.href = "logout.php";
 	    else 				  location.href = "table_layout.php";
 	});
-  
+
 }
 
 function user_layout_title_input_show(id)
@@ -122,7 +127,7 @@ function user_timeout() {
 		alert("タイムアウトしました");
 	}
 
-	window.location = "logout.php";	
+	window.location = "logout.php";
 }
 
 </script>
@@ -195,7 +200,7 @@ function user_timeout() {
 		</table>
         <br />
       <?php
-      
+
 		$user_tables = $obj->getRowsByQuery("select * from spssp_table_layout where user_id = ".$user_id." and display=1");
     //rename_tableがtrueになる条件は、
 		$permission_table_edit = $obj->GetSingleData("spssp_plan", "rename_table"," user_id =".$user_id);
@@ -239,7 +244,7 @@ function user_timeout() {
 		<table width="410" border="0" cellspacing="0" cellpadding="5">
 		<tr>
 		<td colspan="4" align="center" style="display:none;" id="loading_td">
-		
+
 		</td>
 		</tr>
 		<br />
@@ -248,26 +253,16 @@ function user_timeout() {
 			<td colspan="4" align="center">
 			<div style="padding-left:25px;">高砂卓名：
 			<?php
-      
+
 			$_readonly="";
 			if (!$editable || $permission_table_edit['rename_table']==0) {
 //				$_readonly=" readonly='readonly' style='border: #ffffff;'";
 				$_readonly=" disabled='disabled' style='border:0px #ffffff none;'";
 			}
-			if($layoutname!="" && $layoutname!="null")
-			{
-				$name_input=$layoutname;
-				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='".$name_input."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
-			}else if($default_layout_title!=""){
-        echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='".$default_layout_title."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
-      }
-			else
-			{
-				echo "<input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='"."&nbsp;&nbsp;&nbsp;"."' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>";
-
-      }
-			?></div>
-			　　　　　</td>
+			?>
+      <input type='text' id='layoutname_ajax' name='layoutname_ajax'"." readonly='readonly' style='border: #ffffff;'"." value='<?=$plan->get_layoutname()?>' onChange='setChangeAction()' onkeydown='keyDwonAction(event)' onClick='clickAction()'>
+      </div>
+	    </td>
 		</tr>
          <tr>
 		  <?php

@@ -12,13 +12,13 @@ $objInfo = new InformationClass();
 
 $user_id = Core_Session::get_user_id();
 
-if($_GET["user_id"] && (Core_Session::is_admin() || $_SESSION["printid"]>0))
+if($_GET["user_id"] && (Core_Session::is_staff() || Core_Session::is_super() || Core_Session::is_print_company()))
   $user_id = (int)$_GET['user_id'];
 
 function get_center_table($max_width,$width,$html){
+  if($max_width == $width) return "<table><tr><td width=\"100%\">".$html."</td></tr></table>";
   $margin = floor((100*(($max_width-$width)/$max_width))*10/2)/10;
   $main_margin = floor((100-$margin*2)*10)/10;
-  if($max_width == $width) return "<table><tr><td width=\"100%\">".$html."</td></table>";
   return "<table><tr><td width=\"".$margin."%\"></td><td width=\"".$main_margin."%\">".$html."</td><td width=\"".$margin."%\"></td></tr></table>";
 }
 
@@ -65,32 +65,32 @@ if(!$plan){
 
 $user = Model_User::find_by_pk($user_id);
 $user_info = $user->to_array();
-	
+
 $room_info=$obj->GetSingleRow("spssp_room"," id =".$user_info['room_id']);
 $party_room_info=$obj->GetSingleRow("spssp_party_room"," id =".$user_info['party_room_id']);
-	
+
 
 $staff_name = $obj->GetSingleData("spssp_admin", "name"," id=".$user_info['stuff_id']);
 
-	
+
 $room_rows = $plan_row['row_number'];
 
 $row_width = $row_width-6;
-	
+
 $table_width = (int)($row_width/2);
 $table_width = $table_width-6;
-	
+
 $room_tables = $plan_row['column_number'];
 $room_width = (int)(184*(int)$room_tables)."px";
 
-	
+
 $row_width = (int)(182*$room_tables);
 $content_width = ($row_width+235).'px';
-	
+
 $room_seats = $plan_row['seat_number'];
-	
+
 $num_tables = $room_rows * $room_tables;
-	
+
 $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id = ".(int)$user_id);
 
 include("admin/inc/main_dbcon.inc.php");
@@ -162,7 +162,7 @@ $html.='<td width="40%">
 	<table>
 				<tr>
 					<td align="left"  valign="middle" style="text-align:center;" colspan="3">
-		
+
 '.$objInfo->get_user_name_image_or_src_from_user_side($user_id ,$hotel_id=1, $name="pdf_hikidemono_head.png",$extra="/").'
 			</td>
 				</tr>
@@ -177,13 +177,13 @@ $html.='<td width="40%">
 				</tr>
 
 				<tr style="text-align:left;font-size:25px;">
-					<td align="left"  valign="middle" style="text-align:center;">制限開始日</td><td colspan="2">'.strftime('%Y年%m月%d日',strtotime(jp_decode($confirm_date_main))).' 
+					<td align="left"  valign="middle" style="text-align:center;">制限開始日</td><td colspan="2">'.strftime('%Y年%m月%d日',strtotime(jp_decode($confirm_date_main))).'
 					</td>
 				</tr>
 			</table>
-		
+
 </td><td width="15%" style="font-size:15px;">';
-	
+
 $html.='</td>';
 $html.='</tr></table>';
 
@@ -222,9 +222,10 @@ for($i=0;$i<count($takasago_guests);++$i){
   }
 }
 
+$width += 90;
 $takasago_name = $table_data["layoutname"];
 $takasago_num_text = ($takasago_menu_num!=0)?($takasago_num-$takasago_menu_num)."+".$takasago_menu_num:$takasago_num;
-$subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td style="font-size:25px;" align="center" colspan="'.(count($viewArray)-1).'">'.$takasago_name.'【 '.$takasago_num_text.'名 】</td><td></td></tr><tr>';
+$subhtml= '<table style="font-size:15px;border:1px solid black; padding:2px;margin:0px;" width="'.$width.'"><tr><td width="30"></td><td style="font-size:40px;" align="left" colspan="'.(count($viewArray)).'">'.$takasago_name.'【 '.$takasago_num_text.'名 】</td></tr><tr><td></td>';
 
 for($i=0;$i<count($viewArray);++$i){
   $subhtml .= '<td align="center"  valign="middle">'.$viewArray[$i].'</td>';
@@ -235,13 +236,14 @@ $html .= get_center_table($max_width+100,$width,$subhtml);
 
 
 //rows[0]columns[0]seats[0]
-function get_table_html($rows,$main_font_size,$seat_num,$seat_row){
-  $html='<table cellspacing="0" cellspadding="0" width="100%" style="font-size:'.$main_font_size.';">';
+function get_table_html($rows,$main_font_size,$seat_num,$seat_row,$max_columns_num){
+  $html='<table cellspacing="0" cellspadding="0" style="font-size:'.$main_font_size.';">';
   $haveRow = false;
   for($i=0;$i<count($rows);++$i){
     $row = $rows[$i];
     $width = 110*count($row["columns"])*2;
-    $html .= "<tr><td width:\"100%\"><table><tr>";
+    $html .= "<tr><td width:\"100%\">";
+    $subhtml = "<table><tr>";
     $active_columns_num = 0;
     for($j=0;$j<count($row["columns"]);++$j){
       $column = $row["columns"][$j];
@@ -249,26 +251,31 @@ function get_table_html($rows,$main_font_size,$seat_num,$seat_row){
       $table_id = $column["id"];
       if($column["display"] == 0 && !$column["visible"]) continue;
       if($column["display"] == 0){
-        $html .="<td></td>";
+        $subhtml .="<td></td>";
+        $active_columns_num += 1;
         continue;
       }
       $haveRow = true;
       $numText = ($column["child_menu_num"]==0)?count($column["guests"]):(count($column["guests"])-$column["child_menu_num"])."+".$column["child_menu_num"];
-      $html .= "<td><table cellspacing=\"0\" cellspadding=\"0\" width=\"300\"><tr><td align=\"center\" colspan=\"2\" style=\"font-size:25px;\">".$table_name."[".$numText."名]</td></tr>";
+      $subhtml .= "<td><table cellspacing=\"0\" cellspadding=\"0\" width=\"300\"><tr><td align=\"center\" colspan=\"2\" style=\"font-size:40px;\">".$table_name."[".$numText."名]</td></tr>";
 
       for($k=0;$k<$seat_row*2;++$k){
-        if($k%2==0) $html .= "<tr>";
+        if($k%2==0) $subhtml .= "<tr>";
         $align = ($k%2==0)?"right":"left";
         $seat_detail = $column["seats"][$k];
         $guest_id = $seat_detail["guest_id"];
         $plate = "<img width=\"130\" src=\"images/blank.png\">";
         if($guest_id) $plate = "<img width=\"130\" src=\"".$seat_detail["guest_detail"]["name_plate"]."\" />";
-        $html .= "<td style=\"width:50%;\" align=\"".$align."\">".$plate."</td>";
-        if($k%2==1) $html .= "</tr>";
+        $subhtml .= "<td style=\"width:50%;\" align=\"".$align."\">".$plate."</td>";
+        if($k%2==1) $subhtml .= "</tr>";
       }
-      $html .= "</table></td>";
+      $active_columns_num += 1;
+      $subhtml .= "</table></td>";
     }
-    $html .= "</tr></table></td></tr><tr><td></td></tr>";
+    $subhtml .= "</tr></table>";
+    $max_width = 110*$max_columns_num*2;
+    $width = 110*$active_columns_num*2;
+    $html .= get_center_table($max_width,$width,$subhtml)."</td></tr><tr><td></td></tr>";
   }
   if(!$haveRow) return "";
   $html .="</table>";
@@ -283,19 +290,8 @@ function draw_html($plan_id,$html,$pdf,$num,$max_width){
     $table_width = 300*$num;
     $html = get_center_table($max_width,$table_width,$html);
   }
-  $samplefile="sam_".$plan_id."_".rand()."_".time().".txt";
-  
-  $handle = fopen("cache/".$samplefile, "x");
-  
-  if(fwrite($handle, $html)==true)
-    {
-      fclose($handle);
-      $utf8text = file_get_contents("cache/".$samplefile, false);
-    }
-  
-  @unlink("cache/".$samplefile);
-  
-  $pdf->writeHTML($utf8text, true, false, true, false, '');
+
+  $pdf->writeHTML($html, true, false, true, false, '');
 }
 
 $page_arr = array();
@@ -337,7 +333,7 @@ for($i=0;$i<$page_rows_num;++$i){
 
 draw_html($plan_id,$html,$pdf);
 for($i=0;$i<count($page_arr);++$i){
-  $html = get_table_html($page_arr[$i],$main_font_size,$seat_num,$seat_row);
+  $html = get_table_html($page_arr[$i],$main_font_size,$seat_num,$seat_row,$page_arr_max_columns_num[$i]);
   if($html =="") continue;
   if($html != "" && $i != 0) $pdf->addPage();
   draw_html($plan_id,$html,$pdf,$page_arr_max_columns_num[$i],$max_width);
@@ -353,7 +349,12 @@ $date = date("His");
 $user_id_name = $user_id;
 $date_array = explode('-', $user_info['party_day']);
 $this_name = "sekijihyo".$HOTELID."_".$date_array[0].$date_array[1].$date_array[2]."_".$user_id_name;
+
+if(Config::get("sampli.debug")){
+  $pdf->Output($this_name.'.pdf');
+  exit;
+}
+
 $pdf->Output($this_name.'.pdf', 'D');
-//$pdf->Output($this_name.'.pdf');
-?> 
+?>
 

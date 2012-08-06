@@ -106,6 +106,7 @@ $("#close_window").hover(function(){
 <link href="css/main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+<div id="header_back"></div>
 <div id="layout">
 	<div class="main">
 		<div class="header">
@@ -120,10 +121,10 @@ $("#close_window").hover(function(){
 <font style="display:inline;font-size:20px; font-weight:bold; margin-left:130px; color:#0099ff;"> 
 <?php
 
-  if($plan->is_hon_hatyu_irai or $plan->is_hon_hatyu) echo "印刷依頼済みのため編集できません";
-  else if (Core_Session::is_admin() && $plan->is_kari_hatyu_irai) echo "お客様が印刷イメージを依頼中です";
-  else if($plan->is_kari_hatyu_irai) echo "印刷イメージ依頼中のため編集できません"; 
- else if(Model_User::past_deadline_sekijihyo($user_id)) echo "席次表編集利用制限日が過ぎています";
+  if($plan->is_hon_hatyu_irai() or $plan->is_hon_hatyu()) echo "印刷依頼済みのため編集できません";
+  else if (Core_Session::is_admin() && $plan->is_kari_hatyu_irai()) echo "お客様が印刷イメージを依頼中です";
+  else if($plan->is_kari_hatyu_irai()) echo "印刷イメージ依頼中のため編集できません"; 
+ else if($user->past_deadline_sekijihyo()) echo "席次表編集利用制限日が過ぎています";
 ?>
 </font>
 </div>
@@ -158,4 +159,3 @@ $("#close_window").hover(function(){
 			</div>
 		</div>
 	</div>
-<div id="main_contents">

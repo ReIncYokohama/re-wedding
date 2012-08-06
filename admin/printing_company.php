@@ -1,8 +1,8 @@
 <?php
-	require_once("inc/class.dbo.php");
-	include_once("inc/checklogin.inc.php");
-	include_once("inc/new.header.inc.php");
-	$obj = new DBO();
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
+include_once("inc/new.header.inc.php");
+$obj = new DBO();
 
 	$get = $obj->protectXSS($_GET);
 	$post = $obj->protectXSS($_POST);
@@ -120,29 +120,16 @@ function new_table()
 }
 function cancel_new()
 {
-
-window.location="printing_company.php";
-
-	//$("#insert_edit").val('');
-		//s  $("#company_name").val('');
-		//s  $("#email").val('');
-		//s  $("#conf_email").val('');
-		//s  $("#number").val('');
-		//s  $("#postcode").val('');
-		//s  $("#address_1").val('');
-		//s  $("#address_2").val('');
-		//s  $("#contact_name").val('');
-
-
-		//$("#new_table").fadeOut(300);
+  window.location="printing_company.php";
 }
 function check_name()
 {
-	var company_name  = document.getElementById('company_name').value;
-	var email  = document.getElementById('email').value;
-	var conf_email  = document.getElementById('conf_email').value;
-	var number  = document.getElementById('number').value;
-	var postcode = document.getElementById('postcode').value;
+  
+	var company_name  = $("#company_name").val();
+	var email  = $("#email").val();
+	var conf_email  = $("#conf_email").val();
+	var number  = $("#number").val();
+	var postcode = $("#postcode").val();
 
 	if(company_name == '' && email=='')
 	{
@@ -159,7 +146,7 @@ function check_name()
 	if(email=='')
 	 {
 		alert("メールアドレスを入力してください");
-		document.getElementById('email').focus();
+		$("#email").focus();
 		return false;
 	  }
 	else
@@ -167,20 +154,20 @@ function check_name()
 		if(email_validate(email)==false)
 		{
 			alert("正しいメールアドレスを入力してください"); // UCHIDA EDIT 11/08/01
-			document.getElementById('email').focus();
+      $("#email").focus();
 			return false;
 		}
 	  }
 	if(conf_email=='')
 	  {
 		alert("確認用のメールアドレスを入力してください");
-		document.getElementById('conf_email').focus();
+      $("#conf_email").focus();
 		return false;
 	 }
 	if(email != conf_email)
 	{
-		alert("メールアドレスが確認用と異なっています。\n同じメールアドレスを入力してください"); // UCHIDA EDIT 11/08/01
-		document.getElementById('email').focus();
+		alert("メールアドレスが確認用と異なっています。\n同じメールアドレスを入力してください");
+    $("#email").focus();
 		return false;
 	}
 	if(number == '')
@@ -197,16 +184,11 @@ function check_name()
 		}
 	}
 	if (postcode.length != 0) {
-		if( postcode.match( /[^0-9\s-]+/ ) ) {
-				alert("郵便番号は半角数字と'-'だけで入力してください");
-				document.getElementById('postcode').focus();
-				return false;
-		}
-		if (postcode.length !=8) {
-			alert("郵便番号は'123-4567'の形式で入力してください");
-			document.getElementById('postcode').focus();
+    if( !postcode.match( /^[0-9]{3}-[0-9]{4}$/ ) ) {
+      alert("郵便番号は'123-4567'の形式で入力してください");
+      $("#postcode").focus();
 			return false;
-		}
+    }
 	}
 
 //	matchMail();
@@ -300,24 +282,7 @@ var edit_id="<?=$get['id']?>";
 }
 
 </script>
-
-<div id="topnavi">
-    <?php
-include("inc/main_dbcon.inc.php");
-$hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-?>
-<h1><?=$hotel_name?></h1>
-<?
-include("inc/return_dbcon.inc.php");
-?>
-
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
-
+<?php include_once("inc/topnavi.php");?>
 <div id="container">
 
 	<div style="clear:both;"></div>

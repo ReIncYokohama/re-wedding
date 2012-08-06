@@ -7,6 +7,7 @@ include_once("inc/class_information.dbo.php");
 include_once("inc/checklogin.inc.php");
 require_once("inc/imageclass.inc.php");
 include_once("../inc/gaiji.image.wedding.php");
+include_once("../fuel/load_classes.php");
 
 $obj = new DBO();
 
@@ -39,7 +40,7 @@ $user_id = (int)$get['user_id'];
 	for($i=1;$i<=7;$i++) unset($post['gift_fieldId'.$i]);
 	for($i=1;$i<=7;$i++) unset($post['group_fieldId'.$i]);
 	for($i=1;$i<=3;$i++) unset($post['menu_child_id'.$i]);
-	
+
 	$plan_column_number = $post['column_number'];
 	$plan_row_number = $post['row_number'];
 	$plan_seat_number = $post['seat_number'];
@@ -51,7 +52,7 @@ $user_id = (int)$get['user_id'];
 	$plan_party_day_for_confirm = $post['party_day_for_confirm'];
 	$plan_print_company = $post['print_company'];
 	$room_id = $post['room_id'];
-	
+
 	unset($post['column_number']);
 	unset($post['row_number']);
 	unset($post['seat_number']);
@@ -62,7 +63,7 @@ $user_id = (int)$get['user_id'];
 	unset($post['print_type']);
 	unset($post['party_day_for_confirm']);
 	unset($post['print_company']);
-	
+
 if(isset($user_id) && $user_id > 0)
   {
     //更新時に必要なデータだけ送信する。
@@ -124,7 +125,6 @@ if(isset($user_id) && $user_id > 0)
 
   	unset($post['current_room_id']);
     unset($post['con_mail']);
-    unset($post['layoutname']);
 
     $obj->UpdateData("spssp_user",$post," id=".$user_id);
 
@@ -138,42 +138,40 @@ if(isset($user_id) && $user_id > 0)
     $man_guest_row = $obj->GetSingleRow(" spssp_guest"," user_id=".$user_id." and sex='Male' and self=1");
     $man_guest_id = $man_guest_row["id"];
     $obj->UpdateData("spssp_guest",$guest_array," id=".$man_guest_id);
-    
+
     $guest_array2['first_name']=$post['woman_firstname'];
     $guest_array2['last_name']=$post['woman_lastname'];
     $guest_array2['furigana_last']=$post['woman_furi_lastname'];
     $guest_array2['furigana_first']=$post['woman_furi_firstname'];
     $guest_array2['comment1']="新婦";
-    
+
     $woman_guest_row = $obj->GetSingleRow(" spssp_guest"," user_id=".$user_id." and sex='Female' and self=1");
     $woman_guest_id = $woman_guest_row["id"];
     $obj->UpdateData("spssp_guest",$guest_array2," id=".$woman_guest_id);
-    
+
     set_user_gaiji_position($user_id,$post["man_firstname"],0,$_POST["male_first_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["man_lastname"],1,$_POST["male_last_gaiji_img"],$_POST["male_last_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["woman_firstname"],2,$_POST["female_first_gaiji_img"],$_POST["female_first_gaiji_gsid"]);
     set_user_gaiji_position($user_id,$post["woman_lastname"],3,$_POST["female_last_gaiji_img"],$_POST["female_last_gaiji_gsid"]);
 
-    //外字およびpdf生成に必要なファイルの作成
-    make_user_images($user_id,$post["man_lastname"],$post["man_firstname"],$post["woman_lastname"],$post["woman_firstname"],$_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],$_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"]);
-    //ゲストとして新郎を登録
-    make_guest_images($user_id,$man_guest_id,$post["man_lastname"],$post["man_firstname"],$guest_array["comment1"],"","様",
-                      $_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],array(),array());
-
-    //ゲストとして新婦を登録    
-    make_guest_images($user_id,$woman_guest_id,$post["woman_lastname"],$post["woman_firstname"],$guest_array2["comment1"],"","様",
-                      $_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"],array(),array());
-    
-
+    $user = Model_User::find_by_pk($user_id);
+    $user->make_image();
 
 	$menu_groups = $obj->GetAllRowsByCondition("spssp_gift","user_id=".$user_id);
 	$count_item = count($gift_post);
     for($i=1;$i<=$count_item;$i++)
 	{
 		unset($array);
-		$array['name'] = $gift_post[$i];
-		$obj->UpdateData("spssp_gift", $array," user_id=".$user_id." and id=".(int)$gift_post_id[$i]);
+    if(!$gift_post_id[$i] || $gift_post_id[$i] == ""){
+  	  $array['user_id']=$user_id;
+      $array['name'] = $gift_post[$i];
+      $obj->InsertData("spssp_gift", $array);
+    }else{
+      $array['name'] = $gift_post[$i];
+      $obj->UpdateData("spssp_gift", $array," user_id=".$user_id." and id=".(int)$gift_post_id[$i]);
+    }
 	}
+
 	$menu_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".$user_id);
 
 	$count_group = count($group_post);
@@ -186,8 +184,10 @@ if(isset($user_id) && $user_id > 0)
       $obj->InsertData("spssp_gift_group", $array);
     }else{
       $obj->UpdateData("spssp_gift_group", $array," user_id=".$user_id." and id=".(int)$group_post_id[$i]);
+      if($array["name"]==""){
+        Model_Guestgroup::delete_by_user_id($user_id,$group_post_id[$i]);
+      }
     }
-		
 	}
 	$menu_groups = $obj->GetAllRowsByCondition("spssp_menu_group","user_id=".$user_id);
 	$count_child = count($menu_post);
@@ -230,12 +230,12 @@ else
     unset($post['party_hour']);
     unset($post['party_minute']);
     unset($post['commail']);
-	unset($post['current_room_id']);
-	unset($post['con_mail']);
+    unset($post['current_room_id']);
+    unset($post['con_mail']);
 
     $user_login_name = "aa".rand();
-    $post['user_id'] = $user_login_name;
-    $post['password'] = rand();
+    $post['user_id'] = Model_User::new_username();
+    $post['password'] = Model_User::new_password();
 
     if((int)$post['confirm_day_num']==0) $post['confirm_day_num'] = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='confirm_day_num'");
     if((int)$post['limitation_ranking']==0) $post['limitation_ranking'] = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='limitation_ranking'");
@@ -250,13 +250,13 @@ else
     set_user_gaiji_position($user_id,$post["woman_lastname"],3,$_POST["female_last_gaiji_img"],$_POST["male_first_gaiji_gsid"]);
 
     make_user_images($user_id,$post["man_lastname"],$post["man_firstname"],$post["woman_lastname"],$post["woman_firstname"],$_POST["male_last_gaiji_img"],$_POST["male_first_gaiji_img"],$_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"]);
-    
+
     //insert USER AS GUEST
     $guest_array['first_name']=$post['man_firstname'];
     $guest_array['last_name']=$post['man_lastname'];
     $guest_array['furigana_last']=$post['man_furi_lastname'];
     $guest_array['furigana_first']=$post['man_furi_firstname'];
-    
+
     $guest_array['sex']='Male';
     $guest_array['self']=1;
     $guest_array['stage']=1;
@@ -280,7 +280,7 @@ else
     $guest_array2['comment1']="新婦";
     $guest_array2['user_id']=$last_id;
     $woman_guest_id = $obj->InsertData("spssp_guest",$guest_array2);
-    //ゲストとして新婦を登録    
+    //ゲストとして新婦を登録
     make_guest_images($user_id,$woman_guest_id,$post["woman_lastname"],$post["woman_firstname"],$guest_array2["comment1"],"","様",
                       $_POST["female_last_gaiji_img"],$_POST["female_first_gaiji_img"],array(),array());
 
@@ -299,13 +299,7 @@ else
       {
         //redirect("newuser.php?err=1");
       }
-      // 印刷会社へメール送信
-//      include("inc/main_dbcon.inc.php");
-//	  $hcode=$HOTELID;
-//	  $hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-//	  include("inc/return_dbcon.inc.php");
-//      $objMail = new MailClass();
-//      $r=$objMail->process_mail_user_newentry($user_id, $plan_print_company, $plan_product_name, $plan_dowload_options, $plan_print_size, $plan_print_type, $hotel_name, $room_id);
+
   }
 
 //CHECK EMAIL DUPLICACY
@@ -330,28 +324,13 @@ function userGiftGroup($user_id, $group_post)
   $count_gift=$gift_criteria_data_row[0]['num_gift_groups'];
 
   for($i=1;$i<=$count_gift;$i++) {
-  	unset($vl); 
+  	unset($vl);
   	$vl['user_id']=$user_id;
   	$vl['name']=$group_post[$i];
 	$lid = $obj->InsertData("spssp_gift_group", $vl);
   }
- /*
-  $query_string="SELECT * FROM spssp_gift_group_default  ORDER BY id ASC";
-  $data_rows = $obj->getRowsByQuery($query_string);
-
-  $num_user_gift_group = $obj->GetNumRows("spssp_gift_group","user_id = ".$user_id);
-  if((int)$num_user_gift_group <=0)
-    {
-
-      foreach($data_rows as $gr)
-        {
-          unset($gr['id']);
-          $gr['user_id'] = $user_id;
-          $lid = $obj->InsertData("spssp_gift_group", $gr);
-        }
-    }
-*/
 }
+
 //ENTRY usER GIFT ITEM
 function userGiftItem($user_id, $gift_post)
 {
@@ -365,24 +344,6 @@ function userGiftItem($user_id, $gift_post)
   	$vl['name']=$gift_post[$i];
   	$lid = $obj->InsertData("spssp_gift", $vl);
   }
-/*
-  $query_string="SELECT * FROM spssp_gift_item_default  ORDER BY id ASC";
-  $gift_rows = $obj->getRowsByQuery($query_string);
-  $num_user_gift = $obj->GetNumRows("spssp_gift","user_id = ".$user_id);
-  if((int)$num_user_gift <= 0)
-    {
-      foreach($gift_rows as $gf)
-        {
-          unset($gf['id']);
-          $gf['user_id'] = $user_id;
-          $values['name'] = '';
-          $values['user_id'] = $user_id;
-
-          //$lgid = $obj->InsertData("spssp_gift", $gf);
-          $lgid = $obj->InsertData("spssp_gift", $values);
-        }
-    }
-*/
 }
 function userMenuGroup($user_id, $menu_post)
 {
@@ -396,22 +357,6 @@ function userMenuGroup($user_id, $menu_post)
   	$vl['name']=$menu_post[$i];
   	$lid = $obj->InsertData("spssp_menu_group", $vl);
   }
-/*
-  $query_string="SELECT * FROM spssp_menu_criteria  ORDER BY id ASC limit 1";
-  $menu_criteria = $obj->GetFields("spssp_menu_criteria",'num_menu_groups '," id =1" );
-
-  $num_user_gift = $obj->GetNumRows("spssp_menu_group","user_id = ".$user_id);
-  if((int)$num_user_gift<=0)
-    {
-      for($i=1;$i<=$menu_criteria[0]['num_menu_groups'];$i++)
-        {
-          $gfvalue['name'] = '' ;
-          $gfvalue['description'] = MENU_GROUP_DESCRIPTION ;
-          $gfvalue['user_id'] = $user_id;
-          $lgid = $obj->InsertData("spssp_menu_group", $gfvalue);
-        }
-    }
-*/
 }
 
 function get_font_size($font_type,$hotel_id){

@@ -185,7 +185,7 @@ onmouseover="this.src='img/welcome_3_on.png';" onmouseout="this.src='img/welcome
 
 		<div class="footer" style="text-align: center;">
 	    <div style="border-bottom: 8px solid #00C6FF;"></div>
-			<div id="footer">			Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.
+			<div id="footer">			Copyright (C) 株式会社サンプリンティングシステム All rights reserved.
 			</div>
 		</div>
 		</div>

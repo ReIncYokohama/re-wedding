@@ -1,92 +1,65 @@
 <?php
-	require_once("inc/include_class_files.php");
-	include_once("inc/checklogin.inc.php");
-	include_once("inc/new.header.inc.php");
-	include_once("../fuel/load_classes.php");
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
+include_once("inc/new.header.inc.php");
+include_once("../fuel/load_classes.php");
 
-	$obj = new DBO();
-	$objMsg = new MessageClass(); // UCHIDA EDIT 11/08/16 クリック日付を記録のため
-	$objInfo = new InformationClass();
-	$objMail = new MailClass();
-	$user_id = $_GET['user_id'];
-	$stuff_id = $_GET['stuff_id'];
+$obj = new DBO();
+$objMsg = new MessageClass(); // UCHIDA EDIT 11/08/16 クリック日付を記録のため
+$objInfo = new InformationClass();
+$objMail = new MailClass();
+$user_id = $_GET['user_id'];
+$stuff_id = $_GET['stuff_id'];
 
 $user = Model_User::find_by_pk($user_id);
 $user_row = $user->to_array();
 $plan = Model_Plan::find_one_by_user_id($user_id);
 $plan_info = $plan->to_array();
 
-	$get = $obj->protectXSS($_GET);
-	$post = $obj->protectXSS($_POST);
+$get = $obj->protectXSS($_GET);
+$post = $obj->protectXSS($_POST);
 
-	$click_info = $obj ->GetSingleRow("spssp_clicktime"," user_id=".$user_id);
-	$kari_hachu = $objMsg->clicktime_format($click_info['kari_hachu']);
-	$hon_hachu = $objMsg->clicktime_format($click_info['hon_hachu']);
-	$hikide_zumi = $objMsg->clicktime_format($click_info['hikide_zumi']);
+$click_info = $obj ->GetSingleRow("spssp_clicktime"," user_id=".$user_id);
+$kari_hachu = $objMsg->clicktime_format($click_info['kari_hachu']);
+$hon_hachu = $objMsg->clicktime_format($click_info['hon_hachu']);
+$hikide_zumi = $objMsg->clicktime_format($click_info['hikide_zumi']);
 
-	$_hotel_name=$get['hotel_name'];
+$_hotel_name=$get['hotel_name'];
 
-	if($get['action']=="allow")
+if($get['action']=="allow")
 	{
-		if($obj->GetRowCount("spssp_plan"," `order` = 0 or `order` = 1 and user_id=".$user_id) >0 )
-		{
-			if($plan_info['print_company']>0)
-			{
-				$kari_hachu = $objMsg->clicktime_entry_return( "kari_hachu", $user_id );
-        $plan->do_kari_hatyu();
-        
-				unset($post);
-				$post['state']=date("Y/m/d");
-				$obj->UpdateData('spssp_user',$post,"id=".$user_id);
-
-				$res = $objMail->process_mail_user_suborder($user_id,$plan_info['print_company'], $_hotel_name);
-			}
-			else
-			{
-				$err=30;
-			}
-		}
+    if($plan->can_kari_hatyu() and $plan->exist_print_company()){
+      $kari_hachu = $objMsg->clicktime_entry_return( "kari_hachu", $user_id );
+      $plan->do_kari_hatyu();
+      
+      unset($post);
+      $post['state']=date("Y/m/d");
+      $obj->UpdateData('spssp_user',$post,"id=".$user_id);
+      
+      $res = $objMail->process_mail_user_suborder($user_id,$plan_info['print_company'], $_hotel_name);
+    }
 	}
 	if($get['action']=="print_request")
 	{
+    if($plan->can_hon_hatyu()){
+      $plan->do_hon_hatyu();
 
-		if($obj->GetRowCount("spssp_plan"," `order` >= 0 and user_id=".$user_id) >0 )
-		{
-			if($plan_info['print_company']>0)
-			{
-        $plan->do_hon_hatyu();
-
-				$sekiji = (int)$get['sekiji'];
-				$sekifuda = (int)$get['sekifuda'];
-				$sql = "update spssp_plan set day_limit_1_to_print_com=".$sekiji.", day_limit_2_to_print_com=".$sekifuda." where user_id=".(int)$user_id;
-				mysql_query($sql);
-				
-				$hon_hachu = $objMsg->clicktime_entry_return( "hon_hachu", $user_id );
-
-				$res = $objMail->process_mail_user_print_request($user_id,$plan_info['print_company'], $_hotel_name);
-			}
-			else
-			{
-				$err=30;
-			}
+      $sekiji = (int)$get['sekiji'];
+      $sekifuda = (int)$get['sekifuda'];
+      $sql = "update spssp_plan set day_limit_1_to_print_com=".$sekiji.", day_limit_2_to_print_com=".$sekifuda." where user_id=".(int)$user_id;
+      mysql_query($sql);
+      
+      $hon_hachu = $objMsg->clicktime_entry_return( "hon_hachu", $user_id );
+      
+      $res = $objMail->process_mail_user_print_request($user_id,$plan_info['print_company'], $_hotel_name);
 		}
 	}
 	if($get['action']=="daylimit_request")
 	{
-
-		if($obj->GetRowCount("spssp_plan"," gift_daylimit < 3 and user_id=".$user_id) > 0)
-		{
-
-			unset($post);
-			$post['gift_daylimit']=3;
-			$res = $obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
-
+    if($plan->can_hikidemono_hatyu()){
+      $plan->do_hikidemono_hatyu();
+			$plan->save();
 			$hikide_zumi = $objMsg->clicktime_entry_return( "hikide_zumi", $user_id );
-
-			if(!$res)
-			{
-				$err=28;
-			}
 		}
 	}
 	if($get['action']=="reset")
@@ -94,20 +67,14 @@ $plan_info = $plan->to_array();
 		$objInfo->reset_guest_gift_page_and_user_orders_conditions($user_id);
 	}
 
-	//DAY LIMIT FIELD UPGRADE FOR VALUE WHETHER 1 OR 2
 	if($_POST['gift_day_limit'] =="gift_day_limit" )
 	{
-
 		unset($post);
 		$post['day_limit_1_to_print_com'] = (int)$_POST['day_limit_1'];
 		$post['day_limit_2_to_print_com'] = (int)$_POST['day_limit_2'];
-		$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id);
-    
+		$obj->UpdateData('spssp_plan',$post,"user_id=".$user_id); 
 	}
 
-
-
-	//DAY LIMIT CHECK FOR VALUE WHETHER 1 OR 2
 	$plan_info2 = $obj ->GetSingleRow("spssp_plan"," user_id=".$user_id);
 	if($plan_info2['dowload_options']==1)
 	{
@@ -127,6 +94,7 @@ $plan_info = $plan->to_array();
 $plan = Model_Plan::find_one_by_user_id($user_id);
 $plan_info = $plan->to_array();
 
+list($sekijihyo_num,$sekifuda_num) = $plan->get_sekijihyo_sekifuda_num();
 
 ?>
 <style>
@@ -212,25 +180,13 @@ function m_win(url,windowname,width,height) {
  }
  window.open(url,windowname,features);
 }
-
-// --></script>
-<div id="topnavi">
-
 <?php
-include("inc/main_dbcon.inc.php");
-$hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
+if($get['action']=="reset"){
+  echo "alert(\"依頼解除されました\")";
+}
 ?>
-<h1><?=$hotel_name?></h1>
-<?
-include("inc/return_dbcon.inc.php");
-?>
-
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
+// --></script>
+<?php include_once("inc/topnavi.php");?>
 
 <div id="container">
 
@@ -331,9 +287,9 @@ include("inc/return_dbcon.inc.php");
 						echo $hon_hachu;
 						if ($hon_hachu!="") {
 							echo "<br />";
-							if ($plan_info['dowload_options']==1 || $plan_info['dowload_options']==3) echo "席次表印刷部数 ".$dayLimit_1." 部";
+							if ($sekijihyo_num != "") echo "席次表印刷部数 ".$sekijihyo_num." 部";
 							echo "　";
-							if ($plan_info['dowload_options']==2 || $plan_info['dowload_options']==3) echo "席札印刷部数 ".$dayLimit_2." 部";
+							if ($sekifuda_num != "") echo "席札印刷部数 ".$sekifuda_num." 部";
 						}
 					?>
 				</td>

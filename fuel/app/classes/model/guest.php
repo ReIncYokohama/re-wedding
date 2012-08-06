@@ -1,7 +1,13 @@
 <?php
 class Model_Guest extends Model_Crud{
   static $_table_name = "spssp_guest";
-
+  static $_fields = array(
+    "id","user_id","sub_category_id","respect_id","name","sex",
+    "description","display_order","creation_date","edit_item_id",
+    "self","stage","last_name","first_name","guest_type","stage_guest",
+    "comment1","comment2","table_id","gift_group_id","menu_grp","memo",
+    "gender_status","furigana_last","furigana_first"
+                          );
   static public function exist($user_id = null){
     if($user_id == null) $user_id = Core_Session::get_user_id();
     

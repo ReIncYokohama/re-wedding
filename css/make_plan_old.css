@@ -1,0 +1,60 @@
+.left_sidebar {
+  width: 98%;
+  text-align: center;
+}
+.left_sidebar thead tr {
+  background-color: #666;
+  color: #fff;
+}
+.left_sidebar tbody {
+  background: #f5f8e5;
+}
+.left_sidebar .no {
+  width: 21px;
+}
+.left_sidebar .sex {
+  width: 38px;
+}
+.left_sidebar .group {
+  width: 38px;
+}
+.left_sidebar .name {
+  width: 104px;
+  background-repeat: no-repeat;
+  background-position: 0px 50%;
+}
+.left_sidebar .tablename {
+  width: 32px;
+}
+.make_plan_tables {
+  float: left;
+  width: 198px;
+}
+.make_plan_tables p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  vertical-align: middle;
+}
+.make_plan_tables .seat {
+  width: 80px;
+  height: 30px;
+  margin: 1px 2px;
+  border: #a2a7bc 1px solid;
+  float: left;
+  padding: 0px;
+  overflow: hidden;
+}
+.make_plan_tables .space {
+  float: left;
+  text-align: center;
+  width: 12px;
+  height: 30px;
+}
+a {
+  cursor: pointer;
+}
+.drag_box {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}

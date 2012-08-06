@@ -18,13 +18,13 @@ if($user_id>0){
   $updating = false;
 }
 
-if($user_id>0) {
+if($updating) {
   $user = Model_User::find_by_pk($user_id);
   $user_row = $user->to_array();
-  
-  list($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis) 
+
+  list($man_firstname_gaijis,$man_lastname_gaijis,$woman_firstname_gaijis,$woman_lastname_gaijis)
     = $user->get_gaiji_arr();
-  
+
 	function getGaijis($gaiji_objs){
 		 $returnImage = "";
 		 for($i=0;$i<count($gaiji_objs);++$i){
@@ -32,6 +32,7 @@ if($user_id>0) {
 		 }
 		 return $returnImage;
 	}
+
 	function getGaijisInputEle($gaiji_objs){
 		 $html = "";
 		 for($i=0;$i<count($gaiji_objs);++$i){
@@ -39,6 +40,7 @@ if($user_id>0) {
 		 }
 		 return $html;
 	}
+
 	function getHiddenValue($type,$img,$gid,$gsid){
 		  $typeArray = array("male_first","male_last","female_first","female_last");
 		  $value = $typeArray[$type];
@@ -47,6 +49,7 @@ if($user_id>0) {
 		  $html .= "<input type='hidden' name='".$value."_gaiji_gid[]' value='".$gid."'>";
 		  return $html;
 	}
+
 	function getAllGaijisInputEle($gaijis){
 		 $html = "";
 		 for($i=0;$i<count($gaijis);++$i){
@@ -57,10 +60,10 @@ if($user_id>0) {
 
 	$query_string="SELECT * FROM spssp_room where (status=1 or id=".$user_row['room_id'].")   ORDER BY display_order ASC ;";
 	$rooms = $obj->getRowsByQuery($query_string);
-  
+
 	$staff_name = $user->get_staffname();
 	$All_staffs = Model_Admin::get_staffs();
-  
+
   $room_name = $user->get_room_name();
   $plan = Model_Plan::find_one_by_user_id($user_id);
 	$user_plan_row = $plan->to_array();
@@ -79,7 +82,7 @@ if($user_id>0) {
 		$disp_option3 = ' border-style:none ';
 		$disp_option4 = "";
 		$disp_option5 = ' disabled="disabled" ';
-    $disp_option6 = ' rules="rows" frame="void"';
+    $disp_option6 = ' class="border"';
     $disp_option7 = "display:none;";
 	}
 }
@@ -87,8 +90,24 @@ else {
 	$disp_option4 = '<font color="red">*</font>';
 	$query_string="SELECT * FROM spssp_room where status=1 ORDER BY display_order ASC ;";
 	$rooms = $obj->getRowsByQuery($query_string);
+  if(count($rooms) == 0){
+    Helper_App::redirect("rooms.php","会場レイアウトを入力して下さい");
+  }
+
   $All_staffs = Model_Admin::get_staffs();
+  if(count($All_staffs) == 0){
+    Helper_App::redirect("staffs.php","スタッフを入力して下さい");
+  }
+
 }
+
+$sql_company = "select * from spssp_printing_comapny ORDER BY display_order";
+$company_results = $obj->getRowsByQuery($sql_company);
+if(count($company_results) == 0){
+  Helper_App::redirect("printing_company.php","印刷会社を入力して下さい");
+}
+
+
 
 ?>
 <style>
@@ -116,7 +135,12 @@ width:200px;
 	text-decoration:none;
 	cursor:default;
 	}
-
+.border{
+  border-collapse:collapse;
+}
+.border tr, table.note td{
+  border-bottom: black 1px solid;
+}
 </style>
 <script src="../js/noConflict.js" type="text/javascript"></script>
 <script type="text/javascript" src="calendar/calendar.js"></script>
@@ -141,6 +165,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 <script type="text/javascript" src="../js/ierange-m2.js"></script>
 <script type="text/javascript" src="../js/gaiji.js"></script>
 <script type="text/javascript">
+
 $j(function(){
 	var msg_html=$j("#msg_rpt").html();
 	if(msg_html!='')
@@ -336,6 +361,22 @@ function change_gaiji_link(action)
 		$j("a#woman_gaiji_link_id").attr("href", "../gaiji/palette.php?from=woman_lastname");
 }
 
+function check_validation_date_text_compare_today(el){
+  var str = document.getElementById(el).value;
+  if(str==""){
+    return true;
+  }
+  var arr = str.split("/");
+  var date = new Date(arr[0],arr[1]-1,arr[2]);
+  var now_date = new Date();
+  if(date.getTime() < now_date.getTime()){
+    alert("本日以降の日付を指定してください");
+    document.getElementById(el).click();
+    return false;
+  }
+  return true;
+}
+
 function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // registration_validation.jsから移動 11/08/26
 {
 	if (noUpdate == true) {
@@ -345,7 +386,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 
 	var email = document.getElementById('mail').value;
 	var com_email = document.getElementById('con_mail').value;
-	
+
 	var reg = /^[A-Za-z0-9](([_|\.|\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_|\.|\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$/;
 
 	if(document.getElementById("party_day").value=='')
@@ -362,20 +403,14 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
        document.getElementById('party_hour').focus();
        return false;
 	   }
-     if(str6 > 23)
-       {
-         alert("披露宴時間は0から23の間で入力してください");
-         document.getElementById('party_hour').focus();
-         return false;
-       }
-     
+
      if(str6 > 22 || str6 < 7)
        {
          alert("披露宴時間は7:00〜22:00の間で入力してください");
          document.getElementById('party_hour').focus();
          return false;
        }
-     
+
 		var str7 = document.getElementById("party_minute").value;
 		if(str7 >59)
 		{
@@ -466,7 +501,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
    }
 
    if(document.getElementById("woman_furi_firstname").value=='')
-	{
+ 	{
 		alert("新婦の名のふりがなを正しく入力してください");
 		document.getElementById('woman_furi_firstname').focus();
 		return false;
@@ -486,12 +521,11 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
     }
 	if(str4 > 23)
 	{
-    alert("挙式時間は0から22の間で入力してください");
+    alert("披露宴時間は7:00〜22:00の間で入力してください");
 		document.getElementById('marriage_hour').focus();
 		return false;
 	}
-
-	if((str4!="" && Number(str4) != 0) && (str4 > 22 || str4 < 7))
+	if((str4!="") && (Number(str4) > 22 || Number(str4) < 7))
 	{
 		alert("挙式時間は7:00〜22:00の間で入力してください");
 		document.getElementById('marriage_hour').focus();
@@ -526,34 +560,19 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 		document.getElementById("marriage_minute").value = "";
 	}
 
+  if(!check_validation_date_text_compare_today("marriage_day")){
+    return false;
+  }
+  if(!check_validation_date_text_compare_today("party_day")){
+    return false;
+  }
+
 	if(document.getElementById("product_name").value=='')
 	{
 		alert("商品名は必須項目です。");
 		document.getElementById('product_name').focus();
 		return false;
 	}
-
-	if(document.getElementById("room_id").value=='')
-	{
-//		alert("必須項目は必ず入力してください。");
-//		document.getElementById('room_id').focus();
-//		return false;
-	}
-
-	if(document.getElementById("religion").value=='')
-	{
-//		alert("挙式種類を選択してください");
-//		document.getElementById('religion').focus();
-//		return false;
-	}
-
-
-//	if(document.getElementById("user_id").value=='')
-//	{
-//		alert("ログインIDを入力してください");
-//		document.getElementById('user_id').focus();
-//		return false;
-//	}
 
 	var radio3  = document.user_form_register.subcription_mail;
 
@@ -624,7 +643,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 		document.getElementById('order_deadline').focus();
 		return false;
 	}
-	
+
 	if (valid_plan(noUpdate) == false) return false;
 	if (checkGiftForm(count_gift, noUpdate) == false) return false;
 	if (checkGroupForm(count_group, noUpdate) == false) return false;
@@ -651,7 +670,7 @@ function valid_user(user_id, noUpdate, count_gift, count_group, count_child) // 
 }
 
 function email_validate(email) {
-   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+  var reg = /^[0-9,A-Z,a-z][0-9,a-z,A-Z,_,\.,-]+@[0-9,A-Z,a-z][0-9,a-z,A-Z,_,\.,-]+\.(af|al|dz|as|ad|ao|ai|aq|ag|ar|am|aw|ac|au|at|az|bh|bd|bb|by|bj|bm|bt|bo|ba|bw|br|io|bn|bg|bf|bi|kh|cm|ca|cv|cf|td|gg|je|cl|cn|cx|cc|co|km|cg|cd|ck|cr|ci|hr|cu|cy|cz|dk|dj|dm|do|tp|ec|eg|sv|gq|er|ee|et|fk|fo|fj|fi|fr|gf|pf|tf|fx|ga|gm|ge|de|gh|gi|gd|gp|gu|gt|gn|gw|gy|ht|hm|hn|hk|hu|is|in|id|ir|iq|ie|im|il|it|jm|jo|kz|ke|ki|kp|kr|kw|kg|la|lv|lb|ls|lr|ly|li|lt|lu|mo|mk|mg|mw|my|mv|ml|mt|mh|mq|mr|mu|yt|mx|fm|md|mc|mn|ms|ma|mz|mm|na|nr|np|nl|an|nc|nz|ni|ne|ng|nu|nf|mp|no|om|pk|pw|pa|pg|py|pe|ph|pn|pl|pt|pr|qa|re|ro|ru|rw|kn|lc|vc|ws|sm|st|sa|sn|sc|sl|sg|sk|si|sb|so|za|gs|es|lk|sh|pm|sd|sr|sj|sz|se|ch|sy|tw|tj|tz|th|bs|ky|tg|tk|to|tt|tn|tr|tm|tc|tv|ug|ua|ae|uk|us|um|uy|uz|vu|va|ve|vn|vg|vi|wf|eh|ye|yu|zm|zw|com|net|org|gov|edu|int|mil|biz|info|name|pro|jp)$/i;
    if(reg.test(email) == false) {
        return false;
    }
@@ -685,7 +704,7 @@ function dowload_options_change() {
         doc.options[0].value = 1;
         doc.options[0].selected = true;
         break;
-    case "3":	  
+    case "3":
         doc.length = 2;
         doc.options[0].text = "A3";
         doc.options[0].value = 1;
@@ -738,28 +757,13 @@ function m_win(url,windowname,width,height) {
 }
 
 // --></script>
-<div id="topnavi">
-    <?php
-include("inc/main_dbcon.inc.php");
-$hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-?>
-<h1><?=$hotel_name?></h1>
-<?
-include("inc/return_dbcon.inc.php");
-?>
+<?php include_once("inc/topnavi.php");?>
 
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
 <div id="container">
     <div id="contents">
     <div style="font-size:11px; width:250px;">
 
   <?php if($user_id>0) echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1")."・";?>
-
   <?php if($user_id>0) echo $objInfo->get_user_name_image_or_src($user_row['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1")."  様";?>
 
     </div>
@@ -795,8 +799,8 @@ include("inc/return_dbcon.inc.php");
   <?php
   }
 ?>
-      	
-            
+
+
             <div class="navi"><a href="guest_gift.php?user_id=<?=$user_id?>&stuff_id=<?=$stuff_id?>">
             <img src="img/common/navi04.jpg" onMouseOver="this.src='img/common/navi04_over.jpg'"onMouseOut="this.src='img/common/navi04.jpg'" />
             </a></div>
@@ -806,7 +810,7 @@ include("inc/return_dbcon.inc.php");
 <img src="img/common/navi03.jpg" onMouseOver="this.src='img/common/navi03_on.jpg'"onMouseOut="this.src='img/common/navi03.jpg'" />
                 </a>
             </div><div class="navi2">
-            
+
 <?php if($_SESSION["super_user"]){　?>
           <div class="navi"><a href="csv_upload.php?user_id=<?=$user_id?>"  onclick="m_win(this.href,'mywindow7',700,200); return false;">
 <img src="img/common/navi05.jpg" onMouseOver="this.src='img/common/navi05_on.jpg'"onMouseOut="this.src='img/common/navi05.jpg'" />
@@ -824,7 +828,7 @@ include("inc/return_dbcon.inc.php");
         	<div style="width:400px;"><font color="#2052A3"><strong>お客様新規登録</strong></font></div>
         <?php } ?>
         </h2>
-　 <?php if (preg_match("/red/", $disp_option4)) echo '<font color="red">*</font>の付いた項目は必須です。<br />' ?> 
+　 <?php if (preg_match("/red/", $disp_option4)) echo '<font color="red">*</font>の付いた項目は必須です。<br />' ?>
 		　<div style="<?=$disp_option7?>">お客様氏名を更新時、上部のお客様氏名に更新内容が反映されない場合は、ブラウザの更新ボタンを押してください。 </div>
 		<?php
 		//echo "<pre>";
@@ -833,7 +837,7 @@ include("inc/return_dbcon.inc.php");
 		?>
 		<div id="div_box_1" style="width:1000px;">
          <form action="insert_user.php?user_id=<?=$user_id;?>" method="post" name="user_form_register">
-        <table width="800" border="0" cellspacing="10" cellpadding="0" <?=$disp_option6?>>
+        <table width="800" cellspacing="10" cellpadding="0" <?=$disp_option6?>>
             <tr>
               <td width="160" align="left" valign="middle" nowrap="nowrap">披露宴日<?=$disp_option4?>　</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
@@ -869,7 +873,7 @@ include("inc/return_dbcon.inc.php");
            		<td  colspan="3" align="left" valign="middle" nowrap="nowrap">
 
                		<input name="man_furi_lastname" <?=$disp_option1?> style="padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_furi_lastname" value="<?=$user_row['man_furi_lastname']?>" size="23" />
-            		<input name="man_furi_firstname" <?=$disp_option1?> style="padding-top:4px;border-style: inset; padding-bottom:4px; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_furi_firstname" value="<?=$user_row['man_furi_firstname']?>" size="23" /> 
+            		<input name="man_furi_firstname" <?=$disp_option1?> style="padding-top:4px;border-style: inset; padding-bottom:4px; <?=$disp_option2?> <?=$disp_option3?> " type="text" id="man_furi_firstname" value="<?=$user_row['man_furi_firstname']?>" size="23" />
             		様
               </td>
             </tr>
@@ -922,8 +926,8 @@ include("inc/return_dbcon.inc.php");
                         }
                     ?>
                 </select>
-                <?php } 
-                else { 
+                <?php }
+                else {
                 	echo $room_name;
                  } ?>
                 </td>
@@ -936,7 +940,7 @@ include("inc/return_dbcon.inc.php");
               <td width="160" align="left" valign="middle" nowrap="nowrap" style="text-align:left;" >挙式日</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap" style="text-align:left;" >：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-					<?php 
+					<?php
 						if ($user_row['marriage_day'] == "0000-00-00") {
 							$_md = "";
 						}
@@ -957,7 +961,7 @@ include("inc/return_dbcon.inc.php");
                 <td colspan="2" align="left" valign="middle" nowrap="nowrap">挙式時間&nbsp;　：
 				<?php
 				$marriage_time_array = explode(":",$user_row['marriage_day_with_time']);
-				
+
 if ($user_row['marriage_day'] == "0000-00-00") {
   $marriage_time_array[0] = "";
   $marriage_time_array[1] = "";
@@ -968,7 +972,7 @@ if($marriage_time_array[0]=="00" and $marriage_time_array[1]=="00"){
 }
 
 				?>
-				&nbsp; 
+				&nbsp;
 				<input type="text" <?=$disp_option1?> style="width:17px;padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" name="marriage_hour" id="marriage_hour" value="<?=$marriage_time_array[0]?>"> :
 				<input type="text" <?=$disp_option1?> style="width:17px;padding-top:4px; padding-bottom:4px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" name="marriage_minute" id="marriage_minute" value="<?=$marriage_time_array[1]?>"> (24時間表記)
                 <!--&nbsp;<a href="javascript:void(0)" onclick="document.getElementById('marriage_day_with_time').value='';">クリア </a>-->
@@ -1009,7 +1013,7 @@ if($marriage_time_array[0]=="00" and $marriage_time_array[1]=="00"){
 						$party_rooms_name = $obj->GetSingleData("spssp_party_room","name"," id=".$user_row['party_room_id']);
 
 					?>
-				&nbsp; 
+				&nbsp;
 				<input name="party_room_id" type="text"  class="input_text" id="party_room_id" style="padding-top:4px; padding-bottom:4px; border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " value="<?=$party_rooms_name?>" size="20" <?=$disp_option1?> />
                 </td>
             </tr>
@@ -1017,13 +1021,13 @@ if($marriage_time_array[0]=="00" and $marriage_time_array[1]=="00"){
               <td width="160" align="left" valign="middle" nowrap="nowrap">新郎新婦高砂席位置</td>
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
-                              <input type="radio" name="mukoyoshi" <?=$disp_option5?> value="0" 
-<?php 
+                              <input type="radio" name="mukoyoshi" <?=$disp_option5?> value="0"
+<?php
 if($user_row['mukoyoshi']!='1'){
   echo "checked='checked'";
 }
 ?> /> 通常
-<input type="radio" name="mukoyoshi" <?=$disp_option5?> value="1" 
+<input type="radio" name="mukoyoshi" <?=$disp_option5?> value="1"
 <?php
 if($user_row['mukoyoshi']=='1'){
   echo "checked='checked'";
@@ -1080,8 +1084,8 @@ if($user_row['mukoyoshi']=='1'){
 			   <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
 				<td colspan="3" align="left" valign="middle" nowrap="nowrap">
 
-			<input type="radio" name="subcription_mail" <?=$disp_option5?> value="0" <?php if($user_row['subcription_mail']=='0'){echo "checked='checked'";}?> /> 受信する
-			<input type="radio" name="subcription_mail" <?=$disp_option5?> value="1" <?php if($user_row['subcription_mail']=='1' || !isset($user_row['subcription_mail'])) {echo "checked='checked'";}?>/>  受信しない
+			<input type="radio" id="can_subscribe_mail" name="subcription_mail" <?=$disp_option5?> value="0" <?php if($user_row['subcription_mail']=='0'){echo "checked='checked'";}?> /> 受信する
+			<input type="radio" id="cant_subscribe_mail" name="subcription_mail" <?=$disp_option5?> value="1" <?php if($user_row['subcription_mail']=='1' || !isset($user_row['subcription_mail'])) {echo "checked='checked'";}?>/>  受信しない
 				</td>
 			</tr>
             <tr>
@@ -1089,21 +1093,21 @@ if($user_row['mukoyoshi']=='1'){
               <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td colspan="3" align="left" valign="middle" nowrap="nowrap">
                 <?php if ($disp_option1=="") {?>
-				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;border-style:inset;">
+				<select name="stuff_id" style="padding-top:4px; padding-bottom:4px;border-style:inset;" id="stuff_id">
 				<?php
 				if ($user_id>0) {
 					foreach($All_staffs as $staf_rows) {
 				?>
 					<option value="<?=$staf_rows['id']?>" <?php if($staf_rows['id']==$user_row['stuff_id']){echo "selected='selected'";}?> ><?=$staf_rows['name']?></option>
-				<?php } 
+				<?php }
 				} else {
 					foreach($All_staffs as $staf_rows){
 				?>
 					<option value="<?=$staf_rows['id']?>" <?php if($staf_rows['id']==$_SESSION['adminid'] && $_SESSION["super_user"] == false){echo "selected='selected'";}?> ><?=$staf_rows['name']?></option>
-				<?php } 
+				<?php }
 				} ?>
 				</select>
-				<?php } 
+				<?php }
 				else {
 					echo $obj->GetSingleData("spssp_admin","name"," id=".$user_row['stuff_id']);
                 } ?>
@@ -1119,7 +1123,7 @@ if($user_row['mukoyoshi']=='1'){
         <input type="hidden" id="max_columns" value="<?=$room_row['max_columns']?>" />
         <input type="hidden" id="max_seats" value="<?=$room_row['max_seats']?>" />
 
-        <table width="850" border="0" cellspacing="10" cellpadding="0" <?=$disp_option6?>>
+        <table width="850" cellspacing="10" cellpadding="0" <?=$disp_option6?>>
 
             <tr>
               <td width="160" align="left" valign="middle" nowrap="nowrap">披露宴会場名</td>
@@ -1132,7 +1136,7 @@ if($user_row['mukoyoshi']=='1'){
 
             <div class="sekiji_table_L" id="plan_preview">
 
-  			<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" <?=$disp_option6?>>
+  			<table width="100%" align="center" cellpadding="0" cellspacing="0">
             	<tr>
                 	<td>
 			<?php
@@ -1151,24 +1155,7 @@ if($user_row['mukoyoshi']=='1'){
 
                 $row_width = $user_plan_row['column_number'] *45;
                 echo "<div class='plans' id='plan_".$user_plan_row['id']."' style='width:".$row_width."px;margin:0 auto; display:block;'>";
-                $default_layout_title = $obj->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
-                if($user_plan_row['layoutname']=="null"){
-                  echo "<div id='user_layoutname'  style='height:20px;display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'></div>";
-                }elseif($user_plan_row['layoutname']!="")
-                  {
-                    echo "<div id='user_layoutname'  style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$user_plan_row['layoutname']."</div>";
-                  }
-                elseif($default_layout_title!="")
-                  {
-                    echo "<div id='default_layout_title' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$default_layout_title."</div>";
-                  }
-                else
-                  {
-                    echo "<div id='default_layout_title' style='display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>"."　　　"."</div>";
-                  	// echo "<p id='img_default_layout_title' style='text-align:center'><img src='img/sakiji_icon/icon_takasago.gif' width='102' height='22' /></p>";
-                  }
-
-                echo "<div id='input_user_layoutname' style='display:none;'><input type='text' name='layoutname' value='".$user_plan_row['layoutname']."'></div>";
+                echo "<div id='user_layoutname'  style='height:18px;display:block;text-align:center;width:100px;margin:0 auto;border:1px solid gray;'>".$plan->get_layoutname()."</div>";
                 $tblrows = $obj->getRowsByQuery("select distinct row_order from spssp_table_layout where user_id= ".(int)$user_id);
 
                 foreach($tblrows as $tblrow)
@@ -1223,7 +1210,7 @@ if($user_row['mukoyoshi']=='1'){
                         $_nm2 = mb_substr($tblname, 0,2,'UTF-8');
                         $_han = 1;
                         if (preg_match("/^[a-zA-Z0-9]+$/", $_nm2)) $_han = 2; // 先頭の２文字が全て半角
-                        
+
                         echo "<div class='tables' style='".$disp."'><p>".mb_substr ($tblname, 0,$_han,'UTF-8')."</p></div>";
                       }
                     echo "</div></div>";
@@ -1283,11 +1270,11 @@ if($user_row['mukoyoshi']=='1'){
 					if ($default_raname_table_view == "0") $_def_view = "disabled='disabled'";
 					if ($user_plan_row['rename_table'] != "") {
 				?>
-					<input name="rename_table" type="radio" id="radio1" <?=$disp_option5?> value="1"  <?php if($user_plan_row['rename_table'] == "1") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
-					<input type="radio" name="rename_table" id="radio0" <?=$disp_option5?> value="0"  <?php if($user_plan_row['rename_table'] == "0") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
+					<input name="rename_table" type="radio" id="can_change_table_name" <?=$disp_option5?> value="1"  <?php if($user_plan_row['rename_table'] == "1") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
+					<input type="radio" name="rename_table" id="cant_change_table_name" <?=$disp_option5?> value="0"  <?php if($user_plan_row['rename_table'] == "0") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
 			  <?php } else {?>
-					<input name="rename_table" type="radio" id="radio1" <?=$disp_option5?> value="1"  <?php if($_def_view==!"") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
-					<input type="radio" name="rename_table" id="radio0" <?=$disp_option5?> value="0" <?php if($_def_view=="") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
+					<input name="rename_table" type="radio" id="can_change_table_name" <?=$disp_option5?> value="1"  <?php if($_def_view==!"") {echo "checked='checked'";}?> <?=$_def_view ?> />   可
+					<input type="radio" name="rename_table" id="cant_change_table_name" <?=$disp_option5?> value="0" <?php if($_def_view=="") {echo "checked='checked'";}?> <?=$_def_view ?> /> 不可
 			  <?php }?>
             </td>
   </tr>
@@ -1308,7 +1295,7 @@ if($user_row['mukoyoshi']=='1'){
                         <option value="2" <?php if($user_plan_row['dowload_options'] == 2) echo "selected='selected'";?>>席札</option>
                         <option value="3" <?php if($user_plan_row['dowload_options'] == 3) echo "selected='selected'";?>>席次表・席札</option>
                 </select>
-                <?php } 
+                <?php }
                 else {
                 	switch ($user_plan_row['dowload_options']) {
                 		case 1:
@@ -1366,7 +1353,7 @@ if($updating){
 ?>
 <input type="text" name="confirm_day_num" id="confirm_day_num" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$user->confirm_day_num?>" /> 日前
 <?php
-}else{  
+}else{
   $confirm_day_num = Model_Option::get_confirm_day_num();
 ?>
 披露宴日&nbsp;
@@ -1390,14 +1377,14 @@ if($updating){
 ?>
 <input type="text" name="limitation_ranking" id="limitation_ranking" <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$user->limitation_ranking?>" /> 日前
 <?php
-}else{  
+}else{
   $deadline_sekijihyo = Model_Option::get_deadline_sekijihyo();
 ?>
 披露宴日&nbsp;
 <input type="text" name="limitation_ranking" id="limitation_ranking" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$deadline_sekijihyo?>" /> 日前
 <?php
 }
-?>				
+?>
 				</td>
 
             </tr>
@@ -1407,17 +1394,13 @@ if($updating){
 
             <td width="10" align="left" valign="middle" nowrap="nowrap">：</td>
                 <td align="left" valign="middle" nowrap="nowrap">
-                	<?php
-					$sql_company = "select * from spssp_printing_comapny ORDER BY display_order";
-					$company_results = $obj->getRowsByQuery($sql_company);
-					?>
 					<?php if ($disp_option1=="") { ?>
 					<select name="print_company" id="print_company" style="border-style: inset;width:200px;">
 						<?php foreach($company_results as $company){?>
 						<option value="<?=$company['id']?>" <?php if($user_plan_row['print_company']==$company['id']){echo "selected='selected'";}?> ><?=$company['company_name']?></option>
 						<?php }?>
 				    </select>
-					<?php } 
+					<?php }
 					else {
 						echo $obj->GetSingleData("spssp_printing_comapny","company_name"," id=".$user_plan_row['print_company']);
 					}?>
@@ -1425,27 +1408,15 @@ if($updating){
             </tr>
         </table>
 
-<!--  <br />
-      <p class="txt3">
-        	<?php
-            //if(empty($user_plan_row))
-            //{
-			?>
-             <a href="javascript:void(0);" onclick="valid_plan('<?=$noUpdate?>');"> <img src="img/common/btn_regist_update.jpg" border="0" /> </a>
-			<?php
-			//}
-			?>
-        </p> -->
-<!--         </form> -->
-		</div> <!--end of  id="div_box_2"-->
+		</div>
         <br />
         <h2><div>引出物設定</div></h2>
             <?php
-            $gift_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".$user_id." order by id ASC");
-            $gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".$user_id." order by id ASC");
-			$gift_criteria = $obj->GetSingleRow("spssp_gift_criteria", " id=1");
-			$count_gift = (int)$gift_criteria['num_gift_items'];
-			$count_group = (int)$gift_criteria['num_gift_groups'];
+$gift_groups = $obj->GetAllRowsByCondition("spssp_gift_group","user_id=".$user_id." order by id ASC");
+$gifts = $obj->GetAllRowsByCondition("spssp_gift","user_id=".$user_id." order by id ASC");
+$giftOption = Model_Giftoption::data();
+$count_gift = $giftOption->num_gift_items;
+$count_group = $giftOption->num_gift_groups;
 			?>
 
         <div style="width:1000px; float:left;" id="div_box_3">
@@ -1455,16 +1426,21 @@ if($updating){
                 </div>
                 <div style="width:300px; float:left;">
 	   		<input type="hidden" name="editUserGiftItemsUpdate" value="editUserGiftItemsUpdate" style="border-style: inset;">
-	   		<table width="100%" border="0" cellspacing="1" cellpadding="0" <?=$disp_option6?>>
+	   		<table width="100%" cellspacing="1" cellpadding="0" <?=$disp_option6?>>
 	   <?php
 	   if($user_id>0) {
-		  	$yy = 1;
-			foreach($gifts as $gift_name)
-			{
-				echo "<tr><td style='text-align:left;'><input type='text' id='item".$yy.$disp_option1."' style='padding-top:3px; padding-buttom:3px;border-style:inset;".$disp_option2.$disp_option3."' name='name_gift".$yy."' value='".$gift_name['name']."' size='30'>&nbsp;&nbsp;&nbsp;";
-				echo "<input type='hidden' name='gift_fieldId".$yy."' value='".$gift_name['id']."'></td></tr>";
-				$yy++;
-			}
+					  $xx = 1;
+       foreach($gifts as $gift)
+         {
+           if($xx == $count_gift+1) break;
+           echo "<tr><td style='text-align:left;'><input type='text' id='item".$xx."' ".$disp_option1." style='padding-top:3px; padding-buttom:3px;border-style:inset;".$disp_option2.$disp_option3."' name='name_gift".$xx."' value='".$gift['name']."' size='30'>&nbsp;&nbsp;&nbsp;";
+           echo "<input type='hidden' name='gift_fieldId".$xx."' value='".$gift['id']."'></td></tr>";
+           $xx++;
+         }
+       for (; $xx <=$count_gift; $xx++) {
+         echo "<tr><td style='text-align:left;'><input type='text' id='item".$xx."' ".$disp_option1." style='padding-top:3px; padding-buttom:3px;border-style:inset;".$disp_option2.$disp_option3."' name='name_gift".$xx."' value='' size='30'>&nbsp;&nbsp;&nbsp;";
+         echo "<input type='hidden' name='gift_fieldId".$xx."' value=''></td></tr>";
+       }
 	   }
 	   else {
 		   	for ($yy=1; $yy<=$count_gift; $yy++) {
@@ -1485,7 +1461,7 @@ if($updating){
 	       <div style="width:300px; float:left; ">
 		        <p>
 				  <input type="hidden" name="editUserGiftGroupsUpdate" value="editUserGiftGroupsUpdate">
-	   		<table width="100%" border="0" cellspacing="1" cellpadding="0" <?=$disp_option6?>>
+	   		<table width="100%" cellspacing="1" cellpadding="0" <?=$disp_option6?>>
 				  <?php
 				  if($user_id>0) {
 					  $xx = 1;
@@ -1495,13 +1471,12 @@ if($updating){
 						  echo "<tr><td style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro.$disp_option1." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset; $disp_option2 $disp_option3' value='".$row['name']."'>";
 						  echo "<input type='hidden' name='group_fieldId".$xx."' value='".$row['id']."'></td></tr>";
 						  $xx++;
-              
 					  }
 		  			  for (; $xx <=$count_group; $xx++) {
 						echo "<div style='margin-left:15px;'><input type='text' id='name_group".$xx."' ".$ro.$disp_option1." name='name_group".$xx."' maxlength='4' size='6' style='border-style:inset; $disp_option2 $disp_option3' value=''>";
 						echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
 					  }
-					  $count_gift=$xx-1;
+
 				    }
 				    else {
 					  	$group_sql ="SELECT * FROM spssp_gift_group_default  ORDER BY id asc ;";
@@ -1512,8 +1487,6 @@ if($updating){
 							echo "<input type='hidden' name='group_fieldId".$xx."' value=''></div>";
 							$xx++;
 						}
-
-					   	$count_gift=$xx-1;
 				  }
 				  ?>
 
@@ -1525,25 +1498,19 @@ if($updating){
 	       <div float:left; valign:top" >
 			<p>
             <?php
-            if ($user_id>0) {
-            	$order_deadline = $user_row['order_deadline'];
-            }
-            else {
-            	$order_deadline = $gift_criteria['order_deadline'];
-            }
-			$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $order_deadline , $flag=2 );
+			$dateBeforeparty = $objInfo->get_date_with_supplyed_flag_difference( $user_row['party_day'] , $user->order_deadline , $flag=2 );
 			?>
 				締切予定日<?=$disp_option4?>：&nbsp;
-				<?php if($user_id>0) {
+				<?php if($updating) {
 				    $weekname = $objMsg->get_youbi_name( $dateBeforeparty );
-				?> 
+				?>
 				<?=$dateBeforeparty?><?=$weekname?>
 				披露宴日&nbsp;
-<input type="text" name="order_deadline" id="order_deadline"  <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$order_deadline?>" /> 日前
-				<?php } 
+<input type="text" name="order_deadline" id="order_deadline"  <?=$disp_option1?> style="width:15px; padding:3px;border-style: inset; <?=$disp_option2?> <?=$disp_option3?> " maxlength="2" value="<?=$user->order_deadline?>" /> 日前
+				<?php }
 				else { ?>
 				披露宴日&nbsp;
-				<input type="text" name="order_deadline" id="order_deadline" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=$order_deadline?>" /> 日前
+				<input type="text" name="order_deadline" id="order_deadline" style="width:15px; padding:3px;border-style: inset;" maxlength="2" value="<?=  Model_Option::get_deadline_hikidemono();?>" /> 日前
 				<?php } ?>
             </p>
             <br /><br />
@@ -1565,7 +1532,7 @@ if($updating){
        <div id="div_box_4" style="width:500px;">
 
 		  			<input type="hidden" name="editUserMenuGroupsUpdate" value="editUserMenuGroupsUpdate"  style="border-style:inset;">
-					 <table width="100%" border="0" cellspacing="10" cellpadding="0" <?=$disp_option6?>>
+					 <table width="100%" cellspacing="10" cellpadding="0" <?=$disp_option6?>>
         	<?php if($num_groups >0) {
 					$i=1;
 					echo "<tr>";
@@ -1590,7 +1557,7 @@ if($updating){
 			<br /><br />
             <div colspan="4" align="left" valign="middle" nowrap="nowrap">
             <?php if ($disp_option1=="") { ?>
-             <a href="javascript:void(0)" onclick="valid_user('<?=$user_id?>','<?=$noUpdate?>','<?=$count_gift?>','<?=$count_group?>','<?=$count_child?>');">
+             <a id="user_info_submit" href="javascript:void(0)" onclick="valid_user('<?=$user_id?>','<?=$noUpdate?>','<?=$count_gift?>','<?=$count_group?>','<?=$count_child?>');">
                 <img src="img/common/btn_regist_update.jpg" border="0" />
              </a>
              <?php } ?>

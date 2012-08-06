@@ -9,6 +9,7 @@ ini_set('display_errors', 1);*/
 require_once("inc/include_class_files.php");
 include_once("inc/dbcon.inc.php");
 include_once("inc/checklogin.inc.php");
+require_once("../fuel/load_classes.php");
 
 $obj = new DBO();
 $objInfo = new InformationClass(); // UCHIDA EDIT 11/09/02
@@ -96,6 +97,9 @@ else if((int)$user_plan['user_id'] <= 0 && empty($plan_dt))
 	$post['row_number'] = (int)$rooms[0]['max_rows'];
 	$post['column_number'] = (int)$rooms[0]['max_columns'];
 	$post['seat_number'] = (int)$rooms[0]['max_seats'];
+  $option = Model_Option::find_one_by_option_name("default_layout_title");
+  $layoutname = $option->option_value;
+  $post['layoutname'] = $layoutname;
 	$id = $obj->InsertData("spssp_plan",$post);
 
 	if($id >0)

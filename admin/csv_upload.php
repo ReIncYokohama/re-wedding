@@ -4,9 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>招待者リストcsv一括アップロード</title>
   <link rel="stylesheet" type="text/css" href="css/csv_upload.css" media="all" />
-  <!--[if IE]>
       <style type="text/css" media="all">.borderitem {border-style: solid;}</style>
-      <![endif]-->
   <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
   <script>
   $(document).ready(function(){
@@ -20,7 +18,14 @@
 function fileOpen(){
   $("#myfile").click();
 }
-
+var lock = false;
+function submit(){
+  if(!lock){
+    document.uploaddoc.submit();
+    $("#loading").show();
+    lock = true;
+  }
+}
 
   </script>
 <style>
@@ -44,34 +49,33 @@ margin: 0;
 <h2>招待者リストcsv一括アップロード</h2>
    
    
+<?php
+include("../fuel/load_classes.php");
+$user = Model_User::find_by_pk($_GET["user_id"]);
+$plan = Model_Plan::find_one_by_user_id($user->id);
+if($plan->is_kari_hatyu_irai() or $plan->is_kari_hatyu()){
+?>
+    <div class="top_box2">
+お客様は現在仮発注中です<br><br>
+現在、仮発注依頼中、または仮発注中のため、招待者リストのアップロードはできません。
+<br><br>
+      <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_cancel.jpg" alt="閉じる" width="82" height="22" /></a>
+    </div>
+<?
+}else{
+?>
     <div class="top_box1">
       <table width="600" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td>「参照...」ボタンを押して、アップロードするファイルを選択してください。</td>
+          <td rowspan="4">
+            <span id="loading" style="display:none;"><img src="img/common/nowloading.gif"></span>
+          </td>
         </tr>
         <tr>
           <td>　※アップロードは時間がかかります。完了メッセージが出るまで画面を閉じないでください。</td>
         </tr>
-                <tr>
-          <td> 　</td>
-        </tr>
-      </table>
-
- 
-</div>
-
-    <div class="top_box1">
-      <? if($message)
-           {
-             $mes =($message =='1')?"アップロードに成功しました":"アップロードできませんでした。";
-           ?>
-        <table width="600" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td align="center"><font color="#FF0000"><?=$mes?></td>
-        </tr>
-      </table>
-        <? }?>
-          <table width="500" border="0" cellspacing="0" cellpadding="0">
+        <tr><td><br><br></td></tr>
         <tr>
           <td>
             <form method="post" enctype="multipart/form-data" action="csv_upload_action.php" name="uploaddoc">
@@ -81,12 +85,15 @@ margin: 0;
           </td>
         </tr>
       </table>
-
     </div>
 
     <div class="top_box2">
-      <a href="javascript:void(0);"><img onclick="javascript:document.uploaddoc.submit();" src="img/btn_upload_list.jpg" alt="アップロード" width="82" height="22" /></a>
-      <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_cancel.jpg" alt="アップロード" width="82" height="22" /></a>
+      <a href="javascript:void(0);"><img onclick="javascript:submit();" src="img/btn_upload_list.jpg" alt="アップロード" width="82" height="22" /></a>
+      <a href="javascript:void(0);"><img onclick="javascript:window.close();" src="../img/btn_cancel.jpg" alt="閉じる" width="82" height="22" /></a>
       　</div>
+
+<?php
+    }
+?>
 </body>
 </html>

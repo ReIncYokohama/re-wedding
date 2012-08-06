@@ -1,30 +1,29 @@
 <?php
-	include_once("admin/inc/dbcon.inc.php");
-	include_once("admin/inc/class.dbo.php");
+include_once("admin/inc/dbcon.inc.php");
+include_once("admin/inc/class.dbo.php");
+include_once("app/ext/Utils/email.php");
 
-	$obj = new DBO();
+$obj = new DBO();
 
-	if($_POST['getForm']=='getForm')
+$msg = "";
+if($_POST['getForm']=='getForm')
 	{
 		if($_POST['email']=="")
-		{
-			echo '<script type="text/javascript"> alert("メールアドレスが未入力です"); </script>';
-		}
-		else 
-		{
-			$dataRow = $obj->GetSingleRow("spssp_user"," 	mail = '".$_POST['email']."'");
-			if($dataRow['subcription_mail'] == 1){
-				echo '<script type="text/javascript"> alert("このメールアドレスは受信を拒否されています"); </script>';
-			}
-			if($dataRow['mail'] == "" || !isset($dataRow['mail']))
-			{
-				echo '<script type="text/javascript"> alert("メールアドレスが違います"); </script>';
-				$email = $_POST['email'];
-			}
-			else
-			{
+      {
+        $msg =  'メールアドレスが未入力です';
+      }
+		else
+      {
+        $dataRow = $obj->GetSingleRow("spssp_user"," 	mail = '".$_POST['email']."'");
+        if($dataRow['mail'] == "" || !isset($dataRow['mail']))
+          {
+            $msg = 'メールアドレスが違います';
+            $email = $_POST['email'];
+          }
+        else
+          {
 
-$mailbody = <<<html
+            $mailbody = <<<html
 =====このメールは-自動配信メールです。======
 
 {$dataRow['man_lastname']} {$dataRow['man_firstname']} 様
@@ -38,17 +37,16 @@ $mailbody = <<<html
 Wedding Plus
 
 html;
-				$msg = forgetPassword_mail($dataRow['mail'],$mailbody);
-				if($msg==1)
-				{
-					$msg = '<script type="text/javascript"> alert("パスワードを送信しました"); </script>';
-				}
-			}
-		}
-		//redirect("index.php");
-	}
 
-	//include_once("inc/new.header.inc.php");
+            $e = new Email($dataRow["mail"],"［ウエディングプラス］パスワードを送信しました",$mailbody);
+            $e->from = "wedding-plus@wedding-plus.net";
+            $e->fromName = "Wedding Plus";
+            $e->noneFromName = true;
+            $e->send();
+            $msg = 'パスワードを送信しました';
+          }
+      }
+	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -133,6 +131,9 @@ function cancelAction()
 {
 	document.passwordForgetForm.email.value="";
 }
+if("<?php echo $msg;?>" != ""){
+  alert('<?php echo $msg;?>');
+}
 
 </script>
 </head>
@@ -174,14 +175,14 @@ function cancelAction()
 							<input type="hidden" name="getForm" value="getForm">
 						 </form>
 					</div>
-					
+
 				</div>
 			</div>
 
 		<div class="footer">
 		<div style="border-bottom: 8px solid #00C6FF;"></div>
 		<div id="footer">
-    		Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.
+    		Copyright (C) 株式会社サンプリンティングシステム All rights reserved.
   		 </div>
 		</div>
 		<script type="text/javascript"> document.passwordForgetForm.email.focus(); </script>

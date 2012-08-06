@@ -218,7 +218,7 @@ width:200px;
         </table>
         &nbsp;
 
-    <td width="619" style="width:450px; vertical-align:top">
+    <td width="619" style="width:450px; vertical-align:top;text-align:left;">
 
         <div class="sekiji_table_L" id="plan_preview">
 

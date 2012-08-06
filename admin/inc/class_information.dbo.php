@@ -50,7 +50,6 @@ class InformationClass extends DBO
 		return $dateBeforeparty;
 	}
 
-// UCHIDA EDIT 11/08/15 'dl_print_com_times'にpdfを参照を記録
 	function pdf_readed($user_id, $v)
 	{
 		unset($post);
@@ -58,34 +57,14 @@ class InformationClass extends DBO
 		$this->UpdateData('spssp_plan',$post,"user_id=".$user_id);
 	}
 
-	function reset_guest_gift_page_and_user_orders_conditions($user_id,$flag=1)
+	function reset_guest_gift_page_and_user_orders_conditions($user_id)
 	{
 		unset($post);
 		$post['msg_type']=0;
 		$this->UpdateData('spssp_message',$post," msg_type=2 and user_id=".$user_id);
-
-		unset($post);
-		$post['order']=0;
-		$this->UpdateData('spssp_plan',$post,"user_id=".$user_id);
-
-
-		if($flag==1)
-		{
-			unset($post);
-			$post['admin_to_pcompany']=0;
-			$post['dl_print_com_times']=0;
-			$post['ul_print_com_times']=0;
-			$post['sekiji_email_send_today_check'] = ""; // UCHIDA EDIT 11/08/17 メールの送信もクリア
-			$this->UpdateData('spssp_plan',$post,"user_id=".$user_id);
-		}
-
-		// UCHIDA EDIT 11/08/16 リセットでは席次印刷の時間のみ消去
-		unset($post);
-		//$post['print_irai']=NULL;
-		//$post['print_ok']=NULL;
-		//$post['kari_hachu']=NULL;
-		//$post['hon_hachu']=NULL;
-		$this->UpdateData('spssp_clicktime',$post,"user_id=".$user_id);
+    
+    $plan = Model_Plan::find_one_by_user_id($user_id);
+    $plan->do_reset();
 	}
 	function get_user_id_md5($md5_user_id)
 	{
@@ -175,10 +154,11 @@ class InformationClass extends DBO
 		}
 
 	}
-
+  //非推奨 use past_deadline_sekijihyo()
 	function sekiji_day_limit_over_check_for_all_users($user_id)
 	{
-    if(Model_User::past_deadline_sekijihyo($user_id)){
+    $user = Model_User::find_by_pk($user_id);
+    if($user->past_deadline_sekijihyo()){
 			return true;
 		}
 		else
@@ -217,7 +197,8 @@ class InformationClass extends DBO
   //席次表編集期間を過ぎているかどうか判定
   //old function::you must use this function (fuel/app/model/user past_deadline_sekijihyo)
   function get_sekizihyo_edit_term($plan_arr){
-    return Model_User::past_deadline_sekijihyo($plan_arr["user_id"]);
+    $user = Model_User::find_by_pk($plan_arr["user_id"]);
+    return $user->past_deadline_sekijihyo();
   }
 	function get_editable_condition($plan_arr)
 	{

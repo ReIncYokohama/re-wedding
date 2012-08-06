@@ -1,5 +1,5 @@
 <?php
-require_once("inc/class.dbo.php");
+require_once("inc/include_class_files.php");
 include_once("inc/dbcon.inc.php");
 include_once("inc/checklogin.inc.php");
 include("inc/new.header.inc.php");
@@ -68,22 +68,7 @@ Control.DatePicker.Language['ahad'] = { months: ['1月', '2月', '3月', '4月',
 <link rel="stylesheet" href="../datepicker/datepicker.css">
 <script type="text/javascript" language="javascript" src="../datepicker/behaviors.js"></script>
 
-<div id="topnavi">
-    <?php
-include("inc/main_dbcon.inc.php");
-$hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-?>
-<h1><?=$hotel_name?></h1>
-<?
-include("inc/return_dbcon.inc.php");
-?>
-
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
+<?php include_once("inc/topnavi.php");?>
 
 <div id="container">
 <a href="#top"> </a>
@@ -95,9 +80,9 @@ include("inc/return_dbcon.inc.php");
 			require_once("inc/include_class_files.php");
 			$objInfo = new InformationClass();
         ?>
-  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1",$height=20);?>
+  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="man_lastname.png",$extra="thumb1");?>
 ・
-  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1",$width=20);?>
+  <?php  echo $objInfo->get_user_name_image_or_src($data_user['id'] ,$hotel_id=1, $name="woman_lastname.png",$extra="thumb1");?>
   様
 	 <h4>
 		<?php
@@ -144,9 +129,9 @@ include("inc/return_dbcon.inc.php");
                 <td  width="13%"><?=$logObject["screen_name"]?></td>
                 <td  width="13%"><?=$logObject["target_user"]?></td>
                 <td  width="7%"><?=$logObject["kind"]?></td>
-                <td  width="12%"><?=$logObject["target_category"]?></td>
-                <td  width="13%"><?=$logObject["previous_status"]?></td>
-                <td  width="13%"><?=$logObject["current_status"]?></td>
+                <td  class="target_category" width="12%"><?=$logObject["target_category"]?></td>
+                <td  class="previous_status" width="13%"><?=$logObject["previous_status"]?></td>
+                <td  class="current_status" width="13%"><?=$logObject["current_status"]?></td>
               </tr>
               </table>
               </div>
@@ -176,3 +161,5 @@ include("inc/return_dbcon.inc.php");
 <?php
 	include_once("inc/new.footer.inc.php");
 ?>
+
+<script type="text/javascript" language="javascript" src="js/change_log.js"></script>

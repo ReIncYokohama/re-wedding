@@ -14,10 +14,10 @@ include_once(dirname(__FILE__)."/../../madmin/conf/version.php");
 		echo '<script type="text/javascript"> alert("現在、ログインはいただけません。\\nホテルから発注依頼があった場合のみログインいただけます。"); </script>';
 	}
 if($_GET["action"]=="mailDateLimit"){
-  echo "<script> alert('ダウンロード期限の65日を過ぎております'); </script>";
+  echo "<script> alert('ダウンロード期限の5日を過ぎております'); </script>";
 }
 if($_GET["action"]=="pastPrintUpload"){
-  echo "<script> alert('ダウンロード期限の65日を過ぎております'); </script>";
+  echo "<script> alert('アップロード期限の65日を過ぎております'); </script>";
 }
 
 
@@ -52,7 +52,7 @@ if($_GET["action"]=="pastPrintUpload"){
 ?>
 
 <script type="text/javascript">
-var reg = /^[A-Za-z0-9]{1,32}$/; // UCHIDA EDIT 11/07/26
+var reg = /^[A-Za-z0-9]{1,32}$/;
 
 function login_admin()
 {
@@ -63,7 +63,7 @@ function login_admin()
 		return false;
 	}
  	if(email_validate(adminid) == false) {
-		alert("使用できない記号が入力されています");
+		alert("ログインIDが間違っています。正しいパスワードを入力してください。");
 		document.getElementById('userID').focus();
 		return false;
 	 }
@@ -235,7 +235,7 @@ ime-mode: inactive; /* 半角モード UCHIDA EDIT 11/07/26 */
 <div align="center">
 <table width="680" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td align="center"><font size="2">Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.</font></td>
+    <td align="center"><font size="2">Copyright (C) 株式会社サンプリンティングシステム All rights reserved.</font></td>
   </tr>
 </table>
 </div>

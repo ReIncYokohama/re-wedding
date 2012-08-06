@@ -6,43 +6,51 @@ class DataClass extends DBO{
   public function DataClass()
  {
   }
-  
+
   public function set_guest_data_update($set_obj,$user_id,$guest_id,$admin_id){
     $guest = Model_Guest::find_by_pk($guest_id);
     $guest_row = $guest->to_array();
-    
+
     $before_data = array();
     $after_data = array();
     $chagne_log = false;
     //高砂席が招待者席に変わったときに高砂席の卓名も削除する。
     if($guest_row["stage"]!=0 && $set_obj["stage"]==0){
       $set_obj["stage_guest"] = 0;
+    }else if($set_obj["stage"]>0){
       $guest->delete_seat();
     }
+    if(!($set_obj["gift_group_id"] > 0)){
+      $set_obj["gift_group_id"] = 0;
+    }
+
     foreach($set_obj as $key => $value){
+      //既に既存データで改行コードが含まれているため一時的に追加している
+      $guest_row[$key] = str_replace(array("\r\n","\r","\n"), '', $guest_row[$key]);
       if($guest_row[$key] != $value and !($guest_row[$key] == 0 and $value == "") ){
         $before_data[$key] = $guest_row[$key];
         $after_data[$key] = $value;
         $chagne_log = true;
       }
     }
-    
+
     if($chagne_log)
       {
         $before=json_encode($before_data);
         $after=json_encode($after_data);
-        
+
         $update_array['date']=date("Y-m-d H:i:s");
         $update_array['guest_id']=$guest_id;
         $update_array['user_id']=$user_id;
         $update_array['previous_status']=$before;
         $update_array['current_status']=$after;
-        
+
         $update_array['admin_id']=$_SESSION["super_user"]?10000:$admin_id;
         $update_array['type']=2;
         $lastids = $this->InsertData("spssp_change_log", $update_array);
       }
-    $this->UpdateData("spssp_guest",$set_obj," id=".(int)$guest_id);
+    $guest->set($set_obj);
+    $guest->save();
   }
   //招待客情報なし
   /*
@@ -53,25 +61,19 @@ class DataClass extends DBO{
            ralign,num_first,num_last,num_none,display_rate,display_num
   */
   public function get_table_data($user_id){
+    $plan = Model_Plan::find_one_by_user_id($user_id);
     $returnArray = array("layoutname" => "","rows"=>array());
-    $layoutname = $this->getSingleData("spssp_plan", "layoutname"," user_id= $user_id");
-    if($layoutname==""){
-      $layoutname = $this->GetSingleData("spssp_options" ,"option_value" ," option_name='default_layout_title'");
-    }
-    if($layoutname=="null") $layoutname = "";
-    $returnArray["layoutname"] = $layoutname;
+    $returnArray["layoutname"] = $plan->get_layoutname();
     //テーブル情報の配列
     $table_arr = $this->getRowsByQuery("select * from spssp_table_layout where user_id=".$user_id);
-    
-    //plan_info column_number,row_number
-    $plan_info = $this->GetSingleRow("spssp_plan"," user_id = ".$user_id);
-    $returnArray["plan_id"] = $plan_info["id"];
-    $returnArray["seat_num"] = $plan_info["seat_number"];
+
+    $returnArray["plan_id"] = $plan->id;
+    $returnArray["seat_num"] = $plan->seat_number;
     //行の最大数を取得
     $table_rows_num = $this->get_table_max_row($table_arr);
     //列の最大数を取得
-    $table_columns_num = $plan_info["column_number"];
-    
+    $table_columns_num = $plan->column_number;
+
     for($i=1;$i<=$table_rows_num;++$i){
       $row = array("columns"=>array());
       //一列目に必要なテーブルを順番に取得
@@ -83,7 +85,7 @@ class DataClass extends DBO{
     }
     return $returnArray;
   }
-  
+
   //招待客情報あり
   //以下を追加
   //rows 0 columns 0 seats 0 guest_id,table_id,guest_detail
@@ -92,7 +94,7 @@ class DataClass extends DBO{
   public function get_table_data_detail($user_id){
     $plan = Model_Plan::find_one_by_user_id($user_id);
     $table_data = $this->get_table_data($user_id);
-    $guest_rows = $this->getRowsByQuery("select * from spssp_guest where user_id = ".$user_id." and self!=1 and stage_guest=0");
+    $guest_rows = $this->getRowsByQuery("select * from spssp_guest where user_id = ".$user_id." and self!=1 and stage_guest=0 order by id asc");
     $man_num = 0;
     $woman_num = 0;
     $attend_num = 0;
@@ -116,7 +118,10 @@ class DataClass extends DBO{
               $guest_detail = $this->set_guest_property_value($guest_detail);
               $seats[$k]["guest_detail"] = $guest_detail;
               $guest_rows[$l]["unset"] = true;
-              $guest_rows[$l]["seat_id"] = $seat_detail["id"];
+              $seat_id = $seat_detail["id"];
+              $guest_rows[$l]["seat_id"] = $seat_id;
+              $guest_rows[$l]["table_id"] = $colum["table_id"];
+              $guest_rows[$l]["table_name"] = $colum["name"];
               if($guest_detail["sex"] == "Male"){
                 ++$man_num;
               }else if($guest_detail["sex"] == "Female"){
@@ -137,7 +142,7 @@ class DataClass extends DBO{
     $table_data["woman_num"] = $woman_num;
     $table_data["attend_num"] = $attend_num;
     return $table_data;
-  }  
+  }
 
   //招待客情報あり
   //以下を追加
@@ -171,7 +176,7 @@ class DataClass extends DBO{
     }
     return $table_data;
   }
-  
+
   public function get_seat_detail($seat_id,$plan_id){
     return $this->GetSingleRow("spssp_plan_details"," seat_id=".$seat_id." and plan_id = ".$plan_id);
   }
@@ -179,7 +184,7 @@ class DataClass extends DBO{
     $plan_detail = $this->GetSingleRow("spssp_default_plan_seat"," id=".$seat_id);
     return $plan_detail["table_id"];
   }
-  
+
   //ゲスト情報に加えて引出物情報を追加。
   //columns 0 gifts key,num
   //          seats 0 gift,menu
@@ -206,14 +211,14 @@ class DataClass extends DBO{
         $table_data["rows"][$i]["columns"][$j]["seats"] = $seats;
       }
   }
-  
+
   public function set_guest_property_values($guest_rows){
     for($i=0;$i<count($guest_rows);++$i){
       $guest_rows[$i] = $this->set_guest_property_value($guest_rows[$i]);
     }
     return $guest_rows;
   }
-  
+
   public function set_guest_property_value($guest_obj){
     $guest_obj["guest_type_value"] = $this->get_guest_type($guest_obj["guest_type"]);
     $guest_obj["name_plate"] = $this->get_guest_image_url($guest_obj["user_id"],$guest_obj["id"],"namecard.png");
@@ -222,7 +227,7 @@ class DataClass extends DBO{
 
     return $guest_obj;
   }
-  
+
   public function get_guest_image_url($user_id,$guest_id,$name){
     $path = Core_Image::get_guest_image_dir_relative($user_id,$guest_id);
     return $path.$name;
@@ -231,7 +236,7 @@ class DataClass extends DBO{
     $guest_detail = $this->GetSingleRow("spssp_guest"," id=".$guest_id." and user_id=".$user_id);
     return $guest_detail;
   }
-  
+
   public function get_table_max_row($table_arr){
     $max = 0;
     for($i=0;$i<count($table_arr);++$i){
@@ -241,7 +246,7 @@ class DataClass extends DBO{
     }
     return $max;
   }
-  
+
   //rows,num_first,num_last,align,columns
   //columns で並び替えして返す
   public function get_table_rows_by_row_number($table_arr,$row_number){
@@ -272,21 +277,20 @@ class DataClass extends DBO{
         $last = $i+1;
       }
     }
-    
     for($i=0;$i<count($columns);++$i){
       if(($columns[$i]["align"] == "C" && $first-1<=$i && $last>$i && $columns[$i]["display"]!=1)||
          ($columns[$i]["align"] != "C" && $columns[$i]["display"]!=1)
-         
+
          ){
         $columns[$i]["visible"] = true;
       }
     }
     return array($columns[0]["align"],$first,$last,count($columns)-$last+$first-1,$columns);
   }
-  
+
   public function set_guest_data_insert($set_obj,$user_id,$admin_id){
     $guest_id=$this->InsertData("spssp_guest",$set_obj);
-    
+
     $update_array['date']=date("Y-m-d H:i:s");
     $update_array['guest_id']=$guest_id;
     $update_array['user_id']=$user_id;
@@ -335,10 +339,10 @@ class DataClass extends DBO{
       }
 
     }
-    //print_r($guestArray);    
+    //print_r($guestArray);
     return $num;
 
-  }                                     
+  }
 
   //高砂席のみ取得する
   public function get_guestdata_in_host($user_id){
@@ -421,10 +425,10 @@ class DataClass extends DBO{
     $guest_detail["seat_id"] = $seat_id;
     $guest_detail["table_name"] = $table_name;
     $guest_detail["respect_text"] = $this->get_respect($guest_detail["respect_id"]);
-    
+
     return $guest_detail;
   }
-  
+
   //array of man and woman data
   // first_name,last_name,menu_grp,gift_group_id.menu_text,gift_group_text,sex_text,table_name
   public function get_userdata($user_id){
@@ -449,7 +453,7 @@ class DataClass extends DBO{
     }
     return $guestArray;
   }
-  
+
   public function set_log_guest_delete($user_id,$guest_id,$admin_id){
 		$update_array['date']=date("Y-m-d H:i:s");
 		$update_array['guest_id']=$guest_id;
@@ -459,8 +463,8 @@ class DataClass extends DBO{
 		$update_array['type']=3;
 	  $this->InsertData("spssp_change_log", $update_array);
   }
-  
-  
+
+
   //席次表のログ情報を取得する。
   //アクセス日時、ログイン名、アクセス画面名、修正対象者、修正種別、変更項目名、変更前情報、変更後情報
   //acccess_time,login_name,screen_name,target_user,kind,targe_category,before_data,after_data
@@ -471,7 +475,7 @@ class DataClass extends DBO{
     //削除したユーザのログが見えないようにするために、現在いるゲストのデータのみ受け取る。
     //もしくは削除(type=3)のデータをうけとる。
     //$data_rows = $this->getRowsByQuery("select * from spssp_change_log where user_id = $user_id and( guest_id in (select id from spssp_guest where user_id = $user_id)) or type= 3 order by date ASC");
-    
+
     $returnArray = array();
 
     foreach($data_rows as $row)
@@ -488,7 +492,7 @@ class DataClass extends DBO{
     }
     return $returnArray;
   }
-  
+
   //ログ(spssp_change_log)のtypeタイプから対象の画面のテキストを取得
   public function get_screen_name_by_log_type($type_id){
     return Model_Usertablelog::get_screen_name_by_log_type($type_id);
@@ -504,7 +508,7 @@ class DataClass extends DBO{
     $update_array['guest_id']=$upd["guest_id"];
     $update_array['user_id']=$_SESSION["userid"];
     $update_array['guest_name']=$this->get_guest_name($guest_id);
-    $update_array['admin_id']=$_SESSION["adminid"];
+    $update_array['admin_id']=$_SESSION["super_user"]?10000:$_SESSION["adminid"];
     $update_array['type']=1;
     $update_array['plan_id']=$plan_id;
     switch($state){
@@ -530,7 +534,7 @@ class DataClass extends DBO{
         break;
     }
   }
-  
+
   public function set_log_csv_guest($user_id,$plan_id){
     $update_array = array();
     $update_array['date']=date("Y-m-d H:i:s");
@@ -540,7 +544,7 @@ class DataClass extends DBO{
     $update_array['plan_id']=$plan_id;
     $this->InsertData("spssp_change_log", $update_array);
   }
-  
+
   //ログの対象ユーザの取得
   public function get_target_user_by_log_type($type_id,$guest_id,$guest_name = "")
   {
@@ -551,12 +555,12 @@ class DataClass extends DBO{
     }
     return $guest_name;
   }
-  
+
   //ログの修正種類の取得
   public function get_kind_by_log_type($type_id,$table_prev,$table_next){
     return Model_Usertablelog::get_kind_by_log_type($type_id,$table_prev,$table_next);
   }
-  
+
   //編集内容および編集箇所のデータの取得
   //return target_category_arr,before_data_arr,after_data_arr
   //席次表の移動は、テーブル
@@ -564,14 +568,15 @@ class DataClass extends DBO{
     if($type_id >= 2){
       $now_before_data_arr = json_decode($before_data,true);
       $now_after_data_arr = json_decode($after_data,true);
-      
+
       //デコードに失敗した場合は、NULLなので、連想配列に統一する。
       //古いコードの場合、表示されない。
       if(!$now_before_data_arr) $now_before_data_arr = array();
       if(!$now_after_data_arr) $now_after_data_arr = array();
-      
+
       list($target_category_arr,$before_data_arr,$after_data_arr)
         = $this->get_log_guest_profile($now_before_data_arr,$now_after_data_arr,$user_id);
+
       return array("<div class='littlebox'>".implode("</div><div class='littlebox'>",$target_category_arr)."</div>",
                    "<div class='littlebox'>".implode("</div><div class='littlebox'>",$before_data_arr)."</div>",
                    "<div class='littlebox'>".implode("</div><div class='littlebox'>",$after_data_arr)."</div>");
@@ -581,7 +586,7 @@ class DataClass extends DBO{
       return array("席次表",$before_data,$after_data);
     }
   }
-  
+
   public function get_seat_and_table_name($seat_id,$user_id)
   {
     if($seat_id == "" || !$seat_id) return "";
@@ -589,7 +594,7 @@ class DataClass extends DBO{
     if(!$table_id) return "";
     $tblname = $this->get_table_name($table_id,$user_id);
     $seats = $this->getRowsByQuery("select * from spssp_default_plan_seat where table_id =".$table_id." order by id asc ");
-    
+
     $j=1;
     foreach($seats as $seat)
       {
@@ -608,7 +613,7 @@ class DataClass extends DBO{
   public function get_plan_id($user_id){
     return $this->GetSingleData("spssp_plan", "id","user_id=".$user_id);
   }
-  
+
   public function get_table_name($table_id,$user_id){
     $usertable = Model_Usertable::find_one_by(array("where" => array("table_id","=",$table_id),array("user_id","=",$user_id)));
     if($usertable)
@@ -622,7 +627,7 @@ class DataClass extends DBO{
     $return_before_data_arr = array();
     $return_after_data_arr = array();
     $return_category_data_arr = array();
-    
+
     foreach($before_data_arr as $key => $b_val)
     {
       if($b_val != $after_data_arr[$key])
@@ -704,15 +709,15 @@ class DataClass extends DBO{
     }
     return array($return_category_data_arr,$return_before_data_arr,$return_after_data_arr);
   }
-  
-  
+
+
   public function get_guest_name($guest_id)
   {
     $guest_row_name = $this->GetSingleRow(" spssp_guest ", " id=".$guest_id);
     $guest_name = $guest_row_name["last_name"]."&nbsp;".$guest_row_name["first_name"];
     return $guest_name;
   }
-  
+
   //admin_idから管理者名を取得する。
   public function get_access_user_name($admin_id)
   {
@@ -735,9 +740,9 @@ class DataClass extends DBO{
   }
   //新郎新婦側をテキストで返す。
   public function get_host_table_name($guest_sex,$mukoyoshi){
-    if(($guest_sex=="Male" && $mukoyoshi == 0) || 
+    if(($guest_sex=="Male" && $mukoyoshi == 0) ||
        ($guest_sex=="Female" && $mukoyoshi == 1))  return "高砂1";
-    if(($guest_sex=="Male" && $mukoyoshi == 1) || 
+    if(($guest_sex=="Male" && $mukoyoshi == 1) ||
        ($guest_sex=="Female" && $mukoyoshi == 0))  return "高砂2";
     return "";
   }
@@ -830,17 +835,21 @@ class DataClass extends DBO{
     if(!$this->haveString($user_obj["last_name"])){
       array_push($messageArray,$top_message."姓を入力してください。[".$user_obj["last_name"]."]");
     }
+
+
     if(!$this->haveString($user_obj["first_name"])){
       array_push($messageArray,$top_message."名を入力してください。[".$user_obj["first_name"]."]");
     }
+
     if($user_obj["furigana_last"] != "" && $this->haveKana($user_obj["furigana_last"])){
       array_push($messageArray,$top_message."姓のふりがなはカタカナでなはく、平仮名で入力してください[".$user_obj["furigana_last"]."]");
-    }else if(!$this->haveFurigana($user_obj["furigana_last"])){
+    }else if($user_obj["furigana_last"] != "" && !$this->haveFurigana($user_obj["furigana_last"])){
       array_push($messageArray,$top_message."姓のふりがなは平仮名で入力してください[".$user_obj["furigana_last"]."]");
     }
-    if($user_obj["furigana_last"] != "" && $this->haveKana($user_obj["furigana_first"])){
+
+    if($user_obj["furigana_first"] != "" && $this->haveKana($user_obj["furigana_first"])){
       array_push($messageArray,$top_message."名のふりがなはカタカナではなく、平仮名で入力してください[".$user_obj["furigana_first"]."]");
-    }else if(!$this->haveFurigana($user_obj["furigana_first"])){
+    }else if($user_obj["furigana_first"] != "" && !$this->haveFurigana($user_obj["furigana_first"])){
       array_push($messageArray,$top_message."名のふりがなは平仮名で入力してください[".$user_obj["furigana_first"]."]");
     }
 
@@ -854,7 +863,7 @@ class DataClass extends DBO{
   }
   //入力チェック
   public function haveString($str){
-    if(!$str){
+    if(!$str || $str == ""){
       return false;
     }
     return true;
@@ -868,7 +877,7 @@ class DataClass extends DBO{
   }
   public function haveKana($str){
     mb_regex_encoding("UTF-8");
-    if ($str == "" || preg_match("/^[ァ-ンー]*$/u", $str)) {
+    if (!$str || $str == "" || preg_match("/^[ァ-ンー]*$/u", $str)) {
       return true;
     }
     return false;
@@ -909,7 +918,7 @@ class DataClass extends DBO{
       $this->InsertData("download_num",array("num"=>1,"user_id" => (int)$user_id,"admin_id"=>(int)$admin_id));
       return $this->get_num_in_digit(1,2);
     }else{
-      $num = $data["num"]+1; 
+      $num = $data["num"]+1;
       $this->UpdateData("download_num",array("num"=>$num)," id=".$data["id"]);
       return $this->get_num_in_digit($num,2);
     }
@@ -922,18 +931,22 @@ class DataClass extends DBO{
   public function get_gift_table($guestDetailArray,$user_id){
     $giftGroups = $this->get_gift_groups($user_id);
     $returnArray = array();
-    for($i=0;$i<count($giftGroups);++$i){
+
+    $gift_criteria = Model_Giftoption::data();
+    $count_group = (int)$gift_criteria['num_gift_groups'];
+
+    for($i=0;$i<$count_group;++$i){
       $num = 0;
       $name = $this->get_gift_name_by_gift_id($giftGroups[$i]["id"]);
+      if($name == "") continue;
       for($j=0;$j<count($guestDetailArray);++$j){
         if($guestDetailArray[$j]["gift_group_id"] == $giftGroups[$i]["id"]) ++$num;
       }
-      if($name=="" and $num == 0) continue;
       array_push($returnArray,array("name"=>$name,"num"=>$num,"id"=>$giftGroups[$i]["id"]));
     }
     return $returnArray;
   }
-  
+
   //name,num
   public function get_menu_table($guestDetailArray,$user_id){
     $menuGroups = $this->get_menu_groups($user_id);
@@ -955,7 +968,7 @@ class DataClass extends DBO{
     $html = "<table>";
     $nameTr = "<tr>";
     $numTr = "<tr>";
-    
+
     for($i=0;$i<count($gift_table);++$i){
       $nameTr .= "<td align=\"center\" style=\" border:1px solid black;\">".$gift_table[$i]["name"]."</td>";
       $numTr .= "<td align=\"center\"  style=\" border:1px solid black;\">".$gift_table[$i]["num"]."</td>";
@@ -977,7 +990,7 @@ class DataClass extends DBO{
     return $this->GetSingleData(" spssp_gift_group ", "name", " id=".$gift_id);
   }
   public function set_pdf_data($user_id){
-    
+
   }
 
 }

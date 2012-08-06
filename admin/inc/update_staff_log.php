@@ -1,9 +1,7 @@
 <?php
+//dont use
+include_once(dirname(__FILE__)."/../../fuel/load_classes.php");
 function update_staff_log($fileName) {
-	$cont = $_SESSION["regenerate_id"]."#";
-	$cont .= date("Y/m/d H:i:s")."#";
-	$cont .= $_SESSION['adminid']."#";
-	$cont .= ($_SESSION["super_user"]==true)? "P":"S";
-	if (!TESTING) file_put_contents($fileName, $cont);
+  Core_Adminlogin::write();
 }
 ?>

@@ -1,8 +1,9 @@
 <?php
-include_once('dbcon.inc.php');
-include_once('class_message.dbo.php');
+include_once(dirname(__file__).'/dbcon.inc.php');
+include_once(dirname(__file__).'/class_message.dbo.php');
 include_once(dirname(__file__)."/../../app/ext/Utils/email.php");
 include_once(dirname(__file__)."/../../fuel/load_classes.php");
+
 class MailClass extends MessageClass
 {
 	public function MailClass()
@@ -520,15 +521,9 @@ html;
 
 	function sekiji_day_limit_over_admin_notification_mail($user_id)
 	{
-		/*
-			SYstem => ADMIN
-			DOC mail: 8
-		*/
 
 		$user_info = $this :: get_user_info($user_id);
 		$staff_info = $this :: get_user_staff_info($user_info['stuff_id']);
-		//$user_male_respect_info = $this :: get_user_respect_info($user_info['man_respect_id']);
-		//$user_femaile_respect_info = $this :: get_user_respect_info($user_info['woman_respect_id']);
 
 		$admin_link = ADMIN_LINK;
 
@@ -540,7 +535,6 @@ html;
 		if($staff_info['subcription_mail']=="0" && $staff_info['email'] != "")
 		{
 			$subject="［ウエディングプラス］席次表本発注締切日を過ぎています";
-			//"ADMIN has been prossessesd gift day limit for {$user_info['man_lastname']} {$user_info['man_firstname']}";
 
 			$user_mail_body =<<<html
 {$staff_info['name']} 様
@@ -667,7 +661,7 @@ html;
 
 いつもお世話になっております。
 
-      {$party_day00} {$user_info['man_lastname']}({$user_info['man_furi_lastname']})・{$user_info['woman_lastname']}({$user_info['woman_furi_lastname']})様の引出物本発注締切日を過ぎています。
+{$party_day00} {$user_info['man_lastname']}({$user_info['man_furi_lastname']})・{$user_info['woman_lastname']}({$user_info['woman_furi_lastname']})様の引出物本発注締切日を過ぎています。
 お客様にご確認の上、至急引出物処理をお願いいたします。
 {$admin_link}
 

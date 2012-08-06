@@ -1,5 +1,4 @@
 <?php
-	require_once("inc/class.dbo.php");
 	require_once("inc/include_class_files.php");
 	include_once("inc/checklogin.inc.php");
 
@@ -221,22 +220,7 @@ function m_win(url,windowname,width,height) {
 }
 
 // --></script>
-<div id="topnavi">
-    <?php
-include("inc/main_dbcon.inc.php");
-$hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-?>
-<h1><?=$hotel_name?></h1>
-<?
-include("inc/return_dbcon.inc.php");
-?>
-
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
+<?php include_once("inc/topnavi.php");?>
 <div id="container">
     <div id="contents">
     <div style="font-size:11px; width:250px;">

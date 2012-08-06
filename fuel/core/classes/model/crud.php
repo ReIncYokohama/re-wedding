@@ -342,9 +342,9 @@ class Model_Crud extends \Model implements \Iterator, \ArrayAccess {
 
 		if (isset(static::$_rules) and count(static::$_rules) > 0)
 		{
-      
+
 			$validated = $this->run_validation($vars);
-      
+
 			if ($validated)
 			{
 				//$vars = $this->validation()->validated() + $vars;
@@ -561,7 +561,7 @@ class Model_Crud extends \Model implements \Iterator, \ArrayAccess {
 		$vars = $this->pre_validate($vars);
 
 		$result = $this->_validation->run($vars);
-    
+
 
 		return $this->post_validate($result);
 	}

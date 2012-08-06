@@ -6,11 +6,9 @@ $obj = new DBO();
 $objInfo = new InformationClass();
 
 $user_id = $objInfo->get_user_id_md5( $_GET['user_id']);
-//$printCompany_id = $objInfo->get_print_company_id_md5( $_GET['print_company']);
 
 if($user_id  && $printCompany_id )
 {
-	//OK
 	$_SESSION['printid'] = $printCompany_id;
 }
 else if($_SESSION['printid'] =='')
@@ -20,19 +18,15 @@ else if($_SESSION['printid'] =='')
 
 $user_info = $objInfo->get_user_info($user_id);
 $mailDate=$user_info['state'];
-$limitDate=date("Y/m/d",strtotime("-65 day"));
+$limitDate=date("Y/m/d",strtotime("-5 day"));
 $downloadOK=false;
 if ($mailDate > $limitDate) $downloadOK=true;
 $user_plan_info = $objInfo->get_user_plan_info($user_id);
 
-	if($downloadOK==true || $user_plan_info["order"] == 2)
-	 {
-		unset($post);
-		$obj->UpdateData('spssp_plan',$post," user_id=".$user_id);
-	 }
-	 else
+if(!$downloadOK)
 	 {
 	 	redirect("index.php?action=mailDateLimit");
+  exit;
 	 }
 
      $row = $objInfo->get_user_info($user_id);
@@ -47,12 +41,8 @@ $user_plan_info = $objInfo->get_user_plan_info($user_id);
 <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="js/jquery.rollover.js"></script>
 <script>
-//var downloaded=0;
 function click_check(url) {
-//	if (downloaded==0) {
-//		downloaded++;
 		window.location.href=url;
-//	}
 }
 </script>
 <style type="text/css">
@@ -72,8 +62,6 @@ function click_check(url) {
   <div id="container">
     <div id="contents">
 <h2>ダウンロード</h2>
-
-
     <div class="top_searchbox1">
       <table width="420" border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -87,22 +75,9 @@ function click_check(url) {
         ・席次表　PDFファイル
       </form>
 
-      <!--<input  type="checkbox" value="" id="chk_man_lastname"  />-->
-      <!-- <a href="javascript:void(0);" onclick="document.getElementById('man_lastname').value=''"> クリア </a> &nbsp; -->
-      <!--<input  type="checkbox"  id="chk_woman_lastname"  />-->
-      <!--&nbsp;<a href="javascript:void(0);" onclick="document.getElementById('woman_lastname').value=''"> クリア </a>-->
     </div>
      <div class="top_selectbox2">
-	 <?php
-
-	 if($downloadOK==true)
-	 {
-	 ?>
 	  <a href="call_plan_pdf_small.php?user_id=<?=$_GET['user_id']?>&file=pdf" target="_blank"><img src="img/common/btn_download_pdf.jpg" alt="検索" width="152" height="22" /></a>
-	  <?php }else{?>
-	  <img src="img/common/btn_download_pdf.jpg" alt="検索" width="152" height="22" /> <span style="color:red;">[You have no access here.]</span>
-	  <?php }?>
-
 	  　</div>
     <div class="top_searchbox1">
       <table width="420" border="0" cellspacing="0" cellpadding="0">
@@ -116,21 +91,9 @@ function click_check(url) {
       <form id="form1" name="form1" method="post" action="">
         ・席次表　CSVファイル
       </form>
-
-      <!--<input  type="checkbox" value="" id="chk_man_lastname"  />-->
-      <!-- <a href="javascript:void(0);" onclick="document.getElementById('man_lastname').value=''"> クリア </a> &nbsp; -->
-      <!--<input  type="checkbox"  id="chk_woman_lastname"  />-->
-      <!--&nbsp;<a href="javascript:void(0);" onclick="document.getElementById('woman_lastname').value=''"> クリア </a>-->
     </div>
 		<div class="top_selectbox2">
-		 <?php
-		 if($downloadOK==true)
-		 {	//NEED TO CHECK THE DAY LIMIT
-		 ?>
 		<a href="javascript:void(0);" onclick="click_check('csvdownload.php?user_id=<?=$_GET['user_id']?>&file=csv');" ><img src="img/common/btn_download_csv.jpg" alt="検索" width="152" height="22" /></a>
-		<?php }else{?>
-		  <img src="img/common/btn_download_csv.jpg" alt="検索" width="152" height="22" /> <span style="color:red;">[You have no access here.]</span>
-		  <?php }?>
 		　</div>
     <p>&nbsp;</p>
     </div>
@@ -150,12 +113,11 @@ include("../admin/inc/return_dbcon.inc.php");
         <a href="download.php"></a>■披露宴日：
         <p><?=strftime('%Y年%m月%d日',strtotime($row['party_day'])) ;?></p>
       </li>
-      <li>      </li>
     </ul>
   </div>
 
   <div id="footer">
-    <p>Copyright (C) 株式会社サンプリンティングシステム ALL Rights reserved.
+    <p>Copyright (C) 株式会社サンプリンティングシステム All rights reserved.
 </p>
   </div>
 </div>

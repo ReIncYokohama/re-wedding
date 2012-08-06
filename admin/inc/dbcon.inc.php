@@ -13,7 +13,7 @@ function mysql_connected($sqlhost,$sqluser,$sqlpassword,$sqldatabase){
   if(mysql_ping()) mysql_close();
   $link = mysql_connect($sqlhost, $sqluser,$sqlpassword)
     	or die("COULD NOT CONNECT : " . mysql_error());
-  mysql_select_db($sqldatabase) or die("test");
+  mysql_select_db($sqldatabase) or die("db isnt connected");
   mysql_query("SET CHARACTER SET 'utf8'");
   mysql_query("SET NAMES 'utf8'");
   return $link;
@@ -170,229 +170,6 @@ function dumpvar($str)
   print_r($str);
 }
 
-function registration_mail($to,$mailbody,$mailbody2)
-	{
-
-		//$to_admin='kumar@re-inc.jp';
-
-		$header='From:'.$to_admin." \r\n";
-		$header.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-
-		$header1='From:'.$to." \r\n";
-		$header1.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
-
-
-		$subject1='Registration mail';
-		$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
-		$usersubject = '=?ISO-2022-JP?B?'.$subject11.'?=';
-
-		$subject0='Registration mail';
-		$subject00 = base64_encode(mb_convert_encoding($subject0,"JIS","SJIS"));
-		$adminsubject = '=?ISO-2022-JP?B?'.$subject00.'?=';
-
-
-	    $user_body=$mailbody;
-
-		$admin_body=$mailbody2;
-
-
-		//// MAIL TO ADMIN////////////////
-		if(@mail($to_admin, $adminsubject, $admin_body, $header1))
-			{
-				//////MAIL TO USER /////////////
-				if(@mail($to, $usersubject, $user_body, $header))
-				{
-					//header('location:thanks.html');
-				}
-			}
-
-
-	}
-function forgetPassword_mail($to,$mailbody)
-	{
-
-		//$to_admin='kumar@re-inc.jp';
-
-		//$header='From:'.$to_admin." \r\n";
-		//$header.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-
-		$header1='From:'."Ｗｅｄｄｉｎｇ-ｐｌｕｓ"." \r\n";
-		$header1.='Content-Type:text/plain; charset=utf-8'. "\r\n";
-        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
-
-
-		//$subject1='パスワードを忘れる';
-		//$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
-		//$usersubject = '=?ISO-2022-JP?B?'.$subject11.'?=';
-
-		$subject0='パスワードを送信しました';
-		$charset = 'UTF-8';
-		$usersubject = "=?$charset?B?" . base64_encode($subject0) . "?=\n";
-
-
-
-	   $user_body=$mailbody;
-
-		//////MAIL TO USER /////////////
-		if(@mail($to, $usersubject, $user_body, $header1))
-			{
-				return 1;
-			}
-
-
-
-
-
-	}
-
-function hotelPassword_mail($to,$mailbody)
-	{
-
-		$to_admin='kumar@re-inc.jp';
-
-		$header='From:'.$to_admin." \r\n";
-        $header.='Content-Type:text/plain; charset=utf-8'. "\r\n";
-		$header1='From:'.$to." \r\n";
-		$header1.='Content-Type:text/plain; charset=utf-8'. "\r\n";
-        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
-
-		$subject0='パスワードを忘れる';
-		$charset = 'UTF-8';
-		$usersubject = "=?$charset?B?" . base64_encode($subject0) . "?=\n";
-
-
-		$subject1='パスワードを忘れる1';
-		$charset = 'UTF-8';
-		$adminsubject = "=?$charset?B?" . base64_encode($subject1) . "?=\n";
-
-
-	   $user_body=$mailbody;
-	   $admin_body=$mailbody;
-
-
-		//// MAIL TO ADMIN////////////////
-		if(@mail($to_admin, $adminsubject, $admin_body, $header1))
-			{
-				//////MAIL TO USER /////////////
-				if(@mail($to, $usersubject, $user_body, $header))
-				{
-					//header('location:thanks.html');
-				}
-			}
-
-
-	}
-
-
-function order_mail($to,$mailbody,$mailbody2)
-	{
-
-		$to_admin='kumar@re-inc.jp';
-
-
-		$header='From:'.$to_admin." \r\n";
-		$header.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-
-		$header1='From:'.$to." \r\n";
-		$header1.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
-
-
-		$subject1='Order mail';
-		$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
-		$usersubject = '=?ISO-2022-JP?B?'.$subject11.'?=';
-
-		$subject0='Order mail';
-		$subject00 = base64_encode(mb_convert_encoding($subject0,"JIS","SJIS"));
-		$adminsubject = '=?ISO-2022-JP?B?'.$subject00.'?=';
-
-
-	    $user_body=$mailbody;
-
-		$admin_body=$mailbody2;
-
-
-		//// MAIL TO ADMIN////////////////
-		if(@mail($to_admin, $adminsubject, $admin_body, $header1))
-			{
-				//////MAIL TO USER /////////////
-				if(@mail($to, $usersubject, $user_body, $header))
-				{
-					//header('location:thanks.html');
-				}
-			}
-	}
-
-function planorder_mail($to,$mailbody,$mailbody2)
-	{
-
-		$to_admin='kumar@re-inc.jp';
-
-		$header='From:'.$to_admin." \r\n";
-		$header.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-
-		$header1='From:'.$to." \r\n";
-		$header1.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-    //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
-
-		$subject1='planorder_mail';
-		$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
-		$usersubject = '=?ISO-2022-JP?B?'.$subject11.'?=';
-
-		$subject0='planorder_mail';
-		$subject00 = base64_encode(mb_convert_encoding($subject0,"JIS","SJIS"));
-		$adminsubject = '=?ISO-2022-JP?B?'.$subject00.'?=';
-
-	  $user_body=$mailbody;
-		$admin_body=$mailbody2;
-
-		//// MAIL TO ADMIN////////////////
-		if(@mail($to_admin, $adminsubject, $admin_body, $header1))
-			{
-				//////MAIL TO USER /////////////
-				if(@mail($to, $usersubject, $user_body, $header))
-				{
-					//header('location:thanks.html');
-				}
-			}
-	}
-
-function inquery_mail($to,$mailbody,$mailbody2)
-	{
-		$to_admin='kumar@re-inc.jp';
-
-		$header='From:'.$to_admin." \r\n";
-		$header.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-
-		$header1='From:'.$to." \r\n";
-		$header1.='Content-Type:text/plain; charset=shift_jis'."\r\n";
-        //$header1.= "Cc: k.okubo@re-inc.jp\r\n";
-
-
-		$subject1='inquery_mail';
-		$subject11 = base64_encode(mb_convert_encoding($subject1,"JIS","SJIS"));
-		$usersubject = '=?ISO-2022-JP?B?'.$subject11.'?=';
-
-		$subject0='inquery_mail';
-		$subject00 = base64_encode(mb_convert_encoding($subject0,"JIS","SJIS"));
-		$adminsubject = '=?ISO-2022-JP?B?'.$subject00.'?=';
-
-    $user_body=$mailbody;
-
-		$admin_body=$mailbody2;
-
-
-		//// MAIL TO ADMIN////////////////
-		if(@mail($to_admin, $adminsubject, $admin_body, $header1))
-			{
-				//////MAIL TO USER /////////////
-				if(@mail($to, $usersubject, $user_body, $header))
-				{
-					//header('location:thanks.html');
-				}
-			}
-	}
 
 if(array_key_exists("catid",$_GET))
 	{
@@ -461,17 +238,6 @@ function contactmail($from,$mailbody)
       }
     else echo 'エラー';
 	}
-/*
-	if($_SESSION['adminid'] !='' && $_SESSION['user_type'] !='' && !$_SESSION["super_user"])
-	{
-	$sql="update spssp_admin set updatetime='".date("Y-m-d H:i:s")."' WHERE id='".$_SESSION['adminid']."';";
-	mysql_query($sql);
-	}
-
-	$currentdate = date('Y-m-d H:i:s');
-	$query = "update `spssp_admin` set sessionid='' WHERE (TIMESTAMPDIFF(MINUTE,updatetime,'".$currentdate."')) > 2";
-	mysql_query($query);
-*/
 
 function uploadFile($path,$file,$filename ,$extension='')
 {
@@ -562,9 +328,9 @@ $current = substr( $requrl, 0, $urilen - $reqfilelen );
 //echo $requrl."<br/>".$current;
 
 /*
-define('ADMIN_LINK', $requrl."/admin/");           // AdminへのURL566  
-define('ADMIN_LINK_FOR_PRINT', $current."/admin/");     // PrintへのAdminのURL567  
-define('MAIN_LINK', $current."/");                 // UserへのURL568  
+define('ADMIN_LINK', $requrl."/admin/");           // AdminへのURL566
+define('ADMIN_LINK_FOR_PRINT', $current."/admin/");     // PrintへのAdminのURL567
+define('MAIN_LINK', $current."/");                 // UserへのURL568
 define('PRINT_COMPANY_LINK', $current."/print/");       // PrintへのURL
 */
 
@@ -624,3 +390,10 @@ foreach($maintenance_arr as $maintenance){
   if(in_array($hotel_id,explode(",",$maintenance["hotel_ids"]))) $Maintenance = $maintenance;
 }
 include("return_dbcon.inc.php");
+
+function validation_zero($str){
+  if($str == 0){
+    return "";
+  }
+  return $str;
+}

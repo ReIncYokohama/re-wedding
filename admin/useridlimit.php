@@ -1,12 +1,11 @@
 <?php
-	include_once("inc/dbcon.inc.php");
-	include_once("inc/checklogin.inc.php");
-	include_once("inc/new.header.inc.php");
-	require_once("inc/class.dbo.php");
+require_once("inc/include_class_files.php");
+include_once("inc/checklogin.inc.php");
+include_once("inc/new.header.inc.php");
 
-	$obj = new DBO();
-	$post = $obj->protectXSS($_POST);
-	if($post['DefaultSettings']=="DefaultSettings")
+$obj = new DBO();
+$post = $obj->protectXSS($_POST);
+if($post['DefaultSettings']=="DefaultSettings")
 	{
  // echo $post['confirm_day_num']." : ".$post['limitation_ranking']." : ".$post['order_deadline']." : ".$post['user_id_limit'];
 		unset($post['DefaultSettings']);
@@ -137,23 +136,8 @@ var lim = document.getElementById("user_id_limit").value;
 }
 </script>
 
+<?php include_once("inc/topnavi.php");?>
 
-<div id="topnavi">
-<?php
-include("inc/main_dbcon.inc.php");
-$hcode=$HOTELID;
-$hotel_name = $obj->GetSingleData(" super_spssp_hotel ", " hotel_name ", " hotel_code=".$hcode);
-?>
-<h1><?=$hotel_name?></h1>
-<?
-include("inc/return_dbcon.inc.php");
-?>
-
-    <div id="top_btn">
-        <a href="logout.php"><img src="img/common/btn_logout.jpg" alt="ログアウト" width="102" height="19" /></a>　
-        <a href="javascript:;" onclick="MM_openBrWindow('../support/operation_h.html','','scrollbars=yes,width=620,height=600')"><img src="img/common/btn_help.jpg" alt="ヘルプ" width="82" height="19" /></a>
-    </div>
-</div>
 <div id="container">
   <div id="contents">
 
@@ -168,11 +152,11 @@ include("inc/return_dbcon.inc.php");
                 <td width="10" align="left" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
                 	 披露宴日<?php if($_SESSION['user_type']=='333'){?>
-                	 <?php 		if ($InputArea=="") {?> <input type="text" style="text-align:right;border-style: inset;" name="confirm_day_num" id="confirm_day_num" size="5" maxlength="2" onblur="isInteger('confirm_day_num')" value="<?=$confirm_day_num?>" />&nbsp;日前 <?php } else  echo $confirm_day_num." 日前"  ?>
+                	 <?php 		if ($InputArea=="") {?> <input type="text" style="text-align:right;border-style: inset;" name="confirm_day_num" id="confirm_day_num" size="5" maxlength="2" onblur="isInteger('confirm_day_num')" value="<?=validation_zero($confirm_day_num)?>" />&nbsp;日前 <?php } else  echo $confirm_day_num." 日前"  ?>
                 <?
 				}else{
 					?>
-					<?=$confirm_day_num?>&nbsp;日前
+           <?=validation_zero($confirm_day_num)?>&nbsp;日前
 					<?
 					}
 				?>
@@ -193,11 +177,11 @@ include("inc/return_dbcon.inc.php");
                 <td width="270" nowrap="nowrap">
                 	 披露宴日<?php if($_SESSION['user_type']=='333'){?>
                 	 <?php 		if ($InputArea=="") {?>
-               	     	<input type="text" style="text-align:right;border-style: inset;" name="limitation_ranking" id="limitation_ranking" size="5" maxlength="2" onblur="isInteger('limitation_ranking')" value="<?=$limitation_ranking?>" />&nbsp;日前 <?php } else	echo $limitation_ranking." 日前" ?>
+               	     	<input type="text" style="text-align:right;border-style: inset;" name="limitation_ranking" id="limitation_ranking" size="5" maxlength="2" onblur="isInteger('limitation_ranking')" value="<?=validation_zero($limitation_ranking)?>" />&nbsp;日前 <?php } else	echo $limitation_ranking." 日前" ?>
                 <?
 				}else{
 					?>
-					<?=$limitation_ranking?>&nbsp;日前
+          <?=validation_zero($limitation_ranking)?>&nbsp;日前
 					<?
 					}
 				?>
@@ -220,12 +204,12 @@ include("inc/return_dbcon.inc.php");
                 <td width="10" align="left" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
                 	 披露宴日<?php if($_SESSION['user_type']==333){?>
-                     <input name="order_deadline" <?=$ro?> type="text" style="text-align:right;border-style: inset;" onlyNumeric="i" maxlength="3"  id="order_deadline" size="5" value="<?=$order_deadline?>" />
+                     <input name="order_deadline" <?=$ro?> type="text" style="text-align:right;border-style: inset;" onlyNumeric="i" maxlength="3"  id="order_deadline" size="5" value="<?=validation_zero($order_deadline)?>" />
 			&nbsp;日前
                 <?
 				}else{
 					?>
-					<?=$order_deadline?>&nbsp;日前
+        <?=validation_zero($order_deadline)?>&nbsp;日前
 					<?
 					}
 				?>
@@ -248,9 +232,9 @@ include("inc/return_dbcon.inc.php");
                 <td width="10" align="left" nowrap="nowrap">：</td>
                 <td width="270" nowrap="nowrap">
                 	 披露宴日<?php if($_SESSION['user_type']=='333'){?>
-					<input name="user_id_limit" type="text";" style="text-align:right;border-style: inset;" size="5" id="user_id_limit" maxlength="2"  value="<?=$user_id_limit?>" /> 日後
+                 <input name="user_id_limit" type="text";" style="text-align:right;border-style: inset;" size="5" id="user_id_limit" maxlength="2"  value="<?=validation_zero($user_id_limit)?>" /> 日後
 					<? }else{?>
-						<?=$user_id_limit?> 日後
+						<?=validation_zero($user_id_limit)?> 日後
 					<? }?>
            	  </td>
             </tr>

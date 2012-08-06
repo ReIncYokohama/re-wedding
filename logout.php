@@ -1,36 +1,18 @@
 <?php
- @session_start();
- include_once("admin/inc/class.dbo.php");
- $obj = new DBO();
+@session_start();
+include_once("fuel/load_classes.php");
 
- $user_log['logout_time'] = date("Y-m-d H:i:s");
-
- $obj->UpdateData("spssp_user_log", $user_log, " id=".(int)$_SESSION['user_log_id']);
-
-$is_stuff = $_SESSION['userid_admin'];
-
-if ($_SESSION['regenerate_user_id']!="") {
-	$fileName = USER_LOGIN_DIRNAME.$_SESSION['userid'].".log";
-	unlink($fileName);
+$user_log = Model_Userlog::find_by_pk($_SESSION['user_log_id']);
+if($user_log){
+  $user_log->logout_time = date("Y-m-d H:i:s");
+  $user_log->save();
 }
-
- unset($_SESSION['userid']);
- unset($_SESSION['useremail']);
- unset($_SESSION['user_log_id']);
- unset($_SESSION['cart']);
- unset($_SESSION['lastlogintime']);
- unset($_SESSION['userid_admin']);
- unset($_SESSION['regenerate_user_id']);
- 
-// UCHIDA EDIT 11/08/16 スタッフならログオフで画面を閉じる
-	if ($is_stuff == "") {
- 		header("Location:index.php");
- 		exit;
-	}
-	else {
-		echo "<script type='text/javascript'>";
-		echo "window.close();";
-		echo "</script>";
-	}
-?>
-
+Core_Session::user_unlink();
+if(Core_Session::get_staff_id() > 0 || Core_Session::is_super()){
+  echo "<script type='text/javascript'>";
+  echo "if(!window.close()){location.replace('index.php');}";
+  echo "</script>";
+}else{
+  header("Location:index.php");
+  exit;
+}
